@@ -26,29 +26,15 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
 class RoleAttributeValue extends AttributeValue
 {
     /**
-     * Issuing authority.
-     *
-     * @var null|GeneralNames
-     */
-    protected $_roleAuthority;
-
-    /**
-     * Role name.
-     *
-     * @var GeneralName
-     */
-    protected $_roleName;
-
-    /**
      * Constructor.
      *
-     * @param GeneralName       $name      Role name
-     * @param null|GeneralNames $authority Issuing authority
+     * @param GeneralName $_roleName Role name
+     * @param null|GeneralNames $_roleAuthority Issuing authority
      */
-    public function __construct(GeneralName $name, ?GeneralNames $authority = null)
-    {
-        $this->_roleAuthority = $authority;
-        $this->_roleName = $name;
+    public function __construct(
+        protected GeneralName $_roleName,
+        protected ?GeneralNames $_roleAuthority = null
+    ) {
         $this->_oid = AttributeType::OID_ROLE;
     }
 

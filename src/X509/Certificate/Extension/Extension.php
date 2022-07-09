@@ -10,6 +10,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\Primitive\OctetString;
+use Stringable;
 
 /**
  * Base class for certificate extensions.
@@ -17,7 +18,7 @@ use Sop\ASN1\Type\Primitive\OctetString;
  * @see https://tools.ietf.org/html/rfc5280#section-4.2
  * @see https://tools.ietf.org/html/rfc5280#section-4.1
  */
-abstract class Extension
+abstract class Extension implements Stringable
 {
     // OID's from standard certificate extensions
     public const OID_OBSOLETE_AUTHORITY_KEY_IDENTIFIER = '2.5.29.1';
@@ -224,29 +225,15 @@ abstract class Extension
     ];
 
     /**
-     * Extension's OID.
-     *
-     * @var string
-     */
-    protected $_oid;
-
-    /**
-     * Whether extension is critical.
-     *
-     * @var bool
-     */
-    protected $_critical;
-
-    /**
      * Constructor.
      *
-     * @param string $oid      Extension OID
-     * @param bool   $critical Whether extension is critical
+     * @param string $_oid Extension OID
+     * @param bool $_critical Whether extension is critical
      */
-    public function __construct(string $oid, bool $critical)
-    {
-        $this->_oid = $oid;
-        $this->_critical = $critical;
+    public function __construct(
+        protected string $_oid,
+        protected bool $_critical
+    ) {
     }
 
     public function __toString(): string
@@ -256,8 +243,6 @@ abstract class Extension
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): Extension
     {
@@ -331,8 +316,6 @@ abstract class Extension
      *
      * @param string $data     DER data
      * @param bool   $critical Whether extension is critical
-     *
-     * @return self
      */
     abstract protected static function _fromDER(string $data, bool $critical): Extension;
 

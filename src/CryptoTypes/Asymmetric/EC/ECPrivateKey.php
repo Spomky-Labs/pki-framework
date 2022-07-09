@@ -27,44 +27,21 @@ use UnexpectedValueException;
 class ECPrivateKey extends PrivateKey
 {
     /**
-     * Private key.
-     *
-     * @var string
-     */
-    protected $_privateKey;
-
-    /**
-     * Named curve OID.
-     *
-     * @var null|string
-     */
-    protected $_namedCurve;
-
-    /**
-     * ECPoint value.
-     *
-     * @var null|string
-     */
-    protected $_publicKey;
-
-    /**
      * Constructor.
      *
-     * @param string      $private_key Private key
-     * @param null|string $named_curve OID of the named curve
-     * @param null|string $public_key  ECPoint value
+     * @param string $_privateKey Private key
+     * @param null|string $_namedCurve OID of the named curve
+     * @param null|string $_publicKey ECPoint value
      */
-    public function __construct(string $private_key, ?string $named_curve = null, ?string $public_key = null)
-    {
-        $this->_privateKey = $private_key;
-        $this->_namedCurve = $named_curve;
-        $this->_publicKey = $public_key;
+    public function __construct(
+        protected string $_privateKey,
+        protected ?string $_namedCurve = null,
+        protected ?string $_publicKey = null
+    ) {
     }
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): ECPrivateKey
     {
@@ -96,8 +73,6 @@ class ECPrivateKey extends PrivateKey
 
     /**
      * Initialize from DER data.
-     *
-     * @return self
      */
     public static function fromDER(string $data): ECPrivateKey
     {
@@ -106,8 +81,6 @@ class ECPrivateKey extends PrivateKey
 
     /**
      * @see PrivateKey::fromPEM()
-     *
-     * @return self
      */
     public static function fromPEM(PEM $pem): ECPrivateKey
     {
@@ -151,8 +124,6 @@ class ECPrivateKey extends PrivateKey
      * Get self with named curve.
      *
      * @param null|string $named_curve Named curve OID
-     *
-     * @return self
      */
     public function withNamedCurve(?string $named_curve): ECPrivateKey
     {

@@ -16,19 +16,11 @@ use Sop\X509\GeneralName\GeneralName;
  */
 class TargetName extends Target
 {
-    /**
+    public function __construct(/**
      * Name.
-     *
-     * @var GeneralName
      */
-    protected $_name;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(GeneralName $name)
-    {
-        $this->_name = $name;
+    protected GeneralName $_name
+    ) {
         $this->_type = self::TYPE_NAME;
     }
 

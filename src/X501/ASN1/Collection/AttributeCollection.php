@@ -45,17 +45,10 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      * Initialize from attribute values.
      *
      * @param AttributeValue ...$values List of attribute values
-     *
-     * @return static
      */
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
-        return new static(...array_map(
-            function (AttributeValue $value) {
-                return $value->toAttribute();
-            },
-            $values
-        ));
+        return new static(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**
@@ -92,14 +85,7 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
     public function allOf(string $name): array
     {
         $oid = AttributeType::attrNameToOID($name);
-        return array_values(
-            array_filter(
-                $this->_attributes,
-                function (Attribute $attr) use ($oid) {
-                    return $attr->oid() === $oid;
-                }
-            )
-        );
+        return array_values(array_filter($this->_attributes, fn (Attribute $attr) => $attr->oid() === $oid));
     }
 
     /**
@@ -135,14 +121,7 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      */
     public function withUnique(Attribute $attr): self
     {
-        $attribs = array_values(
-            array_filter(
-                $this->_attributes,
-                function (Attribute $a) use ($attr) {
-                    return $a->oid() !== $attr->oid();
-                }
-            )
-        );
+        $attribs = array_values(array_filter($this->_attributes, fn (Attribute $a) => $a->oid() !== $attr->oid()));
         $attribs[] = $attr;
         $obj = clone $this;
         $obj->_attributes = $attribs;
@@ -191,17 +170,13 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      * Initialize from ASN.1 constructed element.
      *
      * @param Structure $struct ASN.1 structure
-     *
-     * @return static
      */
     protected static function _fromASN1Structure(Structure $struct): self
     {
         return new static(...array_map(
-            function (UnspecifiedType $el) {
-                return static::_castAttributeValues(
-                    Attribute::fromASN1($el->asSequence())
-                );
-            },
+            fn (UnspecifiedType $el) => static::_castAttributeValues(
+                Attribute::fromASN1($el->asSequence())
+            ),
             $struct->elements()
         ));
     }

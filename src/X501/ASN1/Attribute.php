@@ -56,9 +56,7 @@ class Attribute implements Countable, IteratorAggregate
     {
         $type = AttributeType::fromASN1($seq->at(0)->asObjectIdentifier());
         $values = array_map(
-            function (UnspecifiedType $el) use ($type) {
-                return AttributeValue::fromASN1ByOID($type->oid(), $el);
-            },
+            fn (UnspecifiedType $el) => AttributeValue::fromASN1ByOID($type->oid(), $el),
             $seq->at(1)
                 ->asSet()
                 ->elements()
@@ -108,9 +106,7 @@ class Attribute implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $values = array_map(function (AttributeValue $value) {
-            return $value->toASN1();
-        }, $this->_values);
+        $values = array_map(fn (AttributeValue $value) => $value->toASN1(), $this->_values);
         $valueset = new Set(...$values);
         return new Sequence($this->_type->toASN1(), $valueset->sortedSetOf());
     }

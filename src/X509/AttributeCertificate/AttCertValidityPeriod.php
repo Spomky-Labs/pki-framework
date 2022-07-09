@@ -18,27 +18,16 @@ class AttCertValidityPeriod
 {
     use DateTimeHelper;
 
-    /**
-     * Not before time.
-     *
-     * @var DateTimeImmutable
-     */
-    protected $_notBeforeTime;
-
-    /**
-     * Not after time.
-     *
-     * @var DateTimeImmutable
-     */
-    protected $_notAfterTime;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(DateTimeImmutable $nb, DateTimeImmutable $na)
-    {
-        $this->_notBeforeTime = $nb;
-        $this->_notAfterTime = $na;
+    public function __construct(
+        /**
+         * Not before time.
+         */
+        protected DateTimeImmutable $_notBeforeTime,
+        /**
+         * Not after time.
+         */
+        protected DateTimeImmutable $_notAfterTime
+    ) {
     }
 
     /**

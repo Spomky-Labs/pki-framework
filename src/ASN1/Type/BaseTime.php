@@ -9,12 +9,13 @@ use DateTimeZone;
 use Exception;
 use RuntimeException;
 use Sop\ASN1\Element;
+use Stringable;
 use UnexpectedValueException;
 
 /**
  * Base class for all types representing a point in time.
  */
-abstract class BaseTime extends Element implements TimeType
+abstract class BaseTime extends Element implements TimeType, Stringable
 {
     /**
      * UTC timezone.
@@ -23,19 +24,12 @@ abstract class BaseTime extends Element implements TimeType
      */
     public const TZ_UTC = 'UTC';
 
-    /**
-     * Date and time.
-     *
-     * @var DateTimeImmutable
-     */
-    protected $_dateTime;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(DateTimeImmutable $dt)
-    {
-        $this->_dateTime = $dt;
+    public function __construct(
+        /**
+         * Date and time.
+         */
+        protected DateTimeImmutable $_dateTime
+    ) {
     }
 
     public function __toString(): string

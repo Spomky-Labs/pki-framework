@@ -27,54 +27,22 @@ class PathValidationResult
     protected $_certificates;
 
     /**
-     * Valid policy tree.
-     *
-     * @var null|PolicyTree
-     */
-    protected $_policyTree;
-
-    /**
-     * End-entity certificate's public key.
-     *
-     * @var PublicKeyInfo
-     */
-    protected $_publicKeyInfo;
-
-    /**
-     * Public key algorithm.
-     *
-     * @var AlgorithmIdentifierType
-     */
-    protected $_publicKeyAlgo;
-
-    /**
-     * Public key parameters.
-     *
-     * @var null|Element
-     */
-    protected $_publicKeyParameters;
-
-    /**
      * Constructor.
      *
      * @param Certificate[]           $certificates Certificates in a certification path
-     * @param null|PolicyTree         $policy_tree  Valid policy tree
-     * @param PublicKeyInfo           $pubkey_info  Public key of the end-entity certificate
-     * @param AlgorithmIdentifierType $algo         Public key algorithm of the end-entity certificate
-     * @param null|Element            $params       Algorithm parameters
+     * @param null|PolicyTree $_policyTree Valid policy tree
+     * @param PublicKeyInfo $_publicKeyInfo Public key of the end-entity certificate
+     * @param AlgorithmIdentifierType $_publicKeyAlgo Public key algorithm of the end-entity certificate
+     * @param null|Element $_publicKeyParameters Algorithm parameters
      */
     public function __construct(
         array $certificates,
-        ?PolicyTree $policy_tree,
-        PublicKeyInfo $pubkey_info,
-        AlgorithmIdentifierType $algo,
-        ?Element $params = null
+        protected ?PolicyTree $_policyTree,
+        protected PublicKeyInfo $_publicKeyInfo,
+        protected AlgorithmIdentifierType $_publicKeyAlgo,
+        protected ?Element $_publicKeyParameters = null
     ) {
         $this->_certificates = array_values($certificates);
-        $this->_policyTree = $policy_tree;
-        $this->_publicKeyInfo = $pubkey_info;
-        $this->_publicKeyAlgo = $algo;
-        $this->_publicKeyParameters = $params;
     }
 
     /**

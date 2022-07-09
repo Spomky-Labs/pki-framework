@@ -10,6 +10,7 @@ use Sop\ASN1\Type\Primitive\IA5String;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -17,29 +18,18 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class DisplayText
+class DisplayText implements Stringable
 {
-    /**
-     * Text.
-     *
-     * @var string
-     */
-    protected $_text;
-
-    /**
-     * Element tag.
-     *
-     * @var int
-     */
-    protected $_tag;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $text, int $tag)
-    {
-        $this->_text = $text;
-        $this->_tag = $tag;
+    public function __construct(
+        /**
+         * Text.
+         */
+        protected string $_text,
+        /**
+         * Element tag.
+         */
+        protected int $_tag
+    ) {
     }
 
     public function __toString(): string
@@ -76,17 +66,14 @@ class DisplayText
      */
     public function toASN1(): StringType
     {
-        switch ($this->_tag) {
-            case Element::TYPE_IA5_STRING:
-                return new IA5String($this->_text);
-            case Element::TYPE_VISIBLE_STRING:
-                return new VisibleString($this->_text);
-            case Element::TYPE_BMP_STRING:
-                return new BMPString($this->_text);
-            case Element::TYPE_UTF8_STRING:
-                return new UTF8String($this->_text);
-            default:
-                throw new UnexpectedValueException('Type ' . Element::tagToName($this->_tag) . ' not supported.');
-        }
+        return match ($this->_tag) {
+            Element::TYPE_IA5_STRING => new IA5String($this->_text),
+            Element::TYPE_VISIBLE_STRING => new VisibleString($this->_text),
+            Element::TYPE_BMP_STRING => new BMPString($this->_text),
+            Element::TYPE_UTF8_STRING => new UTF8String($this->_text),
+            default => throw new UnexpectedValueException('Type ' . Element::tagToName(
+                $this->_tag
+            ) . ' not supported.'),
+        };
     }
 }

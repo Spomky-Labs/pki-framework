@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
+use Sop\ASN1\Element;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -20,13 +21,10 @@ use Sop\ASN1\Type\UnspecifiedType;
 class EDIPartyName extends GeneralName
 {
     /**
-     * @var \Sop\ASN1\Element
+     * @var Element
      */
     protected $_element;
 
-    /**
-     * Constructor.
-     */
     protected function __construct()
     {
         $this->_tag = self::TAG_EDI_PARTY_NAME;

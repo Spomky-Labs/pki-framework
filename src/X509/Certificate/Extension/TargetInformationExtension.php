@@ -33,14 +33,9 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
 
     /**
      * Targets[] merged to single Targets.
-     *
-     * @var null|Targets
      */
-    private $_merged;
+    private ?Targets $_merged = null;
 
-    /**
-     * Constructor.
-     */
     public function __construct(bool $critical, Targets ...$targets)
     {
         parent::__construct(self::OID_TARGET_INFORMATION, $critical);
@@ -59,8 +54,6 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
      * Initialize from one or more Target objects.
      *
      * Extension criticality shall be set to true as specified by RFC 5755.
-     *
-     * @return TargetInformationExtension
      */
     public static function fromTargets(Target ...$target): self
     {
@@ -125,9 +118,7 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $targets = array_map(
-            function (UnspecifiedType $el) {
-                return Targets::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => Targets::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         return new self($critical, ...$targets);
@@ -135,9 +126,7 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
 
     protected function _valueASN1(): Element
     {
-        $elements = array_map(function (Targets $targets) {
-            return $targets->toASN1();
-        }, $this->_targets);
+        $elements = array_map(fn (Targets $targets) => $targets->toASN1(), $this->_targets);
         return new Sequence(...$elements);
     }
 }

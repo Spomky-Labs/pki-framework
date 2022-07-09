@@ -31,9 +31,6 @@ abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
      */
     protected $_params;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_params = new NullType();

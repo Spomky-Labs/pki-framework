@@ -11,19 +11,12 @@ use Sop\X501\StringPrep\StringPreparer;
  */
 abstract class StringPrepMatchingRule extends MatchingRule
 {
-    /**
-     * String preparer.
-     *
-     * @var StringPreparer
-     */
-    protected $_prep;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(StringPreparer $preparer)
-    {
-        $this->_prep = $preparer;
+    public function __construct(
+        /**
+         * String preparer.
+         */
+        protected StringPreparer $_prep
+    ) {
     }
 
     public function compare($assertion, $value): ?bool

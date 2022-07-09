@@ -18,21 +18,13 @@ use Sop\X509\Certificate\Extensions;
  */
 class ExtensionRequestValue extends AttributeValue
 {
-    public const OID = '1.2.840.113549.1.9.14';
+    final public const OID = '1.2.840.113549.1.9.14';
 
-    /**
+    public function __construct(/**
      * Extensions.
-     *
-     * @var Extensions
      */
-    protected $_extensions;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(Extensions $extensions)
-    {
-        $this->_extensions = $extensions;
+    protected Extensions $_extensions
+    ) {
         $this->_oid = self::OID;
     }
 

@@ -20,29 +20,17 @@ use Sop\ASN1\Type\UnspecifiedType;
 class OtherName extends GeneralName
 {
     /**
-     * Type OID.
-     *
-     * @var string
-     */
-    protected $_type;
-
-    /**
-     * Value.
-     *
-     * @var Element
-     */
-    protected $_element;
-
-    /**
      * Constructor.
      *
-     * @param string  $type_id OID
+     * @param string $_type OID
      */
-    public function __construct(string $type_id, Element $el)
-    {
+    public function __construct(
+        protected string $_type, /**
+     * Value.
+     */
+    protected Element $_element
+    ) {
         $this->_tag = self::TAG_OTHER_NAME;
-        $this->_type = $type_id;
-        $this->_element = $el;
     }
 
     /**

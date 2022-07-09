@@ -6,6 +6,8 @@ namespace Sop\CryptoTypes\Asymmetric;
 
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
+use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use UnexpectedValueException;
 
 /**
@@ -59,14 +61,11 @@ abstract class PrivateKey
      */
     public static function fromPEM(PEM $pem)
     {
-        switch ($pem->type()) {
-            case PEM::TYPE_RSA_PRIVATE_KEY:
-                return RSA\RSAPrivateKey::fromDER($pem->data());
-            case PEM::TYPE_EC_PRIVATE_KEY:
-                return EC\ECPrivateKey::fromDER($pem->data());
-            case PEM::TYPE_PRIVATE_KEY:
-                return PrivateKeyInfo::fromDER($pem->data())->privateKey();
-        }
-        throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid private key.');
+        return match ($pem->type()) {
+            PEM::TYPE_RSA_PRIVATE_KEY => RSAPrivateKey::fromDER($pem->data()),
+            PEM::TYPE_EC_PRIVATE_KEY => ECPrivateKey::fromDER($pem->data()),
+            PEM::TYPE_PRIVATE_KEY => PrivateKeyInfo::fromDER($pem->data())->privateKey(),
+            default => throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid private key.'),
+        };
     }
 }

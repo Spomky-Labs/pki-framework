@@ -15,27 +15,21 @@ use Sop\ASN1\Type\Primitive\OctetString;
 class UnknownExtension extends Extension
 {
     /**
-     * Decoded extension value.
-     *
-     * @var null|Element
-     */
-    protected $_element;
-
-    /**
      * Raw extension value.
      *
      * @var string
      */
     protected $_data;
 
-    /**
-     * Constructor.
+    public function __construct(
+        string $oid,
+        bool $critical, /**
+     * Decoded extension value.
      */
-    public function __construct(string $oid, bool $critical, Element $element)
-    {
+    protected ?Element $_element
+    ) {
         parent::__construct($oid, $critical);
-        $this->_element = $element;
-        $this->_data = $element->toDER();
+        $this->_data = $_element->toDER();
     }
 
     /**

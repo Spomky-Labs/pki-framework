@@ -22,13 +22,6 @@ use function strval;
 class IssuerSerial
 {
     /**
-     * Issuer name.
-     *
-     * @var GeneralNames
-     */
-    protected $_issuer;
-
-    /**
      * Serial number as a base 10 integer.
      *
      * @var string
@@ -36,28 +29,25 @@ class IssuerSerial
     protected $_serial;
 
     /**
-     * Issuer unique ID.
-     *
-     * @var null|UniqueIdentifier
-     */
-    protected $_issuerUID;
-
-    /**
      * Constructor.
      *
      * @param int|string            $serial
      */
-    public function __construct(GeneralNames $issuer, $serial, ?UniqueIdentifier $uid = null)
-    {
-        $this->_issuer = $issuer;
+    public function __construct(
+    /**
+     * Issuer name.
+     */
+    protected GeneralNames $_issuer,
+        $serial, /**
+     * Issuer unique ID.
+     */
+    protected ?UniqueIdentifier $_issuerUID = null
+    ) {
         $this->_serial = strval($serial);
-        $this->_issuerUID = $uid;
     }
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): IssuerSerial
     {
@@ -74,8 +64,6 @@ class IssuerSerial
 
     /**
      * Initialize from a public key certificate.
-     *
-     * @return self
      */
     public static function fromPKC(Certificate $cert): IssuerSerial
     {

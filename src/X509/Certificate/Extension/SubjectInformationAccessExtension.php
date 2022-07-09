@@ -26,11 +26,8 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
      *
      * @var SubjectAccessDescription[]
      */
-    private $_accessDescriptions;
+    private readonly array $_accessDescriptions;
 
-    /**
-     * Constructor.
-     */
     public function __construct(bool $critical, SubjectAccessDescription ...$access)
     {
         parent::__construct(self::OID_SUBJECT_INFORMATION_ACCESS, $critical);
@@ -72,9 +69,7 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $access = array_map(
-            function (UnspecifiedType $el) {
-                return SubjectAccessDescription::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => SubjectAccessDescription::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         return new self($critical, ...$access);
@@ -82,12 +77,7 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
 
     protected function _valueASN1(): Element
     {
-        $elements = array_map(
-            function (AccessDescription $access) {
-                return $access->toASN1();
-            },
-            $this->_accessDescriptions
-        );
+        $elements = array_map(fn (AccessDescription $access) => $access->toASN1(), $this->_accessDescriptions);
         return new Sequence(...$elements);
     }
 }

@@ -19,9 +19,6 @@ use Sop\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
  */
 class PrivateKeyInfo extends OneAsymmetricKey
 {
-    /**
-     * Constructor.
-     */
     public function __construct(
         AlgorithmIdentifierType $algo,
         string $key,

@@ -21,28 +21,20 @@ class Length implements Encodable
 {
     /**
      * Length.
-     *
-     * @var BigInt
      */
-    private $_length;
-
-    /**
-     * Whether length is indefinite.
-     *
-     * @var bool
-     */
-    private $_indefinite;
+    private readonly BigInt $_length;
 
     /**
      * Constructor.
      *
      * @param GMP|int|string $length     Length
-     * @param bool            $indefinite Whether length is indefinite
+     * @param bool $_indefinite Whether length is indefinite
      */
-    public function __construct($length, bool $indefinite = false)
-    {
+    public function __construct(
+        $length,
+        private readonly bool $_indefinite = false
+    ) {
         $this->_length = new BigInt($length);
-        $this->_indefinite = $indefinite;
     }
 
     /**

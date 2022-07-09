@@ -13,27 +13,16 @@ use Sop\ASN1\Type\Constructed\Sequence;
  */
 class Validity
 {
-    /**
-     * Not before time.
-     *
-     * @var Time
-     */
-    protected $_notBefore;
-
-    /**
-     * Not after time.
-     *
-     * @var Time
-     */
-    protected $_notAfter;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(Time $not_before, Time $not_after)
-    {
-        $this->_notBefore = $not_before;
-        $this->_notAfter = $not_after;
+    public function __construct(
+        /**
+         * Not before time.
+         */
+        protected Time $_notBefore,
+        /**
+         * Not after time.
+         */
+        protected Time $_notAfter
+    ) {
     }
 
     /**

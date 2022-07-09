@@ -24,10 +24,8 @@ class SubjectDirectoryAttributesExtension extends Extension implements Countable
 {
     /**
      * Attributes.
-     *
-     * @var SequenceOfAttributes
      */
-    private $_attributes;
+    private readonly SequenceOfAttributes $_attributes;
 
     /**
      * Constructor.

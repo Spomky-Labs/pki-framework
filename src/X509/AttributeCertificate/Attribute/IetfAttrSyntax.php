@@ -39,9 +39,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
      */
     protected $_values;
 
-    /**
-     * Constructor.
-     */
     public function __construct(IetfAttrValue ...$values)
     {
         $this->_policyAuthority = null;
@@ -65,9 +62,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
             ++$idx;
         }
         $values = array_map(
-            function (UnspecifiedType $el) {
-                return IetfAttrValue::fromASN1($el);
-            },
+            fn (UnspecifiedType $el) => IetfAttrValue::fromASN1($el),
             $seq->at($idx)
                 ->asSequence()
                 ->elements()
@@ -133,9 +128,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
         if (isset($this->_policyAuthority)) {
             $elements[] = new ImplicitlyTaggedType(0, $this->_policyAuthority->toASN1());
         }
-        $values = array_map(function (IetfAttrValue $val) {
-            return $val->toASN1();
-        }, $this->_values);
+        $values = array_map(fn (IetfAttrValue $val) => $val->toASN1(), $this->_values);
         $elements[] = new Sequence(...$values);
         return new Sequence(...$elements);
     }

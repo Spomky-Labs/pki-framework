@@ -23,7 +23,7 @@ class Attributes extends SetOfAttributes
      *
      * @var array
      */
-    public const MAP_OID_TO_CLASS = [
+    final public const MAP_OID_TO_CLASS = [
         ExtensionRequestValue::OID => ExtensionRequestValue::class,
     ];
 

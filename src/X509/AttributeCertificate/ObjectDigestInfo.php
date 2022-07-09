@@ -20,18 +20,11 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
  */
 class ObjectDigestInfo
 {
-    public const TYPE_PUBLIC_KEY = 0;
+    final public const TYPE_PUBLIC_KEY = 0;
 
-    public const TYPE_PUBLIC_KEY_CERT = 1;
+    final public const TYPE_PUBLIC_KEY_CERT = 1;
 
-    public const TYPE_OTHER_OBJECT_TYPES = 2;
-
-    /**
-     * Object type.
-     *
-     * @var int
-     */
-    protected $_digestedObjectType;
+    final public const TYPE_OTHER_OBJECT_TYPES = 2;
 
     /**
      * OID of other object type.
@@ -40,35 +33,23 @@ class ObjectDigestInfo
      */
     protected $_otherObjectTypeID;
 
+    public function __construct(
     /**
+     * Object type.
+     */
+    protected int $_digestedObjectType, /**
      * Digest algorithm.
-     *
-     * @var AlgorithmIdentifierType
      */
-    protected $_digestAlgorithm;
-
-    /**
+    protected AlgorithmIdentifierType $_digestAlgorithm, /**
      * Object digest.
-     *
-     * @var BitString
      */
-    protected $_objectDigest;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(int $type, AlgorithmIdentifierType $algo, BitString $digest)
-    {
-        $this->_digestedObjectType = $type;
+    protected BitString $_objectDigest
+    ) {
         $this->_otherObjectTypeID = null;
-        $this->_digestAlgorithm = $algo;
-        $this->_objectDigest = $digest;
     }
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): ObjectDigestInfo
     {

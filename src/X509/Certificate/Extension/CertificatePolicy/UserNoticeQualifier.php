@@ -16,28 +16,16 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class UserNoticeQualifier extends PolicyQualifierInfo
 {
+    public function __construct(
     /**
      * Explicit notice text.
-     *
-     * @var null|DisplayText
      */
-    protected $_text;
-
-    /**
+    protected ?DisplayText $_text = null, /**
      * Notice reference.
-     *
-     * @var null|NoticeReference
      */
-    protected $_ref;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(?DisplayText $text = null, ?NoticeReference $ref = null)
-    {
+    protected ?NoticeReference $_ref = null
+    ) {
         $this->_oid = self::OID_UNOTICE;
-        $this->_text = $text;
-        $this->_ref = $ref;
     }
 
     /**

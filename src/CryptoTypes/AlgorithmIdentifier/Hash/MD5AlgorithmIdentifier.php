@@ -40,9 +40,6 @@ class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Hash
      */
     protected $_params;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_MD5;

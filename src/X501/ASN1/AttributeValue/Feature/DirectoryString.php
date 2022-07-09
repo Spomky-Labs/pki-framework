@@ -77,29 +77,15 @@ abstract class DirectoryString extends AttributeValue
     ];
 
     /**
-     * ASN.1 type tag for the chosen syntax.
-     *
-     * @var int
-     */
-    protected $_stringTag;
-
-    /**
-     * String value.
-     *
-     * @var string
-     */
-    protected $_string;
-
-    /**
      * Constructor.
      *
-     * @param string $value      String value
-     * @param int    $string_tag Syntax choice
+     * @param string $_string String value
+     * @param int $_stringTag Syntax choice
      */
-    public function __construct(string $value, int $string_tag)
-    {
-        $this->_string = $value;
-        $this->_stringTag = $string_tag;
+    public function __construct(
+        protected string $_string,
+        protected int $_stringTag
+    ) {
     }
 
     /**

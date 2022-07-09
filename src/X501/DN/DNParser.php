@@ -22,31 +22,21 @@ class DNParser
      *
      * @var string
      */
-    public const SPECIAL_CHARS = ',=+<>#;';
-
-    /**
-     * DN string.
-     *
-     * @var string
-     */
-    private $_dn;
+    final public const SPECIAL_CHARS = ',=+<>#;';
 
     /**
      * DN string length.
-     *
-     * @var int
      */
-    private $_len;
+    private readonly int $_len;
 
     /**
      * Constructor.
      *
-     * @param string $dn Distinguised name
+     * @param string $_dn Distinguised name
      */
-    protected function __construct(string $dn)
+    protected function __construct(private readonly string $_dn)
     {
-        $this->_dn = $dn;
-        $this->_len = mb_strlen($dn, '8bit');
+        $this->_len = mb_strlen($_dn, '8bit');
     }
 
     /**
@@ -76,9 +66,7 @@ class DNParser
             '/([\pC])/u',
             function ($m) {
                 $octets = mb_str_split(bin2hex($m[1]), 2, '8bit');
-                return implode('', array_map(function ($octet) {
-                    return '\\' . mb_strtoupper($octet, '8bit');
-                }, $octets));
+                return implode('', array_map(fn ($octet) => '\\' . mb_strtoupper($octet, '8bit'), $octets));
             },
             $str
         );

@@ -14,9 +14,6 @@ class CharacterString extends PrimitiveString
 {
     use UniversalClass;
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_CHARACTER_STRING;

@@ -92,23 +92,17 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     ];
 
     /**
-     * Effective key bits.
-     *
-     * @var int
-     */
-    protected $_effectiveKeyBits;
-
-    /**
      * Constructor.
      *
-     * @param int         $key_bits Number of effective key bits
+     * @param int $_effectiveKeyBits Number of effective key bits
      * @param null|string $iv       Initialization vector
      */
-    public function __construct(int $key_bits = 64, ?string $iv = null)
-    {
+    public function __construct(
+        protected int $_effectiveKeyBits = 64,
+        ?string $iv = null
+    ) {
         $this->_checkIVSize($iv);
         $this->_oid = self::OID_RC2_CBC;
-        $this->_effectiveKeyBits = $key_bits;
         $this->_initializationVector = $iv;
     }
 

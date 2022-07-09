@@ -29,10 +29,8 @@ class Integer extends Element
 
     /**
      * The number.
-     *
-     * @var BigInt
      */
-    private $_number;
+    private readonly BigInt $_number;
 
     /**
      * Constructor.

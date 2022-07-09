@@ -18,28 +18,16 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class BasicConstraintsExtension extends Extension
 {
-    /**
+    public function __construct(
+        bool $critical, /**
      * Whether certificate is a CA.
-     *
-     * @var bool
      */
-    protected $_ca;
-
-    /**
+    protected bool $_ca, /**
      * Maximum certification path length.
-     *
-     * @var null|int
      */
-    protected $_pathLen;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(bool $critical, bool $ca, ?int $path_len = null)
-    {
+    protected ?int $_pathLen = null
+    ) {
         parent::__construct(self::OID_BASIC_CONSTRAINTS, $critical);
-        $this->_ca = $ca;
-        $this->_pathLen = $path_len;
     }
 
     /**

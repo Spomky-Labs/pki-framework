@@ -5,15 +5,39 @@ declare(strict_types=1);
 namespace Sop\ASN1;
 
 use function array_key_exists;
-use function get_called_class;
-use function get_class;
 use function mb_strlen;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\Constructed;
 use Sop\ASN1\Type\Constructed\ConstructedString;
-use Sop\ASN1\Type\Primitive;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Constructed\Set;
+use Sop\ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Primitive\BMPString;
+use Sop\ASN1\Type\Primitive\Boolean;
+use Sop\ASN1\Type\Primitive\CharacterString;
+use Sop\ASN1\Type\Primitive\Enumerated;
+use Sop\ASN1\Type\Primitive\EOC;
+use Sop\ASN1\Type\Primitive\GeneralizedTime;
+use Sop\ASN1\Type\Primitive\GeneralString;
+use Sop\ASN1\Type\Primitive\GraphicString;
+use Sop\ASN1\Type\Primitive\IA5String;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Primitive\NumericString;
+use Sop\ASN1\Type\Primitive\ObjectDescriptor;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
+use Sop\ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Type\Primitive\PrintableString;
+use Sop\ASN1\Type\Primitive\Real;
+use Sop\ASN1\Type\Primitive\RelativeOID;
+use Sop\ASN1\Type\Primitive\T61String;
+use Sop\ASN1\Type\Primitive\UniversalString;
+use Sop\ASN1\Type\Primitive\UTCTime;
+use Sop\ASN1\Type\Primitive\UTF8String;
+use Sop\ASN1\Type\Primitive\VideotexString;
+use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\Tagged\ApplicationType;
 use Sop\ASN1\Type\Tagged\ContextSpecificType;
@@ -95,33 +119,33 @@ abstract class Element implements ElementBase
      * @var array
      */
     public const MAP_TAG_TO_CLASS = [
-        self::TYPE_EOC => Primitive\EOC::class,
-        self::TYPE_BOOLEAN => Primitive\Boolean::class,
-        self::TYPE_INTEGER => Primitive\Integer::class,
-        self::TYPE_BIT_STRING => Primitive\BitString::class,
-        self::TYPE_OCTET_STRING => Primitive\OctetString::class,
-        self::TYPE_NULL => Primitive\NullType::class,
-        self::TYPE_OBJECT_IDENTIFIER => Primitive\ObjectIdentifier::class,
-        self::TYPE_OBJECT_DESCRIPTOR => Primitive\ObjectDescriptor::class,
-        self::TYPE_REAL => Primitive\Real::class,
-        self::TYPE_ENUMERATED => Primitive\Enumerated::class,
-        self::TYPE_UTF8_STRING => Primitive\UTF8String::class,
-        self::TYPE_RELATIVE_OID => Primitive\RelativeOID::class,
-        self::TYPE_SEQUENCE => Constructed\Sequence::class,
-        self::TYPE_SET => Constructed\Set::class,
-        self::TYPE_NUMERIC_STRING => Primitive\NumericString::class,
-        self::TYPE_PRINTABLE_STRING => Primitive\PrintableString::class,
-        self::TYPE_T61_STRING => Primitive\T61String::class,
-        self::TYPE_VIDEOTEX_STRING => Primitive\VideotexString::class,
-        self::TYPE_IA5_STRING => Primitive\IA5String::class,
-        self::TYPE_UTC_TIME => Primitive\UTCTime::class,
-        self::TYPE_GENERALIZED_TIME => Primitive\GeneralizedTime::class,
-        self::TYPE_GRAPHIC_STRING => Primitive\GraphicString::class,
-        self::TYPE_VISIBLE_STRING => Primitive\VisibleString::class,
-        self::TYPE_GENERAL_STRING => Primitive\GeneralString::class,
-        self::TYPE_UNIVERSAL_STRING => Primitive\UniversalString::class,
-        self::TYPE_CHARACTER_STRING => Primitive\CharacterString::class,
-        self::TYPE_BMP_STRING => Primitive\BMPString::class,
+        self::TYPE_EOC => EOC::class,
+        self::TYPE_BOOLEAN => Boolean::class,
+        self::TYPE_INTEGER => Integer::class,
+        self::TYPE_BIT_STRING => BitString::class,
+        self::TYPE_OCTET_STRING => OctetString::class,
+        self::TYPE_NULL => NullType::class,
+        self::TYPE_OBJECT_IDENTIFIER => ObjectIdentifier::class,
+        self::TYPE_OBJECT_DESCRIPTOR => ObjectDescriptor::class,
+        self::TYPE_REAL => Real::class,
+        self::TYPE_ENUMERATED => Enumerated::class,
+        self::TYPE_UTF8_STRING => UTF8String::class,
+        self::TYPE_RELATIVE_OID => RelativeOID::class,
+        self::TYPE_SEQUENCE => Sequence::class,
+        self::TYPE_SET => Set::class,
+        self::TYPE_NUMERIC_STRING => NumericString::class,
+        self::TYPE_PRINTABLE_STRING => PrintableString::class,
+        self::TYPE_T61_STRING => T61String::class,
+        self::TYPE_VIDEOTEX_STRING => VideotexString::class,
+        self::TYPE_IA5_STRING => IA5String::class,
+        self::TYPE_UTC_TIME => UTCTime::class,
+        self::TYPE_GENERALIZED_TIME => GeneralizedTime::class,
+        self::TYPE_GRAPHIC_STRING => GraphicString::class,
+        self::TYPE_VISIBLE_STRING => VisibleString::class,
+        self::TYPE_GENERAL_STRING => GeneralString::class,
+        self::TYPE_UNIVERSAL_STRING => UniversalString::class,
+        self::TYPE_CHARACTER_STRING => CharacterString::class,
+        self::TYPE_BMP_STRING => BMPString::class,
     ];
 
     /**
@@ -231,12 +255,10 @@ abstract class Element implements ElementBase
         $element = $cls::_decodeFromDER($identifier, $data, $idx);
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
-        $called_class = get_called_class();
+        $called_class = static::class;
         if (self::class !== $called_class) {
             if (! $element instanceof $called_class) {
-                throw new UnexpectedValueException(
-                    sprintf('%s expected, got %s.', $called_class, get_class($element))
-                );
+                throw new UnexpectedValueException(sprintf('%s expected, got %s.', $called_class, $element::class));
             }
         }
         // update offset for the caller
@@ -256,7 +278,7 @@ abstract class Element implements ElementBase
         $content = $this->_encodedContentDER();
         if ($this->_indefiniteLength) {
             $length = new Length(0, true);
-            $eoc = new Primitive\EOC();
+            $eoc = new EOC();
             return $identifier->toDER() . $length->toDER() . $content . $eoc->toDER();
         }
         $length = new Length(mb_strlen($content, '8bit'));
@@ -447,14 +469,11 @@ abstract class Element implements ElementBase
      */
     private function _isPseudoType(int $tag): bool
     {
-        switch ($tag) {
-            case self::TYPE_STRING:
-                return $this instanceof StringType;
-            case self::TYPE_TIME:
-                return $this instanceof TimeType;
-            case self::TYPE_CONSTRUCTED_STRING:
-                return $this instanceof ConstructedString;
-        }
-        return false;
+        return match ($tag) {
+            self::TYPE_STRING => $this instanceof StringType,
+            self::TYPE_TIME => $this instanceof TimeType,
+            self::TYPE_CONSTRUCTED_STRING => $this instanceof ConstructedString,
+            default => false,
+        };
     }
 }

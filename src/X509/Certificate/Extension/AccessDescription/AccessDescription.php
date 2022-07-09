@@ -17,29 +17,15 @@ use Sop\X509\GeneralName\GeneralName;
 abstract class AccessDescription
 {
     /**
-     * Access method OID.
-     *
-     * @var string
-     */
-    protected $_accessMethod;
-
-    /**
-     * Access location.
-     *
-     * @var GeneralName
-     */
-    protected $_accessLocation;
-
-    /**
      * Constructor.
      *
-     * @param string      $method   Access method OID
-     * @param GeneralName $location Access location
+     * @param string $_accessMethod Access method OID
+     * @param GeneralName $_accessLocation Access location
      */
-    public function __construct(string $method, GeneralName $location)
-    {
-        $this->_accessMethod = $method;
-        $this->_accessLocation = $location;
+    public function __construct(
+        protected string $_accessMethod,
+        protected GeneralName $_accessLocation
+    ) {
     }
 
     /**

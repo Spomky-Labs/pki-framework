@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Sop\X501\ASN1\AttributeValue;
 
 use function array_key_exists;
-use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\AttributeType;
 use Sop\X501\ASN1\AttributeTypeAndValue;
 use Sop\X501\MatchingRule\MatchingRule;
+use Stringable;
 
 /**
  * Base class for attribute values.
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.AttributeValue
  */
-abstract class AttributeValue
+abstract class AttributeValue implements Stringable
 {
     /**
      * Mapping from attribute type OID to attribute value class name.
@@ -52,10 +52,8 @@ abstract class AttributeValue
 
     /**
      * Get attribute value as an UTF-8 encoded string.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->_transcodedString();
     }
@@ -84,8 +82,6 @@ abstract class AttributeValue
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
     abstract public static function fromASN1(UnspecifiedType $el): AttributeValue;
 

@@ -23,26 +23,18 @@ class Time
     use DateTimeHelper;
 
     /**
-     * Datetime.
-     *
-     * @var DateTimeImmutable
-     */
-    protected $_dt;
-
-    /**
      * Time ASN.1 type tag.
      *
      * @var int
      */
     protected $_type;
 
-    /**
-     * Constructor.
+    public function __construct(/**
+     * Datetime.
      */
-    public function __construct(DateTimeImmutable $dt)
-    {
-        $this->_dt = $dt;
-        $this->_type = self::_determineType($dt);
+    protected DateTimeImmutable $_dt
+    ) {
+        $this->_type = self::_determineType($_dt);
     }
 
     /**

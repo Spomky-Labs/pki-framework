@@ -6,11 +6,12 @@ namespace Sop\ASN1\Type;
 
 use InvalidArgumentException;
 use Sop\ASN1\Element;
+use Stringable;
 
 /**
  * Base class for all string types.
  */
-abstract class BaseString extends Element implements StringType
+abstract class BaseString extends Element implements StringType, Stringable
 {
     /**
      * String value.
@@ -19,9 +20,6 @@ abstract class BaseString extends Element implements StringType
      */
     protected $_string;
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $string)
     {
         if (! $this->_validateString($string)) {

@@ -14,20 +14,6 @@ use Sop\X509\CertificationPath\CertificationPath;
 class ACValidationConfig
 {
     /**
-     * Certification path of the AC holder.
-     *
-     * @var CertificationPath
-     */
-    protected $_holderPath;
-
-    /**
-     * Certification path of the AC issuer.
-     *
-     * @var CertificationPath
-     */
-    protected $_issuerPath;
-
-    /**
      * Evaluation reference time.
      *
      * @var DateTimeImmutable
@@ -44,13 +30,13 @@ class ACValidationConfig
     /**
      * Constructor.
      *
-     * @param CertificationPath $holder_path Certification path of the AC holder
-     * @param CertificationPath $issuer_path Certification path of the AC issuer
+     * @param CertificationPath $_holderPath Certification path of the AC holder
+     * @param CertificationPath $_issuerPath Certification path of the AC issuer
      */
-    public function __construct(CertificationPath $holder_path, CertificationPath $issuer_path)
-    {
-        $this->_holderPath = $holder_path;
-        $this->_issuerPath = $issuer_path;
+    public function __construct(
+        protected CertificationPath $_holderPath,
+        protected CertificationPath $_issuerPath
+    ) {
         $this->_evalTime = new DateTimeImmutable();
         $this->_targets = [];
     }

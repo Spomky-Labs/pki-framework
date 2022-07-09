@@ -6,6 +6,7 @@ namespace Sop\CryptoBridge;
 
 use function defined;
 use RuntimeException;
+use Sop\CryptoBridge\Crypto\OpenSSLCrypto;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -80,7 +81,7 @@ abstract class Crypto
     public static function getDefault(): self
     {
         if (defined('OPENSSL_VERSION_NUMBER')) {
-            return new Crypto\OpenSSLCrypto();
+            return new OpenSSLCrypto();
         }
         // @codeCoverageIgnoreStart
         throw new RuntimeException('No crypto implementation available.');

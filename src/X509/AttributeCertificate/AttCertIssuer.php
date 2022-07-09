@@ -61,10 +61,9 @@ abstract class AttCertIssuer
             throw new UnexpectedValueException('v1Form issuer not supported.');
         }
         $tagged = $el->asTagged();
-        switch ($tagged->tag()) {
-            case 0:
-                return V2Form::fromV2ASN1($tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
-        }
-        throw new UnexpectedValueException('Unsupported issuer type.');
+        return match ($tagged->tag()) {
+            0 => V2Form::fromV2ASN1($tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence()),
+            default => throw new UnexpectedValueException('Unsupported issuer type.'),
+        };
     }
 }

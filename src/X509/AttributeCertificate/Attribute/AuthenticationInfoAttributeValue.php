@@ -13,11 +13,8 @@ use Sop\X509\GeneralName\GeneralName;
  */
 class AuthenticationInfoAttributeValue extends SvceAuthInfo
 {
-    public const OID = '1.3.6.1.5.5.7.10.1';
+    final public const OID = '1.3.6.1.5.5.7.10.1';
 
-    /**
-     * Constructor.
-     */
     public function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
     {
         parent::__construct($service, $ident, $auth_info);

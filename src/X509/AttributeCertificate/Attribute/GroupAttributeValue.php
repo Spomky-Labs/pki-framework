@@ -11,11 +11,8 @@ namespace Sop\X509\AttributeCertificate\Attribute;
  */
 class GroupAttributeValue extends IetfAttrSyntax
 {
-    public const OID = '1.3.6.1.5.5.7.10.4';
+    final public const OID = '1.3.6.1.5.5.7.10.4';
 
-    /**
-     * Constructor.
-     */
     public function __construct(IetfAttrValue ...$values)
     {
         parent::__construct(...$values);

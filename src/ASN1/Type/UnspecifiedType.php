@@ -7,6 +7,35 @@ namespace Sop\ASN1\Type;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\Constructed\ConstructedString;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Constructed\Set;
+use Sop\ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Primitive\BMPString;
+use Sop\ASN1\Type\Primitive\Boolean;
+use Sop\ASN1\Type\Primitive\CharacterString;
+use Sop\ASN1\Type\Primitive\Enumerated;
+use Sop\ASN1\Type\Primitive\GeneralizedTime;
+use Sop\ASN1\Type\Primitive\GeneralString;
+use Sop\ASN1\Type\Primitive\GraphicString;
+use Sop\ASN1\Type\Primitive\IA5String;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Primitive\NumericString;
+use Sop\ASN1\Type\Primitive\ObjectDescriptor;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
+use Sop\ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Type\Primitive\PrintableString;
+use Sop\ASN1\Type\Primitive\Real;
+use Sop\ASN1\Type\Primitive\RelativeOID;
+use Sop\ASN1\Type\Primitive\T61String;
+use Sop\ASN1\Type\Primitive\UniversalString;
+use Sop\ASN1\Type\Primitive\UTCTime;
+use Sop\ASN1\Type\Primitive\UTF8String;
+use Sop\ASN1\Type\Primitive\VideotexString;
+use Sop\ASN1\Type\Primitive\VisibleString;
+use Sop\ASN1\Type\Tagged\ApplicationType;
+use Sop\ASN1\Type\Tagged\PrivateType;
 use UnexpectedValueException;
 
 /**
@@ -16,19 +45,12 @@ use UnexpectedValueException;
  */
 class UnspecifiedType implements ElementBase
 {
-    /**
-     * The wrapped element.
-     *
-     * @var Element
-     */
-    private $_element;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(Element $el)
-    {
-        $this->_element = $el;
+    public function __construct(
+        /**
+         * The wrapped element.
+         */
+        private readonly Element $_element
+    ) {
     }
 
     /**
@@ -66,12 +88,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an application specific type.
-     *
-     * @return \Sop\ASN1\Type\Tagged\ApplicationType
      */
-    public function asApplication(): Tagged\ApplicationType
+    public function asApplication(): ApplicationType
     {
-        if (! $this->_element instanceof Tagged\ApplicationType) {
+        if (! $this->_element instanceof ApplicationType) {
             throw new UnexpectedValueException('Application type expected, got ' . $this->_typeDescriptorString());
         }
         return $this->_element;
@@ -79,12 +99,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a private tagged type.
-     *
-     * @return \Sop\ASN1\Type\Tagged\PrivateType
      */
-    public function asPrivate(): Tagged\PrivateType
+    public function asPrivate(): PrivateType
     {
-        if (! $this->_element instanceof Tagged\PrivateType) {
+        if (! $this->_element instanceof PrivateType) {
             throw new UnexpectedValueException('Private type expected, got ' . $this->_typeDescriptorString());
         }
         return $this->_element;
@@ -92,12 +110,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a boolean type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\Boolean
      */
-    public function asBoolean(): Primitive\Boolean
+    public function asBoolean(): Boolean
     {
-        if (! $this->_element instanceof Primitive\Boolean) {
+        if (! $this->_element instanceof Boolean) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_BOOLEAN));
         }
         return $this->_element;
@@ -105,12 +121,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an integer type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\Integer
      */
-    public function asInteger(): Primitive\Integer
+    public function asInteger(): Integer
     {
-        if (! $this->_element instanceof Primitive\Integer) {
+        if (! $this->_element instanceof Integer) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_INTEGER));
         }
         return $this->_element;
@@ -118,12 +132,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a bit string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\BitString
      */
-    public function asBitString(): Primitive\BitString
+    public function asBitString(): BitString
     {
-        if (! $this->_element instanceof Primitive\BitString) {
+        if (! $this->_element instanceof BitString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_BIT_STRING));
         }
         return $this->_element;
@@ -131,12 +143,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an octet string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\OctetString
      */
-    public function asOctetString(): Primitive\OctetString
+    public function asOctetString(): OctetString
     {
-        if (! $this->_element instanceof Primitive\OctetString) {
+        if (! $this->_element instanceof OctetString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_OCTET_STRING));
         }
         return $this->_element;
@@ -144,12 +154,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a null type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\NullType
      */
-    public function asNull(): Primitive\NullType
+    public function asNull(): NullType
     {
-        if (! $this->_element instanceof Primitive\NullType) {
+        if (! $this->_element instanceof NullType) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_NULL));
         }
         return $this->_element;
@@ -157,12 +165,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an object identifier type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\ObjectIdentifier
      */
-    public function asObjectIdentifier(): Primitive\ObjectIdentifier
+    public function asObjectIdentifier(): ObjectIdentifier
     {
-        if (! $this->_element instanceof Primitive\ObjectIdentifier) {
+        if (! $this->_element instanceof ObjectIdentifier) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_OBJECT_IDENTIFIER));
         }
         return $this->_element;
@@ -170,12 +176,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an object descriptor type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\ObjectDescriptor
      */
-    public function asObjectDescriptor(): Primitive\ObjectDescriptor
+    public function asObjectDescriptor(): ObjectDescriptor
     {
-        if (! $this->_element instanceof Primitive\ObjectDescriptor) {
+        if (! $this->_element instanceof ObjectDescriptor) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_OBJECT_DESCRIPTOR));
         }
         return $this->_element;
@@ -183,12 +187,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a real type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\Real
      */
-    public function asReal(): Primitive\Real
+    public function asReal(): Real
     {
-        if (! $this->_element instanceof Primitive\Real) {
+        if (! $this->_element instanceof Real) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_REAL));
         }
         return $this->_element;
@@ -196,12 +198,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an enumerated type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\Enumerated
      */
-    public function asEnumerated(): Primitive\Enumerated
+    public function asEnumerated(): Enumerated
     {
-        if (! $this->_element instanceof Primitive\Enumerated) {
+        if (! $this->_element instanceof Enumerated) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_ENUMERATED));
         }
         return $this->_element;
@@ -209,12 +209,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a UTF8 string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\UTF8String
      */
-    public function asUTF8String(): Primitive\UTF8String
+    public function asUTF8String(): UTF8String
     {
-        if (! $this->_element instanceof Primitive\UTF8String) {
+        if (! $this->_element instanceof UTF8String) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_UTF8_STRING));
         }
         return $this->_element;
@@ -222,12 +220,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a relative OID type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\RelativeOID
      */
-    public function asRelativeOID(): Primitive\RelativeOID
+    public function asRelativeOID(): RelativeOID
     {
-        if (! $this->_element instanceof Primitive\RelativeOID) {
+        if (! $this->_element instanceof RelativeOID) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_RELATIVE_OID));
         }
         return $this->_element;
@@ -235,12 +231,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a sequence type.
-     *
-     * @return \Sop\ASN1\Type\Constructed\Sequence
      */
-    public function asSequence(): Constructed\Sequence
+    public function asSequence(): Sequence
     {
-        if (! $this->_element instanceof Constructed\Sequence) {
+        if (! $this->_element instanceof Sequence) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_SEQUENCE));
         }
         return $this->_element;
@@ -248,12 +242,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a set type.
-     *
-     * @return \Sop\ASN1\Type\Constructed\Set
      */
-    public function asSet(): Constructed\Set
+    public function asSet(): Set
     {
-        if (! $this->_element instanceof Constructed\Set) {
+        if (! $this->_element instanceof Set) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_SET));
         }
         return $this->_element;
@@ -261,12 +253,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a numeric string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\NumericString
      */
-    public function asNumericString(): Primitive\NumericString
+    public function asNumericString(): NumericString
     {
-        if (! $this->_element instanceof Primitive\NumericString) {
+        if (! $this->_element instanceof NumericString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_NUMERIC_STRING));
         }
         return $this->_element;
@@ -274,12 +264,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a printable string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\PrintableString
      */
-    public function asPrintableString(): Primitive\PrintableString
+    public function asPrintableString(): PrintableString
     {
-        if (! $this->_element instanceof Primitive\PrintableString) {
+        if (! $this->_element instanceof PrintableString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_PRINTABLE_STRING));
         }
         return $this->_element;
@@ -287,12 +275,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a T61 string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\T61String
      */
-    public function asT61String(): Primitive\T61String
+    public function asT61String(): T61String
     {
-        if (! $this->_element instanceof Primitive\T61String) {
+        if (! $this->_element instanceof T61String) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_T61_STRING));
         }
         return $this->_element;
@@ -300,12 +286,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a videotex string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\VideotexString
      */
-    public function asVideotexString(): Primitive\VideotexString
+    public function asVideotexString(): VideotexString
     {
-        if (! $this->_element instanceof Primitive\VideotexString) {
+        if (! $this->_element instanceof VideotexString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_VIDEOTEX_STRING));
         }
         return $this->_element;
@@ -313,12 +297,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a IA5 string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\IA5String
      */
-    public function asIA5String(): Primitive\IA5String
+    public function asIA5String(): IA5String
     {
-        if (! $this->_element instanceof Primitive\IA5String) {
+        if (! $this->_element instanceof IA5String) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_IA5_STRING));
         }
         return $this->_element;
@@ -326,12 +308,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as an UTC time type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\UTCTime
      */
-    public function asUTCTime(): Primitive\UTCTime
+    public function asUTCTime(): UTCTime
     {
-        if (! $this->_element instanceof Primitive\UTCTime) {
+        if (! $this->_element instanceof UTCTime) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_UTC_TIME));
         }
         return $this->_element;
@@ -339,12 +319,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a generalized time type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\GeneralizedTime
      */
-    public function asGeneralizedTime(): Primitive\GeneralizedTime
+    public function asGeneralizedTime(): GeneralizedTime
     {
-        if (! $this->_element instanceof Primitive\GeneralizedTime) {
+        if (! $this->_element instanceof GeneralizedTime) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_GENERALIZED_TIME));
         }
         return $this->_element;
@@ -352,12 +330,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a graphic string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\GraphicString
      */
-    public function asGraphicString(): Primitive\GraphicString
+    public function asGraphicString(): GraphicString
     {
-        if (! $this->_element instanceof Primitive\GraphicString) {
+        if (! $this->_element instanceof GraphicString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_GRAPHIC_STRING));
         }
         return $this->_element;
@@ -365,12 +341,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a visible string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\VisibleString
      */
-    public function asVisibleString(): Primitive\VisibleString
+    public function asVisibleString(): VisibleString
     {
-        if (! $this->_element instanceof Primitive\VisibleString) {
+        if (! $this->_element instanceof VisibleString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_VISIBLE_STRING));
         }
         return $this->_element;
@@ -378,12 +352,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a general string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\GeneralString
      */
-    public function asGeneralString(): Primitive\GeneralString
+    public function asGeneralString(): GeneralString
     {
-        if (! $this->_element instanceof Primitive\GeneralString) {
+        if (! $this->_element instanceof GeneralString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_GENERAL_STRING));
         }
         return $this->_element;
@@ -391,12 +363,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a universal string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\UniversalString
      */
-    public function asUniversalString(): Primitive\UniversalString
+    public function asUniversalString(): UniversalString
     {
-        if (! $this->_element instanceof Primitive\UniversalString) {
+        if (! $this->_element instanceof UniversalString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_UNIVERSAL_STRING));
         }
         return $this->_element;
@@ -404,12 +374,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a character string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\CharacterString
      */
-    public function asCharacterString(): Primitive\CharacterString
+    public function asCharacterString(): CharacterString
     {
-        if (! $this->_element instanceof Primitive\CharacterString) {
+        if (! $this->_element instanceof CharacterString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_CHARACTER_STRING));
         }
         return $this->_element;
@@ -417,12 +385,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a BMP string type.
-     *
-     * @return \Sop\ASN1\Type\Primitive\BMPString
      */
-    public function asBMPString(): Primitive\BMPString
+    public function asBMPString(): BMPString
     {
-        if (! $this->_element instanceof Primitive\BMPString) {
+        if (! $this->_element instanceof BMPString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_BMP_STRING));
         }
         return $this->_element;
@@ -430,12 +396,10 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get the wrapped element as a constructed string type.
-     *
-     * @return \Sop\ASN1\Type\Constructed\ConstructedString
      */
-    public function asConstructedString(): Constructed\ConstructedString
+    public function asConstructedString(): ConstructedString
     {
-        if (! $this->_element instanceof Constructed\ConstructedString) {
+        if (! $this->_element instanceof ConstructedString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_CONSTRUCTED_STRING));
         }
         return $this->_element;

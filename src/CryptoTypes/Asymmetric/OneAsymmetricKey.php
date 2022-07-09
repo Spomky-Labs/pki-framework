@@ -19,6 +19,12 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
+use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PrivateKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PrivateKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PrivateKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
+use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use UnexpectedValueException;
 
 /**
@@ -51,52 +57,20 @@ class OneAsymmetricKey
     protected $_version;
 
     /**
-     * Algorithm identifier.
-     *
-     * @var AlgorithmIdentifierType
-     */
-    protected $_algo;
-
-    /**
-     * Private key data.
-     *
-     * @var string
-     */
-    protected $_privateKeyData;
-
-    /**
-     * Optional attributes.
-     *
-     * @var null|OneAsymmetricKeyAttributes
-     */
-    protected $_attributes;
-
-    /**
-     * Optional public key data.
-     *
-     * @var null|BitString
-     */
-    protected $_publicKeyData;
-
-    /**
      * Constructor.
      *
-     * @param AlgorithmIdentifierType         $algo       Algorithm
-     * @param string                          $key        Private key data
-     * @param null|OneAsymmetricKeyAttributes $attributes Optional attributes
-     * @param null|BitString                  $public_key Optional public key
+     * @param AlgorithmIdentifierType $_algo Algorithm
+     * @param string $_privateKeyData Private key data
+     * @param null|OneAsymmetricKeyAttributes $_attributes Optional attributes
+     * @param null|BitString $_publicKeyData Optional public key
      */
     public function __construct(
-        AlgorithmIdentifierType $algo,
-        string $key,
-        ?OneAsymmetricKeyAttributes $attributes = null,
-        ?BitString $public_key = null
+        protected AlgorithmIdentifierType $_algo,
+        protected string $_privateKeyData,
+        protected ?OneAsymmetricKeyAttributes $_attributes = null,
+        protected ?BitString $_publicKeyData = null
     ) {
         $this->_version = self::VERSION_2;
-        $this->_algo = $algo;
-        $this->_privateKeyData = $key;
-        $this->_attributes = $attributes;
-        $this->_publicKeyData = $public_key;
     }
 
     /**
@@ -154,15 +128,12 @@ class OneAsymmetricKey
      */
     public static function fromPEM(PEM $pem): self
     {
-        switch ($pem->type()) {
-            case PEM::TYPE_PRIVATE_KEY:
-                return self::fromDER($pem->data());
-            case PEM::TYPE_RSA_PRIVATE_KEY:
-                return self::fromPrivateKey(RSA\RSAPrivateKey::fromDER($pem->data()));
-            case PEM::TYPE_EC_PRIVATE_KEY:
-                return self::fromPrivateKey(EC\ECPrivateKey::fromDER($pem->data()));
-        }
-        throw new UnexpectedValueException('Invalid PEM type.');
+        return match ($pem->type()) {
+            PEM::TYPE_PRIVATE_KEY => self::fromDER($pem->data()),
+            PEM::TYPE_RSA_PRIVATE_KEY => self::fromPrivateKey(RSAPrivateKey::fromDER($pem->data())),
+            PEM::TYPE_EC_PRIVATE_KEY => self::fromPrivateKey(ECPrivateKey::fromDER($pem->data())),
+            default => throw new UnexpectedValueException('Invalid PEM type.'),
+        };
     }
 
     /**
@@ -208,10 +179,10 @@ class OneAsymmetricKey
         switch ($algo->oid()) {
             // RSA
             case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
-                return RSA\RSAPrivateKey::fromDER($this->_privateKeyData);
+                return RSAPrivateKey::fromDER($this->_privateKeyData);
             // elliptic curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
-                $pk = EC\ECPrivateKey::fromDER($this->_privateKeyData);
+                $pk = ECPrivateKey::fromDER($this->_privateKeyData);
                 // NOTE: OpenSSL strips named curve from ECPrivateKey structure
                 // when serializing into PrivateKeyInfo. However RFC 5915 dictates
                 // that parameters (NamedCurve) must always be included.
@@ -230,40 +201,28 @@ class OneAsymmetricKey
                 // RFC 8410 defines `CurvePrivateKey ::= OCTET STRING` that
                 // is encoded into private key data. So Ed25519 private key
                 // is doubly wrapped into octet string encodings.
-                return RFC8410\Curve25519\Ed25519PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData),
-                    $pubkey
-                )
+                return Ed25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
             // X25519
             case AlgorithmIdentifier::OID_X25519:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
-                return RFC8410\Curve25519\X25519PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData),
-                    $pubkey
-                )
+                return X25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
             // Ed448
             case AlgorithmIdentifier::OID_ED448:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
-                return RFC8410\Curve448\Ed448PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData),
-                    $pubkey
-                )
+                return Ed448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
             // X448
             case AlgorithmIdentifier::OID_X448:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
-                return RFC8410\Curve448\X448PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData),
-                    $pubkey
-                )
+                return X448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
         }

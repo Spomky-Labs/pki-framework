@@ -13,22 +13,16 @@ use Sop\ASN1\Type\UnspecifiedType;
 class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 {
     /**
-     * Parameters.
-     *
-     * @var null|UnspecifiedType
-     */
-    protected $_params;
-
-    /**
      * Constructor.
      *
      * @param string               $oid    Algorithm OID
-     * @param null|UnspecifiedType $params Parameters
+     * @param null|UnspecifiedType $_params Parameters
      */
-    public function __construct(string $oid, ?UnspecifiedType $params = null)
-    {
+    public function __construct(
+        string $oid,
+        protected ?UnspecifiedType $_params = null
+    ) {
         $this->_oid = $oid;
-        $this->_params = $params;
     }
 
     public function name(): string

@@ -17,20 +17,6 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 class PathValidationConfig
 {
     /**
-     * Maximum allowed certification path length.
-     *
-     * @var int
-     */
-    protected $_maxLength;
-
-    /**
-     * Reference time.
-     *
-     * @var DateTimeImmutable
-     */
-    protected $_dateTime;
-
-    /**
      * List of acceptable policy identifiers.
      *
      * @var string[]
@@ -84,13 +70,13 @@ class PathValidationConfig
     /**
      * Constructor.
      *
-     * @param DateTimeImmutable $dt         Reference date and time
-     * @param int                $max_length Maximum certification path length
+     * @param DateTimeImmutable $_dateTime Reference date and time
+     * @param int $_maxLength Maximum certification path length
      */
-    public function __construct(DateTimeImmutable $dt, int $max_length)
-    {
-        $this->_dateTime = $dt;
-        $this->_maxLength = $max_length;
+    public function __construct(
+        protected DateTimeImmutable $_dateTime,
+        protected int $_maxLength
+    ) {
         $this->_policySet = [PolicyInformation::OID_ANY_POLICY];
         $this->_policyMappingInhibit = false;
         $this->_explicitPolicy = false;

@@ -22,20 +22,12 @@ class Boolean extends Element
     use UniversalClass;
     use PrimitiveType;
 
-    /**
+    public function __construct(/**
      * Value.
-     *
-     * @var bool
      */
-    private $_bool;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(bool $bool)
-    {
+    private readonly bool $_bool
+    ) {
         $this->_typeTag = self::TYPE_BOOLEAN;
-        $this->_bool = $bool;
     }
 
     /**

@@ -38,9 +38,7 @@ class IPv6Address extends IPAddress
      */
     protected static function _wordsToIPv6String(array $words): string
     {
-        $groups = array_map(function ($word) {
-            return sprintf('%04x', $word);
-        }, $words);
+        $groups = array_map(fn ($word) => sprintf('%04x', $word), $words);
         return implode(':', $groups);
     }
 

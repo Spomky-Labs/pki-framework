@@ -55,9 +55,7 @@ class CertificateBundle implements Countable, IteratorAggregate
      */
     public static function fromPEMs(PEM ...$pems): self
     {
-        $certs = array_map(function ($pem) {
-            return Certificate::fromPEM($pem);
-        }, $pems);
+        $certs = array_map(fn ($pem) => Certificate::fromPEM($pem), $pems);
         return new self(...$certs);
     }
 

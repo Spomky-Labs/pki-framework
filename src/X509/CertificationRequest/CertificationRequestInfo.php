@@ -26,7 +26,7 @@ use UnexpectedValueException;
  */
 class CertificationRequestInfo
 {
-    public const VERSION_1 = 0;
+    final public const VERSION_1 = 0;
 
     /**
      * Version.
@@ -34,20 +34,6 @@ class CertificationRequestInfo
      * @var int
      */
     protected $_version;
-
-    /**
-     * Subject.
-     *
-     * @var Name
-     */
-    protected $_subject;
-
-    /**
-     * Public key info.
-     *
-     * @var PublicKeyInfo
-     */
-    protected $_subjectPKInfo;
 
     /**
      * Attributes.
@@ -59,14 +45,14 @@ class CertificationRequestInfo
     /**
      * Constructor.
      *
-     * @param Name          $subject Subject
-     * @param PublicKeyInfo $pkinfo  Public key info
+     * @param Name $_subject Subject
+     * @param PublicKeyInfo $_subjectPKInfo Public key info
      */
-    public function __construct(Name $subject, PublicKeyInfo $pkinfo)
-    {
+    public function __construct(
+        protected Name $_subject,
+        protected PublicKeyInfo $_subjectPKInfo
+    ) {
         $this->_version = self::VERSION_1;
-        $this->_subject = $subject;
-        $this->_subjectPKInfo = $pkinfo;
     }
 
     /**
@@ -184,7 +170,7 @@ class CertificationRequestInfo
         PrivateKeyInfo $privkey_info,
         ?Crypto $crypto = null
     ): CertificationRequest {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $data = $this->toASN1()
             ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);

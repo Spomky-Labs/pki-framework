@@ -25,9 +25,6 @@ class Targets implements Countable, IteratorAggregate
      */
     protected $_targets;
 
-    /**
-     * Constructor.
-     */
     public function __construct(Target ...$targets)
     {
         $this->_targets = $targets;
@@ -38,12 +35,7 @@ class Targets implements Countable, IteratorAggregate
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $targets = array_map(
-            function (UnspecifiedType $el) {
-                return Target::fromASN1($el->asTagged());
-            },
-            $seq->elements()
-        );
+        $targets = array_map(fn (UnspecifiedType $el) => Target::fromASN1($el->asTagged()), $seq->elements());
         return new self(...$targets);
     }
 
@@ -95,9 +87,7 @@ class Targets implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(function (Target $target) {
-            return $target->toASN1();
-        }, $this->_targets);
+        $elements = array_map(fn (Target $target) => $target->toASN1(), $this->_targets);
         return new Sequence(...$elements);
     }
 
@@ -126,13 +116,6 @@ class Targets implements Countable, IteratorAggregate
      */
     protected function _allOfType(int $type): array
     {
-        return array_values(
-            array_filter(
-                $this->_targets,
-                function (Target $target) use ($type) {
-                    return $target->type() === $type;
-                }
-            )
-        );
+        return array_values(array_filter($this->_targets, fn (Target $target) => $target->type() === $type));
     }
 }

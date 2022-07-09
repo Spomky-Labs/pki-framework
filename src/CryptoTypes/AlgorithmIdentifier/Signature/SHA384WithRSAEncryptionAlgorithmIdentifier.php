@@ -11,9 +11,6 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
  */
 class SHA384WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatureAlgorithmIdentifier
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();

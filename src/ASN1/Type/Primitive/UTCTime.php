@@ -28,7 +28,7 @@ class UTCTime extends BaseTime
      *
      * @var string
      */
-    public const REGEX = '#^' .
+    final public const REGEX = '#^' .
         '(\d\d)' . // YY
         '(\d\d)' . // MM
         '(\d\d)' . // DD
@@ -38,9 +38,6 @@ class UTCTime extends BaseTime
         'Z' . // TZ
         '$#';
 
-    /**
-     * Constructor.
-     */
     public function __construct(DateTimeImmutable $dt)
     {
         $this->_typeTag = self::TYPE_UTC_TIME;

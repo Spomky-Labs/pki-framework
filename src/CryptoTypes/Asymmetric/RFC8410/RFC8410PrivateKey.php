@@ -22,20 +22,6 @@ use Sop\CryptoTypes\Asymmetric\PrivateKey;
 abstract class RFC8410PrivateKey extends PrivateKey
 {
     /**
-     * Private key data.
-     *
-     * @var string
-     */
-    protected $_privateKeyData;
-
-    /**
-     * Public key data.
-     *
-     * @var null|string
-     */
-    protected $_publicKeyData;
-
-    /**
      * Version for OneAsymmetricKey.
      *
      * @var int
@@ -52,13 +38,13 @@ abstract class RFC8410PrivateKey extends PrivateKey
     /**
      * Constructor.
      *
-     * @param string      $private_key Private key data
-     * @param null|string $public_key  Public key data
+     * @param string $_privateKeyData Private key data
+     * @param null|string $_publicKeyData Public key data
      */
-    public function __construct(string $private_key, ?string $public_key = null)
-    {
-        $this->_privateKeyData = $private_key;
-        $this->_publicKeyData = $public_key;
+    public function __construct(
+        protected string $_privateKeyData,
+        protected ?string $_publicKeyData = null
+    ) {
         $this->_version = OneAsymmetricKey::VERSION_2;
         $this->_attributes = null;
     }

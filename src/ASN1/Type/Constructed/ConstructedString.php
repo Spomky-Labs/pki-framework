@@ -11,6 +11,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\Structure;
+use Stringable;
 
 /**
  * Implements constructed type of simple strings.
@@ -23,7 +24,7 @@ use Sop\ASN1\Type\Structure;
  * From API standpoint this can also be seen as a string type (as it implements `StringType`), and thus
  * `UnspecifiedType::asString()` method may return `ConstructedString` instances.
  */
-class ConstructedString extends Structure implements StringType
+class ConstructedString extends Structure implements StringType, Stringable
 {
     /**
      * Constructor.
@@ -85,9 +86,7 @@ class ConstructedString extends Structure implements StringType
      */
     public function strings(): array
     {
-        return array_map(function (StringType $el) {
-            return $el->string();
-        }, $this->_elements);
+        return array_map(fn (StringType $el) => $el->string(), $this->_elements);
     }
 
     /**

@@ -95,7 +95,7 @@ class ECConversion
      * @param int|string $num  Number in base-10
      * @param null|int   $mlen Optional desired output length
      */
-    public static function numberToOctets($num, ?int $mlen = null): string
+    public static function numberToOctets(int|string $num, ?int $mlen = null): string
     {
         return self::integerToOctetString(new Integer($num), $mlen)->string();
     }

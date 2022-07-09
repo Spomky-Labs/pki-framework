@@ -14,9 +14,6 @@ use Sop\ASN1\Type\Primitive\NullType;
  */
 class NoRevocationAvailableExtension extends Extension
 {
-    /**
-     * Constructor.
-     */
     public function __construct(bool $critical)
     {
         parent::__construct(self::OID_NO_REV_AVAIL, $critical);

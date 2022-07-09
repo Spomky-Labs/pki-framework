@@ -18,20 +18,12 @@ use Sop\X501\MatchingRule\MatchingRule;
 abstract class PrintableStringValue extends AttributeValue
 {
     /**
-     * String value.
-     *
-     * @var string
-     */
-    protected $_string;
-
-    /**
      * Constructor.
      *
-     * @param string $value String value
+     * @param string $_string String value
      */
-    public function __construct(string $value)
+    public function __construct(protected string $_string)
     {
-        $this->_string = $value;
     }
 
     /**

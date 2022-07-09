@@ -16,20 +16,12 @@ use Sop\X501\ASN1\Name;
  */
 class DirectoryName extends GeneralName
 {
-    /**
+    public function __construct(/**
      * Directory name.
-     *
-     * @var Name
      */
-    protected $_dn;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(Name $dn)
-    {
+    protected Name $_dn
+    ) {
         $this->_tag = self::TAG_DIRECTORY_NAME;
-        $this->_dn = $dn;
     }
 
     /**

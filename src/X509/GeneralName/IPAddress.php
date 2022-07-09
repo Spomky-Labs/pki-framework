@@ -21,28 +21,16 @@ use UnexpectedValueException;
  */
 abstract class IPAddress extends GeneralName
 {
+    public function __construct(
     /**
      * IP address.
-     *
-     * @var string
      */
-    protected $_ip;
-
-    /**
+    protected string $_ip, /**
      * Subnet mask.
-     *
-     * @var null|string
      */
-    protected $_mask;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $ip, ?string $mask = null)
-    {
+    protected ?string $_mask = null
+    ) {
         $this->_tag = self::TAG_IP_ADDRESS;
-        $this->_ip = $ip;
-        $this->_mask = $mask;
     }
 
     /**
@@ -52,16 +40,11 @@ abstract class IPAddress extends GeneralName
     {
         $octets = $el->asOctetString()
             ->string();
-        switch (mb_strlen($octets, '8bit')) {
-            case 4:
-            case 8:
-                return IPv4Address::fromOctets($octets);
-            case 16:
-            case 32:
-                return IPv6Address::fromOctets($octets);
-            default:
-                throw new UnexpectedValueException('Invalid octet length for IP address.');
-        }
+        return match (mb_strlen($octets, '8bit')) {
+            4, 8 => IPv4Address::fromOctets($octets),
+            16, 32 => IPv6Address::fromOctets($octets),
+            default => throw new UnexpectedValueException('Invalid octet length for IP address.'),
+        };
     }
 
     public function string(): string

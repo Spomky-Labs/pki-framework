@@ -14,9 +14,6 @@ class T61String extends PrimitiveString
 {
     use UniversalClass;
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_T61_STRING;

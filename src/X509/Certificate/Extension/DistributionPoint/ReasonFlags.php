@@ -15,35 +15,28 @@ use Sop\ASN1\Util\Flags;
 class ReasonFlags
 {
     // const UNUSED = 0x100;
-    public const KEY_COMPROMISE = 0x080;
+    final public const KEY_COMPROMISE = 0x080;
 
-    public const CA_COMPROMISE = 0x040;
+    final public const CA_COMPROMISE = 0x040;
 
-    public const AFFILIATION_CHANGED = 0x020;
+    final public const AFFILIATION_CHANGED = 0x020;
 
-    public const SUPERSEDED = 0x010;
+    final public const SUPERSEDED = 0x010;
 
-    public const CESSATION_OF_OPERATION = 0x008;
+    final public const CESSATION_OF_OPERATION = 0x008;
 
-    public const CERTIFICATE_HOLD = 0x004;
+    final public const CERTIFICATE_HOLD = 0x004;
 
-    public const PRIVILEGE_WITHDRAWN = 0x002;
+    final public const PRIVILEGE_WITHDRAWN = 0x002;
 
-    public const AA_COMPROMISE = 0x001;
+    final public const AA_COMPROMISE = 0x001;
 
-    /**
-     * Flags.
-     *
-     * @var int
-     */
-    protected $_flags;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(int $flags)
-    {
-        $this->_flags = $flags;
+    public function __construct(
+        /**
+         * Flags.
+         */
+        protected int $_flags
+    ) {
     }
 
     /**

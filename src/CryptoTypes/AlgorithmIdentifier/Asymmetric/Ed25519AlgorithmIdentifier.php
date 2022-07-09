@@ -16,9 +16,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
  */
 class Ed25519AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_ED25519;

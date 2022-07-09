@@ -15,20 +15,13 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class SubjectKeyIdentifierExtension extends Extension
 {
-    /**
+    public function __construct(
+        bool $critical, /**
      * Key identifier.
-     *
-     * @var string
      */
-    protected $_keyIdentifier;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(bool $critical, string $keyIdentifier)
-    {
+    protected string $_keyIdentifier
+    ) {
         parent::__construct(self::OID_SUBJECT_KEY_IDENTIFIER, $critical);
-        $this->_keyIdentifier = $keyIdentifier;
     }
 
     /**

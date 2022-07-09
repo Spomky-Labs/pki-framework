@@ -14,36 +14,31 @@ use function ord;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 use RuntimeException;
+use Stringable;
 
 /**
  * Class to wrap an integer of arbirtary length.
  */
-class BigInt
+class BigInt implements Stringable
 {
     /**
      * Number as a GMP object.
-     *
-     * @var GMP
      */
-    private $_gmp;
+    private readonly GMP $_gmp;
 
     /**
      * Number as a base 10 integer string.
      *
      * @internal Lazily initialized
-     *
-     * @var null|string
      */
-    private $_num;
+    private ?string $_num = null;
 
     /**
      * Number as an integer type.
      *
      * @internal Lazily initialized
-     *
-     * @var null|int
      */
-    private $_intNum;
+    private ?int $_intNum = null;
 
     /**
      * Constructor.
@@ -149,14 +144,11 @@ class BigInt
      */
     public function signedOctets(): string
     {
-        switch (gmp_sign($this->_gmp)) {
-            case 1:
-                return $this->_signedPositiveOctets();
-            case -1:
-                return $this->_signedNegativeOctets();
-        }
-        // zero
-        return chr(0);
+        return match (gmp_sign($this->_gmp)) {
+            1 => $this->_signedPositiveOctets(),
+            -1 => $this->_signedNegativeOctets(),
+            default => chr(0),
+        };
     }
 
     /**

@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1\Value;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\AttributeTypeAndValue;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 
 /**

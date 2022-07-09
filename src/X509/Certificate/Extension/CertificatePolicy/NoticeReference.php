@@ -16,25 +16,19 @@ use Sop\ASN1\Type\UnspecifiedType;
 class NoticeReference
 {
     /**
-     * Organization.
-     *
-     * @var DisplayText
-     */
-    protected $_organization;
-
-    /**
      * Notification reference numbers.
      *
      * @var int[]
      */
     protected $_numbers;
 
+    public function __construct(
     /**
-     * Constructor.
+     * Organization.
      */
-    public function __construct(DisplayText $organization, int ...$numbers)
-    {
-        $this->_organization = $organization;
+    protected DisplayText $_organization,
+        int ...$numbers
+    ) {
         $this->_numbers = $numbers;
     }
 
@@ -45,10 +39,8 @@ class NoticeReference
     {
         $org = DisplayText::fromASN1($seq->at(0)->asString());
         $numbers = array_map(
-            function (UnspecifiedType $el) {
-                return $el->asInteger()
-                    ->intNumber();
-            },
+            fn (UnspecifiedType $el) => $el->asInteger()
+                ->intNumber(),
             $seq->at(1)
                 ->asSequence()
                 ->elements()
@@ -80,9 +72,7 @@ class NoticeReference
     public function toASN1(): Sequence
     {
         $org = $this->_organization->toASN1();
-        $nums = array_map(function ($number) {
-            return new Integer($number);
-        }, $this->_numbers);
+        $nums = array_map(fn ($number) => new Integer($number), $this->_numbers);
         return new Sequence($org, new Sequence(...$nums));
     }
 }

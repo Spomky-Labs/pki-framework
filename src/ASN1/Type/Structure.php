@@ -43,7 +43,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      *
      * @var null|UnspecifiedType[]
      */
-    private $_unspecifiedTypes;
+    private ?array $_unspecifiedTypes = null;
 
     /**
      * Constructor.
@@ -52,9 +52,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function __construct(ElementBase ...$elements)
     {
-        $this->_elements = array_map(function (ElementBase $el) {
-            return $el->asElement();
-        }, $elements);
+        $this->_elements = array_map(fn (ElementBase $el) => $el->asElement(), $elements);
     }
 
     /**
@@ -184,12 +182,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function elements(): array
     {
         if (! isset($this->_unspecifiedTypes)) {
-            $this->_unspecifiedTypes = array_map(
-                function (Element $el) {
-                    return new UnspecifiedType($el);
-                },
-                $this->_elements
-            );
+            $this->_unspecifiedTypes = array_map(fn (Element $el) => new UnspecifiedType($el), $this->_elements);
         }
         return $this->_unspecifiedTypes;
     }

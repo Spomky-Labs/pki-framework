@@ -11,6 +11,7 @@ use IteratorAggregate;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\AttributeValue\AttributeValue;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -18,7 +19,7 @@ use UnexpectedValueException;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.RelativeDistinguishedName
  */
-class RDN implements Countable, IteratorAggregate
+class RDN implements Countable, IteratorAggregate, Stringable
 {
     /**
      * Attributes.
@@ -40,10 +41,7 @@ class RDN implements Countable, IteratorAggregate
         $this->_attribs = $attribs;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -56,9 +54,7 @@ class RDN implements Countable, IteratorAggregate
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         $attribs = array_map(
-            function (AttributeValue $value) {
-                return new AttributeTypeAndValue(new AttributeType($value->oid()), $value);
-            },
+            fn (AttributeValue $value) => new AttributeTypeAndValue(new AttributeType($value->oid()), $value),
             $values
         );
         return new self(...$attribs);
@@ -70,9 +66,7 @@ class RDN implements Countable, IteratorAggregate
     public static function fromASN1(Set $set): self
     {
         $attribs = array_map(
-            function (UnspecifiedType $el) {
-                return AttributeTypeAndValue::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => AttributeTypeAndValue::fromASN1($el->asSequence()),
             $set->elements()
         );
         return new self(...$attribs);
@@ -83,9 +77,7 @@ class RDN implements Countable, IteratorAggregate
      */
     public function toASN1(): Set
     {
-        $elements = array_map(function (AttributeTypeAndValue $tv) {
-            return $tv->toASN1();
-        }, $this->_attribs);
+        $elements = array_map(fn (AttributeTypeAndValue $tv) => $tv->toASN1(), $this->_attribs);
         $set = new Set(...$elements);
         return $set->sortedSetOf();
     }
@@ -97,9 +89,7 @@ class RDN implements Countable, IteratorAggregate
      */
     public function toString(): string
     {
-        $parts = array_map(function (AttributeTypeAndValue $tv) {
-            return $tv->toString();
-        }, $this->_attribs);
+        $parts = array_map(fn (AttributeTypeAndValue $tv) => $tv->toString(), $this->_attribs);
         return implode('+', $parts);
     }
 
@@ -151,12 +141,7 @@ class RDN implements Countable, IteratorAggregate
     public function allOf(string $name): array
     {
         $oid = AttributeType::attrNameToOID($name);
-        $attribs = array_filter(
-            $this->_attribs,
-            function (AttributeTypeAndValue $tv) use ($oid) {
-                return $tv->oid() === $oid;
-            }
-        );
+        $attribs = array_filter($this->_attribs, fn (AttributeTypeAndValue $tv) => $tv->oid() === $oid);
         return array_values($attribs);
     }
 

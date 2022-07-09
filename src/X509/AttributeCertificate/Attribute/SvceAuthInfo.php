@@ -21,35 +21,20 @@ use Sop\X509\GeneralName\GeneralName;
  */
 abstract class SvceAuthInfo extends AttributeValue
 {
-    /**
-     * Service.
-     *
-     * @var GeneralName
-     */
-    protected $_service;
-
-    /**
-     * Ident.
-     *
-     * @var GeneralName
-     */
-    protected $_ident;
-
-    /**
-     * Auth info.
-     *
-     * @var null|string
-     */
-    protected $_authInfo;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
-    {
-        $this->_service = $service;
-        $this->_ident = $ident;
-        $this->_authInfo = $auth_info;
+    public function __construct(
+        /**
+         * Service.
+         */
+        protected GeneralName $_service,
+        /**
+         * Ident.
+         */
+        protected GeneralName $_ident,
+        /**
+         * Auth info.
+         */
+        protected ?string $_authInfo = null
+    ) {
     }
 
     /**

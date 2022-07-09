@@ -14,9 +14,6 @@ class NumericString extends PrimitiveString
 {
     use UniversalClass;
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_NUMERIC_STRING;

@@ -11,9 +11,6 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
  */
 class ECDSAWithSHA384AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_ECDSA_WITH_SHA384;

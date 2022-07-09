@@ -14,6 +14,12 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PublicKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PublicKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PublicKey;
+use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey;
+use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
 
 /**
@@ -24,29 +30,15 @@ use UnexpectedValueException;
 class PublicKeyInfo
 {
     /**
-     * Algorithm identifier.
-     *
-     * @var AlgorithmIdentifierType
-     */
-    protected $_algo;
-
-    /**
-     * Public key.
-     *
-     * @var BitString
-     */
-    protected $_publicKey;
-
-    /**
      * Constructor.
      *
-     * @param AlgorithmIdentifierType $algo Algorithm
-     * @param BitString               $key  Public key data
+     * @param AlgorithmIdentifierType $_algo Algorithm
+     * @param BitString $_publicKey Public key data
      */
-    public function __construct(AlgorithmIdentifierType $algo, BitString $key)
-    {
-        $this->_algo = $algo;
-        $this->_publicKey = $key;
+    public function __construct(
+        protected AlgorithmIdentifierType $_algo,
+        protected BitString $_publicKey
+    ) {
     }
 
     /**
@@ -73,13 +65,11 @@ class PublicKeyInfo
      */
     public static function fromPEM(PEM $pem): self
     {
-        switch ($pem->type()) {
-            case PEM::TYPE_PUBLIC_KEY:
-                return self::fromDER($pem->data());
-            case PEM::TYPE_RSA_PUBLIC_KEY:
-                return RSA\RSAPublicKey::fromDER($pem->data())->publicKeyInfo();
-        }
-        throw new UnexpectedValueException('Invalid PEM type.');
+        return match ($pem->type()) {
+            PEM::TYPE_PUBLIC_KEY => self::fromDER($pem->data()),
+            PEM::TYPE_RSA_PUBLIC_KEY => RSAPublicKey::fromDER($pem->data())->publicKeyInfo(),
+            default => throw new UnexpectedValueException('Invalid PEM type.'),
+        };
     }
 
     /**
@@ -115,26 +105,26 @@ class PublicKeyInfo
         switch ($algo->oid()) {
             // RSA
             case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
-                return RSA\RSAPublicKey::fromDER($this->_publicKey->string());
+                return RSAPublicKey::fromDER($this->_publicKey->string());
             // Elliptic Curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
                     throw new UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data
-                return new EC\ECPublicKey($this->_publicKey->string(), $algo->namedCurve());
+                return new ECPublicKey($this->_publicKey->string(), $algo->namedCurve());
             // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
-                return new RFC8410\Curve25519\Ed25519PublicKey($this->_publicKey->string());
+                return new Ed25519PublicKey($this->_publicKey->string());
             // X25519
             case AlgorithmIdentifier::OID_X25519:
-                return new RFC8410\Curve25519\X25519PublicKey($this->_publicKey->string());
+                return new X25519PublicKey($this->_publicKey->string());
             // Ed448
             case AlgorithmIdentifier::OID_ED448:
-                return new RFC8410\Curve448\Ed448PublicKey($this->_publicKey->string());
+                return new Ed448PublicKey($this->_publicKey->string());
             // X448
             case AlgorithmIdentifier::OID_X448:
-                return new RFC8410\Curve448\X448PublicKey($this->_publicKey->string());
+                return new X448PublicKey($this->_publicKey->string());
         }
         throw new RuntimeException('Public key ' . $algo->name() . ' not supported.');
     }

@@ -11,9 +11,6 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
  */
 class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorithmIdentifier
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_SHA1_WITH_RSA_ENCRYPTION;

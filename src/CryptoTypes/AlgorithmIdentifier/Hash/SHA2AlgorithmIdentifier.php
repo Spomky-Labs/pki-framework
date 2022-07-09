@@ -35,9 +35,6 @@ abstract class SHA2AlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
      */
     protected $_params;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_params = null;

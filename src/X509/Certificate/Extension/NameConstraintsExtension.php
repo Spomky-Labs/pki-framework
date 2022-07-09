@@ -19,33 +19,17 @@ use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
 class NameConstraintsExtension extends Extension
 {
     /**
-     * Permitted subtrees.
-     *
-     * @var null|GeneralSubtrees
-     */
-    protected $_permitted;
-
-    /**
-     * Excluded subtrees.
-     *
-     * @var null|GeneralSubtrees
-     */
-    protected $_excluded;
-
-    /**
      * Constructor.
      *
-     * @param GeneralSubtrees $permitted
-     * @param GeneralSubtrees $excluded
+     * @param GeneralSubtrees $_permitted
+     * @param GeneralSubtrees $_excluded
      */
     public function __construct(
         bool $critical,
-        ?GeneralSubtrees $permitted = null,
-        ?GeneralSubtrees $excluded = null
+        protected ?GeneralSubtrees $_permitted = null,
+        protected ?GeneralSubtrees $_excluded = null
     ) {
         parent::__construct(self::OID_NAME_CONSTRAINTS, $critical);
-        $this->_permitted = $permitted;
-        $this->_excluded = $excluded;
     }
 
     /**

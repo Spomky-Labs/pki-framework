@@ -12,6 +12,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Signature\Signature;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -19,37 +20,22 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1
  */
-class Certificate
+class Certificate implements Stringable
 {
-    /**
-     * "To be signed" certificate information.
-     *
-     * @var TBSCertificate
-     */
-    protected $_tbsCertificate;
-
-    /**
-     * Signature algorithm.
-     *
-     * @var SignatureAlgorithmIdentifier
-     */
-    protected $_signatureAlgorithm;
-
-    /**
-     * Signature value.
-     *
-     * @var Signature
-     */
-    protected $_signatureValue;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(TBSCertificate $tbsCert, SignatureAlgorithmIdentifier $algo, Signature $signature)
-    {
-        $this->_tbsCertificate = $tbsCert;
-        $this->_signatureAlgorithm = $algo;
-        $this->_signatureValue = $signature;
+    public function __construct(
+        /**
+         * "To be signed" certificate information.
+         */
+        protected TBSCertificate $_tbsCertificate,
+        /**
+         * Signature algorithm.
+         */
+        protected SignatureAlgorithmIdentifier $_signatureAlgorithm,
+        /**
+         * Signature value.
+         */
+        protected Signature $_signatureValue
+    ) {
     }
 
     /**
@@ -177,7 +163,7 @@ class Certificate
      */
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $data = $this->_tbsCertificate->toASN1()
             ->toDER();
         return $crypto->verify($data, $this->_signatureValue, $pubkey_info, $this->_signatureAlgorithm);

@@ -28,13 +28,6 @@ class ObjectIdentifier extends Element
     use PrimitiveType;
 
     /**
-     * Object identifier in dotted format.
-     *
-     * @var string
-     */
-    protected $_oid;
-
-    /**
      * Object identifier split to sub ID's.
      *
      * @var GMP[]
@@ -44,12 +37,11 @@ class ObjectIdentifier extends Element
     /**
      * Constructor.
      *
-     * @param string $oid OID in dotted format
+     * @param string $_oid OID in dotted format
      */
-    public function __construct(string $oid)
+    public function __construct(protected string $_oid)
     {
-        $this->_oid = $oid;
-        $this->_subids = self::_explodeDottedOID($oid);
+        $this->_subids = self::_explodeDottedOID($_oid);
         // if OID is non-empty
         if (count($this->_subids) > 0) {
             // check that at least two nodes are set
@@ -134,9 +126,7 @@ class ObjectIdentifier extends Element
      */
     protected static function _implodeSubIDs(GMP ...$subids): string
     {
-        return implode('.', array_map(function ($num) {
-            return gmp_strval($num, 10);
-        }, $subids));
+        return implode('.', array_map(fn ($num) => gmp_strval($num, 10), $subids));
     }
 
     /**

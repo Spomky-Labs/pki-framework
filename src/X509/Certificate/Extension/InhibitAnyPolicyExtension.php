@@ -15,18 +15,11 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class InhibitAnyPolicyExtension extends Extension
 {
-    /**
-     * @var int
-     */
-    protected $_skipCerts;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(bool $critical, int $skip_certs)
-    {
+    public function __construct(
+        bool $critical,
+        protected int $_skipCerts
+    ) {
         parent::__construct(self::OID_INHIBIT_ANY_POLICY, $critical);
-        $this->_skipCerts = $skip_certs;
     }
 
     public function skipCerts(): int

@@ -16,20 +16,12 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class UniformResourceIdentifier extends GeneralName
 {
-    /**
+    public function __construct(/**
      * URI.
-     *
-     * @var string
      */
-    protected $_uri;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $uri)
-    {
+    protected string $_uri
+    ) {
         $this->_tag = self::TAG_URI;
-        $this->_uri = $uri;
     }
 
     /**

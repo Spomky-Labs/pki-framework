@@ -11,9 +11,6 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
  */
 class HMACWithSHA384AlgorithmIdentifier extends RFC4231HMACAlgorithmIdentifier
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_HMAC_WITH_SHA384;

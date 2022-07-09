@@ -36,9 +36,6 @@ class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Has
      */
     protected $_params;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_SHA1;

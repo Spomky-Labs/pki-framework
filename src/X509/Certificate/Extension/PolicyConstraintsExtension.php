@@ -18,27 +18,12 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class PolicyConstraintsExtension extends Extension
 {
-    /**
-     * @var null|int
-     */
-    protected $_requireExplicitPolicy;
-
-    /**
-     * @var null|int
-     */
-    protected $_inhibitPolicyMapping;
-
-    /**
-     * Constructor.
-     */
     public function __construct(
         bool $critical,
-        ?int $require_explicit_policy = null,
-        ?int $inhibit_policy_mapping = null
+        protected ?int $_requireExplicitPolicy = null,
+        protected ?int $_inhibitPolicyMapping = null
     ) {
         parent::__construct(self::OID_POLICY_CONSTRAINTS, $critical);
-        $this->_requireExplicitPolicy = $require_explicit_policy;
-        $this->_inhibitPolicyMapping = $inhibit_policy_mapping;
     }
 
     /**

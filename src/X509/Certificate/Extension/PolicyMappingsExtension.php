@@ -97,12 +97,7 @@ class PolicyMappingsExtension extends Extension implements Countable, IteratorAg
      */
     public function issuerDomainPolicies(): array
     {
-        $idps = array_map(
-            function (PolicyMapping $mapping) {
-                return $mapping->issuerDomainPolicy();
-            },
-            $this->_mappings
-        );
+        $idps = array_map(fn (PolicyMapping $mapping) => $mapping->issuerDomainPolicy(), $this->_mappings);
         return array_values(array_unique($idps));
     }
 
@@ -147,9 +142,7 @@ class PolicyMappingsExtension extends Extension implements Countable, IteratorAg
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $mappings = array_map(
-            function (UnspecifiedType $el) {
-                return PolicyMapping::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => PolicyMapping::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($mappings)) {
@@ -163,9 +156,7 @@ class PolicyMappingsExtension extends Extension implements Countable, IteratorAg
         if (! count($this->_mappings)) {
             throw new LogicException('No mappings.');
         }
-        $elements = array_map(function (PolicyMapping $mapping) {
-            return $mapping->toASN1();
-        }, $this->_mappings);
+        $elements = array_map(fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->_mappings);
         return new Sequence(...$elements);
     }
 }

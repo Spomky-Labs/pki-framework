@@ -11,6 +11,7 @@ use IteratorAggregate;
 use LogicException;
 use const PREG_SET_ORDER;
 use RuntimeException;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -18,7 +19,7 @@ use UnexpectedValueException;
  *
  * The order of PEMs shall be retained, eg. when read from a file.
  */
-class PEMBundle implements Countable, IteratorAggregate
+class PEMBundle implements Countable, IteratorAggregate, Stringable
 {
     /**
      * Array of PEM objects.
@@ -27,9 +28,6 @@ class PEMBundle implements Countable, IteratorAggregate
      */
     protected $_pems;
 
-    /**
-     * Constructor.
-     */
     public function __construct(PEM ...$pems)
     {
         $this->_pems = $pems;
@@ -142,8 +140,6 @@ class PEMBundle implements Countable, IteratorAggregate
      */
     public function string(): string
     {
-        return implode("\n", array_map(function (PEM $pem) {
-            return $pem->string();
-        }, $this->_pems));
+        return implode("\n", array_map(fn (PEM $pem) => $pem->string(), $this->_pems));
     }
 }

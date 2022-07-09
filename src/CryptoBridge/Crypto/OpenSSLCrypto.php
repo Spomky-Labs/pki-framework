@@ -39,7 +39,7 @@ class OpenSSLCrypto extends Crypto
      *
      * @var array
      */
-    public const MAP_DIGEST_OID = [
+    final public const MAP_DIGEST_OID = [
         AlgorithmIdentifier::OID_MD4_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_MD4,
         AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_MD5,
         AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_SHA1,
@@ -61,7 +61,7 @@ class OpenSSLCrypto extends Crypto
      *
      * @var array
      */
-    public const MAP_CIPHER_OID = [
+    final public const MAP_CIPHER_OID = [
         AlgorithmIdentifier::OID_DES_CBC => 'des-cbc',
         AlgorithmIdentifier::OID_DES_EDE3_CBC => 'des-ede3-cbc',
         AlgorithmIdentifier::OID_AES_128_CBC => 'aes-128-cbc',
@@ -224,14 +224,11 @@ class OpenSSLCrypto extends Crypto
      */
     protected function _rc2AlgoToCipher(RC2CBCAlgorithmIdentifier $algo): string
     {
-        switch ($algo->effectiveKeyBits()) {
-            case 128:
-                return 'rc2-cbc';
-            case 64:
-                return 'rc2-64-cbc';
-            case 40:
-                return 'rc2-40-cbc';
-        }
-        throw new UnexpectedValueException($algo->effectiveKeyBits() . ' bit RC2 not supported.');
+        return match ($algo->effectiveKeyBits()) {
+            128 => 'rc2-cbc',
+            64 => 'rc2-64-cbc',
+            40 => 'rc2-40-cbc',
+            default => throw new UnexpectedValueException($algo->effectiveKeyBits() . ' bit RC2 not supported.'),
+        };
     }
 }

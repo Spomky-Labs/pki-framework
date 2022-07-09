@@ -17,21 +17,13 @@ use Sop\ASN1\Type\UnspecifiedType;
 class RegisteredID extends GeneralName
 {
     /**
-     * Object identifier.
-     *
-     * @var string
-     */
-    protected $_oid;
-
-    /**
      * Constructor.
      *
-     * @param string $oid OID in dotted format
+     * @param string $_oid OID in dotted format
      */
-    public function __construct(string $oid)
+    public function __construct(protected string $_oid)
     {
         $this->_tag = self::TAG_REGISTERED_ID;
-        $this->_oid = $oid;
     }
 
     /**

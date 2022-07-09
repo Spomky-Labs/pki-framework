@@ -30,7 +30,7 @@ class GeneralizedTime extends BaseTime
      *
      * @var string
      */
-    public const REGEX = '#^' .
+    final public const REGEX = '#^' .
         '(\d\d\d\d)' . // YYYY
         '(\d\d)' . // MM
         '(\d\d)' . // DD
@@ -48,9 +48,6 @@ class GeneralizedTime extends BaseTime
      */
     private $_formatted;
 
-    /**
-     * Constructor.
-     */
     public function __construct(DateTimeImmutable $dt)
     {
         $this->_typeTag = self::TYPE_GENERALIZED_TIME;
@@ -100,7 +97,6 @@ class GeneralizedTime extends BaseTime
             if ('0' === $frac[mb_strlen($frac, '8bit') - 1]) {
                 throw new DecodeException('Fractional seconds must omit trailing zeroes.');
             }
-            $frac = $frac;
         } else {
             $frac = '0';
         }

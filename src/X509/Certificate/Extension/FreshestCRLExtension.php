@@ -13,9 +13,6 @@ use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
  */
 class FreshestCRLExtension extends CRLDistributionPointsExtension
 {
-    /**
-     * Constructor.
-     */
     public function __construct(bool $critical, DistributionPoint ...$distribution_points)
     {
         Extension::__construct(self::OID_FRESHEST_CRL, $critical);

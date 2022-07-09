@@ -15,20 +15,12 @@ use Sop\X501\ASN1\RDN;
  */
 class RelativeName extends DistributionPointName
 {
-    /**
+    public function __construct(/**
      * Relative distinguished name.
-     *
-     * @var RDN
      */
-    protected $_rdn;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(RDN $rdn)
-    {
+    protected RDN $_rdn
+    ) {
         $this->_tag = self::TAG_RDN;
-        $this->_rdn = $rdn;
     }
 
     public function rdn(): RDN

@@ -23,20 +23,6 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 class ACValidator
 {
     /**
-     * Attribute certificate.
-     *
-     * @var AttributeCertificate
-     */
-    protected $_ac;
-
-    /**
-     * Validation configuration.
-     *
-     * @var ACValidationConfig
-     */
-    protected $_config;
-
-    /**
      * Crypto engine.
      *
      * @var Crypto
@@ -46,14 +32,15 @@ class ACValidator
     /**
      * Constructor.
      *
-     * @param AttributeCertificate $ac     Attribute certificate to validate
-     * @param ACValidationConfig   $config Validation configuration
+     * @param AttributeCertificate $_ac Attribute certificate to validate
+     * @param ACValidationConfig $_config Validation configuration
      * @param null|Crypto          $crypto Crypto engine, use default if not set
      */
-    public function __construct(AttributeCertificate $ac, ACValidationConfig $config, ?Crypto $crypto = null)
-    {
-        $this->_ac = $ac;
-        $this->_config = $config;
+    public function __construct(
+        protected AttributeCertificate $_ac,
+        protected ACValidationConfig $_config,
+        ?Crypto $crypto = null
+    ) {
         $this->_crypto = $crypto ?? Crypto::getDefault();
     }
 

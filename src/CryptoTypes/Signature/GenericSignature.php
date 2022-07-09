@@ -13,29 +13,15 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 class GenericSignature extends Signature
 {
     /**
-     * Signature value.
-     *
-     * @var BitString
-     */
-    private $_signature;
-
-    /**
-     * Signature algorithm.
-     *
-     * @var AlgorithmIdentifierType
-     */
-    private $_signatureAlgorithm;
-
-    /**
      * Constructor.
      *
-     * @param BitString               $signature Signature value
-     * @param AlgorithmIdentifierType $algo      Algorithm identifier
+     * @param BitString $_signature Signature value
+     * @param AlgorithmIdentifierType $_signatureAlgorithm Algorithm identifier
      */
-    public function __construct(BitString $signature, AlgorithmIdentifierType $algo)
-    {
-        $this->_signature = $signature;
-        $this->_signatureAlgorithm = $algo;
+    public function __construct(
+        private readonly BitString $_signature,
+        private readonly AlgorithmIdentifierType $_signatureAlgorithm
+    ) {
     }
 
     /**

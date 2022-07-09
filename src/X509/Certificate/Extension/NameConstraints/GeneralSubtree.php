@@ -18,35 +18,20 @@ use Sop\X509\GeneralName\GeneralName;
  */
 class GeneralSubtree
 {
-    /**
-     * Constraint.
-     *
-     * @var GeneralName
-     */
-    protected $_base;
-
-    /**
-     * Not used, must be zero.
-     *
-     * @var int
-     */
-    protected $_min;
-
-    /**
-     * Not used, must be null.
-     *
-     * @var null|int
-     */
-    protected $_max;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(GeneralName $base, int $min = 0, ?int $max = null)
-    {
-        $this->_base = $base;
-        $this->_min = $min;
-        $this->_max = $max;
+    public function __construct(
+        /**
+         * Constraint.
+         */
+        protected GeneralName $_base,
+        /**
+         * Not used, must be zero.
+         */
+        protected int $_min = 0,
+        /**
+         * Not used, must be null.
+         */
+        protected ?int $_max = null
+    ) {
     }
 
     /**

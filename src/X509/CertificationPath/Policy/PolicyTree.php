@@ -14,20 +14,12 @@ use Sop\X509\CertificationPath\PathValidation\ValidatorState;
 class PolicyTree
 {
     /**
-     * Root node at depth zero.
-     *
-     * @var null|PolicyNode
-     */
-    protected $_root;
-
-    /**
      * Constructor.
      *
-     * @param PolicyNode $root Initial root node
+     * @param PolicyNode $_root Initial root node
      */
-    public function __construct(PolicyNode $root)
+    public function __construct(protected ?PolicyNode $_root)
     {
-        $this->_root = $root;
     }
 
     /**
@@ -98,12 +90,7 @@ class PolicyTree
             }
         );
         // array of valid policy OIDs
-        $valid_policy_set = array_map(
-            function (PolicyNode $node) {
-                return $node->validPolicy();
-            },
-            $valid_policy_node_set
-        );
+        $valid_policy_set = array_map(fn (PolicyNode $node) => $node->validPolicy(), $valid_policy_node_set);
         // 3. If the valid_policy_tree includes a node of depth n with
         // the valid_policy anyPolicy and the user-initial-policy-set
         // is not any-policy
@@ -269,7 +256,7 @@ class PolicyTree
                                 ->certificatePolicies()
                                 ->anyPolicy()
                                 ->qualifiers();
-                        } catch (LogicException $e) {
+                        } catch (LogicException) {
                             // if there's no policies or no qualifiers
                             $qualifiers = [];
                         }

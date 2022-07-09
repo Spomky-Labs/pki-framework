@@ -16,20 +16,12 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class FullName extends DistributionPointName
 {
-    /**
+    public function __construct(/**
      * Names.
-     *
-     * @var GeneralNames
      */
-    protected $_names;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(GeneralNames $names)
-    {
+    protected GeneralNames $_names
+    ) {
         $this->_tag = self::TAG_FULL_NAME;
-        $this->_names = $names;
     }
 
     /**

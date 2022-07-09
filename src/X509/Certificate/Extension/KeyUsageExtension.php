@@ -15,38 +15,31 @@ use Sop\ASN1\Util\Flags;
  */
 class KeyUsageExtension extends Extension
 {
-    public const DIGITAL_SIGNATURE = 0x100;
+    final public const DIGITAL_SIGNATURE = 0x100;
 
-    public const NON_REPUDIATION = 0x080;
+    final public const NON_REPUDIATION = 0x080;
 
-    public const KEY_ENCIPHERMENT = 0x040;
+    final public const KEY_ENCIPHERMENT = 0x040;
 
-    public const DATA_ENCIPHERMENT = 0x020;
+    final public const DATA_ENCIPHERMENT = 0x020;
 
-    public const KEY_AGREEMENT = 0x010;
+    final public const KEY_AGREEMENT = 0x010;
 
-    public const KEY_CERT_SIGN = 0x008;
+    final public const KEY_CERT_SIGN = 0x008;
 
-    public const CRL_SIGN = 0x004;
+    final public const CRL_SIGN = 0x004;
 
-    public const ENCIPHER_ONLY = 0x002;
+    final public const ENCIPHER_ONLY = 0x002;
 
-    public const DECIPHER_ONLY = 0x001;
+    final public const DECIPHER_ONLY = 0x001;
 
-    /**
+    public function __construct(
+        bool $critical, /**
      * Key usage flags.
-     *
-     * @var int
      */
-    protected $_keyUsage;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(bool $critical, int $keyUsage)
-    {
+    protected int $_keyUsage
+    ) {
         parent::__construct(self::OID_KEY_USAGE, $critical);
-        $this->_keyUsage = $keyUsage;
     }
 
     /**

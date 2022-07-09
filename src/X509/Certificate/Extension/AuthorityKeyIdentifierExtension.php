@@ -24,20 +24,6 @@ use UnexpectedValueException;
 class AuthorityKeyIdentifierExtension extends Extension
 {
     /**
-     * Key identifier.
-     *
-     * @var null|string
-     */
-    protected $_keyIdentifier;
-
-    /**
-     * Issuer name.
-     *
-     * @var null|GeneralNames
-     */
-    protected $_authorityCertIssuer;
-
-    /**
      * Issuer serial number as a base 10 integer.
      *
      * @var null|string
@@ -48,26 +34,22 @@ class AuthorityKeyIdentifierExtension extends Extension
      * Constructor.
      *
      * @param bool              $critical      Conforming CA's must mark as non-critical (false)
-     * @param null|string       $keyIdentifier Key identifier
-     * @param null|GeneralNames $issuer        Issuer name
+     * @param null|string $_keyIdentifier Key identifier
+     * @param null|GeneralNames $_authorityCertIssuer Issuer name
      * @param null|int|string   $serial        Issuer serial number as a base 10 integer
      */
     public function __construct(
         bool $critical,
-        ?string $keyIdentifier,
-        ?GeneralNames $issuer = null,
+        protected ?string $_keyIdentifier,
+        protected ?GeneralNames $_authorityCertIssuer = null,
         $serial = null
     ) {
         parent::__construct(self::OID_AUTHORITY_KEY_IDENTIFIER, $critical);
-        $this->_keyIdentifier = $keyIdentifier;
-        $this->_authorityCertIssuer = $issuer;
         $this->_authorityCertSerialNumber = isset($serial) ? strval($serial) : null;
     }
 
     /**
      * Create from public key info.
-     *
-     * @return AuthorityKeyIdentifierExtension
      */
     public static function fromPublicKeyInfo(PublicKeyInfo $pki): self
     {

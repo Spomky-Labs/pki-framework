@@ -19,14 +19,9 @@ class Ed25519Signature extends Signature
 {
     /**
      * Signature value.
-     *
-     * @var string
      */
-    private $_signature;
+    private readonly string $_signature;
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $signature)
     {
         if (64 !== mb_strlen($signature, '8bit')) {

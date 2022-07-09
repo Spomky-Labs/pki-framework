@@ -41,8 +41,6 @@ abstract class Target
 
     /**
      * Initialize concrete object from the chosen ASN.1 element.
-     *
-     * @return self
      */
     abstract public static function fromChosenASN1(TaggedType $el): Target;
 
@@ -51,15 +49,12 @@ abstract class Target
      */
     public static function fromASN1(TaggedType $el): self
     {
-        switch ($el->tag()) {
-            case self::TYPE_NAME:
-                return TargetName::fromChosenASN1($el->asExplicit()->asTagged());
-            case self::TYPE_GROUP:
-                return TargetGroup::fromChosenASN1($el->asExplicit()->asTagged());
-            case self::TYPE_CERT:
-                throw new RuntimeException('targetCert not supported.');
-        }
-        throw new UnexpectedValueException('Target type ' . $el->tag() . ' not supported.');
+        return match ($el->tag()) {
+            self::TYPE_NAME => TargetName::fromChosenASN1($el->asExplicit()->asTagged()),
+            self::TYPE_GROUP => TargetGroup::fromChosenASN1($el->asExplicit()->asTagged()),
+            self::TYPE_CERT => throw new RuntimeException('targetCert not supported.'),
+            default => throw new UnexpectedValueException('Target type ' . $el->tag() . ' not supported.'),
+        };
     }
 
     /**

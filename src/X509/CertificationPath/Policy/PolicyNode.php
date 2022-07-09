@@ -22,32 +22,11 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 final class PolicyNode implements IteratorAggregate, Countable
 {
     /**
-     * Policy OID.
-     *
-     * @var string
-     */
-    private $_validPolicy;
-
-    /**
-     * List of qualifiers.
-     *
-     * @var PolicyQualifierInfo[]
-     */
-    private $_qualifiers;
-
-    /**
-     * List of expected policy OIDs.
-     *
-     * @var string[]
-     */
-    private $_expectedPolicies;
-
-    /**
      * List of child nodes.
      *
      * @var PolicyNode[]
      */
-    private $_children;
+    private array $_children;
 
     /**
      * Reference to the parent node.
@@ -59,15 +38,19 @@ final class PolicyNode implements IteratorAggregate, Countable
     /**
      * Constructor.
      *
-     * @param string                $valid_policy      Policy OID
-     * @param PolicyQualifierInfo[] $qualifiers
-     * @param string[]              $expected_policies
+     * @param string $_validPolicy Policy OID
+     * @param PolicyQualifierInfo[] $_qualifiers
+     * @param string[] $_expectedPolicies
      */
-    public function __construct(string $valid_policy, array $qualifiers, array $expected_policies)
-    {
-        $this->_validPolicy = $valid_policy;
-        $this->_qualifiers = $qualifiers;
-        $this->_expectedPolicies = $expected_policies;
+    public function __construct(
+        private readonly string $_validPolicy, /**
+     * List of qualifiers.
+     */
+    private readonly array $_qualifiers, /**
+     * List of expected policy OIDs.
+     */
+    private array $_expectedPolicies
+    ) {
         $this->_children = [];
     }
 

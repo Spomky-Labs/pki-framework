@@ -7,39 +7,31 @@ namespace Sop\X501\ASN1;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\AttributeValue\AttributeValue;
 use Sop\X501\ASN1\Feature\TypedAttribute;
+use Stringable;
 
 /**
  * Implements *AttributeTypeAndValue* ASN.1 type.
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.AttributeTypeAndValue
  */
-class AttributeTypeAndValue
+class AttributeTypeAndValue implements Stringable
 {
     use TypedAttribute;
-
-    /**
-     * Attribute value.
-     *
-     * @var AttributeValue
-     */
-    protected $_value;
 
     /**
      * Constructor.
      *
      * @param AttributeType  $type  Attribute type
-     * @param AttributeValue $value Attribute value
+     * @param AttributeValue $_value Attribute value
      */
-    public function __construct(AttributeType $type, AttributeValue $value)
-    {
+    public function __construct(
+        AttributeType $type,
+        protected AttributeValue $_value
+    ) {
         $this->_type = $type;
-        $this->_value = $value;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }

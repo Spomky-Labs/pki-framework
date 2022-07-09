@@ -18,20 +18,12 @@ use Sop\X509\CertificationPath\Exception\PathBuildingException;
 class CertificationPathBuilder
 {
     /**
-     * Trust anchors.
-     *
-     * @var CertificateBundle
-     */
-    protected $_trustList;
-
-    /**
      * Constructor.
      *
-     * @param CertificateBundle $trust_list List of trust anchors
+     * @param CertificateBundle $_trustList List of trust anchors
      */
-    public function __construct(CertificateBundle $trust_list)
+    public function __construct(protected CertificateBundle $_trustList)
     {
-        $this->_trustList = $trust_list;
     }
 
     /**
@@ -46,9 +38,7 @@ class CertificationPathBuilder
     {
         $paths = $this->_resolvePathsToTarget($target, $intermediate);
         // map paths to CertificationPath objects
-        return array_map(function ($certs) {
-            return new CertificationPath(...$certs);
-        }, $paths);
+        return array_map(fn ($certs) => new CertificationPath(...$certs), $paths);
     }
 
     /**
@@ -65,9 +55,7 @@ class CertificationPathBuilder
         if (! count($paths)) {
             throw new PathBuildingException('No certification paths.');
         }
-        usort($paths, function ($a, $b) {
-            return count($a) < count($b) ? -1 : 1;
-        });
+        usort($paths, fn ($a, $b) => count($a) < count($b) ? -1 : 1);
         return reset($paths);
     }
 

@@ -7,6 +7,7 @@ namespace Sop\CryptoTypes\Asymmetric;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
 
 /**
@@ -47,12 +48,10 @@ abstract class PublicKey
      */
     public static function fromPEM(PEM $pem)
     {
-        switch ($pem->type()) {
-            case PEM::TYPE_RSA_PUBLIC_KEY:
-                return RSA\RSAPublicKey::fromDER($pem->data());
-            case PEM::TYPE_PUBLIC_KEY:
-                return PublicKeyInfo::fromPEM($pem)->publicKey();
-        }
-        throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid public key.');
+        return match ($pem->type()) {
+            PEM::TYPE_RSA_PUBLIC_KEY => RSAPublicKey::fromDER($pem->data()),
+            PEM::TYPE_PUBLIC_KEY => PublicKeyInfo::fromPEM($pem)->publicKey(),
+            default => throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid public key.'),
+        };
     }
 }

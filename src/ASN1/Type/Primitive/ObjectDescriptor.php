@@ -14,9 +14,6 @@ class ObjectDescriptor extends PrimitiveString
 {
     use UniversalClass;
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $descriptor)
     {
         $this->_string = $descriptor;

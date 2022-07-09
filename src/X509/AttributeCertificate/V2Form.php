@@ -20,13 +20,6 @@ use Sop\X509\GeneralName\GeneralNames;
 class V2Form extends AttCertIssuer
 {
     /**
-     * Issuer name.
-     *
-     * @var null|GeneralNames
-     */
-    protected $_issuerName;
-
-    /**
      * Issuer PKC's issuer and serial.
      *
      * @var IssuerSerial
@@ -40,12 +33,11 @@ class V2Form extends AttCertIssuer
      */
     protected $_objectDigestInfo;
 
-    /**
-     * Constructor.
+    public function __construct(/**
+     * Issuer name.
      */
-    public function __construct(?GeneralNames $names = null)
-    {
-        $this->_issuerName = $names;
+    protected ?GeneralNames $_issuerName = null
+    ) {
         $this->_baseCertificateID = null;
         $this->_objectDigestInfo = null;
     }

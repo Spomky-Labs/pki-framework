@@ -21,7 +21,7 @@ class TranscodeStep implements PrepareStep
      *
      * @var array
      */
-    public const SUPPORTED_TYPES = [
+    final public const SUPPORTED_TYPES = [
         Element::TYPE_UTF8_STRING,
         Element::TYPE_PRINTABLE_STRING,
         Element::TYPE_BMP_STRING,
@@ -30,20 +30,12 @@ class TranscodeStep implements PrepareStep
     ];
 
     /**
-     * ASN.1 type of the string.
-     *
-     * @var int
-     */
-    protected $_type;
-
-    /**
      * Constructor.
      *
-     * @param int $type ASN.1 type tag of the string
+     * @param int $_type ASN.1 type tag of the string
      */
-    public function __construct(int $type)
+    public function __construct(protected int $_type)
     {
-        $this->_type = $type;
     }
 
     /**
@@ -66,7 +58,6 @@ class TranscodeStep implements PrepareStep
         switch ($this->_type) {
             // UTF-8 string as is
             case Element::TYPE_UTF8_STRING:
-                return $string;
             // PrintableString maps directly to UTF-8
             case Element::TYPE_PRINTABLE_STRING:
                 return $string;

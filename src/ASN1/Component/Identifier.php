@@ -18,13 +18,13 @@ use Sop\ASN1\Util\BigInt;
 class Identifier implements Encodable
 {
     // Type class enumerations
-    public const CLASS_UNIVERSAL = 0b00;
+    final public const CLASS_UNIVERSAL = 0b00;
 
-    public const CLASS_APPLICATION = 0b01;
+    final public const CLASS_APPLICATION = 0b01;
 
-    public const CLASS_CONTEXT_SPECIFIC = 0b10;
+    final public const CLASS_CONTEXT_SPECIFIC = 0b10;
 
-    public const CLASS_PRIVATE = 0b11;
+    final public const CLASS_PRIVATE = 0b11;
 
     /**
      * Mapping from type class to human readable name.
@@ -33,7 +33,7 @@ class Identifier implements Encodable
      *
      * @var array
      */
-    public const MAP_CLASS_TO_NAME = [
+    final public const MAP_CLASS_TO_NAME = [
         self::CLASS_UNIVERSAL => 'UNIVERSAL',
         self::CLASS_APPLICATION => 'APPLICATION',
         self::CLASS_CONTEXT_SPECIFIC => 'CONTEXT SPECIFIC',
@@ -41,30 +41,24 @@ class Identifier implements Encodable
     ];
 
     // P/C enumerations
-    public const PRIMITIVE = 0b0;
+    final public const PRIMITIVE = 0b0;
 
-    public const CONSTRUCTED = 0b1;
+    final public const CONSTRUCTED = 0b1;
 
     /**
      * Type class.
-     *
-     * @var int
      */
-    private $_class;
+    private int $_class;
 
     /**
      * Primitive or Constructed.
-     *
-     * @var int
      */
-    private $_pc;
+    private readonly int $_pc;
 
     /**
      * Content type tag.
-     *
-     * @var BigInt
      */
-    private $_tag;
+    private BigInt $_tag;
 
     /**
      * Constructor.
@@ -88,8 +82,6 @@ class Identifier implements Encodable
      * into the data where to start parsing.
      * Variable is updated to the offset next to the
      * parsed identifier. If null, start from offset 0.
-     *
-     * @return self
      */
     public static function fromDER(string $data, int &$offset = null): Identifier
     {
@@ -223,8 +215,6 @@ class Identifier implements Encodable
      * Get self with given type class.
      *
      * @param int $class One of `CLASS_*` enumerations
-     *
-     * @return self
      */
     public function withClass(int $class): Identifier
     {
@@ -237,10 +227,8 @@ class Identifier implements Encodable
      * Get self with given type tag.
      *
      * @param GMP|int|string $tag Tag number
-     *
-     * @return self
      */
-    public function withTag($tag): Identifier
+    public function withTag(GMP|int|string $tag): Identifier
     {
         $obj = clone $this;
         $obj->_tag = new BigInt($tag);

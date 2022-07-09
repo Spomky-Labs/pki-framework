@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1\AttributeValue;
 
+use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\DN\DNParser;
@@ -16,20 +17,13 @@ use Sop\X501\StringPrep\TranscodeStep;
  */
 class UnknownAttributeValue extends AttributeValue
 {
-    /**
+    public function __construct(
+        string $oid, /**
      * ASN.1 element.
-     *
-     * @var Element
      */
-    protected $_element;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $oid, Element $el)
-    {
+    protected Element $_element
+    ) {
         $this->_oid = $oid;
-        $this->_element = $el;
     }
 
     public function toASN1(): Element
@@ -76,6 +70,6 @@ class UnknownAttributeValue extends AttributeValue
 
     public static function fromASN1(UnspecifiedType $el): AttributeValue
     {
-        throw new \BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
+        throw new BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
     }
 }

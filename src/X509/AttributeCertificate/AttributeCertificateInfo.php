@@ -26,7 +26,7 @@ use UnexpectedValueException;
  */
 class AttributeCertificateInfo
 {
-    public const VERSION_2 = 1;
+    final public const VERSION_2 = 1;
 
     /**
      * AC version.
@@ -34,20 +34,6 @@ class AttributeCertificateInfo
      * @var int
      */
     protected $_version;
-
-    /**
-     * AC holder.
-     *
-     * @var Holder
-     */
-    protected $_holder;
-
-    /**
-     * AC issuer.
-     *
-     * @var AttCertIssuer
-     */
-    protected $_issuer;
 
     /**
      * Signature algorithm identifier.
@@ -62,20 +48,6 @@ class AttributeCertificateInfo
      * @var string
      */
     protected $_serialNumber;
-
-    /**
-     * Validity period.
-     *
-     * @var AttCertValidityPeriod
-     */
-    protected $_attrCertValidityPeriod;
-
-    /**
-     * Attributes.
-     *
-     * @var Attributes
-     */
-    protected $_attributes;
 
     /**
      * Issuer unique identifier.
@@ -94,22 +66,18 @@ class AttributeCertificateInfo
     /**
      * Constructor.
      *
-     * @param Holder                $holder   AC holder
-     * @param AttCertIssuer         $issuer   AC issuer
-     * @param AttCertValidityPeriod $validity Validity
-     * @param Attributes            $attribs  Attributes
+     * @param Holder $_holder AC holder
+     * @param AttCertIssuer $_issuer AC issuer
+     * @param AttCertValidityPeriod $_attrCertValidityPeriod Validity
+     * @param Attributes $_attributes Attributes
      */
     public function __construct(
-        Holder $holder,
-        AttCertIssuer $issuer,
-        AttCertValidityPeriod $validity,
-        Attributes $attribs
+        protected Holder $_holder,
+        protected AttCertIssuer $_issuer,
+        protected AttCertValidityPeriod $_attrCertValidityPeriod,
+        protected Attributes $_attributes
     ) {
         $this->_version = self::VERSION_2;
-        $this->_holder = $holder;
-        $this->_issuer = $issuer;
-        $this->_attrCertValidityPeriod = $validity;
-        $this->_attributes = $attribs;
         $this->_extensions = new Extensions();
     }
 
@@ -183,7 +151,7 @@ class AttributeCertificateInfo
      *
      * @param int|string $serial Base 10 serial number
      */
-    public function withSerialNumber($serial): self
+    public function withSerialNumber(int|string $serial): self
     {
         $obj = clone $this;
         $obj->_serialNumber = strval($serial);
@@ -198,10 +166,10 @@ class AttributeCertificateInfo
     public function withRandomSerialNumber(int $size = 16): self
     {
         // ensure that first byte is always non-zero and having first bit unset
-        $num = gmp_init(mt_rand(1, 0x7f), 10);
+        $num = gmp_init(random_int(1, 0x7f), 10);
         for ($i = 1; $i < $size; ++$i) {
             $num <<= 8;
-            $num += mt_rand(0, 0xff);
+            $num += random_int(0, 0xff);
         }
         return $this->withSerialNumber(gmp_strval($num, 10));
     }
@@ -386,7 +354,7 @@ class AttributeCertificateInfo
         PrivateKeyInfo $privkey_info,
         ?Crypto $crypto = null
     ): AttributeCertificate {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $aci = clone $this;
         if (! isset($aci->_serialNumber)) {
             $aci->_serialNumber = '0';

@@ -20,9 +20,6 @@ class NullType extends Element
     use UniversalClass;
     use PrimitiveType;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_typeTag = self::TYPE_NULL;

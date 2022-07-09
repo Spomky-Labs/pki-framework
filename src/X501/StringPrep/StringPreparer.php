@@ -11,33 +11,29 @@ namespace Sop\X501\StringPrep;
  */
 class StringPreparer
 {
-    public const STEP_TRANSCODE = 1;
+    final public const STEP_TRANSCODE = 1;
 
-    public const STEP_MAP = 2;
+    final public const STEP_MAP = 2;
 
-    public const STEP_NORMALIZE = 3;
+    final public const STEP_NORMALIZE = 3;
 
-    public const STEP_PROHIBIT = 4;
+    final public const STEP_PROHIBIT = 4;
 
-    public const STEP_CHECK_BIDI = 5;
+    final public const STEP_CHECK_BIDI = 5;
 
-    public const STEP_INSIGNIFICANT_CHARS = 6;
-
-    /**
-     * Preparation steps.
-     *
-     * @var PrepareStep[]
-     */
-    protected $_steps;
+    final public const STEP_INSIGNIFICANT_CHARS = 6;
 
     /**
      * Constructor.
      *
-     * @param PrepareStep[] $steps Preparation steps to apply
+     * @param PrepareStep[] $_steps Preparation steps to apply
      */
-    protected function __construct(array $steps)
-    {
-        $this->_steps = $steps;
+    protected function __construct(
+        /**
+         * Preparation steps.
+         */
+        protected array $_steps
+    ) {
     }
 
     /**

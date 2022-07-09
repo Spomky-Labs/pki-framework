@@ -16,20 +16,12 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class RFC822Name extends GeneralName
 {
-    /**
+    public function __construct(/**
      * Email.
-     *
-     * @var string
      */
-    protected $_email;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $email)
-    {
+    protected string $_email
+    ) {
         $this->_tag = self::TAG_RFC822_NAME;
-        $this->_email = $email;
     }
 
     /**

@@ -132,9 +132,6 @@ class ValidatorState
      */
     protected $_maxPathLength;
 
-    /**
-     * Constructor.
-     */
     protected function __construct()
     {
     }

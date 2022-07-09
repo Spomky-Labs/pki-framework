@@ -40,8 +40,6 @@ abstract class PolicyQualifierInfo
 
     /**
      * Initialize from qualifier ASN.1 element.
-     *
-     * @return self
      */
     abstract public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo;
 
@@ -53,13 +51,11 @@ abstract class PolicyQualifierInfo
         $oid = $seq->at(0)
             ->asObjectIdentifier()
             ->oid();
-        switch ($oid) {
-            case self::OID_CPS:
-                return CPSQualifier::fromQualifierASN1($seq->at(1));
-            case self::OID_UNOTICE:
-                return UserNoticeQualifier::fromQualifierASN1($seq->at(1));
-        }
-        throw new UnexpectedValueException("Qualifier {$oid} not supported.");
+        return match ($oid) {
+            self::OID_CPS => CPSQualifier::fromQualifierASN1($seq->at(1)),
+            self::OID_UNOTICE => UserNoticeQualifier::fromQualifierASN1($seq->at(1)),
+            default => throw new UnexpectedValueException("Qualifier {$oid} not supported."),
+        };
     }
 
     /**

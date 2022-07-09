@@ -7,6 +7,7 @@ namespace Sop\X509\GeneralName;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -14,7 +15,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.6
  */
-abstract class GeneralName
+abstract class GeneralName implements Stringable
 {
     // GeneralName CHOICE tags
     public const TAG_OTHER_NAME = 0;
@@ -57,8 +58,6 @@ abstract class GeneralName
 
     /**
      * Initialize concrete object from the chosen ASN.1 element.
-     *
-     * @return self
      */
     abstract public static function fromChosenASN1(UnspecifiedType $el): GeneralName;
 
@@ -67,39 +66,18 @@ abstract class GeneralName
      */
     public static function fromASN1(TaggedType $el): self
     {
-        switch ($el->tag()) {
-            // otherName
-            case self::TAG_OTHER_NAME:
-                return OtherName::fromChosenASN1($el->asImplicit(Element::TYPE_SEQUENCE));
-            // rfc822Name
-            case self::TAG_RFC822_NAME:
-                return RFC822Name::fromChosenASN1($el->asImplicit(Element::TYPE_IA5_STRING));
-            // dNSName
-            case self::TAG_DNS_NAME:
-                return DNSName::fromChosenASN1($el->asImplicit(Element::TYPE_IA5_STRING));
-            // x400Address
-            case self::TAG_X400_ADDRESS:
-                return X400Address::fromChosenASN1($el->asImplicit(Element::TYPE_SEQUENCE));
-            // directoryName
-            case self::TAG_DIRECTORY_NAME:
-                // because Name is a CHOICE, albeit having only one option,
-                // explicit tagging must be used
-                // (see X.680 07/2002 30.6.c)
-                return DirectoryName::fromChosenASN1($el->asExplicit());
-            // ediPartyName
-            case self::TAG_EDI_PARTY_NAME:
-                return EDIPartyName::fromChosenASN1($el->asImplicit(Element::TYPE_SEQUENCE));
-            // uniformResourceIdentifier
-            case self::TAG_URI:
-                return UniformResourceIdentifier::fromChosenASN1($el->asImplicit(Element::TYPE_IA5_STRING));
-            // iPAddress
-            case self::TAG_IP_ADDRESS:
-                return IPAddress::fromChosenASN1($el->asImplicit(Element::TYPE_OCTET_STRING));
-            // registeredID
-            case self::TAG_REGISTERED_ID:
-                return RegisteredID::fromChosenASN1($el->asImplicit(Element::TYPE_OBJECT_IDENTIFIER));
-        }
-        throw new UnexpectedValueException('GeneralName type ' . $el->tag() . ' not supported.');
+        return match ($el->tag()) {
+            self::TAG_OTHER_NAME => OtherName::fromChosenASN1($el->asImplicit(Element::TYPE_SEQUENCE)),
+            self::TAG_RFC822_NAME => RFC822Name::fromChosenASN1($el->asImplicit(Element::TYPE_IA5_STRING)),
+            self::TAG_DNS_NAME => DNSName::fromChosenASN1($el->asImplicit(Element::TYPE_IA5_STRING)),
+            self::TAG_X400_ADDRESS => X400Address::fromChosenASN1($el->asImplicit(Element::TYPE_SEQUENCE)),
+            self::TAG_DIRECTORY_NAME => DirectoryName::fromChosenASN1($el->asExplicit()),
+            self::TAG_EDI_PARTY_NAME => EDIPartyName::fromChosenASN1($el->asImplicit(Element::TYPE_SEQUENCE)),
+            self::TAG_URI => UniformResourceIdentifier::fromChosenASN1($el->asImplicit(Element::TYPE_IA5_STRING)),
+            self::TAG_IP_ADDRESS => IPAddress::fromChosenASN1($el->asImplicit(Element::TYPE_OCTET_STRING)),
+            self::TAG_REGISTERED_ID => RegisteredID::fromChosenASN1($el->asImplicit(Element::TYPE_OBJECT_IDENTIFIER)),
+            default => throw new UnexpectedValueException('GeneralName type ' . $el->tag() . ' not supported.'),
+        };
     }
 
     /**

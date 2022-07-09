@@ -10,6 +10,7 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\UnspecifiedType;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -17,29 +18,18 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4
  */
-class IetfAttrValue
+class IetfAttrValue implements Stringable
 {
-    /**
-     * Element type tag.
-     *
-     * @var int
-     */
-    protected $_type;
-
-    /**
-     * Value.
-     *
-     * @var string
-     */
-    protected $_value;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(string $value, int $type)
-    {
-        $this->_type = $type;
-        $this->_value = $value;
+    public function __construct(
+        /**
+         * Value.
+         */
+        protected string $_value,
+        /**
+         * Element type tag.
+         */
+        protected int $_type
+    ) {
     }
 
     public function __toString(): string
@@ -52,14 +42,11 @@ class IetfAttrValue
      */
     public static function fromASN1(UnspecifiedType $el): self
     {
-        switch ($el->tag()) {
-            case Element::TYPE_OCTET_STRING:
-            case Element::TYPE_UTF8_STRING:
-                return new self($el->asString()->string(), $el->tag());
-            case Element::TYPE_OBJECT_IDENTIFIER:
-                return new self($el->asObjectIdentifier()->oid(), $el->tag());
-        }
-        throw new UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.');
+        return match ($el->tag()) {
+            Element::TYPE_OCTET_STRING, Element::TYPE_UTF8_STRING => new self($el->asString()->string(), $el->tag()),
+            Element::TYPE_OBJECT_IDENTIFIER => new self($el->asObjectIdentifier()->oid(), $el->tag()),
+            default => throw new UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.'),
+        };
     }
 
     /**
@@ -128,14 +115,11 @@ class IetfAttrValue
      */
     public function toASN1(): Element
     {
-        switch ($this->_type) {
-            case Element::TYPE_OCTET_STRING:
-                return new OctetString($this->_value);
-            case Element::TYPE_UTF8_STRING:
-                return new UTF8String($this->_value);
-            case Element::TYPE_OBJECT_IDENTIFIER:
-                return new ObjectIdentifier($this->_value);
-        }
-        throw new LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.');
+        return match ($this->_type) {
+            Element::TYPE_OCTET_STRING => new OctetString($this->_value),
+            Element::TYPE_UTF8_STRING => new UTF8String($this->_value),
+            Element::TYPE_OBJECT_IDENTIFIER => new ObjectIdentifier($this->_value),
+            default => throw new LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.'),
+        };
     }
 }

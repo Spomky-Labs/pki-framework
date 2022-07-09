@@ -29,9 +29,6 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
      */
     protected $_policies;
 
-    /**
-     * Constructor.
-     */
     public function __construct(bool $critical, PolicyInformation ...$policies)
     {
         parent::__construct(Extension::OID_CERTIFICATE_POLICIES, $critical);
@@ -102,9 +99,7 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $policies = array_map(
-            function (UnspecifiedType $el) {
-                return PolicyInformation::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => PolicyInformation::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($policies)) {
@@ -118,12 +113,7 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
         if (! count($this->_policies)) {
             throw new LogicException('No policies.');
         }
-        $elements = array_map(
-            function (PolicyInformation $pi) {
-                return $pi->toASN1();
-            },
-            array_values($this->_policies)
-        );
+        $elements = array_map(fn (PolicyInformation $pi) => $pi->toASN1(), array_values($this->_policies));
         return new Sequence(...$elements);
     }
 }

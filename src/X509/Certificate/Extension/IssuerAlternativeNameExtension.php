@@ -15,20 +15,13 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class IssuerAlternativeNameExtension extends Extension
 {
-    /**
+    public function __construct(
+        bool $critical, /**
      * Names.
-     *
-     * @var GeneralNames
      */
-    protected $_names;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(bool $critical, GeneralNames $names)
-    {
+    protected GeneralNames $_names
+    ) {
         parent::__construct(self::OID_ISSUER_ALT_NAME, $critical);
-        $this->_names = $names;
     }
 
     public function names(): GeneralNames

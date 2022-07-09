@@ -17,21 +17,13 @@ use Sop\ASN1\Type\UnspecifiedType;
 class DNSName extends GeneralName
 {
     /**
-     * DNS name.
-     *
-     * @var string
-     */
-    protected $_name;
-
-    /**
      * Constructor.
      *
-     * @param string $name Domain name
+     * @param string $_name Domain name
      */
-    public function __construct(string $name)
+    public function __construct(protected string $_name)
     {
         $this->_tag = self::TAG_DNS_NAME;
-        $this->_name = $name;
     }
 
     /**

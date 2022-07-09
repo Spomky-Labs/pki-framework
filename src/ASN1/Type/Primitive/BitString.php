@@ -25,23 +25,17 @@ class BitString extends BaseString
     use PrimitiveType;
 
     /**
-     * Number of unused bits in the last octet.
-     *
-     * @var int
-     */
-    protected $_unusedBits;
-
-    /**
      * Constructor.
      *
      * @param string $string      Content octets
-     * @param int    $unused_bits Number of unused bits in the last octet
+     * @param int $_unusedBits Number of unused bits in the last octet
      */
-    public function __construct(string $string, int $unused_bits = 0)
-    {
+    public function __construct(
+        string $string,
+        protected int $_unusedBits = 0
+    ) {
         $this->_typeTag = self::TYPE_BIT_STRING;
         parent::__construct($string);
-        $this->_unusedBits = $unused_bits;
     }
 
     /**

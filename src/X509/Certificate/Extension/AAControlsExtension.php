@@ -21,55 +21,35 @@ use Sop\ASN1\Type\UnspecifiedType;
 class AAControlsExtension extends Extension
 {
     /**
-     * Path length contraint.
-     *
-     * @var null|int
-     */
-    protected $_pathLenConstraint;
-
-    /**
-     * Permitted attributes.
-     *
-     * Array of OID's.
-     *
-     * @var null|string[]
-     */
-    protected $_permittedAttrs;
-
-    /**
-     * Excluded attributes.
-     *
-     * Array of OID's.
-     *
-     * @var null|string[]
-     */
-    protected $_excludedAttrs;
-
-    /**
-     * Whether to permit unspecified attributes.
-     *
-     * @var bool
-     */
-    protected $_permitUnSpecified;
-
-    /**
      * Constructor.
      *
-     * @param null|string[] $permitted
-     * @param null|string[] $excluded
+     * @param null|string[] $_permittedAttrs
+     * @param null|string[] $_excludedAttrs
      */
     public function __construct(
         bool $critical,
-        ?int $path_len = null,
-        ?array $permitted = null,
-        ?array $excluded = null,
-        bool $permit_unspecified = true
+        /**
+         * Path length contraint.
+         */
+        protected ?int $_pathLenConstraint = null,
+        /**
+         * Permitted attributes.
+         *
+         * Array of OID's.
+         */
+        protected ?array $_permittedAttrs = null,
+        /**
+         * Excluded attributes.
+         *
+         * Array of OID's.
+         */
+        protected ?array $_excludedAttrs = null,
+        /**
+         * Whether to permit unspecified attributes.
+         */
+        protected bool $_permitUnSpecified = true
     ) {
         parent::__construct(self::OID_AA_CONTROLS, $critical);
-        $this->_pathLenConstraint = $path_len;
-        $this->_permittedAttrs = $permitted;
-        $this->_excludedAttrs = $excluded;
-        $this->_permitUnSpecified = $permit_unspecified;
     }
 
     /**
@@ -159,10 +139,8 @@ class AAControlsExtension extends Extension
                 ->asImplicit(Element::TYPE_SEQUENCE)
                 ->asSequence();
             $permitted = array_map(
-                function (UnspecifiedType $el) {
-                    return $el->asObjectIdentifier()
-                        ->oid();
-                },
+                fn (UnspecifiedType $el) => $el->asObjectIdentifier()
+                    ->oid(),
                 $attr_seq->elements()
             );
             ++$idx;
@@ -172,10 +150,8 @@ class AAControlsExtension extends Extension
                 ->asImplicit(Element::TYPE_SEQUENCE)
                 ->asSequence();
             $excluded = array_map(
-                function (UnspecifiedType $el) {
-                    return $el->asObjectIdentifier()
-                        ->oid();
-                },
+                fn (UnspecifiedType $el) => $el->asObjectIdentifier()
+                    ->oid(),
                 $attr_seq->elements()
             );
             ++$idx;
@@ -195,15 +171,11 @@ class AAControlsExtension extends Extension
             $elements[] = new Integer($this->_pathLenConstraint);
         }
         if (isset($this->_permittedAttrs)) {
-            $oids = array_map(function ($oid) {
-                return new ObjectIdentifier($oid);
-            }, $this->_permittedAttrs);
+            $oids = array_map(fn ($oid) => new ObjectIdentifier($oid), $this->_permittedAttrs);
             $elements[] = new ImplicitlyTaggedType(0, new Sequence(...$oids));
         }
         if (isset($this->_excludedAttrs)) {
-            $oids = array_map(function ($oid) {
-                return new ObjectIdentifier($oid);
-            }, $this->_excludedAttrs);
+            $oids = array_map(fn ($oid) => new ObjectIdentifier($oid), $this->_excludedAttrs);
             $elements[] = new ImplicitlyTaggedType(1, new Sequence(...$oids));
         }
         if (true !== $this->_permitUnSpecified) {

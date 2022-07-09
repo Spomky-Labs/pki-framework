@@ -29,9 +29,6 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      */
     protected $_distributionPoints;
 
-    /**
-     * Constructor.
-     */
     public function __construct(bool $critical, DistributionPoint ...$distribution_points)
     {
         parent::__construct(self::OID_CRL_DISTRIBUTION_POINTS, $critical);
@@ -71,9 +68,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $dps = array_map(
-            function (UnspecifiedType $el) {
-                return DistributionPoint::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => DistributionPoint::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($dps)) {
@@ -88,12 +83,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
         if (! count($this->_distributionPoints)) {
             throw new LogicException('No distribution points.');
         }
-        $elements = array_map(
-            function (DistributionPoint $dp) {
-                return $dp->toASN1();
-            },
-            $this->_distributionPoints
-        );
+        $elements = array_map(fn (DistributionPoint $dp) => $dp->toASN1(), $this->_distributionPoints);
         return new Sequence(...$elements);
     }
 }

@@ -18,14 +18,9 @@ class RSASignature extends Signature
 {
     /**
      * Signature value *S*.
-     *
-     * @var string
      */
-    private $_signature;
+    private ?string $_signature = null;
 
-    /**
-     * Constructor.
-     */
     protected function __construct()
     {
     }

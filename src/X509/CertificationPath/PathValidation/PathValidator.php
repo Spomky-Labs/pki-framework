@@ -22,20 +22,6 @@ use Sop\X509\CertificationPath\Exception\PathValidationException;
 class PathValidator
 {
     /**
-     * Crypto engine.
-     *
-     * @var Crypto
-     */
-    protected $_crypto;
-
-    /**
-     * Path validation configuration.
-     *
-     * @var PathValidationConfig
-     */
-    protected $_config;
-
-    /**
      * Certification path.
      *
      * @var Certificate[]
@@ -52,22 +38,23 @@ class PathValidator
     /**
      * Constructor.
      *
-     * @param Crypto               $crypto          Crypto engine
-     * @param PathValidationConfig $config          Validation config
+     * @param Crypto $_crypto Crypto engine
+     * @param PathValidationConfig $_config Validation config
      * @param Certificate          ...$certificates Certificates from the trust anchor to
      * the end-entity certificate
      */
-    public function __construct(Crypto $crypto, PathValidationConfig $config, Certificate ...$certificates)
-    {
+    public function __construct(
+        protected Crypto $_crypto,
+        protected PathValidationConfig $_config,
+        Certificate ...$certificates
+    ) {
         if (! count($certificates)) {
             throw new LogicException('No certificates.');
         }
-        $this->_crypto = $crypto;
-        $this->_config = $config;
         $this->_certificates = $certificates;
         // if trust anchor is explicitly given in configuration
-        if ($config->hasTrustAnchor()) {
-            $this->_trustAnchor = $config->trustAnchor();
+        if ($_config->hasTrustAnchor()) {
+            $this->_trustAnchor = $_config->trustAnchor();
         } else {
             $this->_trustAnchor = $certificates[0];
         }
@@ -111,16 +98,16 @@ class PathValidator
         // (a.2) check validity period
         $this->_checkValidity($cert);
         // (a.3) check that certificate is not revoked
-        $this->_checkRevocation($cert);
+        $this->_checkRevocation();
         // (a.4) check issuer
         $this->_checkIssuer($state, $cert);
         // (b)(c) if certificate is self-issued and it is not
         // the final certificate in the path, skip this step
         if (! ($cert->isSelfIssued() && ! $state->isFinal())) {
             // (b) check permitted subtrees
-            $this->_checkPermittedSubtrees($state, $cert);
+            $this->_checkPermittedSubtrees($state);
             // (c) check excluded subtrees
-            $this->_checkExcludedSubtrees($state, $cert);
+            $this->_checkExcludedSubtrees($state);
         }
         $extensions = $cert->tbsCertificate()
             ->extensions();
@@ -174,7 +161,7 @@ class PathValidator
         // (n) check key usage
         $this->_checkKeyUsage($cert);
         // (o) process relevant extensions
-        return $this->_processExtensions($state, $cert);
+        return $this->_processExtensions($state);
     }
 
     /**
@@ -201,7 +188,7 @@ class PathValidator
         // (c)(d)(e)
         $state = $this->_setPublicKeyState($state, $cert);
         // (f) process relevant extensions
-        $state = $this->_processExtensions($state, $cert);
+        $state = $this->_processExtensions($state);
         // (g) intersection of valid_policy_tree and the initial-policy-set
         $state = $this->_calculatePolicyIntersection($state);
         // check that explicit_policy > 0 or valid_policy_tree is set
@@ -272,7 +259,7 @@ class PathValidator
     /**
      * Check certificate revocation.
      */
-    private function _checkRevocation(Certificate $cert)
+    private function _checkRevocation()
     {
         // @todo Implement CRL handling
     }
@@ -287,13 +274,13 @@ class PathValidator
         }
     }
 
-    private function _checkPermittedSubtrees(ValidatorState $state, Certificate $cert)
+    private function _checkPermittedSubtrees(ValidatorState $state)
     {
         // @todo Implement
         $state->permittedSubtrees();
     }
 
-    private function _checkExcludedSubtrees(ValidatorState $state, Certificate $cert)
+    private function _checkExcludedSubtrees(ValidatorState $state)
     {
         // @todo Implement
         $state->excludedSubtrees();
@@ -328,7 +315,7 @@ class PathValidator
         $extensions = $cert->tbsCertificate()
             ->extensions();
         if ($extensions->hasNameConstraints()) {
-            $state = $this->_processNameConstraints($state, $cert);
+            $state = $this->_processNameConstraints($state);
         }
         return $state;
     }
@@ -422,7 +409,7 @@ class PathValidator
         }
     }
 
-    private function _processNameConstraints(ValidatorState $state, Certificate $cert): ValidatorState
+    private function _processNameConstraints(ValidatorState $state): ValidatorState
     {
         // @todo Implement
         return $state;
@@ -464,7 +451,7 @@ class PathValidator
         return $state;
     }
 
-    private function _processExtensions(ValidatorState $state, Certificate $cert): ValidatorState
+    private function _processExtensions(ValidatorState $state): ValidatorState
     {
         // @todo Implement
         return $state;

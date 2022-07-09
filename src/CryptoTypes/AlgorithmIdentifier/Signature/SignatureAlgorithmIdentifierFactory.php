@@ -24,7 +24,7 @@ abstract class SignatureAlgorithmIdentifierFactory
      *
      * @var array
      */
-    public const MAP_RSA_OID = [
+    final public const MAP_RSA_OID = [
         AlgorithmIdentifier::OID_MD5 => AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA1 => AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA224 => AlgorithmIdentifier::OID_SHA224_WITH_RSA_ENCRYPTION,
@@ -40,7 +40,7 @@ abstract class SignatureAlgorithmIdentifierFactory
      *
      * @var array
      */
-    public const MAP_EC_OID = [
+    final public const MAP_EC_OID = [
         AlgorithmIdentifier::OID_SHA1 => AlgorithmIdentifier::OID_ECDSA_WITH_SHA1,
         AlgorithmIdentifier::OID_SHA224 => AlgorithmIdentifier::OID_ECDSA_WITH_SHA224,
         AlgorithmIdentifier::OID_SHA256 => AlgorithmIdentifier::OID_ECDSA_WITH_SHA256,
@@ -58,18 +58,13 @@ abstract class SignatureAlgorithmIdentifierFactory
         AsymmetricCryptoAlgorithmIdentifier $crypto_algo,
         HashAlgorithmIdentifier $hash_algo
     ): SignatureAlgorithmIdentifier {
-        switch ($crypto_algo->oid()) {
-            case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
-                $oid = self::_oidForRSA($hash_algo);
-                break;
-            case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
-                $oid = self::_oidForEC($hash_algo);
-                break;
-            default:
-                throw new UnexpectedValueException(
-                    sprintf('Crypto algorithm %s not supported.', $crypto_algo->name())
-                );
-        }
+        $oid = match ($crypto_algo->oid()) {
+            AlgorithmIdentifier::OID_RSA_ENCRYPTION => self::_oidForRSA($hash_algo),
+            AlgorithmIdentifier::OID_EC_PUBLIC_KEY => self::_oidForEC($hash_algo),
+            default => throw new UnexpectedValueException(
+                sprintf('Crypto algorithm %s not supported.', $crypto_algo->name())
+            ),
+        };
         $cls = (new AlgorithmIdentifierFactory())->getClass($oid);
         return new $cls();
     }

@@ -37,29 +37,21 @@ class ECPublicKey extends PublicKey
     protected $_ecPoint;
 
     /**
-     * Named curve OID.
-     *
-     * Named curve is not a part of ECPublicKey, but it's stored as a hint for the purpose of PublicKeyInfo creation.
-     *
-     * @var null|string
-     */
-    protected $_namedCurve;
-
-    /**
      * Constructor.
      *
      * @param string      $ec_point    ECPoint
-     * @param null|string $named_curve Named curve OID
+     * @param null|string $_namedCurve Named curve OID
      */
-    public function __construct(string $ec_point, ?string $named_curve = null)
-    {
+    public function __construct(
+        string $ec_point,
+        protected ?string $_namedCurve = null
+    ) {
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
         if (! mb_strlen($ec_point, '8bit') || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
             throw new InvalidArgumentException('Invalid ECPoint.');
         }
         $this->_ecPoint = $ec_point;
-        $this->_namedCurve = $named_curve;
     }
 
     /**
@@ -69,11 +61,13 @@ class ECPublicKey extends PublicKey
      * @param int|string  $y           Y coordinate as a base10 number
      * @param null|string $named_curve Named curve OID
      * @param null|int    $bits        Size of *p* in bits
-     *
-     * @return self
      */
-    public static function fromCoordinates($x, $y, ?string $named_curve = null, ?int $bits = null): ECPublicKey
-    {
+    public static function fromCoordinates(
+        int|string $x,
+        int|string $y,
+        ?string $named_curve = null,
+        ?int $bits = null
+    ): ECPublicKey {
         // if bitsize is not explicitly set, check from supported curves
         if (! isset($bits) && isset($named_curve)) {
             $bits = self::_curveSize($named_curve);
@@ -90,8 +84,6 @@ class ECPublicKey extends PublicKey
 
     /**
      * @see PublicKey::fromPEM()
-     *
-     * @return self
      */
     public static function fromPEM(PEM $pem): ECPublicKey
     {
@@ -123,9 +115,7 @@ class ECPublicKey extends PublicKey
      */
     public function curvePoint(): array
     {
-        return array_map(function ($str) {
-            return ECConversion::octetsToNumber($str);
-        }, $this->curvePointOctets());
+        return array_map(fn ($str) => ECConversion::octetsToNumber($str), $this->curvePointOctets());
     }
 
     /**

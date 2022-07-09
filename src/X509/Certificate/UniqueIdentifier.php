@@ -13,25 +13,16 @@ use Sop\ASN1\Type\Primitive\BitString;
  */
 class UniqueIdentifier
 {
-    /**
-     * Identifier.
-     *
-     * @var BitString
-     */
-    protected $_uid;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(BitString $bs)
-    {
-        $this->_uid = $bs;
+    public function __construct(
+        /**
+         * Identifier.
+         */
+        protected BitString $_uid
+    ) {
     }
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
     public static function fromASN1(BitString $bs): UniqueIdentifier
     {
@@ -40,8 +31,6 @@ class UniqueIdentifier
 
     /**
      * Initialize from string.
-     *
-     * @return self
      */
     public static function fromString(string $str): UniqueIdentifier
     {

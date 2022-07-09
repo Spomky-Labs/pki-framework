@@ -18,38 +18,20 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class DistributionPoint
 {
-    /**
-     * Distribution point name.
-     *
-     * @var null|DistributionPointName
-     */
-    protected $_distributionPoint;
-
-    /**
-     * Revocation reason.
-     *
-     * @var null|ReasonFlags
-     */
-    protected $_reasons;
-
-    /**
-     * CRL issuer.
-     *
-     * @var null|GeneralNames
-     */
-    protected $_issuer;
-
-    /**
-     * Constructor.
-     */
     public function __construct(
-        ?DistributionPointName $name = null,
-        ?ReasonFlags $reasons = null,
-        ?GeneralNames $issuer = null
+        /**
+         * Distribution point name.
+         */
+        protected ?DistributionPointName $_distributionPoint = null,
+        /**
+         * Revocation reason.
+         */
+        protected ?ReasonFlags $_reasons = null,
+        /**
+         * CRL issuer.
+         */
+        protected ?GeneralNames $_issuer = null
     ) {
-        $this->_distributionPoint = $name;
-        $this->_reasons = $reasons;
-        $this->_issuer = $issuer;
     }
 
     /**

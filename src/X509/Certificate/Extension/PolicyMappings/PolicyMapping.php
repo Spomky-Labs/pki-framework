@@ -15,29 +15,15 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 class PolicyMapping
 {
     /**
-     * OID of the issuer policy.
-     *
-     * @var string
-     */
-    protected $_issuerDomainPolicy;
-
-    /**
-     * OID of the subject policy.
-     *
-     * @var string
-     */
-    protected $_subjectDomainPolicy;
-
-    /**
      * Constructor.
      *
-     * @param string $issuer_policy  OID of the issuer policy
-     * @param string $subject_policy OID of the subject policy
+     * @param string $_issuerDomainPolicy OID of the issuer policy
+     * @param string $_subjectDomainPolicy OID of the subject policy
      */
-    public function __construct(string $issuer_policy, string $subject_policy)
-    {
-        $this->_issuerDomainPolicy = $issuer_policy;
-        $this->_subjectDomainPolicy = $subject_policy;
+    public function __construct(
+        protected string $_issuerDomainPolicy,
+        protected string $_subjectDomainPolicy
+    ) {
     }
 
     /**

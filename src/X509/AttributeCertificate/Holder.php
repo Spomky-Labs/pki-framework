@@ -21,33 +21,22 @@ use Sop\X509\GeneralName\GeneralNames;
 class Holder
 {
     /**
-     * Holder PKC's issuer and serial.
-     *
-     * @var null|IssuerSerial
-     */
-    protected $_baseCertificateID;
-
-    /**
-     * Holder PKC's subject.
-     *
-     * @var null|GeneralNames
-     */
-    protected $_entityName;
-
-    /**
      * Linked object.
      *
      * @var null|ObjectDigestInfo
      */
     protected $_objectDigestInfo;
 
-    /**
-     * Constructor.
-     */
-    public function __construct(?IssuerSerial $issuer_serial = null, ?GeneralNames $entity_name = null)
-    {
-        $this->_baseCertificateID = $issuer_serial;
-        $this->_entityName = $entity_name;
+    public function __construct(
+        /**
+         * Holder PKC's issuer and serial.
+         */
+        protected ?IssuerSerial $_baseCertificateID = null,
+        /**
+         * Holder PKC's subject.
+         */
+        protected ?GeneralNames $_entityName = null
+    ) {
     }
 
     /**

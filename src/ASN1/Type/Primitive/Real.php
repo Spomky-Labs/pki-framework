@@ -23,12 +23,13 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
+use Stringable;
 use UnexpectedValueException;
 
 /**
  * Implements *REAL* type.
  */
-class Real extends Element
+class Real extends Element implements Stringable
 {
     use UniversalClass;
     use PrimitiveType;
@@ -38,7 +39,7 @@ class Real extends Element
      *
      * @var string
      */
-    public const NR1_REGEX = '/^\s*' .
+    final public const NR1_REGEX = '/^\s*' .
         '(?<s>[+\-])?' .    // sign
         '(?<i>\d+)' .       // integer
     '$/';
@@ -48,7 +49,7 @@ class Real extends Element
      *
      * @var string
      */
-    public const NR2_REGEX = '/^\s*' .
+    final public const NR2_REGEX = '/^\s*' .
         '(?<s>[+\-])?' .                            // sign
         '(?<d>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // decimal number
     '$/';
@@ -58,7 +59,7 @@ class Real extends Element
      *
      * @var string
      */
-    public const NR3_REGEX = '/^\s*' .
+    final public const NR3_REGEX = '/^\s*' .
         '(?<ms>[+\-])?' .                           // mantissa sign
         '(?<m>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // mantissa
         '[Ee](?<es>[+\-])?' .                       // exponent sign
@@ -72,7 +73,7 @@ class Real extends Element
      *
      * @var string
      */
-    public const PHP_EXPONENT_DNUM = '/^' .
+    final public const PHP_EXPONENT_DNUM = '/^' .
         '(?<ms>[+\-])?' .               // sign
         '(?<m>' .
             '\d+' .                     // LNUM
@@ -87,53 +88,43 @@ class Real extends Element
      *
      * @var int
      */
-    public const INF_EXPONENT = 2047;
+    final public const INF_EXPONENT = 2047;
 
     /**
      * Exponent bias for IEEE 754 double precision float.
      *
      * @var int
      */
-    public const EXP_BIAS = -1023;
+    final public const EXP_BIAS = -1023;
 
     /**
      * Signed integer mantissa.
-     *
-     * @var BigInt
      */
-    private $_mantissa;
+    private readonly BigInt $_mantissa;
 
     /**
      * Signed integer exponent.
-     *
-     * @var BigInt
      */
-    private $_exponent;
+    private readonly BigInt $_exponent;
 
     /**
      * Abstract value base.
      *
      * Must be 2 or 10.
-     *
-     * @var int
      */
-    private $_base;
+    private readonly int $_base;
 
     /**
      * Whether to encode strictly in DER.
-     *
-     * @var bool
      */
-    private $_strictDer;
+    private bool $_strictDer;
 
     /**
      * Number as a native float.
      *
      * @internal Lazily initialized
-     *
-     * @var null|float
      */
-    private $_float;
+    private ?float $_float = null;
 
     /**
      * Constructor.
@@ -229,7 +220,7 @@ class Real extends Element
         if (! isset($this->_float)) {
             $m = $this->_mantissa->intVal();
             $e = $this->_exponent->intVal();
-            $this->_float = (float) ($m * pow($this->_base, $e));
+            $this->_float = (float) ($m * $this->_base ** $e);
         }
         return $this->_float;
     }
@@ -351,15 +342,11 @@ class Real extends Element
      */
     protected function _encodeSpecial(): string
     {
-        switch ($this->_mantissa->intVal()) {
-            // positive infitinity
-            case 1:
-                return chr(0x40);
-            // negative infinity
-            case -1:
-                return chr(0x41);
-        }
-        throw new LogicException('Invalid special value.');
+        return match ($this->_mantissa->intVal()) {
+            1 => chr(0x40),
+            -1 => chr(0x41),
+            default => throw new LogicException('Invalid special value.'),
+        };
     }
 
     protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
@@ -392,20 +379,12 @@ class Real extends Element
         $byte = ord($data[0]);
         // bit 7 is set if mantissa is negative
         $neg = (bool) (0x40 & $byte);
-        // encoding base in bits 6 and 5
-        switch (($byte >> 4) & 0x03) {
-            case 0b00:
-                $base = 2;
-                break;
-            case 0b01:
-                $base = 8;
-                break;
-            case 0b10:
-                $base = 16;
-                break;
-            default:
-                throw new DecodeException('Reserved REAL binary encoding base not supported.');
-        }
+        $base = match (($byte >> 4) & 0x03) {
+            0b00 => 2,
+            0b01 => 8,
+            0b10 => 16,
+            default => throw new DecodeException('Reserved REAL binary encoding base not supported.'),
+        };
         // scaling factor in bits 4 and 3
         $scale = ($byte >> 2) & 0x03;
         $idx = 1;
@@ -598,7 +577,7 @@ class Real extends Element
     {
         // mantissa sign
         $ms = '-' === $match['ms'] ? -1 : 1;
-        $m_parts = explode('.', $match['m']);
+        $m_parts = explode('.', (string) $match['m']);
         // integer part of the mantissa
         $int = ltrim($m_parts[0], '0');
         // exponent sign
@@ -627,7 +606,7 @@ class Real extends Element
         // mantissa sign
         $ms = '-' === $match['ms'] ? -1 : 1;
         // explode mantissa to integer and fraction parts
-        [$int, $frac] = explode('.', str_replace(',', '.', $match['m']));
+        [$int, $frac] = explode('.', (string) str_replace(',', '.', $match['m']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // exponent sign
@@ -656,7 +635,7 @@ class Real extends Element
     {
         $sign = '-' === $match['s'] ? -1 : 1;
         // explode decimal number to integer and fraction parts
-        [$int, $frac] = explode('.', str_replace(',', '.', $match['d']));
+        [$int, $frac] = explode('.', (string) str_replace(',', '.', $match['d']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // shift exponent by the number of base 10 fractions

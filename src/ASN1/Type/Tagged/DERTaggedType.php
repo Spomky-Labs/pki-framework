@@ -23,64 +23,24 @@ use Sop\ASN1\Type\UnspecifiedType;
 class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTagging
 {
     /**
-     * Identifier.
-     *
-     * @var Identifier
-     */
-    private $_identifier;
-
-    /**
-     * DER data.
-     *
-     * @var string
-     */
-    private $_data;
-
-    /**
-     * Offset to next byte after identifier.
-     *
-     * @var int
-     */
-    private $_offset;
-
-    /**
-     * Offset to content.
-     *
-     * @var int
-     */
-    private $_valueOffset;
-
-    /**
-     * Length of the content.
-     *
-     * @var int
-     */
-    private $_valueLength;
-
-    /**
      * Constructor.
      *
-     * @param Identifier $identifier   Pre-parsed identifier
-     * @param string     $data         DER data
-     * @param int        $offset       Offset to next byte after identifier
-     * @param int        $value_offset Offset to content
-     * @param int        $value_length Content length
+     * @param Identifier $_identifier Pre-parsed identifier
+     * @param string $_data DER data
+     * @param int $_offset Offset to next byte after identifier
+     * @param int $_valueOffset Offset to content
+     * @param int $_valueLength Content length
      */
     public function __construct(
-        Identifier $identifier,
-        string $data,
-        int $offset,
-        int $value_offset,
-        int $value_length,
+        private readonly Identifier $_identifier,
+        private readonly string $_data,
+        private readonly int $_offset,
+        private readonly int $_valueOffset,
+        private readonly int $_valueLength,
         bool $indefinite_length
     ) {
-        $this->_identifier = $identifier;
-        $this->_data = $data;
-        $this->_offset = $offset;
-        $this->_valueOffset = $value_offset;
-        $this->_valueLength = $value_length;
         $this->_indefiniteLength = $indefinite_length;
-        $this->_typeTag = $identifier->intTag();
+        $this->_typeTag = $_identifier->intTag();
     }
 
     public function typeClass(): int
@@ -99,7 +59,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
             ->withTag($tag);
         $cls = self::_determineImplClass($identifier);
         $idx = $this->_offset;
-        /** @var \Sop\ASN1\Feature\ElementBase $element */
+        /** @var ElementBase $element */
         $element = $cls::_decodeFromDER($identifier, $this->_data, $idx);
         return $element->asUnspecified();
     }
@@ -120,7 +80,6 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
             if ($identifier->isPrimitive()) {
                 throw new DecodeException('Primitive type with indefinite length is not supported.');
             }
-            while (! Element::fromDER($data, $idx)->isType(self::TYPE_EOC));
             // EOC consists of two octets.
             $value_length = $idx - $value_offset - 2;
         } else {

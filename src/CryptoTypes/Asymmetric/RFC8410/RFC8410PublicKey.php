@@ -18,20 +18,12 @@ use Sop\CryptoTypes\Asymmetric\PublicKey;
 abstract class RFC8410PublicKey extends PublicKey
 {
     /**
-     * Public key data.
-     *
-     * @var string
-     */
-    protected $_publicKey;
-
-    /**
      * Constructor.
      *
-     * @param string $public_key Public key data
+     * @param string $_publicKey Public key data
      */
-    public function __construct(string $public_key)
+    public function __construct(protected string $_publicKey)
     {
-        $this->_publicKey = $public_key;
     }
 
     public function toDER(): string

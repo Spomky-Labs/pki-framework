@@ -13,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Signature\Signature;
 use Sop\X509\Certificate\Certificate;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -20,40 +21,22 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class AttributeCertificate
+class AttributeCertificate implements Stringable
 {
-    /**
-     * Attribute certificate info.
-     *
-     * @var AttributeCertificateInfo
-     */
-    protected $_acinfo;
-
-    /**
-     * Signature algorithm identifier.
-     *
-     * @var SignatureAlgorithmIdentifier
-     */
-    protected $_signatureAlgorithm;
-
-    /**
-     * Signature value.
-     *
-     * @var Signature
-     */
-    protected $_signatureValue;
-
-    /**
-     * Constructor.
-     */
     public function __construct(
-        AttributeCertificateInfo $acinfo,
-        SignatureAlgorithmIdentifier $algo,
-        Signature $signature
+        /**
+         * Attribute certificate info.
+         */
+        protected AttributeCertificateInfo $_acinfo,
+        /**
+         * Signature algorithm identifier.
+         */
+        protected SignatureAlgorithmIdentifier $_signatureAlgorithm,
+        /**
+         * Signature value.
+         */
+        protected Signature $_signatureValue
     ) {
-        $this->_acinfo = $acinfo;
-        $this->_signatureAlgorithm = $algo;
-        $this->_signatureValue = $signature;
     }
 
     /**
@@ -185,7 +168,7 @@ class AttributeCertificate
      */
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $data = $this->_acinfo->toASN1()
             ->toDER();
         return $crypto->verify($data, $this->_signatureValue, $pubkey_info, $this->_signatureAlgorithm);

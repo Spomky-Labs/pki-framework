@@ -14,9 +14,9 @@ class SubjectAccessDescription extends AccessDescription
      *
      * @var string
      */
-    public const OID_METHOD_TIME_STAMPING = '1.3.6.1.5.5.7.48.3';
+    final public const OID_METHOD_TIME_STAMPING = '1.3.6.1.5.5.7.48.3';
 
-    public const OID_METHOD_CA_REPOSITORY = '1.3.6.1.5.5.7.48.5';
+    final public const OID_METHOD_CA_REPOSITORY = '1.3.6.1.5.5.7.48.5';
 
     /**
      * Check whether access method is time stamping.

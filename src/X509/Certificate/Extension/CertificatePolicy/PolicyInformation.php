@@ -25,14 +25,7 @@ class PolicyInformation implements Countable, IteratorAggregate
      *
      * @var string
      */
-    public const OID_ANY_POLICY = '2.5.29.32.0';
-
-    /**
-     * Policy identifier.
-     *
-     * @var string
-     */
-    protected $_oid;
+    final public const OID_ANY_POLICY = '2.5.29.32.0';
 
     /**
      * Policy qualifiers.
@@ -41,12 +34,13 @@ class PolicyInformation implements Countable, IteratorAggregate
      */
     protected $_qualifiers;
 
+    public function __construct(
     /**
-     * Constructor.
+     * Policy identifier.
      */
-    public function __construct(string $oid, PolicyQualifierInfo ...$qualifiers)
-    {
-        $this->_oid = $oid;
+    protected string $_oid,
+        PolicyQualifierInfo ...$qualifiers
+    ) {
         $this->_qualifiers = [];
         foreach ($qualifiers as $qual) {
             $this->_qualifiers[$qual->oid()] = $qual;
@@ -64,9 +58,7 @@ class PolicyInformation implements Countable, IteratorAggregate
         $qualifiers = [];
         if (count($seq) > 1) {
             $qualifiers = array_map(
-                function (UnspecifiedType $el) {
-                    return PolicyQualifierInfo::fromASN1($el->asSequence());
-                },
+                fn (UnspecifiedType $el) => PolicyQualifierInfo::fromASN1($el->asSequence()),
                 $seq->at(1)
                     ->asSequence()
                     ->elements()
@@ -166,9 +158,7 @@ class PolicyInformation implements Countable, IteratorAggregate
         $elements = [new ObjectIdentifier($this->_oid)];
         if (count($this->_qualifiers)) {
             $qualifiers = array_map(
-                function (PolicyQualifierInfo $pqi) {
-                    return $pqi->toASN1();
-                },
+                fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
                 array_values($this->_qualifiers)
             );
             $elements[] = new Sequence(...$qualifiers);

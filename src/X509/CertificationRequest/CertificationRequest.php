@@ -11,6 +11,7 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Signature\Signature;
+use Stringable;
 use UnexpectedValueException;
 
 /**
@@ -18,40 +19,22 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc2986#section-4
  */
-class CertificationRequest
+class CertificationRequest implements Stringable
 {
-    /**
-     * Certification request info.
-     *
-     * @var CertificationRequestInfo
-     */
-    protected $_certificationRequestInfo;
-
-    /**
-     * Signature algorithm.
-     *
-     * @var SignatureAlgorithmIdentifier
-     */
-    protected $_signatureAlgorithm;
-
-    /**
-     * Signature.
-     *
-     * @var Signature
-     */
-    protected $_signature;
-
-    /**
-     * Constructor.
-     */
     public function __construct(
-        CertificationRequestInfo $info,
-        SignatureAlgorithmIdentifier $algo,
-        Signature $signature
+        /**
+         * Certification request info.
+         */
+        protected CertificationRequestInfo $_certificationRequestInfo,
+        /**
+         * Signature algorithm.
+         */
+        protected SignatureAlgorithmIdentifier $_signatureAlgorithm,
+        /**
+         * Signature.
+         */
+        protected Signature $_signature
     ) {
-        $this->_certificationRequestInfo = $info;
-        $this->_signatureAlgorithm = $algo;
-        $this->_signature = $signature;
     }
 
     /**
@@ -155,7 +138,7 @@ class CertificationRequest
      */
     public function verify(?Crypto $crypto = null): bool
     {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $data = $this->_certificationRequestInfo->toASN1()
             ->toDER();
         $pk_info = $this->_certificationRequestInfo->subjectPKInfo();

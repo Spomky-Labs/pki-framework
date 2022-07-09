@@ -11,11 +11,8 @@ namespace Sop\X509\AttributeCertificate\Attribute;
  */
 class ChargingIdentityAttributeValue extends IetfAttrSyntax
 {
-    public const OID = '1.3.6.1.5.5.7.10.3';
+    final public const OID = '1.3.6.1.5.5.7.10.3';
 
-    /**
-     * Constructor.
-     */
     public function __construct(IetfAttrValue ...$values)
     {
         parent::__construct(...$values);

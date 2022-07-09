@@ -32,11 +32,11 @@ use UnexpectedValueException;
 class TBSCertificate
 {
     // Certificate version enumerations
-    public const VERSION_1 = 0;
+    final public const VERSION_1 = 0;
 
-    public const VERSION_2 = 1;
+    final public const VERSION_2 = 1;
 
-    public const VERSION_3 = 2;
+    final public const VERSION_3 = 2;
 
     /**
      * Certificate version.
@@ -58,34 +58,6 @@ class TBSCertificate
      * @var null|SignatureAlgorithmIdentifier
      */
     protected $_signature;
-
-    /**
-     * Certificate issuer.
-     *
-     * @var Name
-     */
-    protected $_issuer;
-
-    /**
-     * Certificate validity period.
-     *
-     * @var Validity
-     */
-    protected $_validity;
-
-    /**
-     * Certificate subject.
-     *
-     * @var Name
-     */
-    protected $_subject;
-
-    /**
-     * Subject public key.
-     *
-     * @var PublicKeyInfo
-     */
-    protected $_subjectPublicKeyInfo;
 
     /**
      * Issuer unique identifier.
@@ -111,17 +83,17 @@ class TBSCertificate
     /**
      * Constructor.
      *
-     * @param Name          $subject  Certificate subject
-     * @param PublicKeyInfo $pki      Subject public key
-     * @param Name          $issuer   Certificate issuer
-     * @param Validity      $validity Validity period
+     * @param Name $_subject Certificate subject
+     * @param PublicKeyInfo $_subjectPublicKeyInfo Subject public key
+     * @param Name $_issuer Certificate issuer
+     * @param Validity $_validity Validity period
      */
-    public function __construct(Name $subject, PublicKeyInfo $pki, Name $issuer, Validity $validity)
-    {
-        $this->_subject = $subject;
-        $this->_subjectPublicKeyInfo = $pki;
-        $this->_issuer = $issuer;
-        $this->_validity = $validity;
+    public function __construct(
+        protected Name $_subject,
+        protected PublicKeyInfo $_subjectPublicKeyInfo,
+        protected Name $_issuer,
+        protected Validity $_validity
+    ) {
         $this->_extensions = new Extensions();
     }
 
@@ -236,7 +208,7 @@ class TBSCertificate
      *
      * @param int|string $serial Base 10 number
      */
-    public function withSerialNumber($serial): self
+    public function withSerialNumber(int|string $serial): self
     {
         $obj = clone $this;
         $obj->_serialNumber = strval($serial);
@@ -251,10 +223,10 @@ class TBSCertificate
     public function withRandomSerialNumber(int $size = 16): self
     {
         // ensure that first byte is always non-zero and having first bit unset
-        $num = gmp_init(mt_rand(1, 0x7f), 10);
+        $num = gmp_init(random_int(1, 0x7f), 10);
         for ($i = 1; $i < $size; ++$i) {
             $num <<= 8;
-            $num += mt_rand(0, 0xff);
+            $num += random_int(0, 0xff);
         }
         return $this->withSerialNumber(gmp_strval($num, 10));
     }
@@ -520,7 +492,7 @@ class TBSCertificate
         PrivateKeyInfo $privkey_info,
         ?Crypto $crypto = null
     ): Certificate {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $tbs_cert = clone $this;
         if (! isset($tbs_cert->_version)) {
             $tbs_cert->_version = $tbs_cert->_determineVersion();

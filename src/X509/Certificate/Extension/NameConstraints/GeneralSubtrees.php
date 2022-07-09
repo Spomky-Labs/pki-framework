@@ -27,9 +27,6 @@ class GeneralSubtrees implements Countable, IteratorAggregate
      */
     protected $_subtrees;
 
-    /**
-     * Constructor.
-     */
     public function __construct(GeneralSubtree ...$subtrees)
     {
         $this->_subtrees = $subtrees;
@@ -41,9 +38,7 @@ class GeneralSubtrees implements Countable, IteratorAggregate
     public static function fromASN1(Sequence $seq): self
     {
         $subtrees = array_map(
-            function (UnspecifiedType $el) {
-                return GeneralSubtree::fromASN1($el->asSequence());
-            },
+            fn (UnspecifiedType $el) => GeneralSubtree::fromASN1($el->asSequence()),
             $seq->elements()
         );
         if (! count($subtrees)) {
@@ -70,9 +65,7 @@ class GeneralSubtrees implements Countable, IteratorAggregate
         if (! count($this->_subtrees)) {
             throw new LogicException('No subtrees.');
         }
-        $elements = array_map(function (GeneralSubtree $gs) {
-            return $gs->toASN1();
-        }, $this->_subtrees);
+        $elements = array_map(fn (GeneralSubtree $gs) => $gs->toASN1(), $this->_subtrees);
         return new Sequence(...$elements);
     }
 

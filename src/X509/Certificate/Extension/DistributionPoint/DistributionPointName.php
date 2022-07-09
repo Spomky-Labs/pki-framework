@@ -34,14 +34,15 @@ abstract class DistributionPointName
      */
     public static function fromTaggedType(TaggedType $el): self
     {
-        switch ($el->tag()) {
-            case self::TAG_FULL_NAME:
-                return new FullName(GeneralNames::fromASN1($el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()));
-            case self::TAG_RDN:
-                return new RelativeName(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet()));
-            default:
-                throw new UnexpectedValueException('DistributionPointName tag ' . $el->tag() . ' not supported.');
-        }
+        return match ($el->tag()) {
+            self::TAG_FULL_NAME => new FullName(GeneralNames::fromASN1(
+                $el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+            )),
+            self::TAG_RDN => new RelativeName(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet())),
+            default => throw new UnexpectedValueException(
+                'DistributionPointName tag ' . $el->tag() . ' not supported.'
+            ),
+        };
     }
 
     /**

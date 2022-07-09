@@ -152,7 +152,7 @@ class CertificationPath implements Countable, IteratorAggregate
      */
     public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
     {
-        $crypto = $crypto ?? Crypto::getDefault();
+        $crypto ??= Crypto::getDefault();
         $validator = new PathValidator($crypto, $config, ...$this->_certificates);
         return $validator->validate();
     }

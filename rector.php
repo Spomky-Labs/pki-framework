@@ -18,7 +18,7 @@ return static function (RectorConfig $config): void {
     $config->import(PHPUnitLevelSetList::UP_TO_PHPUNIT_100);
     $config->import(PHPUnitSetList::PHPUNIT_YIELD_DATA_PROVIDER);
     $config->paths([
-        // __DIR__ . '/src',
+        __DIR__ . '/src',
         __DIR__ . '/tests',
     ]);
     $config->phpVersion(PhpVersion::PHP_81);

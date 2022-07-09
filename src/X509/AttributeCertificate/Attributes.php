@@ -28,7 +28,7 @@ class Attributes extends SequenceOfAttributes
      *
      * @var array
      */
-    public const MAP_OID_TO_CLASS = [
+    final public const MAP_OID_TO_CLASS = [
         AccessIdentityAttributeValue::OID => AccessIdentityAttributeValue::class,
         AuthenticationInfoAttributeValue::OID => AuthenticationInfoAttributeValue::class,
         ChargingIdentityAttributeValue::OID => ChargingIdentityAttributeValue::class,
@@ -125,12 +125,7 @@ class Attributes extends SequenceOfAttributes
     {
         return array_merge(
             [],
-            ...array_map(
-                function (Attribute $attr) {
-                    return $attr->values();
-                },
-                $this->allOf(AttributeType::OID_ROLE)
-            )
+            ...array_map(fn (Attribute $attr) => $attr->values(), $this->allOf(AttributeType::OID_ROLE))
         );
     }
 

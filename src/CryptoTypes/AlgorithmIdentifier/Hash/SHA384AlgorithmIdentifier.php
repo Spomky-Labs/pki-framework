@@ -13,9 +13,6 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
  */
 class SHA384AlgorithmIdentifier extends SHA2AlgorithmIdentifier
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->_oid = self::OID_SHA384;
