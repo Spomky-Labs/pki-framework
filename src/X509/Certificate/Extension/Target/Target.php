@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
-use BadMethodCallException;
 use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\TaggedType;
@@ -45,10 +44,7 @@ abstract class Target
      *
      * @return self
      */
-    public static function fromChosenASN1(TaggedType $el): Target
-    {
-        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
-    }
+    abstract public static function fromChosenASN1(TaggedType $el): Target;
 
     /**
      * Parse from ASN.1.

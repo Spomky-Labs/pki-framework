@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use BadMethodCallException;
 use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\OctetString;
@@ -67,5 +68,10 @@ class UnknownExtension extends Extension
             throw new RuntimeException('Extension value is not DER encoded.');
         }
         return $this->_element;
+    }
+
+    protected static function _fromDER(string $data, bool $critical): Extension
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 }

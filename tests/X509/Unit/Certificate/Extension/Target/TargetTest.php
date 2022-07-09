@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension\Target;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\NullType;
@@ -21,15 +20,6 @@ use UnexpectedValueException;
  */
 final class TargetTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function fromASN1BadCall()
-    {
-        $this->expectException(BadMethodCallException::class);
-        Target::fromChosenASN1(new ImplicitlyTaggedType(0, new NullType()));
-    }
-
     /**
      * @test
      */

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sop\X509\Certificate\Extension;
 
 use function array_key_exists;
-use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Boolean;
@@ -335,10 +334,7 @@ abstract class Extension
      *
      * @return self
      */
-    protected static function _fromDER(string $data, bool $critical): Extension
-    {
-        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
-    }
+    abstract protected static function _fromDER(string $data, bool $critical): Extension;
 
     /**
      * Get the extnValue element.
