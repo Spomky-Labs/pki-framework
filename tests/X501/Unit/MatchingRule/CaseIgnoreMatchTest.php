@@ -19,8 +19,10 @@ final class CaseIgnoreMatchTest extends TestCase
      * @param string $assertion
      * @param string $value
      * @param bool $expected
+     *
+     * @test
      */
-    public function testMatch($assertion, $value, $expected)
+    public function match($assertion, $value, $expected)
     {
         $rule = new CaseIgnoreMatch(Element::TYPE_UTF8_STRING);
         $this->assertEquals($expected, $rule->compare($assertion, $value));

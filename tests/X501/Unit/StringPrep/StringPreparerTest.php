@@ -13,7 +13,10 @@ use Sop\X501\StringPrep\StringPreparer;
  */
 final class StringPreparerTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $preparer = StringPreparer::forStringType(Element::TYPE_UTF8_STRING);
         $this->assertInstanceOf(StringPreparer::class, $preparer);
@@ -21,9 +24,11 @@ final class StringPreparerTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithCaseFolding(StringPreparer $preparer)
+    public function withCaseFolding(StringPreparer $preparer)
     {
         $preparer = $preparer->withCaseFolding(true);
         $this->assertInstanceOf(StringPreparer::class, $preparer);
@@ -31,9 +36,11 @@ final class StringPreparerTest extends TestCase
     }
 
     /**
-     * @depends testWithCaseFolding
+     * @depends withCaseFolding
+     *
+     * @test
      */
-    public function testPrepare(StringPreparer $preparer)
+    public function prepare(StringPreparer $preparer)
     {
         $str = $preparer->prepare('TEST');
         $this->assertEquals(' test ', $str);

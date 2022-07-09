@@ -17,27 +17,39 @@ final class TimeTypeTest extends TestCase
 {
     final public const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
 
-    public function testFromString()
+    /**
+     * @test
+     */
+    public function fromString()
     {
         $el = GeneralizedTime::fromString(self::VALUE);
         $this->assertInstanceOf(TimeType::class, $el);
         return $el;
     }
 
-    public function testFromStringWithTz()
+    /**
+     * @test
+     */
+    public function fromStringWithTz()
     {
         $el = GeneralizedTime::fromString(self::VALUE, 'Europe/Helsinki');
         $this->assertInstanceOf(TimeType::class, $el);
     }
 
-    public function testFromInvalidStringFail()
+    /**
+     * @test
+     */
+    public function fromInvalidStringFail()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create DateTime');
         GeneralizedTime::fromString('fail');
     }
 
-    public function testFromStringWithInvalidTzFail()
+    /**
+     * @test
+     */
+    public function fromStringWithInvalidTzFail()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create DateTime');
@@ -45,9 +57,11 @@ final class TimeTypeTest extends TestCase
     }
 
     /**
-     * @depends testFromString
+     * @depends fromString
+     *
+     * @test
      */
-    public function testWrapped(TimeType $time)
+    public function wrapped(TimeType $time)
     {
         $wrap = new UnspecifiedType($time->asElement());
         $this->assertInstanceOf(TimeType::class, $wrap->asTime());

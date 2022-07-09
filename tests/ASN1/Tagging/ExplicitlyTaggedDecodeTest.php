@@ -15,37 +15,55 @@ use Sop\ASN1\Type\TaggedType;
  */
 final class ExplicitlyTaggedDecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
         $this->assertInstanceOf(DERTaggedType::class, $el);
     }
 
-    public function testTag()
+    /**
+     * @test
+     */
+    public function tag()
     {
         $el = TaggedType::fromDER("\xa1\x2\x5\x0");
         $this->assertEquals(1, $el->tag());
     }
 
-    public function testTypeClass()
+    /**
+     * @test
+     */
+    public function typeClass()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
         $this->assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
     }
 
-    public function testConstructed()
+    /**
+     * @test
+     */
+    public function constructed()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
         $this->assertTrue($el->isConstructed());
     }
 
-    public function testInnerType()
+    /**
+     * @test
+     */
+    public function innerType()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
         $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
     }
 
-    public function testNestedTagging()
+    /**
+     * @test
+     */
+    public function nestedTagging()
     {
         $el = TaggedType::fromDER("\xa1\x4\xa2\x2\x5\x0");
         $this->assertEquals(1, $el->tag());

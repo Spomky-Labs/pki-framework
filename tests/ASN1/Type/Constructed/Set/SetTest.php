@@ -18,7 +18,10 @@ use UnexpectedValueException;
  */
 final class SetTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $set = new Set(new NullType(), new Boolean(true));
         $this->assertInstanceOf(Structure::class, $set);
@@ -26,17 +29,21 @@ final class SetTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_SET, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -44,9 +51,11 @@ final class SetTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): Set
+    public function decode(string $data): Set
     {
         $el = Set::fromDER($data);
         $this->assertInstanceOf(Set::class, $el);
@@ -54,15 +63,20 @@ final class SetTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
-    public function testSortSame()
+    /**
+     * @test
+     */
+    public function sortSame()
     {
         $set = new Set(new NullType(), new NullType());
         $sorted = $set->sortedSet();
@@ -70,15 +84,20 @@ final class SetTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(Set::class, $wrap->asSet());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);

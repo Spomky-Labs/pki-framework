@@ -22,7 +22,10 @@ use UnexpectedValueException;
  */
 final class Curve25519Test extends TestCase
 {
-    public function testDecodeEd25519WithPub(): Ed25519PrivateKey
+    /**
+     * @test
+     */
+    public function decodeEd25519WithPub(): Ed25519PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -32,15 +35,20 @@ final class Curve25519Test extends TestCase
     }
 
     /**
-     * @depends testDecodeEd25519WithPub
+     * @depends decodeEd25519WithPub
+     *
+     * @test
      */
-    public function testRecodeEd25519WithPub(Ed25519PrivateKey $pk)
+    public function recodeEd25519WithPub(Ed25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $this->assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
-    public function testDecodeEd25519(): Ed25519PrivateKey
+    /**
+     * @test
+     */
+    public function decodeEd25519(): Ed25519PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -50,18 +58,22 @@ final class Curve25519Test extends TestCase
     }
 
     /**
-     * @depends testDecodeEd25519
+     * @depends decodeEd25519
+     *
+     * @test
      */
-    public function testRecodeEd25519(Ed25519PrivateKey $pk)
+    public function recodeEd25519(Ed25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $this->assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
     /**
-     * @depends testDecodeEd25519WithPub
+     * @depends decodeEd25519WithPub
+     *
+     * @test
      */
-    public function testEd25519PrivateKeyData(Ed25519PrivateKey $pk)
+    public function ed25519PrivateKeyData(Ed25519PrivateKey $pk)
     {
         /** @see https://datatracker.ietf.org/doc/html/rfc8410#section-10.3 */
         $data = <<<'CODE_SAMPLE'
@@ -73,45 +85,61 @@ CODE_SAMPLE;
     }
 
     /**
-     * @depends testDecodeEd25519WithPub
+     * @depends decodeEd25519WithPub
+     *
+     * @test
      */
-    public function testEd25519HasPublicKey(Ed25519PrivateKey $pk)
+    public function ed25519HasPublicKey(Ed25519PrivateKey $pk)
     {
         $this->assertTrue($pk->hasPublicKey());
     }
 
     /**
-     * @depends testDecodeEd25519WithPub
+     * @depends decodeEd25519WithPub
+     *
+     * @test
      */
-    public function testEd25519PublicKey(Ed25519PrivateKey $pk): Ed25519PublicKey
+    public function ed25519PublicKey(Ed25519PrivateKey $pk): Ed25519PublicKey
     {
         $pub = $pk->publicKey();
         $this->assertInstanceOf(Ed25519PublicKey::class, $pub);
         return $pub;
     }
 
-    public function testEd25519PkInvalidPrivateKey()
+    /**
+     * @test
+     */
+    public function ed25519PkInvalidPrivateKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
         new Ed25519PrivateKey('');
     }
 
-    public function testEd25519PkInvalidPublicKey()
+    /**
+     * @test
+     */
+    public function ed25519PkInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed25519PrivateKey(str_repeat("\0", 32), '');
     }
 
-    public function testEd25519PubInvalidPublicKey()
+    /**
+     * @test
+     */
+    public function ed25519PubInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed25519PublicKey('');
     }
 
-    public function testEd25519PkNoPublicKey()
+    /**
+     * @test
+     */
+    public function ed25519PkNoPublicKey()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pk = Ed25519PrivateKey::fromPEM($pem);
@@ -120,21 +148,30 @@ CODE_SAMPLE;
         $pk->publicKey();
     }
 
-    public function testEd25519PubKeyInfo()
+    /**
+     * @test
+     */
+    public function ed25519PubKeyInfo()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $this->assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
     }
 
-    public function testEd25519PrivPubKeyData()
+    /**
+     * @test
+     */
+    public function ed25519PrivPubKeyData()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $this->assertInstanceOf(BitString::class, $pki->publicKeyData());
     }
 
-    public function testEd25519NoPrivPubKeyData()
+    /**
+     * @test
+     */
+    public function ed25519NoPrivPubKeyData()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -143,7 +180,10 @@ CODE_SAMPLE;
         $pki->publicKeyData();
     }
 
-    public function testDecodeEd25519Pub(): Ed25519PublicKey
+    /**
+     * @test
+     */
+    public function decodeEd25519Pub(): Ed25519PublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
@@ -152,18 +192,22 @@ CODE_SAMPLE;
     }
 
     /**
-     * @depends testDecodeEd25519Pub
+     * @depends decodeEd25519Pub
+     *
+     * @test
      */
-    public function testRecodeEd25519Pub(Ed25519PublicKey $pub)
+    public function recodeEd25519Pub(Ed25519PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_public_key.pem');
         $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     /**
-     * @depends testDecodeEd25519Pub
+     * @depends decodeEd25519Pub
+     *
+     * @test
      */
-    public function testEd25519PubNoDer(Ed25519PublicKey $pub)
+    public function ed25519PubNoDer(Ed25519PublicKey $pub)
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/doesn\'t have a DER/');
@@ -171,14 +215,19 @@ CODE_SAMPLE;
     }
 
     /**
-     * @depends testDecodeEd25519Pub
+     * @depends decodeEd25519Pub
+     *
+     * @test
      */
-    public function testEd25519PubKeyData(Ed25519PublicKey $pub)
+    public function ed25519PubKeyData(Ed25519PublicKey $pub)
     {
         $this->assertInstanceOf(BitString::class, $pub->subjectPublicKey());
     }
 
-    public function testDecodeX25519(): X25519PrivateKey
+    /**
+     * @test
+     */
+    public function decodeX25519(): X25519PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -188,15 +237,20 @@ CODE_SAMPLE;
     }
 
     /**
-     * @depends testDecodeX25519
+     * @depends decodeX25519
+     *
+     * @test
      */
-    public function testRecodeX25519(X25519PrivateKey $pk)
+    public function recodeX25519(X25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
         $this->assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
-    public function testDecodeX25519Pub(): X25519PublicKey
+    /**
+     * @test
+     */
+    public function decodeX25519Pub(): X25519PublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
@@ -205,15 +259,20 @@ CODE_SAMPLE;
     }
 
     /**
-     * @depends testDecodeX25519Pub
+     * @depends decodeX25519Pub
+     *
+     * @test
      */
-    public function testRecodeX25519Pub(X25519PublicKey $pub)
+    public function recodeX25519Pub(X25519PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_public_key.pem');
         $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
-    public function testX25519PkNoPublicKey()
+    /**
+     * @test
+     */
+    public function x25519PkNoPublicKey()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
         $pk = X25519PrivateKey::fromPEM($pem);
@@ -222,7 +281,10 @@ CODE_SAMPLE;
         $pk->publicKey();
     }
 
-    public function testX25519PkGetPub()
+    /**
+     * @test
+     */
+    public function x25519PkGetPub()
     {
         $pk = new X25519PrivateKey(str_repeat("\0", 32), str_repeat("\0", 32));
         $this->assertInstanceOf(X25519PublicKey::class, $pk->publicKey());

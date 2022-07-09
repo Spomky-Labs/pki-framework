@@ -14,8 +14,10 @@ final class EncodeTest extends TestCase
 {
     /**
      * @dataProvider withoutTrailingZeroesProvider
+     *
+     * @test
      */
-    public function testWithoutTrailingZeroes(string $bits, string $expected)
+    public function withoutTrailingZeroes(string $bits, string $expected)
     {
         $bs = new BitString($bits);
         $this->assertEquals($expected, $bs->withoutTrailingZeroes() ->toDER());

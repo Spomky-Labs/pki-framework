@@ -17,7 +17,10 @@ final class FullNameTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = FullName::fromURI(self::URI);
         $this->assertInstanceOf(FullName::class, $name);
@@ -25,9 +28,11 @@ final class FullNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(FullName $name)
+    public function encode(FullName $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -35,11 +40,13 @@ final class FullNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $name = FullName::fromTaggedType(TaggedType::fromDER($data));
         $this->assertInstanceOf(FullName::class, $name);
@@ -47,18 +54,22 @@ final class FullNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(FullName $ref, FullName $new)
+    public function recoded(FullName $ref, FullName $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNames(FullName $name)
+    public function names(FullName $name)
     {
         $names = $name->names();
         $this->assertInstanceOf(GeneralNames::class, $names);

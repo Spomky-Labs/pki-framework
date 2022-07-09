@@ -15,7 +15,10 @@ use Sop\X509\AttributeCertificate\Attribute\IetfAttrSyntax;
  */
 final class IetfAttrSyntaxTest extends TestCase
 {
-    public function testCreateEmpty()
+    /**
+     * @test
+     */
+    public function createEmpty()
     {
         $val = new GroupAttributeValue();
         $this->assertInstanceOf(IetfAttrSyntax::class, $val);
@@ -23,51 +26,63 @@ final class IetfAttrSyntaxTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoPolicyAuthorityFail(IetfAttrSyntax $val)
+    public function noPolicyAuthorityFail(IetfAttrSyntax $val)
     {
         $this->expectException(LogicException::class);
         $val->policyAuthority();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoValuesFirstFail(IetfAttrSyntax $val)
+    public function noValuesFirstFail(IetfAttrSyntax $val)
     {
         $this->expectException(LogicException::class);
         $val->first();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testStringValue(IetfAttrSyntax $val)
+    public function stringValue(IetfAttrSyntax $val)
     {
         $this->assertIsString($val->stringValue());
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testEqualityMatchingRule(IetfAttrSyntax $val)
+    public function equalityMatchingRule(IetfAttrSyntax $val)
     {
         $this->assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testRFC2253String(IetfAttrSyntax $val)
+    public function rFC2253String(IetfAttrSyntax $val)
     {
         $this->assertIsString($val->rfc2253String());
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testToString(IetfAttrSyntax $val)
+    public function toStringMethod(IetfAttrSyntax $val)
     {
         $this->assertIsString(strval($val));
     }

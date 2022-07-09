@@ -16,19 +16,28 @@ use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
  */
 final class BS2OSTest extends TestCase
 {
-    public function testOSType()
+    /**
+     * @test
+     */
+    public function oSType()
     {
         $os = ECConversion::bitStringToOctetString(new BitString('test'));
         $this->assertInstanceOf(OctetString::class, $os);
     }
 
-    public function testBSType()
+    /**
+     * @test
+     */
+    public function bSType()
     {
         $bs = ECConversion::octetStringToBitString(new OctetString('test'));
         $this->assertInstanceOf(BitString::class, $bs);
     }
 
-    public function testUnusedBits()
+    /**
+     * @test
+     */
+    public function unusedBits()
     {
         $this->expectException(RuntimeException::class);
         ECConversion::bitStringToOctetString(new BitString("\0", 4));
@@ -36,8 +45,10 @@ final class BS2OSTest extends TestCase
 
     /**
      * @dataProvider provideConvert
+     *
+     * @test
      */
-    public function testConvert(OctetString $os, BitString $bs)
+    public function convert(OctetString $os, BitString $bs)
     {
         $tmp = ECConversion::octetStringToBitString($os);
         $this->assertEquals($bs, $tmp);

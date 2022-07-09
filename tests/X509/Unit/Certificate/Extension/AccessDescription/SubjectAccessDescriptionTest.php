@@ -16,7 +16,10 @@ final class SubjectAccessDescriptionTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $desc = new SubjectAccessDescription(
             SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
@@ -27,9 +30,11 @@ final class SubjectAccessDescriptionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(SubjectAccessDescription $desc)
+    public function encode(SubjectAccessDescription $desc)
     {
         $el = $desc->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -37,11 +42,13 @@ final class SubjectAccessDescriptionTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $desc = SubjectAccessDescription::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(SubjectAccessDescription::class, $desc);
@@ -49,42 +56,52 @@ final class SubjectAccessDescriptionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(SubjectAccessDescription $ref, SubjectAccessDescription $new)
+    public function recoded(SubjectAccessDescription $ref, SubjectAccessDescription $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIsCARepository(SubjectAccessDescription $desc)
+    public function isCARepository(SubjectAccessDescription $desc)
     {
         $this->assertTrue($desc->isCARepositoryMethod());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIsNotTimeStamping(SubjectAccessDescription $desc)
+    public function isNotTimeStamping(SubjectAccessDescription $desc)
     {
         $this->assertFalse($desc->isTimeStampingMethod());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAccessMethod(SubjectAccessDescription $desc)
+    public function accessMethod(SubjectAccessDescription $desc)
     {
         $this->assertEquals(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY, $desc->accessMethod());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testLocation(SubjectAccessDescription $desc)
+    public function location(SubjectAccessDescription $desc)
     {
         $this->assertEquals(self::URI, $desc->accessLocation() ->string());
     }

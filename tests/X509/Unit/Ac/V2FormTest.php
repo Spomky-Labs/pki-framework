@@ -35,7 +35,10 @@ final class V2FormTest extends TestCase
         self::$_issuerName = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $issuer = new V2Form(self::$_issuerName);
         $this->assertInstanceOf(AttCertIssuer::class, $issuer);
@@ -43,9 +46,11 @@ final class V2FormTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(V2Form $issuer)
+    public function encode(V2Form $issuer)
     {
         $el = $issuer->toASN1();
         $this->assertInstanceOf(ImplicitlyTaggedType::class, $el);
@@ -53,11 +58,13 @@ final class V2FormTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $issuer = V2Form::fromASN1(Element::fromDER($data)->asUnspecified());
         $this->assertInstanceOf(V2Form::class, $issuer);
@@ -65,23 +72,30 @@ final class V2FormTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(V2Form $ref, V2Form $new)
+    public function recoded(V2Form $ref, V2Form $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIssuerName(V2Form $issuer)
+    public function issuerName(V2Form $issuer)
     {
         $this->assertEquals(self::$_issuerName, $issuer->issuerName());
     }
 
-    public function testNoIssuerNameFail()
+    /**
+     * @test
+     */
+    public function noIssuerNameFail()
     {
         $issuer = new V2Form();
         $this->expectException(LogicException::class);
@@ -89,14 +103,19 @@ final class V2FormTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testName(V2Form $issuer)
+    public function name(V2Form $issuer)
     {
         $this->assertEquals('cn=Test', $issuer->name());
     }
 
-    public function testDecodeWithAll()
+    /**
+     * @test
+     */
+    public function decodeWithAll()
     {
         $iss_ser = new IssuerSerial(self::$_issuerName, 1);
         $odi = new ObjectDigestInfo(
@@ -118,9 +137,11 @@ final class V2FormTest extends TestCase
     }
 
     /**
-     * @depends testDecodeWithAll
+     * @depends decodeWithAll
+     *
+     * @test
      */
-    public function testEncodeWithAll(V2Form $issuer)
+    public function encodeWithAll(V2Form $issuer)
     {
         $el = $issuer->toASN1();
         $this->assertInstanceOf(ImplicitlyTaggedType::class, $el);

@@ -16,7 +16,10 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 final class AuthorityInformationAccessTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new AuthorityInformationAccessExtension(
             false,
@@ -34,25 +37,31 @@ final class AuthorityInformationAccessTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_AUTHORITY_INFORMATION_ACCESS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertFalse($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -60,11 +69,13 @@ final class AuthorityInformationAccessTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = AuthorityInformationAccessExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AuthorityInformationAccessExtension::class, $ext);
@@ -72,34 +83,42 @@ final class AuthorityInformationAccessTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAccessDescriptions(AuthorityInformationAccessExtension $ext)
+    public function accessDescriptions(AuthorityInformationAccessExtension $ext)
     {
         $this->assertContainsOnlyInstancesOf(AuthorityAccessDescription::class, $ext->accessDescriptions());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(AuthorityInformationAccessExtension $ext)
+    public function countMethod(AuthorityInformationAccessExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(AuthorityInformationAccessExtension $ext)
+    public function iterator(AuthorityInformationAccessExtension $ext)
     {
         $values = [];
         foreach ($ext as $desc) {

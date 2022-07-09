@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\VideotexString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = VideotexString::fromDER("\x15\x0");
         $this->assertInstanceOf(VideotexString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World!';
         $el = VideotexString::fromDER("\x15\x0c{$str}");

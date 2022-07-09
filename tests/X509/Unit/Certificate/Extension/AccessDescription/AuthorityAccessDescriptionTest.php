@@ -16,7 +16,10 @@ final class AuthorityAccessDescriptionTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $desc = new AuthorityAccessDescription(
             AuthorityAccessDescription::OID_METHOD_OSCP,
@@ -27,9 +30,11 @@ final class AuthorityAccessDescriptionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AuthorityAccessDescription $desc)
+    public function encode(AuthorityAccessDescription $desc)
     {
         $el = $desc->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -37,11 +42,13 @@ final class AuthorityAccessDescriptionTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $desc = AuthorityAccessDescription::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(AuthorityAccessDescription::class, $desc);
@@ -49,42 +56,52 @@ final class AuthorityAccessDescriptionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AuthorityAccessDescription $ref, AuthorityAccessDescription $new)
+    public function recoded(AuthorityAccessDescription $ref, AuthorityAccessDescription $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIsOSCP(AuthorityAccessDescription $desc)
+    public function isOSCP(AuthorityAccessDescription $desc)
     {
         $this->assertTrue($desc->isOSCPMethod());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIsNotCAIssuers(AuthorityAccessDescription $desc)
+    public function isNotCAIssuers(AuthorityAccessDescription $desc)
     {
         $this->assertFalse($desc->isCAIssuersMethod());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAccessMethod(AuthorityAccessDescription $desc)
+    public function accessMethod(AuthorityAccessDescription $desc)
     {
         $this->assertEquals(AuthorityAccessDescription::OID_METHOD_OSCP, $desc->accessMethod());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testLocation(AuthorityAccessDescription $desc)
+    public function location(AuthorityAccessDescription $desc)
     {
         $this->assertEquals(self::URI, $desc->accessLocation() ->string());
     }

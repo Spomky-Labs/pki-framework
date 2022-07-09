@@ -17,14 +17,20 @@ use UnexpectedValueException;
  */
 final class PrivateKeyTest extends TestCase
 {
-    public function testFromRSAPEM()
+    /**
+     * @test
+     */
+    public function fromRSAPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
         $this->assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
-    public function testFromRSAPKIPEM()
+    /**
+     * @test
+     */
+    public function fromRSAPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
@@ -33,8 +39,10 @@ final class PrivateKeyTest extends TestCase
 
     /**
      * @return PrivateKey
+     *
+     * @test
      */
-    public function testFromECPEM()
+    public function fromECPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
@@ -43,17 +51,21 @@ final class PrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromECPEM
+     * @depends fromECPEM
+     *
+     * @test
      */
-    public function testECPEMHasNamedCurve(ECPrivateKey $pk)
+    public function eCPEMHasNamedCurve(ECPrivateKey $pk)
     {
         $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
      * @return PrivateKey
+     *
+     * @test
      */
-    public function testFromECPKIPEM()
+    public function fromECPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
@@ -62,14 +74,19 @@ final class PrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromECPKIPEM
+     * @depends fromECPKIPEM
+     *
+     * @test
      */
-    public function testECPKIPEMHasNamedCurve(ECPrivateKey $pk)
+    public function eCPKIPEMHasNamedCurve(ECPrivateKey $pk)
     {
         $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
-    public function testInvalidPEMType()
+    /**
+     * @test
+     */
+    public function invalidPEMType()
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);

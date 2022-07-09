@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEmpty()
+    /**
+     * @test
+     */
+    public function empty()
     {
         $oid = new ObjectIdentifier('');
         $this->assertEquals("\x6\0", $oid->toDER());
     }
 
-    public function testEncodeLong()
+    /**
+     * @test
+     */
+    public function encodeLong()
     {
         $oid = new ObjectIdentifier('1.2.840.113549');
         $this->assertEquals("\x06\x06\x2a\x86\x48\x86\xf7\x0d", $oid->toDER());

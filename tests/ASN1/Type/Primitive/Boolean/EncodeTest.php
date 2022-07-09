@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\Boolean;
  */
 final class EncodeTest extends TestCase
 {
-    public function testTrue()
+    /**
+     * @test
+     */
+    public function true()
     {
         $el = new Boolean(true);
         $this->assertEquals("\x1\x1\xff", $el->toDER());
     }
 
-    public function testFalse()
+    /**
+     * @test
+     */
+    public function false()
     {
         $el = new Boolean(false);
         $this->assertEquals("\x1\x1\x00", $el->toDER());

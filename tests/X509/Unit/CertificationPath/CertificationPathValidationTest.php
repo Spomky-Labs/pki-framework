@@ -43,8 +43,10 @@ final class CertificationPathValidationTest extends TestCase
 
     /**
      * @return PathValidationResult
+     *
+     * @test
      */
-    public function testValidateDefault()
+    public function validateDefault()
     {
         $result = self::$_path->validate(PathValidationConfig::defaultConfig());
         $this->assertInstanceOf(PathValidationResult::class, $result);
@@ -52,49 +54,69 @@ final class CertificationPathValidationTest extends TestCase
     }
 
     /**
-     * @depends testValidateDefault
+     * @depends validateDefault
+     *
+     * @test
      */
-    public function testResult(PathValidationResult $result)
+    public function result(PathValidationResult $result)
     {
         $expected_cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
         $this->assertEquals($expected_cert, $result->certificate());
     }
 
-    public function testValidateExpired()
+    /**
+     * @test
+     */
+    public function validateExpired()
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2026-01-03'));
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
 
-    public function testValidateNotBeforeFail()
+    /**
+     * @test
+     */
+    public function validateNotBeforeFail()
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2015-12-31'));
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
 
-    public function testValidatePathLengthFail()
+    /**
+     * @test
+     */
+    public function validatePathLengthFail()
     {
         $config = PathValidationConfig::defaultConfig()->withMaxLength(0);
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
 
-    public function testNoCertsFail()
+    /**
+     * @test
+     */
+    public function noCertsFail()
     {
         $this->expectException(LogicException::class);
         new PathValidator(Crypto::getDefault(), PathValidationConfig::defaultConfig());
     }
 
-    public function testExplicitTrustAnchor()
+    /**
+     * @test
+     */
+    public function explicitTrustAnchor()
     {
         $config = PathValidationConfig::defaultConfig()->withTrustAnchor(self::$_path->certificates()[0]);
         $validator = new PathValidator(Crypto::getDefault(), $config, ...self::$_path->certificates());
         $this->assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
 
-    public function testValidateFailNoCerts()
+    /**
+     * @test
+     */
+    public function validateFailNoCerts()
     {
         $validator = new PathValidator(
             Crypto::getDefault(),

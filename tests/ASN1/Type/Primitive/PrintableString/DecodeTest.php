@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\PrintableString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = PrintableString::fromDER("\x13\x0");
         $this->assertInstanceOf(PrintableString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World.';
         $el = PrintableString::fromDER("\x13\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 
-    public function testInvalidValue()
+    /**
+     * @test
+     */
+    public function invalidValue()
     {
         $str = 'Hello World!';
         $this->expectException(DecodeException::class);

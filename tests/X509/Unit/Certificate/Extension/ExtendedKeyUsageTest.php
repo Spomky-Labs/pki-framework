@@ -15,7 +15,10 @@ use Sop\X509\Certificate\Extensions;
  */
 final class ExtendedKeyUsageTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new ExtendedKeyUsageExtension(
             true,
@@ -27,25 +30,31 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_EXT_KEY_USAGE, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -53,11 +62,13 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = ExtendedKeyUsageExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
@@ -65,18 +76,22 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHas(ExtendedKeyUsageExtension $ext)
+    public function has(ExtendedKeyUsageExtension $ext)
     {
         $this->assertTrue(
             $ext->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH, ExtendedKeyUsageExtension::OID_CLIENT_AUTH)
@@ -84,33 +99,41 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasNot(ExtendedKeyUsageExtension $ext)
+    public function hasNot(ExtendedKeyUsageExtension $ext)
     {
         $this->assertFalse($ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPurposes(ExtendedKeyUsageExtension $ext)
+    public function purposes(ExtendedKeyUsageExtension $ext)
     {
         $this->assertContainsOnly('string', $ext->purposes());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(ExtendedKeyUsageExtension $ext)
+    public function countMethod(ExtendedKeyUsageExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(ExtendedKeyUsageExtension $ext)
+    public function iterator(ExtendedKeyUsageExtension $ext)
     {
         $values = [];
         foreach ($ext as $oid) {
@@ -120,9 +143,11 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(ExtendedKeyUsageExtension $ext)
+    public function extensions(ExtendedKeyUsageExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasExtendedKeyUsage());
@@ -130,9 +155,11 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->extendedKeyUsage();
         $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);

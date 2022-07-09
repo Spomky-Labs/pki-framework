@@ -34,8 +34,10 @@ final class ValueInitializationTest extends TestCase
      *
      * @param mixed $cls
      * @param mixed $oid
+     *
+     * @test
      */
-    public function testCreate($cls, $oid)
+    public function create($cls, $oid)
     {
         $el = AttributeType::asn1StringForType($oid, 'Test');
         $val = AttributeValue::fromASN1ByOID($oid, new UnspecifiedType($el));
@@ -47,8 +49,10 @@ final class ValueInitializationTest extends TestCase
      *
      * @param mixed $cls
      * @param mixed $oid
+     *
+     * @test
      */
-    public function testASN1($cls, $oid)
+    public function aSN1($cls, $oid)
     {
         $val = new $cls('Test');
         $el = $val->toASN1();

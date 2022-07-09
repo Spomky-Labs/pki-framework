@@ -16,8 +16,10 @@ final class MD4WithRSAAITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new MD4WithRSAEncryptionAlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -26,9 +28,11 @@ final class MD4WithRSAAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(MD4WithRSAEncryptionAlgorithmIdentifier::class, $ai);
@@ -36,9 +40,11 @@ final class MD4WithRSAAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

@@ -12,7 +12,10 @@ use Sop\ASN1\Type\Primitive\EOC;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncode()
+    /**
+     * @test
+     */
+    public function encode()
     {
         $el = new EOC();
         $this->assertEquals("\0\0", $el->toDER());

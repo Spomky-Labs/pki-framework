@@ -25,7 +25,10 @@ final class RoleTest extends TestCase
 
     final public const AUTHORITY_DN = 'cn=Role Authority';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $value = new RoleAttributeValue(
             new UniformResourceIdentifier(self::ROLE_URI),
@@ -36,9 +39,11 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeValue $value)
+    public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -46,11 +51,13 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(RoleAttributeValue::class, $value);
@@ -58,23 +65,30 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeValue $ref, AttributeValue $new)
+    public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $value)
+    public function oID(AttributeValue $value)
     {
         $this->assertEquals(AttributeType::OID_ROLE, $value->oid());
     }
 
-    public function testFromString()
+    /**
+     * @test
+     */
+    public function fromString()
     {
         $value = RoleAttributeValue::fromString(
             self::ROLE_URI,
@@ -84,25 +98,31 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRoleName(RoleAttributeValue $value)
+    public function roleName(RoleAttributeValue $value)
     {
         $this->assertEquals(self::ROLE_URI, $value->roleName());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRoleAuthority(RoleAttributeValue $value)
+    public function roleAuthority(RoleAttributeValue $value)
     {
         $this->assertEquals(self::AUTHORITY_DN, $value->roleAuthority() ->firstDN());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAttributes(AttributeValue $value)
+    public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
         $this->assertTrue($attribs->hasRole());
@@ -110,22 +130,29 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testAttributes
+     * @depends attributes
+     *
+     * @test
      */
-    public function testFromAttributes(Attributes $attribs)
+    public function fromAttributes(Attributes $attribs)
     {
         $this->assertInstanceOf(RoleAttributeValue::class, $attribs->role());
     }
 
     /**
-     * @depends testAttributes
+     * @depends attributes
+     *
+     * @test
      */
-    public function testAllFromAttributes(Attributes $attribs)
+    public function allFromAttributes(Attributes $attribs)
     {
         $this->assertContainsOnlyInstancesOf(RoleAttributeValue::class, $attribs->roles());
     }
 
-    public function testAllFromMultipleAttributes()
+    /**
+     * @test
+     */
+    public function allFromMultipleAttributes()
     {
         $attribs = Attributes::fromAttributeValues(
             RoleAttributeValue::fromString('urn:role:1'),
@@ -134,7 +161,10 @@ final class RoleTest extends TestCase
         $this->assertCount(2, $attribs->roles());
     }
 
-    public function testCreateWithoutAuthority()
+    /**
+     * @test
+     */
+    public function createWithoutAuthority()
     {
         $value = new RoleAttributeValue(new UniformResourceIdentifier(self::ROLE_URI));
         $this->assertInstanceOf(RoleAttributeValue::class, $value);
@@ -142,9 +172,11 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithoutAuthority
+     * @depends createWithoutAuthority
+     *
+     * @test
      */
-    public function testEncodeWithoutAuthority(AttributeValue $value)
+    public function encodeWithoutAuthority(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -152,11 +184,13 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testEncodeWithoutAuthority
+     * @depends encodeWithoutAuthority
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecodeWithoutAuthority($der)
+    public function decodeWithoutAuthority($der)
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(RoleAttributeValue::class, $value);
@@ -164,51 +198,63 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithoutAuthority
-     * @depends testDecodeWithoutAuthority
+     * @depends createWithoutAuthority
+     * @depends decodeWithoutAuthority
+     *
+     * @test
      */
-    public function testRecodedWithoutAuthority(AttributeValue $ref, AttributeValue $new)
+    public function recodedWithoutAuthority(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateWithoutAuthority
+     * @depends createWithoutAuthority
+     *
+     * @test
      */
-    public function testNoRoleAuthorityFail(RoleAttributeValue $value)
+    public function noRoleAuthorityFail(RoleAttributeValue $value)
     {
         $this->expectException(LogicException::class);
         $value->roleAuthority();
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testStringValue(AttributeValue $value)
+    public function stringValue(AttributeValue $value)
     {
         $this->assertIsString($value->stringValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEqualityMatchingRule(AttributeValue $value)
+    public function equalityMatchingRule(AttributeValue $value)
     {
         $this->assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRFC2253String(AttributeValue $value)
+    public function rFC2253String(AttributeValue $value)
     {
         $this->assertIsString($value->rfc2253String());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(AttributeValue $value)
+    public function toStringMethod(AttributeValue $value)
     {
         $this->assertIsString(strval($value));
     }

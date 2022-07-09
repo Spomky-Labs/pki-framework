@@ -15,7 +15,10 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 final class DERTaggedTypeTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
         $this->assertInstanceOf(DERTaggedType::class, $el);
@@ -23,34 +26,42 @@ final class DERTaggedTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(DERTaggedType $el)
+    public function encode(DERTaggedType $el)
     {
         $der = $el->toDER();
         $this->assertEquals("\xa0\x2\x5\x0", $der);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectExplicit(DERTaggedType $el)
+    public function expectExplicit(DERTaggedType $el)
     {
         $this->assertInstanceOf(TaggedType::class, $el->expectExplicit());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectImplicit(DERTaggedType $el)
+    public function expectImplicit(DERTaggedType $el)
     {
         $this->assertInstanceOf(TaggedType::class, $el->expectImplicit());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(TaggedType::class, $wrap->asTagged());

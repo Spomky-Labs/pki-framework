@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\Enumerated;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = Enumerated::fromDER("\x0a\x1\x0");
         $this->assertInstanceOf(Enumerated::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $el = Enumerated::fromDER("\x0a\x1\x1");
         $this->assertEquals(1, $el->number());

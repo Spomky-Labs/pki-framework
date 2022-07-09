@@ -16,31 +16,46 @@ use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
  */
 final class I2OSTest extends TestCase
 {
-    public function testOSType()
+    /**
+     * @test
+     */
+    public function oSType()
     {
         $os = ECConversion::integerToOctetString(new Integer(42));
         $this->assertInstanceOf(OctetString::class, $os);
     }
 
-    public function testIntegerType()
+    /**
+     * @test
+     */
+    public function integerType()
     {
         $num = ECConversion::octetStringToInteger(new OctetString("\x42"));
         $this->assertInstanceOf(Integer::class, $num);
     }
 
-    public function testLength()
+    /**
+     * @test
+     */
+    public function length()
     {
         $os = ECConversion::integerToOctetString(new Integer(256), 2);
         $this->assertEquals(2, strlen($os->string()));
     }
 
-    public function testPad()
+    /**
+     * @test
+     */
+    public function pad()
     {
         $os = ECConversion::integerToOctetString(new Integer(256), 3);
         $this->assertEquals(3, strlen($os->string()));
     }
 
-    public function testTooLarge()
+    /**
+     * @test
+     */
+    public function tooLarge()
     {
         $this->expectException(RangeException::class);
         ECConversion::integerToOctetString(new Integer(256), 1);
@@ -50,8 +65,10 @@ final class I2OSTest extends TestCase
      * @dataProvider provideConvert
      *
      * @param mixed $mlen
+     *
+     * @test
      */
-    public function testConvert(Integer $num, $mlen, OctetString $os)
+    public function convert(Integer $num, $mlen, OctetString $os)
     {
         $tmp = ECConversion::integerToOctetString($num, $mlen);
         $this->assertEquals($os, $tmp);
@@ -69,13 +86,19 @@ final class I2OSTest extends TestCase
         yield [new Integer('4294967295'), 4, new OctetString("\xff\xff\xff\xff")];
     }
 
-    public function testNumberToOctets()
+    /**
+     * @test
+     */
+    public function numberToOctets()
     {
         $octets = ECConversion::numberToOctets(0x42);
         $this->assertEquals("\x42", $octets);
     }
 
-    public function testOctetsToNumber()
+    /**
+     * @test
+     */
+    public function octetsToNumber()
     {
         $number = ECConversion::octetsToNumber("\x42");
         $this->assertEquals(0x42, $number);

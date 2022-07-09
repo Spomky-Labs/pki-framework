@@ -42,8 +42,10 @@ final class SignatureFactoryTest extends TestCase
      * @param AsymmetricCryptoAlgorithmIdentifier $crypto_algo
      * @param HashAlgorithmIdentifier $hash_algo
      * @param string $expected_class
+     *
+     * @test
      */
-    public function testAlgoForAsymmetricCrypto($crypto_algo, $hash_algo, $expected_class)
+    public function algoForAsymmetricCrypto($crypto_algo, $hash_algo, $expected_class)
     {
         $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
         $this->assertInstanceOf($expected_class, $algo);
@@ -77,7 +79,10 @@ final class SignatureFactoryTest extends TestCase
         ];
     }
 
-    public function testInvalidCryptoAlgo()
+    /**
+     * @test
+     */
+    public function invalidCryptoAlgo()
     {
         $crypto_algo = new SignatureFactoryTest_InvalidCryptoAlgo();
         $hash_algo = new MD5AlgorithmIdentifier();
@@ -85,7 +90,10 @@ final class SignatureFactoryTest extends TestCase
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
     }
 
-    public function testInvalidRSAHashAlgo()
+    /**
+     * @test
+     */
+    public function invalidRSAHashAlgo()
     {
         $crypto_algo = new RSAEncryptionAlgorithmIdentifier();
         $hash_algo = new SignatureFactoryTest_InvalidHashAlgo();
@@ -93,7 +101,10 @@ final class SignatureFactoryTest extends TestCase
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
     }
 
-    public function testInvalidECHashAlgo()
+    /**
+     * @test
+     */
+    public function invalidECHashAlgo()
     {
         $crypto_algo = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
         $hash_algo = new SignatureFactoryTest_InvalidHashAlgo();

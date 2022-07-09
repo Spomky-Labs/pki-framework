@@ -13,8 +13,10 @@ final class BasicConstraintsTest extends RefExtTestHelper
 {
     /**
      * @return BasicConstraintsExtension
+     *
+     * @test
      */
-    public function testBasicConstraintsExtension()
+    public function basicConstraintsExtension()
     {
         $ext = self::$_extensions->basicConstraints();
         $this->assertInstanceOf(BasicConstraintsExtension::class, $ext);
@@ -22,17 +24,21 @@ final class BasicConstraintsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testBasicConstraintsExtension
+     * @depends basicConstraintsExtension
+     *
+     * @test
      */
-    public function testBasicConstraintsCA(BasicConstraintsExtension $bc)
+    public function basicConstraintsCA(BasicConstraintsExtension $bc)
     {
         $this->assertTrue($bc->isCA());
     }
 
     /**
-     * @depends testBasicConstraintsExtension
+     * @depends basicConstraintsExtension
+     *
+     * @test
      */
-    public function testBasicConstraintsPathLen(BasicConstraintsExtension $bc)
+    public function basicConstraintsPathLen(BasicConstraintsExtension $bc)
     {
         $this->assertEquals(3, $bc->pathLen());
     }

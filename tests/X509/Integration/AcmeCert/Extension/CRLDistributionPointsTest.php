@@ -20,8 +20,10 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
 {
     /**
      * @return CRLDistributionPointsExtension
+     *
+     * @test
      */
-    public function testCRLDistributionPointsExtension()
+    public function cRLDistributionPointsExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_CRL_DISTRIBUTION_POINTS);
         $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
@@ -29,11 +31,13 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testCRLDistributionPointsExtension
+     * @depends cRLDistributionPointsExtension
      *
      * @return DistributionPoint
+     *
+     * @test
      */
-    public function testDistributionPoint(CRLDistributionPointsExtension $ext)
+    public function distributionPoint(CRLDistributionPointsExtension $ext)
     {
         $cdp = $ext->getIterator()[0];
         $this->assertInstanceOf(DistributionPoint::class, $cdp);
@@ -41,11 +45,13 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testDistributionPoint
+     * @depends distributionPoint
      *
      * @return FullName
+     *
+     * @test
      */
-    public function testFullName(DistributionPoint $dp)
+    public function fullName(DistributionPoint $dp)
     {
         $name = $dp->distributionPointName();
         $this->assertEquals(DistributionPointName::TAG_FULL_NAME, $name->tag());
@@ -53,9 +59,11 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testFullName
+     * @depends fullName
+     *
+     * @test
      */
-    public function testURI(FullName $name)
+    public function uRI(FullName $name)
     {
         $uri = $name->names()
             ->firstOf(GeneralName::TAG_URI)
@@ -64,11 +72,13 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testDistributionPoint
+     * @depends distributionPoint
      *
      * @return ReasonFlags
+     *
+     * @test
      */
-    public function testReasons(DistributionPoint $dp)
+    public function reasons(DistributionPoint $dp)
     {
         $reasons = $dp->reasons();
         $this->assertInstanceOf(ReasonFlags::class, $reasons);
@@ -76,9 +86,11 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testReasons
+     * @depends reasons
+     *
+     * @test
      */
-    public function testReasonFlags(ReasonFlags $reasons)
+    public function reasonFlags(ReasonFlags $reasons)
     {
         $this->assertTrue($reasons->isKeyCompromise());
         $this->assertTrue($reasons->isCACompromise());
@@ -91,11 +103,13 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testDistributionPoint
+     * @depends distributionPoint
      *
      * @return GeneralNames
+     *
+     * @test
      */
-    public function testIssuer(DistributionPoint $dp)
+    public function issuer(DistributionPoint $dp)
     {
         $issuer = $dp->crlIssuer();
         $this->assertInstanceOf(GeneralNames::class, $issuer);
@@ -103,9 +117,11 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testIssuer
+     * @depends issuer
+     *
+     * @test
      */
-    public function testIssuerDirName(GeneralNames $gn)
+    public function issuerDirName(GeneralNames $gn)
     {
         $dn = $gn->firstOf(GeneralName::TAG_DIRECTORY_NAME)->dn();
         $this->assertEquals('cn=ACME,o=ACME Ltd.', $dn->toString());

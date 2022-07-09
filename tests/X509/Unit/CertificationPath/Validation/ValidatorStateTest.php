@@ -29,7 +29,10 @@ final class ValidatorStateTest extends TestCase
         self::$_ca = null;
     }
 
-    public function testInitialize()
+    /**
+     * @test
+     */
+    public function initialize()
     {
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
         $this->assertInstanceOf(ValidatorState::class, $state);
@@ -37,9 +40,11 @@ final class ValidatorStateTest extends TestCase
     }
 
     /**
-     * @depends testInitialize
+     * @depends initialize
+     *
+     * @test
      */
-    public function testValidPolicyTreeFail(ValidatorState $state)
+    public function validPolicyTreeFail(ValidatorState $state)
     {
         $this->expectException(LogicException::class);
         $state->withoutValidPolicyTree()
@@ -47,9 +52,11 @@ final class ValidatorStateTest extends TestCase
     }
 
     /**
-     * @depends testInitialize
+     * @depends initialize
+     *
+     * @test
      */
-    public function testWorkingPublicKeyParameters(ValidatorState $state)
+    public function workingPublicKeyParameters(ValidatorState $state)
     {
         $this->assertInstanceOf(NullType::class, $state->workingPublicKeyParameters());
     }

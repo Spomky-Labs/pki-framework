@@ -13,13 +13,19 @@ use Sop\ASN1\Type\Tagged\ContextSpecificType;
  */
 final class ContextSpecificTypeTest extends TestCase
 {
-    public function testExplicitType()
+    /**
+     * @test
+     */
+    public function explicitType()
     {
         $el = Element::fromDER(hex2bin('a1020500'));
         $this->assertInstanceOf(ContextSpecificType::class, $el);
     }
 
-    public function testImplicitType()
+    /**
+     * @test
+     */
+    public function implicitType()
     {
         $el = Element::fromDER(hex2bin('8100'));
         $this->assertInstanceOf(ContextSpecificType::class, $el);

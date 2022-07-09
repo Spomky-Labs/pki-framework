@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\NullType;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = NullType::fromDER("\x5\0");
         $this->assertInstanceOf(NullType::class, $el);
     }
 
-    public function testInvalidLength()
+    /**
+     * @test
+     */
+    public function invalidLength()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Expected length 0, got 1');
         NullType::fromDER("\x5\x1\x0");
     }
 
-    public function testNotPrimitive()
+    /**
+     * @test
+     */
+    public function notPrimitive()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Null value must be primitive');

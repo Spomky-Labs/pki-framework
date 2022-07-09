@@ -14,14 +14,20 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithm
  */
 final class RSASigAITest extends TestCase
 {
-    public function testSupportsKeyAlgorithm()
+    /**
+     * @test
+     */
+    public function supportsKeyAlgorithm()
     {
         $sig_algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $key_algo = new RSAEncryptionAlgorithmIdentifier();
         $this->assertTrue($sig_algo->supportsKeyAlgorithm($key_algo));
     }
 
-    public function testDoesntSupportsKeyAlgorithm()
+    /**
+     * @test
+     */
+    public function doesntSupportsKeyAlgorithm()
     {
         $sig_algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $key_algo = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1);

@@ -20,8 +20,10 @@ final class AES256CBCAITest extends TestCase
 
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new AES256CBCAlgorithmIdentifier(self::IV);
         $seq = $ai->toASN1();
@@ -30,9 +32,11 @@ final class AES256CBCAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(AES256CBCAlgorithmIdentifier::class, $ai);
@@ -40,24 +44,31 @@ final class AES256CBCAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testIV(AES256CBCAlgorithmIdentifier $ai)
+    public function iV(AES256CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(self::IV, $ai->initializationVector());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeNoParamsFail(Sequence $seq)
+    public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    public function testEncodeNoIVFail()
+    /**
+     * @test
+     */
+    public function encodeNoIVFail()
     {
         $ai = new AES256CBCAlgorithmIdentifier();
         $this->expectException(LogicException::class);
@@ -65,31 +76,40 @@ final class AES256CBCAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testBlockSize(AES256CBCAlgorithmIdentifier $ai)
+    public function blockSize(AES256CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(16, $ai->blockSize());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testKeySize(AES256CBCAlgorithmIdentifier $ai)
+    public function keySize(AES256CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(32, $ai->keySize());
     }
 
-    public function testInvalidIVSizeFail()
+    /**
+     * @test
+     */
+    public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
         new AES256CBCAlgorithmIdentifier('1234');
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

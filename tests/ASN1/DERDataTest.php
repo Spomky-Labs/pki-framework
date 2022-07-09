@@ -18,7 +18,10 @@ use Sop\ASN1\Type\Primitive\OctetString;
  */
 final class DERDataTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new DERData("\x5\x0");
         $this->assertEquals(Element::TYPE_NULL, $el->tag());
@@ -26,44 +29,59 @@ final class DERDataTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testClass(DERData $el)
+    public function class(DERData $el)
     {
         $this->assertEquals(Identifier::CLASS_UNIVERSAL, $el->typeClass());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testConstructed(DERData $el)
+    public function constructed(DERData $el)
     {
         $this->assertFalse($el->isConstructed());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(DERData $el)
+    public function encode(DERData $el)
     {
         $this->assertEquals("\x5\x0", $el->toDER());
     }
 
-    public function testEncodeIntoSequence()
+    /**
+     * @test
+     */
+    public function encodeIntoSequence()
     {
         $el = new DERData("\x5\x0");
         $seq = new Sequence($el);
         $this->assertEquals("\x30\x2\x5\x0", $seq->toDER());
     }
 
-    public function testEncodeIntoSequenceWithOther()
+    /**
+     * @test
+     */
+    public function encodeIntoSequenceWithOther()
     {
         $el = new DERData("\x5\x0");
         $seq = new Sequence($el, new Boolean(true));
         $this->assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
 
-    public function testEncodedContentEmpty()
+    /**
+     * @test
+     */
+    public function encodedContentEmpty()
     {
         $el = new DERData("\x5\x0");
         $cls = new ReflectionClass($el);
@@ -73,7 +91,10 @@ final class DERDataTest extends TestCase
         $this->assertEquals('', $content);
     }
 
-    public function testEncodedContentValue()
+    /**
+     * @test
+     */
+    public function encodedContentValue()
     {
         $el = new DERData((new OctetString('test'))->toDER());
         $cls = new ReflectionClass($el);

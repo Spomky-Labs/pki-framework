@@ -17,7 +17,10 @@ final class PolicyMappingTest extends TestCase
 
     public const SUBJECT_POLICY = '1.3.6.1.3.2';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $mapping = new PolicyMapping(self::ISSUER_POLICY, self::SUBJECT_POLICY);
         $this->assertInstanceOf(PolicyMapping::class, $mapping);
@@ -25,9 +28,11 @@ final class PolicyMappingTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(PolicyMapping $mapping)
+    public function encode(PolicyMapping $mapping)
     {
         $el = $mapping->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -35,11 +40,13 @@ final class PolicyMappingTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $mapping = PolicyMapping::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(PolicyMapping::class, $mapping);
@@ -47,26 +54,32 @@ final class PolicyMappingTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(PolicyMapping $ref, PolicyMapping $new)
+    public function recoded(PolicyMapping $ref, PolicyMapping $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIssuerDomainPolicy(PolicyMapping $mapping)
+    public function issuerDomainPolicy(PolicyMapping $mapping)
     {
         $this->assertEquals(self::ISSUER_POLICY, $mapping->issuerDomainPolicy());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSubjectDomainPolicy(PolicyMapping $mapping)
+    public function subjectDomainPolicy(PolicyMapping $mapping)
     {
         $this->assertEquals(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());
     }

@@ -38,7 +38,10 @@ final class CertificationRequestTest extends TestCase
         self::$_privateKeyInfo = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
         $cri = new CertificationRequestInfo(self::$_subject, $pkinfo);
@@ -52,9 +55,11 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(CertificationRequest $cr)
+    public function encode(CertificationRequest $cr)
     {
         $seq = $cr->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -62,11 +67,13 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $cr = CertificationRequest::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(CertificationRequest::class, $cr);
@@ -74,50 +81,62 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(CertificationRequest $ref, CertificationRequest $new)
+    public function recoded(CertificationRequest $ref, CertificationRequest $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCertificationRequestInfo(CertificationRequest $cr)
+    public function certificationRequestInfo(CertificationRequest $cr)
     {
         $this->assertInstanceOf(CertificationRequestInfo::class, $cr->certificationRequestInfo());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAlgo(CertificationRequest $cr)
+    public function algo(CertificationRequest $cr)
     {
         $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $cr->signatureAlgorithm());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSignature(CertificationRequest $cr)
+    public function signature(CertificationRequest $cr)
     {
         $this->assertInstanceOf(Signature::class, $cr->signature());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testVerify(CertificationRequest $cr)
+    public function verify(CertificationRequest $cr)
     {
         $this->assertTrue($cr->verify());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testInvalidAlgoFail(CertificationRequest $cr)
+    public function invalidAlgoFail(CertificationRequest $cr)
     {
         $seq = $cr->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
@@ -127,9 +146,11 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToPEM(CertificationRequest $cr)
+    public function toPEM(CertificationRequest $cr)
     {
         $pem = $cr->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
@@ -137,25 +158,31 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(CertificationRequest $cr)
+    public function toStringMethod(CertificationRequest $cr)
     {
         $this->assertIsString(strval($cr));
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testPEMType(PEM $pem)
+    public function pEMType(PEM $pem)
     {
         $this->assertEquals(PEM::TYPE_CERTIFICATE_REQUEST, $pem->type());
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testFromPEM(PEM $pem)
+    public function fromPEM(PEM $pem)
     {
         $cr = CertificationRequest::fromPEM($pem);
         $this->assertInstanceOf(CertificationRequest::class, $cr);
@@ -163,15 +190,20 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testFromPEM
+     * @depends create
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testPEMRecoded(CertificationRequest $ref, CertificationRequest $new)
+    public function pEMRecoded(CertificationRequest $ref, CertificationRequest $new)
     {
         $this->assertEquals($ref, $new);
     }
 
-    public function testFromInvalidPEMFail()
+    /**
+     * @test
+     */
+    public function fromInvalidPEMFail()
     {
         $this->expectException(UnexpectedValueException::class);
         CertificationRequest::fromPEM(new PEM('nope', ''));

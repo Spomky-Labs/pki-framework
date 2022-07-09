@@ -18,7 +18,10 @@ final class URINameTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $uri = new UniformResourceIdentifier(self::URI);
         $this->assertInstanceOf(UniformResourceIdentifier::class, $uri);
@@ -26,9 +29,11 @@ final class URINameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(UniformResourceIdentifier $uri)
+    public function encode(UniformResourceIdentifier $uri)
     {
         $el = $uri->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -36,22 +41,26 @@ final class URINameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_URI, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $uri = UniformResourceIdentifier::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(UniformResourceIdentifier::class, $uri);
@@ -59,26 +68,32 @@ final class URINameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(UniformResourceIdentifier $ref, UniformResourceIdentifier $new)
+    public function recoded(UniformResourceIdentifier $ref, UniformResourceIdentifier $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(UniformResourceIdentifier $uri)
+    public function string(UniformResourceIdentifier $uri)
     {
         $this->assertEquals(self::URI, $uri->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testURI(UniformResourceIdentifier $uri)
+    public function uRI(UniformResourceIdentifier $uri)
     {
         $this->assertEquals(self::URI, $uri->uri());
     }

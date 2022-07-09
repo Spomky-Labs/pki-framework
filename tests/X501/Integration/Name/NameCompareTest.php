@@ -19,8 +19,10 @@ final class NameCompareTest extends TestCase
      * @param string $dn1
      * @param string $dn2
      * @param bool $expected
+     *
+     * @test
      */
-    public function testCompareNames($dn1, $dn2, $expected)
+    public function compareNames($dn1, $dn2, $expected)
     {
         $n1 = Name::fromString($dn1);
         $n2 = Name::fromString($dn2);
@@ -33,8 +35,10 @@ final class NameCompareTest extends TestCase
      * @param string $dn1
      * @param string $dn2
      * @param bool $expected
+     *
+     * @test
      */
-    public function testToString($dn1, $dn2, $expected)
+    public function toStringMethod($dn1, $dn2, $expected)
     {
         $n1 = Name::fromString($dn1);
         $this->assertEquals($dn1, $n1->toString());

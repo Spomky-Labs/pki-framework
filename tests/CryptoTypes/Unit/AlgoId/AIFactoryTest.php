@@ -14,7 +14,10 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
  */
 final class AIFactoryTest extends TestCase
 {
-    public function testProvider()
+    /**
+     * @test
+     */
+    public function provider()
     {
         $factory = new AlgorithmIdentifierFactory(new AIFactoryTestProvider());
         $seq = new Sequence(new ObjectIdentifier('1.3.6.1.3'));
@@ -22,7 +25,10 @@ final class AIFactoryTest extends TestCase
         $this->assertInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
     }
 
-    public function testProviderNoMatch()
+    /**
+     * @test
+     */
+    public function providerNoMatch()
     {
         $factory = new AlgorithmIdentifierFactory(new AIFactoryTestProvider());
         $seq = new Sequence(new ObjectIdentifier('1.3.6.1.3.1'));

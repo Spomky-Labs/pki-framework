@@ -15,7 +15,10 @@ final class ReasonFlagsTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $reasons = new ReasonFlags(
             ReasonFlags::KEY_COMPROMISE | ReasonFlags::AFFILIATION_CHANGED |
@@ -27,9 +30,11 @@ final class ReasonFlagsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(ReasonFlags $reasons)
+    public function encode(ReasonFlags $reasons)
     {
         $el = $reasons->toASN1();
         $this->assertInstanceOf(BitString::class, $el);
@@ -37,11 +42,13 @@ final class ReasonFlagsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $reasons = ReasonFlags::fromASN1(BitString::fromDER($data));
         $this->assertInstanceOf(ReasonFlags::class, $reasons);
@@ -49,74 +56,92 @@ final class ReasonFlagsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(ReasonFlags $ref, ReasonFlags $new)
+    public function recoded(ReasonFlags $ref, ReasonFlags $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testKeyCompromise(ReasonFlags $reasons)
+    public function keyCompromise(ReasonFlags $reasons)
     {
         $this->assertTrue($reasons->isKeyCompromise());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCACompromise(ReasonFlags $reasons)
+    public function cACompromise(ReasonFlags $reasons)
     {
         $this->assertFalse($reasons->isCACompromise());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAffiliationChanged(ReasonFlags $reasons)
+    public function affiliationChanged(ReasonFlags $reasons)
     {
         $this->assertTrue($reasons->isAffiliationChanged());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSuperseded(ReasonFlags $reasons)
+    public function superseded(ReasonFlags $reasons)
     {
         $this->assertFalse($reasons->isSuperseded());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCessationOfOperation(ReasonFlags $reasons)
+    public function cessationOfOperation(ReasonFlags $reasons)
     {
         $this->assertTrue($reasons->isCessationOfOperation());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCertificateHold(ReasonFlags $reasons)
+    public function certificateHold(ReasonFlags $reasons)
     {
         $this->assertFalse($reasons->isCertificateHold());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPriviligeWhitdrawn(ReasonFlags $reasons)
+    public function priviligeWhitdrawn(ReasonFlags $reasons)
     {
         $this->assertTrue($reasons->isPrivilegeWithdrawn());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAACompromise(ReasonFlags $reasons)
+    public function aACompromise(ReasonFlags $reasons)
     {
         $this->assertFalse($reasons->isAACompromise());
     }

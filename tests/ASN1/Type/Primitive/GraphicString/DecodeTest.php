@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\GraphicString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = GraphicString::fromDER("\x19\x0");
         $this->assertInstanceOf(GraphicString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World!';
         $el = GraphicString::fromDER("\x19\x0c{$str}");

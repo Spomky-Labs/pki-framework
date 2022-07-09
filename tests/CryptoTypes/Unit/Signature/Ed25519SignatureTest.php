@@ -14,7 +14,10 @@ use Sop\CryptoTypes\Signature\Ed25519Signature;
  */
 final class Ed25519SignatureTest extends TestCase
 {
-    public function testCreate(): Ed25519Signature
+    /**
+     * @test
+     */
+    public function create(): Ed25519Signature
     {
         $sig = new Ed25519Signature(str_repeat("\0", 64));
         $this->assertInstanceOf(Ed25519Signature::class, $sig);
@@ -22,14 +25,19 @@ final class Ed25519SignatureTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testBitString(Ed25519Signature $sig)
+    public function bitString(Ed25519Signature $sig)
     {
         $this->assertInstanceOf(BitString::class, $sig->bitString());
     }
 
-    public function testInvalid()
+    /**
+     * @test
+     */
+    public function invalid()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/must be 64 octets/');

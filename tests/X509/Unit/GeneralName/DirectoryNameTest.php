@@ -17,7 +17,10 @@ use Sop\X509\GeneralName\GeneralName;
  */
 final class DirectoryNameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = DirectoryName::fromDNString('cn=Test');
         $this->assertInstanceOf(DirectoryName::class, $name);
@@ -25,9 +28,11 @@ final class DirectoryNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(DirectoryName $name)
+    public function encode(DirectoryName $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ExplicitTagging::class, $el);
@@ -35,22 +40,26 @@ final class DirectoryNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_DIRECTORY_NAME, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = DirectoryName::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(DirectoryName::class, $name);
@@ -58,26 +67,32 @@ final class DirectoryNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(DirectoryName $ref, DirectoryName $new)
+    public function recoded(DirectoryName $ref, DirectoryName $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(DirectoryName $name)
+    public function string(DirectoryName $name)
     {
         $this->assertEquals('cn=Test', $name->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDN(DirectoryName $name)
+    public function dN(DirectoryName $name)
     {
         $this->assertEquals(Name::fromString('cn=Test'), $name->dn());
     }

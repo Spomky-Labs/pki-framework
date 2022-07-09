@@ -18,8 +18,10 @@ final class NameEqualityTest extends TestCase
      *
      * @param string $dn1
      * @param string $dn2
+     *
+     * @test
      */
-    public function testEqual($dn1, $dn2)
+    public function equal($dn1, $dn2)
     {
         $result = Name::fromString($dn1)->equals(Name::fromString($dn2));
         $this->assertTrue($result);
@@ -48,8 +50,10 @@ final class NameEqualityTest extends TestCase
      *
      * @param string $dn1
      * @param string $dn2
+     *
+     * @test
      */
-    public function testUnequal($dn1, $dn2)
+    public function unequal($dn1, $dn2)
     {
         $result = Name::fromString($dn1)->equals(Name::fromString($dn2));
         $this->assertFalse($result);

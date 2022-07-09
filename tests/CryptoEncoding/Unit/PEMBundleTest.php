@@ -18,8 +18,10 @@ final class PEMBundleTest extends TestCase
 {
     /**
      * @return PEMBundle
+     *
+     * @test
      */
-    public function testBundle()
+    public function bundle()
     {
         $bundle = PEMBundle::fromFile(TEST_ASSETS_DIR . '/cacert.pem');
         $this->assertInstanceOf(PEMBundle::class, $bundle);
@@ -27,43 +29,53 @@ final class PEMBundleTest extends TestCase
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testAll(PEMBundle $bundle)
+    public function all(PEMBundle $bundle)
     {
         $this->assertContainsOnlyInstancesOf(PEM::class, $bundle->all());
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testFirst(PEMBundle $bundle)
+    public function first(PEMBundle $bundle)
     {
         $this->assertInstanceOf(PEM::class, $bundle->first());
         $this->assertEquals($bundle->all()[0], $bundle->first());
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testLast(PEMBundle $bundle)
+    public function last(PEMBundle $bundle)
     {
         $this->assertInstanceOf(PEM::class, $bundle->last());
         $this->assertEquals($bundle->all()[149], $bundle->last());
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testCount(PEMBundle $bundle)
+    public function countMethod(PEMBundle $bundle)
     {
         $this->assertCount(150, $bundle);
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testIterator(PEMBundle $bundle)
+    public function iterator(PEMBundle $bundle)
     {
         $values = [];
         foreach ($bundle as $pem) {
@@ -73,28 +85,38 @@ final class PEMBundleTest extends TestCase
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testString(PEMBundle $bundle)
+    public function string(PEMBundle $bundle)
     {
         $this->assertIsString($bundle->string());
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testToString(PEMBundle $bundle)
+    public function toStringMethod(PEMBundle $bundle)
     {
         $this->assertIsString(strval($bundle));
     }
 
-    public function testInvalidPEM()
+    /**
+     * @test
+     */
+    public function invalidPEM()
     {
         $this->expectException(UnexpectedValueException::class);
         PEMBundle::fromString('invalid');
     }
 
-    public function testInvalidPEMData()
+    /**
+     * @test
+     */
+    public function invalidPEMData()
     {
         $str = <<<'CODE_SAMPLE'
 -----BEGIN TEST-----
@@ -105,20 +127,29 @@ CODE_SAMPLE;
         PEMBundle::fromString($str);
     }
 
-    public function testInvalidFile()
+    /**
+     * @test
+     */
+    public function invalidFile()
     {
         $this->expectException(RuntimeException::class);
         PEMBundle::fromFile(TEST_ASSETS_DIR . '/nonexistent');
     }
 
-    public function testFirstEmptyFail()
+    /**
+     * @test
+     */
+    public function firstEmptyFail()
     {
         $bundle = new PEMBundle();
         $this->expectException(LogicException::class);
         $bundle->first();
     }
 
-    public function testLastEmptyFail()
+    /**
+     * @test
+     */
+    public function lastEmptyFail()
     {
         $bundle = new PEMBundle();
         $this->expectException(LogicException::class);
@@ -126,9 +157,11 @@ CODE_SAMPLE;
     }
 
     /**
-     * @depends testBundle
+     * @depends bundle
+     *
+     * @test
      */
-    public function testWithPEMs(PEMBundle $bundle)
+    public function withPEMs(PEMBundle $bundle)
     {
         $bundle = $bundle->withPEMs(new PEM('TEST', 'data'));
         $this->assertCount(151, $bundle);

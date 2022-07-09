@@ -17,7 +17,10 @@ use Sop\X509\Certificate\Extension\UnknownExtension;
  */
 final class ExtensionTest extends TestCase
 {
-    public function testFromDERBadCall()
+    /**
+     * @test
+     */
+    public function fromDERBadCall()
     {
         $cls = new ReflectionClass(Extension::class);
         $mtd = $cls->getMethod('_fromDER');
@@ -26,19 +29,28 @@ final class ExtensionTest extends TestCase
         $mtd->invoke(null, '', false);
     }
 
-    public function testExtensionName()
+    /**
+     * @test
+     */
+    public function extensionName()
     {
         $ext = new BasicConstraintsExtension(true, true);
         $this->assertEquals('basicConstraints', $ext->extensionName());
     }
 
-    public function testUnknownExtensionName()
+    /**
+     * @test
+     */
+    public function unknownExtensionName()
     {
         $ext = new UnknownExtension('1.3.6.1.3', false, new NullType());
         $this->assertEquals('1.3.6.1.3', $ext->extensionName());
     }
 
-    public function testToString()
+    /**
+     * @test
+     */
+    public function toStringMethod()
     {
         $ext = new BasicConstraintsExtension(true, true);
         $this->assertEquals('basicConstraints', $ext);

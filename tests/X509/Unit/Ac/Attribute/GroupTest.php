@@ -22,7 +22,10 @@ final class GroupTest extends TestCase
 
     final public const GROUP_NAME = 'administrators';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $value = new GroupAttributeValue(IetfAttrValue::fromString(self::GROUP_NAME));
         $value = $value->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
@@ -31,9 +34,11 @@ final class GroupTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeValue $value)
+    public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -41,11 +46,13 @@ final class GroupTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $value = GroupAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(GroupAttributeValue::class, $value);
@@ -53,50 +60,62 @@ final class GroupTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeValue $ref, AttributeValue $new)
+    public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $value)
+    public function oID(AttributeValue $value)
     {
         $this->assertEquals(GroupAttributeValue::OID, $value->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAuthority(GroupAttributeValue $value)
+    public function authority(GroupAttributeValue $value)
     {
         $this->assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(GroupAttributeValue $value)
+    public function countMethod(GroupAttributeValue $value)
     {
         $this->assertCount(1, $value);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testGroupName(GroupAttributeValue $value)
+    public function groupName(GroupAttributeValue $value)
     {
         $this->assertEquals(self::GROUP_NAME, $value->first());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAttributes(AttributeValue $value)
+    public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
         $this->assertTrue($attribs->hasGroup());
@@ -104,9 +123,11 @@ final class GroupTest extends TestCase
     }
 
     /**
-     * @depends testAttributes
+     * @depends attributes
+     *
+     * @test
      */
-    public function testFromAttributes(Attributes $attribs)
+    public function fromAttributes(Attributes $attribs)
     {
         $this->assertInstanceOf(GroupAttributeValue::class, $attribs->group());
     }

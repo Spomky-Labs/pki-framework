@@ -19,8 +19,10 @@ final class ECPKAITest extends TestCase
 
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new ECPublicKeyAlgorithmIdentifier(self::OID);
         $seq = $ai->toASN1();
@@ -29,9 +31,11 @@ final class ECPKAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(ECPublicKeyAlgorithmIdentifier::class, $ai);
@@ -39,9 +43,11 @@ final class ECPKAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeNoParamsFail(Sequence $seq)
+    public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
@@ -49,17 +55,21 @@ final class ECPKAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testNamedCurve(ECPublicKeyAlgorithmIdentifier $ai)
+    public function namedCurve(ECPublicKeyAlgorithmIdentifier $ai)
     {
         $this->assertEquals(self::OID, $ai->namedCurve());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

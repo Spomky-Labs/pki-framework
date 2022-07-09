@@ -22,8 +22,10 @@ final class ECPrivateKeyTest extends TestCase
 {
     /**
      * @return ECPrivateKey
+     *
+     * @test
      */
-    public function testDecode()
+    public function decode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = ECPrivateKey::fromDER($pem->data());
@@ -33,8 +35,10 @@ final class ECPrivateKeyTest extends TestCase
 
     /**
      * @return ECPrivateKey
+     *
+     * @test
      */
-    public function testFromPEM()
+    public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = ECPrivateKey::fromPEM($pem);
@@ -43,9 +47,11 @@ final class ECPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testToPEM(ECPrivateKey $pk)
+    public function toPEM(ECPrivateKey $pk)
     {
         $pem = $pk->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
@@ -53,9 +59,11 @@ final class ECPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testRecodedPEM(PEM $pem)
+    public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $this->assertEquals($ref, $pem);
@@ -63,8 +71,10 @@ final class ECPrivateKeyTest extends TestCase
 
     /**
      * @return ECPrivateKey
+     *
+     * @test
      */
-    public function testFromPKIPEM()
+    public function fromPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $pk = ECPrivateKey::fromPEM($pem);
@@ -73,26 +83,32 @@ final class ECPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPrivateKeyOctets(ECPrivateKey $pk)
+    public function privateKeyOctets(ECPrivateKey $pk)
     {
         $octets = $pk->privateKeyOctets();
         $this->assertIsString($octets);
     }
 
     /**
-     * @depends testFromPKIPEM
+     * @depends fromPKIPEM
+     *
+     * @test
      */
-    public function testHasNamedCurveFromPKI(ECPrivateKey $pk)
+    public function hasNamedCurveFromPKI(ECPrivateKey $pk)
     {
         $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testGetPublicKey(ECPrivateKey $pk)
+    public function getPublicKey(ECPrivateKey $pk)
     {
         $pub = $pk->publicKey();
         $ref = ECPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem'));
@@ -100,15 +116,20 @@ final class ECPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testGetPrivateKeyInfo(ECPrivateKey $pk)
+    public function getPrivateKeyInfo(ECPrivateKey $pk)
     {
         $pki = $pk->privateKeyInfo();
         $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
-    public function testInvalidVersion()
+    /**
+     * @test
+     */
+    public function invalidVersion()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $seq = Sequence::fromDER($pem->data());
@@ -117,14 +138,20 @@ final class ECPrivateKeyTest extends TestCase
         ECPrivateKey::fromASN1($seq);
     }
 
-    public function testInvalidPEMType()
+    /**
+     * @test
+     */
+    public function invalidPEMType()
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);
         ECPrivateKey::fromPEM($pem);
     }
 
-    public function testRSAKeyFail()
+    /**
+     * @test
+     */
+    public function rSAKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $this->expectException(UnexpectedValueException::class);
@@ -132,16 +159,21 @@ final class ECPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testNamedCurveNotSet(ECPrivateKey $pk)
+    public function namedCurveNotSet(ECPrivateKey $pk)
     {
         $pk = $pk->withNamedCurve(null);
         $this->expectException(LogicException::class);
         $pk->namedCurve();
     }
 
-    public function testPublicKeyNotSet()
+    /**
+     * @test
+     */
+    public function publicKeyNotSet()
     {
         $pk = new ECPrivateKey("\0");
         $this->expectException(LogicException::class);

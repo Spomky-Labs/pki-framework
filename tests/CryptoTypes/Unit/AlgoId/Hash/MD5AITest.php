@@ -16,8 +16,10 @@ final class MD5AITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new MD5AlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -26,9 +28,11 @@ final class MD5AITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(MD5AlgorithmIdentifier::class, $ai);
@@ -36,9 +40,11 @@ final class MD5AITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeWithoutParams(Sequence $seq)
+    public function decodeWithoutParams(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -46,9 +52,11 @@ final class MD5AITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

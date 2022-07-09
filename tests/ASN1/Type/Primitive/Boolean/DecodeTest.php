@@ -13,32 +13,47 @@ use Sop\ASN1\Type\Primitive\Boolean;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = Boolean::fromDER("\x1\x1\x00");
         $this->assertInstanceOf(Boolean::class, $el);
     }
 
-    public function testTrue()
+    /**
+     * @test
+     */
+    public function true()
     {
         $el = Boolean::fromDER("\x1\x1\xff");
         $this->assertTrue($el->value());
     }
 
-    public function testFalse()
+    /**
+     * @test
+     */
+    public function false()
     {
         $el = Boolean::fromDER("\x1\x1\x00");
         $this->assertFalse($el->value());
     }
 
-    public function testInvalidDER()
+    /**
+     * @test
+     */
+    public function invalidDER()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('DER encoded boolean true must have all bits set to 1');
         Boolean::fromDER("\x1\x1\x55");
     }
 
-    public function testInvalidLength()
+    /**
+     * @test
+     */
+    public function invalidLength()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Expected length 1, got 2');

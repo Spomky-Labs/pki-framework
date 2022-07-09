@@ -15,7 +15,10 @@ require_once __DIR__ . '/RefACExtTestHelper.php';
  */
 final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
 {
-    public function testExtension()
+    /**
+     * @test
+     */
+    public function extension()
     {
         $ext = self::$_extensions->get(Extension::OID_TARGET_INFORMATION);
         $this->assertInstanceOf(TargetInformationExtension::class, $ext);
@@ -23,18 +26,22 @@ final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
     }
 
     /**
-     * @depends testExtension
+     * @depends extension
+     *
+     * @test
      */
-    public function testCount(TargetInformationExtension $ti)
+    public function countMethod(TargetInformationExtension $ti)
     {
         $targets = $ti->targets();
         $this->assertCount(3, $targets);
     }
 
     /**
-     * @depends testExtension
+     * @depends extension
+     *
+     * @test
      */
-    public function testValues(TargetInformationExtension $ti)
+    public function values(TargetInformationExtension $ti)
     {
         $vals = array_map(function (Target $target) {
             return $target->string();

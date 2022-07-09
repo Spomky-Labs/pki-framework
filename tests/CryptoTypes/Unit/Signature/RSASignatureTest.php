@@ -15,8 +15,10 @@ final class RSASignatureTest extends TestCase
 {
     /**
      * @return RSASignature
+     *
+     * @test
      */
-    public function testFromSignatureString()
+    public function fromSignatureString()
     {
         $sig = RSASignature::fromSignatureString('test');
         $this->assertInstanceOf(RSASignature::class, $sig);
@@ -24,9 +26,11 @@ final class RSASignatureTest extends TestCase
     }
 
     /**
-     * @depends testFromSignatureString
+     * @depends fromSignatureString
+     *
+     * @test
      */
-    public function testBitString(RSASignature $sig)
+    public function bitString(RSASignature $sig)
     {
         $this->assertInstanceOf(BitString::class, $sig->bitString());
     }

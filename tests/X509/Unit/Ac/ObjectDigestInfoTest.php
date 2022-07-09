@@ -17,7 +17,10 @@ use Sop\X509\AttributeCertificate\ObjectDigestInfo;
  */
 final class ObjectDigestInfoTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
@@ -29,9 +32,11 @@ final class ObjectDigestInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(ObjectDigestInfo $odi)
+    public function encode(ObjectDigestInfo $odi)
     {
         $seq = $odi->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -39,11 +44,13 @@ final class ObjectDigestInfoTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $odi = ObjectDigestInfo::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(ObjectDigestInfo::class, $odi);
@@ -51,15 +58,20 @@ final class ObjectDigestInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(ObjectDigestInfo $ref, ObjectDigestInfo $new)
+    public function recoded(ObjectDigestInfo $ref, ObjectDigestInfo $new)
     {
         $this->assertEquals($ref, $new);
     }
 
-    public function testDecodeWithOtherObjectTypeID()
+    /**
+     * @test
+     */
+    public function decodeWithOtherObjectTypeID()
     {
         $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $seq = new Sequence(
@@ -74,9 +86,11 @@ final class ObjectDigestInfoTest extends TestCase
     }
 
     /**
-     * @depends testDecodeWithOtherObjectTypeID
+     * @depends decodeWithOtherObjectTypeID
+     *
+     * @test
      */
-    public function testEncodeWithOtherObjectTypeID(ObjectDigestInfo $odi)
+    public function encodeWithOtherObjectTypeID(ObjectDigestInfo $odi)
     {
         $seq = $odi->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);

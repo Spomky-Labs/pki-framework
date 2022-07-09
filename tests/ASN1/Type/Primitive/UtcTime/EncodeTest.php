@@ -13,7 +13,10 @@ use Sop\ASN1\Type\Primitive\UTCTime;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncode()
+    /**
+     * @test
+     */
+    public function encode()
     {
         $el = new UTCTime(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
         $this->assertEquals("\x17\x0d" . '060102220405Z', $el->toDER());

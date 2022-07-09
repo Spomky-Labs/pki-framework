@@ -22,7 +22,10 @@ final class IPv6AddressNameTest extends TestCase
 
     public const MASK = 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:0000';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         // @todo implement compressed form handling
         $ip = new IPv6Address(self::ADDR);
@@ -31,9 +34,11 @@ final class IPv6AddressNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(IPAddress $ip)
+    public function encode(IPAddress $ip)
     {
         $el = $ip->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -41,22 +46,26 @@ final class IPv6AddressNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_IP_ADDRESS, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ip = IPAddress::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(IPAddress::class, $ip);
@@ -64,23 +73,30 @@ final class IPv6AddressNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(IPAddress $ref, IPAddress $new)
+    public function recoded(IPAddress $ref, IPAddress $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIPv6(IPAddress $ip)
+    public function iPv6(IPAddress $ip)
     {
         $this->assertEquals(self::ADDR, $ip->address());
     }
 
-    public function testCreateWithMask()
+    /**
+     * @test
+     */
+    public function createWithMask()
     {
         $ip = new IPv6Address(self::ADDR, self::MASK);
         $this->assertInstanceOf(IPAddress::class, $ip);
@@ -88,9 +104,11 @@ final class IPv6AddressNameTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithMask
+     * @depends createWithMask
+     *
+     * @test
      */
-    public function testEncodeWithMask(IPAddress $ip)
+    public function encodeWithMask(IPAddress $ip)
     {
         $el = $ip->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -98,11 +116,13 @@ final class IPv6AddressNameTest extends TestCase
     }
 
     /**
-     * @depends testEncodeWithMask
+     * @depends encodeWithMask
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecodeWithMask($der)
+    public function decodeWithMask($der)
     {
         $ip = IPAddress::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(IPAddress::class, $ip);
@@ -110,23 +130,30 @@ final class IPv6AddressNameTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithMask
-     * @depends testDecodeWithMask
+     * @depends createWithMask
+     * @depends decodeWithMask
+     *
+     * @test
      */
-    public function testRecodedWithMask(IPAddress $ref, IPAddress $new)
+    public function recodedWithMask(IPAddress $ref, IPAddress $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateWithMask
+     * @depends createWithMask
+     *
+     * @test
      */
-    public function testMask(IPAddress $ip)
+    public function mask(IPAddress $ip)
     {
         $this->assertEquals(self::MASK, $ip->mask());
     }
 
-    public function testInvalidOctetLength()
+    /**
+     * @test
+     */
+    public function invalidOctetLength()
     {
         $this->expectException(UnexpectedValueException::class);
         IPv6Address::fromOctets('');

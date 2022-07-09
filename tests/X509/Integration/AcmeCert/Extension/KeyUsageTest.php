@@ -14,8 +14,10 @@ final class KeyUsageTest extends RefExtTestHelper
 {
     /**
      * @return KeyUsageExtension
+     *
+     * @test
      */
-    public function testKeyUsage()
+    public function keyUsage()
     {
         $ext = self::$_extensions->get(Extension::OID_KEY_USAGE);
         $this->assertInstanceOf(KeyUsageExtension::class, $ext);
@@ -23,9 +25,11 @@ final class KeyUsageTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testKeyUsage
+     * @depends keyUsage
+     *
+     * @test
      */
-    public function testKeyUsageBits(KeyUsageExtension $ku)
+    public function keyUsageBits(KeyUsageExtension $ku)
     {
         $this->assertFalse($ku->isDigitalSignature());
         $this->assertFalse($ku->isNonRepudiation());

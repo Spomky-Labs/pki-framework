@@ -16,8 +16,10 @@ final class ECSignatureTest extends TestCase
 {
     /**
      * @return ECSignature
+     *
+     * @test
      */
-    public function testCreate()
+    public function create()
     {
         $sig = new ECSignature('123456789', '987654321');
         $this->assertInstanceOf(ECSignature::class, $sig);
@@ -25,18 +27,22 @@ final class ECSignatureTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(ECSignature $sig)
+    public function encode(ECSignature $sig)
     {
         $el = $sig->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToDER(ECSignature $sig)
+    public function toDER(ECSignature $sig)
     {
         $der = $sig->toDER();
         $this->assertIsString($der);
@@ -44,11 +50,13 @@ final class ECSignatureTest extends TestCase
     }
 
     /**
-     * @depends testToDER
+     * @depends toDER
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $sig = ECSignature::fromDER($data);
         $this->assertInstanceOf(ECSignature::class, $sig);
@@ -56,34 +64,42 @@ final class ECSignatureTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(ECSignature $ref, ECSignature $sig)
+    public function recoded(ECSignature $ref, ECSignature $sig)
     {
         $this->assertEquals($ref, $sig);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRValue(ECSignature $sig)
+    public function rValue(ECSignature $sig)
     {
         $this->assertEquals('123456789', $sig->r());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSValue(ECSignature $sig)
+    public function sValue(ECSignature $sig)
     {
         $this->assertEquals('987654321', $sig->s());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testBitString(ECSignature $sig)
+    public function bitString(ECSignature $sig)
     {
         $this->assertInstanceOf(BitString::class, $sig->bitString());
     }

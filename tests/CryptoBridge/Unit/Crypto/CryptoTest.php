@@ -12,7 +12,10 @@ use Sop\CryptoBridge\Crypto;
  */
 final class CryptoTest extends TestCase
 {
-    public function testDefault()
+    /**
+     * @test
+     */
+    public function default()
     {
         $crypto = Crypto::getDefault();
         $this->assertInstanceOf(Crypto::class, $crypto);

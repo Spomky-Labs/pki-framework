@@ -17,8 +17,10 @@ final class RSAEncAITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new RSAEncryptionAlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -27,9 +29,11 @@ final class RSAEncAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(RSAEncryptionAlgorithmIdentifier::class, $ai);
@@ -37,9 +41,11 @@ final class RSAEncAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeNoParamsFail(Sequence $seq)
+    public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
@@ -47,9 +53,11 @@ final class RSAEncAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

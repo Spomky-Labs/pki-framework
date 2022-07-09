@@ -16,7 +16,10 @@ use Sop\X509\Certificate\Extensions;
  */
 final class BasicConstraintsTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new BasicConstraintsExtension(true, true, 3);
         $this->assertInstanceOf(BasicConstraintsExtension::class, $ext);
@@ -24,25 +27,31 @@ final class BasicConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_BASIC_CONSTRAINTS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -50,11 +59,13 @@ final class BasicConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = BasicConstraintsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(BasicConstraintsExtension::class, $ext);
@@ -62,34 +73,42 @@ final class BasicConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCA(BasicConstraintsExtension $ext)
+    public function cA(BasicConstraintsExtension $ext)
     {
         $this->assertTrue($ext->isCA());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPathLen(BasicConstraintsExtension $ext)
+    public function pathLen(BasicConstraintsExtension $ext)
     {
         $this->assertEquals(3, $ext->pathLen());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(BasicConstraintsExtension $ext)
+    public function extensions(BasicConstraintsExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasBasicConstraints());
@@ -97,15 +116,20 @@ final class BasicConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->basicConstraints();
         $this->assertInstanceOf(BasicConstraintsExtension::class, $ext);
     }
 
-    public function testNoPathLenFail()
+    /**
+     * @test
+     */
+    public function noPathLenFail()
     {
         $ext = new BasicConstraintsExtension(false, false);
         $this->expectException(LogicException::class);

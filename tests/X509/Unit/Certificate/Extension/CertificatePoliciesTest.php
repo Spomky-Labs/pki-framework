@@ -33,14 +33,20 @@ final class CertificatePoliciesTest extends TestCase
 
     final public const REF_ORG = 'ACME Ltd.';
 
-    public function testCreateCPS()
+    /**
+     * @test
+     */
+    public function createCPS()
     {
         $qual = new CPSQualifier('urn:test');
         $this->assertInstanceOf(PolicyQualifierInfo::class, $qual);
         return $qual;
     }
 
-    public function testCreateNotice()
+    /**
+     * @test
+     */
+    public function createNotice()
     {
         $qual = new UserNoticeQualifier(
             DisplayText::fromString('Notice'),
@@ -51,10 +57,12 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCreateCPS
-     * @depends testCreateNotice
+     * @depends createCPS
+     * @depends createNotice
+     *
+     * @test
      */
-    public function testCreatePolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2)
+    public function createPolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2)
     {
         $info = new PolicyInformation(self::INFO_OID, $q1, $q2);
         $this->assertInstanceOf(PolicyInformation::class, $info);
@@ -62,9 +70,11 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCreatePolicyInfo
+     * @depends createPolicyInfo
+     *
+     * @test
      */
-    public function testCreate(PolicyInformation $info)
+    public function create(PolicyInformation $info)
     {
         $ext = new CertificatePoliciesExtension(true, $info, new PolicyInformation('1.3.6.1.3.10'));
         $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
@@ -72,25 +82,31 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_CERTIFICATE_POLICIES, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -98,11 +114,13 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = CertificatePoliciesExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
@@ -110,26 +128,32 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(CertificatePoliciesExtension $ext)
+    public function countMethod(CertificatePoliciesExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(CertificatePoliciesExtension $ext)
+    public function iterator(CertificatePoliciesExtension $ext)
     {
         $values = [];
         foreach ($ext as $info) {
@@ -140,21 +164,29 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testGetFail(CertificatePoliciesExtension $ext)
+    public function getFail(CertificatePoliciesExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->get('1.2.3');
     }
 
-    public function testHasAnyPolicy()
+    /**
+     * @test
+     */
+    public function hasAnyPolicy()
     {
         $ext = new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY));
         $this->assertTrue($ext->hasAnyPolicy());
     }
 
-    public function testAnyPolicyFail()
+    /**
+     * @test
+     */
+    public function anyPolicyFail()
     {
         $ext = new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'));
         $this->expectException(LogicException::class);
@@ -162,9 +194,11 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testInfo(CertificatePoliciesExtension $ext)
+    public function info(CertificatePoliciesExtension $ext)
     {
         $info = $ext->get(self::INFO_OID);
         $this->assertInstanceOf(PolicyInformation::class, $info);
@@ -172,17 +206,21 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testInfo
+     * @depends info
+     *
+     * @test
      */
-    public function testInfoCount(PolicyInformation $info)
+    public function infoCount(PolicyInformation $info)
     {
         $this->assertCount(2, $info);
     }
 
     /**
-     * @depends testInfo
+     * @depends info
+     *
+     * @test
      */
-    public function testInfoIterator(PolicyInformation $info)
+    public function infoIterator(PolicyInformation $info)
     {
         $values = [];
         foreach ($info as $qual) {
@@ -193,9 +231,11 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testInfo
+     * @depends info
+     *
+     * @test
      */
-    public function testCPS(PolicyInformation $info)
+    public function cPS(PolicyInformation $info)
     {
         $qual = $info->CPSQualifier();
         $this->assertInstanceOf(CPSQualifier::class, $qual);
@@ -203,17 +243,21 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testCPS
+     * @depends cPS
+     *
+     * @test
      */
-    public function testCPSURI(CPSQualifier $cps)
+    public function cPSURI(CPSQualifier $cps)
     {
         $this->assertEquals(self::CPS_URI, $cps->uri());
     }
 
     /**
-     * @depends testInfo
+     * @depends info
+     *
+     * @test
      */
-    public function testUserNotice(PolicyInformation $info)
+    public function userNotice(PolicyInformation $info)
     {
         $qual = $info->userNoticeQualifier();
         $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
@@ -221,17 +265,21 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testUserNotice
+     * @depends userNotice
+     *
+     * @test
      */
-    public function testUserNoticeExplicit(UserNoticeQualifier $notice)
+    public function userNoticeExplicit(UserNoticeQualifier $notice)
     {
         $this->assertEquals(self::NOTICE_TXT, $notice->explicitText());
     }
 
     /**
-     * @depends testUserNotice
+     * @depends userNotice
+     *
+     * @test
      */
-    public function testUserNoticeRef(UserNoticeQualifier $notice)
+    public function userNoticeRef(UserNoticeQualifier $notice)
     {
         $ref = $notice->noticeRef();
         $this->assertInstanceOf(NoticeReference::class, $ref);
@@ -239,25 +287,31 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testUserNoticeRef
+     * @depends userNoticeRef
+     *
+     * @test
      */
-    public function testRefOrg(NoticeReference $ref)
+    public function refOrg(NoticeReference $ref)
     {
         $this->assertEquals(self::REF_ORG, $ref->organization());
     }
 
     /**
-     * @depends testUserNoticeRef
+     * @depends userNoticeRef
+     *
+     * @test
      */
-    public function testRefNumbers(NoticeReference $ref)
+    public function refNumbers(NoticeReference $ref)
     {
         $this->assertEquals([1, 2, 3], $ref->numbers());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(CertificatePoliciesExtension $ext)
+    public function extensions(CertificatePoliciesExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasCertificatePolicies());
@@ -265,22 +319,30 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->certificatePolicies();
         $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
     }
 
-    public function testEncodeEmptyFail()
+    /**
+     * @test
+     */
+    public function encodeEmptyFail()
     {
         $ext = new CertificatePoliciesExtension(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
-    public function testDecodeEmptyFail()
+    /**
+     * @test
+     */
+    public function decodeEmptyFail()
     {
         $seq = new Sequence();
         $ext_seq = new Sequence(

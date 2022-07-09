@@ -16,7 +16,10 @@ use Sop\X509\Certificate\Extensions;
  */
 final class PolicyConstraintsTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new PolicyConstraintsExtension(true, 2, 3);
         $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
@@ -24,25 +27,31 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_POLICY_CONSTRAINTS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -50,11 +59,13 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = PolicyConstraintsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
@@ -62,34 +73,42 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRequireExplicit(PolicyConstraintsExtension $ext)
+    public function requireExplicit(PolicyConstraintsExtension $ext)
     {
         $this->assertEquals(2, $ext->requireExplicitPolicy());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testInhibitMapping(PolicyConstraintsExtension $ext)
+    public function inhibitMapping(PolicyConstraintsExtension $ext)
     {
         $this->assertEquals(3, $ext->inhibitPolicyMapping());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(PolicyConstraintsExtension $ext)
+    public function extensions(PolicyConstraintsExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasPolicyConstraints());
@@ -97,15 +116,20 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->policyConstraints();
         $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
     }
 
-    public function testCreateEmpty()
+    /**
+     * @test
+     */
+    public function createEmpty()
     {
         $ext = new PolicyConstraintsExtension(false);
         $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
@@ -113,9 +137,11 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testEncodeEmpty(Extension $ext)
+    public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -123,11 +149,13 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testEncodeEmpty
+     * @depends encodeEmpty
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecodeEmpty($der)
+    public function decodeEmpty($der)
     {
         $ext = PolicyConstraintsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
@@ -135,27 +163,33 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
-     * @depends testDecodeEmpty
+     * @depends createEmpty
+     * @depends decodeEmpty
+     *
+     * @test
      */
-    public function testRecodedEmpty(Extension $ref, Extension $new)
+    public function recodedEmpty(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoRequireExplicitFail(PolicyConstraintsExtension $ext)
+    public function noRequireExplicitFail(PolicyConstraintsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->requireExplicitPolicy();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoInhibitMappingFail(PolicyConstraintsExtension $ext)
+    public function noInhibitMappingFail(PolicyConstraintsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->inhibitPolicyMapping();

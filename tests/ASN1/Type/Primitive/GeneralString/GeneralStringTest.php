@@ -16,7 +16,10 @@ use UnexpectedValueException;
  */
 final class GeneralStringTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new GeneralString('');
         $this->assertInstanceOf(GeneralString::class, $el);
@@ -24,17 +27,21 @@ final class GeneralStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_GENERAL_STRING, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -42,9 +49,11 @@ final class GeneralStringTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): GeneralString
+    public function decode(string $data): GeneralString
     {
         $el = GeneralString::fromDER($data);
         $this->assertInstanceOf(GeneralString::class, $el);
@@ -52,24 +61,31 @@ final class GeneralStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(GeneralString::class, $wrap->asGeneralString());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);

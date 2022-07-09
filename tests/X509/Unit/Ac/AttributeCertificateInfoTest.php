@@ -73,14 +73,20 @@ final class AttributeCertificateInfoTest extends TestCase
         self::$_privKeyInfo = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
-    public function testCreateWithAll()
+    /**
+     * @test
+     */
+    public function createWithAll()
     {
         $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
         $aci = $aci->withSignature(new SHA256WithRSAEncryptionAlgorithmIdentifier())
@@ -92,9 +98,11 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testEncode(AttributeCertificateInfo $aci)
+    public function encode(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -102,11 +110,13 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $tc = AttributeCertificateInfo::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AttributeCertificateInfo::class, $tc);
@@ -114,126 +124,156 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithAll
-     * @depends testDecode
+     * @depends createWithAll
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeCertificateInfo $ref, AttributeCertificateInfo $new)
+    public function recoded(AttributeCertificateInfo $ref, AttributeCertificateInfo $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testVersion(AttributeCertificateInfo $aci)
+    public function version(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(AttributeCertificateInfo::VERSION_2, $aci->version());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testHolder(AttributeCertificateInfo $aci)
+    public function holder(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(self::$_holder, $aci->holder());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testIssuer(AttributeCertificateInfo $aci)
+    public function issuer(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(self::$_issuer, $aci->issuer());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testSignature(AttributeCertificateInfo $aci)
+    public function signature(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(new SHA256WithRSAEncryptionAlgorithmIdentifier(), $aci->signature());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testSerialNumber(AttributeCertificateInfo $aci)
+    public function serialNumber(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(1, $aci->serialNumber());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testValidityPeriod(AttributeCertificateInfo $aci)
+    public function validityPeriod(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(self::$_validity, $aci->validityPeriod());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testAttributes(AttributeCertificateInfo $aci)
+    public function attributes(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(self::$_attribs, $aci->attributes());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testIssuerUniqueID(AttributeCertificateInfo $aci)
+    public function issuerUniqueID(AttributeCertificateInfo $aci)
     {
         $this->assertEquals('uid', $aci->issuerUniqueID() ->string());
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testExtensions(AttributeCertificateInfo $aci)
+    public function extensions(AttributeCertificateInfo $aci)
     {
         $this->assertEquals(self::$_extensions, $aci->extensions());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithHolder(AttributeCertificateInfo $aci)
+    public function withHolder(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withHolder(self::$_holder);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithIssuer(AttributeCertificateInfo $aci)
+    public function withIssuer(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withIssuer(self::$_issuer);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithSignature(AttributeCertificateInfo $aci)
+    public function withSignature(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithSerial(AttributeCertificateInfo $aci)
+    public function withSerial(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSerialNumber(123);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithRandomSerial(AttributeCertificateInfo $aci)
+    public function withRandomSerial(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withRandomSerialNumber(16);
         $bin = gmp_export(gmp_init($aci->serialNumber(), 10), 1);
@@ -241,27 +281,33 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithValidity(AttributeCertificateInfo $aci)
+    public function withValidity(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withValidity(self::$_validity);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithAttributes(AttributeCertificateInfo $aci)
+    public function withAttributes(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAttributes(self::$_attribs);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithIssuerUniqueID(AttributeCertificateInfo $aci)
+    public function withIssuerUniqueID(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withIssuerUniqueID(UniqueIdentifier::fromString('id'));
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
@@ -269,9 +315,11 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithExtensions(AttributeCertificateInfo $aci)
+    public function withExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withExtensions(self::$_extensions);
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
@@ -279,9 +327,11 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithAdditionalExtensions(AttributeCertificateInfo $aci)
+    public function withAdditionalExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAdditionalExtensions(new AuthorityKeyIdentifierExtension(true, 'test'));
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
@@ -289,9 +339,11 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testDecodeInvalidVersion(AttributeCertificateInfo $aci)
+    public function decodeInvalidVersion(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
         $seq = $seq->withReplaced(0, new Integer(0));
@@ -300,45 +352,55 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNoSignatureFail(AttributeCertificateInfo $aci)
+    public function noSignatureFail(AttributeCertificateInfo $aci)
     {
         $this->expectException(LogicException::class);
         $aci->signature();
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNoSerialFail(AttributeCertificateInfo $aci)
+    public function noSerialFail(AttributeCertificateInfo $aci)
     {
         $this->expectException(LogicException::class);
         $aci->serialNumber();
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNoIssuerUniqueIdFail(AttributeCertificateInfo $aci)
+    public function noIssuerUniqueIdFail(AttributeCertificateInfo $aci)
     {
         $this->expectException(LogicException::class);
         $aci->issuerUniqueID();
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSign(AttributeCertificateInfo $aci)
+    public function sign(AttributeCertificateInfo $aci)
     {
         $ac = $aci->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privKeyInfo);
         $this->assertInstanceOf(AttributeCertificate::class, $ac);
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testInvalidAlgoFail(AttributeCertificateInfo $aci)
+    public function invalidAlgoFail(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');

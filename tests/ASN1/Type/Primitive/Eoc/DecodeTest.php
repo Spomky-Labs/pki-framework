@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\EOC;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = EOC::fromDER("\0\0");
         $this->assertInstanceOf(EOC::class, $el);
     }
 
-    public function testInvalidLength()
+    /**
+     * @test
+     */
+    public function invalidLength()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Expected length 0, got 1');
         EOC::fromDER("\x0\x1\x0");
     }
 
-    public function testNotPrimitive()
+    /**
+     * @test
+     */
+    public function notPrimitive()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('EOC value must be primitive');

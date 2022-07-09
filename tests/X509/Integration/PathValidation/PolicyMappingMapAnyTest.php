@@ -84,7 +84,10 @@ final class PolicyMappingMapAnyTest extends TestCase
         self::$_cert = null;
     }
 
-    public function testValidate()
+    /**
+     * @test
+     */
+    public function validate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $config = new PathValidationConfig(new DateTimeImmutable(), 3);
@@ -93,7 +96,10 @@ final class PolicyMappingMapAnyTest extends TestCase
         $this->assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
     }
 
-    public function testCoverLogicException()
+    /**
+     * @test
+     */
+    public function coverLogicException()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));
         $refl = new ReflectionClass($tree);

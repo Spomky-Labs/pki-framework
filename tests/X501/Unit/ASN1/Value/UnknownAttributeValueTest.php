@@ -17,7 +17,10 @@ final class UnknownAttributeValueTest extends TestCase
 {
     final public const OID = '1.3.6.1.3';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $val = AttributeValue::fromASN1ByOID(self::OID, new UnspecifiedType(new UTF8String('Test')));
         $this->assertInstanceOf(UnknownAttributeValue::class, $val);
@@ -25,33 +28,41 @@ final class UnknownAttributeValueTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $val)
+    public function oID(AttributeValue $val)
     {
         $this->assertEquals(self::OID, $val->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testANS1(AttributeValue $val)
+    public function aNS1(AttributeValue $val)
     {
         $this->assertInstanceOf(UTF8String::class, $val->toASN1());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(AttributeValue $val)
+    public function string(AttributeValue $val)
     {
         $this->assertEquals('Test', $val->rfc2253String());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(AttributeValue $val)
+    public function toStringMethod(AttributeValue $val)
     {
         $this->assertIsString(strval($val));
     }

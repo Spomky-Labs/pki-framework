@@ -18,7 +18,10 @@ use UnexpectedValueException;
  */
 final class ImplicitlyTaggedTypeTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new ImplicitlyTaggedType(1, new NullType());
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -26,17 +29,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testGetImplicit(ImplicitTagging $el)
+    public function getImplicit(ImplicitTagging $el)
     {
         $this->assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectationFail(ImplicitTagging $el)
+    public function expectationFail(ImplicitTagging $el)
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type class PRIVATE expected, got UNIVERSAL');
@@ -44,17 +51,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectImplicit(TaggedType $el)
+    public function expectImplicit(TaggedType $el)
     {
         $this->assertInstanceOf(ImplicitTagging::class, $el->expectImplicit());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectExplicitFail(TaggedType $el)
+    public function expectExplicitFail(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Element doesn\'t implement explicit tagging');
@@ -62,17 +73,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectImplicitWithTag(TaggedType $el)
+    public function expectImplicitWithTag(TaggedType $el)
     {
         $this->assertInstanceOf(ImplicitTagging::class, $el->expectImplicit(1));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectImplicitWithInvalidTagFail(TaggedType $el)
+    public function expectImplicitWithInvalidTagFail(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Tag 2 expected, got 1');
@@ -80,9 +95,11 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExpectTypeFails(TaggedType $el)
+    public function expectTypeFails(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NULL expected, got CONTEXT SPECIFIC TAG 1');
@@ -90,17 +107,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAsImplicit(TaggedType $el)
+    public function asImplicit(TaggedType $el)
     {
         $this->assertInstanceOf(NullType::class, $el->asImplicit(Element::TYPE_NULL, 1) ->asNull());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAsImplicitFail(TaggedType $el)
+    public function asImplicitFail(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Tag 2 expected, got 1');

@@ -18,7 +18,10 @@ use UnexpectedValueException;
  */
 final class GeneralSubtreesTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $subtrees = new GeneralSubtrees(
             new GeneralSubtree(new UniformResourceIdentifier('.example.com')),
@@ -29,9 +32,11 @@ final class GeneralSubtreesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(GeneralSubtrees $subtrees)
+    public function encode(GeneralSubtrees $subtrees)
     {
         $el = $subtrees->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -39,11 +44,13 @@ final class GeneralSubtreesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $subtrees = GeneralSubtrees::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
@@ -51,34 +58,42 @@ final class GeneralSubtreesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(GeneralSubtrees $ref, GeneralSubtrees $new)
+    public function recoded(GeneralSubtrees $ref, GeneralSubtrees $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(GeneralSubtrees $subtrees)
+    public function all(GeneralSubtrees $subtrees)
     {
         $this->assertContainsOnlyInstancesOf(GeneralSubtree::class, $subtrees->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(GeneralSubtrees $subtrees)
+    public function countMethod(GeneralSubtrees $subtrees)
     {
         $this->assertCount(2, $subtrees);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(GeneralSubtrees $subtrees)
+    public function iterator(GeneralSubtrees $subtrees)
     {
         $values = [];
         foreach ($subtrees as $subtree) {
@@ -87,13 +102,19 @@ final class GeneralSubtreesTest extends TestCase
         $this->assertContainsOnlyInstancesOf(GeneralSubtree::class, $values);
     }
 
-    public function testDecodeEmptyFail()
+    /**
+     * @test
+     */
+    public function decodeEmptyFail()
     {
         $this->expectException(UnexpectedValueException::class);
         GeneralSubtrees::fromASN1(new Sequence());
     }
 
-    public function testEncodeEmptyFail()
+    /**
+     * @test
+     */
+    public function encodeEmptyFail()
     {
         $subtrees = new GeneralSubtrees();
         $this->expectException(LogicException::class);

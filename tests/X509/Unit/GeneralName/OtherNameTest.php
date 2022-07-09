@@ -17,7 +17,10 @@ use Sop\X509\GeneralName\OtherName;
  */
 final class OtherNameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = new OtherName('1.3.6.1.3.1', new NullType());
         $this->assertInstanceOf(OtherName::class, $name);
@@ -25,9 +28,11 @@ final class OtherNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(OtherName $name)
+    public function encode(OtherName $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -35,22 +40,26 @@ final class OtherNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_OTHER_NAME, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = OtherName::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(OtherName::class, $name);
@@ -58,34 +67,42 @@ final class OtherNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(OtherName $ref, OtherName $new)
+    public function recoded(OtherName $ref, OtherName $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(OtherName $name)
+    public function string(OtherName $name)
     {
         $this->assertIsString($name->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(OtherName $name)
+    public function oID(OtherName $name)
     {
         $this->assertEquals('1.3.6.1.3.1', $name->type());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testValue(OtherName $name)
+    public function value(OtherName $name)
     {
         $this->assertEquals(new NullType(), $name->value());
     }

@@ -18,8 +18,10 @@ final class UnknownExtensionTest extends TestCase
 {
     /**
      * @return UnknownExtension
+     *
+     * @test
      */
-    public function testCreateWithDER()
+    public function createWithDER()
     {
         $ext = new UnknownExtension('1.3.6.1.3.1', true, new NullType());
         $this->assertInstanceOf(UnknownExtension::class, $ext);
@@ -27,9 +29,11 @@ final class UnknownExtensionTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithDER
+     * @depends createWithDER
+     *
+     * @test
      */
-    public function testExtensionValueDER(UnknownExtension $ext)
+    public function extensionValueDER(UnknownExtension $ext)
     {
         $expect = (new NullType())->toDER();
         $this->assertEquals($expect, $ext->extensionValue());
@@ -37,8 +41,10 @@ final class UnknownExtensionTest extends TestCase
 
     /**
      * @return UnknownExtension
+     *
+     * @test
      */
-    public function testCreateFromString()
+    public function createFromString()
     {
         $ext = UnknownExtension::fromRawString('1.3.6.1.3.1', true, 'DATA');
         $this->assertInstanceOf(UnknownExtension::class, $ext);
@@ -46,17 +52,21 @@ final class UnknownExtensionTest extends TestCase
     }
 
     /**
-     * @depends testCreateFromString
+     * @depends createFromString
+     *
+     * @test
      */
-    public function testExtensionValueRaw(UnknownExtension $ext)
+    public function extensionValueRaw(UnknownExtension $ext)
     {
         $this->assertEquals('DATA', $ext->extensionValue());
     }
 
     /**
-     * @depends testCreateWithDER
+     * @depends createWithDER
+     *
+     * @test
      */
-    public function testExtensionValueASN1(UnknownExtension $ext)
+    public function extensionValueASN1(UnknownExtension $ext)
     {
         $cls = new ReflectionClass(UnknownExtension::class);
         $mtd = $cls->getMethod('_valueASN1');
@@ -66,9 +76,11 @@ final class UnknownExtensionTest extends TestCase
     }
 
     /**
-     * @depends testCreateFromString
+     * @depends createFromString
+     *
+     * @test
      */
-    public function testExtensionValueASN1Fail(UnknownExtension $ext)
+    public function extensionValueASN1Fail(UnknownExtension $ext)
     {
         $cls = new ReflectionClass(UnknownExtension::class);
         $mtd = $cls->getMethod('_valueASN1');

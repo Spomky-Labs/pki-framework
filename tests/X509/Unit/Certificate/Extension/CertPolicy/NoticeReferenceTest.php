@@ -14,7 +14,10 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\NoticeReference;
  */
 final class NoticeReferenceTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ref = new NoticeReference(DisplayText::fromString('org'), 1, 2, 3);
         $this->assertInstanceOf(NoticeReference::class, $ref);
@@ -22,9 +25,11 @@ final class NoticeReferenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(NoticeReference $ref)
+    public function encode(NoticeReference $ref)
     {
         $el = $ref->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -32,11 +37,13 @@ final class NoticeReferenceTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $ref = NoticeReference::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(NoticeReference::class, $ref);
@@ -44,26 +51,32 @@ final class NoticeReferenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(NoticeReference $ref, NoticeReference $new)
+    public function recoded(NoticeReference $ref, NoticeReference $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOrganization(NoticeReference $ref)
+    public function organization(NoticeReference $ref)
     {
         $this->assertEquals('org', $ref->organization() ->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNumbers(NoticeReference $ref)
+    public function numbers(NoticeReference $ref)
     {
         $this->assertEquals([1, 2, 3], $ref->numbers());
     }

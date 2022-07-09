@@ -15,7 +15,10 @@ final class UniqueIdentifierTest extends TestCase
 {
     final public const UID = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $id = UniqueIdentifier::fromString(self::UID);
         $this->assertInstanceOf(UniqueIdentifier::class, $id);
@@ -23,9 +26,11 @@ final class UniqueIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(UniqueIdentifier $id)
+    public function encode(UniqueIdentifier $id)
     {
         $bs = $id->toASN1();
         $this->assertInstanceOf(BitString::class, $bs);
@@ -33,11 +38,13 @@ final class UniqueIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $id = UniqueIdentifier::fromASN1(BitString::fromDER($der));
         $this->assertInstanceOf(UniqueIdentifier::class, $id);
@@ -45,26 +52,32 @@ final class UniqueIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(UniqueIdentifier $ref, UniqueIdentifier $new)
+    public function recoded(UniqueIdentifier $ref, UniqueIdentifier $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(UniqueIdentifier $id)
+    public function string(UniqueIdentifier $id)
     {
         $this->assertEquals(self::UID, $id->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testBitString(UniqueIdentifier $id)
+    public function bitString(UniqueIdentifier $id)
     {
         $this->assertInstanceOf(BitString::class, $id->bitString());
     }

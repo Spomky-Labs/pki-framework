@@ -16,8 +16,10 @@ final class PolicyTreeTest extends TestCase
 {
     /**
      * Cover edge case where root node is pruned.
+     *
+     * @test
      */
-    public function testNodesAtDepthNoRoot()
+    public function nodesAtDepthNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
         $obj = new ReflectionClass($tree);
@@ -29,8 +31,10 @@ final class PolicyTreeTest extends TestCase
 
     /**
      * Cover edge case where root node is pruned.
+     *
+     * @test
      */
-    public function testValidPolicyNodeSetNoRoot()
+    public function validPolicyNodeSetNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
         $obj = new ReflectionClass($tree);
@@ -44,8 +48,10 @@ final class PolicyTreeTest extends TestCase
 
     /**
      * Cover edge case where root node is pruned.
+     *
+     * @test
      */
-    public function testPruneNoRoot()
+    public function pruneNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
         $obj = new ReflectionClass($tree);

@@ -80,10 +80,10 @@ return static function (ECSConfig $config) use ($header): void {
     $config->ruleWithConfiguration(AlignMultilineCommentFixer::class, [
         'comment_type' => 'all_multiline',
     ]);
+    */
     $config->ruleWithConfiguration(PhpUnitTestAnnotationFixer::class, [
         'style' => 'annotation',
     ]);
-    */
     $config->ruleWithConfiguration(GlobalNamespaceImportFixer::class, [
         'import_classes' => true,
         'import_constants' => true,

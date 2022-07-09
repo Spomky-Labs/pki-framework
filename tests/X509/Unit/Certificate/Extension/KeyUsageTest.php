@@ -15,7 +15,10 @@ use Sop\X509\Certificate\Extensions;
  */
 final class KeyUsageTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new KeyUsageExtension(
             true,
@@ -27,25 +30,31 @@ final class KeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_KEY_USAGE, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -53,11 +62,13 @@ final class KeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = KeyUsageExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(KeyUsageExtension::class, $ext);
@@ -65,90 +76,112 @@ final class KeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDigitalSignature(KeyUsageExtension $ext)
+    public function digitalSignature(KeyUsageExtension $ext)
     {
         $this->assertTrue($ext->isDigitalSignature());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNonRepudiation(KeyUsageExtension $ext)
+    public function nonRepudiation(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isNonRepudiation());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testKeyEncipherment(KeyUsageExtension $ext)
+    public function keyEncipherment(KeyUsageExtension $ext)
     {
         $this->assertTrue($ext->isKeyEncipherment());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDataEncipherment(KeyUsageExtension $ext)
+    public function dataEncipherment(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isDataEncipherment());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testKeyAgreement(KeyUsageExtension $ext)
+    public function keyAgreement(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isKeyAgreement());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testKeyCertSign(KeyUsageExtension $ext)
+    public function keyCertSign(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isKeyCertSign());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCRLSign(KeyUsageExtension $ext)
+    public function cRLSign(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isCRLSign());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncipherOnly(KeyUsageExtension $ext)
+    public function encipherOnly(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isEncipherOnly());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDecipherOnly(KeyUsageExtension $ext)
+    public function decipherOnly(KeyUsageExtension $ext)
     {
         $this->assertFalse($ext->isDecipherOnly());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(KeyUsageExtension $ext)
+    public function extensions(KeyUsageExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasKeyUsage());
@@ -156,9 +189,11 @@ final class KeyUsageTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->keyUsage();
         $this->assertInstanceOf(KeyUsageExtension::class, $ext);

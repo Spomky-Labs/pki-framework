@@ -42,14 +42,20 @@ final class AuthorityKeyIdentifierTest extends TestCase
         self::$_issuer = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new AuthorityKeyIdentifierExtension(true, self::KEY_ID, self::$_issuer, self::SERIAL);
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
         return $ext;
     }
 
-    public function testFromPKI()
+    /**
+     * @test
+     */
+    public function fromPKI()
     {
         $pki = PublicKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem'));
         $ext = AuthorityKeyIdentifierExtension::fromPublicKeyInfo($pki);
@@ -57,25 +63,31 @@ final class AuthorityKeyIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_AUTHORITY_KEY_IDENTIFIER, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -83,11 +95,13 @@ final class AuthorityKeyIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = AuthorityKeyIdentifierExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
@@ -95,42 +109,52 @@ final class AuthorityKeyIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testKeyIdentifier(AuthorityKeyIdentifierExtension $ext)
+    public function keyIdentifier(AuthorityKeyIdentifierExtension $ext)
     {
         $this->assertEquals(self::KEY_ID, $ext->keyIdentifier());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIssuer(AuthorityKeyIdentifierExtension $ext)
+    public function issuer(AuthorityKeyIdentifierExtension $ext)
     {
         $this->assertEquals(self::$_issuer, $ext->issuer());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSerial(AuthorityKeyIdentifierExtension $ext)
+    public function serial(AuthorityKeyIdentifierExtension $ext)
     {
         $this->assertEquals(self::SERIAL, $ext->serial());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(AuthorityKeyIdentifierExtension $ext)
+    public function extensions(AuthorityKeyIdentifierExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasAuthorityKeyIdentifier());
@@ -138,15 +162,20 @@ final class AuthorityKeyIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->authorityKeyIdentifier();
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
     }
 
-    public function testDecodeIssuerXorSerialFail()
+    /**
+     * @test
+     */
+    public function decodeIssuerXorSerialFail()
     {
         $seq = new Sequence(
             new ImplicitlyTaggedType(0, new OctetString('')),
@@ -160,28 +189,40 @@ final class AuthorityKeyIdentifierTest extends TestCase
         AuthorityKeyIdentifierExtension::fromASN1($ext_seq);
     }
 
-    public function testEncodeIssuerXorSerialFail()
+    /**
+     * @test
+     */
+    public function encodeIssuerXorSerialFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, '', null, 1);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
-    public function testNoKeyIdentifierFail()
+    /**
+     * @test
+     */
+    public function noKeyIdentifierFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, null);
         $this->expectException(LogicException::class);
         $ext->keyIdentifier();
     }
 
-    public function testNoIssuerFail()
+    /**
+     * @test
+     */
+    public function noIssuerFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, null);
         $this->expectException(LogicException::class);
         $ext->issuer();
     }
 
-    public function testNoSerialFail()
+    /**
+     * @test
+     */
+    public function noSerialFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, null);
         $this->expectException(LogicException::class);

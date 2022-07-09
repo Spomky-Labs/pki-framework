@@ -16,8 +16,10 @@ final class SubjectKeyIdentifierTest extends RefExtTestHelper
 {
     /**
      * @return SubjectKeyIdentifierExtension
+     *
+     * @test
      */
-    public function testSubjectKeyIdentifier()
+    public function subjectKeyIdentifier()
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_KEY_IDENTIFIER);
         $this->assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
@@ -25,9 +27,11 @@ final class SubjectKeyIdentifierTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectKeyIdentifier
+     * @depends subjectKeyIdentifier
+     *
+     * @test
      */
-    public function testSubjectKeyIdentifierKey(SubjectKeyIdentifierExtension $ski)
+    public function subjectKeyIdentifierKey(SubjectKeyIdentifierExtension $ski)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem');
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()

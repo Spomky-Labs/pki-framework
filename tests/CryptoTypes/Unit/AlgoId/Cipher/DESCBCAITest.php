@@ -20,8 +20,10 @@ final class DESCBCAITest extends TestCase
 
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new DESCBCAlgorithmIdentifier(self::IV);
         $seq = $ai->toASN1();
@@ -30,9 +32,11 @@ final class DESCBCAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(DESCBCAlgorithmIdentifier::class, $ai);
@@ -40,33 +44,42 @@ final class DESCBCAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testIV(DESCBCAlgorithmIdentifier $ai)
+    public function iV(DESCBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(self::IV, $ai->initializationVector());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testWithIV(DESCBCAlgorithmIdentifier $ai)
+    public function withIV(DESCBCAlgorithmIdentifier $ai)
     {
         $ai2 = $ai->withInitializationVector('testtest');
         $this->assertNotEquals($ai2, $ai);
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeNoParamsFail(Sequence $seq)
+    public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    public function testEncodeNoIVFail()
+    /**
+     * @test
+     */
+    public function encodeNoIVFail()
     {
         $ai = new DESCBCAlgorithmIdentifier();
         $this->expectException(LogicException::class);
@@ -74,31 +87,40 @@ final class DESCBCAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testBlockSize(DESCBCAlgorithmIdentifier $ai)
+    public function blockSize(DESCBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(8, $ai->blockSize());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testKeySize(DESCBCAlgorithmIdentifier $ai)
+    public function keySize(DESCBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(8, $ai->keySize());
     }
 
-    public function testInvalidIVSizeFail()
+    /**
+     * @test
+     */
+    public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
         new DESCBCAlgorithmIdentifier('1234');
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

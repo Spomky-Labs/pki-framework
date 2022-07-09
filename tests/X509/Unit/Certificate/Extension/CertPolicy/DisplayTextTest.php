@@ -20,7 +20,10 @@ use UnexpectedValueException;
  */
 final class DisplayTextTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $dt = DisplayText::fromString('test');
         $this->assertInstanceOf(DisplayText::class, $dt);
@@ -28,9 +31,11 @@ final class DisplayTextTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(DisplayText $dt)
+    public function encode(DisplayText $dt)
     {
         $el = $dt->toASN1();
         $this->assertInstanceOf(StringType::class, $el);
@@ -38,11 +43,13 @@ final class DisplayTextTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $qual = DisplayText::fromASN1(BaseString::fromDER($data));
         $this->assertInstanceOf(DisplayText::class, $qual);
@@ -50,47 +57,66 @@ final class DisplayTextTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(DisplayText $ref, DisplayText $new)
+    public function recoded(DisplayText $ref, DisplayText $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(DisplayText $dt)
+    public function string(DisplayText $dt)
     {
         $this->assertEquals('test', $dt->string());
     }
 
-    public function testEncodeIA5String()
+    /**
+     * @test
+     */
+    public function encodeIA5String()
     {
         $dt = new DisplayText('', Element::TYPE_IA5_STRING);
         $this->assertInstanceOf(IA5String::class, $dt->toASN1());
     }
 
-    public function testEncodeVisibleString()
+    /**
+     * @test
+     */
+    public function encodeVisibleString()
     {
         $dt = new DisplayText('', Element::TYPE_VISIBLE_STRING);
         $this->assertInstanceOf(VisibleString::class, $dt->toASN1());
     }
 
-    public function testEncodeBMPString()
+    /**
+     * @test
+     */
+    public function encodeBMPString()
     {
         $dt = new DisplayText('', Element::TYPE_BMP_STRING);
         $this->assertInstanceOf(BMPString::class, $dt->toASN1());
     }
 
-    public function testEncodeUTF8String()
+    /**
+     * @test
+     */
+    public function encodeUTF8String()
     {
         $dt = new DisplayText('', Element::TYPE_UTF8_STRING);
         $this->assertInstanceOf(UTF8String::class, $dt->toASN1());
     }
 
-    public function testEncodeUnsupportedTypeFail()
+    /**
+     * @test
+     */
+    public function encodeUnsupportedTypeFail()
     {
         $dt = new DisplayText('', Element::TYPE_NULL);
         $this->expectException(UnexpectedValueException::class);
@@ -98,9 +124,11 @@ final class DisplayTextTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(DisplayText $dt)
+    public function toStringMethod(DisplayText $dt)
     {
         $this->assertIsString(strval($dt));
     }

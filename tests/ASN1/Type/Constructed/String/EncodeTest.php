@@ -13,13 +13,19 @@ use Sop\ASN1\Type\Constructed\ConstructedString;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncodeDefinite()
+    /**
+     * @test
+     */
+    public function encodeDefinite()
     {
         $el = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING);
         $this->assertEquals(hex2bin('2400'), $el->toDER());
     }
 
-    public function testEncodeIndefinite()
+    /**
+     * @test
+     */
+    public function encodeIndefinite()
     {
         $el = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING)
             ->withIndefiniteLength();

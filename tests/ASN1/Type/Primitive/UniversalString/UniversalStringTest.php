@@ -17,7 +17,10 @@ use UnexpectedValueException;
  */
 final class UniversalStringTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new UniversalString('');
         $this->assertInstanceOf(UniversalString::class, $el);
@@ -25,17 +28,21 @@ final class UniversalStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_UNIVERSAL_STRING, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -43,9 +50,11 @@ final class UniversalStringTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): UniversalString
+    public function decode(string $data): UniversalString
     {
         $el = UniversalString::fromDER($data);
         $this->assertInstanceOf(UniversalString::class, $el);
@@ -53,15 +62,20 @@ final class UniversalStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
-    public function testInvalidString()
+    /**
+     * @test
+     */
+    public function invalidString()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid UniversalString string');
@@ -69,15 +83,20 @@ final class UniversalStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(UniversalString::class, $wrap->asUniversalString());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);

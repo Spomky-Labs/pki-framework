@@ -13,167 +13,242 @@ use Sop\ASN1\Type\Primitive\Integer;
  */
 final class EncodeTest extends TestCase
 {
-    public function testZero()
+    /**
+     * @test
+     */
+    public function zero()
     {
         $int = new Integer(0);
         $this->assertEquals("\x2\x1\x0", $int->toDER());
     }
 
-    public function testNegativeZero()
+    /**
+     * @test
+     */
+    public function negativeZero()
     {
         $int = new Integer('-0');
         $this->assertEquals("\x2\x1\x0", $int->toDER());
     }
 
-    public function testInvalidNumber()
+    /**
+     * @test
+     */
+    public function invalidNumber()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('is not a valid number');
         new Integer('one');
     }
 
-    public function testEmpty()
+    /**
+     * @test
+     */
+    public function empty()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('is not a valid number');
         new Integer('');
     }
 
-    public function testPositive127()
+    /**
+     * @test
+     */
+    public function positive127()
     {
         $int = new Integer(127);
         $this->assertEquals("\x2\x1\x7f", $int->toDER());
     }
 
-    public function testPositive128()
+    /**
+     * @test
+     */
+    public function positive128()
     {
         $int = new Integer(128);
         $this->assertEquals("\x2\x2\x0\x80", $int->toDER());
     }
 
-    public function testPositive255()
+    /**
+     * @test
+     */
+    public function positive255()
     {
         $int = new Integer(255);
         $this->assertEquals("\x2\x2\x0\xff", $int->toDER());
     }
 
-    public function testPositive256()
+    /**
+     * @test
+     */
+    public function positive256()
     {
         $int = new Integer(256);
         $this->assertEquals("\x2\x2\x01\x00", $int->toDER());
     }
 
-    public function testPositive32767()
+    /**
+     * @test
+     */
+    public function positive32767()
     {
         $int = new Integer(32767);
         $this->assertEquals("\x2\x2\x7f\xff", $int->toDER());
     }
 
-    public function testPositive32768()
+    /**
+     * @test
+     */
+    public function positive32768()
     {
         $int = new Integer(32768);
         $this->assertEquals("\x2\x3\x0\x80\x00", $int->toDER());
     }
 
-    public function testNegative1()
+    /**
+     * @test
+     */
+    public function negative1()
     {
         $int = new Integer(-1);
         $der = "\x2\x1" . chr(0b11111111);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative2()
+    /**
+     * @test
+     */
+    public function negative2()
     {
         $int = new Integer(-2);
         $der = "\x2\x1" . chr(0b11111110);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative127()
+    /**
+     * @test
+     */
+    public function negative127()
     {
         $int = new Integer(-127);
         $der = "\x2\x1" . chr(0b10000001);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative128()
+    /**
+     * @test
+     */
+    public function negative128()
     {
         $int = new Integer(-128);
         $der = "\x2\x1" . chr(0b10000000);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative129()
+    /**
+     * @test
+     */
+    public function negative129()
     {
         $int = new Integer(-129);
         $der = "\x2\x2" . chr(0b11111111) . chr(0b01111111);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative255()
+    /**
+     * @test
+     */
+    public function negative255()
     {
         $int = new Integer(-255);
         $der = "\x2\x2" . chr(0b11111111) . chr(0b00000001);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative256()
+    /**
+     * @test
+     */
+    public function negative256()
     {
         $int = new Integer(-256);
         $der = "\x2\x2" . chr(0b11111111) . chr(0b00000000);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative257()
+    /**
+     * @test
+     */
+    public function negative257()
     {
         $int = new Integer(-257);
         $der = "\x2\x2" . chr(0b11111110) . chr(0b11111111);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative32767()
+    /**
+     * @test
+     */
+    public function negative32767()
     {
         $int = new Integer(-32767);
         $der = "\x2\x2" . chr(0b10000000) . chr(0b00000001);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative32768()
+    /**
+     * @test
+     */
+    public function negative32768()
     {
         $int = new Integer(-32768);
         $der = "\x2\x2" . chr(0b10000000) . chr(0b00000000);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative32769()
+    /**
+     * @test
+     */
+    public function negative32769()
     {
         $int = new Integer(-32769);
         $der = "\x2\x3" . chr(0b11111111) . chr(0b01111111) . chr(0b11111111);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative65535()
+    /**
+     * @test
+     */
+    public function negative65535()
     {
         $int = new Integer(-65535);
         $der = "\x2\x3" . chr(0b11111111) . chr(0b00000000) . chr(0b00000001);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative65536()
+    /**
+     * @test
+     */
+    public function negative65536()
     {
         $int = new Integer(-65536);
         $der = "\x2\x3" . chr(0b11111111) . chr(0b00000000) . chr(0b00000000);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testNegative65537()
+    /**
+     * @test
+     */
+    public function negative65537()
     {
         $int = new Integer(-65537);
         $der = "\x2\x3" . chr(0b11111110) . chr(0b11111111) . chr(0b11111111);
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testHugePositive()
+    /**
+     * @test
+     */
+    public function hugePositive()
     {
         $num = gmp_init('7f' . str_repeat('ff', 0xfffe), 16);
         $int = new Integer(gmp_strval($num));
@@ -181,7 +256,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals($der, $int->toDER());
     }
 
-    public function testHugeNegative()
+    /**
+     * @test
+     */
+    public function hugeNegative()
     {
         $num = 0 - gmp_init('80' . str_repeat('00', 0xfffe), 16);
         $int = new Integer(gmp_strval($num));

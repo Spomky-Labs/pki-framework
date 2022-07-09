@@ -15,7 +15,10 @@ use Sop\X509\Certificate\Extension\Extension;
  */
 final class AAControlsTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new AAControlsExtension(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
         $this->assertInstanceOf(AAControlsExtension::class, $ext);
@@ -23,25 +26,31 @@ final class AAControlsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_AA_CONTROLS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -49,11 +58,13 @@ final class AAControlsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = AAControlsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AAControlsExtension::class, $ext);
@@ -61,47 +72,60 @@ final class AAControlsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPathLen(AAControlsExtension $ext)
+    public function pathLen(AAControlsExtension $ext)
     {
         $this->assertEquals(3, $ext->pathLen());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPermitted(AAControlsExtension $ext)
+    public function permitted(AAControlsExtension $ext)
     {
         $this->assertEquals(['1.2.3.4'], $ext->permittedAttrs());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testExcluded(AAControlsExtension $ext)
+    public function excluded(AAControlsExtension $ext)
     {
         $this->assertEquals(['1.2.3.5', '1.2.3.6'], $ext->excludedAttrs());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testUnspecified(AAControlsExtension $ext)
+    public function unspecified(AAControlsExtension $ext)
     {
         $this->assertFalse($ext->permitUnspecified());
     }
 
-    public function testCreateEmpty()
+    /**
+     * @test
+     */
+    public function createEmpty()
     {
         $ext = new AAControlsExtension(false);
         $this->assertInstanceOf(AAControlsExtension::class, $ext);
@@ -109,9 +133,11 @@ final class AAControlsTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testEncodeEmpty(Extension $ext)
+    public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -119,11 +145,13 @@ final class AAControlsTest extends TestCase
     }
 
     /**
-     * @depends testEncodeEmpty
+     * @depends encodeEmpty
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecodeEmpty($der)
+    public function decodeEmpty($der)
     {
         $ext = AAControlsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AAControlsExtension::class, $ext);
@@ -131,36 +159,44 @@ final class AAControlsTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
-     * @depends testDecodeEmpty
+     * @depends createEmpty
+     * @depends decodeEmpty
+     *
+     * @test
      */
-    public function testRecodedEmpty(Extension $ref, Extension $new)
+    public function recodedEmpty(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoPathLenFail(AAControlsExtension $ext)
+    public function noPathLenFail(AAControlsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->pathLen();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoPermittedAttrsFail(AAControlsExtension $ext)
+    public function noPermittedAttrsFail(AAControlsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->permittedAttrs();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoExcludedAttrsFail(AAControlsExtension $ext)
+    public function noExcludedAttrsFail(AAControlsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->excludedAttrs();

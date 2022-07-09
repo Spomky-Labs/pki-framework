@@ -52,7 +52,10 @@ final class CertificateBundleTest extends TestCase
         self::$_cert3 = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $bundle = new CertificateBundle(self::$_cert1, self::$_cert2);
         $this->assertInstanceOf(CertificateBundle::class, $bundle);
@@ -60,25 +63,31 @@ final class CertificateBundleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(CertificateBundle $bundle)
+    public function countMethod(CertificateBundle $bundle)
     {
         $this->assertCount(2, $bundle);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(CertificateBundle $bundle)
+    public function all(CertificateBundle $bundle)
     {
         $this->assertCount(2, $bundle->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(CertificateBundle $bundle)
+    public function iterator(CertificateBundle $bundle)
     {
         $values = [];
         foreach ($bundle as $cert) {
@@ -89,20 +98,28 @@ final class CertificateBundleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testContains(CertificateBundle $bundle)
+    public function contains(CertificateBundle $bundle)
     {
         $this->assertTrue($bundle->contains(self::$_cert1));
     }
 
-    public function testDoesNotContain()
+    /**
+     * @test
+     */
+    public function doesNotContain()
     {
         $bundle = new CertificateBundle(self::$_cert1, self::$_cert2);
         $this->assertFalse($bundle->contains(self::$_cert3));
     }
 
-    public function testContainsSubjectMismatch()
+    /**
+     * @test
+     */
+    public function containsSubjectMismatch()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
         $tc = new TBSCertificate(
@@ -119,9 +136,11 @@ final class CertificateBundleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllBySubjectKeyID(CertificateBundle $bundle)
+    public function allBySubjectKeyID(CertificateBundle $bundle)
     {
         $id = self::$_cert2->tbsCertificate()
             ->extensions()
@@ -132,45 +151,60 @@ final class CertificateBundleTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithPEM(CertificateBundle $bundle)
+    public function withPEM(CertificateBundle $bundle)
     {
         $bundle = $bundle->withPEM(self::$_pem3);
         $this->assertCount(3, $bundle);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithPEMBundle(CertificateBundle $bundle)
+    public function withPEMBundle(CertificateBundle $bundle)
     {
         $bundle = $bundle->withPEMBundle(new PEMBundle(self::$_pem3));
         $this->assertCount(3, $bundle);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithCertificates(CertificateBundle $bundle)
+    public function withCertificates(CertificateBundle $bundle)
     {
         $bundle = $bundle->withCertificates(Certificate::fromPEM(self::$_pem3));
         $this->assertCount(3, $bundle);
     }
 
-    public function testFromPEMBundle()
+    /**
+     * @test
+     */
+    public function fromPEMBundle()
     {
         $bundle = CertificateBundle::fromPEMBundle(new PEMBundle(self::$_pem1, self::$_pem2));
         $this->assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
-    public function testFromPEMs()
+    /**
+     * @test
+     */
+    public function fromPEMs()
     {
         $bundle = CertificateBundle::fromPEMs(self::$_pem1, self::$_pem2);
         $this->assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
-    public function testSearchBySubjectKeyHavingNoID()
+    /**
+     * @test
+     */
+    public function searchBySubjectKeyHavingNoID()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
         $tc = new TBSCertificate(

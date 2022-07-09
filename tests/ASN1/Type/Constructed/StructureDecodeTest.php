@@ -20,8 +20,10 @@ final class StructureDecodeTest extends TestCase
 {
     /**
      * Test too short length.
+     *
+     * @test
      */
-    public function testTooShort()
+    public function tooShort()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Structure\'s content overflows length');
@@ -30,8 +32,10 @@ final class StructureDecodeTest extends TestCase
 
     /**
      * Test too long length.
+     *
+     * @test
      */
-    public function testTooLong()
+    public function tooLong()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Length 3 overflows data, 2 bytes left');
@@ -40,36 +44,50 @@ final class StructureDecodeTest extends TestCase
 
     /**
      * Test when structure doesn't have constructed flag.
+     *
+     * @test
      */
-    public function testNotConstructed()
+    public function notConstructed()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Structured element must have constructed bit set');
         Structure::fromDER("\x10\x0");
     }
 
-    public function testImplicitlyTaggedExists()
+    /**
+     * @test
+     */
+    public function implicitlyTaggedExists()
     {
         // null, tag 0, null
         $set = Set::fromDER("\x31\x6\x5\x0\x80\x0\x5\x0");
         $this->assertTrue($set->hasTagged(0));
     }
 
-    public function testImplicitlyTaggedFetch()
+    /**
+     * @test
+     */
+    public function implicitlyTaggedFetch()
     {
         // null, tag 1, null
         $set = Set::fromDER("\x31\x6\x5\x0\x81\x0\x5\x0");
         $this->assertInstanceOf(DERTaggedType::class, $set->getTagged(1));
     }
 
-    public function testExplicitlyTaggedExists()
+    /**
+     * @test
+     */
+    public function explicitlyTaggedExists()
     {
         // null, tag 0 (null), null
         $set = Set::fromDER("\x31\x8\x5\x0\xa0\x2\x5\x0\x5\x0");
         $this->assertTrue($set->hasTagged(0));
     }
 
-    public function testExplicitlyTaggedFetch()
+    /**
+     * @test
+     */
+    public function explicitlyTaggedFetch()
     {
         // null, tag 1 (null), null
         $set = Set::fromDER("\x31\x8\x5\x0\xa1\x2\x5\x0\x5\x0");
@@ -77,7 +95,10 @@ final class StructureDecodeTest extends TestCase
         $this->assertInstanceOf(NullType::class, $set->getTagged(1) ->expectExplicit() ->explicit() ->asNull());
     }
 
-    public function testInvalidTag()
+    /**
+     * @test
+     */
+    public function invalidTag()
     {
         // null, tag 0, null
         $set = Set::fromDER("\x31\x6\x5\x0\x80\x0\x5\x0");
@@ -86,13 +107,19 @@ final class StructureDecodeTest extends TestCase
         $set->getTagged(1);
     }
 
-    public function testIndefinite()
+    /**
+     * @test
+     */
+    public function indefinite()
     {
         $seq = Sequence::fromDER(hex2bin('30800201010000'));
         $this->assertInstanceOf(Sequence::class, $seq);
     }
 
-    public function testIndefiniteUnexpectedEnd()
+    /**
+     * @test
+     */
+    public function indefiniteUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Unexpected end of data while decoding indefinite length structure');

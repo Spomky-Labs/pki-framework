@@ -16,43 +16,64 @@ use Sop\ASN1\Type\TaggedType;
  */
 final class ImplicitlyTaggedDecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = TaggedType::fromDER("\x80\x0");
         $this->assertInstanceOf(DERTaggedType::class, $el);
     }
 
-    public function testTag()
+    /**
+     * @test
+     */
+    public function tag()
     {
         $el = TaggedType::fromDER("\x81\x0");
         $this->assertEquals(1, $el->tag());
     }
 
-    public function testTypeClass()
+    /**
+     * @test
+     */
+    public function typeClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
         $this->assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
     }
 
-    public function testInnerType()
+    /**
+     * @test
+     */
+    public function innerType()
     {
         $el = TaggedType::fromDER("\x80\x0");
         $this->assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
     }
 
-    public function testInnerClass()
+    /**
+     * @test
+     */
+    public function innerClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
         $this->assertEquals(Identifier::CLASS_UNIVERSAL, $el->implicit(Element::TYPE_NULL) ->typeClass());
     }
 
-    public function testInnerPrimitive()
+    /**
+     * @test
+     */
+    public function innerPrimitive()
     {
         $el = TaggedType::fromDER("\x80\x0");
         $this->assertFalse($el->implicit(Element::TYPE_NULL) ->isConstructed());
     }
 
-    public function testInnerConstructed()
+    /**
+     * @test
+     */
+    public function innerConstructed()
     {
         $el = TaggedType::fromDER("\xa0\x0");
         $this->assertTrue($el->implicit(Element::TYPE_SEQUENCE) ->isConstructed());
@@ -60,15 +81,20 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
 
     /**
      * Test that attempting to decode implicitly tagged sequence that doesn't have constructed bit set fails.
+     *
+     * @test
      */
-    public function testInnerConstructedFail()
+    public function innerConstructedFail()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Structured element must have constructed bit set');
         TaggedType::fromDER("\x80\x0")->implicit(Element::TYPE_SEQUENCE);
     }
 
-    public function testNested()
+    /**
+     * @test
+     */
+    public function nested()
     {
         $el = TaggedType::fromDER("\xa1\x2\x82\x0");
         $this->assertEquals(1, $el->tag());

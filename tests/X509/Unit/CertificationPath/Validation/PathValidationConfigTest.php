@@ -16,7 +16,10 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
  */
 final class PathValidationConfigTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $config = PathValidationConfig::defaultConfig();
         $this->assertInstanceOf(PathValidationConfig::class, $config);
@@ -24,51 +27,63 @@ final class PathValidationConfigTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testMaxLength(PathValidationConfig $config)
+    public function maxLength(PathValidationConfig $config)
     {
         $this->assertEquals(3, $config->maxLength());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDateTime(PathValidationConfig $config)
+    public function dateTime(PathValidationConfig $config)
     {
         $this->assertInstanceOf(DateTimeImmutable::class, $config->dateTime());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPolicySet(PathValidationConfig $config)
+    public function policySet(PathValidationConfig $config)
     {
         $this->assertContainsOnly('string', $config->policySet());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithMaxLength(PathValidationConfig $config)
+    public function withMaxLength(PathValidationConfig $config)
     {
         $config = $config->withMaxLength(5);
         $this->assertInstanceOf(PathValidationConfig::class, $config);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithDateTime(PathValidationConfig $config)
+    public function withDateTime(PathValidationConfig $config)
     {
         $config = $config->withDateTime(new DateTimeImmutable());
         $this->assertInstanceOf(PathValidationConfig::class, $config);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithTrustAnchor(PathValidationConfig $config)
+    public function withTrustAnchor(PathValidationConfig $config)
     {
         $config = $config->withTrustAnchor(
             Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'))
@@ -78,9 +93,11 @@ final class PathValidationConfigTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithPolicyMappingInhibit(PathValidationConfig $config)
+    public function withPolicyMappingInhibit(PathValidationConfig $config)
     {
         $config = $config->withPolicyMappingInhibit(true);
         $this->assertInstanceOf(PathValidationConfig::class, $config);
@@ -88,9 +105,11 @@ final class PathValidationConfigTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithExplicitPolicy(PathValidationConfig $config)
+    public function withExplicitPolicy(PathValidationConfig $config)
     {
         $config = $config->withExplicitPolicy(true);
         $this->assertInstanceOf(PathValidationConfig::class, $config);
@@ -98,9 +117,11 @@ final class PathValidationConfigTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithAnyPolicyInhibit(PathValidationConfig $config)
+    public function withAnyPolicyInhibit(PathValidationConfig $config)
     {
         $config = $config->withAnyPolicyInhibit(true);
         $this->assertInstanceOf(PathValidationConfig::class, $config);
@@ -108,42 +129,52 @@ final class PathValidationConfigTest extends TestCase
     }
 
     /**
-     * @depends testWithTrustAnchor
+     * @depends withTrustAnchor
+     *
+     * @test
      */
-    public function testTrustAnchor(PathValidationConfig $config)
+    public function trustAnchor(PathValidationConfig $config)
     {
         $this->assertInstanceOf(Certificate::class, $config->trustAnchor());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTrustAnchorFail(PathValidationConfig $config)
+    public function trustAnchorFail(PathValidationConfig $config)
     {
         $this->expectException(LogicException::class);
         $config->trustAnchor();
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPolicyMappingInhibit(PathValidationConfig $config)
+    public function policyMappingInhibit(PathValidationConfig $config)
     {
         $this->assertIsBool($config->policyMappingInhibit());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExplicitPolicy(PathValidationConfig $config)
+    public function explicitPolicy(PathValidationConfig $config)
     {
         $this->assertIsBool($config->explicitPolicy());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAnyPolicyInhibit(PathValidationConfig $config)
+    public function anyPolicyInhibit(PathValidationConfig $config)
     {
         $this->assertIsBool($config->anyPolicyInhibit());
     }

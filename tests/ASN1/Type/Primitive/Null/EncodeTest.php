@@ -12,7 +12,10 @@ use Sop\ASN1\Type\Primitive\NullType;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncode()
+    /**
+     * @test
+     */
+    public function encode()
     {
         $el = new NullType();
         $this->assertEquals("\x5\x0", $el->toDER());

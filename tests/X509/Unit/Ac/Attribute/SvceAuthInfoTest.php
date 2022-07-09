@@ -16,7 +16,10 @@ use Sop\X509\GeneralName\DirectoryName;
  */
 final class SvceAuthInfoTest extends TestCase
 {
-    public function testCreateWithoutAuthInfo()
+    /**
+     * @test
+     */
+    public function createWithoutAuthInfo()
     {
         $val = new AccessIdentityAttributeValue(
             DirectoryName::fromDNString('cn=Svc'),
@@ -27,42 +30,52 @@ final class SvceAuthInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithoutAuthInfo
+     * @depends createWithoutAuthInfo
+     *
+     * @test
      */
-    public function testNoAuthInfoFail(SvceAuthInfo $val)
+    public function noAuthInfoFail(SvceAuthInfo $val)
     {
         $this->expectException(LogicException::class);
         $val->authInfo();
     }
 
     /**
-     * @depends testCreateWithoutAuthInfo
+     * @depends createWithoutAuthInfo
+     *
+     * @test
      */
-    public function testStringValue(SvceAuthInfo $val)
+    public function stringValue(SvceAuthInfo $val)
     {
         $this->assertIsString($val->stringValue());
     }
 
     /**
-     * @depends testCreateWithoutAuthInfo
+     * @depends createWithoutAuthInfo
+     *
+     * @test
      */
-    public function testEqualityMatchingRule(SvceAuthInfo $val)
+    public function equalityMatchingRule(SvceAuthInfo $val)
     {
         $this->assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
     /**
-     * @depends testCreateWithoutAuthInfo
+     * @depends createWithoutAuthInfo
+     *
+     * @test
      */
-    public function testRFC2253String(SvceAuthInfo $val)
+    public function rFC2253String(SvceAuthInfo $val)
     {
         $this->assertIsString($val->rfc2253String());
     }
 
     /**
-     * @depends testCreateWithoutAuthInfo
+     * @depends createWithoutAuthInfo
+     *
+     * @test
      */
-    public function testToString(SvceAuthInfo $val)
+    public function toStringMethod(SvceAuthInfo $val)
     {
         $this->assertIsString(strval($val));
     }

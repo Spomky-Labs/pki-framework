@@ -79,7 +79,10 @@ final class NoPoliciesTest extends TestCase
         self::$_cert = null;
     }
 
-    public function testValidate()
+    /**
+     * @test
+     */
+    public function validate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $config = new PathValidationConfig(new DateTimeImmutable(), 3);

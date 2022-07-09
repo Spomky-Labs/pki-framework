@@ -18,19 +18,28 @@ use Sop\ASN1\Type\StringType;
  */
 final class StringTypeDecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = BaseString::fromDER("\x13\x0");
         $this->assertInstanceOf(StringType::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
         $this->assertEquals('Hello World', $el->string());
     }
 
-    public function testExpectation()
+    /**
+     * @test
+     */
+    public function expectation()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
         $this->assertInstanceOf(StringType::class, $el->expectType(Element::TYPE_STRING));
@@ -38,8 +47,10 @@ final class StringTypeDecodeTest extends TestCase
 
     /**
      * Cover case where primitive string encoding is not primitive.
+     *
+     * @test
      */
-    public function testConstructedFail()
+    public function constructedFail()
     {
         $cls = new ReflectionClass(PrimitiveString::class);
         $mtd = $cls->getMethod('_decodeFromDER');

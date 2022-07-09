@@ -18,7 +18,10 @@ use Sop\X501\ASN1\AttributeValue\NameValue;
  */
 final class AttributeTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $attr = Attribute::fromAttributeValues(new NameValue('one'), new NameValue('two'));
         $this->assertInstanceOf(Attribute::class, $attr);
@@ -26,9 +29,11 @@ final class AttributeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Attribute $attr)
+    public function encode(Attribute $attr)
     {
         $der = $attr->toASN1()
             ->toDER();
@@ -37,11 +42,13 @@ final class AttributeTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $attr = Attribute::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(Attribute::class, $attr);
@@ -49,50 +56,62 @@ final class AttributeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Attribute $ref, Attribute $new)
+    public function recoded(Attribute $ref, Attribute $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testType(Attribute $attr)
+    public function type(Attribute $attr)
     {
         $this->assertEquals(AttributeType::fromName('name'), $attr->type());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirst(Attribute $attr)
+    public function first(Attribute $attr)
     {
         $this->assertEquals('one', $attr->first()->rfc2253String());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testValues(Attribute $attr)
+    public function values(Attribute $attr)
     {
         $this->assertContainsOnlyInstancesOf(AttributeValue::class, $attr->values());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Attribute $attr)
+    public function countMethod(Attribute $attr)
     {
         $this->assertCount(2, $attr);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterable(Attribute $attr)
+    public function iterable(Attribute $attr)
     {
         $values = [];
         foreach ($attr as $value) {
@@ -101,21 +120,30 @@ final class AttributeTest extends TestCase
         $this->assertContainsOnlyInstancesOf(AttributeValue::class, $values);
     }
 
-    public function testCreateMismatch()
+    /**
+     * @test
+     */
+    public function createMismatch()
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
         Attribute::fromAttributeValues(new NameValue('name'), new CommonNameValue('cn'));
     }
 
-    public function testEmptyFromValuesFail()
+    /**
+     * @test
+     */
+    public function emptyFromValuesFail()
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No values');
         Attribute::fromAttributeValues();
     }
 
-    public function testCreateEmpty()
+    /**
+     * @test
+     */
+    public function createEmpty()
     {
         $attr = new Attribute(AttributeType::fromName('cn'));
         $this->assertInstanceOf(Attribute::class, $attr);
@@ -123,9 +151,11 @@ final class AttributeTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testEmptyFirstFail(Attribute $attr)
+    public function emptyFirstFail(Attribute $attr)
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute contains no values');

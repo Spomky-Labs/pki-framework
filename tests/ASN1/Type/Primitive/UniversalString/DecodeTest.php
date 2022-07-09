@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\UniversalString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = UniversalString::fromDER("\x1c\x0");
         $this->assertInstanceOf(UniversalString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0l\0\0\0o";
         $el = UniversalString::fromDER("\x1c\x14{$str}");
         $this->assertEquals($str, $el->string());
     }
 
-    public function testInvalidValue()
+    /**
+     * @test
+     */
+    public function invalidValue()
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0lo";
         $this->expectException(DecodeException::class);

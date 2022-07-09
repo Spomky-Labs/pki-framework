@@ -14,14 +14,20 @@ use UnexpectedValueException;
  */
 final class PEMTest extends TestCase
 {
-    public function testFromString()
+    /**
+     * @test
+     */
+    public function fromString()
     {
         $str = file_get_contents(TEST_ASSETS_DIR . '/public_key.pem');
         $pem = PEM::fromString($str);
         $this->assertInstanceOf(PEM::class, $pem);
     }
 
-    public function testFromFile(): PEM
+    /**
+     * @test
+     */
+    public function fromFile(): PEM
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/public_key.pem');
         $this->assertInstanceOf(PEM::class, $pem);
@@ -29,14 +35,19 @@ final class PEMTest extends TestCase
     }
 
     /**
-     * @depends testFromFile
+     * @depends fromFile
+     *
+     * @test
      */
-    public function testType(PEM $pem)
+    public function type(PEM $pem)
     {
         $this->assertEquals(PEM::TYPE_PUBLIC_KEY, $pem->type());
     }
 
-    public function testData()
+    /**
+     * @test
+     */
+    public function data()
     {
         $data = 'payload';
         $encoded = base64_encode($data);
@@ -48,13 +59,19 @@ CODE_SAMPLE;
         $this->assertEquals($data, PEM::fromString($str)->data());
     }
 
-    public function testInvalidPEM()
+    /**
+     * @test
+     */
+    public function invalidPEM()
     {
         $this->expectException(UnexpectedValueException::class);
         PEM::fromString('invalid');
     }
 
-    public function testInvalidPEMData()
+    /**
+     * @test
+     */
+    public function invalidPEMData()
     {
         $str = <<<'CODE_SAMPLE'
 -----BEGIN TEST-----
@@ -65,24 +82,31 @@ CODE_SAMPLE;
         PEM::fromString($str);
     }
 
-    public function testInvalidFile()
+    /**
+     * @test
+     */
+    public function invalidFile()
     {
         $this->expectException(RuntimeException::class);
         PEM::fromFile(TEST_ASSETS_DIR . '/nonexistent');
     }
 
     /**
-     * @depends testFromFile
+     * @depends fromFile
+     *
+     * @test
      */
-    public function testString(PEM $pem)
+    public function string(PEM $pem)
     {
         $this->assertIsString($pem->string());
     }
 
     /**
-     * @depends testFromFile
+     * @depends fromFile
+     *
+     * @test
      */
-    public function testToString(PEM $pem)
+    public function toStringMethod(PEM $pem)
     {
         $this->assertIsString(strval($pem));
     }

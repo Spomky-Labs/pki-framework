@@ -44,7 +44,10 @@ final class HolderTest extends TestCase
         self::$_odi = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $holder = new Holder(self::$_issuerSerial, self::$_subject);
         $holder = $holder->withObjectDigestInfo(self::$_odi);
@@ -53,9 +56,11 @@ final class HolderTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Holder $holder)
+    public function encode(Holder $holder)
     {
         $seq = $holder->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -63,11 +68,13 @@ final class HolderTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $holder = Holder::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(Holder::class, $holder);
@@ -75,74 +82,100 @@ final class HolderTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Holder $ref, Holder $new)
+    public function recoded(Holder $ref, Holder $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testBaseCertificateID(Holder $holder)
+    public function baseCertificateID(Holder $holder)
     {
         $this->assertEquals(self::$_issuerSerial, $holder->baseCertificateID());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEntityName(Holder $holder)
+    public function entityName(Holder $holder)
     {
         $this->assertEquals(self::$_subject, $holder->entityName());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testObjectDigestInfo(Holder $holder)
+    public function objectDigestInfo(Holder $holder)
     {
         $this->assertEquals(self::$_odi, $holder->objectDigestInfo());
     }
 
-    public function testWithBaseCertificateID()
+    /**
+     * @test
+     */
+    public function withBaseCertificateID()
     {
         $holder = new Holder();
         $holder = $holder->withBaseCertificateID(self::$_issuerSerial);
         $this->assertInstanceOf(Holder::class, $holder);
     }
 
-    public function testWithEntityName()
+    /**
+     * @test
+     */
+    public function withEntityName()
     {
         $holder = new Holder();
         $holder = $holder->withEntityName(self::$_subject);
         $this->assertInstanceOf(Holder::class, $holder);
     }
 
-    public function testWithObjectDigestInfo()
+    /**
+     * @test
+     */
+    public function withObjectDigestInfo()
     {
         $holder = new Holder();
         $holder = $holder->withObjectDigestInfo(self::$_odi);
         $this->assertInstanceOf(Holder::class, $holder);
     }
 
-    public function testNoBaseCertificateIDFail()
+    /**
+     * @test
+     */
+    public function noBaseCertificateIDFail()
     {
         $holder = new Holder();
         $this->expectException(LogicException::class);
         $holder->baseCertificateID();
     }
 
-    public function testNoEntityNameFail()
+    /**
+     * @test
+     */
+    public function noEntityNameFail()
     {
         $holder = new Holder();
         $this->expectException(LogicException::class);
         $holder->entityName();
     }
 
-    public function testNoObjectDigestInfoFail()
+    /**
+     * @test
+     */
+    public function noObjectDigestInfoFail()
     {
         $holder = new Holder();
         $this->expectException(LogicException::class);

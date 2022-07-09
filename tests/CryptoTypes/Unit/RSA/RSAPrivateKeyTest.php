@@ -20,8 +20,10 @@ final class RSAPrivateKeyTest extends TestCase
 {
     /**
      * @return RSAPrivateKey
+     *
+     * @test
      */
-    public function testDecode()
+    public function decode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = RSAPrivateKey::fromDER($pem->data());
@@ -31,8 +33,10 @@ final class RSAPrivateKeyTest extends TestCase
 
     /**
      * @return RSAPrivateKey
+     *
+     * @test
      */
-    public function testFromPEM()
+    public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = RSAPrivateKey::fromPEM($pem);
@@ -41,9 +45,11 @@ final class RSAPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testToPEM(RSAPrivateKey $pk)
+    public function toPEM(RSAPrivateKey $pk)
     {
         $pem = $pk->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
@@ -51,15 +57,20 @@ final class RSAPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testRecodedPEM(PEM $pem)
+    public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $this->assertEquals($ref, $pem);
     }
 
-    public function testFromPKIPEM()
+    /**
+     * @test
+     */
+    public function fromPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pk = RSAPrivateKey::fromPEM($pem);
@@ -67,16 +78,21 @@ final class RSAPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testGetPublicKey(RSAPrivateKey $pk)
+    public function getPublicKey(RSAPrivateKey $pk)
     {
         $pub = $pk->publicKey();
         $ref = RSAPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem'));
         $this->assertEquals($ref, $pub);
     }
 
-    public function testInvalidVersion()
+    /**
+     * @test
+     */
+    public function invalidVersion()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $seq = Sequence::fromDER($pem->data());
@@ -85,14 +101,20 @@ final class RSAPrivateKeyTest extends TestCase
         RSAPrivateKey::fromASN1($seq);
     }
 
-    public function testInvalidPEMType()
+    /**
+     * @test
+     */
+    public function invalidPEMType()
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);
         RSAPrivateKey::fromPEM($pem);
     }
 
-    public function testECKeyFail()
+    /**
+     * @test
+     */
+    public function eCKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $this->expectException(UnexpectedValueException::class);
@@ -100,73 +122,91 @@ final class RSAPrivateKeyTest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testModulus(RSAPrivateKey $pk)
+    public function modulus(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->modulus());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPublicExponent(RSAPrivateKey $pk)
+    public function publicExponent(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->publicExponent());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPrivateExponent(RSAPrivateKey $pk)
+    public function privateExponent(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->privateExponent());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPrime1(RSAPrivateKey $pk)
+    public function prime1(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->prime1());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPrime2(RSAPrivateKey $pk)
+    public function prime2(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->prime2());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testExponent1(RSAPrivateKey $pk)
+    public function exponent1(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->exponent1());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testExponent2(RSAPrivateKey $pk)
+    public function exponent2(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->exponent2());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testCoefficient(RSAPrivateKey $pk)
+    public function coefficient(RSAPrivateKey $pk)
     {
         $this->assertNotEmpty($pk->coefficient());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPrivateKeyInfo(RSAPrivateKey $pk)
+    public function privateKeyInfo(RSAPrivateKey $pk)
     {
         $pki = $pk->privateKeyInfo();
         $this->assertInstanceOf(PrivateKeyInfo::class, $pki);

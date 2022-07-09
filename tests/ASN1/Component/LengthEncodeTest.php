@@ -13,37 +13,55 @@ use Sop\ASN1\Component\Length;
  */
 final class LengthEncodeTest extends TestCase
 {
-    public function testDefinite()
+    /**
+     * @test
+     */
+    public function definite()
     {
         $length = new Length(0, false);
         $this->assertEquals("\x0", $length->toDER());
     }
 
-    public function testIndefinite()
+    /**
+     * @test
+     */
+    public function indefinite()
     {
         $length = new Length(0, true);
         $this->assertEquals("\x80", $length->toDER());
     }
 
-    public function testShort()
+    /**
+     * @test
+     */
+    public function short()
     {
         $length = new Length(0x7f);
         $this->assertEquals("\x7f", $length->toDER());
     }
 
-    public function testLong()
+    /**
+     * @test
+     */
+    public function long()
     {
         $length = new Length(0xff);
         $this->assertEquals("\x81\xff", $length->toDER());
     }
 
-    public function testLong2()
+    /**
+     * @test
+     */
+    public function long2()
     {
         $length = new Length(0xcafe);
         $this->assertEquals("\x82\xca\xfe", $length->toDER());
     }
 
-    public function testHugeLength()
+    /**
+     * @test
+     */
+    public function hugeLength()
     {
         $largenum = gmp_init(str_repeat('ff', 126), 16);
         $length = new Length(gmp_strval($largenum, 10));
@@ -51,7 +69,10 @@ final class LengthEncodeTest extends TestCase
         $this->assertEquals($expected, $length->toDER());
     }
 
-    public function testTooLong()
+    /**
+     * @test
+     */
+    public function tooLong()
     {
         $largenum = gmp_init(str_repeat('ff', 127), 16);
         $length = new Length(gmp_strval($largenum, 10));
@@ -60,7 +81,10 @@ final class LengthEncodeTest extends TestCase
         $length->toDER();
     }
 
-    public function testTooLong2()
+    /**
+     * @test
+     */
+    public function tooLong2()
     {
         $largenum = gmp_init(str_repeat('ff', 128), 16);
         $length = new Length(gmp_strval($largenum, 10));

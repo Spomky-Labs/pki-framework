@@ -12,13 +12,19 @@ use Sop\ASN1\Component\Identifier;
  */
 final class IdentifierTest extends TestCase
 {
-    public function testClassToName()
+    /**
+     * @test
+     */
+    public function classToName()
     {
         $name = Identifier::classToName(Identifier::CLASS_UNIVERSAL);
         $this->assertEquals('UNIVERSAL', $name);
     }
 
-    public function testUnknownClassToName()
+    /**
+     * @test
+     */
+    public function unknownClassToName()
     {
         $name = Identifier::classToName(0xff);
         $this->assertEquals('CLASS 255', $name);

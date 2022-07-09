@@ -18,7 +18,10 @@ final class ValidityTest extends TestCase
 
     final public const NA = '2016-04-06 13:00:00';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $validity = Validity::fromStrings(self::NB, self::NA);
         $this->assertInstanceOf(Validity::class, $validity);
@@ -26,9 +29,11 @@ final class ValidityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Validity $validity)
+    public function encode(Validity $validity)
     {
         $seq = $validity->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -36,11 +41,13 @@ final class ValidityTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $validity = Validity::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(Validity::class, $validity);
@@ -48,26 +55,32 @@ final class ValidityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Validity $ref, Validity $new)
+    public function recoded(Validity $ref, Validity $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNotBefore(Validity $validity)
+    public function notBefore(Validity $validity)
     {
         $this->assertEquals(new DateTimeImmutable(self::NB), $validity->notBefore() ->dateTime());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNotAfter(Validity $validity)
+    public function notAfter(Validity $validity)
     {
         $this->assertEquals(new DateTimeImmutable(self::NA), $validity->notAfter() ->dateTime());
     }

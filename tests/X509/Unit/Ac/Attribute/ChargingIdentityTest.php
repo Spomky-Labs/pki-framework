@@ -26,7 +26,10 @@ final class ChargingIdentityTest extends TestCase
 
     final public const UTF8_VAL = 'UTF-8 string';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $value = new ChargingIdentityAttributeValue(
             IetfAttrValue::fromOctets(self::OCTETS_VAL),
@@ -39,9 +42,11 @@ final class ChargingIdentityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeValue $value)
+    public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -49,11 +54,13 @@ final class ChargingIdentityTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $value = ChargingIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $value);
@@ -61,42 +68,52 @@ final class ChargingIdentityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeValue $ref, AttributeValue $new)
+    public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $value)
+    public function oID(AttributeValue $value)
     {
         $this->assertEquals(ChargingIdentityAttributeValue::OID, $value->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAuthority(ChargingIdentityAttributeValue $value)
+    public function authority(ChargingIdentityAttributeValue $value)
     {
         $this->assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(ChargingIdentityAttributeValue $value)
+    public function countMethod(ChargingIdentityAttributeValue $value)
     {
         $this->assertCount(3, $value);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(ChargingIdentityAttributeValue $value)
+    public function iterator(ChargingIdentityAttributeValue $value)
     {
         $values = [];
         foreach ($value as $val) {
@@ -107,33 +124,41 @@ final class ChargingIdentityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOctetStringValue(ChargingIdentityAttributeValue $value)
+    public function octetStringValue(ChargingIdentityAttributeValue $value)
     {
         $this->assertEquals(self::OCTETS_VAL, $value->values()[0]);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOIDValue(ChargingIdentityAttributeValue $value)
+    public function oIDValue(ChargingIdentityAttributeValue $value)
     {
         $this->assertEquals(self::OID_VAL, $value->values()[1]);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testUTF8Value(ChargingIdentityAttributeValue $value)
+    public function uTF8Value(ChargingIdentityAttributeValue $value)
     {
         $this->assertEquals(self::UTF8_VAL, $value->values()[2]);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAttributes(AttributeValue $value)
+    public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
         $this->assertTrue($attribs->hasChargingIdentity());
@@ -141,9 +166,11 @@ final class ChargingIdentityTest extends TestCase
     }
 
     /**
-     * @depends testAttributes
+     * @depends attributes
+     *
+     * @test
      */
-    public function testFromAttributes(Attributes $attribs)
+    public function fromAttributes(Attributes $attribs)
     {
         $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $attribs->chargingIdentity());
     }

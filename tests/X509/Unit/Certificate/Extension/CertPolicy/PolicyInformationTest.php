@@ -20,7 +20,10 @@ final class PolicyInformationTest extends TestCase
 {
     public const OID = '1.3.6.1.3';
 
-    public function testCreateWithCPS()
+    /**
+     * @test
+     */
+    public function createWithCPS()
     {
         $pi = new PolicyInformation(self::OID, new CPSQualifier('urn:test'));
         $this->assertInstanceOf(PolicyInformation::class, $pi);
@@ -28,9 +31,11 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testEncodeWithCPS(PolicyInformation $pi)
+    public function encodeWithCPS(PolicyInformation $pi)
     {
         $el = $pi->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -38,11 +43,13 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testEncodeWithCPS
+     * @depends encodeWithCPS
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecodeWithCPS($data)
+    public function decodeWithCPS($data)
     {
         $pi = PolicyInformation::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(PolicyInformation::class, $pi);
@@ -50,73 +57,92 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithCPS
-     * @depends testDecodeWithCPS
+     * @depends createWithCPS
+     * @depends decodeWithCPS
+     *
+     * @test
      */
-    public function testRecodedWithCPS(PolicyInformation $ref, PolicyInformation $new)
+    public function recodedWithCPS(PolicyInformation $ref, PolicyInformation $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testOID(PolicyInformation $pi)
+    public function oID(PolicyInformation $pi)
     {
         $this->assertEquals(self::OID, $pi->oid());
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testHas(PolicyInformation $pi)
+    public function has(PolicyInformation $pi)
     {
         $this->assertTrue($pi->has(CPSQualifier::OID_CPS));
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testHasNot(PolicyInformation $pi)
+    public function hasNot(PolicyInformation $pi)
     {
         $this->assertFalse($pi->has('1.3.6.1.3'));
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testGet(PolicyInformation $pi)
+    public function get(PolicyInformation $pi)
     {
         $this->assertInstanceOf(PolicyQualifierInfo::class, $pi->get(CPSQualifier::OID_CPS));
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testGetFail(PolicyInformation $pi)
+    public function getFail(PolicyInformation $pi)
     {
         $this->expectException(LogicException::class);
         $pi->get('1.3.6.1.3');
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testCPSQualifier(PolicyInformation $pi)
+    public function cPSQualifier(PolicyInformation $pi)
     {
         $this->assertInstanceOf(CPSQualifier::class, $pi->CPSQualifier());
     }
 
     /**
-     * @depends testCreateWithCPS
+     * @depends createWithCPS
+     *
+     * @test
      */
-    public function testUserNoticeQualifierFail(PolicyInformation $pi)
+    public function userNoticeQualifierFail(PolicyInformation $pi)
     {
         $this->expectException(LogicException::class);
         $pi->userNoticeQualifier();
     }
 
-    public function testCreateWithNotice()
+    /**
+     * @test
+     */
+    public function createWithNotice()
     {
         $pi = new PolicyInformation(self::OID, new UserNoticeQualifier(DisplayText::fromString('notice')));
         $this->assertInstanceOf(PolicyInformation::class, $pi);
@@ -124,23 +150,30 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithNotice
+     * @depends createWithNotice
+     *
+     * @test
      */
-    public function testCPSQualifierFail(PolicyInformation $pi)
+    public function cPSQualifierFail(PolicyInformation $pi)
     {
         $this->expectException(LogicException::class);
         $pi->CPSQualifier();
     }
 
     /**
-     * @depends testCreateWithNotice
+     * @depends createWithNotice
+     *
+     * @test
      */
-    public function testUserNoticeQualifier(PolicyInformation $pi)
+    public function userNoticeQualifier(PolicyInformation $pi)
     {
         $this->assertInstanceOf(UserNoticeQualifier::class, $pi->userNoticeQualifier());
     }
 
-    public function testCreateWithMultiple()
+    /**
+     * @test
+     */
+    public function createWithMultiple()
     {
         $pi = new PolicyInformation(
             self::OID,
@@ -152,9 +185,11 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithMultiple
+     * @depends createWithMultiple
+     *
+     * @test
      */
-    public function testEncodeWithMultiple(PolicyInformation $pi)
+    public function encodeWithMultiple(PolicyInformation $pi)
     {
         $el = $pi->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -162,11 +197,13 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testEncodeWithMultiple
+     * @depends encodeWithMultiple
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecodeWithMultiple($data)
+    public function decodeWithMultiple($data)
     {
         $pi = PolicyInformation::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(PolicyInformation::class, $pi);
@@ -174,26 +211,32 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithMultiple
-     * @depends testDecodeWithMultiple
+     * @depends createWithMultiple
+     * @depends decodeWithMultiple
+     *
+     * @test
      */
-    public function testRecodedMultiple(PolicyInformation $ref, PolicyInformation $new)
+    public function recodedMultiple(PolicyInformation $ref, PolicyInformation $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateWithMultiple
+     * @depends createWithMultiple
+     *
+     * @test
      */
-    public function testCount(PolicyInformation $pi)
+    public function countMethod(PolicyInformation $pi)
     {
         $this->assertCount(2, $pi);
     }
 
     /**
-     * @depends testCreateWithMultiple
+     * @depends createWithMultiple
+     *
+     * @test
      */
-    public function testIterator(PolicyInformation $pi)
+    public function iterator(PolicyInformation $pi)
     {
         $values = [];
         foreach ($pi as $qual) {
@@ -202,7 +245,10 @@ final class PolicyInformationTest extends TestCase
         $this->assertContainsOnlyInstancesOf(PolicyQualifierInfo::class, $values);
     }
 
-    public function testIsAnyPolicy()
+    /**
+     * @test
+     */
+    public function isAnyPolicy()
     {
         $pi = new PolicyInformation(PolicyInformation::OID_ANY_POLICY);
         $this->assertTrue($pi->isAnyPolicy());

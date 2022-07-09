@@ -19,33 +19,48 @@ use UnexpectedValueException;
  */
 final class GeneralNameTest extends TestCase
 {
-    public function testInvalidTagFail()
+    /**
+     * @test
+     */
+    public function invalidTagFail()
     {
         $this->expectException(UnexpectedValueException::class);
         GeneralName::fromASN1(new ImplicitlyTaggedType(9, new NullType()));
     }
 
-    public function testFromChosenBadCall()
+    /**
+     * @test
+     */
+    public function fromChosenBadCall()
     {
         $this->expectException(BadMethodCallException::class);
         GeneralName::fromChosenASN1(new UnspecifiedType(new NullType()));
     }
 
-    public function testEquals()
+    /**
+     * @test
+     */
+    public function equals()
     {
         $n1 = new UniformResourceIdentifier('urn:1');
         $n2 = new UniformResourceIdentifier('urn:1');
         $this->assertTrue($n1->equals($n2));
     }
 
-    public function testNotEquals()
+    /**
+     * @test
+     */
+    public function notEquals()
     {
         $n1 = new UniformResourceIdentifier('urn:1');
         $n2 = new UniformResourceIdentifier('urn:2');
         $this->assertFalse($n1->equals($n2));
     }
 
-    public function testNotEqualsDifferentTypes()
+    /**
+     * @test
+     */
+    public function notEqualsDifferentTypes()
     {
         $n1 = new UniformResourceIdentifier('urn:1');
         $n2 = new DNSName('test');

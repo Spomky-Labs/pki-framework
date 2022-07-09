@@ -18,40 +18,58 @@ use UnexpectedValueException;
  */
 final class ElementDecodeTest extends TestCase
 {
-    public function testAbstract()
+    /**
+     * @test
+     */
+    public function abstract()
     {
         $el = Element::fromDER("\x5\x0");
         $this->assertInstanceOf(NullType::class, $el);
     }
 
-    public function testConcrete()
+    /**
+     * @test
+     */
+    public function concrete()
     {
         $el = NullType::fromDER("\x5\x0");
         $this->assertInstanceOf(NullType::class, $el);
     }
 
-    public function testConcreteWrongClass()
+    /**
+     * @test
+     */
+    public function concreteWrongClass()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage(Boolean::class . ' expected, got ' . NullType::class);
         Boolean::fromDER("\x5\x0");
     }
 
-    public function testUnimplementedFail()
+    /**
+     * @test
+     */
+    public function unimplementedFail()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('not implemented');
         Element::fromDER("\x1f\x7f\x0");
     }
 
-    public function testExpectTaggedFail()
+    /**
+     * @test
+     */
+    public function expectTaggedFail()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Context specific element expected, got UNIVERSAL');
         Element::fromDER("\x5\x0")->expectTagged();
     }
 
-    public function testFromDERBadCall()
+    /**
+     * @test
+     */
+    public function fromDERBadCall()
     {
         $cls = new ReflectionClass(Element::class);
         $mtd = $cls->getMethod('_decodeFromDER');
@@ -63,7 +81,10 @@ final class ElementDecodeTest extends TestCase
         $mtd->invokeArgs(null, [$identifier, '', &$offset]);
     }
 
-    public function testFromUnimplementedClass()
+    /**
+     * @test
+     */
+    public function fromUnimplementedClass()
     {
         $cls = new ReflectionClass(Element::class);
         $mtd = $cls->getMethod('_determineImplClass');

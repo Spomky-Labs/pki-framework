@@ -13,7 +13,10 @@ use Sop\X501\StringPrep\NormalizeStep;
  */
 final class NormalizeStepTest extends TestCase
 {
-    public function testApply()
+    /**
+     * @test
+     */
+    public function apply()
     {
         $source = 'ฉันกินกระจกได้ แต่มันไม่ทำให้ฉันเจ็บ';
         $step = new NormalizeStep();

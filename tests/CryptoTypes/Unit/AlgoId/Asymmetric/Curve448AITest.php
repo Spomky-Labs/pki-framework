@@ -17,7 +17,10 @@ use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
  */
 final class Curve448AITest extends TestCase
 {
-    public function testEncodeEd448(): Sequence
+    /**
+     * @test
+     */
+    public function encodeEd448(): Sequence
     {
         $ai = new Ed448AlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -26,9 +29,11 @@ final class Curve448AITest extends TestCase
     }
 
     /**
-     * @depends testEncodeEd448
+     * @depends encodeEd448
+     *
+     * @test
      */
-    public function testDecodeEd448(Sequence $seq): Ed448AlgorithmIdentifier
+    public function decodeEd448(Sequence $seq): Ed448AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(Ed448AlgorithmIdentifier::class, $ai);
@@ -36,24 +41,31 @@ final class Curve448AITest extends TestCase
     }
 
     /**
-     * @depends testDecodeEd448
+     * @depends decodeEd448
+     *
+     * @test
      */
-    public function testEd448Name(Ed448AlgorithmIdentifier $ai)
+    public function ed448Name(Ed448AlgorithmIdentifier $ai)
     {
         $this->assertIsString($ai->name());
     }
 
     /**
-     * @depends testDecodeEd448
+     * @depends decodeEd448
+     *
+     * @test
      */
-    public function testEd448SupportsKeyAlgo(Ed448AlgorithmIdentifier $ai)
+    public function ed448SupportsKeyAlgo(Ed448AlgorithmIdentifier $ai)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
         $pk = PrivateKeyInfo::fromPEM($pem);
         $this->assertTrue($ai->supportsKeyAlgorithm($pk->algorithmIdentifier()));
     }
 
-    public function testEncodeX448(): Sequence
+    /**
+     * @test
+     */
+    public function encodeX448(): Sequence
     {
         $ai = new X448AlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -62,9 +74,11 @@ final class Curve448AITest extends TestCase
     }
 
     /**
-     * @depends testEncodeX448
+     * @depends encodeX448
+     *
+     * @test
      */
-    public function testDecodeX448(Sequence $seq): X448AlgorithmIdentifier
+    public function decodeX448(Sequence $seq): X448AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(X448AlgorithmIdentifier::class, $ai);
@@ -72,9 +86,11 @@ final class Curve448AITest extends TestCase
     }
 
     /**
-     * @depends testDecodeX448
+     * @depends decodeX448
+     *
+     * @test
      */
-    public function testX448Name(X448AlgorithmIdentifier $ai)
+    public function x448Name(X448AlgorithmIdentifier $ai)
     {
         $this->assertIsString($ai->name());
     }

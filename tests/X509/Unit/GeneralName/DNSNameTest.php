@@ -16,7 +16,10 @@ use Sop\X509\GeneralName\GeneralName;
  */
 final class DNSNameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = new DNSName('test.example.com');
         $this->assertInstanceOf(DNSName::class, $name);
@@ -24,9 +27,11 @@ final class DNSNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(DNSName $name)
+    public function encode(DNSName $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -34,22 +39,26 @@ final class DNSNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_DNS_NAME, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = DNSName::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(DNSName::class, $name);
@@ -57,18 +66,22 @@ final class DNSNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(DNSName $ref, DNSName $new)
+    public function recoded(DNSName $ref, DNSName $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDNS(DNSName $name)
+    public function dNS(DNSName $name)
     {
         $this->assertEquals('test.example.com', $name->name());
     }

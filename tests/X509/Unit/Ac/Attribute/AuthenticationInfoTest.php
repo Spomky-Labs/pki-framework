@@ -22,7 +22,10 @@ final class AuthenticationInfoTest extends TestCase
 
     final public const AUTH_INFO = 'password';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $value = new AuthenticationInfoAttributeValue(
             new UniformResourceIdentifier(self::SERVICE_URI),
@@ -34,9 +37,11 @@ final class AuthenticationInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeValue $value)
+    public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -44,11 +49,13 @@ final class AuthenticationInfoTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $value = AuthenticationInfoAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
@@ -56,50 +63,62 @@ final class AuthenticationInfoTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeValue $ref, AttributeValue $new)
+    public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $value)
+    public function oID(AttributeValue $value)
     {
         $this->assertEquals(AuthenticationInfoAttributeValue::OID, $value->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testService(AuthenticationInfoAttributeValue $value)
+    public function service(AuthenticationInfoAttributeValue $value)
     {
         $this->assertEquals(self::SERVICE_URI, $value->service());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIdent(AuthenticationInfoAttributeValue $value)
+    public function ident(AuthenticationInfoAttributeValue $value)
     {
         $this->assertEquals(self::IDENT_URI, $value->ident());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAuthInfo(AuthenticationInfoAttributeValue $value)
+    public function authInfo(AuthenticationInfoAttributeValue $value)
     {
         $this->assertEquals(self::AUTH_INFO, $value->authInfo());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAttributes(AttributeValue $value)
+    public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
         $this->assertTrue($attribs->hasAuthenticationInformation());
@@ -107,9 +126,11 @@ final class AuthenticationInfoTest extends TestCase
     }
 
     /**
-     * @depends testAttributes
+     * @depends attributes
+     *
+     * @test
      */
-    public function testFromAttributes(Attributes $attribs)
+    public function fromAttributes(Attributes $attribs)
     {
         $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $attribs->authenticationInformation());
     }

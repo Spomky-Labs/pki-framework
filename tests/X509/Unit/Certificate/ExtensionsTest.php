@@ -17,7 +17,10 @@ use Sop\X509\Certificate\Extensions;
  */
 final class ExtensionsTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $exts = new Extensions(
             new UnknownExtension('1.3.6.1.3.1', true, new DERData("\x05\x00")),
@@ -28,9 +31,11 @@ final class ExtensionsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extensions $exts)
+    public function encode(Extensions $exts)
     {
         $seq = $exts->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -38,11 +43,13 @@ final class ExtensionsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $exts = Extensions::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(Extensions::class, $exts);
@@ -50,59 +57,73 @@ final class ExtensionsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extensions $ref, Extensions $new)
+    public function recoded(Extensions $ref, Extensions $new)
     {
         $this->assertEquals($ref->toASN1(), $new->toASN1());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHas(Extensions $exts)
+    public function has(Extensions $exts)
     {
         $this->assertTrue($exts->has('1.3.6.1.3.1'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasNot(Extensions $exts)
+    public function hasNot(Extensions $exts)
     {
         $this->assertFalse($exts->has('1.3.6.1.3.3'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testGet(Extensions $exts)
+    public function get(Extensions $exts)
     {
         $this->assertInstanceOf(Extension::class, $exts->get('1.3.6.1.3.1'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testGetFail(Extensions $exts)
+    public function getFail(Extensions $exts)
     {
         $this->expectException(LogicException::class);
         $exts->get('1.3.6.1.3.3');
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Extensions $exts)
+    public function countMethod(Extensions $exts)
     {
         $this->assertCount(2, $exts);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(Extensions $exts)
+    public function iterator(Extensions $exts)
     {
         $values = [];
         foreach ($exts as $ext) {
@@ -113,9 +134,11 @@ final class ExtensionsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithExtensions(Extensions $exts)
+    public function withExtensions(Extensions $exts)
     {
         static $oid = '1.3.6.1.3.3';
         $exts = $exts->withExtensions(new UnknownExtension($oid, true, new DERData("\x05\x00")));

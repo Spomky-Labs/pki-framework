@@ -20,8 +20,10 @@ final class DNParserTest extends TestCase
      *
      * @param string $dn Distinguished name
      * @param array $expected Parser result
+     *
+     * @test
      */
-    public function testParseString($dn, $expected)
+    public function parseString($dn, $expected)
     {
         $result = DNParser::parseString($dn);
         $this->assertEquals($expected, $result);
@@ -161,8 +163,10 @@ final class DNParserTest extends TestCase
      *
      * @param string $str
      * @param string $expected
+     *
+     * @test
      */
-    public function testEscapeString($str, $expected)
+    public function escapeString($str, $expected)
     {
         $escaped = DNParser::escapeString($str);
         $this->assertEquals($expected, $escaped);
@@ -186,63 +190,90 @@ final class DNParserTest extends TestCase
         yield ["\xE2\x80\x8B", '\E2\80\8B'];
     }
 
-    public function testUnexpectedNameEnd()
+    /**
+     * @test
+     */
+    public function unexpectedNameEnd()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Parser finished before the end of string');
         DNParser::parseString('cn=#05000');
     }
 
-    public function testInvalidTypeAndValuePair()
+    /**
+     * @test
+     */
+    public function invalidTypeAndValuePair()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Invalid type and value pair');
         DNParser::parseString('cn');
     }
 
-    public function testInvalidAttributeType()
+    /**
+     * @test
+     */
+    public function invalidAttributeType()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Invalid attribute type');
         DNParser::parseString('#00=fail');
     }
 
-    public function testUnexpectedQuotation()
+    /**
+     * @test
+     */
+    public function unexpectedQuotation()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Unexpected quotation');
         DNParser::parseString('cn=fa"il');
     }
 
-    public function testInvalidHexString()
+    /**
+     * @test
+     */
+    public function invalidHexString()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Invalid hexstring');
         DNParser::parseString('cn=#.');
     }
 
-    public function testInvalidHexDER()
+    /**
+     * @test
+     */
+    public function invalidHexDER()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Invalid DER encoding from hexstring');
         DNParser::parseString('cn=#badcafee');
     }
 
-    public function testUnexpectedPairEnd()
+    /**
+     * @test
+     */
+    public function unexpectedPairEnd()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Unexpected end of escape sequence');
         DNParser::parseString('cn=\\');
     }
 
-    public function testUnexpectedHexPairEnd()
+    /**
+     * @test
+     */
+    public function unexpectedHexPairEnd()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Unexpected end of hexpair');
         DNParser::parseString('cn=\\f');
     }
 
-    public function testInvalidHexPair()
+    /**
+     * @test
+     */
+    public function invalidHexPair()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Invalid hexpair');

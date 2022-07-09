@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\VisibleString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = VisibleString::fromDER("\x1a\x0");
         $this->assertInstanceOf(VisibleString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World!';
         $el = VisibleString::fromDER("\x1a\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 
-    public function testInvalidValue()
+    /**
+     * @test
+     */
+    public function invalidValue()
     {
         $str = "Hello\nWorld!";
         $this->expectException(DecodeException::class);

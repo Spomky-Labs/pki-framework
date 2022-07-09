@@ -16,7 +16,10 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
  */
 final class UserNoticeQualifierTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $qual = new UserNoticeQualifier(
             DisplayText::fromString('test'),
@@ -27,9 +30,11 @@ final class UserNoticeQualifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(UserNoticeQualifier $qual)
+    public function encode(UserNoticeQualifier $qual)
     {
         $el = $qual->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -37,11 +42,13 @@ final class UserNoticeQualifierTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $qual = UserNoticeQualifier::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
@@ -49,31 +56,40 @@ final class UserNoticeQualifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(UserNoticeQualifier $ref, UserNoticeQualifier $new)
+    public function recoded(UserNoticeQualifier $ref, UserNoticeQualifier $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExplicitText(UserNoticeQualifier $qual)
+    public function explicitText(UserNoticeQualifier $qual)
     {
         $this->assertInstanceOf(DisplayText::class, $qual->explicitText());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNoticeRef(UserNoticeQualifier $qual)
+    public function noticeRef(UserNoticeQualifier $qual)
     {
         $this->assertInstanceOf(NoticeReference::class, $qual->noticeRef());
     }
 
-    public function testCreateEmpty()
+    /**
+     * @test
+     */
+    public function createEmpty()
     {
         $qual = new UserNoticeQualifier();
         $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
@@ -81,18 +97,22 @@ final class UserNoticeQualifierTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testExplicitTextFail(UserNoticeQualifier $qual)
+    public function explicitTextFail(UserNoticeQualifier $qual)
     {
         $this->expectException(LogicException::class);
         $qual->explicitText();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoticeRefFail(UserNoticeQualifier $qual)
+    public function noticeRefFail(UserNoticeQualifier $qual)
     {
         $this->expectException(LogicException::class);
         $qual->noticeRef();

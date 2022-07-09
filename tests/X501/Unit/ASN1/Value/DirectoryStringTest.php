@@ -17,14 +17,20 @@ use UnexpectedValueException;
  */
 final class DirectoryStringTest extends TestCase
 {
-    public function testFromASN1InvalidType()
+    /**
+     * @test
+     */
+    public function fromASN1InvalidType()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type NULL is not valid DirectoryString');
         DirectoryString::fromASN1(new UnspecifiedType(new NullType()));
     }
 
-    public function testToASN1InvalidType()
+    /**
+     * @test
+     */
+    public function toASN1InvalidType()
     {
         $value = new CommonNameValue('name', Element::TYPE_NULL);
         $this->expectException(UnexpectedValueException::class);
@@ -32,7 +38,10 @@ final class DirectoryStringTest extends TestCase
         $value->toASN1();
     }
 
-    public function testTeletexValue()
+    /**
+     * @test
+     */
+    public function teletexValue()
     {
         $value = new CommonNameValue('name', Element::TYPE_T61_STRING);
         $this->assertEquals('#1404' . bin2hex('name'), $value->rfc2253String());

@@ -16,13 +16,19 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncode()
+    /**
+     * @test
+     */
+    public function encode()
     {
         $el = new Set();
         $this->assertEquals("\x31\x0", $el->toDER());
     }
 
-    public function testSetSort()
+    /**
+     * @test
+     */
+    public function setSort()
     {
         $set = new Set(
             new ImplicitlyTaggedType(1, new NullType()),
@@ -32,7 +38,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet() ->toDER());
     }
 
-    public function testSetSortClasses()
+    /**
+     * @test
+     */
+    public function setSortClasses()
     {
         $set = new Set(
             new ExplicitlyTaggedType(5, new NullType()),
@@ -42,7 +51,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet() ->toDER());
     }
 
-    public function testSetOfSort()
+    /**
+     * @test
+     */
+    public function setOfSort()
     {
         $set = new Set(new PrintableString('B'), new PrintableString('C'), new PrintableString('A'));
         $this->assertEquals("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf() ->toDER());

@@ -16,19 +16,28 @@ use ValueError;
  */
 final class BigIntTest extends TestCase
 {
-    public function testMaxInt()
+    /**
+     * @test
+     */
+    public function maxInt()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10)));
         $this->assertEquals(PHP_INT_MAX, $int->intVal());
     }
 
-    public function testMinInt()
+    /**
+     * @test
+     */
+    public function minInt()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10)));
         $this->assertEquals(PHP_INT_MIN, $int->intVal());
     }
 
-    public function testOverflow()
+    /**
+     * @test
+     */
+    public function overflow()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10) + 1));
         $this->expectException(RuntimeException::class);
@@ -36,7 +45,10 @@ final class BigIntTest extends TestCase
         $int->intVal();
     }
 
-    public function testUnderflow()
+    /**
+     * @test
+     */
+    public function underflow()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10) - 1));
         $this->expectException(RuntimeException::class);
@@ -44,13 +56,19 @@ final class BigIntTest extends TestCase
         $int->intVal();
     }
 
-    public function testToString()
+    /**
+     * @test
+     */
+    public function toStringMethod()
     {
         $int = new BigInt(1);
         $this->assertSame('1', strval($int));
     }
 
-    public function testGmpObj()
+    /**
+     * @test
+     */
+    public function gmpObj()
     {
         $int = new BigInt(1);
         $this->assertInstanceOf(GMP::class, $int->gmpObj());
@@ -58,8 +76,10 @@ final class BigIntTest extends TestCase
 
     /**
      * @requires PHP < 8.0
+     *
+     * @test
      */
-    public function testInvalidNumberPrePHP8()
+    public function invalidNumberPrePHP8()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to convert');
@@ -68,71 +88,103 @@ final class BigIntTest extends TestCase
 
     /**
      * @requires PHP >= 8.0
+     *
+     * @test
      */
-    public function testInvalidNumberPHP8()
+    public function invalidNumberPHP8()
     {
         $this->expectException(ValueError::class);
         $this->expectExceptionMessage('not an integer');
         new BigInt('fail');
     }
 
-    public function testFromUnsignedOctets()
+    /**
+     * @test
+     */
+    public function fromUnsignedOctets()
     {
         $int = BigInt::fromUnsignedOctets(hex2bin('ff'));
         $this->assertEquals(255, $int->intVal());
     }
 
-    public function testFromUnsignedOctetsEmpty()
+    /**
+     * @test
+     */
+    public function fromUnsignedOctetsEmpty()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Empty octets');
         BigInt::fromUnsignedOctets('');
     }
 
-    public function testFromSignedOctets()
+    /**
+     * @test
+     */
+    public function fromSignedOctets()
     {
         $int = BigInt::fromSignedOctets(hex2bin('80'));
         $this->assertEquals(-128, $int->intVal());
     }
 
-    public function testFromSignedOctetsEmpty()
+    /**
+     * @test
+     */
+    public function fromSignedOctetsEmpty()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Empty octets');
         BigInt::fromSignedOctets('');
     }
 
-    public function testToUnsignedOctets()
+    /**
+     * @test
+     */
+    public function toUnsignedOctets()
     {
         $int = new BigInt(255);
         $this->assertEquals(hex2bin('ff'), $int->unsignedOctets());
     }
 
-    public function testToSignedPositiveOctets()
+    /**
+     * @test
+     */
+    public function toSignedPositiveOctets()
     {
         $int = new BigInt(127);
         $this->assertEquals(hex2bin('7f'), $int->signedOctets());
     }
 
-    public function testToSignedPositiveOctetsPrepend()
+    /**
+     * @test
+     */
+    public function toSignedPositiveOctetsPrepend()
     {
         $int = new BigInt(128);
         $this->assertEquals(hex2bin('0080'), $int->signedOctets());
     }
 
-    public function testToSignedNegativeOctets()
+    /**
+     * @test
+     */
+    public function toSignedNegativeOctets()
     {
         $int = new BigInt(-128);
         $this->assertEquals(hex2bin('80'), $int->signedOctets());
     }
 
-    public function testToSignedNegativeOctetsPrepend()
+    /**
+     * @test
+     */
+    public function toSignedNegativeOctetsPrepend()
     {
         $int = new BigInt(-32769);
         $this->assertEquals(hex2bin('ff7fff'), $int->signedOctets());
     }
 
-    public function testToSignedZeroOctets()
+    /**
+     * @test
+     */
+    public function toSignedZeroOctets()
     {
         $int = new BigInt(0);
         $this->assertEquals(hex2bin('00'), $int->signedOctets());

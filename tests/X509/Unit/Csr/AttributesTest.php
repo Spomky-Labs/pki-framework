@@ -20,7 +20,10 @@ use UnexpectedValueException;
  */
 final class AttributesTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $attribs = Attributes::fromAttributeValues(new ExtensionRequestValue(new Extensions()));
         $this->assertInstanceOf(Attributes::class, $attribs);
@@ -28,9 +31,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Attributes $attribs)
+    public function encode(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
         $this->assertInstanceOf(Set::class, $seq);
@@ -38,11 +43,13 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
         $this->assertInstanceOf(Attributes::class, $attribs);
@@ -50,42 +57,52 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Attributes $ref, Attributes $new)
+    public function recoded(Attributes $ref, Attributes $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensionRequest(Attributes $attribs)
+    public function extensionRequest(Attributes $attribs)
     {
         $this->assertInstanceOf(ExtensionRequestValue::class, $attribs->extensionRequest());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(Attributes $attribs)
+    public function all(Attributes $attribs)
     {
         $this->assertContainsOnlyInstancesOf(Attribute::class, $attribs->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Attributes $attribs)
+    public function countMethod(Attributes $attribs)
     {
         $this->assertCount(1, $attribs);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(Attributes $attribs)
+    public function iterator(Attributes $attribs)
     {
         $values = [];
         foreach ($attribs as $attr) {
@@ -95,15 +112,20 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstOfFail(Attributes $attribs)
+    public function firstOfFail(Attributes $attribs)
     {
         $this->expectException(UnexpectedValueException::class);
         $attribs->firstOf('1.3.6.1.3');
     }
 
-    public function testNoExtensionRequestFail()
+    /**
+     * @test
+     */
+    public function noExtensionRequestFail()
     {
         $attribs = new Attributes();
         $this->expectException(LogicException::class);
@@ -111,9 +133,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithAdditional(Attributes $attribs)
+    public function withAdditional(Attributes $attribs)
     {
         $attribs = $attribs->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('Test')));
         $this->assertCount(2, $attribs);
@@ -121,9 +145,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testWithAdditional
+     * @depends withAdditional
+     *
+     * @test
      */
-    public function testEncodeWithAdditional(Attributes $attribs)
+    public function encodeWithAdditional(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
         $this->assertInstanceOf(Set::class, $seq);
@@ -131,11 +157,13 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testEncodeWithAdditional
+     * @depends encodeWithAdditional
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecodeWithAdditional($data)
+    public function decodeWithAdditional($data)
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
         $this->assertInstanceOf(Attributes::class, $attribs);
@@ -143,9 +171,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testDecodeWithAdditional
+     * @depends decodeWithAdditional
+     *
+     * @test
      */
-    public function testDecodedWithAdditionalHasCustomAttribute(Attributes $attribs)
+    public function decodedWithAdditionalHasCustomAttribute(Attributes $attribs)
     {
         $this->assertInstanceOf(
             CommonNameValue::class,

@@ -34,20 +34,29 @@ final class AttributeCastTest extends TestCase
         self::$_attr = null;
     }
 
-    public function testCast()
+    /**
+     * @test
+     */
+    public function cast()
     {
         $attr = self::$_attr->castValues(CommonNameValue::class);
         $this->assertInstanceOf(CommonNameValue::class, $attr->first());
     }
 
-    public function testInvalidClass()
+    /**
+     * @test
+     */
+    public function invalidClass()
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage(stdClass::class . ' must be derived from ' . AttributeValue::class);
         self::$_attr->castValues(stdClass::class);
     }
 
-    public function testOIDMismatch()
+    /**
+     * @test
+     */
+    public function oIDMismatch()
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');

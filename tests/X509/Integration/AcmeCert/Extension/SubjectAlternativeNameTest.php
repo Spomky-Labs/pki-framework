@@ -15,8 +15,10 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
 {
     /**
      * @return SubjectAlternativeNameExtension
+     *
+     * @test
      */
-    public function testSubjectAlternativeName()
+    public function subjectAlternativeName()
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_ALT_NAME);
         $this->assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
@@ -24,9 +26,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectAlternativeName
+     * @depends subjectAlternativeName
+     *
+     * @test
      */
-    public function testSANEmail(SubjectAlternativeNameExtension $san)
+    public function sANEmail(SubjectAlternativeNameExtension $san)
     {
         $email = $san->names()
             ->firstOf(GeneralName::TAG_RFC822_NAME)
@@ -35,9 +39,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectAlternativeName
+     * @depends subjectAlternativeName
+     *
+     * @test
      */
-    public function testSANURI(SubjectAlternativeNameExtension $san)
+    public function sANURI(SubjectAlternativeNameExtension $san)
     {
         $uri = $san->names()
             ->firstOf(GeneralName::TAG_URI)
@@ -46,9 +52,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectAlternativeName
+     * @depends subjectAlternativeName
+     *
+     * @test
      */
-    public function testSANDNS(SubjectAlternativeNameExtension $san)
+    public function sANDNS(SubjectAlternativeNameExtension $san)
     {
         $name = $san->names()
             ->firstOf(GeneralName::TAG_DNS_NAME)
@@ -57,9 +65,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectAlternativeName
+     * @depends subjectAlternativeName
+     *
+     * @test
      */
-    public function testSANRegisteredID(SubjectAlternativeNameExtension $san)
+    public function sANRegisteredID(SubjectAlternativeNameExtension $san)
     {
         $oid = $san->names()
             ->firstOf(GeneralName::TAG_REGISTERED_ID)
@@ -68,9 +78,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectAlternativeName
+     * @depends subjectAlternativeName
+     *
+     * @test
      */
-    public function testSANIPAddresses(SubjectAlternativeNameExtension $san)
+    public function sANIPAddresses(SubjectAlternativeNameExtension $san)
     {
         $names = $san->names()
             ->allOf(GeneralName::TAG_IP_ADDRESS);
@@ -81,9 +93,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testSubjectAlternativeName
+     * @depends subjectAlternativeName
+     *
+     * @test
      */
-    public function testSANDirectoryName(SubjectAlternativeNameExtension $san)
+    public function sANDirectoryName(SubjectAlternativeNameExtension $san)
     {
         $dn = $san->names()
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)

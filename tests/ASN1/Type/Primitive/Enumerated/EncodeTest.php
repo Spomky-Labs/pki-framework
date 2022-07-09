@@ -12,7 +12,10 @@ use Sop\ASN1\Type\Primitive\Enumerated;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncode()
+    /**
+     * @test
+     */
+    public function encode()
     {
         $el = new Enumerated(1);
         $this->assertEquals("\x0a\x1\x1", $el->toDER());

@@ -18,20 +18,29 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
  */
 final class AttributeValueTest extends TestCase
 {
-    public function testFromASN1BadCall()
+    /**
+     * @test
+     */
+    public function fromASN1BadCall()
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('must be implemented in a concrete class');
         AttributeValue::fromASN1(new UnspecifiedType(new NullType()));
     }
 
-    public function testToAttribute()
+    /**
+     * @test
+     */
+    public function toAttribute()
     {
         $val = new CommonNameValue('name');
         $this->assertInstanceOf(Attribute::class, $val->toAttribute());
     }
 
-    public function testToAttributeTypeAndValue()
+    /**
+     * @test
+     */
+    public function toAttributeTypeAndValue()
     {
         $val = new CommonNameValue('name');
         $this->assertInstanceOf(AttributeTypeAndValue::class, $val->toAttributeTypeAndValue());

@@ -14,7 +14,10 @@ use Sop\X501\ASN1\AttributeValue\NameValue;
  */
 final class AttributeTypeAndValueTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $atv = AttributeTypeAndValue::fromAttributeValue(new NameValue('one'));
         $this->assertInstanceOf(AttributeTypeAndValue::class, $atv);
@@ -22,9 +25,11 @@ final class AttributeTypeAndValueTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeTypeAndValue $atv)
+    public function encode(AttributeTypeAndValue $atv)
     {
         $der = $atv->toASN1()
             ->toDER();
@@ -33,11 +38,13 @@ final class AttributeTypeAndValueTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $atv = AttributeTypeAndValue::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AttributeTypeAndValue::class, $atv);
@@ -45,34 +52,42 @@ final class AttributeTypeAndValueTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeTypeAndValue $ref, AttributeTypeAndValue $new)
+    public function recoded(AttributeTypeAndValue $ref, AttributeTypeAndValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testValue(AttributeTypeAndValue $atv)
+    public function value(AttributeTypeAndValue $atv)
     {
         $this->assertEquals('one', $atv->value()->rfc2253String());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(AttributeTypeAndValue $atv)
+    public function string(AttributeTypeAndValue $atv)
     {
         $this->assertEquals('name=one', $atv->toString());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(AttributeTypeAndValue $atv)
+    public function toStringMethod(AttributeTypeAndValue $atv)
     {
         $this->assertIsString(strval($atv));
     }

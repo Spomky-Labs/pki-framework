@@ -25,7 +25,10 @@ final class PolicyMappingsTest extends TestCase
 
     final public const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
 
-    public function testCreateMappings()
+    /**
+     * @test
+     */
+    public function createMappings()
     {
         $mappings = [
             new PolicyMapping(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
@@ -35,9 +38,11 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testCreateMappings
+     * @depends createMappings
+     *
+     * @test
      */
-    public function testCreate(array $mappings)
+    public function create(array $mappings)
     {
         $ext = new PolicyMappingsExtension(true, ...$mappings);
         $this->assertInstanceOf(PolicyMappingsExtension::class, $ext);
@@ -45,25 +50,31 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_POLICY_MAPPINGS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -71,11 +82,13 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = PolicyMappingsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(PolicyMappingsExtension::class, $ext);
@@ -83,42 +96,52 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testMappings(PolicyMappingsExtension $ext)
+    public function mappings(PolicyMappingsExtension $ext)
     {
         $this->assertContainsOnlyInstancesOf(PolicyMapping::class, $ext->mappings());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIssuerMappings(PolicyMappingsExtension $ext)
+    public function issuerMappings(PolicyMappingsExtension $ext)
     {
         $this->assertContainsOnly('string', $ext->issuerMappings(self::ISSUER_POLICY_OID));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(PolicyMappingsExtension $ext)
+    public function countMethod(PolicyMappingsExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(PolicyMappingsExtension $ext)
+    public function iterator(PolicyMappingsExtension $ext)
     {
         $values = [];
         foreach ($ext as $mapping) {
@@ -129,9 +152,11 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testMapping(PolicyMappingsExtension $ext)
+    public function mapping(PolicyMappingsExtension $ext)
     {
         $mapping = $ext->mappings()[0];
         $this->assertInstanceOf(PolicyMapping::class, $mapping);
@@ -139,30 +164,39 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testMapping
+     * @depends mapping
+     *
+     * @test
      */
-    public function testIssuerPolicy(PolicyMapping $mapping)
+    public function issuerPolicy(PolicyMapping $mapping)
     {
         $this->assertEquals(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
     }
 
     /**
-     * @depends testMapping
+     * @depends mapping
+     *
+     * @test
      */
-    public function testSubjectPolicy(PolicyMapping $mapping)
+    public function subjectPolicy(PolicyMapping $mapping)
     {
         $this->assertEquals(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasAnyPolicyMapping(PolicyMappingsExtension $ext)
+    public function hasAnyPolicyMapping(PolicyMappingsExtension $ext)
     {
         $this->assertFalse($ext->hasAnyPolicyMapping());
     }
 
-    public function testHasAnyPolicyIssuer()
+    /**
+     * @test
+     */
+    public function hasAnyPolicyIssuer()
     {
         $ext = new PolicyMappingsExtension(
             false,
@@ -171,7 +205,10 @@ final class PolicyMappingsTest extends TestCase
         $this->assertTrue($ext->hasAnyPolicyMapping());
     }
 
-    public function testHasAnyPolicySubject()
+    /**
+     * @test
+     */
+    public function hasAnyPolicySubject()
     {
         $ext = new PolicyMappingsExtension(
             false,
@@ -181,9 +218,11 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(PolicyMappingsExtension $ext)
+    public function extensions(PolicyMappingsExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasPolicyMappings());
@@ -191,22 +230,30 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->policyMappings();
         $this->assertInstanceOf(PolicyMappingsExtension::class, $ext);
     }
 
-    public function testEncodeEmptyFail()
+    /**
+     * @test
+     */
+    public function encodeEmptyFail()
     {
         $ext = new PolicyMappingsExtension(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
-    public function testDecodeEmptyFail()
+    /**
+     * @test
+     */
+    public function decodeEmptyFail()
     {
         $seq = new Sequence();
         $ext_seq = new Sequence(

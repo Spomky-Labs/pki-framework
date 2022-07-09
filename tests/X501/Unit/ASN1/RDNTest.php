@@ -16,7 +16,10 @@ use UnexpectedValueException;
  */
 final class RDNTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $rdn = RDN::fromAttributeValues(new NameValue('one'), new NameValue('two'));
         $this->assertInstanceOf(RDN::class, $rdn);
@@ -24,9 +27,11 @@ final class RDNTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(RDN $rdn)
+    public function encode(RDN $rdn)
     {
         $der = $rdn->toASN1()
             ->toDER();
@@ -35,11 +40,13 @@ final class RDNTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $rdn = RDN::fromASN1(Set::fromDER($der));
         $this->assertInstanceOf(RDN::class, $rdn);
@@ -47,58 +54,72 @@ final class RDNTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(RDN $ref, RDN $new)
+    public function recoded(RDN $ref, RDN $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(RDN $rdn)
+    public function all(RDN $rdn)
     {
         $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOf(RDN $rdn)
+    public function allOf(RDN $rdn)
     {
         $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->allOf('name'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOfCount(RDN $rdn)
+    public function allOfCount(RDN $rdn)
     {
         $this->assertCount(2, $rdn->allOf('name'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOfEmpty(RDN $rdn)
+    public function allOfEmpty(RDN $rdn)
     {
         $this->assertEmpty($rdn->allOf('cn'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(RDN $rdn)
+    public function countMethod(RDN $rdn)
     {
         $this->assertCount(2, $rdn);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterable(RDN $rdn)
+    public function iterable(RDN $rdn)
     {
         $values = [];
         foreach ($rdn as $tv) {
@@ -108,22 +129,29 @@ final class RDNTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(RDN $rdn)
+    public function string(RDN $rdn)
     {
         $this->assertEquals('name=one+name=two', $rdn->toString());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(RDN $rdn)
+    public function toStringMethod(RDN $rdn)
     {
         $this->assertIsString(strval($rdn));
     }
 
-    public function testCreateFail()
+    /**
+     * @test
+     */
+    public function createFail()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('RDN must have at least one AttributeTypeAndValue');

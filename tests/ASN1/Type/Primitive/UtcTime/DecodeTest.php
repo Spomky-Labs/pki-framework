@@ -13,48 +13,69 @@ use Sop\ASN1\Type\Primitive\UTCTime;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = UTCTime::fromDER("\x17\x0d" . '060102220405Z');
         $this->assertInstanceOf(UTCTime::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = UTCTime::fromDER("\x17\x0d" . '060102220405Z');
         $this->assertEquals($date, $el->dateTime() ->getTimestamp());
     }
 
-    public function testWithoutSeconds()
+    /**
+     * @test
+     */
+    public function withoutSeconds()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0b" . '0601022204Z');
     }
 
-    public function testWithTimezone()
+    /**
+     * @test
+     */
+    public function withTimezone()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x11" . '060102150405+0700');
     }
 
-    public function testEmpty()
+    /**
+     * @test
+     */
+    public function empty()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0");
     }
 
-    public function testInvalidFormat()
+    /**
+     * @test
+     */
+    public function invalidFormat()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0d" . 'o60102220405Z');
     }
 
-    public function testNoTimezone()
+    /**
+     * @test
+     */
+    public function noTimezone()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Invalid UTCTime format');

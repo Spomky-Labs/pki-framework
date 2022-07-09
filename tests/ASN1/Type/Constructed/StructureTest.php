@@ -21,8 +21,10 @@ final class StructureTest extends TestCase
 {
     /**
      * @dataProvider hasProvider
+     *
+     * @test
      */
-    public function testHas(int $idx, bool $result)
+    public function has(int $idx, bool $result)
     {
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
         $this->assertEquals($seq->has($idx), $result);
@@ -35,8 +37,10 @@ final class StructureTest extends TestCase
 
     /**
      * @dataProvider hasTypeProvider
+     *
+     * @test
      */
-    public function testHasType(int $idx, int $type, bool $result)
+    public function hasType(int $idx, int $type, bool $result)
     {
         $seq = new Sequence(new NullType(), new Boolean(true));
         $this->assertEquals($seq->has($idx, $type), $result);
@@ -52,7 +56,10 @@ final class StructureTest extends TestCase
         ];
     }
 
-    public function testExplode()
+    /**
+     * @test
+     */
+    public function explode()
     {
         $el = new Sequence(new NullType(), new NullType(), new NullType());
         $der = $el->toDER();
@@ -61,7 +68,10 @@ final class StructureTest extends TestCase
         $this->assertEquals([$null, $null, $null], $parts);
     }
 
-    public function testExplodePrimitiveFail()
+    /**
+     * @test
+     */
+    public function explodePrimitiveFail()
     {
         $el = new NullType();
         $der = $el->toDER();
@@ -70,7 +80,10 @@ final class StructureTest extends TestCase
         Structure::explodeDER($der);
     }
 
-    public function testExplodeIndefiniteFail()
+    /**
+     * @test
+     */
+    public function explodeIndefiniteFail()
     {
         $el = new Sequence(new NullType());
         $el = $el->withIndefiniteLength();
@@ -80,7 +93,10 @@ final class StructureTest extends TestCase
         Structure::explodeDER($der);
     }
 
-    public function testReplace()
+    /**
+     * @test
+     */
+    public function replace()
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withReplaced(1, new Boolean(true));
@@ -88,7 +104,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testReplaceFail()
+    /**
+     * @test
+     */
+    public function replaceFail()
     {
         $seq = new Sequence(new NullType(), new NullType());
         $this->expectException(OutOfBoundsException::class);
@@ -96,7 +115,10 @@ final class StructureTest extends TestCase
         $seq->withReplaced(2, new Boolean(true));
     }
 
-    public function testInsertFirst()
+    /**
+     * @test
+     */
+    public function insertFirst()
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(0, new Boolean(true));
@@ -104,7 +126,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testInsertBetween()
+    /**
+     * @test
+     */
+    public function insertBetween()
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(1, new Boolean(true));
@@ -112,7 +137,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testInsertLast()
+    /**
+     * @test
+     */
+    public function insertLast()
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(2, new Boolean(true));
@@ -120,7 +148,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testInsertOOB()
+    /**
+     * @test
+     */
+    public function insertOOB()
     {
         $seq = new Sequence(new NullType(), new NullType());
         $this->expectException(OutOfBoundsException::class);
@@ -128,7 +159,10 @@ final class StructureTest extends TestCase
         $seq->withInserted(3, new Boolean(true));
     }
 
-    public function testAppend()
+    /**
+     * @test
+     */
+    public function append()
     {
         $seq = new Sequence(new NullType());
         $seq = $seq->withAppended(new Boolean(true));
@@ -136,7 +170,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testPrepend()
+    /**
+     * @test
+     */
+    public function prepend()
     {
         $seq = new Sequence(new NullType());
         $seq = $seq->withPrepended(new Boolean(true));
@@ -144,7 +181,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testRemoveFirst()
+    /**
+     * @test
+     */
+    public function removeFirst()
     {
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
         $seq = $seq->withoutElement(0);
@@ -152,7 +192,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testRemoveLast()
+    /**
+     * @test
+     */
+    public function removeLast()
     {
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
         $seq = $seq->withoutElement(2);
@@ -160,7 +203,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testRemoveOnly()
+    /**
+     * @test
+     */
+    public function removeOnly()
     {
         $seq = new Sequence(new NullType());
         $seq = $seq->withoutElement(0);
@@ -168,7 +214,10 @@ final class StructureTest extends TestCase
         $this->assertEquals($expected, $seq);
     }
 
-    public function testRemoveFail()
+    /**
+     * @test
+     */
+    public function removeFail()
     {
         $seq = new Sequence(new NullType());
         $this->expectException(OutOfBoundsException::class);
@@ -178,8 +227,10 @@ final class StructureTest extends TestCase
 
     /**
      * Test that cached tagging lookup table is cleared on clone.
+     *
+     * @test
      */
-    public function testTaggedAfterClone()
+    public function taggedAfterClone()
     {
         $seq = new Sequence(new ImplicitlyTaggedType(1, new NullType()));
         $seq->hasTagged(1);

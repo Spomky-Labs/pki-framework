@@ -26,7 +26,10 @@ final class SubjectDirectoryAttributesTest extends TestCase
 
     final public const DESC = 'Description';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $cn = new CommonNameValue(self::CN);
         $desc = new DescriptionValue(self::DESC);
@@ -36,25 +39,31 @@ final class SubjectDirectoryAttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertFalse($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -62,11 +71,13 @@ final class SubjectDirectoryAttributesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = SubjectDirectoryAttributesExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
@@ -74,82 +85,102 @@ final class SubjectDirectoryAttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCN(SubjectDirectoryAttributesExtension $ext)
+    public function cN(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME) ->first() ->stringValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDesc(SubjectDirectoryAttributesExtension $ext)
+    public function desc(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION) ->first() ->stringValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHas(SubjectDirectoryAttributesExtension $ext)
+    public function has(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertTrue($ext->has('cn'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasNot(SubjectDirectoryAttributesExtension $ext)
+    public function hasNot(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertFalse($ext->has('ou'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOf(SubjectDirectoryAttributesExtension $ext)
+    public function allOf(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertCount(1, $ext->allOf('cn'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOfNone(SubjectDirectoryAttributesExtension $ext)
+    public function allOfNone(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertCount(0, $ext->allOf('ou'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(SubjectDirectoryAttributesExtension $ext)
+    public function all(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertCount(2, $ext->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(SubjectDirectoryAttributesExtension $ext)
+    public function countMethod(SubjectDirectoryAttributesExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(SubjectDirectoryAttributesExtension $ext)
+    public function iterator(SubjectDirectoryAttributesExtension $ext)
     {
         $values = [];
         foreach ($ext as $attr) {
@@ -159,14 +190,20 @@ final class SubjectDirectoryAttributesTest extends TestCase
         $this->assertContainsOnlyInstancesOf(Attribute::class, $values);
     }
 
-    public function testEncodeEmptyFail()
+    /**
+     * @test
+     */
+    public function encodeEmptyFail()
     {
         $ext = new SubjectDirectoryAttributesExtension(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
-    public function testDecodeEmptyFail()
+    /**
+     * @test
+     */
+    public function decodeEmptyFail()
     {
         $seq = new Sequence();
         $ext_seq = new Sequence(

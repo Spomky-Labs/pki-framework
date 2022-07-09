@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\CharacterString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = CharacterString::fromDER("\x1d\x0");
         $this->assertInstanceOf(CharacterString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World!';
         $el = CharacterString::fromDER("\x1d\x0c{$str}");

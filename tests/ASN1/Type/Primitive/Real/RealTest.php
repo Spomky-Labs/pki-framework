@@ -16,7 +16,10 @@ use UnexpectedValueException;
  */
 final class RealTest extends TestCase
 {
-    public function testCreate(): Real
+    /**
+     * @test
+     */
+    public function create(): Real
     {
         $el = Real::fromString('314.E-2');
         $this->assertInstanceOf(Real::class, $el);
@@ -24,17 +27,21 @@ final class RealTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Real $el)
+    public function tag(Real $el)
     {
         $this->assertEquals(Element::TYPE_REAL, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Real $el): string
+    public function encode(Real $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -42,9 +49,11 @@ final class RealTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): Real
+    public function decode(string $data): Real
     {
         $el = Real::fromDER($data);
         $this->assertInstanceOf(Real::class, $el);
@@ -52,24 +61,31 @@ final class RealTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Real $ref, Real $el)
+    public function recoded(Real $ref, Real $el)
     {
         $this->assertEquals($ref->nr3Val(), $el->nr3Val());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(Real::class, $wrap->asReal());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);
@@ -78,41 +94,51 @@ final class RealTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(Real $el)
+    public function string(Real $el)
     {
         $this->assertIsString((string) $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testMantissa(Real $el)
+    public function mantissa(Real $el)
     {
         $this->assertEquals(314, $el->mantissa()->intVal());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExponent(Real $el)
+    public function exponent(Real $el)
     {
         $this->assertEquals(-2, $el->exponent()->intVal());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testBase(Real $el)
+    public function base(Real $el)
     {
         $this->assertEquals(10, $el->base());
     }
 
     /**
      * @dataProvider provideFromFloat
+     *
+     * @test
      */
-    public function testFromFloat(float $number)
+    public function fromFloat(float $number)
     {
         $real = Real::fromFloat($number);
         $recoded = Real::fromDER($real->toDER());
@@ -121,8 +147,10 @@ final class RealTest extends TestCase
 
     /**
      * @dataProvider provideFromFloat
+     *
+     * @test
      */
-    public function testFromFloatNonStrict(float $number)
+    public function fromFloatNonStrict(float $number)
     {
         $real = Real::fromFloat($number)->withStrictDER(false);
         $recoded = Real::fromDER($real->toDER());
@@ -153,82 +181,121 @@ final class RealTest extends TestCase
         yield [-1.0E-256];
     }
 
-    public function testFromFloatNAN()
+    /**
+     * @test
+     */
+    public function fromFloatNAN()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NaN values not supported');
         Real::fromFloat(NAN);
     }
 
-    public function testFromPartsInvalidBase()
+    /**
+     * @test
+     */
+    public function fromPartsInvalidBase()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Base must be 2 or 10');
         new Real(1, 1, 3);
     }
 
-    public function testFromNR3()
+    /**
+     * @test
+     */
+    public function fromNR3()
     {
         $real = Real::fromString('-123,456E-3');
         $this->assertEquals(-0.123456, $real->floatVal());
     }
 
-    public function testFromNR3Zero()
+    /**
+     * @test
+     */
+    public function fromNR3Zero()
     {
         $real = Real::fromString('0,0E1');
         $this->assertEquals(0.0, $real->floatVal());
     }
 
-    public function testFromNR2()
+    /**
+     * @test
+     */
+    public function fromNR2()
     {
         $real = Real::fromString('-123,456');
         $this->assertEquals(-123.456, $real->floatVal());
     }
 
-    public function testFromNR2Zero()
+    /**
+     * @test
+     */
+    public function fromNR2Zero()
     {
         $real = Real::fromString('0,0');
         $this->assertEquals(0.0, $real->floatVal());
     }
 
-    public function testFromNR1()
+    /**
+     * @test
+     */
+    public function fromNR1()
     {
         $real = Real::fromString('-123');
         $this->assertEquals(-123, $real->floatVal());
     }
 
-    public function testFromNR1Zero()
+    /**
+     * @test
+     */
+    public function fromNR1Zero()
     {
         $real = Real::fromString('0');
         $this->assertEquals(0.0, $real->floatVal());
     }
 
-    public function testParseNormalize()
+    /**
+     * @test
+     */
+    public function parseNormalize()
     {
         $real = Real::fromString('100');
         $this->assertEquals(2, $real->exponent()->intVal());
     }
 
-    public function testParseFail()
+    /**
+     * @test
+     */
+    public function parseFail()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('X could not be parsed to REAL');
         Real::fromString('X');
     }
 
-    public function testBase2ToNR3()
+    /**
+     * @test
+     */
+    public function base2ToNR3()
     {
         $real = Real::fromFloat(-123.456);
         $this->assertEquals('-123456.E-3', $real->nr3Val());
     }
 
-    public function testNr3ShiftZeroes()
+    /**
+     * @test
+     */
+    public function nr3ShiftZeroes()
     {
         $real = new Real(100, 0, 10);
         $this->assertEquals('1.E2', $real->nr3Val());
     }
 
-    public function testNr3ZeroExponent()
+    /**
+     * @test
+     */
+    public function nr3ZeroExponent()
     {
         $real = new Real(1, 0, 10);
         $this->assertEquals('1.E+0', $real->nr3Val());

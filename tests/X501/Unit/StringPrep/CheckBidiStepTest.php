@@ -12,7 +12,10 @@ use Sop\X501\StringPrep\CheckBidiStep;
  */
 final class CheckBidiStepTest extends TestCase
 {
-    public function testApply()
+    /**
+     * @test
+     */
+    public function apply()
     {
         $str = 'Test';
         $step = new CheckBidiStep();

@@ -22,7 +22,10 @@ use UnexpectedValueException;
  */
 final class GeneralNamesTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $gns = new GeneralNames(new DNSName('test1'), new DNSName('test2'));
         $this->assertInstanceOf(GeneralNames::class, $gns);
@@ -30,9 +33,11 @@ final class GeneralNamesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(GeneralNames $gns)
+    public function encode(GeneralNames $gns)
     {
         $seq = $gns->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -40,11 +45,13 @@ final class GeneralNamesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $gns = GeneralNames::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(GeneralNames::class, $gns);
@@ -52,67 +59,83 @@ final class GeneralNamesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(GeneralNames $ref, GeneralNames $new)
+    public function recoded(GeneralNames $ref, GeneralNames $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHas(GeneralNames $gns)
+    public function has(GeneralNames $gns)
     {
         $this->assertTrue($gns->has(GeneralName::TAG_DNS_NAME));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasNot(GeneralNames $gns)
+    public function hasNot(GeneralNames $gns)
     {
         $this->assertFalse($gns->has(GeneralName::TAG_URI));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOf(GeneralNames $gns)
+    public function allOf(GeneralNames $gns)
     {
         $this->assertCount(2, $gns->allOf(GeneralName::TAG_DNS_NAME));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstOf(GeneralNames $gns)
+    public function firstOf(GeneralNames $gns)
     {
         $this->assertInstanceOf(DNSName::class, $gns->firstOf(GeneralName::TAG_DNS_NAME));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstOfFail(GeneralNames $gns)
+    public function firstOfFail(GeneralNames $gns)
     {
         $this->expectException(UnexpectedValueException::class);
         $gns->firstOf(GeneralName::TAG_URI);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(GeneralNames $gns)
+    public function countMethod(GeneralNames $gns)
     {
         $this->assertCount(2, $gns);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(GeneralNames $gns)
+    public function iterator(GeneralNames $gns)
     {
         $values = [];
         foreach ($gns as $gn) {
@@ -122,55 +145,79 @@ final class GeneralNamesTest extends TestCase
         $this->assertContainsOnlyInstancesOf(GeneralName::class, $values);
     }
 
-    public function testFromEmptyFail()
+    /**
+     * @test
+     */
+    public function fromEmptyFail()
     {
         $this->expectException(UnexpectedValueException::class);
         GeneralNames::fromASN1(new Sequence());
     }
 
-    public function testEmptyToASN1Fail()
+    /**
+     * @test
+     */
+    public function emptyToASN1Fail()
     {
         $gn = new GeneralNames();
         $this->expectException(LogicException::class);
         $gn->toASN1();
     }
 
-    public function testFirstDNS()
+    /**
+     * @test
+     */
+    public function firstDNS()
     {
         $name = new DNSName('example.com');
         $gn = new GeneralNames($name);
         $this->assertEquals($name, $gn->firstDNS());
     }
 
-    public function testFirstDN()
+    /**
+     * @test
+     */
+    public function firstDN()
     {
         $name = DirectoryName::fromDNString('cn=Example');
         $gn = new GeneralNames($name);
         $this->assertEquals($name->dn(), $gn->firstDN());
     }
 
-    public function testFirstURI()
+    /**
+     * @test
+     */
+    public function firstURI()
     {
         $name = new UniformResourceIdentifier('urn:example');
         $gn = new GeneralNames($name);
         $this->assertEquals($name, $gn->firstURI());
     }
 
-    public function testFirstDNSFail()
+    /**
+     * @test
+     */
+    public function firstDNSFail()
     {
         $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DNS_NAME));
         $this->expectException(RuntimeException::class);
         $gn->firstDNS();
     }
 
-    public function testFirstDNFail()
+    /**
+     * @test
+     */
+    public function firstDNFail()
     {
         $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DIRECTORY_NAME));
         $this->expectException(RuntimeException::class);
         $gn->firstDN();
     }
 
-    public function testFirstURIFail()
+    /**
+     * @test
+     */
+    public function firstURIFail()
     {
         $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_URI));
         $this->expectException(RuntimeException::class);

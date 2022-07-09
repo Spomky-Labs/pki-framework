@@ -18,7 +18,10 @@ use Sop\X509\GeneralName\GeneralName;
  */
 final class EDIPartyNameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = EDIPartyName::fromASN1(new ImplicitlyTaggedType(GeneralName::TAG_EDI_PARTY_NAME, new Sequence()));
         $this->assertInstanceOf(EDIPartyName::class, $name);
@@ -26,9 +29,11 @@ final class EDIPartyNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(EDIPartyName $name)
+    public function encode(EDIPartyName $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -36,22 +41,26 @@ final class EDIPartyNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_EDI_PARTY_NAME, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = EDIPartyName::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(EDIPartyName::class, $name);
@@ -59,18 +68,22 @@ final class EDIPartyNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(EDIPartyName $ref, EDIPartyName $new)
+    public function recoded(EDIPartyName $ref, EDIPartyName $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(EDIPartyName $name)
+    public function string(EDIPartyName $name)
     {
         $this->assertIsString($name->string());
     }

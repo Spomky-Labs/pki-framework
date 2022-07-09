@@ -21,8 +21,10 @@ final class ECPublicKeyTest extends TestCase
 {
     /**
      * @return ECPublicKey
+     *
+     * @test
      */
-    public function testFromPEM()
+    public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $pk = ECPublicKey::fromPEM($pem);
@@ -31,43 +33,59 @@ final class ECPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testECPoint(ECPublicKey $pk)
+    public function eCPoint(ECPublicKey $pk)
     {
         $this->assertNotEmpty($pk->ECPoint());
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testPublicKeyInfo(ECPublicKey $pk)
+    public function publicKeyInfo(ECPublicKey $pk)
     {
         $pki = $pk->publicKeyInfo();
         $this->assertInstanceOf(PublicKeyInfo::class, $pki);
     }
 
-    public function testNoNamedCurve()
+    /**
+     * @test
+     */
+    public function noNamedCurve()
     {
         $pk = new ECPublicKey("\x04\0\0");
         $this->expectException(LogicException::class);
         $pk->publicKeyInfo();
     }
 
-    public function testInvalidECPoint()
+    /**
+     * @test
+     */
+    public function invalidECPoint()
     {
         $this->expectException(InvalidArgumentException::class);
         new ECPublicKey("\x0");
     }
 
-    public function testInvalidPEMType()
+    /**
+     * @test
+     */
+    public function invalidPEMType()
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);
         ECPublicKey::fromPEM($pem);
     }
 
-    public function testRSAKeyFail()
+    /**
+     * @test
+     */
+    public function rSAKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $this->expectException(UnexpectedValueException::class);
@@ -75,17 +93,21 @@ final class ECPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testToDER(ECPublicKey $pk)
+    public function toDER(ECPublicKey $pk)
     {
         $this->assertNotEmpty($pk->toDER());
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testCurvePoint(ECPublicKey $pk)
+    public function curvePoint(ECPublicKey $pk)
     {
         $point = $pk->curvePoint();
         $this->assertContainsOnly('string', $point);
@@ -93,29 +115,39 @@ final class ECPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testHasNamedCurve(ECPublicKey $pk)
+    public function hasNamedCurve(ECPublicKey $pk)
     {
         $this->assertTrue($pk->hasNamedCurve());
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testNamedCurve(ECPublicKey $pk)
+    public function namedCurve(ECPublicKey $pk)
     {
         $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
-    public function testNoCurveFail()
+    /**
+     * @test
+     */
+    public function noCurveFail()
     {
         $pk = new ECPublicKey("\x4\0\0");
         $this->expectException(LogicException::class);
         $pk->namedCurve();
     }
 
-    public function testCompressedFail()
+    /**
+     * @test
+     */
+    public function compressedFail()
     {
         $pk = new ECPublicKey("\x3\0");
         $this->expectException(RuntimeException::class);
@@ -123,9 +155,11 @@ final class ECPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testCurvePoint
+     * @depends curvePoint
+     *
+     * @test
      */
-    public function testFromCoordinates(array $points)
+    public function fromCoordinates(array $points)
     {
         [$x, $y] = $points;
         $pk = ECPublicKey::fromCoordinates($x, $y, ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
@@ -134,15 +168,20 @@ final class ECPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
-     * @depends testFromCoordinates
+     * @depends fromPEM
+     * @depends fromCoordinates
+     *
+     * @test
      */
-    public function testFromCoordsEqualsPEM(ECPublicKey $ref, ECPublicKey $new)
+    public function fromCoordsEqualsPEM(ECPublicKey $ref, ECPublicKey $new)
     {
         $this->assertEquals($ref, $new);
     }
 
-    public function testFromCoordsUnknownCurve()
+    /**
+     * @test
+     */
+    public function fromCoordsUnknownCurve()
     {
         $pk = ECPublicKey::fromCoordinates(0, 0, '1.3.6.1.3');
         $this->assertInstanceOf(ECPublicKey::class, $pk);

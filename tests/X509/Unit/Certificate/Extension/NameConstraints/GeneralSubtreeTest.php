@@ -18,7 +18,10 @@ final class GeneralSubtreeTest extends TestCase
 {
     public const URI = '.example.com';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $subtree = new GeneralSubtree(new UniformResourceIdentifier(self::URI));
         $this->assertInstanceOf(GeneralSubtree::class, $subtree);
@@ -26,9 +29,11 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(GeneralSubtree $subtree)
+    public function encode(GeneralSubtree $subtree)
     {
         $el = $subtree->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -36,11 +41,13 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $subtree = GeneralSubtree::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(GeneralSubtree::class, $subtree);
@@ -48,24 +55,31 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(GeneralSubtree $ref, GeneralSubtree $new)
+    public function recoded(GeneralSubtree $ref, GeneralSubtree $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testBase(GeneralSubtree $subtree)
+    public function base(GeneralSubtree $subtree)
     {
         $base = $subtree->base();
         $this->assertInstanceOf(GeneralName::class, $base);
     }
 
-    public function testCreateWithAll()
+    /**
+     * @test
+     */
+    public function createWithAll()
     {
         $subtree = new GeneralSubtree(new UniformResourceIdentifier(self::URI), 1, 3);
         $this->assertInstanceOf(GeneralSubtree::class, $subtree);
@@ -73,9 +87,11 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithAll
+     * @depends createWithAll
+     *
+     * @test
      */
-    public function testEncodeWithAll(GeneralSubtree $subtree)
+    public function encodeWithAll(GeneralSubtree $subtree)
     {
         $el = $subtree->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -83,11 +99,13 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
-     * @depends testEncodeWithAll
+     * @depends encodeWithAll
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecodeWithAll($data)
+    public function decodeWithAll($data)
     {
         $subtree = GeneralSubtree::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(GeneralSubtree::class, $subtree);
@@ -95,18 +113,22 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
-     * @depends testCreateWithAll
-     * @depends testDecodeWithAll
+     * @depends createWithAll
+     * @depends decodeWithAll
+     *
+     * @test
      */
-    public function testRecodedWithAll(GeneralSubtree $ref, GeneralSubtree $new)
+    public function recodedWithAll(GeneralSubtree $ref, GeneralSubtree $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
      * Test for GeneralName tag that collide with other GeneralSubtree tags.
+     *
+     * @test
      */
-    public function testCollidingTag()
+    public function collidingTag()
     {
         $subtree = new GeneralSubtree(new RFC822Name('test'));
         $asn1 = $subtree->toASN1();

@@ -15,8 +15,10 @@ final class NameConstraintsTest extends RefExtTestHelper
 {
     /**
      * @return NameConstraintsExtension
+     *
+     * @test
      */
-    public function testNameConstraintsExtension()
+    public function nameConstraintsExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_NAME_CONSTRAINTS);
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
@@ -24,11 +26,13 @@ final class NameConstraintsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testNameConstraintsExtension
+     * @depends nameConstraintsExtension
      *
      * @return GeneralSubtrees
+     *
+     * @test
      */
-    public function testNameConstraintPermittedSubtrees(NameConstraintsExtension $nc)
+    public function nameConstraintPermittedSubtrees(NameConstraintsExtension $nc)
     {
         $subtrees = $nc->permittedSubtrees();
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
@@ -36,9 +40,11 @@ final class NameConstraintsTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testNameConstraintPermittedSubtrees
+     * @depends nameConstraintPermittedSubtrees
+     *
+     * @test
      */
-    public function testNameConstraintPermittedDomain(GeneralSubtrees $gs)
+    public function nameConstraintPermittedDomain(GeneralSubtrees $gs)
     {
         $this->assertEquals('.example.com', $gs->all()[0] ->base() ->name());
     }

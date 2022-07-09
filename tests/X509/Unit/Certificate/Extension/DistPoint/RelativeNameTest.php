@@ -17,7 +17,10 @@ use Sop\X509\Certificate\Extension\DistributionPoint\RelativeName;
  */
 final class RelativeNameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = new RelativeName(new RDN(AttributeTypeAndValue::fromAttributeValue(new CommonNameValue('Test'))));
         $this->assertInstanceOf(RelativeName::class, $name);
@@ -25,9 +28,11 @@ final class RelativeNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(RelativeName $name)
+    public function encode(RelativeName $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -35,11 +40,13 @@ final class RelativeNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $name = RelativeName::fromTaggedType(TaggedType::fromDER($data));
         $this->assertInstanceOf(RelativeName::class, $name);
@@ -47,18 +54,22 @@ final class RelativeNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(RelativeName $ref, RelativeName $new)
+    public function recoded(RelativeName $ref, RelativeName $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRDN(RelativeName $name)
+    public function rDN(RelativeName $name)
     {
         $rdn = $name->rdn();
         $this->assertInstanceOf(RDN::class, $rdn);

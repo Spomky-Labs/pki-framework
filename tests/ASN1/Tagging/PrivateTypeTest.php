@@ -19,7 +19,10 @@ use UnexpectedValueException;
  */
 final class PrivateTypeTest extends TestCase
 {
-    public function testImplicitType()
+    /**
+     * @test
+     */
+    public function implicitType()
     {
         // Data ::= [PRIVATE 1] IMPLICIT INTEGER
         $el = Element::fromDER("\xc1\x01\x2a");
@@ -27,16 +30,21 @@ final class PrivateTypeTest extends TestCase
         return $el;
     }
 
-    public function testCreateImplicit()
+    /**
+     * @test
+     */
+    public function createImplicit()
     {
         $el = new ImplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_PRIVATE);
         $this->assertEquals("\xc1\x01\x2a", $el->toDER());
     }
 
     /**
-     * @depends testImplicitType
+     * @depends implicitType
+     *
+     * @test
      */
-    public function testUnwrapImplicit(PrivateType $el)
+    public function unwrapImplicit(PrivateType $el)
     {
         $inner = $el->implicit(Element::TYPE_INTEGER)->asInteger();
         $this->assertInstanceOf(Integer::class, $inner);
@@ -44,16 +52,21 @@ final class PrivateTypeTest extends TestCase
     }
 
     /**
-     * @depends testUnwrapImplicit
+     * @depends unwrapImplicit
      *
      * @param int $el
+     *
+     * @test
      */
-    public function testImplicitValue(Integer $el)
+    public function implicitValue(Integer $el)
     {
         $this->assertEquals(42, $el->intNumber());
     }
 
-    public function testExplicitType()
+    /**
+     * @test
+     */
+    public function explicitType()
     {
         // Data ::= [PRIVATE 1] EXPLICIT INTEGER
         $el = Element::fromDER("\xe1\x03\x02\x01\x2a");
@@ -61,16 +74,21 @@ final class PrivateTypeTest extends TestCase
         return $el;
     }
 
-    public function testCreateExplicit()
+    /**
+     * @test
+     */
+    public function createExplicit()
     {
         $el = new ExplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_PRIVATE);
         $this->assertEquals("\xe1\x03\x02\x01\x2a", $el->toDER());
     }
 
     /**
-     * @depends testExplicitType
+     * @depends explicitType
+     *
+     * @test
      */
-    public function testUnwrapExplicit(PrivateType $el)
+    public function unwrapExplicit(PrivateType $el)
     {
         $inner = $el->explicit()
             ->asInteger();
@@ -79,31 +97,41 @@ final class PrivateTypeTest extends TestCase
     }
 
     /**
-     * @depends testUnwrapExplicit
+     * @depends unwrapExplicit
      *
      * @param int $el
+     *
+     * @test
      */
-    public function testExplicitValue(Integer $el)
+    public function explicitValue(Integer $el)
     {
         $this->assertEquals(42, $el->intNumber());
     }
 
     /**
-     * @depends testExplicitType
+     * @depends explicitType
+     *
+     * @test
      */
-    public function testRecodeExplicit(PrivateType $el)
+    public function recodeExplicit(PrivateType $el)
     {
         $der = $el->toDER();
         $this->assertEquals("\xe1\x03\x02\x01\x2a", $der);
     }
 
-    public function testFromUnspecified()
+    /**
+     * @test
+     */
+    public function fromUnspecified()
     {
         $el = UnspecifiedType::fromDER("\xc1\x01\x2a");
         $this->assertInstanceOf(PrivateType::class, $el->asPrivate());
     }
 
-    public function testFromUnspecifiedFail()
+    /**
+     * @test
+     */
+    public function fromUnspecifiedFail()
     {
         $el = UnspecifiedType::fromDER("\x5\0");
         $this->expectException(UnexpectedValueException::class);

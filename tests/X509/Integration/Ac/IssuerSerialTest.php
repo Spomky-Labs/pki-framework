@@ -38,7 +38,10 @@ final class IssuerSerialTest extends TestCase
         self::$_privKey = null;
     }
 
-    public function testFromCertificate()
+    /**
+     * @test
+     */
+    public function fromCertificate()
     {
         $is = IssuerSerial::fromPKC(self::$_cert);
         $this->assertInstanceOf(IssuerSerial::class, $is);
@@ -46,28 +49,38 @@ final class IssuerSerialTest extends TestCase
     }
 
     /**
-     * @depends testFromCertificate
+     * @depends fromCertificate
+     *
+     * @test
      */
-    public function testIssuer(IssuerSerial $is)
+    public function issuer(IssuerSerial $is)
     {
         $this->assertEquals(self::$_cert->tbsCertificate() ->issuer(), $is->issuer() ->firstDN());
     }
 
     /**
-     * @depends testFromCertificate
+     * @depends fromCertificate
+     *
+     * @test
      */
-    public function testSerial(IssuerSerial $is)
+    public function serial(IssuerSerial $is)
     {
         $this->assertEquals(self::$_cert->tbsCertificate() ->serialNumber(), $is->serial());
     }
 
-    public function testIdentifiesPKCSerialMismatch()
+    /**
+     * @test
+     */
+    public function identifiesPKCSerialMismatch()
     {
         $is = new IssuerSerial(new GeneralNames(new DirectoryName(self::$_cert->tbsCertificate()->issuer())), 1);
         $this->assertFalse($is->identifiesPKC(self::$_cert));
     }
 
-    public function testIdentifiesPKCWithIssuerUID()
+    /**
+     * @test
+     */
+    public function identifiesPKCWithIssuerUID()
     {
         $tbs = new TBSCertificate(
             Name::fromString('cn=Sub'),
@@ -81,7 +94,10 @@ final class IssuerSerialTest extends TestCase
         $this->assertTrue($is->identifiesPKC($cert));
     }
 
-    public function testIdentifiesPKCIssuerUIDMismatch()
+    /**
+     * @test
+     */
+    public function identifiesPKCIssuerUIDMismatch()
     {
         $issuer = Name::fromString('cn=Iss');
         $tbs = new TBSCertificate(
@@ -101,7 +117,10 @@ final class IssuerSerialTest extends TestCase
         $this->assertFalse($is->identifiesPKC($cert));
     }
 
-    public function testIdentifiesPKCNoUID()
+    /**
+     * @test
+     */
+    public function identifiesPKCNoUID()
     {
         $is = new IssuerSerial(
             new GeneralNames(new DirectoryName(self::$_cert->tbsCertificate()->issuer())),

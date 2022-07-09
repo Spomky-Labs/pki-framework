@@ -34,7 +34,10 @@ final class TargetsTest extends TestCase
         self::$_group = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $targets = new Targets(self::$_name, self::$_group);
         $this->assertInstanceOf(Targets::class, $targets);
@@ -42,9 +45,11 @@ final class TargetsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Targets $targets)
+    public function encode(Targets $targets)
     {
         $el = $targets->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -52,11 +57,13 @@ final class TargetsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $targets = Targets::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(Targets::class, $targets);
@@ -64,34 +71,42 @@ final class TargetsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Targets $ref, Targets $new)
+    public function recoded(Targets $ref, Targets $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(Targets $targets)
+    public function all(Targets $targets)
     {
         $this->assertContainsOnlyInstancesOf(Target::class, $targets->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Targets $targets)
+    public function countMethod(Targets $targets)
     {
         $this->assertCount(2, $targets);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(Targets $targets)
+    public function iterator(Targets $targets)
     {
         $values = [];
         foreach ($targets as $target) {
@@ -101,17 +116,21 @@ final class TargetsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasTarget(Targets $targets)
+    public function hasTarget(Targets $targets)
     {
         $this->assertTrue($targets->hasTarget(self::$_name));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasNoTarget(Targets $targets)
+    public function hasNoTarget(Targets $targets)
     {
         $this->assertFalse($targets->hasTarget(new TargetName(new DNSName('nope'))));
     }

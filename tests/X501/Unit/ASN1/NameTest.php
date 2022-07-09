@@ -15,7 +15,10 @@ use Sop\X501\ASN1\RDN;
  */
 final class NameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = Name::fromString('name=one,name=two');
         $this->assertInstanceOf(Name::class, $name);
@@ -23,9 +26,11 @@ final class NameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Name $name)
+    public function encode(Name $name)
     {
         $der = $name->toASN1()
             ->toDER();
@@ -34,11 +39,13 @@ final class NameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = Name::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(Name::class, $name);
@@ -46,41 +53,52 @@ final class NameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Name $ref, Name $new)
+    public function recoded(Name $ref, Name $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(Name $name)
+    public function all(Name $name)
     {
         $this->assertContainsOnlyInstancesOf(RDN::class, $name->all());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstValueOf(Name $name)
+    public function firstValueOf(Name $name)
     {
         $this->assertEquals('two', $name->firstValueOf('name')->stringValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstValueOfNotFound(Name $name)
+    public function firstValueOfNotFound(Name $name)
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Attribute cn not found');
         $name->firstValueOf('cn');
     }
 
-    public function testFirstValueOfMultipleFail()
+    /**
+     * @test
+     */
+    public function firstValueOfMultipleFail()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('RDN with multiple name attributes');
@@ -88,33 +106,41 @@ final class NameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Name $name)
+    public function countMethod(Name $name)
     {
         $this->assertCount(2, $name);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCountOfType(Name $name)
+    public function countOfType(Name $name)
     {
         $this->assertEquals(2, $name->countOfType('name'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCountOfTypeNone(Name $name)
+    public function countOfTypeNone(Name $name)
     {
         $this->assertEquals(0, $name->countOfType('cn'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterable(Name $name)
+    public function iterable(Name $name)
     {
         $values = [];
         foreach ($name as $rdn) {
@@ -124,17 +150,21 @@ final class NameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(Name $name)
+    public function string(Name $name)
     {
         $this->assertEquals('name=one,name=two', $name->toString());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(Name $name)
+    public function toStringMethod(Name $name)
     {
         $this->assertIsString(strval($name));
     }

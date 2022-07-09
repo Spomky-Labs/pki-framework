@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\NumericString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = NumericString::fromDER("\x12\x0");
         $this->assertInstanceOf(NumericString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = '123 456 789 0';
         $el = NumericString::fromDER("\x12\x0d{$str}");
         $this->assertEquals($str, $el->string());
     }
 
-    public function testInvalidValue()
+    /**
+     * @test
+     */
+    public function invalidValue()
     {
         $str = '123-456-789-0';
         $this->expectException(DecodeException::class);

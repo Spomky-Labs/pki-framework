@@ -20,7 +20,10 @@ use UnexpectedValueException;
  */
 final class Curve448Test extends TestCase
 {
-    public function testDecodeEd448(): Ed448PrivateKey
+    /**
+     * @test
+     */
+    public function decodeEd448(): Ed448PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -30,15 +33,20 @@ final class Curve448Test extends TestCase
     }
 
     /**
-     * @depends testDecodeEd448
+     * @depends decodeEd448
+     *
+     * @test
      */
-    public function testRecodeEd448(Ed448PrivateKey $pk)
+    public function recodeEd448(Ed448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
         $this->assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
-    public function testDecodeEd448Pub(): Ed448PublicKey
+    /**
+     * @test
+     */
+    public function decodeEd448Pub(): Ed448PublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
@@ -47,52 +55,71 @@ final class Curve448Test extends TestCase
     }
 
     /**
-     * @depends testDecodeEd448Pub
+     * @depends decodeEd448Pub
+     *
+     * @test
      */
-    public function testRecodeEd448Pub(Ed448PublicKey $pub)
+    public function recodeEd448Pub(Ed448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
         $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
-    public function testEd448PkInvalidPrivateKey()
+    /**
+     * @test
+     */
+    public function ed448PkInvalidPrivateKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
         new Ed448PrivateKey('');
     }
 
-    public function testEd448PkInvalidPublicKey()
+    /**
+     * @test
+     */
+    public function ed448PkInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed448PrivateKey(str_repeat("\0", 57), '');
     }
 
-    public function testEd448PubInvalidPublicKey()
+    /**
+     * @test
+     */
+    public function ed448PubInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed448PublicKey('');
     }
 
-    public function testEd448PublicKey()
+    /**
+     * @test
+     */
+    public function ed448PublicKey()
     {
         $pk = new Ed448PrivateKey(str_repeat("\0", 57), str_repeat("\0", 57));
         $this->assertInstanceOf(Ed448PublicKey::class, $pk->publicKey());
     }
 
     /**
-     * @depends testDecodeEd448
+     * @depends decodeEd448
+     *
+     * @test
      */
-    public function testEd448PublicKeyNotSet(Ed448PrivateKey $pk)
+    public function ed448PublicKeyNotSet(Ed448PrivateKey $pk)
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');
         $pk->publicKey();
     }
 
-    public function testDecodeX448(): X448PrivateKey
+    /**
+     * @test
+     */
+    public function decodeX448(): X448PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -102,15 +129,20 @@ final class Curve448Test extends TestCase
     }
 
     /**
-     * @depends testDecodeX448
+     * @depends decodeX448
+     *
+     * @test
      */
-    public function testRecodeX448(X448PrivateKey $pk)
+    public function recodeX448(X448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
         $this->assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
-    public function testDecodeX448Pub(): X448PublicKey
+    /**
+     * @test
+     */
+    public function decodeX448Pub(): X448PublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
@@ -119,45 +151,61 @@ final class Curve448Test extends TestCase
     }
 
     /**
-     * @depends testDecodeX448Pub
+     * @depends decodeX448Pub
+     *
+     * @test
      */
-    public function testRecodeX448Pub(X448PublicKey $pub)
+    public function recodeX448Pub(X448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
         $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
-    public function testX448PkInvalidPrivateKey()
+    /**
+     * @test
+     */
+    public function x448PkInvalidPrivateKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
         new X448PrivateKey('');
     }
 
-    public function testX448PkInvalidPublicKey()
+    /**
+     * @test
+     */
+    public function x448PkInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new X448PrivateKey(str_repeat("\0", 56), '');
     }
 
-    public function testX448PubInvalidPublicKey()
+    /**
+     * @test
+     */
+    public function x448PubInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new X448PublicKey('');
     }
 
-    public function testX448PublicKey()
+    /**
+     * @test
+     */
+    public function x448PublicKey()
     {
         $pk = new X448PrivateKey(str_repeat("\0", 56), str_repeat("\0", 56));
         $this->assertInstanceOf(X448PublicKey::class, $pk->publicKey());
     }
 
     /**
-     * @depends testDecodeX448
+     * @depends decodeX448
+     *
+     * @test
      */
-    public function testX448PublicKeyNotSet(X448PrivateKey $pk)
+    public function x448PublicKeyNotSet(X448PrivateKey $pk)
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');

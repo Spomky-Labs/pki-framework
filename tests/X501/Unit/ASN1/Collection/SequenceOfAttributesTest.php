@@ -15,7 +15,10 @@ use Sop\X501\ASN1\Collection\SequenceOfAttributes;
  */
 final class SequenceOfAttributesTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $c = SequenceOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
         $this->assertInstanceOf(SequenceOfAttributes::class, $c);
@@ -23,9 +26,11 @@ final class SequenceOfAttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(SequenceOfAttributes $c)
+    public function encode(SequenceOfAttributes $c)
     {
         $el = $c->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -33,9 +38,11 @@ final class SequenceOfAttributesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $c = SequenceOfAttributes::fromASN1($seq);
         $this->assertInstanceOf(SequenceOfAttributes::class, $c);
@@ -43,10 +50,12 @@ final class SequenceOfAttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(SequenceOfAttributes $original, SequenceOfAttributes $recoded)
+    public function recoded(SequenceOfAttributes $original, SequenceOfAttributes $recoded)
     {
         $this->assertEquals($original, $recoded);
     }

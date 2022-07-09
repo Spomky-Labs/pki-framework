@@ -17,8 +17,10 @@ final class SHA1AITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new SHA1AlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -27,9 +29,11 @@ final class SHA1AITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(SHA1AlgorithmIdentifier::class, $ai);
@@ -37,9 +41,11 @@ final class SHA1AITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeWithParams(Sequence $seq)
+    public function decodeWithParams(Sequence $seq)
     {
         $seq = $seq->withInserted(1, new NullType());
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -47,9 +53,11 @@ final class SHA1AITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

@@ -14,7 +14,10 @@ use Sop\ASN1\Type\TaggedType;
  */
 final class IndefiniteTaggedTest extends TestCase
 {
-    public function testDecodeIndefinite()
+    /**
+     * @test
+     */
+    public function decodeIndefinite()
     {
         $el = TaggedType::fromDER(hex2bin('a0800201010000'));
         $this->assertInstanceOf(DERTaggedType::class, $el);
@@ -22,15 +25,20 @@ final class IndefiniteTaggedTest extends TestCase
     }
 
     /**
-     * @depends testDecodeIndefinite
+     * @depends decodeIndefinite
+     *
+     * @test
      */
-    public function testEncodeIndefinite(TaggedType $el)
+    public function encodeIndefinite(TaggedType $el)
     {
         $der = $el->toDER();
         $this->assertEquals(hex2bin('a0800201010000'), $der);
     }
 
-    public function testPrimitiveFail()
+    /**
+     * @test
+     */
+    public function primitiveFail()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Primitive type with indefinite length is not supported');

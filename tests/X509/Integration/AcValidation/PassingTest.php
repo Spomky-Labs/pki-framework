@@ -65,7 +65,10 @@ final class PassingTest extends TestCase
         self::$_ac = null;
     }
 
-    public function testValidate()
+    /**
+     * @test
+     */
+    public function validate()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
         $config = $config->withTargets(new TargetName(new DNSName('test')));

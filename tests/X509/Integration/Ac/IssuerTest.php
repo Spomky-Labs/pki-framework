@@ -27,13 +27,19 @@ final class IssuerTest extends TestCase
         self::$_pkc = null;
     }
 
-    public function testIdentifiesPKC()
+    /**
+     * @test
+     */
+    public function identifiesPKC()
     {
         $iss = AttCertIssuer::fromPKC(self::$_pkc);
         $this->assertTrue($iss->identifiesPKC(self::$_pkc));
     }
 
-    public function testIdentifiesPKCMismatch()
+    /**
+     * @test
+     */
+    public function identifiesPKCMismatch()
     {
         $iss = AttCertIssuer::fromName(Name::fromString('cn=Fail'));
         $this->assertFalse($iss->identifiesPKC(self::$_pkc));

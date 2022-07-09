@@ -35,7 +35,10 @@ use UnexpectedValueException;
  */
 final class ConstructedStringTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $cs = ConstructedString::createWithTag(
             Element::TYPE_OCTET_STRING,
@@ -47,17 +50,21 @@ final class ConstructedStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -65,9 +72,11 @@ final class ConstructedStringTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): ConstructedString
+    public function decode(string $data): ConstructedString
     {
         $el = ConstructedString::fromDER($data);
         $this->assertInstanceOf(ConstructedString::class, $el);
@@ -75,49 +84,62 @@ final class ConstructedStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testStrings(ConstructedString $cs)
+    public function strings(ConstructedString $cs)
     {
         $this->assertEquals(['Hello', 'World'], $cs->strings());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testStringable(ConstructedString $cs)
+    public function stringable(ConstructedString $cs)
     {
         $this->assertEquals('HelloWorld', $cs->string());
         $this->assertEquals('HelloWorld', strval($cs));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIsPseudoType(ConstructedString $cs)
+    public function isPseudoType(ConstructedString $cs)
     {
         $this->assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testUnspecified(ConstructedString $cs)
+    public function unspecified(ConstructedString $cs)
     {
         $ut = new UnspecifiedType($cs);
         $this->assertInstanceOf(ConstructedString::class, $ut->asConstructedString());
     }
 
-    public function testUnspecifiedFail()
+    /**
+     * @test
+     */
+    public function unspecifiedFail()
     {
         $ut = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);
@@ -125,7 +147,10 @@ final class ConstructedStringTest extends TestCase
         $ut->asConstructedString();
     }
 
-    public function testCreateFromElements()
+    /**
+     * @test
+     */
+    public function createFromElements()
     {
         $cs = ConstructedString::create(new OctetString('Hello'), new OctetString('World'));
         $this->assertInstanceOf(ConstructedString::class, $cs);
@@ -133,21 +158,29 @@ final class ConstructedStringTest extends TestCase
     }
 
     /**
-     * @depends testCreateFromElements
+     * @depends createFromElements
+     *
+     * @test
      */
-    public function testFromElementsTag(ConstructedString $cs)
+    public function fromElementsTag(ConstructedString $cs)
     {
         $this->assertEquals(Element::TYPE_OCTET_STRING, $cs->tag());
     }
 
-    public function testCreateNoElementsFail()
+    /**
+     * @test
+     */
+    public function createNoElementsFail()
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No elements, unable to determine type tag');
         ConstructedString::create();
     }
 
-    public function testCreateMixedElementsFail()
+    /**
+     * @test
+     */
+    public function createMixedElementsFail()
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('All elements in constructed string must have the same type');
@@ -156,8 +189,10 @@ final class ConstructedStringTest extends TestCase
 
     /**
      * @dataProvider provideStringType
+     *
+     * @test
      */
-    public function testStringTypeAndConcatenate(StringType $el)
+    public function stringTypeAndConcatenate(StringType $el)
     {
         $str = $el->string();
         $cs = ConstructedString::create($el, $el)->withIndefiniteLength();

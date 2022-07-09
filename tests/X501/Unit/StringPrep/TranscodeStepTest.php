@@ -14,42 +14,60 @@ use Sop\X501\StringPrep\TranscodeStep;
  */
 final class TranscodeStepTest extends TestCase
 {
-    public function testUTF8()
+    /**
+     * @test
+     */
+    public function uTF8()
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_UTF8_STRING);
         $this->assertEquals($str, $step->apply($str));
     }
 
-    public function testPrintableString()
+    /**
+     * @test
+     */
+    public function printableString()
     {
         static $str = 'ASCII';
         $step = new TranscodeStep(Element::TYPE_PRINTABLE_STRING);
         $this->assertEquals($str, $step->apply($str));
     }
 
-    public function testBMP()
+    /**
+     * @test
+     */
+    public function bMP()
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_BMP_STRING);
         $this->assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8')));
     }
 
-    public function testUniversal()
+    /**
+     * @test
+     */
+    public function universal()
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_UNIVERSAL_STRING);
         $this->assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8')));
     }
 
-    public function testTeletex()
+    /**
+     * @test
+     */
+    public function teletex()
     {
         static $str = 'TEST';
         $step = new TranscodeStep(Element::TYPE_T61_STRING);
         $this->assertIsString($step->apply($str));
     }
 
-    public function testInvalidType()
+    /**
+     * @test
+     */
+    public function invalidType()
     {
         $step = new TranscodeStep(Element::TYPE_BOOLEAN);
         $this->expectException(LogicException::class);

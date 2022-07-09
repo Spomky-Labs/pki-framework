@@ -25,8 +25,10 @@ final class PublicKeyInfoTest extends TestCase
 {
     /**
      * @return PublicKeyInfo
+     *
+     * @test
      */
-    public function testDecodeRSA()
+    public function decodeRSA()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $pki = PublicKeyInfo::fromDER($pem->data());
@@ -35,9 +37,11 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testDecodeRSA
+     * @depends decodeRSA
+     *
+     * @test
      */
-    public function testAlgoObj(PublicKeyInfo $pki)
+    public function algoObj(PublicKeyInfo $pki)
     {
         $ref = new RSAEncryptionAlgorithmIdentifier();
         $algo = $pki->algorithmIdentifier();
@@ -46,17 +50,21 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testAlgoObj
+     * @depends algoObj
+     *
+     * @test
      */
-    public function testAlgoOID(AlgorithmIdentifier $algo)
+    public function algoOID(AlgorithmIdentifier $algo)
     {
         $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
-     * @depends testDecodeRSA
+     * @depends decodeRSA
+     *
+     * @test
      */
-    public function testGetRSAPublicKey(PublicKeyInfo $pki)
+    public function getRSAPublicKey(PublicKeyInfo $pki)
     {
         $pk = $pki->publicKey();
         $this->assertInstanceOf(RSAPublicKey::class, $pk);
@@ -64,8 +72,10 @@ final class PublicKeyInfoTest extends TestCase
 
     /**
      * @return PublicKeyInfo
+     *
+     * @test
      */
-    public function testDecodeEC()
+    public function decodeEC()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $pki = PublicKeyInfo::fromDER($pem->data());
@@ -74,9 +84,11 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testDecodeEC
+     * @depends decodeEC
+     *
+     * @test
      */
-    public function testGetECPublicKey(PublicKeyInfo $pki)
+    public function getECPublicKey(PublicKeyInfo $pki)
     {
         $pk = $pki->publicKey();
         $this->assertInstanceOf(ECPublicKey::class, $pk);
@@ -84,8 +96,10 @@ final class PublicKeyInfoTest extends TestCase
 
     /**
      * @return PublicKeyInfo
+     *
+     * @test
      */
-    public function testFromRSAPEM()
+    public function fromRSAPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $pki = PublicKeyInfo::fromPEM($pem);
@@ -94,9 +108,11 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testFromRSAPEM
+     * @depends fromRSAPEM
+     *
+     * @test
      */
-    public function testToPEM(PublicKeyInfo $pki)
+    public function toPEM(PublicKeyInfo $pki)
     {
         $pem = $pki->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
@@ -104,15 +120,20 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testRecodedPEM(PEM $pem)
+    public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $this->assertEquals($ref, $pem);
     }
 
-    public function testDecodeFromRSAPublicKey()
+    /**
+     * @test
+     */
+    public function decodeFromRSAPublicKey()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pki = PublicKeyInfo::fromPEM($pem);
@@ -120,24 +141,31 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testDecodeRSA
+     * @depends decodeRSA
+     *
+     * @test
      */
-    public function testKeyIdentifier(PublicKeyInfo $pki)
+    public function keyIdentifier(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier();
         $this->assertEquals(160, strlen($id) * 8);
     }
 
     /**
-     * @depends testDecodeRSA
+     * @depends decodeRSA
+     *
+     * @test
      */
-    public function testKeyIdentifier64(PublicKeyInfo $pki)
+    public function keyIdentifier64(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier64();
         $this->assertEquals(64, strlen($id) * 8);
     }
 
-    public function testInvalidPEMType()
+    /**
+     * @test
+     */
+    public function invalidPEMType()
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);
@@ -145,9 +173,11 @@ final class PublicKeyInfoTest extends TestCase
     }
 
     /**
-     * @depends testDecodeRSA
+     * @depends decodeRSA
+     *
+     * @test
      */
-    public function testInvalidAI(PublicKeyInfo $pki)
+    public function invalidAI(PublicKeyInfo $pki)
     {
         $seq = $pki->toASN1();
         $ai = $seq->at(0)
@@ -158,7 +188,10 @@ final class PublicKeyInfoTest extends TestCase
         PublicKeyInfo::fromASN1($seq)->publicKey();
     }
 
-    public function testInvalidECAlgoFail()
+    /**
+     * @test
+     */
+    public function invalidECAlgoFail()
     {
         $pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), new BitString(''));
         $this->expectException(UnexpectedValueException::class);

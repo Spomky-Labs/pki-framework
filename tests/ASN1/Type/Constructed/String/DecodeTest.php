@@ -15,28 +15,40 @@ use UnexpectedValueException;
  */
 final class DecodeTest extends TestCase
 {
-    public function testDecodeDefinite()
+    /**
+     * @test
+     */
+    public function decodeDefinite()
     {
         $el = ConstructedString::fromDER(hex2bin('2400'));
         $this->assertInstanceOf(ConstructedString::class, $el);
         $this->assertFalse($el->hasIndefiniteLength());
     }
 
-    public function testDecodeIndefinite()
+    /**
+     * @test
+     */
+    public function decodeIndefinite()
     {
         $el = ConstructedString::fromDER(hex2bin('24800000'));
         $this->assertInstanceOf(ConstructedString::class, $el);
         $this->assertTrue($el->hasIndefiniteLength());
     }
 
-    public function testInvalidCallingClass()
+    /**
+     * @test
+     */
+    public function invalidCallingClass()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage(NullType::class . ' expected, got ' . ConstructedString::class);
         NullType::fromDER(hex2bin('2400'));
     }
 
-    public function testDecodeBitString()
+    /**
+     * @test
+     */
+    public function decodeBitString()
     {
         $el = ConstructedString::fromDER(hex2bin('23800301000000'));
         $this->assertInstanceOf(ConstructedString::class, $el);

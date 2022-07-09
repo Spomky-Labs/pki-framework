@@ -14,14 +14,20 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifi
  */
 final class ECDSAAITest extends TestCase
 {
-    public function testSupportsKeyAlgorithm()
+    /**
+     * @test
+     */
+    public function supportsKeyAlgorithm()
     {
         $sig_algo = new ECDSAWithSHA1AlgorithmIdentifier();
         $key_algo = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1);
         $this->assertTrue($sig_algo->supportsKeyAlgorithm($key_algo));
     }
 
-    public function testDoesntSupportsKeyAlgorithm()
+    /**
+     * @test
+     */
+    public function doesntSupportsKeyAlgorithm()
     {
         $sig_algo = new ECDSAWithSHA1AlgorithmIdentifier();
         $key_algo = new RSAEncryptionAlgorithmIdentifier();

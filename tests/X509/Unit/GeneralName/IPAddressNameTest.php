@@ -16,7 +16,10 @@ use UnexpectedValueException;
  */
 final class IPAddressNameTest extends TestCase
 {
-    public function testInvalidASN1()
+    /**
+     * @test
+     */
+    public function invalidASN1()
     {
         $el = new ImplicitlyTaggedType(GeneralName::TAG_IP_ADDRESS, new OctetString(''));
         $this->expectException(UnexpectedValueException::class);

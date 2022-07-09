@@ -24,7 +24,10 @@ final class TargetInformationTest extends TestCase
 
     final public const GROUP_DOMAIN = '.example.com';
 
-    public function testCreateTargets()
+    /**
+     * @test
+     */
+    public function createTargets()
     {
         $targets = new Targets(
             new TargetName(DirectoryName::fromDNString(self::NAME_DN)),
@@ -35,9 +38,11 @@ final class TargetInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreateTargets
+     * @depends createTargets
+     *
+     * @test
      */
-    public function testCreate(Targets $targets)
+    public function create(Targets $targets)
     {
         $ext = new TargetInformationExtension(true, $targets);
         $this->assertInstanceOf(TargetInformationExtension::class, $ext);
@@ -45,25 +50,31 @@ final class TargetInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_TARGET_INFORMATION, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -71,11 +82,13 @@ final class TargetInformationTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = TargetInformationExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(TargetInformationExtension::class, $ext);
@@ -83,26 +96,32 @@ final class TargetInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(TargetInformationExtension $ext)
+    public function countMethod(TargetInformationExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(TargetInformationExtension $ext)
+    public function iterator(TargetInformationExtension $ext)
     {
         $values = [];
         foreach ($ext as $target) {
@@ -113,17 +132,21 @@ final class TargetInformationTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testName(TargetInformationExtension $ext)
+    public function name(TargetInformationExtension $ext)
     {
         $this->assertEquals(self::NAME_DN, $ext->names()[0]->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testGroup(TargetInformationExtension $ext)
+    public function group(TargetInformationExtension $ext)
     {
         $this->assertEquals(self::GROUP_DOMAIN, $ext->groups()[0]->string());
     }
@@ -131,14 +154,19 @@ final class TargetInformationTest extends TestCase
     /**
      * Cover __clone method.
      *
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testClone(TargetInformationExtension $ext)
+    public function clone(TargetInformationExtension $ext)
     {
         $this->assertInstanceOf(TargetInformationExtension::class, clone $ext);
     }
 
-    public function testFromTargets()
+    /**
+     * @test
+     */
+    public function fromTargets()
     {
         $ext = TargetInformationExtension::fromTargets(new TargetName(DirectoryName::fromDNString(self::NAME_DN)));
         $this->assertInstanceOf(TargetInformationExtension::class, $ext);

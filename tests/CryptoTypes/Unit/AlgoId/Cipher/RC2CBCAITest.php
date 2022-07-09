@@ -22,8 +22,10 @@ final class RC2CBCAITest extends TestCase
 
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new RC2CBCAlgorithmIdentifier(64, self::IV);
         $seq = $ai->toASN1();
@@ -32,16 +34,21 @@ final class RC2CBCAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
-    public function testDecodeRFC2268OnlyIV()
+    /**
+     * @test
+     */
+    public function decodeRFC2268OnlyIV()
     {
         $seq = new Sequence(new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), new OctetString(self::IV));
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -49,32 +56,41 @@ final class RC2CBCAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testEffectiveKeyBits(RC2CBCAlgorithmIdentifier $ai)
+    public function effectiveKeyBits(RC2CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(64, $ai->effectiveKeyBits());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testIV(RC2CBCAlgorithmIdentifier $ai)
+    public function iV(RC2CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(self::IV, $ai->initializationVector());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeNoParamsFail(Sequence $seq)
+    public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    public function testEncodeNoIVFail()
+    /**
+     * @test
+     */
+    public function encodeNoIVFail()
     {
         $ai = new RC2CBCAlgorithmIdentifier();
         $this->expectException(LogicException::class);
@@ -82,22 +98,29 @@ final class RC2CBCAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testBlockSize(RC2CBCAlgorithmIdentifier $ai)
+    public function blockSize(RC2CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(8, $ai->blockSize());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testKeySize(RC2CBCAlgorithmIdentifier $ai)
+    public function keySize(RC2CBCAlgorithmIdentifier $ai)
     {
         $this->assertEquals(8, $ai->keySize());
     }
 
-    public function testEncodeLargeKey()
+    /**
+     * @test
+     */
+    public function encodeLargeKey()
     {
         $ai = new RC2CBCAlgorithmIdentifier(512, self::IV);
         $seq = $ai->toASN1();
@@ -106,24 +129,31 @@ final class RC2CBCAITest extends TestCase
     }
 
     /**
-     * @depends testEncodeLargeKey
+     * @depends encodeLargeKey
+     *
+     * @test
      */
-    public function testDecodeLargeKey(Sequence $seq)
+    public function decodeLargeKey(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
     }
 
-    public function testInvalidIVSizeFail()
+    /**
+     * @test
+     */
+    public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
         new RC2CBCAlgorithmIdentifier(64, '1234');
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

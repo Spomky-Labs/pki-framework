@@ -20,7 +20,10 @@ final class AccessIdentityTest extends TestCase
 
     final public const IDENT_URI = 'urn:username';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $value = new AccessIdentityAttributeValue(
             new UniformResourceIdentifier(self::SERVICE_URI),
@@ -31,9 +34,11 @@ final class AccessIdentityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeValue $value)
+    public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -41,11 +46,13 @@ final class AccessIdentityTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $value = AccessIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(AccessIdentityAttributeValue::class, $value);
@@ -53,42 +60,52 @@ final class AccessIdentityTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeValue $ref, AttributeValue $new)
+    public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $value)
+    public function oID(AttributeValue $value)
     {
         $this->assertEquals(AccessIdentityAttributeValue::OID, $value->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testService(AccessIdentityAttributeValue $value)
+    public function service(AccessIdentityAttributeValue $value)
     {
         $this->assertEquals(self::SERVICE_URI, $value->service());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIdent(AccessIdentityAttributeValue $value)
+    public function ident(AccessIdentityAttributeValue $value)
     {
         $this->assertEquals(self::IDENT_URI, $value->ident());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAttributes(AttributeValue $value)
+    public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
         $this->assertTrue($attribs->hasAccessIdentity());
@@ -96,9 +113,11 @@ final class AccessIdentityTest extends TestCase
     }
 
     /**
-     * @depends testAttributes
+     * @depends attributes
+     *
+     * @test
      */
-    public function testFromAttributes(Attributes $attribs)
+    public function fromAttributes(Attributes $attribs)
     {
         $this->assertInstanceOf(AccessIdentityAttributeValue::class, $attribs->accessIdentity());
     }

@@ -36,7 +36,10 @@ final class CertificateTest extends TestCase
         self::$_privateKeyInfo = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $pki = self::$_privateKeyInfo->publicKeyInfo();
         $tc = new TBSCertificate(
@@ -55,9 +58,11 @@ final class CertificateTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Certificate $cert)
+    public function encode(Certificate $cert)
     {
         $seq = $cert->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -65,11 +70,13 @@ final class CertificateTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $cert = Certificate::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(Certificate::class, $cert);
@@ -77,42 +84,52 @@ final class CertificateTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Certificate $ref, Certificate $new)
+    public function recoded(Certificate $ref, Certificate $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTBSCertificate(Certificate $cert)
+    public function tBSCertificate(Certificate $cert)
     {
         $this->assertInstanceOf(TBSCertificate::class, $cert->tbsCertificate());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSignatureAlgorithm(Certificate $cert)
+    public function signatureAlgorithm(Certificate $cert)
     {
         $this->assertInstanceOf(AlgorithmIdentifier::class, $cert->signatureAlgorithm());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSignature(Certificate $cert)
+    public function signature(Certificate $cert)
     {
         $this->assertInstanceOf(Signature::class, $cert->signatureValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToPEM(Certificate $cert)
+    public function toPEM(Certificate $cert)
     {
         $pem = $cert->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
@@ -120,17 +137,21 @@ final class CertificateTest extends TestCase
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testPEMType(PEM $pem)
+    public function pEMType(PEM $pem)
     {
         $this->assertEquals(PEM::TYPE_CERTIFICATE, $pem->type());
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testFromPEM(PEM $pem)
+    public function fromPEM(PEM $pem)
     {
         $cert = Certificate::fromPEM($pem);
         $this->assertInstanceOf(Certificate::class, $cert);
@@ -138,32 +159,41 @@ final class CertificateTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testFromPEM
+     * @depends create
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testPEMRecoded(Certificate $ref, Certificate $new)
+    public function pEMRecoded(Certificate $ref, Certificate $new)
     {
         $this->assertEquals($ref, $new);
     }
 
-    public function testFromInvalidPEMFail()
+    /**
+     * @test
+     */
+    public function fromInvalidPEMFail()
     {
         $this->expectException(UnexpectedValueException::class);
         Certificate::fromPEM(new PEM('nope', ''));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(Certificate $cert)
+    public function toStringMethod(Certificate $cert)
     {
         $this->assertIsString(strval($cert));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testInvalidAlgoFail(Certificate $cert)
+    public function invalidAlgoFail(Certificate $cert)
     {
         $seq = $cert->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');

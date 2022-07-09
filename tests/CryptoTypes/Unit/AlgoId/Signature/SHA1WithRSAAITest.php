@@ -17,8 +17,10 @@ final class SHA1WithRSAAITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -27,9 +29,11 @@ final class SHA1WithRSAAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(SHA1WithRSAEncryptionAlgorithmIdentifier::class, $ai);
@@ -37,9 +41,11 @@ final class SHA1WithRSAAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeNoParamsFail(Sequence $seq)
+    public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
@@ -47,9 +53,11 @@ final class SHA1WithRSAAITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeInvalidParamsFail(Sequence $seq)
+    public function decodeInvalidParamsFail(Sequence $seq)
     {
         $seq = $seq->withReplaced(1, new Sequence());
         $this->expectException(UnexpectedValueException::class);
@@ -57,9 +65,11 @@ final class SHA1WithRSAAITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

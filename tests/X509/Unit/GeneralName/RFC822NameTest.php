@@ -16,7 +16,10 @@ use Sop\X509\GeneralName\RFC822Name;
  */
 final class RFC822NameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = new RFC822Name('test@example.com');
         $this->assertInstanceOf(RFC822Name::class, $name);
@@ -24,9 +27,11 @@ final class RFC822NameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(RFC822Name $name)
+    public function encode(RFC822Name $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -34,22 +39,26 @@ final class RFC822NameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_RFC822_NAME, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = RFC822Name::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(RFC822Name::class, $name);
@@ -57,26 +66,32 @@ final class RFC822NameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(RFC822Name $ref, RFC822Name $new)
+    public function recoded(RFC822Name $ref, RFC822Name $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(RFC822Name $name)
+    public function string(RFC822Name $name)
     {
         $this->assertIsString($name->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEmail(RFC822Name $name)
+    public function email(RFC822Name $name)
     {
         $this->assertEquals('test@example.com', $name->email());
     }

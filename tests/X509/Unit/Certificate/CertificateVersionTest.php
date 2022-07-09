@@ -40,27 +40,39 @@ final class CertificateVersionTest extends TestCase
         self::$_tbsCert = null;
     }
 
-    public function testVersion1()
+    /**
+     * @test
+     */
+    public function version1()
     {
         $cert = self::$_tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
         $this->assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_1);
     }
 
-    public function testVersion2SubjectUID()
+    /**
+     * @test
+     */
+    public function version2SubjectUID()
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(UniqueIdentifier::fromString('subject'));
         $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
         $this->assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_2);
     }
 
-    public function testVersion2IssuerUID()
+    /**
+     * @test
+     */
+    public function version2IssuerUID()
     {
         $tbsCert = self::$_tbsCert->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'));
         $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
         $this->assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_2);
     }
 
-    public function testVersion2BothUID()
+    /**
+     * @test
+     */
+    public function version2BothUID()
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(
             UniqueIdentifier::fromString('subject')
@@ -69,7 +81,10 @@ final class CertificateVersionTest extends TestCase
         $this->assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_2);
     }
 
-    public function testVersion3()
+    /**
+     * @test
+     */
+    public function version3()
     {
         $tbsCert = self::$_tbsCert->withExtensions(
             new Extensions(new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE))

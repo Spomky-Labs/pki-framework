@@ -15,19 +15,28 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
  */
 final class ImplicitlyTaggedEncodeTest extends TestCase
 {
-    public function testNull()
+    /**
+     * @test
+     */
+    public function null()
     {
         $el = new ImplicitlyTaggedType(0, new NullType());
         $this->assertEquals("\x80\x0", $el->toDER());
     }
 
-    public function testLongTag()
+    /**
+     * @test
+     */
+    public function longTag()
     {
         $el = new ImplicitlyTaggedType(255, new NullType());
         $this->assertEquals("\x9f\x81\x7f\x0", $el->toDER());
     }
 
-    public function testRecode()
+    /**
+     * @test
+     */
+    public function recode()
     {
         $el = new ImplicitlyTaggedType(0, new Boolean(true));
         $this->assertInstanceOf(Boolean::class, $el->implicit(Element::TYPE_BOOLEAN) ->asBoolean());

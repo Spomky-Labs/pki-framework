@@ -18,8 +18,10 @@ final class FlagsTest extends TestCase
      * @dataProvider flagsProvider
      *
      * @param number $num
+     *
+     * @test
      */
-    public function testFlags($num, int $width, string $result)
+    public function flags($num, int $width, string $result)
     {
         $flags = new Flags($num, $width);
         $this->assertEquals($result, $flags->string());
@@ -49,8 +51,10 @@ final class FlagsTest extends TestCase
 
     /**
      * @dataProvider setBitProvider
+     *
+     * @test
      */
-    public function testSetBit(int $num, int $width, int $idx)
+    public function setBit(int $num, int $width, int $idx)
     {
         $flags = new Flags($num, $width);
         $this->assertTrue($flags->test($idx));
@@ -73,8 +77,10 @@ final class FlagsTest extends TestCase
 
     /**
      * @dataProvider unsetBitProvider
+     *
+     * @test
      */
-    public function testUnsetBit(int $num, int $width, int $idx)
+    public function unsetBit(int $num, int $width, int $idx)
     {
         $flags = new Flags($num, $width);
         $this->assertFalse($flags->test($idx));
@@ -89,8 +95,10 @@ final class FlagsTest extends TestCase
      * @dataProvider toBitStringProvider
      *
      * @param string $result
+     *
+     * @test
      */
-    public function testToBitString(int $num, int $width, $result, int $unused_bits)
+    public function toBitString(int $num, int $width, $result, int $unused_bits)
     {
         $flags = new Flags($num, $width);
         $bs = $flags->bitString();
@@ -115,8 +123,10 @@ final class FlagsTest extends TestCase
 
     /**
      * @dataProvider fromBitStringProvider
+     *
+     * @test
      */
-    public function testFromBitString(string $str, int $unused_bits, int $width, string $result)
+    public function fromBitString(string $str, int $unused_bits, int $width, string $result)
     {
         $flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
         $this->assertEquals($result, $flags->string());
@@ -141,8 +151,10 @@ final class FlagsTest extends TestCase
      * @param string $num
      * @param int    $width
      * @param number $result
+     *
+     * @test
      */
-    public function testNumber($num, $width, $result)
+    public function number($num, $width, $result)
     {
         $flags = new Flags($num, $width);
         $this->assertEquals($result, $flags->number());
@@ -172,8 +184,10 @@ final class FlagsTest extends TestCase
      *
      * @param string $str
      * @param number $number
+     *
+     * @test
      */
-    public function testBitStringToNumber($str, int $unused_bits, int $width, $number)
+    public function bitStringToNumber($str, int $unused_bits, int $width, $number)
     {
         $bs = new BitString($str, $unused_bits);
         $flags = Flags::fromBitString($bs, $width);
@@ -185,13 +199,19 @@ final class FlagsTest extends TestCase
         return [["\x20", 5, 9, 64]];
     }
 
-    public function testIntNumber()
+    /**
+     * @test
+     */
+    public function intNumber()
     {
         $flags = new Flags(0x80, 16);
         $this->assertSame($flags->intNumber(), 128);
     }
 
-    public function testTestOOB()
+    /**
+     * @test
+     */
+    public function testOOB()
     {
         $flags = new Flags(0, 8);
         $this->expectException(OutOfBoundsException::class);

@@ -15,12 +15,18 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 final class ElementTest extends TestCase
 {
-    public function testUnknownTagToName()
+    /**
+     * @test
+     */
+    public function unknownTagToName()
     {
         $this->assertEquals('TAG 100', Element::tagToName(100));
     }
 
-    public function testIsTypeUniversalInvalidClass()
+    /**
+     * @test
+     */
+    public function isTypeUniversalInvalidClass()
     {
         $el = new NullType();
         $cls = new ReflectionClass($el);
@@ -30,13 +36,19 @@ final class ElementTest extends TestCase
         $this->assertFalse($el->isType(Element::TYPE_BOOLEAN));
     }
 
-    public function testIsPseudotypeFail()
+    /**
+     * @test
+     */
+    public function isPseudotypeFail()
     {
         $el = new NullType();
         $this->assertFalse($el->isType(-99));
     }
 
-    public function testAsElement()
+    /**
+     * @test
+     */
+    public function asElement()
     {
         $el = new NullType();
         $this->assertEquals($el, $el->asElement());
@@ -44,21 +56,29 @@ final class ElementTest extends TestCase
     }
 
     /**
-     * @depends testAsElement
+     * @depends asElement
+     *
+     * @test
      */
-    public function testAsUnspecified(Element $el)
+    public function asUnspecified(Element $el)
     {
         $type = $el->asUnspecified();
         $this->assertInstanceOf(UnspecifiedType::class, $type);
     }
 
-    public function testIsIndefinite()
+    /**
+     * @test
+     */
+    public function isIndefinite()
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
         $this->assertTrue($el->hasIndefiniteLength());
     }
 
-    public function testSetDefinite()
+    /**
+     * @test
+     */
+    public function setDefinite()
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
         $el = $el->withIndefiniteLength(false);

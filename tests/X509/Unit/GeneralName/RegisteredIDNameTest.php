@@ -16,7 +16,10 @@ use Sop\X509\GeneralName\RegisteredID;
  */
 final class RegisteredIDNameTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $rid = new RegisteredID('1.3.6.1.3.1');
         $this->assertInstanceOf(RegisteredID::class, $rid);
@@ -24,9 +27,11 @@ final class RegisteredIDNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(RegisteredID $rid)
+    public function encode(RegisteredID $rid)
     {
         $el = $rid->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -34,22 +39,26 @@ final class RegisteredIDNameTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_REGISTERED_ID, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $rid = RegisteredID::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(RegisteredID::class, $rid);
@@ -57,26 +66,32 @@ final class RegisteredIDNameTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(RegisteredID $ref, RegisteredID $new)
+    public function recoded(RegisteredID $ref, RegisteredID $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(RegisteredID $rid)
+    public function string(RegisteredID $rid)
     {
         $this->assertIsString($rid->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(RegisteredID $rid)
+    public function oID(RegisteredID $rid)
     {
         $this->assertEquals('1.3.6.1.3.1', $rid->oid());
     }

@@ -26,7 +26,10 @@ final class NameConstraintsTest extends TestCase
 
     final public const EXCLUDED_URI = 'nope.example.com';
 
-    public function testCreatePermitted()
+    /**
+     * @test
+     */
+    public function createPermitted()
     {
         $subtrees = new GeneralSubtrees(
             new GeneralSubtree(new UniformResourceIdentifier(self::PERMITTED_URI)),
@@ -36,7 +39,10 @@ final class NameConstraintsTest extends TestCase
         return $subtrees;
     }
 
-    public function testCreateExcluded()
+    /**
+     * @test
+     */
+    public function createExcluded()
     {
         $subtrees = new GeneralSubtrees(new GeneralSubtree(new UniformResourceIdentifier(self::EXCLUDED_URI)));
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
@@ -44,10 +50,12 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreatePermitted
-     * @depends testCreateExcluded
+     * @depends createPermitted
+     * @depends createExcluded
+     *
+     * @test
      */
-    public function testCreate(GeneralSubtrees $permitted, GeneralSubtrees $excluded)
+    public function create(GeneralSubtrees $permitted, GeneralSubtrees $excluded)
     {
         $ext = new NameConstraintsExtension(true, $permitted, $excluded);
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
@@ -55,25 +63,31 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_NAME_CONSTRAINTS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -81,11 +95,13 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = NameConstraintsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
@@ -93,18 +109,22 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testPermitted(NameConstraintsExtension $ext)
+    public function permitted(NameConstraintsExtension $ext)
     {
         $subtrees = $ext->permittedSubtrees();
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
@@ -112,9 +132,11 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExcluded(NameConstraintsExtension $ext)
+    public function excluded(NameConstraintsExtension $ext)
     {
         $subtrees = $ext->excludedSubtrees();
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
@@ -122,17 +144,21 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testPermitted
+     * @depends permitted
+     *
+     * @test
      */
-    public function testCount(GeneralSubtrees $subtrees)
+    public function countMethod(GeneralSubtrees $subtrees)
     {
         $this->assertCount(2, $subtrees);
     }
 
     /**
-     * @depends testPermitted
+     * @depends permitted
+     *
+     * @test
      */
-    public function testIterator(GeneralSubtrees $subtrees)
+    public function iterator(GeneralSubtrees $subtrees)
     {
         $values = [];
         foreach ($subtrees as $subtree) {
@@ -143,33 +169,41 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testPermitted
+     * @depends permitted
+     *
+     * @test
      */
-    public function testPermittedURI(GeneralSubtrees $subtrees)
+    public function permittedURI(GeneralSubtrees $subtrees)
     {
         $this->assertEquals(self::PERMITTED_URI, $subtrees->all()[0] ->base() ->string());
     }
 
     /**
-     * @depends testPermitted
+     * @depends permitted
+     *
+     * @test
      */
-    public function testPermittedDN(GeneralSubtrees $subtrees)
+    public function permittedDN(GeneralSubtrees $subtrees)
     {
         $this->assertEquals(self::PERMITTED_DN, $subtrees->all()[1] ->base() ->string());
     }
 
     /**
-     * @depends testExcluded
+     * @depends excluded
+     *
+     * @test
      */
-    public function testExcludedURI(GeneralSubtrees $subtrees)
+    public function excludedURI(GeneralSubtrees $subtrees)
     {
         $this->assertEquals(self::EXCLUDED_URI, $subtrees->all()[0] ->base() ->string());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(NameConstraintsExtension $ext)
+    public function extensions(NameConstraintsExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasNameConstraints());
@@ -177,15 +211,20 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->nameConstraints();
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
     }
 
-    public function testCreateEmpty()
+    /**
+     * @test
+     */
+    public function createEmpty()
     {
         $ext = new NameConstraintsExtension(false);
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
@@ -193,9 +232,11 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testEncodeEmpty(Extension $ext)
+    public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -203,11 +244,13 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testEncodeEmpty
+     * @depends encodeEmpty
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecodeEmpty($der)
+    public function decodeEmpty($der)
     {
         $ext = NameConstraintsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
@@ -215,27 +258,33 @@ final class NameConstraintsTest extends TestCase
     }
 
     /**
-     * @depends testCreateEmpty
-     * @depends testDecodeEmpty
+     * @depends createEmpty
+     * @depends decodeEmpty
+     *
+     * @test
      */
-    public function testRecodedEmpty(Extension $ref, Extension $new)
+    public function recodedEmpty(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoPermittedSubtreesFail(NameConstraintsExtension $ext)
+    public function noPermittedSubtreesFail(NameConstraintsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->permittedSubtrees();
     }
 
     /**
-     * @depends testCreateEmpty
+     * @depends createEmpty
+     *
+     * @test
      */
-    public function testNoExcludedSubtreesFail(NameConstraintsExtension $ext)
+    public function noExcludedSubtreesFail(NameConstraintsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->excludedSubtrees();

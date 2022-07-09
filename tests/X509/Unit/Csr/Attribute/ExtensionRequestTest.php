@@ -16,7 +16,10 @@ use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
  */
 final class ExtensionRequestTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $value = new ExtensionRequestValue(new Extensions());
         $this->assertInstanceOf(ExtensionRequestValue::class, $value);
@@ -24,9 +27,11 @@ final class ExtensionRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeValue $value)
+    public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -34,11 +39,13 @@ final class ExtensionRequestTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $value = ExtensionRequestValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(ExtensionRequestValue::class, $value);
@@ -46,58 +53,72 @@ final class ExtensionRequestTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeValue $ref, AttributeValue $new)
+    public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeValue $value)
+    public function oID(AttributeValue $value)
     {
         $this->assertEquals(ExtensionRequestValue::OID, $value->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(ExtensionRequestValue $value)
+    public function extensions(ExtensionRequestValue $value)
     {
         $this->assertInstanceOf(Extensions::class, $value->extensions());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testStringValue(ExtensionRequestValue $value)
+    public function stringValue(ExtensionRequestValue $value)
     {
         $this->assertIsString($value->stringValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEqualityMatchingRule(ExtensionRequestValue $value)
+    public function equalityMatchingRule(ExtensionRequestValue $value)
     {
         $this->assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testRFC2253String(ExtensionRequestValue $value)
+    public function rFC2253String(ExtensionRequestValue $value)
     {
         $this->assertIsString($value->rfc2253String());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testToString(ExtensionRequestValue $value)
+    public function toStringMethod(ExtensionRequestValue $value)
     {
         $this->assertIsString(strval($value));
     }

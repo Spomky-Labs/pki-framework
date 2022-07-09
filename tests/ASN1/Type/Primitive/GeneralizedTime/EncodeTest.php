@@ -14,13 +14,19 @@ use Sop\ASN1\Type\Primitive\GeneralizedTime;
  */
 final class EncodeTest extends TestCase
 {
-    public function testEncode()
+    /**
+     * @test
+     */
+    public function encode()
     {
         $el = new GeneralizedTime(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
         $this->assertEquals("\x18\x0f" . '20060102220405Z', $el->toDER());
     }
 
-    public function testFractions()
+    /**
+     * @test
+     */
+    public function fractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.5", new DateTimeZone('UTC'));
@@ -28,7 +34,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals("\x18\x11" . '20060102220405.5Z', $el->toDER());
     }
 
-    public function testMultipleFractions()
+    /**
+     * @test
+     */
+    public function multipleFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999", new DateTimeZone('UTC'));
@@ -36,7 +45,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals("\x18\x15" . '20060102220405.99999Z', $el->toDER());
     }
 
-    public function testSmallFractions()
+    /**
+     * @test
+     */
+    public function smallFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.000001", new DateTimeZone('UTC'));
@@ -44,7 +56,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals("\x18\x16" . '20060102220405.000001Z', $el->toDER());
     }
 
-    public function testMultipleZeroFractions()
+    /**
+     * @test
+     */
+    public function multipleZeroFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.000000", new DateTimeZone('UTC'));
@@ -52,7 +67,10 @@ final class EncodeTest extends TestCase
         $this->assertEquals("\x18\x0f" . '20060102220405Z', $el->toDER());
     }
 
-    public function testTrailingFractions()
+    /**
+     * @test
+     */
+    public function trailingFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.100000", new DateTimeZone('UTC'));

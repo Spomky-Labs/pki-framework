@@ -18,7 +18,10 @@ use UnexpectedValueException;
  */
 final class AttributeCollectionTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $c = SequenceOfAttributes::fromAttributeValues(
             new NameValue('n1'),
@@ -30,33 +33,41 @@ final class AttributeCollectionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHas(AttributeCollection $c)
+    public function has(AttributeCollection $c)
     {
         $this->assertTrue($c->has('name'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHasNot(AttributeCollection $c)
+    public function hasNot(AttributeCollection $c)
     {
         $this->assertFalse($c->has('commonName'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstOf(AttributeCollection $c)
+    public function firstOf(AttributeCollection $c)
     {
         $this->assertEquals('n1', $c->firstOf('name')->first()->stringValue());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstOfFails(AttributeCollection $c)
+    public function firstOfFails(AttributeCollection $c)
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('No commonName attribute');
@@ -64,35 +75,43 @@ final class AttributeCollectionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOf(AttributeCollection $c)
+    public function allOf(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->allOf('name'));
         $this->assertEquals(['n1', 'n2'], $vals);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOfNone(AttributeCollection $c)
+    public function allOfNone(AttributeCollection $c)
     {
         $this->assertEquals([], $c->allOf('commonName'));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAll(AttributeCollection $c)
+    public function all(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         $this->assertEquals(['n1', 'n2', 'd'], $vals);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithAdditional(AttributeCollection $c)
+    public function withAdditional(AttributeCollection $c)
     {
         $c = $c->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('cn')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
@@ -100,9 +119,11 @@ final class AttributeCollectionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithUnique(AttributeCollection $c)
+    public function withUnique(AttributeCollection $c)
     {
         $c = $c->withUnique(Attribute::fromAttributeValues(new NameValue('uniq')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
@@ -110,17 +131,21 @@ final class AttributeCollectionTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(AttributeCollection $c)
+    public function countMethod(AttributeCollection $c)
     {
         $this->assertCount(3, $c);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(AttributeCollection $c)
+    public function iterator(AttributeCollection $c)
     {
         $vals = [];
         foreach ($c as $attr) {

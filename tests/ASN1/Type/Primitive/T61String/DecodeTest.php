@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\T61String;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = T61String::fromDER("\x14\x0");
         $this->assertInstanceOf(T61String::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World!';
         $el = T61String::fromDER("\x14\x0c{$str}");

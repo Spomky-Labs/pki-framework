@@ -16,8 +16,10 @@ final class RSAPublicKeyTest extends TestCase
 {
     /**
      * @return RSAPublicKey
+     *
+     * @test
      */
-    public function testDecode()
+    public function decode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = RSAPublicKey::fromDER($pem->data());
@@ -27,8 +29,10 @@ final class RSAPublicKeyTest extends TestCase
 
     /**
      * @return RSAPublicKey
+     *
+     * @test
      */
-    public function testFromPEM()
+    public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = RSAPublicKey::fromPEM($pem);
@@ -37,9 +41,11 @@ final class RSAPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testFromPEM
+     * @depends fromPEM
+     *
+     * @test
      */
-    public function testToPEM(RSAPublicKey $pk)
+    public function toPEM(RSAPublicKey $pk)
     {
         $pem = $pk->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
@@ -47,29 +53,40 @@ final class RSAPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testToPEM
+     * @depends toPEM
+     *
+     * @test
      */
-    public function testRecodedPEM(PEM $pem)
+    public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $this->assertEquals($ref, $pem);
     }
 
-    public function testFromPKIPEM()
+    /**
+     * @test
+     */
+    public function fromPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $pk = RSAPublicKey::fromPEM($pem);
         $this->assertInstanceOf(RSAPublicKey::class, $pk);
     }
 
-    public function testInvalidPEMType()
+    /**
+     * @test
+     */
+    public function invalidPEMType()
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);
         RSAPublicKey::fromPEM($pem);
     }
 
-    public function testECKeyFail()
+    /**
+     * @test
+     */
+    public function eCKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $this->expectException(UnexpectedValueException::class);
@@ -77,17 +94,21 @@ final class RSAPublicKeyTest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testModulus(RSAPublicKey $pk)
+    public function modulus(RSAPublicKey $pk)
     {
         $this->assertNotEmpty($pk->modulus());
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testPublicExponent(RSAPublicKey $pk)
+    public function publicExponent(RSAPublicKey $pk)
     {
         $this->assertNotEmpty($pk->publicExponent());
     }

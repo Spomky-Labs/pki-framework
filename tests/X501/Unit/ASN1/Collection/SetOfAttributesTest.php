@@ -15,7 +15,10 @@ use Sop\X501\ASN1\Collection\SetOfAttributes;
  */
 final class SetOfAttributesTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $c = SetOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
         $this->assertInstanceOf(SetOfAttributes::class, $c);
@@ -23,9 +26,11 @@ final class SetOfAttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(SetOfAttributes $c)
+    public function encode(SetOfAttributes $c)
     {
         $el = $c->toASN1();
         $this->assertInstanceOf(Set::class, $el);
@@ -33,9 +38,11 @@ final class SetOfAttributesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Set $set)
+    public function decode(Set $set)
     {
         $c = SetOfAttributes::fromASN1($set);
         $this->assertInstanceOf(SetOfAttributes::class, $c);
@@ -43,10 +50,12 @@ final class SetOfAttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(SetOfAttributes $original, SetOfAttributes $recoded)
+    public function recoded(SetOfAttributes $original, SetOfAttributes $recoded)
     {
         // compare DER encodings because SET OF sorts the elements
         $this->assertEquals($original->toASN1()->toDER(), $recoded->toASN1()->toDER());

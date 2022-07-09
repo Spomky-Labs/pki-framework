@@ -15,7 +15,10 @@ use Sop\X509\Certificate\Extensions;
  */
 final class InhibitAnyPolicyTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $ext = new InhibitAnyPolicyExtension(true, 3);
         $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
@@ -23,25 +26,31 @@ final class InhibitAnyPolicyTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_INHIBIT_ANY_POLICY, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -49,11 +58,13 @@ final class InhibitAnyPolicyTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = InhibitAnyPolicyExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
@@ -61,26 +72,32 @@ final class InhibitAnyPolicyTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSkipCerts(InhibitAnyPolicyExtension $ext)
+    public function skipCerts(InhibitAnyPolicyExtension $ext)
     {
         $this->assertEquals(3, $ext->skipCerts());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(InhibitAnyPolicyExtension $ext)
+    public function extensions(InhibitAnyPolicyExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasInhibitAnyPolicy());
@@ -88,9 +105,11 @@ final class InhibitAnyPolicyTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->inhibitAnyPolicy();
         $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);

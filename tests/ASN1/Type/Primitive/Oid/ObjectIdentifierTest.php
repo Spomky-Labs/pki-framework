@@ -17,7 +17,10 @@ use ValueError;
  */
 final class ObjectIdentifierTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new ObjectIdentifier('1.3.6.1.3');
         $this->assertInstanceOf(ObjectIdentifier::class, $el);
@@ -25,17 +28,21 @@ final class ObjectIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -43,9 +50,11 @@ final class ObjectIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): ObjectIdentifier
+    public function decode(string $data): ObjectIdentifier
     {
         $el = ObjectIdentifier::fromDER($data);
         $this->assertInstanceOf(ObjectIdentifier::class, $el);
@@ -53,24 +62,31 @@ final class ObjectIdentifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(ObjectIdentifier::class, $wrap->asObjectIdentifier());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);
@@ -78,28 +94,40 @@ final class ObjectIdentifierTest extends TestCase
         $wrap->asObjectIdentifier();
     }
 
-    public function testOnlyRootArc()
+    /**
+     * @test
+     */
+    public function onlyRootArc()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('OID must have at least two nodes');
         new ObjectIdentifier('0');
     }
 
-    public function testInvalidRootArc()
+    /**
+     * @test
+     */
+    public function invalidRootArc()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Root arc must be in range of 0..2');
         new ObjectIdentifier('3.0');
     }
 
-    public function testInvalidSubarc()
+    /**
+     * @test
+     */
+    public function invalidSubarc()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
         new ObjectIdentifier('0.40');
     }
 
-    public function testInvalidSubarc1()
+    /**
+     * @test
+     */
+    public function invalidSubarc1()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
@@ -108,8 +136,10 @@ final class ObjectIdentifierTest extends TestCase
 
     /**
      * @requires PHP < 8.0
+     *
+     * @test
      */
-    public function testInvalidNumberPrePHP8()
+    public function invalidNumberPrePHP8()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('is not a number');
@@ -118,8 +148,10 @@ final class ObjectIdentifierTest extends TestCase
 
     /**
      * @requires PHP >= 8.0
+     *
+     * @test
      */
-    public function testInvalidNumberPHP8()
+    public function invalidNumberPHP8()
     {
         $this->expectException(ValueError::class);
         $this->expectExceptionMessage('not an integer');
@@ -130,8 +162,10 @@ final class ObjectIdentifierTest extends TestCase
      * @dataProvider oidProvider
      *
      * @param string $oid
+     *
+     * @test
      */
-    public function testOID($oid)
+    public function oID($oid)
     {
         $x = new ObjectIdentifier($oid);
         $der = $x->toDER();

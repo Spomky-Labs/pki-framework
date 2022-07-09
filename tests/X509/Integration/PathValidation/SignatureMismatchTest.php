@@ -70,7 +70,10 @@ final class SignatureMismatchTest extends TestCase
         self::$_cert = null;
     }
 
-    public function testValidate()
+    /**
+     * @test
+     */
+    public function validate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $this->expectException(PathValidationException::class);

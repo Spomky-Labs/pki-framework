@@ -17,8 +17,10 @@ final class MapStepTest extends TestCase
      *
      * @param string $string
      * @param string $expected
+     *
+     * @test
      */
-    public function testApplyCaseFold($string, $expected)
+    public function applyCaseFold($string, $expected)
     {
         $step = new MapStep(true);
         $this->assertEquals($expected, $step->apply($string));

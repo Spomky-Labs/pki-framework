@@ -18,8 +18,10 @@ final class HMACWithSHA1AITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    public function testEncode()
+    public function encode()
     {
         $ai = new HMACWithSHA1AlgorithmIdentifier();
         $seq = $ai->toASN1();
@@ -28,9 +30,11 @@ final class HMACWithSHA1AITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(Sequence $seq)
+    public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(HMACWithSHA1AlgorithmIdentifier::class, $ai);
@@ -38,9 +42,11 @@ final class HMACWithSHA1AITest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecodeWithParamsFail(Sequence $seq)
+    public function decodeWithParamsFail(Sequence $seq)
     {
         $seq = $seq->withInserted(1, new NullType());
         $this->expectException(UnexpectedValueException::class);
@@ -48,9 +54,11 @@ final class HMACWithSHA1AITest extends TestCase
     }
 
     /**
-     * @depends testDecode
+     * @depends decode
+     *
+     * @test
      */
-    public function testName(AlgorithmIdentifier $algo)
+    public function name(AlgorithmIdentifier $algo)
     {
         $this->assertIsString($algo->name());
     }

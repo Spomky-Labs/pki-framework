@@ -14,79 +14,118 @@ use Sop\ASN1\Exception\DecodeException;
  */
 final class IdentifierDecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $identifier = Identifier::fromDER("\x0");
         $this->assertInstanceOf(Identifier::class, $identifier);
     }
 
-    public function testUniversal()
+    /**
+     * @test
+     */
+    public function universal()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
         $this->assertTrue($identifier->isUniversal());
     }
 
-    public function testApplication()
+    /**
+     * @test
+     */
+    public function application()
     {
         $identifier = Identifier::fromDER(chr(0b01000000));
         $this->assertTrue($identifier->isApplication());
     }
 
-    public function testContextSpecific()
+    /**
+     * @test
+     */
+    public function contextSpecific()
     {
         $identifier = Identifier::fromDER(chr(0b10000000));
         $this->assertTrue($identifier->isContextSpecific());
     }
 
-    public function testPrivate()
+    /**
+     * @test
+     */
+    public function private()
     {
         $identifier = Identifier::fromDER(chr(0b11000000));
         $this->assertTrue($identifier->isPrivate());
     }
 
-    public function testPC()
+    /**
+     * @test
+     */
+    public function pC()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
         $this->assertEquals(Identifier::PRIMITIVE, $identifier->pc());
     }
 
-    public function testPrimitive()
+    /**
+     * @test
+     */
+    public function primitive()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
         $this->assertTrue($identifier->isPrimitive());
     }
 
-    public function testConstructed()
+    /**
+     * @test
+     */
+    public function constructed()
     {
         $identifier = Identifier::fromDER(chr(0b00100000));
         $this->assertTrue($identifier->isConstructed());
     }
 
-    public function testTag()
+    /**
+     * @test
+     */
+    public function tag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
         $this->assertEquals(0b1111, $identifier->tag());
     }
 
-    public function testIntTag()
+    /**
+     * @test
+     */
+    public function intTag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
         $this->assertEquals(0b1111, $identifier->intTag());
     }
 
-    public function testLongTag()
+    /**
+     * @test
+     */
+    public function longTag()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\x7f");
         $this->assertEquals(0x7f, $identifier->tag());
     }
 
-    public function testLongTag2()
+    /**
+     * @test
+     */
+    public function longTag2()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\xff\x7f");
         $this->assertEquals((0x7f << 7) + 0x7f, $identifier->tag());
     }
 
-    public function testHugeTag()
+    /**
+     * @test
+     */
+    public function hugeTag()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $identifier = Identifier::fromDER($der);
@@ -94,7 +133,10 @@ final class IdentifierDecodeTest extends TestCase
         $this->assertEquals(gmp_strval($num, 10), $identifier->tag());
     }
 
-    public function testHugeIntTagOverflow()
+    /**
+     * @test
+     */
+    public function hugeIntTagOverflow()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $this->expectException(RuntimeException::class);
@@ -102,7 +144,10 @@ final class IdentifierDecodeTest extends TestCase
         Identifier::fromDER($der)->intTag();
     }
 
-    public function testInvalidOffset()
+    /**
+     * @test
+     */
+    public function invalidOffset()
     {
         $offset = 1;
         $this->expectException(DecodeException::class);
@@ -110,7 +155,10 @@ final class IdentifierDecodeTest extends TestCase
         Identifier::fromDER("\x0", $offset);
     }
 
-    public function testUnexpectedTagEnd()
+    /**
+     * @test
+     */
+    public function unexpectedTagEnd()
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Unexpected end of data while decoding long form identifier');

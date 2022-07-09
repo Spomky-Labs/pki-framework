@@ -12,13 +12,19 @@ use Sop\ASN1\Type\Primitive\GeneralString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = GeneralString::fromDER("\x1b\x0");
         $this->assertInstanceOf(GeneralString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = 'Hello World!';
         $el = GeneralString::fromDER("\x1b\x0c{$str}");

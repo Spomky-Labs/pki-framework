@@ -18,14 +18,20 @@ use UnexpectedValueException;
  */
 final class PolicyQualifierInfoTest extends TestCase
 {
-    public function testFromASN1UnknownTypeFail()
+    /**
+     * @test
+     */
+    public function fromASN1UnknownTypeFail()
     {
         $seq = new Sequence(new ObjectIdentifier('1.3.6.1.3'), new NullType());
         $this->expectException(UnexpectedValueException::class);
         PolicyQualifierInfo::fromASN1($seq);
     }
 
-    public function testFromQualifierBadCall()
+    /**
+     * @test
+     */
+    public function fromQualifierBadCall()
     {
         $this->expectException(BadMethodCallException::class);
         PolicyQualifierInfo::fromQualifierASN1(new UnspecifiedType(new NullType()));

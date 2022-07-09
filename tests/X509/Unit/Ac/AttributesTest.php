@@ -21,7 +21,10 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 final class AttributesTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $attribs = Attributes::fromAttributeValues(
             new AccessIdentityAttributeValue(
@@ -36,9 +39,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Attributes $attribs)
+    public function encode(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -46,11 +51,13 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $tc = Attributes::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(Attributes::class, $tc);
@@ -58,26 +65,32 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Attributes $ref, Attributes $new)
+    public function recoded(Attributes $ref, Attributes $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Attributes $attribs)
+    public function countMethod(Attributes $attribs)
     {
         $this->assertCount(3, $attribs);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(Attributes $attribs)
+    public function iterator(Attributes $attribs)
     {
         $values = [];
         foreach ($attribs as $attr) {
@@ -88,33 +101,41 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testHas(Attributes $attribs)
+    public function has(Attributes $attribs)
     {
         $this->assertTrue($attribs->has(AccessIdentityAttributeValue::OID));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testFirstOf(Attributes $attribs)
+    public function firstOf(Attributes $attribs)
     {
         $this->assertInstanceOf(Attribute::class, $attribs->firstOf(AccessIdentityAttributeValue::OID));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAllOf(Attributes $attribs)
+    public function allOf(Attributes $attribs)
     {
         $this->assertCount(1, $attribs->allOf(AccessIdentityAttributeValue::OID));
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithAdditional(Attributes $attribs)
+    public function withAdditional(Attributes $attribs)
     {
         $attribs = $attribs->withAdditional(
             Attribute::fromAttributeValues(new GroupAttributeValue(IetfAttrValue::fromString('test')))
@@ -123,9 +144,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithUniqueReplace(Attributes $attribs)
+    public function withUniqueReplace(Attributes $attribs)
     {
         $attribs = $attribs->withUnique(
             Attribute::fromAttributeValues(new RoleAttributeValue(new UniformResourceIdentifier('uri:new')))
@@ -136,9 +159,11 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWithUniqueAdded(Attributes $attribs)
+    public function withUniqueAdded(Attributes $attribs)
     {
         $attribs = $attribs->withUnique(
             Attribute::fromAttributeValues(new GroupAttributeValue(IetfAttrValue::fromString('test')))

@@ -15,8 +15,10 @@ final class AttributeCollectionCastTest extends TestCase
 {
     /**
      * Test that AttributeCollection::_castAttributeValues() can be overridden.
+     *
+     * @test
      */
-    public function testCast()
+    public function cast()
     {
         $in = SequenceOfAttributes::fromAttributeValues(
             new AttributeCollectionCastTestAttrValue('test'),

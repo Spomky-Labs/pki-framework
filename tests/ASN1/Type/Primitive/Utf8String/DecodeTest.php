@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\UTF8String;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = UTF8String::fromDER("\x0c\x0");
         $this->assertInstanceOf(UTF8String::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = '⠠⠓⠑⠇⠇⠕ ⠠⠺⠕⠗⠇⠙!';
         $el = UTF8String::fromDER("\x0c\x26{$str}");
         $this->assertEquals($str, $el->string());
     }
 
-    public function testInvalidValue()
+    /**
+     * @test
+     */
+    public function invalidValue()
     {
         $str = "Hello W\x94rld!";
         $this->expectException(DecodeException::class);

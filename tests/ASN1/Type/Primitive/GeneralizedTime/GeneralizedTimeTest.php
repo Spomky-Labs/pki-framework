@@ -19,7 +19,10 @@ use UnexpectedValueException;
  */
 final class GeneralizedTimeTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
         $this->assertInstanceOf(GeneralizedTime::class, $el);
@@ -27,17 +30,21 @@ final class GeneralizedTimeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_GENERALIZED_TIME, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -45,9 +52,11 @@ final class GeneralizedTimeTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): GeneralizedTime
+    public function decode(string $data): GeneralizedTime
     {
         $el = GeneralizedTime::fromDER($data);
         $this->assertInstanceOf(GeneralizedTime::class, $el);
@@ -55,24 +64,31 @@ final class GeneralizedTimeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(TimeType $ref, TimeType $el)
+    public function recoded(TimeType $ref, TimeType $el)
     {
         $this->assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(GeneralizedTime::class, $wrap->asGeneralizedTime());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);
@@ -81,18 +97,22 @@ final class GeneralizedTimeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testClone(Element $el)
+    public function clone(Element $el)
     {
         $clone = clone $el;
         $this->assertInstanceOf(GeneralizedTime::class, $clone);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testStringable(TimeType $time)
+    public function stringable(TimeType $time)
     {
         $this->assertEquals('20060102220405Z', $time->string());
         $this->assertEquals('20060102220405Z', strval($time));
@@ -100,8 +120,10 @@ final class GeneralizedTimeTest extends TestCase
 
     /**
      * Test bug where leading zeroes in fraction gets stripped, such that `.05` becomes `.5`.
+     *
+     * @test
      */
-    public function testLeadingFractionZeroes()
+    public function leadingFractionZeroes()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.05", new DateTimeZone('UTC'));

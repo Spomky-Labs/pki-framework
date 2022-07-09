@@ -18,7 +18,10 @@ use Sop\X509\GeneralName\X400Address;
  */
 final class X400AddressTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $name = X400Address::fromASN1(new ImplicitlyTaggedType(GeneralName::TAG_X400_ADDRESS, new Sequence()));
         $this->assertInstanceOf(X400Address::class, $name);
@@ -26,9 +29,11 @@ final class X400AddressTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(X400Address $name)
+    public function encode(X400Address $name)
     {
         $el = $name->toASN1();
         $this->assertInstanceOf(ImplicitTagging::class, $el);
@@ -36,22 +41,26 @@ final class X400AddressTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testChoiceTag($der)
+    public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
         $this->assertEquals(GeneralName::TAG_X400_ADDRESS, $el->tag());
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $name = X400Address::fromASN1(Element::fromDER($der));
         $this->assertInstanceOf(X400Address::class, $name);
@@ -59,18 +68,22 @@ final class X400AddressTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(X400Address $ref, X400Address $new)
+    public function recoded(X400Address $ref, X400Address $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(X400Address $name)
+    public function string(X400Address $name)
     {
         $this->assertIsString($name->string());
     }

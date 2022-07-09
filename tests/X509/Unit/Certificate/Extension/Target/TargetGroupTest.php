@@ -19,7 +19,10 @@ final class TargetGroupTest extends TestCase
 {
     final public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $target = new TargetGroup(new UniformResourceIdentifier(self::URI));
         $this->assertInstanceOf(TargetGroup::class, $target);
@@ -27,9 +30,11 @@ final class TargetGroupTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Target $target)
+    public function encode(Target $target)
     {
         $el = $target->toASN1();
         $this->assertInstanceOf(ExplicitTagging::class, $el);
@@ -37,11 +42,13 @@ final class TargetGroupTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $target = TargetGroup::fromASN1(TaggedType::fromDER($data));
         $this->assertInstanceOf(TargetGroup::class, $target);
@@ -49,35 +56,43 @@ final class TargetGroupTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Target $ref, Target $new)
+    public function recoded(Target $ref, Target $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testType(Target $target)
+    public function type(Target $target)
     {
         $this->assertEquals(Target::TYPE_GROUP, $target->type());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testName(TargetGroup $target)
+    public function name(TargetGroup $target)
     {
         $name = $target->name();
         $this->assertInstanceOf(GeneralName::class, $name);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testString(TargetGroup $target)
+    public function string(TargetGroup $target)
     {
         $this->assertIsString($target->string());
     }

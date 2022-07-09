@@ -19,7 +19,10 @@ use UnexpectedValueException;
  */
 final class SequenceTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $seq = new Sequence(new NullType(), new Boolean(true));
         $this->assertInstanceOf(Structure::class, $seq);
@@ -27,17 +30,21 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_SEQUENCE, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -45,9 +52,11 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): Sequence
+    public function decode(string $data): Sequence
     {
         $el = Sequence::fromDER($data);
         $this->assertInstanceOf(Sequence::class, $el);
@@ -55,35 +64,43 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testElements(Sequence $seq)
+    public function elements(Sequence $seq)
     {
         $elements = $seq->elements();
         $this->assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(Sequence $seq)
+    public function countMethod(Sequence $seq)
     {
         $this->assertCount(2, $seq);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(Sequence $seq)
+    public function iterator(Sequence $seq)
     {
         $elements = [];
         foreach ($seq as $el) {
@@ -94,9 +111,11 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAt(Sequence $seq)
+    public function atMethod(Sequence $seq): void
     {
         $el = $seq->at(0)
             ->asNull();
@@ -104,9 +123,11 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAtExpected(Sequence $seq)
+    public function atExpected(Sequence $seq)
     {
         $el = $seq->at(0)
             ->asNull();
@@ -114,9 +135,11 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testAtOOB(Sequence $seq)
+    public function atOOB(Sequence $seq)
     {
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Structure doesn\'t have an element at index 2');
@@ -124,15 +147,20 @@ final class SequenceTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(Sequence::class, $wrap->asSequence());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);

@@ -16,8 +16,10 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
 {
     /**
      * @return AuthorityKeyIdentifierExtension
+     *
+     * @test
      */
-    public function testAuthorityKeyIdentifier()
+    public function authorityKeyIdentifier()
     {
         $ext = self::$_extensions->authorityKeyIdentifier();
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
@@ -25,9 +27,11 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testAuthorityKeyIdentifier
+     * @depends authorityKeyIdentifier
+     *
+     * @test
      */
-    public function testAuthorityKeyIdentifierKey(AuthorityKeyIdentifierExtension $aki)
+    public function authorityKeyIdentifierKey(AuthorityKeyIdentifierExtension $aki)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem');
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
@@ -37,9 +41,11 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testAuthorityKeyIdentifier
+     * @depends authorityKeyIdentifier
+     *
+     * @test
      */
-    public function testAuthorityKeyIdentifierIssuer(AuthorityKeyIdentifierExtension $aki)
+    public function authorityKeyIdentifierIssuer(AuthorityKeyIdentifierExtension $aki)
     {
         $issuer_dn = $aki->issuer()
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)

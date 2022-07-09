@@ -17,8 +17,10 @@ final class InsignificantSpaceStepTest extends TestCase
      *
      * @param string $string
      * @param string $expected
+     *
+     * @test
      */
-    public function testApplyNonSubstring($string, $expected)
+    public function applyNonSubstring($string, $expected)
     {
         $step = new InsignificantNonSubstringSpaceStep();
         $this->assertEquals($expected, $step->apply($string));

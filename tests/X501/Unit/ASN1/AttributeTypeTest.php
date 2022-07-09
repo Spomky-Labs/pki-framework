@@ -14,7 +14,10 @@ use Sop\X501\ASN1\AttributeType;
  */
 final class AttributeTypeTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $type = AttributeType::fromName('name');
         $this->assertInstanceOf(AttributeType::class, $type);
@@ -22,9 +25,11 @@ final class AttributeTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttributeType $type)
+    public function encode(AttributeType $type)
     {
         $der = $type->toASN1()
             ->toDER();
@@ -33,11 +38,13 @@ final class AttributeTypeTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $type = AttributeType::fromASN1(ObjectIdentifier::fromDER($der));
         $this->assertInstanceOf(AttributeType::class, $type);
@@ -45,38 +52,50 @@ final class AttributeTypeTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttributeType $ref, AttributeType $new)
+    public function recoded(AttributeType $ref, AttributeType $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(AttributeType $type)
+    public function oID(AttributeType $type)
     {
         $this->assertEquals(AttributeType::OID_NAME, $type->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testName(AttributeType $type)
+    public function name(AttributeType $type)
     {
         $this->assertEquals('name', $type->typeName());
     }
 
-    public function testUnknownName()
+    /**
+     * @test
+     */
+    public function unknownName()
     {
         static $oid = '1.3.6.1.3';
         $type = new AttributeType($oid);
         $this->assertEquals($oid, $type->typeName());
     }
 
-    public function testNameToOIDFail()
+    /**
+     * @test
+     */
+    public function nameToOIDFail()
     {
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('No OID for unknown');

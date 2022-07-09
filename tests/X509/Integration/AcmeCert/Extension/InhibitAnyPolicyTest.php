@@ -14,8 +14,10 @@ final class InhibitAnyPolicyTest extends RefExtTestHelper
 {
     /**
      * @return InhibitAnyPolicyExtension
+     *
+     * @test
      */
-    public function testInhibitAnyPolicyExtension()
+    public function inhibitAnyPolicyExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_INHIBIT_ANY_POLICY);
         $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
@@ -23,9 +25,11 @@ final class InhibitAnyPolicyTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testInhibitAnyPolicyExtension
+     * @depends inhibitAnyPolicyExtension
+     *
+     * @test
      */
-    public function testSkipCerts(InhibitAnyPolicyExtension $ext)
+    public function skipCerts(InhibitAnyPolicyExtension $ext)
     {
         $this->assertEquals(2, $ext->skipCerts());
     }

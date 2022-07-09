@@ -19,8 +19,10 @@ final class CertificatePoliciesTest extends RefExtTestHelper
 {
     /**
      * @return CertificatePoliciesExtension
+     *
+     * @test
      */
-    public function testCertificatePoliciesExtension()
+    public function certificatePoliciesExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_CERTIFICATE_POLICIES);
         $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
@@ -28,11 +30,13 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testCertificatePoliciesExtension
+     * @depends certificatePoliciesExtension
      *
      * @return PolicyInformation
+     *
+     * @test
      */
-    public function testPolicyInformation(CertificatePoliciesExtension $cpe)
+    public function policyInformation(CertificatePoliciesExtension $cpe)
     {
         $pi = $cpe->get('1.3.6.1.4.1.45710.2.2.1');
         $this->assertInstanceOf(PolicyInformation::class, $pi);
@@ -40,11 +44,13 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testPolicyInformation
+     * @depends policyInformation
      *
      * @return CPSQualifier
+     *
+     * @test
      */
-    public function testPolicyCPSQualifier(PolicyInformation $pi)
+    public function policyCPSQualifier(PolicyInformation $pi)
     {
         $cps = $pi->get(PolicyQualifierInfo::OID_CPS);
         $this->assertInstanceOf(CPSQualifier::class, $cps);
@@ -52,19 +58,23 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testPolicyCPSQualifier
+     * @depends policyCPSQualifier
+     *
+     * @test
      */
-    public function testPolicyCPSQualifierURI(CPSQualifier $cps)
+    public function policyCPSQualifierURI(CPSQualifier $cps)
     {
         $this->assertEquals('http://example.com/cps.html', $cps->uri());
     }
 
     /**
-     * @depends testPolicyInformation
+     * @depends policyInformation
      *
      * @return UserNoticeQualifier
+     *
+     * @test
      */
-    public function testPolicyUserNoticeQualifier(PolicyInformation $pi)
+    public function policyUserNoticeQualifier(PolicyInformation $pi)
     {
         $un = $pi->get(PolicyQualifierInfo::OID_UNOTICE);
         $this->assertInstanceOf(UserNoticeQualifier::class, $un);
@@ -72,19 +82,23 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testPolicyUserNoticeQualifier
+     * @depends policyUserNoticeQualifier
+     *
+     * @test
      */
-    public function testPolicyUserNoticeQualifierText(UserNoticeQualifier $un)
+    public function policyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
         $this->assertEquals('All your base are belong to us!', $un->explicitText() ->string());
     }
 
     /**
-     * @depends testPolicyUserNoticeQualifier
+     * @depends policyUserNoticeQualifier
      *
      * @return NoticeReference
+     *
+     * @test
      */
-    public function testPolicyUserNoticeQualifierRef(UserNoticeQualifier $un)
+    public function policyUserNoticeQualifierRef(UserNoticeQualifier $un)
     {
         $ref = $un->noticeRef();
         $this->assertInstanceOf(NoticeReference::class, $ref);
@@ -92,17 +106,21 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testPolicyUserNoticeQualifierRef
+     * @depends policyUserNoticeQualifierRef
+     *
+     * @test
      */
-    public function testPolicyUserNoticeQualifierOrganization(NoticeReference $ref)
+    public function policyUserNoticeQualifierOrganization(NoticeReference $ref)
     {
         $this->assertEquals('Toaplan Co., Ltd.', $ref->organization() ->string());
     }
 
     /**
-     * @depends testPolicyUserNoticeQualifierRef
+     * @depends policyUserNoticeQualifierRef
+     *
+     * @test
      */
-    public function testPolicyUserNoticeQualifierNumbers(NoticeReference $ref)
+    public function policyUserNoticeQualifierNumbers(NoticeReference $ref)
     {
         $this->assertEquals([1, 2], $ref->numbers());
     }

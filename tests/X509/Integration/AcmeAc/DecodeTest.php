@@ -22,8 +22,10 @@ final class DecodeTest extends TestCase
 {
     /**
      * @return PEM
+     *
+     * @test
      */
-    public function testPEM()
+    public function pEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem');
         $this->assertEquals(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $pem->type());
@@ -31,11 +33,13 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends testPEM
+     * @depends pEM
      *
      * @return AttributeCertificate
+     *
+     * @test
      */
-    public function testAC(PEM $pem)
+    public function aC(PEM $pem)
     {
         $seq = Sequence::fromDER($pem->data());
         $ac = AttributeCertificate::fromASN1($seq);
@@ -44,11 +48,13 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends testAC
+     * @depends aC
      *
      * @return AttributeCertificateInfo
+     *
+     * @test
      */
-    public function testACI(AttributeCertificate $ac)
+    public function aCI(AttributeCertificate $ac)
     {
         $aci = $ac->acinfo();
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
@@ -56,11 +62,13 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends testAC
+     * @depends aC
      *
      * @return AlgorithmIdentifier
+     *
+     * @test
      */
-    public function testSignatureAlgo(AttributeCertificate $ac)
+    public function signatureAlgo(AttributeCertificate $ac)
     {
         $algo = $ac->signatureAlgorithm();
         $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $algo);
@@ -68,9 +76,11 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends testAC
+     * @depends aC
+     *
+     * @test
      */
-    public function testVerifySignature(AttributeCertificate $ac)
+    public function verifySignature(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
         $pubkey_info = $cert->tbsCertificate()

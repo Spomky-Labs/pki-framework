@@ -29,7 +29,10 @@ final class AttCertValidityPeriodTest extends TestCase
         self::$_nb = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $validity = new AttCertValidityPeriod(self::$_nb, self::$_na);
         $this->assertInstanceOf(AttCertValidityPeriod::class, $validity);
@@ -37,9 +40,11 @@ final class AttCertValidityPeriodTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(AttCertValidityPeriod $validity)
+    public function encode(AttCertValidityPeriod $validity)
     {
         $seq = $validity->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -47,11 +52,13 @@ final class AttCertValidityPeriodTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $iss_ser = AttCertValidityPeriod::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(AttCertValidityPeriod::class, $iss_ser);
@@ -59,32 +66,41 @@ final class AttCertValidityPeriodTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(AttCertValidityPeriod $ref, AttCertValidityPeriod $new)
+    public function recoded(AttCertValidityPeriod $ref, AttCertValidityPeriod $new)
     {
         $this->assertEquals($ref->notBeforeTime() ->getTimestamp(), $new->notBeforeTime() ->getTimestamp());
         $this->assertEquals($ref->notAfterTime() ->getTimestamp(), $new->notAfterTime() ->getTimestamp());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNotBefore(AttCertValidityPeriod $validity)
+    public function notBefore(AttCertValidityPeriod $validity)
     {
         $this->assertEquals(self::$_nb, $validity->notBeforeTime());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testNotAfter(AttCertValidityPeriod $validity)
+    public function notAfter(AttCertValidityPeriod $validity)
     {
         $this->assertEquals(self::$_na, $validity->notAfterTime());
     }
 
-    public function testFromStrings()
+    /**
+     * @test
+     */
+    public function fromStrings()
     {
         $validity = AttCertValidityPeriod::fromStrings('now', 'now + 1 day', 'UTC');
         $this->assertInstanceOf(AttCertValidityPeriod::class, $validity);

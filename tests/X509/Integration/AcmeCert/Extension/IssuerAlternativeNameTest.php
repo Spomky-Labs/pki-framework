@@ -15,8 +15,10 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
 {
     /**
      * @return IssuerAlternativeNameExtension
+     *
+     * @test
      */
-    public function testIssuerAlternativeName()
+    public function issuerAlternativeName()
     {
         $ext = self::$_extensions->get(Extension::OID_ISSUER_ALT_NAME);
         $this->assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);
@@ -24,9 +26,11 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
     }
 
     /**
-     * @depends testIssuerAlternativeName
+     * @depends issuerAlternativeName
+     *
+     * @test
      */
-    public function testIANDirectoryName(IssuerAlternativeNameExtension $ian)
+    public function iANDirectoryName(IssuerAlternativeNameExtension $ian)
     {
         $dn = $ian->names()
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)

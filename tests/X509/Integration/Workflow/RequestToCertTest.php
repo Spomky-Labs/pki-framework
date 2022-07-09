@@ -46,7 +46,10 @@ final class RequestToCertTest extends TestCase
         self::$_subjectKey = null;
     }
 
-    public function testCreateCA()
+    /**
+     * @test
+     */
+    public function createCA()
     {
         $name = Name::fromString('cn=Issuer');
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-03 12:00:00');
@@ -65,7 +68,10 @@ final class RequestToCertTest extends TestCase
         return $cert;
     }
 
-    public function testCreateRequest()
+    /**
+     * @test
+     */
+    public function createRequest()
     {
         $subject = Name::fromString('cn=Subject');
         $pkinfo = self::$_subjectKey->publicKeyInfo();
@@ -78,10 +84,12 @@ final class RequestToCertTest extends TestCase
     }
 
     /**
-     * @depends testCreateRequest
-     * @depends testCreateCA
+     * @depends createRequest
+     * @depends createCA
+     *
+     * @test
      */
-    public function testIssueCertificate(CertificationRequest $csr, Certificate $ca_cert)
+    public function issueCertificate(CertificationRequest $csr, Certificate $ca_cert)
     {
         $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate($ca_cert);
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-02 13:00:00');
@@ -97,10 +105,12 @@ final class RequestToCertTest extends TestCase
     }
 
     /**
-     * @depends testCreateCA
-     * @depends testIssueCertificate
+     * @depends createCA
+     * @depends issueCertificate
+     *
+     * @test
      */
-    public function testBuildPath(Certificate $ca, Certificate $cert)
+    public function buildPath(Certificate $ca, Certificate $cert)
     {
         $path = CertificationPath::fromTrustAnchorToTarget($ca, $cert);
         $this->assertInstanceOf(CertificationPath::class, $path);
@@ -108,9 +118,11 @@ final class RequestToCertTest extends TestCase
     }
 
     /**
-     * @depends testBuildPath
+     * @depends buildPath
+     *
+     * @test
      */
-    public function testValidatePath(CertificationPath $path)
+    public function validatePath(CertificationPath $path)
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2016-05-02 12:30:00'));
         $result = $path->validate($config);

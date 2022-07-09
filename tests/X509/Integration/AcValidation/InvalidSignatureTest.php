@@ -60,7 +60,10 @@ final class InvalidSignatureTest extends TestCase
         self::$_ac = null;
     }
 
-    public function testValidate()
+    /**
+     * @test
+     */
+    public function validate()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
         $validator = new ACValidator(self::$_ac, $config);

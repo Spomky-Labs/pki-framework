@@ -21,46 +21,67 @@ use UnexpectedValueException;
  */
 final class TargetTest extends TestCase
 {
-    public function testFromASN1BadCall()
+    /**
+     * @test
+     */
+    public function fromASN1BadCall()
     {
         $this->expectException(BadMethodCallException::class);
         Target::fromChosenASN1(new ImplicitlyTaggedType(0, new NullType()));
     }
 
-    public function testDecodeTargetCertUnsupportedFail()
+    /**
+     * @test
+     */
+    public function decodeTargetCertUnsupportedFail()
     {
         $this->expectException(RuntimeException::class);
         Target::fromASN1(new ImplicitlyTaggedType(Target::TYPE_CERT, new NullType()));
     }
 
-    public function testDecodeUnsupportedTagFail()
+    /**
+     * @test
+     */
+    public function decodeUnsupportedTagFail()
     {
         $this->expectException(UnexpectedValueException::class);
         Target::fromASN1(new ImplicitlyTaggedType(3, new NullType()));
     }
 
-    public function testEquals()
+    /**
+     * @test
+     */
+    public function equals()
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetName(new DNSName('n1'));
         $this->assertTrue($t1->equals($t2));
     }
 
-    public function testNotEquals()
+    /**
+     * @test
+     */
+    public function notEquals()
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetName(new DNSName('n2'));
         $this->assertFalse($t1->equals($t2));
     }
 
-    public function testNotEqualsDifferentEncoding()
+    /**
+     * @test
+     */
+    public function notEqualsDifferentEncoding()
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetName(new RFC822Name('n2'));
         $this->assertFalse($t1->equals($t2));
     }
 
-    public function testNotEqualsDifferentType()
+    /**
+     * @test
+     */
+    public function notEqualsDifferentType()
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetGroup(new DNSName('n1'));

@@ -18,7 +18,10 @@ final class ObjectDescriptorTest extends TestCase
 {
     final public const DESCRIPTOR = 'test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new ObjectDescriptor(self::DESCRIPTOR);
         $this->assertInstanceOf(ObjectDescriptor::class, $el);
@@ -26,17 +29,21 @@ final class ObjectDescriptorTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_OBJECT_DESCRIPTOR, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -44,11 +51,13 @@ final class ObjectDescriptorTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data): ObjectDescriptor
+    public function decode($data): ObjectDescriptor
     {
         $el = ObjectDescriptor::fromDER($data);
         $this->assertInstanceOf(ObjectDescriptor::class, $el);
@@ -56,32 +65,41 @@ final class ObjectDescriptorTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDescriptor(ObjectDescriptor $desc)
+    public function descriptor(ObjectDescriptor $desc)
     {
         $this->assertEquals(self::DESCRIPTOR, $desc->descriptor());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(ObjectDescriptor::class, $wrap->asObjectDescriptor());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);

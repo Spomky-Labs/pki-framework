@@ -60,7 +60,10 @@ final class ValidityTest extends TestCase
         self::$_ac = null;
     }
 
-    public function testValidateBefore()
+    /**
+     * @test
+     */
+    public function validateBefore()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
         $config = $config->withEvaluationTime(new DateTimeImmutable('now - 1 hour'));
@@ -69,7 +72,10 @@ final class ValidityTest extends TestCase
         $validator->validate();
     }
 
-    public function testValidateAfter()
+    /**
+     * @test
+     */
+    public function validateAfter()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
         $config = $config->withEvaluationTime(new DateTimeImmutable('now + 2 hours'));

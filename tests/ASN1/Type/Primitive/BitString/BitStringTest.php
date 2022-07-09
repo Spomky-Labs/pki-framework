@@ -17,7 +17,10 @@ use UnexpectedValueException;
  */
 final class BitStringTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $el = new BitString('');
         $this->assertInstanceOf(BitString::class, $el);
@@ -25,17 +28,21 @@ final class BitStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_BIT_STRING, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -43,9 +50,11 @@ final class BitStringTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
+     *
+     * @test
      */
-    public function testDecode(string $data): BitString
+    public function decode(string $data): BitString
     {
         $el = BitString::fromDER($data);
         $this->assertInstanceOf(BitString::class, $el);
@@ -53,18 +62,22 @@ final class BitStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }
 
     /**
      * @dataProvider ffProvider
+     *
+     * @test
      */
-    public function testRange8(int $start, int $length, string $result)
+    public function range8(int $start, int $length, string $result)
     {
         $bs = new BitString("\xff");
         $this->assertEquals($result, $bs->range($start, $length));
@@ -77,8 +90,10 @@ final class BitStringTest extends TestCase
 
     /**
      * @dataProvider ffffProvider
+     *
+     * @test
      */
-    public function testRange16(int $start, int $length, string $result)
+    public function range16(int $start, int $length, string $result)
     {
         $bs = new BitString("\xff\xff");
         $this->assertEquals($result, $bs->range($start, $length));
@@ -89,13 +104,19 @@ final class BitStringTest extends TestCase
         return [[0, 8, strval(0xff)], [6, 4, strval(0x0f)], [12, 4, strval(0x0f)]];
     }
 
-    public function testEmptyRange()
+    /**
+     * @test
+     */
+    public function emptyRange()
     {
         $bs = new BitString("\0");
         $this->assertEquals(0, $bs->range(0, 0));
     }
 
-    public function testRangeOOB()
+    /**
+     * @test
+     */
+    public function rangeOOB()
     {
         $bs = new BitString("\xff");
         $this->expectException(OutOfBoundsException::class);
@@ -104,15 +125,20 @@ final class BitStringTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testWrapped(Element $el)
+    public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(BitString::class, $wrap->asBitString());
     }
 
-    public function testWrappedFail()
+    /**
+     * @test
+     */
+    public function wrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(UnexpectedValueException::class);

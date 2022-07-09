@@ -29,7 +29,10 @@ final class CRLDistributionPointTest extends TestCase
 
     final public const ISSUER_DN = 'cn=Issuer';
 
-    public function testCreateDistributionPoint()
+    /**
+     * @test
+     */
+    public function createDistributionPoint()
     {
         $name = new FullName(new GeneralNames(new UniformResourceIdentifier(self::DP_URI)));
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
@@ -40,9 +43,11 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testCreateDistributionPoint
+     * @depends createDistributionPoint
+     *
+     * @test
      */
-    public function testCreate(DistributionPoint $dp)
+    public function create(DistributionPoint $dp)
     {
         $ext = new CRLDistributionPointsExtension(true, $dp, new DistributionPoint());
         $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
@@ -50,25 +55,31 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(Extension $ext)
+    public function oID(Extension $ext)
     {
         $this->assertEquals(Extension::OID_CRL_DISTRIBUTION_POINTS, $ext->oid());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCritical(Extension $ext)
+    public function critical(Extension $ext)
     {
         $this->assertTrue($ext->isCritical());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Extension $ext)
+    public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -76,11 +87,13 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $der
+     *
+     * @test
      */
-    public function testDecode($der)
+    public function decode($der)
     {
         $ext = CRLDistributionPointsExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
@@ -88,26 +101,32 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Extension $ref, Extension $new)
+    public function recoded(Extension $ref, Extension $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testCount(CRLDistributionPointsExtension $ext)
+    public function countMethod(CRLDistributionPointsExtension $ext)
     {
         $this->assertCount(2, $ext);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIterator(CRLDistributionPointsExtension $ext)
+    public function iterator(CRLDistributionPointsExtension $ext)
     {
         $values = [];
         foreach ($ext as $dp) {
@@ -118,9 +137,11 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testDistributionPoint(CRLDistributionPointsExtension $ext)
+    public function distributionPoint(CRLDistributionPointsExtension $ext)
     {
         $dp = $ext->distributionPoints()[0];
         $this->assertInstanceOf(DistributionPoint::class, $dp);
@@ -128,9 +149,11 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testDistributionPoint
+     * @depends distributionPoint
+     *
+     * @test
      */
-    public function testDPName(DistributionPoint $dp)
+    public function dPName(DistributionPoint $dp)
     {
         $uri = $dp->fullName()
             ->names()
@@ -139,25 +162,31 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testDistributionPoint
+     * @depends distributionPoint
+     *
+     * @test
      */
-    public function testDPReasons(DistributionPoint $dp)
+    public function dPReasons(DistributionPoint $dp)
     {
         $this->assertTrue($dp->reasons() ->isPrivilegeWithdrawn());
     }
 
     /**
-     * @depends testDistributionPoint
+     * @depends distributionPoint
+     *
+     * @test
      */
-    public function testDPIssuer(DistributionPoint $dp)
+    public function dPIssuer(DistributionPoint $dp)
     {
         $this->assertEquals(self::ISSUER_DN, $dp->crlIssuer() ->firstDN());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testExtensions(CRLDistributionPointsExtension $ext)
+    public function extensions(CRLDistributionPointsExtension $ext)
     {
         $extensions = new Extensions($ext);
         $this->assertTrue($extensions->hasCRLDistributionPoints());
@@ -165,22 +194,30 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
-     * @depends testExtensions
+     * @depends extensions
+     *
+     * @test
      */
-    public function testFromExtensions(Extensions $exts)
+    public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->crlDistributionPoints();
         $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
     }
 
-    public function testEncodeEmptyFail()
+    /**
+     * @test
+     */
+    public function encodeEmptyFail()
     {
         $ext = new CRLDistributionPointsExtension(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
-    public function testDecodeEmptyFail()
+    /**
+     * @test
+     */
+    public function decodeEmptyFail()
     {
         $seq = new Sequence();
         $ext_seq = new Sequence(

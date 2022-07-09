@@ -15,7 +15,10 @@ final class CPSQualifierTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $qual = new CPSQualifier(self::URI);
         $this->assertInstanceOf(CPSQualifier::class, $qual);
@@ -23,9 +26,11 @@ final class CPSQualifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(CPSQualifier $qual)
+    public function encode(CPSQualifier $qual)
     {
         $el = $qual->toASN1();
         $this->assertInstanceOf(Sequence::class, $el);
@@ -33,11 +38,13 @@ final class CPSQualifierTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $qual = CPSQualifier::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(CPSQualifier::class, $qual);
@@ -45,26 +52,32 @@ final class CPSQualifierTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(CPSQualifier $ref, CPSQualifier $new)
+    public function recoded(CPSQualifier $ref, CPSQualifier $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testURI(CPSQualifier $qual)
+    public function uRI(CPSQualifier $qual)
     {
         $this->assertEquals(self::URI, $qual->uri());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testOID(CPSQualifier $qual)
+    public function oID(CPSQualifier $qual)
     {
         $this->assertEquals(CPSQualifier::OID_CPS, $qual->oid());
     }

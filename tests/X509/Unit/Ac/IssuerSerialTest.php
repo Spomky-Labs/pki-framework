@@ -34,7 +34,10 @@ final class IssuerSerialTest extends TestCase
         self::$_uid = null;
     }
 
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $iss_ser = new IssuerSerial(self::$_issuer, 1, self::$_uid);
         $this->assertInstanceOf(IssuerSerial::class, $iss_ser);
@@ -42,9 +45,11 @@ final class IssuerSerialTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(IssuerSerial $iss_ser)
+    public function encode(IssuerSerial $iss_ser)
     {
         $seq = $iss_ser->toASN1();
         $this->assertInstanceOf(Sequence::class, $seq);
@@ -52,11 +57,13 @@ final class IssuerSerialTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data)
+    public function decode($data)
     {
         $iss_ser = IssuerSerial::fromASN1(Sequence::fromDER($data));
         $this->assertInstanceOf(IssuerSerial::class, $iss_ser);
@@ -64,39 +71,50 @@ final class IssuerSerialTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(IssuerSerial $ref, IssuerSerial $new)
+    public function recoded(IssuerSerial $ref, IssuerSerial $new)
     {
         $this->assertEquals($ref, $new);
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIssuer(IssuerSerial $is)
+    public function issuer(IssuerSerial $is)
     {
         $this->assertEquals(self::$_issuer, $is->issuer());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testSerial(IssuerSerial $is)
+    public function serial(IssuerSerial $is)
     {
         $this->assertEquals(1, $is->serial());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testIssuerUID(IssuerSerial $is)
+    public function issuerUID(IssuerSerial $is)
     {
         $this->assertEquals(self::$_uid, $is->issuerUID());
     }
 
-    public function testNoIssuerUIDFail()
+    /**
+     * @test
+     */
+    public function noIssuerUIDFail()
     {
         $is = new IssuerSerial(self::$_issuer, 1);
         $this->expectException(LogicException::class);

@@ -82,7 +82,10 @@ final class NameConstraintsTest extends TestCase
         self::$_cert = null;
     }
 
-    public function testValidate()
+    /**
+     * @test
+     */
+    public function validate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));

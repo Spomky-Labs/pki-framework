@@ -13,20 +13,29 @@ use Sop\ASN1\Type\Primitive\BMPString;
  */
 final class DecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = BMPString::fromDER("\x1e\x0");
         $this->assertInstanceOf(BMPString::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $str = "\0H\0e\0l\0l\0o\0 \0W\0o\0r\0l\0d\0!";
         $el = BMPString::fromDER("\x1e\x18{$str}");
         $this->assertEquals($str, $el->string());
     }
 
-    public function testInvalidValue()
+    /**
+     * @test
+     */
+    public function invalidValue()
     {
         // last character is not 2 octets
         $str = "\0H\0e\0l\0l\0o\0 \0W\0o\0r\0l\0d!";

@@ -13,7 +13,10 @@ use Sop\ASN1\Type\Primitive\EOC;
  */
 final class EOCTest extends TestCase
 {
-    public function testCreate(): Element
+    /**
+     * @test
+     */
+    public function create(): Element
     {
         $el = new EOC();
         $this->assertInstanceOf(EOC::class, $el);
@@ -21,17 +24,21 @@ final class EOCTest extends TestCase
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testTag(Element $el)
+    public function tag(Element $el)
     {
         $this->assertEquals(Element::TYPE_EOC, $el->tag());
     }
 
     /**
-     * @depends testCreate
+     * @depends create
+     *
+     * @test
      */
-    public function testEncode(Element $el): string
+    public function encode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertIsString($der);
@@ -39,11 +46,13 @@ final class EOCTest extends TestCase
     }
 
     /**
-     * @depends testEncode
+     * @depends encode
      *
      * @param string $data
+     *
+     * @test
      */
-    public function testDecode($data): EOC
+    public function decode($data): EOC
     {
         $el = EOC::fromDER($data);
         $this->assertInstanceOf(EOC::class, $el);
@@ -51,10 +60,12 @@ final class EOCTest extends TestCase
     }
 
     /**
-     * @depends testCreate
-     * @depends testDecode
+     * @depends create
+     * @depends decode
+     *
+     * @test
      */
-    public function testRecoded(Element $ref, Element $el)
+    public function recoded(Element $ref, Element $el)
     {
         $this->assertEquals($ref, $el);
     }

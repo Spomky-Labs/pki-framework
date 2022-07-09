@@ -40,17 +40,26 @@ final class CertificateEqualsTest extends TestCase
         self::$_cert2 = null;
     }
 
-    public function testEquals()
+    /**
+     * @test
+     */
+    public function equals()
     {
         $this->assertTrue(self::$_cert1->equals(self::$_cert1));
     }
 
-    public function testNotEquals()
+    /**
+     * @test
+     */
+    public function notEquals()
     {
         $this->assertFalse(self::$_cert1->equals(self::$_cert2));
     }
 
-    public function testDifferentPubKeyNotEquals()
+    /**
+     * @test
+     */
+    public function differentPubKeyNotEquals()
     {
         $this->assertFalse(self::$_cert1->equals(self::$_cert1DifKey));
     }

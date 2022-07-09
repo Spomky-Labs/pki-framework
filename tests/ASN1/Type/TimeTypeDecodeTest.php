@@ -16,26 +16,38 @@ use UnexpectedValueException;
  */
 final class TimeTypeDecodeTest extends TestCase
 {
-    public function testType()
+    /**
+     * @test
+     */
+    public function type()
     {
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
         $this->assertInstanceOf(TimeType::class, $el);
     }
 
-    public function testValue()
+    /**
+     * @test
+     */
+    public function value()
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
         $this->assertEquals($date, $el->dateTime() ->getTimestamp());
     }
 
-    public function testExpectation()
+    /**
+     * @test
+     */
+    public function expectation()
     {
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
         $this->assertInstanceOf(TimeType::class, $el->expectType(Element::TYPE_TIME));
     }
 
-    public function testExpectationFails()
+    /**
+     * @test
+     */
+    public function expectationFails()
     {
         $el = new NullType();
         $this->expectException(UnexpectedValueException::class);

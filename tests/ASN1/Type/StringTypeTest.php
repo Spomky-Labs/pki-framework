@@ -14,13 +14,19 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 final class StringTypeTest extends TestCase
 {
-    public function testWrapped()
+    /**
+     * @test
+     */
+    public function wrapped()
     {
         $wrap = new UnspecifiedType(new OctetString(''));
         $this->assertInstanceOf(StringType::class, $wrap->asString());
     }
 
-    public function testStringable()
+    /**
+     * @test
+     */
+    public function stringable()
     {
         $s = new OctetString('test');
         $this->assertEquals('test', strval($s));

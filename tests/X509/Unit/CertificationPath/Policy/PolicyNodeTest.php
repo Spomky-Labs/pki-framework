@@ -12,19 +12,28 @@ use Sop\X509\CertificationPath\Policy\PolicyNode;
  */
 final class PolicyNodeTest extends TestCase
 {
-    public function testCreate()
+    /**
+     * @test
+     */
+    public function create()
     {
         $node = new PolicyNode('1.3.6.1.3', [], []);
         $this->assertInstanceOf(PolicyNode::class, $node);
     }
 
-    public function testHasChildWithPolicyMatch()
+    /**
+     * @test
+     */
+    public function hasChildWithPolicyMatch()
     {
         $node = PolicyNode::anyPolicyNode()->addChild(new PolicyNode('1.3.6.1.3', [], []));
         $this->assertTrue($node->hasChildWithValidPolicy('1.3.6.1.3'));
     }
 
-    public function testParent()
+    /**
+     * @test
+     */
+    public function parent()
     {
         $root = PolicyNode::anyPolicyNode();
         $child = new PolicyNode('1.3.6.1.3', [], []);
@@ -32,7 +41,10 @@ final class PolicyNodeTest extends TestCase
         $this->assertEquals($root, $child->parent());
     }
 
-    public function testIterator()
+    /**
+     * @test
+     */
+    public function iterator()
     {
         $node = PolicyNode::anyPolicyNode()->addChild(
             PolicyNode::anyPolicyNode()
