@@ -115,8 +115,11 @@ class PEM
      */
     public static function fromFile(string $filename): self
     {
-        if (! is_readable($filename) ||
-            false === ($str = file_get_contents($filename))) {
+        if (! is_readable($filename)) {
+            throw new \RuntimeException("Failed to read {$filename}.");
+        }
+        $str = file_get_contents($filename);
+        if (false === $str) {
             throw new \RuntimeException("Failed to read {$filename}.");
         }
         return self::fromString($str);
