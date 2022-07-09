@@ -60,7 +60,7 @@ final class Extensions implements Countable, IteratorAggregate
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): Extensions
+    public static function fromASN1(Sequence $seq): self
     {
         $extensions = array_map(
             fn (UnspecifiedType $el) => Extension::fromASN1($el->asSequence()),
@@ -83,7 +83,7 @@ final class Extensions implements Countable, IteratorAggregate
      *
      * @param Extension ...$exts One or more extensions to add
      */
-    public function withExtensions(Extension ...$exts): Extensions
+    public function withExtensions(Extension ...$exts): self
     {
         $obj = clone $this;
         foreach ($exts as $ext) {

@@ -188,7 +188,7 @@ final class Length implements Encodable
     private static function _decodeLongFormLength(int $length, string $data, int &$offset): GMP
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
-        if (127 === $length) {
+        if ($length === 127) {
             throw new DecodeException('Invalid number of length octets.');
         }
         $num = gmp_init(0, 10);

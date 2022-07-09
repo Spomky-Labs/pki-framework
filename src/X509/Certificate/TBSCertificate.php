@@ -453,7 +453,7 @@ final class TBSCertificate
         $elements = [];
         $version = $this->version();
         // if version is not default
-        if (self::VERSION_1 !== $version) {
+        if ($version !== self::VERSION_1) {
             $elements[] = new ExplicitlyTaggedType(0, new Integer($version));
         }
         $serial = $this->serialNumber();

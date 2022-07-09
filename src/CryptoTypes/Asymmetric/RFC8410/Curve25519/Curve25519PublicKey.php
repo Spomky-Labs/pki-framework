@@ -22,7 +22,7 @@ abstract class Curve25519PublicKey extends RFC8410PublicKey
      */
     public function __construct(string $public_key)
     {
-        if (32 !== mb_strlen($public_key, '8bit')) {
+        if (mb_strlen($public_key, '8bit') !== 32) {
             throw new UnexpectedValueException('Curve25519 public key must be exactly 32 bytes.');
         }
         parent::__construct($public_key);

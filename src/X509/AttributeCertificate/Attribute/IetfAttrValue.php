@@ -86,7 +86,7 @@ final class IetfAttrValue implements Stringable
      */
     public function isOctets(): bool
     {
-        return Element::TYPE_OCTET_STRING === $this->_type;
+        return $this->_type === Element::TYPE_OCTET_STRING;
     }
 
     /**
@@ -94,7 +94,7 @@ final class IetfAttrValue implements Stringable
      */
     public function isOID(): bool
     {
-        return Element::TYPE_OBJECT_IDENTIFIER === $this->_type;
+        return $this->_type === Element::TYPE_OBJECT_IDENTIFIER;
     }
 
     /**
@@ -102,7 +102,7 @@ final class IetfAttrValue implements Stringable
      */
     public function isString(): bool
     {
-        return Element::TYPE_UTF8_STRING === $this->_type;
+        return $this->_type === Element::TYPE_UTF8_STRING;
     }
 
     public function value(): string

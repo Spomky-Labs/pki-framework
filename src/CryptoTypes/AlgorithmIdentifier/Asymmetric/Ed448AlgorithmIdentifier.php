@@ -28,6 +28,6 @@ final class Ed448AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
 
     public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
     {
-        return self::OID_ED448 === $algo->oid();
+        return $algo->oid() === self::OID_ED448;
     }
 }

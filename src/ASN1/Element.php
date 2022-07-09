@@ -256,7 +256,7 @@ abstract class Element implements ElementBase
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
         $called_class = static::class;
-        if (self::class !== $called_class) {
+        if ($called_class !== self::class) {
             if (! $element instanceof $called_class) {
                 throw new UnexpectedValueException(sprintf('%s expected, got %s.', $called_class, $element::class));
             }
@@ -293,7 +293,7 @@ abstract class Element implements ElementBase
     public function isType(int $tag): bool
     {
         // if element is context specific
-        if (Identifier::CLASS_CONTEXT_SPECIFIC === $this->typeClass()) {
+        if ($this->typeClass() === Identifier::CLASS_CONTEXT_SPECIFIC) {
             return false;
         }
         // negative tags identify an abstract pseudotype
@@ -351,7 +351,7 @@ abstract class Element implements ElementBase
         return $obj;
     }
 
-    final public function asElement(): Element
+    final public function asElement(): self
     {
         return $this;
     }
@@ -439,7 +439,7 @@ abstract class Element implements ElementBase
      */
     protected function _typeDescriptorString(): string
     {
-        if (Identifier::CLASS_UNIVERSAL === $this->typeClass()) {
+        if ($this->typeClass() === Identifier::CLASS_UNIVERSAL) {
             return self::tagToName($this->_typeTag);
         }
         return sprintf('%s TAG %d', Identifier::classToName($this->typeClass()), $this->_typeTag);
@@ -455,7 +455,7 @@ abstract class Element implements ElementBase
             return false;
         }
         // if type is universal check that instance is of a correct class
-        if (Identifier::CLASS_UNIVERSAL === $this->typeClass()) {
+        if ($this->typeClass() === Identifier::CLASS_UNIVERSAL) {
             $cls = self::_determineUniversalImplClass($tag);
             if (! $this instanceof $cls) {
                 return false;

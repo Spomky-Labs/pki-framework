@@ -87,9 +87,9 @@ final class DistributionPoint
      */
     public function hasFullName(): bool
     {
-        return DistributionPointName::TAG_FULL_NAME ===
-             $this->distributionPointName()
-                 ->tag();
+        return $this->distributionPointName()
+            ->tag() ===
+             DistributionPointName::TAG_FULL_NAME;
     }
 
     /**
@@ -108,9 +108,9 @@ final class DistributionPoint
      */
     public function hasRelativeName(): bool
     {
-        return DistributionPointName::TAG_RDN ===
-             $this->distributionPointName()
-                 ->tag();
+        return $this->distributionPointName()
+            ->tag() ===
+             DistributionPointName::TAG_RDN;
     }
 
     /**

@@ -43,12 +43,12 @@ final class ECPrivateKey extends PrivateKey
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): ECPrivateKey
+    public static function fromASN1(Sequence $seq): self
     {
         $version = $seq->at(0)
             ->asInteger()
             ->intNumber();
-        if (1 !== $version) {
+        if ($version !== 1) {
             throw new UnexpectedValueException('Version must be 1.');
         }
         $private_key = $seq->at(1)
@@ -74,7 +74,7 @@ final class ECPrivateKey extends PrivateKey
     /**
      * Initialize from DER data.
      */
-    public static function fromDER(string $data): ECPrivateKey
+    public static function fromDER(string $data): self
     {
         return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
@@ -82,7 +82,7 @@ final class ECPrivateKey extends PrivateKey
     /**
      * @see PrivateKey::fromPEM()
      */
-    public static function fromPEM(PEM $pem): ECPrivateKey
+    public static function fromPEM(PEM $pem): self
     {
         $pk = parent::fromPEM($pem);
         if (! ($pk instanceof self)) {
@@ -125,7 +125,7 @@ final class ECPrivateKey extends PrivateKey
      *
      * @param null|string $named_curve Named curve OID
      */
-    public function withNamedCurve(?string $named_curve): ECPrivateKey
+    public function withNamedCurve(?string $named_curve): self
     {
         $obj = clone $this;
         $obj->_namedCurve = $named_curve;

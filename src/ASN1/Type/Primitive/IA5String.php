@@ -22,6 +22,6 @@ final class IA5String extends PrimitiveString
 
     protected function _validateString(string $string): bool
     {
-        return 1 !== preg_match('/[^\x00-\x7f]/', $string);
+        return preg_match('/[^\x00-\x7f]/', $string) !== 1;
     }
 }

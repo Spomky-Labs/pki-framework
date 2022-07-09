@@ -21,13 +21,13 @@ class PrivateKeyInfoTestInvalidECAlgo extends SpecificAlgorithmIdentifier
         return '';
     }
 
-    protected function _paramsASN1(): ?Element
-    {
-        return null;
-    }
-
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
+    }
+
+    protected function _paramsASN1(): ?Element
+    {
+        return null;
     }
 }

@@ -90,7 +90,7 @@ final class AttributeCertificateInfo
         $version = $seq->at($idx++)
             ->asInteger()
             ->intNumber();
-        if (self::VERSION_2 !== $version) {
+        if ($version !== self::VERSION_2) {
             throw new UnexpectedValueException('Version must be 2.');
         }
         $holder = Holder::fromASN1($seq->at($idx++)->asSequence());

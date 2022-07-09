@@ -244,7 +244,7 @@ abstract class Extension implements Stringable
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): Extension
+    public static function fromASN1(Sequence $seq): self
     {
         $idx = 0;
         $extnID = $seq->at($idx++)
@@ -317,7 +317,7 @@ abstract class Extension implements Stringable
      * @param string $data     DER data
      * @param bool   $critical Whether extension is critical
      */
-    abstract protected static function _fromDER(string $data, bool $critical): Extension;
+    abstract protected static function _fromDER(string $data, bool $critical): self;
 
     /**
      * Get the extnValue element.

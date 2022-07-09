@@ -58,6 +58,11 @@ final class UnknownAttributeValue extends AttributeValue
         return $str;
     }
 
+    public static function fromASN1(UnspecifiedType $el): AttributeValue
+    {
+        throw new BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
+    }
+
     protected function _transcodedString(): string
     {
         // if transcoding is defined for the value type
@@ -66,10 +71,5 @@ final class UnknownAttributeValue extends AttributeValue
             return $step->apply($this->stringValue());
         }
         return $this->stringValue();
-    }
-
-    public static function fromASN1(UnspecifiedType $el): AttributeValue
-    {
-        throw new BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
     }
 }

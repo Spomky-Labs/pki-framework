@@ -87,7 +87,7 @@ final class AttributeTypeAndValue implements Stringable
      *
      * @param AttributeTypeAndValue $other Object to compare to
      */
-    public function equals(AttributeTypeAndValue $other): bool
+    public function equals(self $other): bool
     {
         // check that attribute types match
         if ($this->oid() !== $other->oid()) {

@@ -107,7 +107,7 @@ final class DNParser
                 break;
             }
             $this->_skipWs($idx);
-            if (',' !== $this->_dn[$idx] && ';' !== $this->_dn[$idx]) {
+            if ($this->_dn[$idx] !== ',' && $this->_dn[$idx] !== ';') {
                 break;
             }
             ++$idx;
@@ -131,7 +131,7 @@ final class DNParser
         while ($idx < $this->_len) {
             $tvpairs[] = $this->_parseAttrTypeAndValue($idx);
             $this->_skipWs($idx);
-            if ($idx >= $this->_len || '+' !== $this->_dn[$idx]) {
+            if ($idx >= $this->_len || $this->_dn[$idx] !== '+') {
                 break;
             }
             ++$idx;
@@ -154,12 +154,12 @@ final class DNParser
         $idx = $offset;
         $type = $this->_parseAttrType($idx);
         $this->_skipWs($idx);
-        if ($idx >= $this->_len || '=' !== $this->_dn[$idx++]) {
+        if ($idx >= $this->_len || $this->_dn[$idx++] !== '=') {
             throw new UnexpectedValueException('Invalid type and value pair.');
         }
         $this->_skipWs($idx);
         // hexstring
-        if ($idx < $this->_len && '#' === $this->_dn[$idx]) {
+        if ($idx < $this->_len && $this->_dn[$idx] === '#') {
             ++$idx;
             $data = $this->_parseAttrHexValue($idx);
             try {
@@ -184,10 +184,10 @@ final class DNParser
         $idx = $offset;
         // dotted OID
         $type = $this->_regexMatch('/^(?:oid\.)?([0-9]+(?:\.[0-9]+)*)/i', $idx);
-        if (null === $type) {
+        if ($type === null) {
             // name
             $type = $this->_regexMatch('/^[a-z][a-z0-9\-]*/i', $idx);
-            if (null === $type) {
+            if ($type === null) {
                 throw new UnexpectedValueException('Invalid attribute type.');
             }
         }
@@ -204,7 +204,7 @@ final class DNParser
         if ($idx >= $this->_len) {
             return '';
         }
-        if ('"' === $this->_dn[$idx]) { // quoted string
+        if ($this->_dn[$idx] === '"') { // quoted string
             $val = $this->_parseQuotedAttrString($idx);
         } else { // string
             $val = $this->_parseAttrString($idx);
@@ -224,21 +224,21 @@ final class DNParser
         while ($idx < $this->_len) {
             $c = $this->_dn[$idx];
             // pair (escape sequence)
-            if ('\\' === $c) {
+            if ($c === '\\') {
                 ++$idx;
                 $val .= $this->_parsePairAfterSlash($idx);
                 $wsidx = null;
                 continue;
             }
-            if ('"' === $c) {
+            if ($c === '"') {
                 throw new UnexpectedValueException('Unexpected quotation.');
             }
-            if (false !== mb_strpos(self::SPECIAL_CHARS, $c, 0, '8bit')) {
+            if (mb_strpos(self::SPECIAL_CHARS, $c, 0, '8bit') !== false) {
                 break;
             }
             // keep track of the first consecutive whitespace
-            if (' ' === $c) {
-                if (null === $wsidx) {
+            if ($c === ' ') {
+                if ($wsidx === null) {
                     $wsidx = $idx;
                 }
             } else {
@@ -249,7 +249,7 @@ final class DNParser
             ++$idx;
         }
         // if there was non-escaped whitespace in the end of the value
-        if (null !== $wsidx) {
+        if ($wsidx !== null) {
             $val = mb_substr($val, 0, -($idx - $wsidx), '8bit');
         }
         $offset = $idx;
@@ -267,12 +267,12 @@ final class DNParser
         $val = '';
         while ($idx < $this->_len) {
             $c = $this->_dn[$idx];
-            if ('\\' === $c) { // pair
+            if ($c === '\\') { // pair
                 ++$idx;
                 $val .= $this->_parsePairAfterSlash($idx);
                 continue;
             }
-            if ('"' === $c) {
+            if ($c === '"') {
                 ++$idx;
                 break;
             }
@@ -290,7 +290,7 @@ final class DNParser
     {
         $idx = $offset;
         $hexstr = $this->_regexMatch('/^(?:[0-9a-f]{2})+/i', $idx);
-        if (null === $hexstr) {
+        if ($hexstr === null) {
             throw new UnexpectedValueException('Invalid hexstring.');
         }
         $data = hex2bin($hexstr);
@@ -309,14 +309,14 @@ final class DNParser
         }
         $c = $this->_dn[$idx++];
         // special | \ | " | SPACE
-        if (false !== mb_strpos(self::SPECIAL_CHARS . '\\" ', $c, 0, '8bit')) {
+        if (mb_strpos(self::SPECIAL_CHARS . '\\" ', $c, 0, '8bit') !== false) {
             $val = $c;
         } else { // hexpair
             if ($idx >= $this->_len) {
                 throw new UnexpectedValueException('Unexpected end of hexpair.');
             }
             $val = @hex2bin($c . $this->_dn[$idx++]);
-            if (false === $val) {
+            if ($val === false) {
                 throw new UnexpectedValueException('Invalid hexpair.');
             }
         }
@@ -349,7 +349,7 @@ final class DNParser
     {
         $idx = $offset;
         while ($idx < $this->_len) {
-            if (' ' !== $this->_dn[$idx]) {
+            if ($this->_dn[$idx] !== ' ') {
                 break;
             }
             ++$idx;

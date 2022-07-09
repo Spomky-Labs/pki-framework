@@ -22,6 +22,6 @@ final class VisibleString extends PrimitiveString
 
     protected function _validateString(string $string): bool
     {
-        return 1 !== preg_match('/[^\x20-\x7e]/', $string);
+        return preg_match('/[^\x20-\x7e]/', $string) !== 1;
     }
 }

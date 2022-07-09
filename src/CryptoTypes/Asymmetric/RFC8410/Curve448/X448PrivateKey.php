@@ -27,10 +27,10 @@ final class X448PrivateKey extends RFC8410PrivateKey
      */
     public function __construct(string $private_key, ?string $public_key = null)
     {
-        if (56 !== mb_strlen($private_key, '8bit')) {
+        if (mb_strlen($private_key, '8bit') !== 56) {
             throw new UnexpectedValueException('X448 private key must be exactly 56 bytes.');
         }
-        if (isset($public_key) && 56 !== mb_strlen($public_key, '8bit')) {
+        if (isset($public_key) && mb_strlen($public_key, '8bit') !== 56) {
             throw new UnexpectedValueException('X448 public key must be exactly 56 bytes.');
         }
         parent::__construct($private_key, $public_key);

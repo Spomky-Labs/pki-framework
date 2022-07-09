@@ -75,7 +75,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function isAnyPolicy(): bool
     {
-        return PolicyInformation::OID_ANY_POLICY === $this->_validPolicy;
+        return $this->_validPolicy === PolicyInformation::OID_ANY_POLICY;
     }
 
     /**
@@ -132,7 +132,7 @@ final class PolicyNode implements IteratorAggregate, Countable
     /**
      * Add child node.
      */
-    public function addChild(PolicyNode $node): self
+    public function addChild(self $node): self
     {
         $id = spl_object_hash($node);
         $node->_parent = $this;
@@ -175,7 +175,7 @@ final class PolicyNode implements IteratorAggregate, Countable
     /**
      * Get the parent node.
      */
-    public function parent(): ?PolicyNode
+    public function parent(): ?self
     {
         return $this->_parent;
     }

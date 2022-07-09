@@ -124,7 +124,7 @@ final class BitString extends BaseString
         // count number of empty trailing octets
         $unused_octets = 0;
         for ($idx = mb_strlen($bits, '8bit') - 1; $idx >= 0; --$idx, ++$unused_octets) {
-            if ("\x0" !== $bits[$idx]) {
+            if ($bits[$idx] !== "\x0") {
                 break;
             }
         }

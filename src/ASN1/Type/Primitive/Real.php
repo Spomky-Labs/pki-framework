@@ -135,7 +135,7 @@ final class Real extends Element implements Stringable
      */
     public function __construct($mantissa, $exponent, int $base = 10)
     {
-        if (10 != $base && 2 != $base) {
+        if ($base != 10 && $base != 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
         $this->_typeTag = self::TYPE_REAL;
@@ -231,7 +231,7 @@ final class Real extends Element implements Stringable
     public function nr3Val(): string
     {
         // convert to base 10
-        if (2 === $this->_base) {
+        if ($this->_base === 2) {
             [$m, $e] = self::_parseString(sprintf('%15E', $this->floatVal()));
         } else {
             $m = $this->_mantissa->gmpObj();
@@ -239,13 +239,13 @@ final class Real extends Element implements Stringable
         }
         // shift trailing zeroes from the mantissa to the exponent
         // (X.690 07-2002, section 11.3.2.4)
-        while (0 != $m && 0 == $m % 10) {
+        while ($m != 0 && $m % 10 == 0) {
             $m /= 10;
             ++$e;
         }
         // if exponent is zero, it must be prefixed with a "+" sign
         // (X.690 07-2002, section 11.3.2.6)
-        if (0 == $e) {
+        if ($e == 0) {
             $es = '+';
         } else {
             $es = $e < 0 ? '-' : '';
@@ -255,15 +255,15 @@ final class Real extends Element implements Stringable
 
     protected function _encodedContentDER(): string
     {
-        if (self::INF_EXPONENT == $this->_exponent->gmpObj()) {
+        if ($this->_exponent->gmpObj() == self::INF_EXPONENT) {
             return $this->_encodeSpecial();
         }
         // if the real value is the value zero, there shall be no contents
         // octets in the encoding. (X.690 07-2002, section 8.5.2)
-        if (0 == $this->_mantissa->gmpObj()) {
+        if ($this->_mantissa->gmpObj() == 0) {
             return '';
         }
-        if (10 === $this->_base) {
+        if ($this->_base === 10) {
             return $this->_encodeDecimal();
         }
         return $this->_encodeBinary();
@@ -281,30 +281,30 @@ final class Real extends Element implements Stringable
             $byte |= 0x40;
         }
         // normalization: mantissa must be 0 or odd
-        if (2 === $base) {
+        if ($base === 2) {
             // while last bit is zero
-            while ($m > 0 && 0 === gmp_cmp($m & 0x01, $zero)) {
+            while ($m > 0 && gmp_cmp($m & 0x01, $zero) === 0) {
                 $m >>= 1;
                 ++$e;
             }
-        } elseif (8 === $base) {
+        } elseif ($base === 8) {
             $byte |= 0x10;
             // while last 3 bits are zero
-            while ($m > 0 && 0 === gmp_cmp($m & 0x07, $zero)) {
+            while ($m > 0 && gmp_cmp($m & 0x07, $zero) === 0) {
                 $m >>= 3;
                 ++$e;
             }
         } else { // base === 16
             $byte |= 0x20;
             // while last 4 bits are zero
-            while ($m > 0 && 0 === gmp_cmp($m & 0x0f, $zero)) {
+            while ($m > 0 && gmp_cmp($m & 0x0f, $zero) === 0) {
                 $m >>= 4;
                 ++$e;
             }
         }
         // scale factor
         $scale = 0;
-        while ($m > 0 && 0 === gmp_cmp($m & 0x01, $zero)) {
+        while ($m > 0 && gmp_cmp($m & 0x01, $zero) === 0) {
             $m >>= 1;
             ++$scale;
         }
@@ -361,7 +361,7 @@ final class Real extends Element implements Stringable
             $byte = ord($bytes[0]);
             if (0x80 & $byte) { // bit 8 = 1
                 $obj = self::_decodeBinaryEncoding($bytes);
-            } elseif (0x00 === $byte >> 6) { // bit 8 = 0, bit 7 = 0
+            } elseif ($byte >> 6 === 0x00) { // bit 8 = 0, bit 7 = 0
                 $obj = self::_decodeDecimalEncoding($bytes);
             } else { // bit 8 = 0, bit 7 = 1
                 $obj = self::_decodeSpecialRealValue($bytes);
@@ -404,9 +404,9 @@ final class Real extends Element implements Stringable
         // decode exponent
         $octets = mb_substr($data, $idx, $len, '8bit');
         $exp = BigInt::fromSignedOctets($octets)->gmpObj();
-        if (8 === $base) {
+        if ($base === 8) {
             $exp *= 3;
-        } elseif (16 === $base) {
+        } elseif ($base === 16) {
             $exp *= 4;
         }
         if (mb_strlen($data, '8bit') <= $idx + $len) {
@@ -440,14 +440,14 @@ final class Real extends Element implements Stringable
      */
     protected static function _decodeSpecialRealValue(string $data): self
     {
-        if (1 !== mb_strlen($data, '8bit')) {
+        if (mb_strlen($data, '8bit') !== 1) {
             throw new DecodeException('SpecialRealValue must have one content octet.');
         }
         $byte = ord($data[0]);
-        if (0x40 === $byte) {   // positive infinity
+        if ($byte === 0x40) {   // positive infinity
             return self::_fromInfinite(INF);
         }
-        if (0x41 === $byte) {   // negative infinity
+        if ($byte === 0x41) {   // negative infinity
             return self::_fromInfinite(-INF);
         }
         throw new DecodeException('Invalid SpecialRealValue encoding.');
@@ -469,10 +469,10 @@ final class Real extends Element implements Stringable
         $e = gmp_abs($e);
         // DER uses only base 2 binary encoding
         if (! $this->_strictDer) {
-            if (0 == $e % 4) {
+            if ($e % 4 == 0) {
                 $base = 16;
                 $e = gmp_div_q($e, 4);
-            } elseif (0 == $e % 3) {
+            } elseif ($e % 3 == 0) {
                 $base = 8;
                 $e = gmp_div_q($e, 3);
             }
@@ -505,11 +505,11 @@ final class Real extends Element implements Stringable
         // 52 bits of mantissa
         $man = gmp_and($n, '0xfffffffffffff');
         // zero, ASN.1 doesn't differentiate -0 from +0
-        if (self::EXP_BIAS === $exp && 0 == $man) {
+        if ($exp === self::EXP_BIAS && $man == 0) {
             return [gmp_init(0, 10), gmp_init(0, 10)];
         }
         // denormalized value, shift binary point
-        if (self::EXP_BIAS === $exp) {
+        if ($exp === self::EXP_BIAS) {
             ++$exp;
         }
         // normalized value, insert implicit leading one before the binary point
@@ -559,7 +559,7 @@ final class Real extends Element implements Stringable
             throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
         }
         // normalize so that mantsissa has no trailing zeroes
-        while (0 != $m && 0 == $m % 10) {
+        while ($m != 0 && $m % 10 == 0) {
             $m /= 10;
             ++$e;
         }
@@ -576,16 +576,16 @@ final class Real extends Element implements Stringable
     private static function _parsePHPExponentMatch(array $match): array
     {
         // mantissa sign
-        $ms = '-' === $match['ms'] ? -1 : 1;
+        $ms = $match['ms'] === '-' ? -1 : 1;
         $m_parts = explode('.', (string) $match['m']);
         // integer part of the mantissa
         $int = ltrim($m_parts[0], '0');
         // exponent sign
-        $es = '-' === $match['es'] ? -1 : 1;
+        $es = $match['es'] === '-' ? -1 : 1;
         // signed exponent
         $e = gmp_init($match['e'], 10) * $es;
         // if mantissa had fractional part
-        if (2 === count($m_parts)) {
+        if (count($m_parts) === 2) {
             $frac = rtrim($m_parts[1], '0');
             $e -= mb_strlen($frac, '8bit');
             $int .= $frac;
@@ -604,20 +604,20 @@ final class Real extends Element implements Stringable
     private static function _parseNR3Match(array $match): array
     {
         // mantissa sign
-        $ms = '-' === $match['ms'] ? -1 : 1;
+        $ms = $match['ms'] === '-' ? -1 : 1;
         // explode mantissa to integer and fraction parts
         [$int, $frac] = explode('.', (string) str_replace(',', '.', $match['m']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // exponent sign
-        $es = '-' === $match['es'] ? -1 : 1;
+        $es = $match['es'] === '-' ? -1 : 1;
         // signed exponent
         $e = gmp_init($match['e'], 10) * $es;
         // shift exponent by the number of base 10 fractions
         $e -= mb_strlen($frac, '8bit');
         // insert fractions to integer part and produce signed mantissa
         $int .= $frac;
-        if ('' === $int) {
+        if ($int === '') {
             $int = '0';
         }
         $m = gmp_init($int, 10) * $ms;
@@ -633,7 +633,7 @@ final class Real extends Element implements Stringable
      */
     private static function _parseNR2Match(array $match): array
     {
-        $sign = '-' === $match['s'] ? -1 : 1;
+        $sign = $match['s'] === '-' ? -1 : 1;
         // explode decimal number to integer and fraction parts
         [$int, $frac] = explode('.', (string) str_replace(',', '.', $match['d']));
         $int = ltrim($int, '0');
@@ -643,7 +643,7 @@ final class Real extends Element implements Stringable
         $e -= mb_strlen($frac, '8bit');
         // insert fractions to integer part and produce signed mantissa
         $int .= $frac;
-        if ('' === $int) {
+        if ($int === '') {
             $int = '0';
         }
         $m = gmp_init($int, 10) * $sign;
@@ -659,9 +659,9 @@ final class Real extends Element implements Stringable
      */
     private static function _parseNR1Match(array $match): array
     {
-        $sign = '-' === $match['s'] ? -1 : 1;
+        $sign = $match['s'] === '-' ? -1 : 1;
         $int = ltrim($match['i'], '0');
-        if ('' === $int) {
+        if ($int === '') {
             $int = '0';
         }
         $m = gmp_init($int, 10) * $sign;

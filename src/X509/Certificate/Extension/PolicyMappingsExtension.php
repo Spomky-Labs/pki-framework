@@ -109,10 +109,10 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
     public function hasAnyPolicyMapping(): bool
     {
         foreach ($this->_mappings as $mapping) {
-            if (PolicyInformation::OID_ANY_POLICY === $mapping->issuerDomainPolicy()) {
+            if ($mapping->issuerDomainPolicy() === PolicyInformation::OID_ANY_POLICY) {
                 return true;
             }
-            if (PolicyInformation::OID_ANY_POLICY === $mapping->subjectDomainPolicy()) {
+            if ($mapping->subjectDomainPolicy() === PolicyInformation::OID_ANY_POLICY) {
                 return true;
             }
         }

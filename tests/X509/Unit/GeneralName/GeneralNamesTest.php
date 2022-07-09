@@ -239,13 +239,13 @@ class GeneralNamesTest_NameMockup extends GeneralName
         return '';
     }
 
-    protected function _choiceASN1(): TaggedType
-    {
-        return new NullType();
-    }
-
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
+    }
+
+    protected function _choiceASN1(): TaggedType
+    {
+        return new NullType();
     }
 }

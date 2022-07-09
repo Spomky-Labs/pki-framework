@@ -76,7 +76,7 @@ final class GeneralSubtree
     public function toASN1(): Sequence
     {
         $elements = [$this->_base->toASN1()];
-        if (isset($this->_min) && 0 !== $this->_min) {
+        if (isset($this->_min) && $this->_min !== 0) {
             $elements[] = new ImplicitlyTaggedType(0, new Integer($this->_min));
         }
         if (isset($this->_max)) {

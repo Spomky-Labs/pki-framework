@@ -26,7 +26,7 @@ final class UniversalString extends PrimitiveString
     protected function _validateString(string $string): bool
     {
         // UCS-4 has fixed with of 4 octets (32 bits)
-        if (0 !== mb_strlen($string, '8bit') % 4) {
+        if (mb_strlen($string, '8bit') % 4 !== 0) {
             return false;
         }
         return true;

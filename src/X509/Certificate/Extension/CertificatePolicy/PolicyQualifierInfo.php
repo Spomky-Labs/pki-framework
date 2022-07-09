@@ -41,7 +41,7 @@ abstract class PolicyQualifierInfo
     /**
      * Initialize from qualifier ASN.1 element.
      */
-    abstract public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo;
+    abstract public static function fromQualifierASN1(UnspecifiedType $el): self;
 
     /**
      * Initialize from ASN.1.

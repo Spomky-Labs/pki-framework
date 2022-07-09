@@ -23,6 +23,6 @@ final class PrintableString extends PrimitiveString
     protected function _validateString(string $string): bool
     {
         $chars = preg_quote(" '()+,-./:=?]", '/');
-        return 1 !== preg_match('/[^A-Za-z0-9' . $chars . ']/', $string);
+        return preg_match('/[^A-Za-z0-9' . $chars . ']/', $string) !== 1;
     }
 }

@@ -59,7 +59,7 @@ abstract class GeneralName implements Stringable
     /**
      * Initialize concrete object from the chosen ASN.1 element.
      */
-    abstract public static function fromChosenASN1(UnspecifiedType $el): GeneralName;
+    abstract public static function fromChosenASN1(UnspecifiedType $el): self;
 
     /**
      * Initialize from ASN.1.
@@ -103,7 +103,7 @@ abstract class GeneralName implements Stringable
      *
      * @return bool True if names are equal
      */
-    public function equals(GeneralName $other): bool
+    public function equals(self $other): bool
     {
         if ($this->_tag !== $other->_tag) {
             return false;

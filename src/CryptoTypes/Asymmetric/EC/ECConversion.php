@@ -59,7 +59,7 @@ final class ECConversion
     {
         $gmp = gmp_init($num->number(), 10);
         $str = gmp_export($gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        if (null !== $mlen) {
+        if ($mlen !== null) {
             $len = mb_strlen($str, '8bit');
             if ($len > $mlen) {
                 throw new RangeException('Number is too large.');

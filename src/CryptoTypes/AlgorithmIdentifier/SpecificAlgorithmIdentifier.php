@@ -16,5 +16,5 @@ abstract class SpecificAlgorithmIdentifier extends AlgorithmIdentifier
      *
      * @param null|UnspecifiedType $params Parameters or null if none
      */
-    abstract public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier;
+    abstract public static function fromASN1Params(?UnspecifiedType $params = null): self;
 }

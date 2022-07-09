@@ -24,7 +24,7 @@ final class Ed448Signature extends Signature
 
     public function __construct(string $signature)
     {
-        if (114 !== mb_strlen($signature, '8bit')) {
+        if (mb_strlen($signature, '8bit') !== 114) {
             throw new InvalidArgumentException('Ed448 signature must be 114 octets.');
         }
         $this->_signature = $signature;

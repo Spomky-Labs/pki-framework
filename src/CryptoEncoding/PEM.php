@@ -79,7 +79,7 @@ final class PEM implements Stringable
         }
         $payload = preg_replace('/\s+/', '', $match[2]);
         $data = base64_decode($payload, true);
-        if (false === $data) {
+        if ($data === false) {
             throw new UnexpectedValueException('Failed to decode PEM data.');
         }
         return new self($match[1], $data);
@@ -96,7 +96,7 @@ final class PEM implements Stringable
             throw new RuntimeException("Failed to read {$filename}.");
         }
         $str = file_get_contents($filename);
-        if (false === $str) {
+        if ($str === false) {
             throw new RuntimeException("Failed to read {$filename}.");
         }
         return self::fromString($str);

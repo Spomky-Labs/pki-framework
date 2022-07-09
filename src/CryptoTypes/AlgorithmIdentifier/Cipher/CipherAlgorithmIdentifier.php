@@ -56,7 +56,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
      */
     protected function _checkIVSize(?string $iv): void
     {
-        if (null !== $iv && mb_strlen($iv, '8bit') !== $this->ivSize()) {
+        if ($iv !== null && mb_strlen($iv, '8bit') !== $this->ivSize()) {
             throw new UnexpectedValueException('Invalid IV size.');
         }
     }

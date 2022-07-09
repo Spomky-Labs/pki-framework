@@ -178,7 +178,7 @@ final class AAControlsExtension extends Extension
             $oids = array_map(fn ($oid) => new ObjectIdentifier($oid), $this->_excludedAttrs);
             $elements[] = new ImplicitlyTaggedType(1, new Sequence(...$oids));
         }
-        if (true !== $this->_permitUnSpecified) {
+        if ($this->_permitUnSpecified !== true) {
             $elements[] = new Boolean(false);
         }
         return new Sequence(...$elements);

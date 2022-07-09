@@ -76,7 +76,7 @@ final class OpenSSLCrypto extends Crypto
     ): Signature {
         $this->_checkSignatureAlgoAndKey($algo, $privkey_info->algorithmIdentifier());
         $result = openssl_sign($data, $signature, $privkey_info->toPEM(), $this->_algoToDigest($algo));
-        if (false === $result) {
+        if ($result === false) {
             throw new RuntimeException('openssl_sign() failed: ' . $this->_getLastError());
         }
         return Signature::fromSignatureData($signature, $algo);
@@ -96,10 +96,10 @@ final class OpenSSLCrypto extends Crypto
             $pubkey_info->toPEM(),
             $this->_algoToDigest($algo)
         );
-        if (-1 === $result) {
+        if ($result === -1) {
             throw new RuntimeException('openssl_verify() failed: ' . $this->_getLastError());
         }
-        return 1 === $result;
+        return $result === 1;
     }
 
     public function encrypt(string $data, string $key, CipherAlgorithmIdentifier $algo): string
@@ -113,7 +113,7 @@ final class OpenSSLCrypto extends Crypto
             OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
             $iv
         );
-        if (false === $result) {
+        if ($result === false) {
             throw new RuntimeException('openssl_encrypt() failed: ' . $this->_getLastError());
         }
         return $result;
@@ -130,7 +130,7 @@ final class OpenSSLCrypto extends Crypto
             OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
             $iv
         );
-        if (false === $result) {
+        if ($result === false) {
             throw new RuntimeException('openssl_decrypt() failed: ' . $this->_getLastError());
         }
         return $result;
@@ -210,7 +210,7 @@ final class OpenSSLCrypto extends Crypto
         if (array_key_exists($oid, self::MAP_CIPHER_OID)) {
             return self::MAP_CIPHER_OID[$oid];
         }
-        if (AlgorithmIdentifier::OID_RC2_CBC === $oid) {
+        if ($oid === AlgorithmIdentifier::OID_RC2_CBC) {
             if (! $algo instanceof RC2CBCAlgorithmIdentifier) {
                 throw new UnexpectedValueException('Not an RC2-CBC algorithm.');
             }

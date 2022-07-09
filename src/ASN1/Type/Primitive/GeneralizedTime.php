@@ -69,7 +69,7 @@ final class GeneralizedTime extends BaseTime
             $this->_formatted = $dt->format('YmdHis');
             // if fractions were used
             $frac = $dt->format('u');
-            if (0 !== intval($frac)) {
+            if (intval($frac) !== 0) {
                 $frac = rtrim($frac, '0');
                 $this->_formatted .= ".{$frac}";
             }
@@ -94,7 +94,7 @@ final class GeneralizedTime extends BaseTime
         if (isset($match[7])) {
             $frac = $match[7];
             // DER restricts trailing zeroes in fractional seconds component
-            if ('0' === $frac[mb_strlen($frac, '8bit') - 1]) {
+            if ($frac[mb_strlen($frac, '8bit') - 1] === '0') {
                 throw new DecodeException('Fractional seconds must omit trailing zeroes.');
             }
         } else {

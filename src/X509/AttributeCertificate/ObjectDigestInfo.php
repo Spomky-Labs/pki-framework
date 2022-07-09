@@ -51,7 +51,7 @@ final class ObjectDigestInfo
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): ObjectDigestInfo
+    public static function fromASN1(Sequence $seq): self
     {
         $idx = 0;
         $oid = null;

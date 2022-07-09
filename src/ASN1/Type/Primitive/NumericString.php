@@ -22,6 +22,6 @@ final class NumericString extends PrimitiveString
 
     protected function _validateString(string $string): bool
     {
-        return 1 !== preg_match('/[^0-9 ]/', $string);
+        return preg_match('/[^0-9 ]/', $string) !== 1;
     }
 }

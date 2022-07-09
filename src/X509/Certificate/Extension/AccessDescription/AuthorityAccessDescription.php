@@ -23,7 +23,7 @@ final class AuthorityAccessDescription extends AccessDescription
      */
     public function isOSCPMethod(): bool
     {
-        return self::OID_METHOD_OSCP === $this->_accessMethod;
+        return $this->_accessMethod === self::OID_METHOD_OSCP;
     }
 
     /**
@@ -31,6 +31,6 @@ final class AuthorityAccessDescription extends AccessDescription
      */
     public function isCAIssuersMethod(): bool
     {
-        return self::OID_METHOD_CA_ISSUERS === $this->_accessMethod;
+        return $this->_accessMethod === self::OID_METHOD_CA_ISSUERS;
     }
 }

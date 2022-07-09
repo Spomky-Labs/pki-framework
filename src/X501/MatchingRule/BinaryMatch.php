@@ -13,6 +13,6 @@ final class BinaryMatch extends MatchingRule
 {
     public function compare($assertion, $value): ?bool
     {
-        return 0 === strcmp($assertion, $value);
+        return strcmp($assertion, $value) === 0;
     }
 }

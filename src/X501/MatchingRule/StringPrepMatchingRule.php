@@ -23,6 +23,6 @@ abstract class StringPrepMatchingRule extends MatchingRule
     {
         $assertion = $this->_prep->prepare($assertion);
         $value = $this->_prep->prepare($value);
-        return 0 === strcmp($assertion, $value);
+        return strcmp($assertion, $value) === 0;
     }
 }

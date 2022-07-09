@@ -58,7 +58,7 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      */
     public function has(string $name): bool
     {
-        return null !== $this->_findFirst($name);
+        return $this->_findFirst($name) !== null;
     }
 
     /**

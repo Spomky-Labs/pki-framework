@@ -24,7 +24,7 @@ final class UniqueIdentifier
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(BitString $bs): UniqueIdentifier
+    public static function fromASN1(BitString $bs): self
     {
         return new self($bs);
     }
@@ -32,7 +32,7 @@ final class UniqueIdentifier
     /**
      * Initialize from string.
      */
-    public static function fromString(string $str): UniqueIdentifier
+    public static function fromString(string $str): self
     {
         return new self(new BitString($str));
     }

@@ -98,7 +98,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
      *
      * @param RDN $other Object to compare to
      */
-    public function equals(RDN $other): bool
+    public function equals(self $other): bool
     {
         // if attribute count doesn't match
         if (count($this) !== count($other)) {

@@ -112,7 +112,7 @@ class ObjectIdentifier extends Element
         if (mb_strlen($oid, '8bit')) {
             foreach (explode('.', $oid) as $subid) {
                 $n = @gmp_init($subid, 10);
-                if (false === $n) {
+                if ($n === false) {
                     throw new UnexpectedValueException("'{$subid}' is not a number.");
                 }
                 $subids[] = $n;

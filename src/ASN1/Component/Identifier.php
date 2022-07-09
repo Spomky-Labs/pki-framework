@@ -83,7 +83,7 @@ final class Identifier implements Encodable
      * Variable is updated to the offset next to the
      * parsed identifier. If null, start from offset 0.
      */
-    public static function fromDER(string $data, int &$offset = null): Identifier
+    public static function fromDER(string $data, int &$offset = null): self
     {
         $idx = $offset ?? 0;
         $datalen = mb_strlen($data, '8bit');
@@ -99,7 +99,7 @@ final class Identifier implements Encodable
         // bits 5 to 1 (tag number)
         $tag = (0b00011111 & $byte);
         // long-form identifier
-        if (0x1f === $tag) {
+        if ($tag === 0x1f) {
             $tag = self::_decodeLongFormTag($data, $idx);
         }
         if (isset($offset)) {
@@ -168,7 +168,7 @@ final class Identifier implements Encodable
      */
     public function isUniversal(): bool
     {
-        return self::CLASS_UNIVERSAL === $this->_class;
+        return $this->_class === self::CLASS_UNIVERSAL;
     }
 
     /**
@@ -176,7 +176,7 @@ final class Identifier implements Encodable
      */
     public function isApplication(): bool
     {
-        return self::CLASS_APPLICATION === $this->_class;
+        return $this->_class === self::CLASS_APPLICATION;
     }
 
     /**
@@ -184,7 +184,7 @@ final class Identifier implements Encodable
      */
     public function isContextSpecific(): bool
     {
-        return self::CLASS_CONTEXT_SPECIFIC === $this->_class;
+        return $this->_class === self::CLASS_CONTEXT_SPECIFIC;
     }
 
     /**
@@ -192,7 +192,7 @@ final class Identifier implements Encodable
      */
     public function isPrivate(): bool
     {
-        return self::CLASS_PRIVATE === $this->_class;
+        return $this->_class === self::CLASS_PRIVATE;
     }
 
     /**
@@ -200,7 +200,7 @@ final class Identifier implements Encodable
      */
     public function isPrimitive(): bool
     {
-        return self::PRIMITIVE === $this->_pc;
+        return $this->_pc === self::PRIMITIVE;
     }
 
     /**
@@ -208,7 +208,7 @@ final class Identifier implements Encodable
      */
     public function isConstructed(): bool
     {
-        return self::CONSTRUCTED === $this->_pc;
+        return $this->_pc === self::CONSTRUCTED;
     }
 
     /**
@@ -216,7 +216,7 @@ final class Identifier implements Encodable
      *
      * @param int $class One of `CLASS_*` enumerations
      */
-    public function withClass(int $class): Identifier
+    public function withClass(int $class): self
     {
         $obj = clone $this;
         $obj->_class = 0b11 & $class;
@@ -228,7 +228,7 @@ final class Identifier implements Encodable
      *
      * @param GMP|int|string $tag Tag number
      */
-    public function withTag(GMP|int|string $tag): Identifier
+    public function withTag(GMP|int|string $tag): self
     {
         $obj = clone $this;
         $obj->_tag = new BigInt($tag);

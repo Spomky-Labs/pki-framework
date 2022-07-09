@@ -72,7 +72,7 @@ final class Time
             case Element::TYPE_GENERALIZED_TIME:
                 // GeneralizedTime must not contain fractional seconds
                 // (rfc5280 4.1.2.5.2)
-                if (0 !== intval($dt->format('u'))) {
+                if (intval($dt->format('u')) !== 0) {
                     // remove fractional seconds (round down)
                     $dt = self::_roundDownFractionalSeconds($dt);
                 }

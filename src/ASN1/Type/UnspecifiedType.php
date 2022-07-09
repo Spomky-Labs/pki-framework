@@ -432,7 +432,7 @@ final class UnspecifiedType implements ElementBase
         return $this->_element;
     }
 
-    public function asUnspecified(): UnspecifiedType
+    public function asUnspecified(): self
     {
         return $this;
     }
@@ -506,7 +506,7 @@ final class UnspecifiedType implements ElementBase
         $type_cls = $this->_element->typeClass();
         $tag = $this->_element->tag();
         $str = $this->_element->isConstructed() ? 'constructed ' : 'primitive ';
-        if (Identifier::CLASS_UNIVERSAL === $type_cls) {
+        if ($type_cls === Identifier::CLASS_UNIVERSAL) {
             $str .= Element::tagToName($tag);
         } else {
             $str .= Identifier::classToName($type_cls) . " TAG {$tag}";

@@ -80,7 +80,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function isAnyPolicy(): bool
     {
-        return self::OID_ANY_POLICY === $this->_oid;
+        return $this->_oid === self::OID_ANY_POLICY;
     }
 
     /**

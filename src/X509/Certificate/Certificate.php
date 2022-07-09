@@ -74,7 +74,7 @@ final class Certificate implements Stringable
      */
     public static function fromPEM(PEM $pem): self
     {
-        if (PEM::TYPE_CERTIFICATE !== $pem->type()) {
+        if ($pem->type() !== PEM::TYPE_CERTIFICATE) {
             throw new UnexpectedValueException('Invalid PEM type.');
         }
         return self::fromDER($pem->data());
@@ -118,7 +118,7 @@ final class Certificate implements Stringable
      *
      * @param Certificate $cert Certificate to compare to
      */
-    public function equals(Certificate $cert): bool
+    public function equals(self $cert): bool
     {
         return $this->_hasEqualSerialNumber($cert) &&
              $this->_hasEqualPublicKey($cert) && $this->_hasEqualSubject($cert);
@@ -172,7 +172,7 @@ final class Certificate implements Stringable
     /**
      * Check whether certificate has serial number equal to another.
      */
-    private function _hasEqualSerialNumber(Certificate $cert): bool
+    private function _hasEqualSerialNumber(self $cert): bool
     {
         $sn1 = $this->_tbsCertificate->serialNumber();
         $sn2 = $cert->_tbsCertificate->serialNumber();
@@ -182,7 +182,7 @@ final class Certificate implements Stringable
     /**
      * Check whether certificate has public key equal to another.
      */
-    private function _hasEqualPublicKey(Certificate $cert): bool
+    private function _hasEqualPublicKey(self $cert): bool
     {
         $kid1 = $this->_tbsCertificate->subjectPublicKeyInfo()
             ->keyIdentifier();
@@ -194,7 +194,7 @@ final class Certificate implements Stringable
     /**
      * Check whether certificate has subject equal to another.
      */
-    private function _hasEqualSubject(Certificate $cert): bool
+    private function _hasEqualSubject(self $cert): bool
     {
         $dn1 = $this->_tbsCertificate->subject();
         $dn2 = $cert->_tbsCertificate->subject();

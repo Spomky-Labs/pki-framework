@@ -56,7 +56,7 @@ final class PolicyTree
         $tree = clone $this;
         if ($state->policyMapping() > 0) {
             $tree->_applyMappings($cert, $state);
-        } elseif (0 === $state->policyMapping()) {
+        } elseif ($state->policyMapping() === 0) {
             $tree->_deleteMappings($cert, $state);
         }
         // if whole tree is pruned

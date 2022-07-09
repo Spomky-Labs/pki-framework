@@ -111,7 +111,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      *
      * @param Name $other Object to compare to
      */
-    public function equals(Name $other): bool
+    public function equals(self $other): bool
     {
         // if RDN count doesn't match
         if (count($this) !== count($other)) {
@@ -154,7 +154,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
             if (count($tvs) > 1) {
                 throw new RangeException("RDN with multiple {$name} attributes.");
             }
-            if (1 === count($tvs)) {
+            if (count($tvs) === 1) {
                 return $tvs[0]->value();
             }
         }

@@ -73,7 +73,7 @@ final class CertificationRequest implements Stringable
      */
     public static function fromPEM(PEM $pem): self
     {
-        if (PEM::TYPE_CERTIFICATE_REQUEST !== $pem->type()) {
+        if ($pem->type() !== PEM::TYPE_CERTIFICATE_REQUEST) {
             throw new UnexpectedValueException('Invalid PEM type.');
         }
         return self::fromDER($pem->data());

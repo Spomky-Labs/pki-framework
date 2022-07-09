@@ -44,7 +44,7 @@ final class GeneralNames implements Countable, IteratorAggregate
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): GeneralNames
+    public static function fromASN1(Sequence $seq): self
     {
         if (! count($seq)) {
             throw new UnexpectedValueException('GeneralNames must have at least one GeneralName.');
@@ -60,7 +60,7 @@ final class GeneralNames implements Countable, IteratorAggregate
      */
     public function has(int $tag): bool
     {
-        return null !== $this->_findFirst($tag);
+        return $this->_findFirst($tag) !== null;
     }
 
     /**

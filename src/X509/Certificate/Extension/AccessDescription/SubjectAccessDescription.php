@@ -23,7 +23,7 @@ final class SubjectAccessDescription extends AccessDescription
      */
     public function isTimeStampingMethod(): bool
     {
-        return self::OID_METHOD_TIME_STAMPING === $this->_accessMethod;
+        return $this->_accessMethod === self::OID_METHOD_TIME_STAMPING;
     }
 
     /**
@@ -31,6 +31,6 @@ final class SubjectAccessDescription extends AccessDescription
      */
     public function isCARepositoryMethod(): bool
     {
-        return self::OID_METHOD_CA_REPOSITORY === $this->_accessMethod;
+        return $this->_accessMethod === self::OID_METHOD_CA_REPOSITORY;
     }
 }

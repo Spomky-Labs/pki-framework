@@ -63,7 +63,7 @@ final class CertificationRequestInfo
         $version = $seq->at(0)
             ->asInteger()
             ->intNumber();
-        if (self::VERSION_1 !== $version) {
+        if ($version !== self::VERSION_1) {
             throw new UnexpectedValueException("Version {$version} not supported.");
         }
         $subject = Name::fromASN1($seq->at(1)->asSequence());

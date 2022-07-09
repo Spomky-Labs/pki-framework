@@ -50,7 +50,7 @@ final class BigInt implements Stringable
         // convert to GMP object
         if (! ($num instanceof GMP)) {
             $gmp = @gmp_init($num, 10);
-            if (false === $gmp) {
+            if ($gmp === false) {
                 throw new InvalidArgumentException("Unable to convert '{$num}' to integer.");
             }
             $num = $gmp;

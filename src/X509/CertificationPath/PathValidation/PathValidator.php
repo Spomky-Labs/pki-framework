@@ -181,7 +181,7 @@ final class PathValidator
         if ($extensions->hasPolicyConstraints()) {
             $ext = $extensions->policyConstraints();
             if ($ext->hasRequireExplicitPolicy() &&
-                0 === $ext->requireExplicitPolicy()) {
+                $ext->requireExplicitPolicy() === 0) {
                 $state = $state->withExplicitPolicy(0);
             }
         }
@@ -211,7 +211,7 @@ final class PathValidator
         $state = $state->withWorkingPublicKey($pk_info);
         // assign working_public_key_parameters
         $params = ValidatorState::getAlgorithmParameters($pk_info->algorithmIdentifier());
-        if (null !== $params) {
+        if ($params !== null) {
             $state = $state->withWorkingPublicKeyParameters($params);
         } else {
             // if algorithms differ, set parameters to null
@@ -420,7 +420,7 @@ final class PathValidator
      */
     private function _processBasicContraints(Certificate $cert): void
     {
-        if (TBSCertificate::VERSION_3 === $cert->tbsCertificate()->version()) {
+        if ($cert->tbsCertificate()->version() === TBSCertificate::VERSION_3) {
             $extensions = $cert->tbsCertificate()
                 ->extensions();
             if (! $extensions->hasBasicConstraints()) {

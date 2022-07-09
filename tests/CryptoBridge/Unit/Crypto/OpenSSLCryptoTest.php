@@ -305,14 +305,14 @@ class UnsupportedCipher extends CipherAlgorithmIdentifier
         return 1;
     }
 
-    protected function _paramsASN1(): ?Element
-    {
-        return null;
-    }
-
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
+    }
+
+    protected function _paramsASN1(): ?Element
+    {
+        return null;
     }
 }
 
@@ -338,13 +338,13 @@ class InvalidRC2 extends CipherAlgorithmIdentifier
         return 1;
     }
 
-    protected function _paramsASN1(): ?Element
-    {
-        return null;
-    }
-
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
+    }
+
+    protected function _paramsASN1(): ?Element
+    {
+        return null;
     }
 }

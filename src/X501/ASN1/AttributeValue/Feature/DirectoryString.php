@@ -118,7 +118,7 @@ abstract class DirectoryString extends AttributeValue
     public function rfc2253String(): string
     {
         // TeletexString is encoded as binary
-        if (self::TELETEX === $this->_stringTag) {
+        if ($this->_stringTag === self::TELETEX) {
             return $this->_transcodedString();
         }
         return DNParser::escapeString($this->_transcodedString());

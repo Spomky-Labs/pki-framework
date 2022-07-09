@@ -42,7 +42,7 @@ abstract class Target
     /**
      * Initialize concrete object from the chosen ASN.1 element.
      */
-    abstract public static function fromChosenASN1(TaggedType $el): Target;
+    abstract public static function fromChosenASN1(TaggedType $el): self;
 
     /**
      * Parse from ASN.1.
@@ -68,7 +68,7 @@ abstract class Target
     /**
      * Check whether target is equal to another.
      */
-    public function equals(Target $other): bool
+    public function equals(self $other): bool
     {
         if ($this->_type !== $other->_type) {
             return false;

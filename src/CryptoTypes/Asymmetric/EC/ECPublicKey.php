@@ -67,7 +67,7 @@ final class ECPublicKey extends PublicKey
         int|string $y,
         ?string $named_curve = null,
         ?int $bits = null
-    ): ECPublicKey {
+    ): self {
         // if bitsize is not explicitly set, check from supported curves
         if (! isset($bits) && isset($named_curve)) {
             $bits = self::_curveSize($named_curve);
@@ -85,14 +85,14 @@ final class ECPublicKey extends PublicKey
     /**
      * @see PublicKey::fromPEM()
      */
-    public static function fromPEM(PEM $pem): ECPublicKey
+    public static function fromPEM(PEM $pem): self
     {
-        if (PEM::TYPE_PUBLIC_KEY !== $pem->type()) {
+        if ($pem->type() !== PEM::TYPE_PUBLIC_KEY) {
             throw new UnexpectedValueException('Not a public key.');
         }
         $pki = PublicKeyInfo::fromDER($pem->data());
         $algo = $pki->algorithmIdentifier();
-        if (AlgorithmIdentifier::OID_EC_PUBLIC_KEY !== $algo->oid()
+        if ($algo->oid() !== AlgorithmIdentifier::OID_EC_PUBLIC_KEY
             || ! ($algo instanceof ECPublicKeyAlgorithmIdentifier)) {
             throw new UnexpectedValueException('Not an elliptic curve key.');
         }
@@ -139,7 +139,7 @@ final class ECPublicKey extends PublicKey
     public function isCompressed(): bool
     {
         $c = ord($this->_ecPoint[0]);
-        return 4 !== $c;
+        return $c !== 4;
     }
 
     /**

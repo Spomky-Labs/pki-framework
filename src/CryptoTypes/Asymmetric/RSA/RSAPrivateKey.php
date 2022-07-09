@@ -105,12 +105,12 @@ final class RSAPrivateKey extends PrivateKey
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): RSAPrivateKey
+    public static function fromASN1(Sequence $seq): self
     {
         $version = $seq->at(0)
             ->asInteger()
             ->intNumber();
-        if (0 !== $version) {
+        if ($version !== 0) {
             throw new UnexpectedValueException('Version must be 0.');
         }
         // helper function get integer from given index
@@ -131,7 +131,7 @@ final class RSAPrivateKey extends PrivateKey
     /**
      * Initialize from DER data.
      */
-    public static function fromDER(string $data): RSAPrivateKey
+    public static function fromDER(string $data): self
     {
         return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
@@ -139,7 +139,7 @@ final class RSAPrivateKey extends PrivateKey
     /**
      * @see PrivateKey::fromPEM()
      */
-    public static function fromPEM(PEM $pem): RSAPrivateKey
+    public static function fromPEM(PEM $pem): self
     {
         $pk = parent::fromPEM($pem);
         if (! ($pk instanceof self)) {

@@ -49,7 +49,7 @@ interface ElementBase extends Encodable
      *
      * @param int $tag Type tag
      */
-    public function expectType(int $tag): ElementBase;
+    public function expectType(int $tag): self;
 
     /**
      * Check whether the element is tagged (context specific).

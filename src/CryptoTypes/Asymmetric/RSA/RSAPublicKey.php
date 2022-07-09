@@ -52,7 +52,7 @@ final class RSAPublicKey extends PublicKey
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): RSAPublicKey
+    public static function fromASN1(Sequence $seq): self
     {
         $n = $seq->at(0)
             ->asInteger()
@@ -66,7 +66,7 @@ final class RSAPublicKey extends PublicKey
     /**
      * Initialize from DER data.
      */
-    public static function fromDER(string $data): RSAPublicKey
+    public static function fromDER(string $data): self
     {
         return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
@@ -74,16 +74,16 @@ final class RSAPublicKey extends PublicKey
     /**
      * @see PublicKey::fromPEM()
      */
-    public static function fromPEM(PEM $pem): RSAPublicKey
+    public static function fromPEM(PEM $pem): self
     {
         switch ($pem->type()) {
             case PEM::TYPE_RSA_PUBLIC_KEY:
                 return self::fromDER($pem->data());
             case PEM::TYPE_PUBLIC_KEY:
                 $pki = PublicKeyInfo::fromDER($pem->data());
-                if (AlgorithmIdentifier::OID_RSA_ENCRYPTION !==
-                    $pki->algorithmIdentifier()
-                        ->oid()) {
+                if ($pki->algorithmIdentifier()
+                    ->oid() !==
+                    AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
                     throw new UnexpectedValueException('Not an RSA public key.');
                 }
                 return self::fromDER($pki->publicKeyData()->string());
