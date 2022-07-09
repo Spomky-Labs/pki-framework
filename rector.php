@@ -8,10 +8,10 @@ use Rector\Php74\Rector\Property\TypedPropertyRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
-// use Rector\Set\ValueObject\SetList;
+use Rector\Set\ValueObject\SetList;
 
 return static function (RectorConfig $config): void {
-    // $config->import(SetList::DEAD_CODE);
+    $config->import(SetList::DEAD_CODE);
     $config->import(LevelSetList::UP_TO_PHP_81);
     $config->import(PHPUnitSetList::PHPUNIT_EXCEPTION);
     $config->import(PHPUnitSetList::PHPUNIT_SPECIFIC_METHOD);

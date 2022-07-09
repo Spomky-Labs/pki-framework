@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sop\ASN1;
 
 use function array_key_exists;
-use BadMethodCallException;
 use function get_called_class;
 use function get_class;
 use function mb_strlen;
@@ -368,10 +367,7 @@ abstract class Element implements ElementBase
      * @param string     $data       DER data
      * @param int        $offset     Offset in data to the next byte after identifier
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
-    {
-        throw new BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
-    }
+    abstract protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase;
 
     /**
      * Determine the class that implements the type.
