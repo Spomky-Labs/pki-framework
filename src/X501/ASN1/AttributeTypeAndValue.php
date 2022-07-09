@@ -14,7 +14,7 @@ use Stringable;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.AttributeTypeAndValue
  */
-class AttributeTypeAndValue implements Stringable
+final class AttributeTypeAndValue implements Stringable
 {
     use TypedAttribute;
 

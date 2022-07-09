@@ -143,18 +143,6 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function verifyBrokenAlgoInvalidKeyType()
-    {
-        $signature = RSASignature::fromSignatureString('');
-        $algo = new OpenSSLCryptoTest_SHA1WithRSAAsEC();
-        $pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
-        $this->expectException(RuntimeException::class);
-        self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), $algo);
-    }
-
-    /**
-     * @test
-     */
     public function verifyInvalidKeyType()
     {
         $signature = RSASignature::fromSignatureString('');
@@ -243,7 +231,7 @@ final class OpenSSLCryptoTest extends TestCase
     public function unsupportedCipherFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        self::$_crypto->encrypt(self::DATA, '', new OpenSSLCryptoTest_UnsupportedCipher());
+        self::$_crypto->encrypt(self::DATA, '', new UnsupportedCipher());
     }
 
     /**
@@ -252,7 +240,7 @@ final class OpenSSLCryptoTest extends TestCase
     public function invalidRC2AlgoFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        self::$_crypto->encrypt(self::DATA, '', new OpenSSLCryptoTest_InvalidRC2());
+        self::$_crypto->encrypt(self::DATA, '', new InvalidRC2());
     }
 
     /**
@@ -295,15 +283,7 @@ final class OpenSSLCryptoTest extends TestCase
     }
 }
 
-class OpenSSLCryptoTest_SHA1WithRSAAsEC extends SHA1WithRSAEncryptionAlgorithmIdentifier
-{
-    public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
-    {
-        return true;
-    }
-}
-
-class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
+class UnsupportedCipher extends CipherAlgorithmIdentifier
 {
     public function __construct()
     {
@@ -336,7 +316,7 @@ class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
     }
 }
 
-class OpenSSLCryptoTest_InvalidRC2 extends CipherAlgorithmIdentifier
+class InvalidRC2 extends CipherAlgorithmIdentifier
 {
     public function __construct()
     {

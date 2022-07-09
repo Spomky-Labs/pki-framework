@@ -11,7 +11,7 @@ use Sop\X501\StringPrep\StringPreparer;
  *
  * @see https://tools.ietf.org/html/rfc4517#section-4.2.4
  */
-class CaseExactMatch extends StringPrepMatchingRule
+final class CaseExactMatch extends StringPrepMatchingRule
 {
     /**
      * Constructor.

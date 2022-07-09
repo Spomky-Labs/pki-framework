@@ -31,7 +31,7 @@ From RFC 3370 - 2.2 MD5
  * @see https://tools.ietf.org/html/rfc1321#section-1
  * @see https://tools.ietf.org/html/rfc3370#section-2.2
  */
-class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
+final class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
 {
     /**
      * Parameters.

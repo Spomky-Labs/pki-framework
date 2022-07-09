@@ -14,7 +14,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class UserNoticeQualifier extends PolicyQualifierInfo
+final class UserNoticeQualifier extends PolicyQualifierInfo
 {
     public function __construct(
     /**

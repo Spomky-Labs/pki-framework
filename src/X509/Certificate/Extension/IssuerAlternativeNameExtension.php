@@ -13,7 +13,7 @@ use Sop\X509\GeneralName\GeneralNames;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.7
  */
-class IssuerAlternativeNameExtension extends Extension
+final class IssuerAlternativeNameExtension extends Extension
 {
     public function __construct(
         bool $critical, /**

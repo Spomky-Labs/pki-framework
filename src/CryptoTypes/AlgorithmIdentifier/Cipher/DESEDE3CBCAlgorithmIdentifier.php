@@ -25,7 +25,7 @@ RFC 2898 defines parameters as follows:
  * @see https://tools.ietf.org/html/rfc2898#appendix-C
  * @see https://tools.ietf.org/html/rfc2630#section-12.4.1
  */
-class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
+final class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
     /**
      * Constructor.

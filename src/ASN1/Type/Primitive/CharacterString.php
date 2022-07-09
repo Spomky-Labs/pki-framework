@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *CHARACTER STRING* type.
  */
-class CharacterString extends PrimitiveString
+final class CharacterString extends PrimitiveString
 {
     use UniversalClass;
 

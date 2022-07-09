@@ -18,7 +18,7 @@ use Sop\ASN1\Type\StringType;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.AttributeType
  */
-class AttributeType
+final class AttributeType
 {
     // OID's from 2.5.4 arc
     final public const OID_OBJECT_CLASS = '2.5.4.0';

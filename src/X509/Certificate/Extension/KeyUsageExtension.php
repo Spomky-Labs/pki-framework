@@ -13,7 +13,7 @@ use Sop\ASN1\Util\Flags;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.3
  */
-class KeyUsageExtension extends Extension
+final class KeyUsageExtension extends Extension
 {
     final public const DIGITAL_SIGNATURE = 0x100;
 

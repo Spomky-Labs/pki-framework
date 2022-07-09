@@ -21,7 +21,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc2437#section-11.1.1
  */
-class RSAPublicKey extends PublicKey
+final class RSAPublicKey extends PublicKey
 {
     /**
      * Modulus as a base 10 integer.

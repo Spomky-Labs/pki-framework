@@ -13,7 +13,7 @@ use Sop\ASN1\Type\UniversalClass;
  *
  * BMP stands for Basic Multilingual Plane. This is generally an Unicode string with UCS-2 encoding.
  */
-class BMPString extends PrimitiveString
+final class BMPString extends PrimitiveString
 {
     use UniversalClass;
 

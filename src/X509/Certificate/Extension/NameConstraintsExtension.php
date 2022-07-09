@@ -16,7 +16,7 @@ use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.10
  */
-class NameConstraintsExtension extends Extension
+final class NameConstraintsExtension extends Extension
 {
     /**
      * Constructor.

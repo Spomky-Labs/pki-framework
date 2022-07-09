@@ -15,7 +15,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * Explicit tagging wraps a type by prepending a tag. Underlying DER encoding is not changed.
  */
-class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
+final class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
 {
     /**
      * Constructor.

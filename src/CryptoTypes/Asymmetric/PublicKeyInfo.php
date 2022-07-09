@@ -27,7 +27,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1
  */
-class PublicKeyInfo
+final class PublicKeyInfo
 {
     /**
      * Constructor.

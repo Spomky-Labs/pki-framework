@@ -20,7 +20,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1
  */
-class Certificate implements Stringable
+final class Certificate implements Stringable
 {
     public function __construct(
         /**

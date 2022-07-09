@@ -18,7 +18,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1
  */
-class Time
+final class Time
 {
     use DateTimeHelper;
 

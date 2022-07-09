@@ -15,7 +15,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *NULL* type.
  */
-class NullType extends Element
+final class NullType extends Element
 {
     use UniversalClass;
     use PrimitiveType;

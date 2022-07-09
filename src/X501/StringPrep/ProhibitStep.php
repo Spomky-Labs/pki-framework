@@ -9,7 +9,7 @@ namespace Sop\X501\StringPrep;
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.4
  */
-class ProhibitStep implements PrepareStep
+final class ProhibitStep implements PrepareStep
 {
     /**
      * @param string $string UTF-8 encoded string

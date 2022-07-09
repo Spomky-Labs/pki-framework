@@ -15,7 +15,7 @@ use Sop\X501\StringPrep\TranscodeStep;
 /**
  * Class to hold ASN.1 structure of an unimplemented attribute value.
  */
-class UnknownAttributeValue extends AttributeValue
+final class UnknownAttributeValue extends AttributeValue
 {
     public function __construct(
         string $oid, /**

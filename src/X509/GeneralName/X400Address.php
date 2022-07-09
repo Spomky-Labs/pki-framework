@@ -18,7 +18,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @todo Implement ORAddress type
  */
-class X400Address extends GeneralName
+final class X400Address extends GeneralName
 {
     /**
      * @var Element

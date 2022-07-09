@@ -21,7 +21,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class AttributeCertificate implements Stringable
+final class AttributeCertificate implements Stringable
 {
     public function __construct(
         /**

@@ -20,7 +20,7 @@ use Sop\X501\ASN1\Feature\TypedAttribute;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.Attribute
  */
-class Attribute implements Countable, IteratorAggregate
+final class Attribute implements Countable, IteratorAggregate
 {
     use TypedAttribute;
 

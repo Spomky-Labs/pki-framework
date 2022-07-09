@@ -25,7 +25,7 @@ algid-hmacWithSHA1 AlgorithmIdentifier {{PBKDF2-PRFs}} ::=
  * @see http://www.oid-info.com/get/1.2.840.113549.2.7
  * @see https://tools.ietf.org/html/rfc2898#appendix-C
  */
-class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier, PRFAlgorithmIdentifier
+final class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier, PRFAlgorithmIdentifier
 {
     public function __construct()
     {

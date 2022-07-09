@@ -17,7 +17,7 @@ use Sop\ASN1\Util\BigInt;
 /**
  * Class to represent BER/DER length octets.
  */
-class Length implements Encodable
+final class Length implements Encodable
 {
     /**
      * Length.

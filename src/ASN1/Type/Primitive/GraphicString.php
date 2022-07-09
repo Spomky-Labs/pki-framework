@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *GraphicString* type.
  */
-class GraphicString extends PrimitiveString
+final class GraphicString extends PrimitiveString
 {
     use UniversalClass;
 

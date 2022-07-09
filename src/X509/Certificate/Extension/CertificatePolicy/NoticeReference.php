@@ -13,14 +13,14 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class NoticeReference
+final class NoticeReference
 {
     /**
      * Notification reference numbers.
      *
      * @var int[]
      */
-    protected $_numbers;
+    private $_numbers;
 
     public function __construct(
     /**

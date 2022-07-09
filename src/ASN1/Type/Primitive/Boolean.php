@@ -17,7 +17,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *BOOLEAN* type.
  */
-class Boolean extends Element
+final class Boolean extends Element
 {
     use UniversalClass;
     use PrimitiveType;

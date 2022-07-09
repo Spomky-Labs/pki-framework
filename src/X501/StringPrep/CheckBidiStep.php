@@ -9,7 +9,7 @@ namespace Sop\X501\StringPrep;
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.5
  */
-class CheckBidiStep implements PrepareStep
+final class CheckBidiStep implements PrepareStep
 {
     /**
      * @param string $string UTF-8 encoded string

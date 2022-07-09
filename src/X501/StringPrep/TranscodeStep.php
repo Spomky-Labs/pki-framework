@@ -14,7 +14,7 @@ use Sop\ASN1\Type\Primitive\T61String;
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.1
  */
-class TranscodeStep implements PrepareStep
+final class TranscodeStep implements PrepareStep
 {
     /**
      * Supported ASN.1 types.

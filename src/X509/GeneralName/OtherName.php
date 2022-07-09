@@ -17,7 +17,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.6
  */
-class OtherName extends GeneralName
+final class OtherName extends GeneralName
 {
     /**
      * Constructor.

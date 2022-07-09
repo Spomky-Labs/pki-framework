@@ -10,7 +10,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 /**
  * Generic signature value container.
  */
-class GenericSignature extends Signature
+final class GenericSignature extends Signature
 {
     /**
      * Constructor.

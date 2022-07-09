@@ -8,7 +8,7 @@ use function array_slice;
 use function count;
 use UnexpectedValueException;
 
-class IPv6Address extends IPAddress
+final class IPv6Address extends IPAddress
 {
     /**
      * Initialize from octets.

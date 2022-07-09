@@ -17,14 +17,14 @@ use Sop\X509\CertificationPath\Policy\PolicyTree;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.6
  */
-class PathValidationResult
+final class PathValidationResult
 {
     /**
      * Certificates in a certification path.
      *
      * @var Certificate[]
      */
-    protected $_certificates;
+    private $_certificates;
 
     /**
      * Constructor.

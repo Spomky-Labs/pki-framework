@@ -14,7 +14,7 @@ use Sop\CryptoTypes\Asymmetric\PublicKey;
  *
  * @see https://tools.ietf.org/html/rfc8410
  */
-class X25519PrivateKey extends Curve25519PrivateKey
+final class X25519PrivateKey extends Curve25519PrivateKey
 {
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {

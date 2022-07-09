@@ -12,7 +12,7 @@ use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x520/2012/SelectedAttributeTypes.html#SelectedAttributeTypes.stateOrProvinceName
  */
-class StateOrProvinceNameValue extends DirectoryString
+final class StateOrProvinceNameValue extends DirectoryString
 {
     /**
      * Constructor.

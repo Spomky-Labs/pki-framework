@@ -18,7 +18,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @todo Implement EDIPartyName type
  */
-class EDIPartyName extends GeneralName
+final class EDIPartyName extends GeneralName
 {
     /**
      * @var Element

@@ -18,7 +18,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  * @see https://tools.ietf.org/html/rfc5755#section-7.3
  */
-class ObjectDigestInfo
+final class ObjectDigestInfo
 {
     final public const TYPE_PUBLIC_KEY = 0;
 
@@ -31,7 +31,7 @@ class ObjectDigestInfo
      *
      * @var null|string
      */
-    protected $_otherObjectTypeID;
+    private $_otherObjectTypeID;
 
     public function __construct(
     /**

@@ -11,7 +11,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
  * @see http://www.alvestrand.no/objectid/2.16.840.1.101.3.4.1.42.html
  * @see http://www.oid-info.com/get/2.16.840.1.101.3.4.1.42
  */
-class AES256CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
+final class AES256CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
 {
     /**
      * Constructor.

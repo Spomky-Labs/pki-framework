@@ -18,7 +18,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class PolicyInformation implements Countable, IteratorAggregate
+final class PolicyInformation implements Countable, IteratorAggregate
 {
     /**
      * Wildcard policy.
@@ -32,7 +32,7 @@ class PolicyInformation implements Countable, IteratorAggregate
      *
      * @var PolicyQualifierInfo[]
      */
-    protected $_qualifiers;
+    private $_qualifiers;
 
     public function __construct(
     /**

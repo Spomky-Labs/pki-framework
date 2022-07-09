@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *OCTET STRING* type.
  */
-class OctetString extends PrimitiveString
+final class OctetString extends PrimitiveString
 {
     use UniversalClass;
 

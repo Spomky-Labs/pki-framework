@@ -14,7 +14,7 @@ use Sop\X509\Feature\DateTimeHelper;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class AttCertValidityPeriod
+final class AttCertValidityPeriod
 {
     use DateTimeHelper;
 

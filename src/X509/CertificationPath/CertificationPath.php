@@ -26,14 +26,14 @@ use Sop\X509\CertificationPath\PathValidation\PathValidator;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-3.2
  */
-class CertificationPath implements Countable, IteratorAggregate
+final class CertificationPath implements Countable, IteratorAggregate
 {
     /**
      * Certification path.
      *
      * @var Certificate[]
      */
-    protected $_certificates;
+    private $_certificates;
 
     /**
      * Constructor.

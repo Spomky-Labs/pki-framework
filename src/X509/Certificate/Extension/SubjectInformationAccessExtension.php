@@ -19,7 +19,7 @@ use Sop\X509\Certificate\Extension\AccessDescription\SubjectAccessDescription;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.2
  */
-class SubjectInformationAccessExtension extends Extension implements Countable, IteratorAggregate
+final class SubjectInformationAccessExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Access descriptions.

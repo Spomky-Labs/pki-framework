@@ -20,7 +20,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class CertificatePoliciesExtension extends Extension implements Countable, IteratorAggregate
+final class CertificatePoliciesExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Policy information terms.

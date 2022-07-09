@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *ObjectDescriptor* type.
  */
-class ObjectDescriptor extends PrimitiveString
+final class ObjectDescriptor extends PrimitiveString
 {
     use UniversalClass;
 

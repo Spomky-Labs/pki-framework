@@ -10,7 +10,7 @@ use Sop\ASN1\Type\Structure;
 /**
  * Implements *SET* and *SET OF* types.
  */
-class Set extends Structure
+final class Set extends Structure
 {
     /**
      * Constructor.

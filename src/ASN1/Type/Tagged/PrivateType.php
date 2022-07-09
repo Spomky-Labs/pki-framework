@@ -7,6 +7,6 @@ namespace Sop\ASN1\Type\Tagged;
 /**
  * Intermediate class to store DER data of a private tagging type.
  */
-class PrivateType extends DERTaggedType
+final class PrivateType extends DERTaggedType
 {
 }

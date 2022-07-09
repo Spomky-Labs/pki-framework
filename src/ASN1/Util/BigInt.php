@@ -19,7 +19,7 @@ use Stringable;
 /**
  * Class to wrap an integer of arbirtary length.
  */
-class BigInt implements Stringable
+final class BigInt implements Stringable
 {
     /**
      * Number as a GMP object.

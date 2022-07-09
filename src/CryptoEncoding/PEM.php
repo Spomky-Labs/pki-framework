@@ -13,7 +13,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc7468
  */
-class PEM implements Stringable
+final class PEM implements Stringable
 {
     // well-known PEM types
     final public const TYPE_CERTIFICATE = 'CERTIFICATE';

@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *VisibleString* type.
  */
-class VisibleString extends PrimitiveString
+final class VisibleString extends PrimitiveString
 {
     use UniversalClass;
 

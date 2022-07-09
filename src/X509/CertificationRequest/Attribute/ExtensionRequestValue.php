@@ -16,7 +16,7 @@ use Sop\X509\Certificate\Extensions;
  *
  * @see https://tools.ietf.org/html/rfc2985#page-17
  */
-class ExtensionRequestValue extends AttributeValue
+final class ExtensionRequestValue extends AttributeValue
 {
     final public const OID = '1.2.840.113549.1.9.14';
 

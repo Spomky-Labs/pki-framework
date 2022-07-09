@@ -14,12 +14,10 @@ use Sop\X501\ASN1\Name;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.6
  */
-class DirectoryName extends GeneralName
+final class DirectoryName extends GeneralName
 {
-    public function __construct(/**
-     * Directory name.
-     */
-    protected Name $_dn
+    public function __construct(
+        protected Name $_dn
     ) {
         $this->_tag = self::TAG_DIRECTORY_NAME;
     }

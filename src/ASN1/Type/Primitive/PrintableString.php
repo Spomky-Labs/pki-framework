@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *PrintableString* type.
  */
-class PrintableString extends PrimitiveString
+final class PrintableString extends PrimitiveString
 {
     use UniversalClass;
 

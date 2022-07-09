@@ -15,7 +15,7 @@ use UnexpectedValueException;
  * @see https://tools.ietf.org/html/rfc1779
  * @see https://tools.ietf.org/html/rfc2253
  */
-class DNParser
+final class DNParser
 {
     /**
      * RFC 2253 special characters.
@@ -34,7 +34,7 @@ class DNParser
      *
      * @param string $_dn Distinguised name
      */
-    protected function __construct(private readonly string $_dn)
+    private function __construct(private readonly string $_dn)
     {
         $this->_len = mb_strlen($_dn, '8bit');
     }
@@ -76,7 +76,7 @@ class DNParser
     /**
      * Parse DN to name-components.
      */
-    protected function parse(): array
+    private function parse(): array
     {
         $offset = 0;
         $name = $this->_parseName($offset);

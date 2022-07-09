@@ -12,7 +12,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
  *
  * @see https://tools.ietf.org/html/rfc8410
  */
-class X25519PublicKey extends Curve25519PublicKey
+final class X25519PublicKey extends Curve25519PublicKey
 {
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {

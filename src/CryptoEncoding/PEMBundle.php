@@ -19,14 +19,14 @@ use UnexpectedValueException;
  *
  * The order of PEMs shall be retained, eg. when read from a file.
  */
-class PEMBundle implements Countable, IteratorAggregate, Stringable
+final class PEMBundle implements Countable, IteratorAggregate, Stringable
 {
     /**
      * Array of PEM objects.
      *
      * @var PEM[]
      */
-    protected $_pems;
+    private $_pems;
 
     public function __construct(PEM ...$pems)
     {

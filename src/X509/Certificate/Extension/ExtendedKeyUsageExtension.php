@@ -19,7 +19,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.12
  */
-class ExtendedKeyUsageExtension extends Extension implements Countable, IteratorAggregate
+final class ExtendedKeyUsageExtension extends Extension implements Countable, IteratorAggregate
 {
     final public const OID_SERVER_AUTH = '1.3.6.1.5.5.7.3.1';
 

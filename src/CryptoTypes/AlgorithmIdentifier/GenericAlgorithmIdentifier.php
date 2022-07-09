@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * Generic algorithm identifier to hold parameters as ASN.1 objects.
  */
-class GenericAlgorithmIdentifier extends AlgorithmIdentifier
+final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 {
     /**
      * Constructor.

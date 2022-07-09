@@ -14,7 +14,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
  * @see http://oid-info.com/get/1.3.101.113
  * @see https://tools.ietf.org/html/rfc8420#appendix-A.2
  */
-class Ed448AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
+final class Ed448AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
 {
     public function __construct()
     {

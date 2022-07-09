@@ -29,7 +29,7 @@ present:
  *
  * @see https://tools.ietf.org/html/rfc5480#section-2.1.1
  */
-class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
+final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
 {
     /**
      * prime192v1/secp192r1 curve OID.

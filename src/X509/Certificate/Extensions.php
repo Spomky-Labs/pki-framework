@@ -35,14 +35,14 @@ use Traversable;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.9
  */
-class Extensions implements Countable, IteratorAggregate
+final class Extensions implements Countable, IteratorAggregate
 {
     /**
      * Extensions.
      *
      * @var Extension[]
      */
-    protected $_extensions;
+    private $_extensions;
 
     /**
      * Constructor.

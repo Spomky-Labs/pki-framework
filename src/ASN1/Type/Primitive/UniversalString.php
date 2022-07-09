@@ -13,7 +13,7 @@ use Sop\ASN1\Type\UniversalClass;
  *
  * Universal string is an Unicode string with UCS-4 encoding.
  */
-class UniversalString extends PrimitiveString
+final class UniversalString extends PrimitiveString
 {
     use UniversalClass;
 

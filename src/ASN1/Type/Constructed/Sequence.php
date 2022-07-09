@@ -10,7 +10,7 @@ use Sop\ASN1\Type\Structure;
 /**
  * Implements *SEQUENCE* and *SEQUENCE OF* types.
  */
-class Sequence extends Structure
+final class Sequence extends Structure
 {
     /**
      * Constructor.

@@ -13,12 +13,10 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class CPSQualifier extends PolicyQualifierInfo
+final class CPSQualifier extends PolicyQualifierInfo
 {
-    public function __construct(/**
-     * URI.
-     */
-    protected string $_uri
+    public function __construct(
+        protected string $_uri
     ) {
         $this->_oid = self::OID_CPS;
     }

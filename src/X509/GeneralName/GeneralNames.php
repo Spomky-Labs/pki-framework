@@ -22,14 +22,14 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.6
  */
-class GeneralNames implements Countable, IteratorAggregate
+final class GeneralNames implements Countable, IteratorAggregate
 {
     /**
      * GeneralName objects.
      *
      * @var GeneralName[]
      */
-    protected $_names;
+    private $_names;
 
     /**
      * Constructor.
@@ -159,7 +159,7 @@ class GeneralNames implements Countable, IteratorAggregate
     /**
      * Find first GeneralName by given tag.
      */
-    protected function _findFirst(int $tag): ?GeneralName
+    private function _findFirst(int $tag): ?GeneralName
     {
         foreach ($this->_names as $name) {
             if ($name->tag() === $tag) {

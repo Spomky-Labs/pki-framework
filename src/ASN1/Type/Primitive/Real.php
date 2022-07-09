@@ -29,7 +29,7 @@ use UnexpectedValueException;
 /**
  * Implements *REAL* type.
  */
-class Real extends Element implements Stringable
+final class Real extends Element implements Stringable
 {
     use UniversalClass;
     use PrimitiveType;

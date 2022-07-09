@@ -11,7 +11,7 @@ use const MB_CASE_LOWER;
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.2
  */
-class MapStep implements PrepareStep
+final class MapStep implements PrepareStep
 {
     /**
      * Constructor.

@@ -16,14 +16,14 @@ use Sop\X509\CertificationPath\CertificationPath;
 /**
  * Ordered list of certificates from the end-entity to the trust anchor.
  */
-class CertificateChain implements Countable, IteratorAggregate
+final class CertificateChain implements Countable, IteratorAggregate
 {
     /**
      * List of certificates in a chain.
      *
      * @var Certificate[]
      */
-    protected $_certs;
+    private $_certs;
 
     /**
      * Constructor.

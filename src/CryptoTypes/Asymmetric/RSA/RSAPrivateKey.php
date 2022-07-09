@@ -20,7 +20,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc2437#section-11.1.2
  */
-class RSAPrivateKey extends PrivateKey
+final class RSAPrivateKey extends PrivateKey
 {
     /**
      * Modulus as a base 10 integer.

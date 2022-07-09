@@ -18,16 +18,10 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class DisplayText implements Stringable
+final class DisplayText implements Stringable
 {
     public function __construct(
-        /**
-         * Text.
-         */
         protected string $_text,
-        /**
-         * Element tag.
-         */
         protected int $_tag
     ) {
     }

@@ -11,7 +11,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
  * @see https://tools.ietf.org/html/rfc4055#section-2.1
  * @see https://tools.ietf.org/html/rfc5754#section-2.2
  */
-class SHA256AlgorithmIdentifier extends SHA2AlgorithmIdentifier
+final class SHA256AlgorithmIdentifier extends SHA2AlgorithmIdentifier
 {
     public function __construct()
     {

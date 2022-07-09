@@ -27,7 +27,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5480#section-2.2
  */
-class ECPublicKey extends PublicKey
+final class ECPublicKey extends PublicKey
 {
     /**
      * Elliptic curve public key.

@@ -13,7 +13,7 @@ use Sop\X501\ASN1\RDN;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
-class RelativeName extends DistributionPointName
+final class RelativeName extends DistributionPointName
 {
     public function __construct(/**
      * Relative distinguished name.

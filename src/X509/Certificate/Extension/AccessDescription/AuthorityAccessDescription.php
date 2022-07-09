@@ -7,7 +7,7 @@ namespace Sop\X509\Certificate\Extension\AccessDescription;
 /**
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.1
  */
-class AuthorityAccessDescription extends AccessDescription
+final class AuthorityAccessDescription extends AccessDescription
 {
     /**
      * Access method OID's.

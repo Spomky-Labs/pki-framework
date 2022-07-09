@@ -18,7 +18,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4
  */
-class IetfAttrValue implements Stringable
+final class IetfAttrValue implements Stringable
 {
     public function __construct(
         /**

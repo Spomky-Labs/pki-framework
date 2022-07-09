@@ -12,7 +12,7 @@ use Sop\ASN1\Type\Primitive\NullType;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.6
  */
-class NoRevocationAvailableExtension extends Extension
+final class NoRevocationAvailableExtension extends Extension
 {
     public function __construct(bool $critical)
     {

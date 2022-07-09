@@ -7,7 +7,7 @@ namespace Sop\Test\X501\Integration\Attribute;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
 
-class AttributeCollectionCastTestCollection extends SequenceOfAttributes
+final class AttributeCollectionCastTestCollection extends SequenceOfAttributes
 {
     protected static function _castAttributeValues(Attribute $attribute): Attribute
     {

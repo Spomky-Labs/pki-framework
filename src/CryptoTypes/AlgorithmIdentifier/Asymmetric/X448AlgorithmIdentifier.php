@@ -9,7 +9,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric;
  *
  * @see http://oid-info.com/get/1.3.101.111
  */
-class X448AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
+final class X448AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
 {
     public function __construct()
     {

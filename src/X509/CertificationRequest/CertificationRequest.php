@@ -19,7 +19,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc2986#section-4
  */
-class CertificationRequest implements Stringable
+final class CertificationRequest implements Stringable
 {
     public function __construct(
         /**

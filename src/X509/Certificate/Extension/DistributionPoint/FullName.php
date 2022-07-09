@@ -14,7 +14,7 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
-class FullName extends DistributionPointName
+final class FullName extends DistributionPointName
 {
     public function __construct(/**
      * Names.

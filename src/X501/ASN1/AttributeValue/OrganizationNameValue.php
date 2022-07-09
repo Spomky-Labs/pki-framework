@@ -12,7 +12,7 @@ use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x520/2012/SelectedAttributeTypes.html#SelectedAttributeTypes.organizationName
  */
-class OrganizationNameValue extends DirectoryString
+final class OrganizationNameValue extends DirectoryString
 {
     /**
      * Constructor.

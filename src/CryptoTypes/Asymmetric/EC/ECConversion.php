@@ -20,7 +20,7 @@ use Sop\ASN1\Type\Primitive\OctetString;
  *
  * @see http://www.secg.org/sec1-v2.pdf
  */
-class ECConversion
+final class ECConversion
 {
     /**
      * Perform Bit-String-to-Octet-String Conversion.

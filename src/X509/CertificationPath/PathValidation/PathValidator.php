@@ -19,21 +19,21 @@ use Sop\X509\CertificationPath\Exception\PathValidationException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-6
  */
-class PathValidator
+final class PathValidator
 {
     /**
      * Certification path.
      *
      * @var Certificate[]
      */
-    protected $_certificates;
+    private $_certificates;
 
     /**
      * Certification path trust anchor.
      *
      * @var Certificate
      */
-    protected $_trustAnchor;
+    private $_trustAnchor;
 
     /**
      * Constructor.

@@ -9,7 +9,7 @@ namespace Sop\X501\MatchingRule;
  *
  * Generally used only by UnknownAttribute and custom attributes.
  */
-class BinaryMatch extends MatchingRule
+final class BinaryMatch extends MatchingRule
 {
     public function compare($assertion, $value): ?bool
     {

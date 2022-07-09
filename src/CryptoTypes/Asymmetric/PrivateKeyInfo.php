@@ -17,7 +17,7 @@ use Sop\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
  * @see https://tools.ietf.org/html/rfc5208#section-5
  * @see https://tools.ietf.org/html/rfc5958#section-2
  */
-class PrivateKeyInfo extends OneAsymmetricKey
+final class PrivateKeyInfo extends OneAsymmetricKey
 {
     public function __construct(
         AlgorithmIdentifierType $algo,

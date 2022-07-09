@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *VideotexString* type.
  */
-class VideotexString extends PrimitiveString
+final class VideotexString extends PrimitiveString
 {
     use UniversalClass;
 

@@ -8,7 +8,7 @@ use function array_slice;
 use function count;
 use UnexpectedValueException;
 
-class IPv4Address extends IPAddress
+final class IPv4Address extends IPAddress
 {
     /**
      * Initialize from octets.

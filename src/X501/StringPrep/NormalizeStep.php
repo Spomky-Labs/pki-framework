@@ -11,7 +11,7 @@ use Normalizer;
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.3
  */
-class NormalizeStep implements PrepareStep
+final class NormalizeStep implements PrepareStep
 {
     /**
      * @param string $string UTF-8 encoded string

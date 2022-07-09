@@ -9,7 +9,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
  *
  * @see https://tools.ietf.org/html/rfc3279#section-2.2.1
  */
-class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorithmIdentifier
+final class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorithmIdentifier
 {
     public function __construct()
     {

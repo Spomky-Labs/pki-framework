@@ -9,7 +9,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
  *
  * @see https://tools.ietf.org/html/rfc4055#section-5
  */
-class SHA512WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatureAlgorithmIdentifier
+final class SHA512WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatureAlgorithmIdentifier
 {
     public function __construct()
     {

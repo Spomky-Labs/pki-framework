@@ -19,14 +19,14 @@ use UnexpectedValueException;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.RelativeDistinguishedName
  */
-class RDN implements Countable, IteratorAggregate, Stringable
+final class RDN implements Countable, IteratorAggregate, Stringable
 {
     /**
      * Attributes.
      *
      * @var AttributeTypeAndValue[]
      */
-    protected $_attribs;
+    private $_attribs;
 
     /**
      * Constructor.

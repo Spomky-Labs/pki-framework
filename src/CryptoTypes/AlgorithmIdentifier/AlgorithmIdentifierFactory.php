@@ -49,7 +49,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorit
  * Additional providers may be added to the process to support algorithm identifiers that are implemented in external
  * libraries.
  */
-class AlgorithmIdentifierFactory
+final class AlgorithmIdentifierFactory
 {
     /**
      * Mapping for algorithm identifiers provided by this library.

@@ -22,7 +22,7 @@ use Sop\X509\Certificate\Extension\Target\Targets;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
-class TargetInformationExtension extends Extension implements Countable, IteratorAggregate
+final class TargetInformationExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Targets elements.

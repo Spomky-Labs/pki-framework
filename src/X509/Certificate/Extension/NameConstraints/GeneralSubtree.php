@@ -16,7 +16,7 @@ use Sop\X509\GeneralName\GeneralName;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.10
  */
-class GeneralSubtree
+final class GeneralSubtree
 {
     public function __construct(
         /**

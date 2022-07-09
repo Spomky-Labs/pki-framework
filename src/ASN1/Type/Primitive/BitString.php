@@ -19,7 +19,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *BIT STRING* type.
  */
-class BitString extends BaseString
+final class BitString extends BaseString
 {
     use UniversalClass;
     use PrimitiveType;

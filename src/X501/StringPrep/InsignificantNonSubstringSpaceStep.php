@@ -11,7 +11,7 @@ namespace Sop\X501\StringPrep;
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.6.1
  */
-class InsignificantNonSubstringSpaceStep implements PrepareStep
+final class InsignificantNonSubstringSpaceStep implements PrepareStep
 {
     /**
      * @param string $string UTF-8 encoded string

@@ -17,7 +17,7 @@ use function strval;
  *
  * @see https://tools.ietf.org/html/rfc3278#section-8.2
  */
-class ECSignature extends Signature
+final class ECSignature extends Signature
 {
     /**
      * r-value as a base 10 integer.

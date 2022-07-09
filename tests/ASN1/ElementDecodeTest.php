@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Sop\Test\ASN1;
 
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\ASN1\Type\Primitive\NullType;
@@ -63,27 +61,5 @@ final class ElementDecodeTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Context specific element expected, got UNIVERSAL');
         Element::fromDER("\x5\x0")->expectTagged();
-    }
-
-    /**
-     * @test
-     */
-    public function fromUnimplementedClass()
-    {
-        $cls = new ReflectionClass(Element::class);
-        $mtd = $cls->getMethod('_determineImplClass');
-        $mtd->setAccessible(true);
-        $identifier = new ElementDecodeTest_IdentifierMockup(0, 0, 0);
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('not implemented');
-        $mtd->invokeArgs(null, [$identifier]);
-    }
-}
-
-class ElementDecodeTest_IdentifierMockup extends Identifier
-{
-    public function typeClass(): int
-    {
-        return 0xff;
     }
 }

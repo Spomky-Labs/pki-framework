@@ -24,7 +24,7 @@ use Stringable;
  * From API standpoint this can also be seen as a string type (as it implements `StringType`), and thus
  * `UnspecifiedType::asString()` method may return `ConstructedString` instances.
  */
-class ConstructedString extends Structure implements StringType, Stringable
+final class ConstructedString extends Structure implements StringType, Stringable
 {
     /**
      * Constructor.

@@ -9,7 +9,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
  *
  * @see https://tools.ietf.org/html/rfc3279#section-2.2.3
  */
-class ECDSAWithSHA1AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
+final class ECDSAWithSHA1AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
 {
     public function __construct()
     {

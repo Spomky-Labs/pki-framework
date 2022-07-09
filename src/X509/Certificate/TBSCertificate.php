@@ -29,7 +29,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2
  */
-class TBSCertificate
+final class TBSCertificate
 {
     // Certificate version enumerations
     final public const VERSION_1 = 0;
@@ -43,42 +43,42 @@ class TBSCertificate
      *
      * @var null|int
      */
-    protected $_version;
+    private $_version;
 
     /**
      * Serial number.
      *
      * @var null|string
      */
-    protected $_serialNumber;
+    private $_serialNumber;
 
     /**
      * Signature algorithm.
      *
      * @var null|SignatureAlgorithmIdentifier
      */
-    protected $_signature;
+    private $_signature;
 
     /**
      * Issuer unique identifier.
      *
      * @var null|UniqueIdentifier
      */
-    protected $_issuerUniqueID;
+    private $_issuerUniqueID;
 
     /**
      * Subject unique identifier.
      *
      * @var null|UniqueIdentifier
      */
-    protected $_subjectUniqueID;
+    private $_subjectUniqueID;
 
     /**
      * Extensions.
      *
      * @var Extensions
      */
-    protected $_extensions;
+    private $_extensions;
 
     /**
      * Constructor.
@@ -510,7 +510,7 @@ class TBSCertificate
     /**
      * Determine minimum version for the certificate.
      */
-    protected function _determineVersion(): int
+    private function _determineVersion(): int
     {
         // if extensions are present
         if (count($this->_extensions)) {

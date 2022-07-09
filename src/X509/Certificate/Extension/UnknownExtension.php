@@ -12,7 +12,7 @@ use Sop\ASN1\Type\Primitive\OctetString;
 /**
  * Class to park payload of an unknown extension.
  */
-class UnknownExtension extends Extension
+final class UnknownExtension extends Extension
 {
     /**
      * Raw extension value.

@@ -14,14 +14,14 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.1
  */
-class PathValidationConfig
+final class PathValidationConfig
 {
     /**
      * List of acceptable policy identifiers.
      *
      * @var string[]
      */
-    protected $_policySet;
+    private $_policySet;
 
     /**
      * Trust anchor certificate.
@@ -30,7 +30,7 @@ class PathValidationConfig
      *
      * @var null|Certificate
      */
-    protected $_trustAnchor;
+    private $_trustAnchor;
 
     /**
      * Whether policy mapping in inhibited.
@@ -39,14 +39,14 @@ class PathValidationConfig
      *
      * @var bool
      */
-    protected $_policyMappingInhibit;
+    private $_policyMappingInhibit;
 
     /**
      * Whether the path must be valid for at least one policy in the initial policy set.
      *
      * @var bool
      */
-    protected $_explicitPolicy;
+    private $_explicitPolicy;
 
     /**
      * Whether anyPolicy OID processing should be inhibited.
@@ -55,17 +55,17 @@ class PathValidationConfig
      *
      * @var bool
      */
-    protected $_anyPolicyInhibit;
+    private $_anyPolicyInhibit;
 
     /**
      * @todo Implement
      */
-    protected $_permittedSubtrees;
+    private $_permittedSubtrees;
 
     /**
      * @todo Implement
      */
-    protected $_excludedSubtrees;
+    private $_excludedSubtrees;
 
     /**
      * Constructor.

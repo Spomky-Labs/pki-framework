@@ -17,7 +17,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc8410
  */
-class Ed448PrivateKey extends RFC8410PrivateKey
+final class Ed448PrivateKey extends RFC8410PrivateKey
 {
     /**
      * Constructor.

@@ -7,7 +7,7 @@ namespace Sop\ASN1\Type\Primitive;
 /**
  * Implements *ENUMERATED* type.
  */
-class Enumerated extends Integer
+final class Enumerated extends Integer
 {
     /**
      * Constructor.

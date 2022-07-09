@@ -24,7 +24,7 @@ From RFC 3447:
  * @see http://www.oid-info.com/get/1.2.840.113549.1.1.1
  * @see https://tools.ietf.org/html/rfc3447#appendix-C
  */
-class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
+final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
 {
     public function __construct()
     {

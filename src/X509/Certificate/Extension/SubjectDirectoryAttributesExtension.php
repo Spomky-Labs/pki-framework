@@ -20,7 +20,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.8
  */
-class SubjectDirectoryAttributesExtension extends Extension implements Countable, IteratorAggregate
+final class SubjectDirectoryAttributesExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Attributes.

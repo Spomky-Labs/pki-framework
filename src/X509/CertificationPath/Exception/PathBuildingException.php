@@ -9,6 +9,6 @@ use RuntimeException;
 /**
  * Exception thrown on certification path building errors.
  */
-class PathBuildingException extends RuntimeException
+final class PathBuildingException extends RuntimeException
 {
 }

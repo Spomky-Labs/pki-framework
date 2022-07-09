@@ -14,14 +14,14 @@ use Sop\CryptoEncoding\PEMBundle;
 /**
  * Implements a list of certificates.
  */
-class CertificateBundle implements Countable, IteratorAggregate
+final class CertificateBundle implements Countable, IteratorAggregate
 {
     /**
      * Certificates.
      *
      * @var Certificate[]
      */
-    protected $_certs;
+    private $_certs;
 
     /**
      * Mapping from public key id to array of certificates.

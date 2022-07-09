@@ -24,7 +24,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5915#section-3
  */
-class ECPrivateKey extends PrivateKey
+final class ECPrivateKey extends PrivateKey
 {
     /**
      * Constructor.

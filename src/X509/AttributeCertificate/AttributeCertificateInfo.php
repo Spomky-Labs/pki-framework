@@ -24,7 +24,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class AttributeCertificateInfo
+final class AttributeCertificateInfo
 {
     final public const VERSION_2 = 1;
 
@@ -33,35 +33,35 @@ class AttributeCertificateInfo
      *
      * @var int
      */
-    protected $_version;
+    private $_version;
 
     /**
      * Signature algorithm identifier.
      *
      * @var SignatureAlgorithmIdentifier
      */
-    protected $_signature;
+    private $_signature;
 
     /**
      * AC serial number as a base 10 integer.
      *
      * @var string
      */
-    protected $_serialNumber;
+    private $_serialNumber;
 
     /**
      * Issuer unique identifier.
      *
      * @var null|UniqueIdentifier
      */
-    protected $_issuerUniqueID;
+    private $_issuerUniqueID;
 
     /**
      * Extensions.
      *
      * @var Extensions
      */
-    protected $_extensions;
+    private $_extensions;
 
     /**
      * Constructor.

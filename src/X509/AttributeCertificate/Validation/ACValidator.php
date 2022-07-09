@@ -20,14 +20,14 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-5
  */
-class ACValidator
+final class ACValidator
 {
     /**
      * Crypto engine.
      *
      * @var Crypto
      */
-    protected $_crypto;
+    private $_crypto;
 
     /**
      * Constructor.

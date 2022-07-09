@@ -9,7 +9,7 @@ namespace Sop\X509\AttributeCertificate\Attribute;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4.4
  */
-class GroupAttributeValue extends IetfAttrSyntax
+final class GroupAttributeValue extends IetfAttrSyntax
 {
     final public const OID = '1.3.6.1.5.5.7.10.4';
 

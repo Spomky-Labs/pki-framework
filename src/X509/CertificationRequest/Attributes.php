@@ -14,7 +14,7 @@ use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
  *
  * @see https://tools.ietf.org/html/rfc2986#section-4
  */
-class Attributes extends SetOfAttributes
+final class Attributes extends SetOfAttributes
 {
     /**
      * Mapping from OID to attribute value class name.

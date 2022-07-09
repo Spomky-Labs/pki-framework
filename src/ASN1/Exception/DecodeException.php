@@ -9,6 +9,6 @@ use RuntimeException;
 /**
  * Exception thrown on decoding errors.
  */
-class DecodeException extends RuntimeException
+final class DecodeException extends RuntimeException
 {
 }

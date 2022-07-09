@@ -7,7 +7,6 @@ namespace Sop\Test\X509\Integration\PathValidation;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Sop\ASN1\Element;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
@@ -60,7 +59,7 @@ final class DifferentAlgoParamsTest extends TestCase
         $cls = new ReflectionClass($pubkey);
         $prop = $cls->getProperty('_algo');
         $prop->setAccessible(true);
-        $prop->setValue($pubkey, new DifferentAlgoParamsValidationIntegrationTest_RSAAlgo());
+        $prop->setValue($pubkey, new RSAEncryptionAlgorithmIdentifier());
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
             $pubkey,
@@ -87,18 +86,5 @@ final class DifferentAlgoParamsTest extends TestCase
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
         static::assertInstanceOf(PathValidationResult::class, $result);
-    }
-}
-
-class DifferentAlgoParamsValidationIntegrationTest_RSAAlgo extends RSAEncryptionAlgorithmIdentifier
-{
-    public function __construct()
-    {
-        $this->_oid = '1.3.6.1.3';
-    }
-
-    protected function _paramsASN1(): ?Element
-    {
-        return null;
     }
 }

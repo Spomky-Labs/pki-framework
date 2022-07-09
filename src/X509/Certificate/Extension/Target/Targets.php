@@ -16,14 +16,14 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
-class Targets implements Countable, IteratorAggregate
+final class Targets implements Countable, IteratorAggregate
 {
     /**
      * Target elements.
      *
      * @var Target[]
      */
-    protected $_targets;
+    private $_targets;
 
     public function __construct(Target ...$targets)
     {
@@ -114,7 +114,7 @@ class Targets implements Countable, IteratorAggregate
      *
      * @return Target[]
      */
-    protected function _allOfType(int $type): array
+    private function _allOfType(int $type): array
     {
         return array_values(array_filter($this->_targets, fn (Target $target) => $target->type() === $type));
     }

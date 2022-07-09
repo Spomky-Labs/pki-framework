@@ -9,7 +9,7 @@ namespace Sop\X501\StringPrep;
  *
  * @see https://tools.ietf.org/html/rfc4518
  */
-class StringPreparer
+final class StringPreparer
 {
     final public const STEP_TRANSCODE = 1;
 
@@ -28,7 +28,7 @@ class StringPreparer
      *
      * @param PrepareStep[] $_steps Preparation steps to apply
      */
-    protected function __construct(
+    private function __construct(
         /**
          * Preparation steps.
          */

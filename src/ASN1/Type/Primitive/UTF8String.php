@@ -12,7 +12,7 @@ use Sop\ASN1\Type\UniversalClass;
  *
  * UTF8String* is an Unicode string with UTF-8 encoding.
  */
-class UTF8String extends PrimitiveString
+final class UTF8String extends PrimitiveString
 {
     use UniversalClass;
 

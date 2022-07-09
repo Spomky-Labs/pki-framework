@@ -19,7 +19,7 @@ use Sop\X509\AttributeCertificate\Attribute\RoleAttributeValue;
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  * @see https://tools.ietf.org/html/rfc5755#section-4.2.7
  */
-class Attributes extends SequenceOfAttributes
+final class Attributes extends SequenceOfAttributes
 {
     /**
      * Mapping from OID to attribute value class name.

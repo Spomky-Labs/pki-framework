@@ -11,7 +11,7 @@ use Sop\ASN1\Feature\ElementBase;
 /**
  * Implements *RELATIVE-OID* type.
  */
-class RelativeOID extends ObjectIdentifier
+final class RelativeOID extends ObjectIdentifier
 {
     /**
      * Constructor.

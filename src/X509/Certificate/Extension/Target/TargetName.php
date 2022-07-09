@@ -14,7 +14,7 @@ use Sop\X509\GeneralName\GeneralName;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
-class TargetName extends Target
+final class TargetName extends Target
 {
     public function __construct(/**
      * Name.

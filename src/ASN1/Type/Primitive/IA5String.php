@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *IA5String* type.
  */
-class IA5String extends PrimitiveString
+final class IA5String extends PrimitiveString
 {
     use UniversalClass;
 

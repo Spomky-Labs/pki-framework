@@ -11,21 +11,21 @@ use Sop\X509\CertificationPath\CertificationPath;
 /**
  * Provides configuration context for the attribute certificate validation.
  */
-class ACValidationConfig
+final class ACValidationConfig
 {
     /**
      * Evaluation reference time.
      *
      * @var DateTimeImmutable
      */
-    protected $_evalTime;
+    private $_evalTime;
 
     /**
      * Permitted targets.
      *
      * @var Target[]
      */
-    protected $_targets;
+    private $_targets;
 
     /**
      * Constructor.

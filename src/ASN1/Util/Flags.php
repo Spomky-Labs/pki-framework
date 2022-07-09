@@ -17,21 +17,21 @@ use Sop\ASN1\Type\Primitive\BitString;
 /**
  * Class to handle a bit string as a field of flags.
  */
-class Flags
+final class Flags
 {
     /**
      * Flag octets.
      *
      * @var string
      */
-    protected $_flags;
+    private $_flags;
 
     /**
      * Number of flags.
      *
      * @var int
      */
-    protected $_width;
+    private $_width;
 
     /**
      * Constructor.

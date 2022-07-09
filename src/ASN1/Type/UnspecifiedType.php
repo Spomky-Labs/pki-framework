@@ -43,7 +43,7 @@ use UnexpectedValueException;
  *
  * Provides accessor methods to test the underlying type and return a type hinted instance of the concrete element.
  */
-class UnspecifiedType implements ElementBase
+final class UnspecifiedType implements ElementBase
 {
     public function __construct(
         /**

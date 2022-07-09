@@ -12,7 +12,7 @@ use Sop\ASN1\Util\Flags;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
-class ReasonFlags
+final class ReasonFlags
 {
     // const UNUSED = 0x100;
     final public const KEY_COMPROMISE = 0x080;
@@ -124,7 +124,7 @@ class ReasonFlags
     /**
      * Check whether given flag is set.
      */
-    protected function _flagSet(int $flag): bool
+    private function _flagSet(int $flag): bool
     {
         return (bool) ($this->_flags & $flag);
     }

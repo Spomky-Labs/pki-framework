@@ -19,7 +19,7 @@ use Sop\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.1
  */
-class AuthorityInformationAccessExtension extends Extension implements Countable, IteratorAggregate
+final class AuthorityInformationAccessExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Access descriptions.

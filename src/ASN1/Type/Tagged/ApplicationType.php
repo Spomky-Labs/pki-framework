@@ -7,6 +7,6 @@ namespace Sop\ASN1\Type\Tagged;
 /**
  * Intermediate class to store DER data of an application specific type.
  */
-class ApplicationType extends DERTaggedType
+final class ApplicationType extends DERTaggedType
 {
 }

@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *GeneralString* type.
  */
-class GeneralString extends PrimitiveString
+final class GeneralString extends PrimitiveString
 {
     use UniversalClass;
 

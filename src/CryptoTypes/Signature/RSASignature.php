@@ -14,7 +14,7 @@ use function strval;
  *
  * @see https://tools.ietf.org/html/rfc2313#section-10
  */
-class RSASignature extends Signature
+final class RSASignature extends Signature
 {
     /**
      * Signature value *S*.

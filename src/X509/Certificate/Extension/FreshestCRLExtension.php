@@ -11,7 +11,7 @@ use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.15
  */
-class FreshestCRLExtension extends CRLDistributionPointsExtension
+final class FreshestCRLExtension extends CRLDistributionPointsExtension
 {
     public function __construct(bool $critical, DistributionPoint ...$distribution_points)
     {

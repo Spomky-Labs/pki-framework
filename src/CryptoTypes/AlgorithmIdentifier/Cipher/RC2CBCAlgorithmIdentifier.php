@@ -47,7 +47,7 @@ RC2CBCParameter ::= SEQUENCE {
  * @see https://tools.ietf.org/html/rfc3370#section-5.2
  * @see https://tools.ietf.org/html/rfc2898#appendix-C
  */
-class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
+final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
     /**
      * RFC 2268 translation table for effective key bits.

@@ -30,7 +30,7 @@ use UnexpectedValueException;
 /**
  * Crypto engine using OpenSSL extension.
  */
-class OpenSSLCrypto extends Crypto
+final class OpenSSLCrypto extends Crypto
 {
     /**
      * Mapping from algorithm OID to OpenSSL signature method identifier.

@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *T61String* type.
  */
-class T61String extends PrimitiveString
+final class T61String extends PrimitiveString
 {
     use UniversalClass;
 

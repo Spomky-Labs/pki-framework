@@ -21,7 +21,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.1
  */
-class AuthorityKeyIdentifierExtension extends Extension
+final class AuthorityKeyIdentifierExtension extends Extension
 {
     /**
      * Issuer serial number as a base 10 integer.

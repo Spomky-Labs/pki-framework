@@ -11,7 +11,7 @@ use Sop\ASN1\Type\Primitive\BitString;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.8
  */
-class UniqueIdentifier
+final class UniqueIdentifier
 {
     public function __construct(
         /**

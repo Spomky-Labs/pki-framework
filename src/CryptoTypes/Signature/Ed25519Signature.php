@@ -15,7 +15,7 @@ use Sop\ASN1\Type\Primitive\BitString;
  *
  * @see https://tools.ietf.org/html/rfc8032#section-5.1.6
  */
-class Ed25519Signature extends Signature
+final class Ed25519Signature extends Signature
 {
     /**
      * Signature value.

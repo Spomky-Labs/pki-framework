@@ -19,21 +19,21 @@ use Sop\X509\CertificationPath\Policy\PolicyTree;
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.1
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.2
  */
-class ValidatorState
+final class ValidatorState
 {
     /**
      * Length of the certification path (n).
      *
      * @var int
      */
-    protected $_pathLength;
+    private $_pathLength;
 
     /**
      * Current index in the certification path in the range of 1..n (i).
      *
      * @var int
      */
-    protected $_index;
+    private $_index;
 
     /**
      * Valid policy tree (valid_policy_tree).
@@ -44,7 +44,7 @@ class ValidatorState
      *
      * @var null|PolicyTree
      */
-    protected $_validPolicyTree;
+    private $_validPolicyTree;
 
     /**
      * Permitted subtrees (permitted_subtrees).
@@ -52,7 +52,7 @@ class ValidatorState
      * A set of root names for each name type defining a set of subtrees within which all subject names in subsequent
      * certificates in the certification path must fall.
      */
-    protected $_permittedSubtrees;
+    private $_permittedSubtrees;
 
     /**
      * Excluded subtrees (excluded_subtrees).
@@ -60,7 +60,7 @@ class ValidatorState
      * A set of root names for each name type defining a set of subtrees within which no subject name in subsequent
      * certificates in the certification path may fall.
      */
-    protected $_excludedSubtrees;
+    private $_excludedSubtrees;
 
     /**
      * Explicit policy (explicit_policy).
@@ -69,7 +69,7 @@ class ValidatorState
      *
      * @var int
      */
-    protected $_explicitPolicy;
+    private $_explicitPolicy;
 
     /**
      * Inhibit anyPolicy (inhibit_anyPolicy).
@@ -78,7 +78,7 @@ class ValidatorState
      *
      * @var int
      */
-    protected $_inhibitAnyPolicy;
+    private $_inhibitAnyPolicy;
 
     /**
      * Policy mapping (policy_mapping).
@@ -87,7 +87,7 @@ class ValidatorState
      *
      * @var int
      */
-    protected $_policyMapping;
+    private $_policyMapping;
 
     /**
      * Working public key algorithm (working_public_key_algorithm).
@@ -96,7 +96,7 @@ class ValidatorState
      *
      * @var AlgorithmIdentifierType
      */
-    protected $_workingPublicKeyAlgorithm;
+    private $_workingPublicKeyAlgorithm;
 
     /**
      * Working public key (working_public_key).
@@ -105,7 +105,7 @@ class ValidatorState
      *
      * @var PublicKeyInfo
      */
-    protected $_workingPublicKey;
+    private $_workingPublicKey;
 
     /**
      * Working public key parameters (working_public_key_parameters).
@@ -114,7 +114,7 @@ class ValidatorState
      *
      * @var null|Element
      */
-    protected $_workingPublicKeyParameters;
+    private $_workingPublicKeyParameters;
 
     /**
      * Working issuer name (working_issuer_name).
@@ -123,16 +123,16 @@ class ValidatorState
      *
      * @var Name
      */
-    protected $_workingIssuerName;
+    private $_workingIssuerName;
 
     /**
      * Maximum certification path length (max_path_length).
      *
      * @var int
      */
-    protected $_maxPathLength;
+    private $_maxPathLength;
 
-    protected function __construct()
+    private function __construct()
     {
     }
 

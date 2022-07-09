@@ -18,7 +18,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *GeneralizedTime* type.
  */
-class GeneralizedTime extends BaseTime
+final class GeneralizedTime extends BaseTime
 {
     use UniversalClass;
     use PrimitiveType;

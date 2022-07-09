@@ -27,7 +27,7 @@ From RFC 3370 - 2.1 SHA-1
  * @see http://oid-info.com/get/1.3.14.3.2.26
  * @see https://tools.ietf.org/html/rfc3370#section-2.1
  */
-class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
+final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
 {
     /**
      * Parameters.

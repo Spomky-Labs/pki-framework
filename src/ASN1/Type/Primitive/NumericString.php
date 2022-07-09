@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *NumericString* type.
  */
-class NumericString extends PrimitiveString
+final class NumericString extends PrimitiveString
 {
     use UniversalClass;
 

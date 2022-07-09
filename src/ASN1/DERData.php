@@ -15,7 +15,7 @@ use Sop\ASN1\Feature\ElementBase;
  *
  * May be inserted into structure without decoding first.
  */
-class DERData extends Element
+final class DERData extends Element
 {
     /**
      * DER encoded data.

@@ -24,7 +24,7 @@ use UnexpectedValueException;
  *
  * @see https://tools.ietf.org/html/rfc2986#section-4
  */
-class CertificationRequestInfo
+final class CertificationRequestInfo
 {
     final public const VERSION_1 = 0;
 
@@ -33,14 +33,14 @@ class CertificationRequestInfo
      *
      * @var int
      */
-    protected $_version;
+    private $_version;
 
     /**
      * Attributes.
      *
      * @var null|Attributes
      */
-    protected $_attributes;
+    private $_attributes;
 
     /**
      * Constructor.

@@ -11,7 +11,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.5
  */
-class Validity
+final class Validity
 {
     public function __construct(
         /**

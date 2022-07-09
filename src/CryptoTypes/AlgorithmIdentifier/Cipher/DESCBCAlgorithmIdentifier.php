@@ -24,7 +24,7 @@ RFC 2898 defines parameters as follows:
  * @see http://www.oid-info.com/get/1.3.14.3.2.7
  * @see https://tools.ietf.org/html/rfc2898#appendix-C
  */
-class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
+final class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
     /**
      * Constructor.

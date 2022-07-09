@@ -16,7 +16,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *UTCTime* type.
  */
-class UTCTime extends BaseTime
+final class UTCTime extends BaseTime
 {
     use UniversalClass;
     use PrimitiveType;

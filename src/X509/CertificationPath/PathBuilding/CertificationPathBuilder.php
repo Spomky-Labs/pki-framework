@@ -15,7 +15,7 @@ use Sop\X509\CertificationPath\Exception\PathBuildingException;
  *
  * @see https://tools.ietf.org/html/rfc4158
  */
-class CertificationPathBuilder
+final class CertificationPathBuilder
 {
     /**
      * Constructor.
@@ -67,7 +67,7 @@ class CertificationPathBuilder
      *
      * @return Certificate[]
      */
-    protected function _findIssuers(Certificate $target, CertificateBundle $bundle): array
+    private function _findIssuers(Certificate $target, CertificateBundle $bundle): array
     {
         $issuers = [];
         $issuer_name = $target->tbsCertificate()

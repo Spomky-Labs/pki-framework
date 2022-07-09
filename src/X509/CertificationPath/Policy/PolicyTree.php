@@ -11,7 +11,7 @@ use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\CertificationPath\PathValidation\ValidatorState;
 
-class PolicyTree
+final class PolicyTree
 {
     /**
      * Constructor.
@@ -148,7 +148,7 @@ class PolicyTree
     /**
      * Process single policy information.
      */
-    protected function _processPolicy(PolicyInformation $policy, ValidatorState $state): void
+    private function _processPolicy(PolicyInformation $policy, ValidatorState $state): void
     {
         $p_oid = $policy->oid();
         $i = $state->index();
@@ -176,11 +176,8 @@ class PolicyTree
     /**
      * Process anyPolicy policy information.
      */
-    protected function _processAnyPolicy(
-        PolicyInformation $policy,
-        Certificate $cert,
-        ValidatorState $state
-    ): void {
+    private function _processAnyPolicy(PolicyInformation $policy, Certificate $cert, ValidatorState $state): void
+    {
         $i = $state->index();
         // if (a) inhibit_anyPolicy is greater than 0 or
         // (b) i<n and the certificate is self-issued
@@ -203,7 +200,7 @@ class PolicyTree
     /**
      * Apply policy mappings to the policy tree.
      */
-    protected function _applyMappings(Certificate $cert, ValidatorState $state): void
+    private function _applyMappings(Certificate $cert, ValidatorState $state): void
     {
         $policy_mappings = $cert->tbsCertificate()
             ->extensions()
@@ -235,7 +232,7 @@ class PolicyTree
      * @param string         $idp   OID of the issuer domain policy
      * @param array          $sdps  Array of subject domain policy OIDs
      */
-    protected function _applyAnyPolicyMapping(
+    private function _applyAnyPolicyMapping(
         Certificate $cert,
         ValidatorState $state,
         string $idp,
@@ -274,7 +271,7 @@ class PolicyTree
     /**
      * Delete nodes as specified in 6.1.4 (b)(2).
      */
-    protected function _deleteMappings(Certificate $cert, ValidatorState $state): void
+    private function _deleteMappings(Certificate $cert, ValidatorState $state): void
     {
         $idps = $cert->tbsCertificate()
             ->extensions()
@@ -295,7 +292,7 @@ class PolicyTree
      *
      * @return int The number of nodes left in a tree
      */
-    protected function _pruneTree(int $depth): int
+    private function _pruneTree(int $depth): int
     {
         if (! $this->_root) {
             return 0;
@@ -320,7 +317,7 @@ class PolicyTree
      *
      * @return PolicyNode[]
      */
-    protected function _nodesAtDepth(int $i): array
+    private function _nodesAtDepth(int $i): array
     {
         if (! $this->_root) {
             return [];
@@ -342,7 +339,7 @@ class PolicyTree
      *
      * @return PolicyNode[]
      */
-    protected function _validPolicyNodeSet(): array
+    private function _validPolicyNodeSet(): array
     {
         // 1. Determine the set of policy nodes whose parent nodes have
         // a valid_policy of anyPolicy. This is the valid_policy_node_set.

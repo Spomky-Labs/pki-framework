@@ -23,14 +23,14 @@ use Stringable;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.Name
  */
-class Name implements Countable, IteratorAggregate, Stringable
+final class Name implements Countable, IteratorAggregate, Stringable
 {
     /**
      * Relative distinguished name components.
      *
      * @var RDN[]
      */
-    protected $_rdns;
+    private $_rdns;
 
     /**
      * Constructor.

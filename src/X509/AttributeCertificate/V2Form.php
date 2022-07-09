@@ -17,7 +17,7 @@ use Sop\X509\GeneralName\GeneralNames;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class V2Form extends AttCertIssuer
+final class V2Form extends AttCertIssuer
 {
     /**
      * Issuer PKC's issuer and serial.

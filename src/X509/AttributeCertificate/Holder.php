@@ -18,14 +18,14 @@ use Sop\X509\GeneralName\GeneralNames;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class Holder
+final class Holder
 {
     /**
      * Linked object.
      *
      * @var null|ObjectDigestInfo
      */
-    protected $_objectDigestInfo;
+    private $_objectDigestInfo;
 
     public function __construct(
         /**

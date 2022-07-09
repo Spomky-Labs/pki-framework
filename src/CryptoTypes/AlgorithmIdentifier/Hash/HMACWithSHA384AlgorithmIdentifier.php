@@ -9,7 +9,7 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
  *
  * @see https://tools.ietf.org/html/rfc4231#section-3.1
  */
-class HMACWithSHA384AlgorithmIdentifier extends RFC4231HMACAlgorithmIdentifier
+final class HMACWithSHA384AlgorithmIdentifier extends RFC4231HMACAlgorithmIdentifier
 {
     public function __construct()
     {

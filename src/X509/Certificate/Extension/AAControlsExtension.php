@@ -18,7 +18,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-7.4
  */
-class AAControlsExtension extends Extension
+final class AAControlsExtension extends Extension
 {
     /**
      * Constructor.

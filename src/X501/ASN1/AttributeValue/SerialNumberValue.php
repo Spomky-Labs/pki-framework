@@ -12,7 +12,7 @@ use Sop\X501\ASN1\AttributeValue\Feature\PrintableStringValue;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x520/2012/SelectedAttributeTypes.html#SelectedAttributeTypes.serialNumber
  */
-class SerialNumberValue extends PrintableStringValue
+final class SerialNumberValue extends PrintableStringValue
 {
     /**
      * Constructor.

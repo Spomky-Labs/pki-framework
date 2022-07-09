@@ -14,17 +14,13 @@ abstract class TaggedTypeWrap extends TaggedType
 {
     /**
      * Wrapped element.
-     *
-     * @var Element
      */
-    protected $_element;
+    protected Element $_element;
 
     /**
      * Type class.
-     *
-     * @var int
      */
-    protected $_class;
+    protected int $_class;
 
     public function typeClass(): int
     {

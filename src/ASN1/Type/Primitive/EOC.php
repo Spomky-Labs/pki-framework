@@ -15,7 +15,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *End-of-contents* type.
  */
-class EOC extends Element
+final class EOC extends Element
 {
     use UniversalClass;
     use PrimitiveType;

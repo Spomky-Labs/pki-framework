@@ -15,7 +15,7 @@ use Sop\ASN1\Util\BigInt;
 /**
  * Class to represent BER/DER identifier octets.
  */
-class Identifier implements Encodable
+final class Identifier implements Encodable
 {
     // Type class enumerations
     final public const CLASS_UNIVERSAL = 0b00;

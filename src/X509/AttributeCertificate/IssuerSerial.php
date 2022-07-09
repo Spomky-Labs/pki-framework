@@ -19,14 +19,14 @@ use function strval;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.1
  */
-class IssuerSerial
+final class IssuerSerial
 {
     /**
      * Serial number as a base 10 integer.
      *
      * @var string
      */
-    protected $_serial;
+    private $_serial;
 
     /**
      * Constructor.

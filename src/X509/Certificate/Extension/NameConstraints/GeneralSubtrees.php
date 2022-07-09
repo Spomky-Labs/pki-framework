@@ -18,14 +18,14 @@ use UnexpectedValueException;
  *
  * @see @link https://tools.ietf.org/html/rfc5280#section-4.2.1.10
  */
-class GeneralSubtrees implements Countable, IteratorAggregate
+final class GeneralSubtrees implements Countable, IteratorAggregate
 {
     /**
      * Subtrees.
      *
      * @var GeneralSubtree[]
      */
-    protected $_subtrees;
+    private $_subtrees;
 
     public function __construct(GeneralSubtree ...$subtrees)
     {
