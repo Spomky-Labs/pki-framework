@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\ASN1;
 
+use BadMethodCallException;
 use function mb_strlen;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
+use Sop\ASN1\Feature\ElementBase;
 
 /**
  * Container for raw DER encoded data.
@@ -72,5 +74,10 @@ class DERData extends Element
             return '';
         }
         return mb_substr($this->_der, $this->_contentOffset, null, '8bit');
+    }
+
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
+        throw new BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
     }
 }

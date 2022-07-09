@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Sop\ASN1\Component\Identifier;
@@ -64,21 +63,6 @@ final class ElementDecodeTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Context specific element expected, got UNIVERSAL');
         Element::fromDER("\x5\x0")->expectTagged();
-    }
-
-    /**
-     * @test
-     */
-    public function fromDERBadCall()
-    {
-        $cls = new ReflectionClass(Element::class);
-        $mtd = $cls->getMethod('_decodeFromDER');
-        $mtd->setAccessible(true);
-        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL, Identifier::PRIMITIVE, Element::TYPE_NULL);
-        $offset = 0;
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('must be implemented in derived class');
-        $mtd->invokeArgs(null, [$identifier, '', &$offset]);
     }
 
     /**

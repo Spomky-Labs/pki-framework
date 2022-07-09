@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Tagged;
 
+use BadMethodCallException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
+use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
 
@@ -56,5 +58,10 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
     {
         // get only the content of the wrapped element.
         return $this->_element->_encodedContentDER();
+    }
+
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
+        throw new BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
     }
 }
