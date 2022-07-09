@@ -40,9 +40,9 @@ return static function (ECSConfig $config) use ($header): void {
     $config->import(SetList::PHPUNIT);
     $config->import(SetList::COMMENTS);
     $config->import(SetList::DOCBLOCK);
+    $config->import(SetList::ARRAY);
     /*
     $config->import(SetList::SYMPLIFY);
-    $config->import(SetList::ARRAY);
     $config->import(SetList::COMMON);
     $config->import(SetList::CONTROL_STRUCTURES);
     $config->import(SetList::NAMESPACES);

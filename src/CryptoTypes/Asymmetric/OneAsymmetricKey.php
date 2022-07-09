@@ -343,7 +343,7 @@ class OneAsymmetricKey
         $elements = [
             new Integer($this->_version),
             $this->_algo->toASN1(),
-            new OctetString($this->_privateKeyData)
+            new OctetString($this->_privateKeyData),
         ];
         if ($this->_attributes) {
             $elements[] = new ImplicitlyTaggedType(
