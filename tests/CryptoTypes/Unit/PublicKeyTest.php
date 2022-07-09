@@ -23,7 +23,7 @@ final class PublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPublicKey::class, $pk);
+        static::assertInstanceOf(RSAPublicKey::class, $pk);
     }
 
     /**
@@ -33,7 +33,7 @@ final class PublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $pk = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPublicKey::class, $pk);
+        static::assertInstanceOf(RSAPublicKey::class, $pk);
     }
 
     /**
@@ -45,7 +45,7 @@ final class PublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $pk = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(ECPublicKey::class, $pk);
+        static::assertInstanceOf(ECPublicKey::class, $pk);
         return $pk;
     }
 
@@ -56,7 +56,7 @@ final class PublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $result = PublicKey::fromPEM($pem)->publicKeyInfo()->toPEM();
-        $this->assertEquals($pem, $result);
+        static::assertEquals($pem, $result);
     }
 
     /**
@@ -66,7 +66,7 @@ final class PublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $result = PublicKey::fromPEM($pem)->publicKeyInfo()->toPEM();
-        $this->assertEquals($pem, $result);
+        static::assertEquals($pem, $result);
     }
 
     /**

@@ -49,7 +49,7 @@ final class CertificationPathValidationTest extends TestCase
     public function validateDefault()
     {
         $result = self::$_path->validate(PathValidationConfig::defaultConfig());
-        $this->assertInstanceOf(PathValidationResult::class, $result);
+        static::assertInstanceOf(PathValidationResult::class, $result);
         return $result;
     }
 
@@ -61,7 +61,7 @@ final class CertificationPathValidationTest extends TestCase
     public function result(PathValidationResult $result)
     {
         $expected_cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
-        $this->assertEquals($expected_cert, $result->certificate());
+        static::assertEquals($expected_cert, $result->certificate());
     }
 
     /**
@@ -110,7 +110,7 @@ final class CertificationPathValidationTest extends TestCase
     {
         $config = PathValidationConfig::defaultConfig()->withTrustAnchor(self::$_path->certificates()[0]);
         $validator = new PathValidator(Crypto::getDefault(), $config, ...self::$_path->certificates());
-        $this->assertInstanceOf(PathValidationResult::class, $validator->validate());
+        static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
 
     /**

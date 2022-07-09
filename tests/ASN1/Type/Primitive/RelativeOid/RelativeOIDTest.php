@@ -22,7 +22,7 @@ final class RelativeOIDTest extends TestCase
     public function create()
     {
         $el = new RelativeOID('1.3.6.1.3');
-        $this->assertInstanceOf(RelativeOID::class, $el);
+        static::assertInstanceOf(RelativeOID::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class RelativeOIDTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_RELATIVE_OID, $el->tag());
+        static::assertEquals(Element::TYPE_RELATIVE_OID, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class RelativeOIDTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -56,7 +56,7 @@ final class RelativeOIDTest extends TestCase
     public function decode(string $data): RelativeOID
     {
         $el = RelativeOID::fromDER($data);
-        $this->assertInstanceOf(RelativeOID::class, $el);
+        static::assertInstanceOf(RelativeOID::class, $el);
         return $el;
     }
 
@@ -68,7 +68,7 @@ final class RelativeOIDTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -79,7 +79,7 @@ final class RelativeOIDTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(RelativeOID::class, $wrap->asRelativeOID());
+        static::assertInstanceOf(RelativeOID::class, $wrap->asRelativeOID());
     }
 
     /**

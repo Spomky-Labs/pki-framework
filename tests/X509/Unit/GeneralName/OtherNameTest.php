@@ -23,7 +23,7 @@ final class OtherNameTest extends TestCase
     public function create()
     {
         $name = new OtherName('1.3.6.1.3.1', new NullType());
-        $this->assertInstanceOf(OtherName::class, $name);
+        static::assertInstanceOf(OtherName::class, $name);
         return $name;
     }
 
@@ -35,7 +35,7 @@ final class OtherNameTest extends TestCase
     public function encode(OtherName $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -49,7 +49,7 @@ final class OtherNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_OTHER_NAME, $el->tag());
+        static::assertEquals(GeneralName::TAG_OTHER_NAME, $el->tag());
     }
 
     /**
@@ -62,7 +62,7 @@ final class OtherNameTest extends TestCase
     public function decode($der)
     {
         $name = OtherName::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(OtherName::class, $name);
+        static::assertInstanceOf(OtherName::class, $name);
         return $name;
     }
 
@@ -74,7 +74,7 @@ final class OtherNameTest extends TestCase
      */
     public function recoded(OtherName $ref, OtherName $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -84,7 +84,7 @@ final class OtherNameTest extends TestCase
      */
     public function string(OtherName $name)
     {
-        $this->assertIsString($name->string());
+        static::assertIsString($name->string());
     }
 
     /**
@@ -94,7 +94,7 @@ final class OtherNameTest extends TestCase
      */
     public function oID(OtherName $name)
     {
-        $this->assertEquals('1.3.6.1.3.1', $name->type());
+        static::assertEquals('1.3.6.1.3.1', $name->type());
     }
 
     /**
@@ -104,6 +104,6 @@ final class OtherNameTest extends TestCase
      */
     public function value(OtherName $name)
     {
-        $this->assertEquals(new NullType(), $name->value());
+        static::assertEquals(new NullType(), $name->value());
     }
 }

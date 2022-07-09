@@ -41,7 +41,7 @@ final class V2FormTest extends TestCase
     public function create()
     {
         $issuer = new V2Form(self::$_issuerName);
-        $this->assertInstanceOf(AttCertIssuer::class, $issuer);
+        static::assertInstanceOf(AttCertIssuer::class, $issuer);
         return $issuer;
     }
 
@@ -53,7 +53,7 @@ final class V2FormTest extends TestCase
     public function encode(V2Form $issuer)
     {
         $el = $issuer->toASN1();
-        $this->assertInstanceOf(ImplicitlyTaggedType::class, $el);
+        static::assertInstanceOf(ImplicitlyTaggedType::class, $el);
         return $el->toDER();
     }
 
@@ -67,7 +67,7 @@ final class V2FormTest extends TestCase
     public function decode($data)
     {
         $issuer = V2Form::fromASN1(Element::fromDER($data)->asUnspecified());
-        $this->assertInstanceOf(V2Form::class, $issuer);
+        static::assertInstanceOf(V2Form::class, $issuer);
         return $issuer;
     }
 
@@ -79,7 +79,7 @@ final class V2FormTest extends TestCase
      */
     public function recoded(V2Form $ref, V2Form $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -89,7 +89,7 @@ final class V2FormTest extends TestCase
      */
     public function issuerName(V2Form $issuer)
     {
-        $this->assertEquals(self::$_issuerName, $issuer->issuerName());
+        static::assertEquals(self::$_issuerName, $issuer->issuerName());
     }
 
     /**
@@ -109,7 +109,7 @@ final class V2FormTest extends TestCase
      */
     public function name(V2Form $issuer)
     {
-        $this->assertEquals('cn=Test', $issuer->name());
+        static::assertEquals('cn=Test', $issuer->name());
     }
 
     /**
@@ -132,7 +132,7 @@ final class V2FormTest extends TestCase
             )
         );
         $issuer = V2Form::fromASN1($el->asUnspecified());
-        $this->assertInstanceOf(V2Form::class, $issuer);
+        static::assertInstanceOf(V2Form::class, $issuer);
         return $issuer;
     }
 
@@ -144,6 +144,6 @@ final class V2FormTest extends TestCase
     public function encodeWithAll(V2Form $issuer)
     {
         $el = $issuer->toASN1();
-        $this->assertInstanceOf(ImplicitlyTaggedType::class, $el);
+        static::assertInstanceOf(ImplicitlyTaggedType::class, $el);
     }
 }

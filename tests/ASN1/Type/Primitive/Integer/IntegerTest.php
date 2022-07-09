@@ -23,7 +23,7 @@ final class IntegerTest extends TestCase
     public function create()
     {
         $el = new Integer(1);
-        $this->assertInstanceOf(Integer::class, $el);
+        static::assertInstanceOf(Integer::class, $el);
         return $el;
     }
 
@@ -34,7 +34,7 @@ final class IntegerTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_INTEGER, $el->tag());
+        static::assertEquals(Element::TYPE_INTEGER, $el->tag());
     }
 
     /**
@@ -45,7 +45,7 @@ final class IntegerTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -57,7 +57,7 @@ final class IntegerTest extends TestCase
     public function decode(string $data): Integer
     {
         $el = Integer::fromDER($data);
-        $this->assertInstanceOf(Integer::class, $el);
+        static::assertInstanceOf(Integer::class, $el);
         return $el;
     }
 
@@ -69,7 +69,7 @@ final class IntegerTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -80,7 +80,7 @@ final class IntegerTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(Integer::class, $wrap->asInteger());
+        static::assertInstanceOf(Integer::class, $wrap->asInteger());
     }
 
     /**
@@ -103,7 +103,7 @@ final class IntegerTest extends TestCase
      */
     public function intNumber(Integer $el)
     {
-        $this->assertEquals(1, $el->intNumber());
+        static::assertEquals(1, $el->intNumber());
     }
 
     /**

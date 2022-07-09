@@ -22,7 +22,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function type()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertInstanceOf(DERTaggedType::class, $el);
+        static::assertInstanceOf(DERTaggedType::class, $el);
     }
 
     /**
@@ -31,7 +31,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function tag()
     {
         $el = TaggedType::fromDER("\x81\x0");
-        $this->assertEquals(1, $el->tag());
+        static::assertEquals(1, $el->tag());
     }
 
     /**
@@ -40,7 +40,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function typeClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
+        static::assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
     }
 
     /**
@@ -49,7 +49,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function innerType()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
     }
 
     /**
@@ -58,7 +58,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function innerClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertEquals(Identifier::CLASS_UNIVERSAL, $el->implicit(Element::TYPE_NULL) ->typeClass());
+        static::assertEquals(Identifier::CLASS_UNIVERSAL, $el->implicit(Element::TYPE_NULL) ->typeClass());
     }
 
     /**
@@ -67,7 +67,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function innerPrimitive()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertFalse($el->implicit(Element::TYPE_NULL) ->isConstructed());
+        static::assertFalse($el->implicit(Element::TYPE_NULL) ->isConstructed());
     }
 
     /**
@@ -76,7 +76,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function innerConstructed()
     {
         $el = TaggedType::fromDER("\xa0\x0");
-        $this->assertTrue($el->implicit(Element::TYPE_SEQUENCE) ->isConstructed());
+        static::assertTrue($el->implicit(Element::TYPE_SEQUENCE) ->isConstructed());
     }
 
     /**
@@ -97,12 +97,12 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function nested()
     {
         $el = TaggedType::fromDER("\xa1\x2\x82\x0");
-        $this->assertEquals(1, $el->tag());
+        static::assertEquals(1, $el->tag());
         $el = $el->implicit(Element::TYPE_SEQUENCE)->asSequence();
-        $this->assertEquals(2, $el->at(0) ->tag());
+        static::assertEquals(2, $el->at(0) ->tag());
         $el = $el->at(0)
             ->asTagged()
             ->implicit(Element::TYPE_NULL);
-        $this->assertEquals(Element::TYPE_NULL, $el->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->tag());
     }
 }

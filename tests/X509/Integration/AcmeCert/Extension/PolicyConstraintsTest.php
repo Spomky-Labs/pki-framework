@@ -20,7 +20,7 @@ final class PolicyConstraintsTest extends RefExtTestHelper
     public function policyConstraintsExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_POLICY_CONSTRAINTS);
-        $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
+        static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -31,7 +31,7 @@ final class PolicyConstraintsTest extends RefExtTestHelper
      */
     public function requireExplicitPolicy(PolicyConstraintsExtension $pc)
     {
-        $this->assertEquals(3, $pc->requireExplicitPolicy());
+        static::assertEquals(3, $pc->requireExplicitPolicy());
     }
 
     /**
@@ -41,6 +41,6 @@ final class PolicyConstraintsTest extends RefExtTestHelper
      */
     public function inhibitPolicyMapping(PolicyConstraintsExtension $pc)
     {
-        $this->assertEquals(1, $pc->inhibitPolicyMapping());
+        static::assertEquals(1, $pc->inhibitPolicyMapping());
     }
 }

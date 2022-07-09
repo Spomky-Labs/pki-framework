@@ -32,7 +32,7 @@ final class SubjectInformationAccessTest extends TestCase
                 new UniformResourceIdentifier('https://ts.example.com/')
             )
         );
-        $this->assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
+        static::assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
         return $ext;
     }
 
@@ -43,7 +43,7 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_SUBJECT_INFORMATION_ACCESS, $ext->oid());
+        static::assertEquals(Extension::OID_SUBJECT_INFORMATION_ACCESS, $ext->oid());
     }
 
     /**
@@ -53,7 +53,7 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertFalse($ext->isCritical());
+        static::assertFalse($ext->isCritical());
     }
 
     /**
@@ -64,7 +64,7 @@ final class SubjectInformationAccessTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -78,7 +78,7 @@ final class SubjectInformationAccessTest extends TestCase
     public function decode($der)
     {
         $ext = SubjectInformationAccessExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
+        static::assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
         return $ext;
     }
 
@@ -90,7 +90,7 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -100,7 +100,7 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function accessDescriptions(SubjectInformationAccessExtension $ext)
     {
-        $this->assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $ext->accessDescriptions());
+        static::assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $ext->accessDescriptions());
     }
 
     /**
@@ -110,7 +110,7 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function countMethod(SubjectInformationAccessExtension $ext)
     {
-        $this->assertCount(2, $ext);
+        static::assertCount(2, $ext);
     }
 
     /**
@@ -124,7 +124,7 @@ final class SubjectInformationAccessTest extends TestCase
         foreach ($ext as $desc) {
             $values[] = $desc;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $values);
     }
 }

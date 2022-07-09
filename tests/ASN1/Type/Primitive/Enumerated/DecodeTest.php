@@ -18,7 +18,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = Enumerated::fromDER("\x0a\x1\x0");
-        $this->assertInstanceOf(Enumerated::class, $el);
+        static::assertInstanceOf(Enumerated::class, $el);
     }
 
     /**
@@ -27,6 +27,6 @@ final class DecodeTest extends TestCase
     public function value()
     {
         $el = Enumerated::fromDER("\x0a\x1\x1");
-        $this->assertEquals(1, $el->number());
+        static::assertEquals(1, $el->number());
     }
 }

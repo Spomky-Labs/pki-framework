@@ -45,7 +45,7 @@ final class CertificateEqualsTest extends TestCase
      */
     public function equals()
     {
-        $this->assertTrue(self::$_cert1->equals(self::$_cert1));
+        static::assertTrue(self::$_cert1->equals(self::$_cert1));
     }
 
     /**
@@ -53,7 +53,7 @@ final class CertificateEqualsTest extends TestCase
      */
     public function notEquals()
     {
-        $this->assertFalse(self::$_cert1->equals(self::$_cert2));
+        static::assertFalse(self::$_cert1->equals(self::$_cert2));
     }
 
     /**
@@ -61,6 +61,6 @@ final class CertificateEqualsTest extends TestCase
      */
     public function differentPubKeyNotEquals()
     {
-        $this->assertFalse(self::$_cert1->equals(self::$_cert1DifKey));
+        static::assertFalse(self::$_cert1->equals(self::$_cert1DifKey));
     }
 }

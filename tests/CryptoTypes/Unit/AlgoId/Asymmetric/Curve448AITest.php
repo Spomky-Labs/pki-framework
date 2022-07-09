@@ -24,7 +24,7 @@ final class Curve448AITest extends TestCase
     {
         $ai = new Ed448AlgorithmIdentifier();
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -36,7 +36,7 @@ final class Curve448AITest extends TestCase
     public function decodeEd448(Sequence $seq): Ed448AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(Ed448AlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(Ed448AlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -47,7 +47,7 @@ final class Curve448AITest extends TestCase
      */
     public function ed448Name(Ed448AlgorithmIdentifier $ai)
     {
-        $this->assertIsString($ai->name());
+        static::assertIsString($ai->name());
     }
 
     /**
@@ -59,7 +59,7 @@ final class Curve448AITest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
         $pk = PrivateKeyInfo::fromPEM($pem);
-        $this->assertTrue($ai->supportsKeyAlgorithm($pk->algorithmIdentifier()));
+        static::assertTrue($ai->supportsKeyAlgorithm($pk->algorithmIdentifier()));
     }
 
     /**
@@ -69,7 +69,7 @@ final class Curve448AITest extends TestCase
     {
         $ai = new X448AlgorithmIdentifier();
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -81,7 +81,7 @@ final class Curve448AITest extends TestCase
     public function decodeX448(Sequence $seq): X448AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(X448AlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(X448AlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -92,6 +92,6 @@ final class Curve448AITest extends TestCase
      */
     public function x448Name(X448AlgorithmIdentifier $ai)
     {
-        $this->assertIsString($ai->name());
+        static::assertIsString($ai->name());
     }
 }

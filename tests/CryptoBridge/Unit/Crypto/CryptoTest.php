@@ -18,6 +18,6 @@ final class CryptoTest extends TestCase
     public function default()
     {
         $crypto = Crypto::getDefault();
-        $this->assertInstanceOf(Crypto::class, $crypto);
+        static::assertInstanceOf(Crypto::class, $crypto);
     }
 }

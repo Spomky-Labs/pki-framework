@@ -27,7 +27,7 @@ final class ObjectDigestInfoTest extends TestCase
             new SHA1WithRSAEncryptionAlgorithmIdentifier(),
             new BitString(hex2bin('ff'))
         );
-        $this->assertInstanceOf(ObjectDigestInfo::class, $odi);
+        static::assertInstanceOf(ObjectDigestInfo::class, $odi);
         return $odi;
     }
 
@@ -39,7 +39,7 @@ final class ObjectDigestInfoTest extends TestCase
     public function encode(ObjectDigestInfo $odi)
     {
         $seq = $odi->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -53,7 +53,7 @@ final class ObjectDigestInfoTest extends TestCase
     public function decode($data)
     {
         $odi = ObjectDigestInfo::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(ObjectDigestInfo::class, $odi);
+        static::assertInstanceOf(ObjectDigestInfo::class, $odi);
         return $odi;
     }
 
@@ -65,7 +65,7 @@ final class ObjectDigestInfoTest extends TestCase
      */
     public function recoded(ObjectDigestInfo $ref, ObjectDigestInfo $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -81,7 +81,7 @@ final class ObjectDigestInfoTest extends TestCase
             new BitString('')
         );
         $odi = ObjectDigestInfo::fromASN1($seq);
-        $this->assertInstanceOf(ObjectDigestInfo::class, $odi);
+        static::assertInstanceOf(ObjectDigestInfo::class, $odi);
         return $odi;
     }
 
@@ -93,6 +93,6 @@ final class ObjectDigestInfoTest extends TestCase
     public function encodeWithOtherObjectTypeID(ObjectDigestInfo $odi)
     {
         $seq = $odi->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
     }
 }

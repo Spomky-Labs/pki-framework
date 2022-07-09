@@ -22,7 +22,7 @@ final class RealTest extends TestCase
     public function create(): Real
     {
         $el = Real::fromString('314.E-2');
-        $this->assertInstanceOf(Real::class, $el);
+        static::assertInstanceOf(Real::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class RealTest extends TestCase
      */
     public function tag(Real $el)
     {
-        $this->assertEquals(Element::TYPE_REAL, $el->tag());
+        static::assertEquals(Element::TYPE_REAL, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class RealTest extends TestCase
     public function encode(Real $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -56,7 +56,7 @@ final class RealTest extends TestCase
     public function decode(string $data): Real
     {
         $el = Real::fromDER($data);
-        $this->assertInstanceOf(Real::class, $el);
+        static::assertInstanceOf(Real::class, $el);
         return $el;
     }
 
@@ -68,7 +68,7 @@ final class RealTest extends TestCase
      */
     public function recoded(Real $ref, Real $el)
     {
-        $this->assertEquals($ref->nr3Val(), $el->nr3Val());
+        static::assertEquals($ref->nr3Val(), $el->nr3Val());
     }
 
     /**
@@ -79,7 +79,7 @@ final class RealTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(Real::class, $wrap->asReal());
+        static::assertInstanceOf(Real::class, $wrap->asReal());
     }
 
     /**
@@ -100,7 +100,7 @@ final class RealTest extends TestCase
      */
     public function string(Real $el)
     {
-        $this->assertIsString((string) $el);
+        static::assertIsString((string) $el);
     }
 
     /**
@@ -110,7 +110,7 @@ final class RealTest extends TestCase
      */
     public function mantissa(Real $el)
     {
-        $this->assertEquals(314, $el->mantissa()->intVal());
+        static::assertEquals(314, $el->mantissa()->intVal());
     }
 
     /**
@@ -120,7 +120,7 @@ final class RealTest extends TestCase
      */
     public function exponent(Real $el)
     {
-        $this->assertEquals(-2, $el->exponent()->intVal());
+        static::assertEquals(-2, $el->exponent()->intVal());
     }
 
     /**
@@ -130,7 +130,7 @@ final class RealTest extends TestCase
      */
     public function base(Real $el)
     {
-        $this->assertEquals(10, $el->base());
+        static::assertEquals(10, $el->base());
     }
 
     /**
@@ -142,7 +142,7 @@ final class RealTest extends TestCase
     {
         $real = Real::fromFloat($number);
         $recoded = Real::fromDER($real->toDER());
-        $this->assertEquals($number, $recoded->floatVal());
+        static::assertEquals($number, $recoded->floatVal());
     }
 
     /**
@@ -154,7 +154,7 @@ final class RealTest extends TestCase
     {
         $real = Real::fromFloat($number)->withStrictDER(false);
         $recoded = Real::fromDER($real->toDER());
-        $this->assertEquals($number, $recoded->floatVal());
+        static::assertEquals($number, $recoded->floatVal());
     }
 
     public function provideFromFloat(): iterable
@@ -207,7 +207,7 @@ final class RealTest extends TestCase
     public function fromNR3()
     {
         $real = Real::fromString('-123,456E-3');
-        $this->assertEquals(-0.123456, $real->floatVal());
+        static::assertEquals(-0.123456, $real->floatVal());
     }
 
     /**
@@ -216,7 +216,7 @@ final class RealTest extends TestCase
     public function fromNR3Zero()
     {
         $real = Real::fromString('0,0E1');
-        $this->assertEquals(0.0, $real->floatVal());
+        static::assertEquals(0.0, $real->floatVal());
     }
 
     /**
@@ -225,7 +225,7 @@ final class RealTest extends TestCase
     public function fromNR2()
     {
         $real = Real::fromString('-123,456');
-        $this->assertEquals(-123.456, $real->floatVal());
+        static::assertEquals(-123.456, $real->floatVal());
     }
 
     /**
@@ -234,7 +234,7 @@ final class RealTest extends TestCase
     public function fromNR2Zero()
     {
         $real = Real::fromString('0,0');
-        $this->assertEquals(0.0, $real->floatVal());
+        static::assertEquals(0.0, $real->floatVal());
     }
 
     /**
@@ -243,7 +243,7 @@ final class RealTest extends TestCase
     public function fromNR1()
     {
         $real = Real::fromString('-123');
-        $this->assertEquals(-123, $real->floatVal());
+        static::assertEquals(-123, $real->floatVal());
     }
 
     /**
@@ -252,7 +252,7 @@ final class RealTest extends TestCase
     public function fromNR1Zero()
     {
         $real = Real::fromString('0');
-        $this->assertEquals(0.0, $real->floatVal());
+        static::assertEquals(0.0, $real->floatVal());
     }
 
     /**
@@ -261,7 +261,7 @@ final class RealTest extends TestCase
     public function parseNormalize()
     {
         $real = Real::fromString('100');
-        $this->assertEquals(2, $real->exponent()->intVal());
+        static::assertEquals(2, $real->exponent()->intVal());
     }
 
     /**
@@ -280,7 +280,7 @@ final class RealTest extends TestCase
     public function base2ToNR3()
     {
         $real = Real::fromFloat(-123.456);
-        $this->assertEquals('-123456.E-3', $real->nr3Val());
+        static::assertEquals('-123456.E-3', $real->nr3Val());
     }
 
     /**
@@ -289,7 +289,7 @@ final class RealTest extends TestCase
     public function nr3ShiftZeroes()
     {
         $real = new Real(100, 0, 10);
-        $this->assertEquals('1.E2', $real->nr3Val());
+        static::assertEquals('1.E2', $real->nr3Val());
     }
 
     /**
@@ -298,6 +298,6 @@ final class RealTest extends TestCase
     public function nr3ZeroExponent()
     {
         $real = new Real(1, 0, 10);
-        $this->assertEquals('1.E+0', $real->nr3Val());
+        static::assertEquals('1.E+0', $real->nr3Val());
     }
 }

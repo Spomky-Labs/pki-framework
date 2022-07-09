@@ -33,7 +33,7 @@ final class PolicyMappingsTest extends TestCase
         $mappings = [
             new PolicyMapping(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
             new PolicyMapping('1.3.6.1.3.3', '1.3.6.1.3.4'), ];
-        $this->assertInstanceOf(PolicyMapping::class, $mappings[0]);
+        static::assertInstanceOf(PolicyMapping::class, $mappings[0]);
         return $mappings;
     }
 
@@ -45,7 +45,7 @@ final class PolicyMappingsTest extends TestCase
     public function create(array $mappings)
     {
         $ext = new PolicyMappingsExtension(true, ...$mappings);
-        $this->assertInstanceOf(PolicyMappingsExtension::class, $ext);
+        static::assertInstanceOf(PolicyMappingsExtension::class, $ext);
         return $ext;
     }
 
@@ -56,7 +56,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_POLICY_MAPPINGS, $ext->oid());
+        static::assertEquals(Extension::OID_POLICY_MAPPINGS, $ext->oid());
     }
 
     /**
@@ -66,7 +66,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -77,7 +77,7 @@ final class PolicyMappingsTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -91,7 +91,7 @@ final class PolicyMappingsTest extends TestCase
     public function decode($der)
     {
         $ext = PolicyMappingsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(PolicyMappingsExtension::class, $ext);
+        static::assertInstanceOf(PolicyMappingsExtension::class, $ext);
         return $ext;
     }
 
@@ -103,7 +103,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -113,7 +113,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function mappings(PolicyMappingsExtension $ext)
     {
-        $this->assertContainsOnlyInstancesOf(PolicyMapping::class, $ext->mappings());
+        static::assertContainsOnlyInstancesOf(PolicyMapping::class, $ext->mappings());
     }
 
     /**
@@ -123,7 +123,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function issuerMappings(PolicyMappingsExtension $ext)
     {
-        $this->assertContainsOnly('string', $ext->issuerMappings(self::ISSUER_POLICY_OID));
+        static::assertContainsOnly('string', $ext->issuerMappings(self::ISSUER_POLICY_OID));
     }
 
     /**
@@ -133,7 +133,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function countMethod(PolicyMappingsExtension $ext)
     {
-        $this->assertCount(2, $ext);
+        static::assertCount(2, $ext);
     }
 
     /**
@@ -147,8 +147,8 @@ final class PolicyMappingsTest extends TestCase
         foreach ($ext as $mapping) {
             $values[] = $mapping;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(PolicyMapping::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(PolicyMapping::class, $values);
     }
 
     /**
@@ -159,7 +159,7 @@ final class PolicyMappingsTest extends TestCase
     public function mapping(PolicyMappingsExtension $ext)
     {
         $mapping = $ext->mappings()[0];
-        $this->assertInstanceOf(PolicyMapping::class, $mapping);
+        static::assertInstanceOf(PolicyMapping::class, $mapping);
         return $mapping;
     }
 
@@ -170,7 +170,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function issuerPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
+        static::assertEquals(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
     }
 
     /**
@@ -180,7 +180,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function subjectPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
+        static::assertEquals(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
     }
 
     /**
@@ -190,7 +190,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function hasAnyPolicyMapping(PolicyMappingsExtension $ext)
     {
-        $this->assertFalse($ext->hasAnyPolicyMapping());
+        static::assertFalse($ext->hasAnyPolicyMapping());
     }
 
     /**
@@ -202,7 +202,7 @@ final class PolicyMappingsTest extends TestCase
             false,
             new PolicyMapping(PolicyInformation::OID_ANY_POLICY, self::SUBJECT_POLICY_OID)
         );
-        $this->assertTrue($ext->hasAnyPolicyMapping());
+        static::assertTrue($ext->hasAnyPolicyMapping());
     }
 
     /**
@@ -214,7 +214,7 @@ final class PolicyMappingsTest extends TestCase
             false,
             new PolicyMapping(self::ISSUER_POLICY_OID, PolicyInformation::OID_ANY_POLICY)
         );
-        $this->assertTrue($ext->hasAnyPolicyMapping());
+        static::assertTrue($ext->hasAnyPolicyMapping());
     }
 
     /**
@@ -225,7 +225,7 @@ final class PolicyMappingsTest extends TestCase
     public function extensions(PolicyMappingsExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasPolicyMappings());
+        static::assertTrue($extensions->hasPolicyMappings());
         return $extensions;
     }
 
@@ -237,7 +237,7 @@ final class PolicyMappingsTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->policyMappings();
-        $this->assertInstanceOf(PolicyMappingsExtension::class, $ext);
+        static::assertInstanceOf(PolicyMappingsExtension::class, $ext);
     }
 
     /**

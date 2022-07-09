@@ -41,7 +41,7 @@ final class CertificateChainTest extends TestCase
     public function createChain()
     {
         $chain = new CertificateChain(...self::$_certs);
-        $this->assertInstanceOf(CertificateChain::class, $chain);
+        static::assertInstanceOf(CertificateChain::class, $chain);
         return $chain;
     }
 
@@ -53,7 +53,7 @@ final class CertificateChainTest extends TestCase
     public function certificates(CertificateChain $chain)
     {
         $chain->certificates();
-        $this->assertContainsOnlyInstancesOf(Certificate::class, $chain);
+        static::assertContainsOnlyInstancesOf(Certificate::class, $chain);
     }
 
     /**
@@ -63,7 +63,7 @@ final class CertificateChainTest extends TestCase
      */
     public function endEntityCert(CertificateChain $chain)
     {
-        $this->assertEquals(self::$_certs[0], $chain->endEntityCertificate());
+        static::assertEquals(self::$_certs[0], $chain->endEntityCertificate());
     }
 
     /**
@@ -83,7 +83,7 @@ final class CertificateChainTest extends TestCase
      */
     public function trustAnchorCert(CertificateChain $chain)
     {
-        $this->assertEquals(self::$_certs[2], $chain->trustAnchorCertificate());
+        static::assertEquals(self::$_certs[2], $chain->trustAnchorCertificate());
     }
 
     /**
@@ -103,7 +103,7 @@ final class CertificateChainTest extends TestCase
      */
     public function countMethod(CertificateChain $chain)
     {
-        $this->assertCount(3, $chain);
+        static::assertCount(3, $chain);
     }
 
     /**
@@ -117,7 +117,7 @@ final class CertificateChainTest extends TestCase
         foreach ($chain as $cert) {
             $certs[] = $cert;
         }
-        $this->assertContainsOnlyInstancesOf(Certificate::class, $certs);
+        static::assertContainsOnlyInstancesOf(Certificate::class, $certs);
     }
 
     /**
@@ -126,7 +126,7 @@ final class CertificateChainTest extends TestCase
     public function fromPEMs()
     {
         $chain = CertificateChain::fromPEMs(...self::$_pems);
-        $this->assertInstanceOf(CertificateChain::class, $chain);
+        static::assertInstanceOf(CertificateChain::class, $chain);
         return $chain;
     }
 
@@ -138,7 +138,7 @@ final class CertificateChainTest extends TestCase
      */
     public function fromPEMEquals(CertificateChain $ref, CertificateChain $chain)
     {
-        $this->assertEquals($ref, $chain);
+        static::assertEquals($ref, $chain);
     }
 
     /**
@@ -150,7 +150,7 @@ final class CertificateChainTest extends TestCase
     {
         $expected = sprintf("%s\n%s\n%s", self::$_pems[0], self::$_pems[1], self::$_pems[2]);
         $str = $chain->toPEMString();
-        $this->assertEquals($expected, $str);
+        static::assertEquals($expected, $str);
         return $str;
     }
 
@@ -164,7 +164,7 @@ final class CertificateChainTest extends TestCase
     public function fromPEMString($str)
     {
         $chain = CertificateChain::fromPEMString($str);
-        $this->assertInstanceOf(CertificateChain::class, $chain);
+        static::assertInstanceOf(CertificateChain::class, $chain);
         return $chain;
     }
 
@@ -176,7 +176,7 @@ final class CertificateChainTest extends TestCase
      */
     public function fromPEMStringEquals(CertificateChain $ref, CertificateChain $chain)
     {
-        $this->assertEquals($ref, $chain);
+        static::assertEquals($ref, $chain);
     }
 
     /**
@@ -187,6 +187,6 @@ final class CertificateChainTest extends TestCase
     public function certificationPath(CertificateChain $chain)
     {
         $path = $chain->certificationPath();
-        $this->assertInstanceOf(CertificationPath::class, $path);
+        static::assertInstanceOf(CertificationPath::class, $path);
     }
 }

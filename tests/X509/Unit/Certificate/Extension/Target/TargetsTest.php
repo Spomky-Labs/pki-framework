@@ -40,7 +40,7 @@ final class TargetsTest extends TestCase
     public function create()
     {
         $targets = new Targets(self::$_name, self::$_group);
-        $this->assertInstanceOf(Targets::class, $targets);
+        static::assertInstanceOf(Targets::class, $targets);
         return $targets;
     }
 
@@ -52,7 +52,7 @@ final class TargetsTest extends TestCase
     public function encode(Targets $targets)
     {
         $el = $targets->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -66,7 +66,7 @@ final class TargetsTest extends TestCase
     public function decode($data)
     {
         $targets = Targets::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(Targets::class, $targets);
+        static::assertInstanceOf(Targets::class, $targets);
         return $targets;
     }
 
@@ -78,7 +78,7 @@ final class TargetsTest extends TestCase
      */
     public function recoded(Targets $ref, Targets $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -88,7 +88,7 @@ final class TargetsTest extends TestCase
      */
     public function all(Targets $targets)
     {
-        $this->assertContainsOnlyInstancesOf(Target::class, $targets->all());
+        static::assertContainsOnlyInstancesOf(Target::class, $targets->all());
     }
 
     /**
@@ -98,7 +98,7 @@ final class TargetsTest extends TestCase
      */
     public function countMethod(Targets $targets)
     {
-        $this->assertCount(2, $targets);
+        static::assertCount(2, $targets);
     }
 
     /**
@@ -112,7 +112,7 @@ final class TargetsTest extends TestCase
         foreach ($targets as $target) {
             $values[] = $target;
         }
-        $this->assertContainsOnlyInstancesOf(Target::class, $values);
+        static::assertContainsOnlyInstancesOf(Target::class, $values);
     }
 
     /**
@@ -122,7 +122,7 @@ final class TargetsTest extends TestCase
      */
     public function hasTarget(Targets $targets)
     {
-        $this->assertTrue($targets->hasTarget(self::$_name));
+        static::assertTrue($targets->hasTarget(self::$_name));
     }
 
     /**
@@ -132,6 +132,6 @@ final class TargetsTest extends TestCase
      */
     public function hasNoTarget(Targets $targets)
     {
-        $this->assertFalse($targets->hasTarget(new TargetName(new DNSName('nope'))));
+        static::assertFalse($targets->hasTarget(new TargetName(new DNSName('nope'))));
     }
 }

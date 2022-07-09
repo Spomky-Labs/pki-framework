@@ -25,7 +25,7 @@ final class SubjectAccessDescriptionTest extends TestCase
             SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
             new UniformResourceIdentifier(self::URI)
         );
-        $this->assertInstanceOf(SubjectAccessDescription::class, $desc);
+        static::assertInstanceOf(SubjectAccessDescription::class, $desc);
         return $desc;
     }
 
@@ -37,7 +37,7 @@ final class SubjectAccessDescriptionTest extends TestCase
     public function encode(SubjectAccessDescription $desc)
     {
         $el = $desc->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -51,7 +51,7 @@ final class SubjectAccessDescriptionTest extends TestCase
     public function decode($data)
     {
         $desc = SubjectAccessDescription::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(SubjectAccessDescription::class, $desc);
+        static::assertInstanceOf(SubjectAccessDescription::class, $desc);
         return $desc;
     }
 
@@ -63,7 +63,7 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     public function recoded(SubjectAccessDescription $ref, SubjectAccessDescription $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -73,7 +73,7 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     public function isCARepository(SubjectAccessDescription $desc)
     {
-        $this->assertTrue($desc->isCARepositoryMethod());
+        static::assertTrue($desc->isCARepositoryMethod());
     }
 
     /**
@@ -83,7 +83,7 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     public function isNotTimeStamping(SubjectAccessDescription $desc)
     {
-        $this->assertFalse($desc->isTimeStampingMethod());
+        static::assertFalse($desc->isTimeStampingMethod());
     }
 
     /**
@@ -93,7 +93,7 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     public function accessMethod(SubjectAccessDescription $desc)
     {
-        $this->assertEquals(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY, $desc->accessMethod());
+        static::assertEquals(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY, $desc->accessMethod());
     }
 
     /**
@@ -103,6 +103,6 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     public function location(SubjectAccessDescription $desc)
     {
-        $this->assertEquals(self::URI, $desc->accessLocation() ->string());
+        static::assertEquals(self::URI, $desc->accessLocation() ->string());
     }
 }

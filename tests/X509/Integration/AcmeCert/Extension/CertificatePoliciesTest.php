@@ -25,7 +25,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     public function certificatePoliciesExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_CERTIFICATE_POLICIES);
-        $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
+        static::assertInstanceOf(CertificatePoliciesExtension::class, $ext);
         return $ext;
     }
 
@@ -39,7 +39,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     public function policyInformation(CertificatePoliciesExtension $cpe)
     {
         $pi = $cpe->get('1.3.6.1.4.1.45710.2.2.1');
-        $this->assertInstanceOf(PolicyInformation::class, $pi);
+        static::assertInstanceOf(PolicyInformation::class, $pi);
         return $pi;
     }
 
@@ -53,7 +53,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     public function policyCPSQualifier(PolicyInformation $pi)
     {
         $cps = $pi->get(PolicyQualifierInfo::OID_CPS);
-        $this->assertInstanceOf(CPSQualifier::class, $cps);
+        static::assertInstanceOf(CPSQualifier::class, $cps);
         return $cps;
     }
 
@@ -64,7 +64,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function policyCPSQualifierURI(CPSQualifier $cps)
     {
-        $this->assertEquals('http://example.com/cps.html', $cps->uri());
+        static::assertEquals('http://example.com/cps.html', $cps->uri());
     }
 
     /**
@@ -77,7 +77,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     public function policyUserNoticeQualifier(PolicyInformation $pi)
     {
         $un = $pi->get(PolicyQualifierInfo::OID_UNOTICE);
-        $this->assertInstanceOf(UserNoticeQualifier::class, $un);
+        static::assertInstanceOf(UserNoticeQualifier::class, $un);
         return $un;
     }
 
@@ -88,7 +88,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function policyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
-        $this->assertEquals('All your base are belong to us!', $un->explicitText() ->string());
+        static::assertEquals('All your base are belong to us!', $un->explicitText() ->string());
     }
 
     /**
@@ -101,7 +101,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     public function policyUserNoticeQualifierRef(UserNoticeQualifier $un)
     {
         $ref = $un->noticeRef();
-        $this->assertInstanceOf(NoticeReference::class, $ref);
+        static::assertInstanceOf(NoticeReference::class, $ref);
         return $ref;
     }
 
@@ -112,7 +112,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function policyUserNoticeQualifierOrganization(NoticeReference $ref)
     {
-        $this->assertEquals('Toaplan Co., Ltd.', $ref->organization() ->string());
+        static::assertEquals('Toaplan Co., Ltd.', $ref->organization() ->string());
     }
 
     /**
@@ -122,6 +122,6 @@ final class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function policyUserNoticeQualifierNumbers(NoticeReference $ref)
     {
-        $this->assertEquals([1, 2], $ref->numbers());
+        static::assertEquals([1, 2], $ref->numbers());
     }
 }

@@ -38,7 +38,7 @@ final class CRLDistributionPointTest extends TestCase
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
         $issuer = new GeneralNames(DirectoryName::fromDNString(self::ISSUER_DN));
         $dp = new DistributionPoint($name, $reasons, $issuer);
-        $this->assertInstanceOf(DistributionPoint::class, $dp);
+        static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }
 
@@ -50,7 +50,7 @@ final class CRLDistributionPointTest extends TestCase
     public function create(DistributionPoint $dp)
     {
         $ext = new CRLDistributionPointsExtension(true, $dp, new DistributionPoint());
-        $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
+        static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }
 
@@ -61,7 +61,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_CRL_DISTRIBUTION_POINTS, $ext->oid());
+        static::assertEquals(Extension::OID_CRL_DISTRIBUTION_POINTS, $ext->oid());
     }
 
     /**
@@ -71,7 +71,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -82,7 +82,7 @@ final class CRLDistributionPointTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -96,7 +96,7 @@ final class CRLDistributionPointTest extends TestCase
     public function decode($der)
     {
         $ext = CRLDistributionPointsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
+        static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }
 
@@ -108,7 +108,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -118,7 +118,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function countMethod(CRLDistributionPointsExtension $ext)
     {
-        $this->assertCount(2, $ext);
+        static::assertCount(2, $ext);
     }
 
     /**
@@ -132,8 +132,8 @@ final class CRLDistributionPointTest extends TestCase
         foreach ($ext as $dp) {
             $values[] = $dp;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(DistributionPoint::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(DistributionPoint::class, $values);
     }
 
     /**
@@ -144,7 +144,7 @@ final class CRLDistributionPointTest extends TestCase
     public function distributionPoint(CRLDistributionPointsExtension $ext)
     {
         $dp = $ext->distributionPoints()[0];
-        $this->assertInstanceOf(DistributionPoint::class, $dp);
+        static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }
 
@@ -158,7 +158,7 @@ final class CRLDistributionPointTest extends TestCase
         $uri = $dp->fullName()
             ->names()
             ->firstURI();
-        $this->assertEquals(self::DP_URI, $uri);
+        static::assertEquals(self::DP_URI, $uri);
     }
 
     /**
@@ -168,7 +168,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function dPReasons(DistributionPoint $dp)
     {
-        $this->assertTrue($dp->reasons() ->isPrivilegeWithdrawn());
+        static::assertTrue($dp->reasons() ->isPrivilegeWithdrawn());
     }
 
     /**
@@ -178,7 +178,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function dPIssuer(DistributionPoint $dp)
     {
-        $this->assertEquals(self::ISSUER_DN, $dp->crlIssuer() ->firstDN());
+        static::assertEquals(self::ISSUER_DN, $dp->crlIssuer() ->firstDN());
     }
 
     /**
@@ -189,7 +189,7 @@ final class CRLDistributionPointTest extends TestCase
     public function extensions(CRLDistributionPointsExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasCRLDistributionPoints());
+        static::assertTrue($extensions->hasCRLDistributionPoints());
         return $extensions;
     }
 
@@ -201,7 +201,7 @@ final class CRLDistributionPointTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->crlDistributionPoints();
-        $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
+        static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
     }
 
     /**

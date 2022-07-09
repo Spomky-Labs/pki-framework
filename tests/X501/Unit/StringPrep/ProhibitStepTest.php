@@ -19,6 +19,6 @@ final class ProhibitStepTest extends TestCase
     {
         $str = 'Test';
         $step = new ProhibitStep();
-        $this->assertEquals($str, $step->apply($str));
+        static::assertEquals($str, $step->apply($str));
     }
 }

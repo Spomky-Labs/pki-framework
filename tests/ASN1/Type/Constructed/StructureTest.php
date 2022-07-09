@@ -27,7 +27,7 @@ final class StructureTest extends TestCase
     public function has(int $idx, bool $result)
     {
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
-        $this->assertEquals($seq->has($idx), $result);
+        static::assertEquals($seq->has($idx), $result);
     }
 
     public function hasProvider(): array
@@ -43,7 +43,7 @@ final class StructureTest extends TestCase
     public function hasType(int $idx, int $type, bool $result)
     {
         $seq = new Sequence(new NullType(), new Boolean(true));
-        $this->assertEquals($seq->has($idx, $type), $result);
+        static::assertEquals($seq->has($idx, $type), $result);
     }
 
     public function hasTypeProvider(): array
@@ -65,7 +65,7 @@ final class StructureTest extends TestCase
         $der = $el->toDER();
         $parts = Structure::explodeDER($der);
         $null = "\x5\x0";
-        $this->assertEquals([$null, $null, $null], $parts);
+        static::assertEquals([$null, $null, $null], $parts);
     }
 
     /**
@@ -101,7 +101,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withReplaced(1, new Boolean(true));
         $expected = new Sequence(new NullType(), new Boolean(true));
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -123,7 +123,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(0, new Boolean(true));
         $expected = new Sequence(new Boolean(true), new NullType(), new NullType());
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -134,7 +134,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(1, new Boolean(true));
         $expected = new Sequence(new NullType(), new Boolean(true), new NullType());
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -145,7 +145,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(2, new Boolean(true));
         $expected = new Sequence(new NullType(), new NullType(), new Boolean(true));
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -167,7 +167,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType());
         $seq = $seq->withAppended(new Boolean(true));
         $expected = new Sequence(new NullType(), new Boolean(true));
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -178,7 +178,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType());
         $seq = $seq->withPrepended(new Boolean(true));
         $expected = new Sequence(new Boolean(true), new NullType());
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -189,7 +189,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
         $seq = $seq->withoutElement(0);
         $expected = new Sequence(new Boolean(true), new NullType());
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -200,7 +200,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
         $seq = $seq->withoutElement(2);
         $expected = new Sequence(new NullType(), new Boolean(true));
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -211,7 +211,7 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new NullType());
         $seq = $seq->withoutElement(0);
         $expected = new Sequence();
-        $this->assertEquals($expected, $seq);
+        static::assertEquals($expected, $seq);
     }
 
     /**
@@ -235,6 +235,6 @@ final class StructureTest extends TestCase
         $seq = new Sequence(new ImplicitlyTaggedType(1, new NullType()));
         $seq->hasTagged(1);
         $seq = $seq->withAppended(new ImplicitlyTaggedType(2, new NullType()));
-        $this->assertTrue($seq->hasTagged(2));
+        static::assertTrue($seq->hasTagged(2));
     }
 }

@@ -26,7 +26,7 @@ final class ExtensionsTest extends TestCase
             new UnknownExtension('1.3.6.1.3.1', true, new DERData("\x05\x00")),
             new UnknownExtension('1.3.6.1.3.2', true, new DERData("\x05\x00"))
         );
-        $this->assertInstanceOf(Extensions::class, $exts);
+        static::assertInstanceOf(Extensions::class, $exts);
         return $exts;
     }
 
@@ -38,7 +38,7 @@ final class ExtensionsTest extends TestCase
     public function encode(Extensions $exts)
     {
         $seq = $exts->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -52,7 +52,7 @@ final class ExtensionsTest extends TestCase
     public function decode($der)
     {
         $exts = Extensions::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(Extensions::class, $exts);
+        static::assertInstanceOf(Extensions::class, $exts);
         return $exts;
     }
 
@@ -64,7 +64,7 @@ final class ExtensionsTest extends TestCase
      */
     public function recoded(Extensions $ref, Extensions $new)
     {
-        $this->assertEquals($ref->toASN1(), $new->toASN1());
+        static::assertEquals($ref->toASN1(), $new->toASN1());
     }
 
     /**
@@ -74,7 +74,7 @@ final class ExtensionsTest extends TestCase
      */
     public function has(Extensions $exts)
     {
-        $this->assertTrue($exts->has('1.3.6.1.3.1'));
+        static::assertTrue($exts->has('1.3.6.1.3.1'));
     }
 
     /**
@@ -84,7 +84,7 @@ final class ExtensionsTest extends TestCase
      */
     public function hasNot(Extensions $exts)
     {
-        $this->assertFalse($exts->has('1.3.6.1.3.3'));
+        static::assertFalse($exts->has('1.3.6.1.3.3'));
     }
 
     /**
@@ -94,7 +94,7 @@ final class ExtensionsTest extends TestCase
      */
     public function get(Extensions $exts)
     {
-        $this->assertInstanceOf(Extension::class, $exts->get('1.3.6.1.3.1'));
+        static::assertInstanceOf(Extension::class, $exts->get('1.3.6.1.3.1'));
     }
 
     /**
@@ -115,7 +115,7 @@ final class ExtensionsTest extends TestCase
      */
     public function countMethod(Extensions $exts)
     {
-        $this->assertCount(2, $exts);
+        static::assertCount(2, $exts);
     }
 
     /**
@@ -129,8 +129,8 @@ final class ExtensionsTest extends TestCase
         foreach ($exts as $ext) {
             $values[] = $ext;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(Extension::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(Extension::class, $values);
     }
 
     /**
@@ -142,6 +142,6 @@ final class ExtensionsTest extends TestCase
     {
         static $oid = '1.3.6.1.3.3';
         $exts = $exts->withExtensions(new UnknownExtension($oid, true, new DERData("\x05\x00")));
-        $this->assertTrue($exts->has($oid));
+        static::assertTrue($exts->has($oid));
     }
 }

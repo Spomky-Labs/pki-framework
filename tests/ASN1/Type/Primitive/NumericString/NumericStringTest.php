@@ -22,7 +22,7 @@ final class NumericStringTest extends TestCase
     public function create()
     {
         $el = new NumericString('');
-        $this->assertInstanceOf(NumericString::class, $el);
+        static::assertInstanceOf(NumericString::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class NumericStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_NUMERIC_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_NUMERIC_STRING, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class NumericStringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -58,7 +58,7 @@ final class NumericStringTest extends TestCase
     public function decode($data): NumericString
     {
         $el = NumericString::fromDER($data);
-        $this->assertInstanceOf(NumericString::class, $el);
+        static::assertInstanceOf(NumericString::class, $el);
         return $el;
     }
 
@@ -70,7 +70,7 @@ final class NumericStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -81,7 +81,7 @@ final class NumericStringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(NumericString::class, $wrap->asNumericString());
+        static::assertInstanceOf(NumericString::class, $wrap->asNumericString());
     }
 
     /**

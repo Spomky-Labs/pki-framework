@@ -22,7 +22,7 @@ final class PolicyConstraintsTest extends TestCase
     public function create()
     {
         $ext = new PolicyConstraintsExtension(true, 2, 3);
-        $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
+        static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -33,7 +33,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_POLICY_CONSTRAINTS, $ext->oid());
+        static::assertEquals(Extension::OID_POLICY_CONSTRAINTS, $ext->oid());
     }
 
     /**
@@ -43,7 +43,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -54,7 +54,7 @@ final class PolicyConstraintsTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -68,7 +68,7 @@ final class PolicyConstraintsTest extends TestCase
     public function decode($der)
     {
         $ext = PolicyConstraintsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
+        static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -80,7 +80,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -90,7 +90,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function requireExplicit(PolicyConstraintsExtension $ext)
     {
-        $this->assertEquals(2, $ext->requireExplicitPolicy());
+        static::assertEquals(2, $ext->requireExplicitPolicy());
     }
 
     /**
@@ -100,7 +100,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function inhibitMapping(PolicyConstraintsExtension $ext)
     {
-        $this->assertEquals(3, $ext->inhibitPolicyMapping());
+        static::assertEquals(3, $ext->inhibitPolicyMapping());
     }
 
     /**
@@ -111,7 +111,7 @@ final class PolicyConstraintsTest extends TestCase
     public function extensions(PolicyConstraintsExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasPolicyConstraints());
+        static::assertTrue($extensions->hasPolicyConstraints());
         return $extensions;
     }
 
@@ -123,7 +123,7 @@ final class PolicyConstraintsTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->policyConstraints();
-        $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
+        static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
     }
 
     /**
@@ -132,7 +132,7 @@ final class PolicyConstraintsTest extends TestCase
     public function createEmpty()
     {
         $ext = new PolicyConstraintsExtension(false);
-        $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
+        static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -144,7 +144,7 @@ final class PolicyConstraintsTest extends TestCase
     public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -158,7 +158,7 @@ final class PolicyConstraintsTest extends TestCase
     public function decodeEmpty($der)
     {
         $ext = PolicyConstraintsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(PolicyConstraintsExtension::class, $ext);
+        static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -170,7 +170,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function recodedEmpty(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**

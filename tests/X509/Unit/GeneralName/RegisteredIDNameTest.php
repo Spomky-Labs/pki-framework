@@ -22,7 +22,7 @@ final class RegisteredIDNameTest extends TestCase
     public function create()
     {
         $rid = new RegisteredID('1.3.6.1.3.1');
-        $this->assertInstanceOf(RegisteredID::class, $rid);
+        static::assertInstanceOf(RegisteredID::class, $rid);
         return $rid;
     }
 
@@ -34,7 +34,7 @@ final class RegisteredIDNameTest extends TestCase
     public function encode(RegisteredID $rid)
     {
         $el = $rid->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -48,7 +48,7 @@ final class RegisteredIDNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_REGISTERED_ID, $el->tag());
+        static::assertEquals(GeneralName::TAG_REGISTERED_ID, $el->tag());
     }
 
     /**
@@ -61,7 +61,7 @@ final class RegisteredIDNameTest extends TestCase
     public function decode($der)
     {
         $rid = RegisteredID::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(RegisteredID::class, $rid);
+        static::assertInstanceOf(RegisteredID::class, $rid);
         return $rid;
     }
 
@@ -73,7 +73,7 @@ final class RegisteredIDNameTest extends TestCase
      */
     public function recoded(RegisteredID $ref, RegisteredID $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -83,7 +83,7 @@ final class RegisteredIDNameTest extends TestCase
      */
     public function string(RegisteredID $rid)
     {
-        $this->assertIsString($rid->string());
+        static::assertIsString($rid->string());
     }
 
     /**
@@ -93,6 +93,6 @@ final class RegisteredIDNameTest extends TestCase
      */
     public function oID(RegisteredID $rid)
     {
-        $this->assertEquals('1.3.6.1.3.1', $rid->oid());
+        static::assertEquals('1.3.6.1.3.1', $rid->oid());
     }
 }

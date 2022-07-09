@@ -23,7 +23,7 @@ final class I2OSTest extends TestCase
     public function oSType()
     {
         $os = ECConversion::integerToOctetString(new Integer(42));
-        $this->assertInstanceOf(OctetString::class, $os);
+        static::assertInstanceOf(OctetString::class, $os);
     }
 
     /**
@@ -32,7 +32,7 @@ final class I2OSTest extends TestCase
     public function integerType()
     {
         $num = ECConversion::octetStringToInteger(new OctetString("\x42"));
-        $this->assertInstanceOf(Integer::class, $num);
+        static::assertInstanceOf(Integer::class, $num);
     }
 
     /**
@@ -41,7 +41,7 @@ final class I2OSTest extends TestCase
     public function length()
     {
         $os = ECConversion::integerToOctetString(new Integer(256), 2);
-        $this->assertEquals(2, strlen($os->string()));
+        static::assertEquals(2, strlen($os->string()));
     }
 
     /**
@@ -50,7 +50,7 @@ final class I2OSTest extends TestCase
     public function pad()
     {
         $os = ECConversion::integerToOctetString(new Integer(256), 3);
-        $this->assertEquals(3, strlen($os->string()));
+        static::assertEquals(3, strlen($os->string()));
     }
 
     /**
@@ -65,16 +65,14 @@ final class I2OSTest extends TestCase
     /**
      * @dataProvider provideConvert
      *
-     * @param mixed $mlen
-     *
      * @test
      */
     public function convert(Integer $num, $mlen, OctetString $os)
     {
         $tmp = ECConversion::integerToOctetString($num, $mlen);
-        $this->assertEquals($os, $tmp);
+        static::assertEquals($os, $tmp);
         $result = ECConversion::octetStringToInteger($tmp);
-        $this->assertEquals($num->number(), $result->number());
+        static::assertEquals($num->number(), $result->number());
     }
 
     public function provideConvert(): Iterator
@@ -93,7 +91,7 @@ final class I2OSTest extends TestCase
     public function numberToOctets()
     {
         $octets = ECConversion::numberToOctets(0x42);
-        $this->assertEquals("\x42", $octets);
+        static::assertEquals("\x42", $octets);
     }
 
     /**
@@ -102,6 +100,6 @@ final class I2OSTest extends TestCase
     public function octetsToNumber()
     {
         $number = ECConversion::octetsToNumber("\x42");
-        $this->assertEquals(0x42, $number);
+        static::assertEquals(0x42, $number);
     }
 }

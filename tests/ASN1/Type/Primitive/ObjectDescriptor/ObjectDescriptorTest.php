@@ -24,7 +24,7 @@ final class ObjectDescriptorTest extends TestCase
     public function create()
     {
         $el = new ObjectDescriptor(self::DESCRIPTOR);
-        $this->assertInstanceOf(ObjectDescriptor::class, $el);
+        static::assertInstanceOf(ObjectDescriptor::class, $el);
         return $el;
     }
 
@@ -35,7 +35,7 @@ final class ObjectDescriptorTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_OBJECT_DESCRIPTOR, $el->tag());
+        static::assertEquals(Element::TYPE_OBJECT_DESCRIPTOR, $el->tag());
     }
 
     /**
@@ -46,7 +46,7 @@ final class ObjectDescriptorTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -60,7 +60,7 @@ final class ObjectDescriptorTest extends TestCase
     public function decode($data): ObjectDescriptor
     {
         $el = ObjectDescriptor::fromDER($data);
-        $this->assertInstanceOf(ObjectDescriptor::class, $el);
+        static::assertInstanceOf(ObjectDescriptor::class, $el);
         return $el;
     }
 
@@ -72,7 +72,7 @@ final class ObjectDescriptorTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -82,7 +82,7 @@ final class ObjectDescriptorTest extends TestCase
      */
     public function descriptor(ObjectDescriptor $desc)
     {
-        $this->assertEquals(self::DESCRIPTOR, $desc->descriptor());
+        static::assertEquals(self::DESCRIPTOR, $desc->descriptor());
     }
 
     /**
@@ -93,7 +93,7 @@ final class ObjectDescriptorTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ObjectDescriptor::class, $wrap->asObjectDescriptor());
+        static::assertInstanceOf(ObjectDescriptor::class, $wrap->asObjectDescriptor());
     }
 
     /**

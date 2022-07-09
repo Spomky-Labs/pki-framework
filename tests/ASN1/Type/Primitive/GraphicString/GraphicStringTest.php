@@ -22,7 +22,7 @@ final class GraphicStringTest extends TestCase
     public function create()
     {
         $el = new GraphicString('');
-        $this->assertInstanceOf(GraphicString::class, $el);
+        static::assertInstanceOf(GraphicString::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class GraphicStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_GRAPHIC_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_GRAPHIC_STRING, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class GraphicStringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -56,7 +56,7 @@ final class GraphicStringTest extends TestCase
     public function decode(string $data): GraphicString
     {
         $el = GraphicString::fromDER($data);
-        $this->assertInstanceOf(GraphicString::class, $el);
+        static::assertInstanceOf(GraphicString::class, $el);
         return $el;
     }
 
@@ -68,7 +68,7 @@ final class GraphicStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -79,7 +79,7 @@ final class GraphicStringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(GraphicString::class, $wrap->asGraphicString());
+        static::assertInstanceOf(GraphicString::class, $wrap->asGraphicString());
     }
 
     /**

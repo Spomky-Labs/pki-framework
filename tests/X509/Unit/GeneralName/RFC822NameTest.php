@@ -22,7 +22,7 @@ final class RFC822NameTest extends TestCase
     public function create()
     {
         $name = new RFC822Name('test@example.com');
-        $this->assertInstanceOf(RFC822Name::class, $name);
+        static::assertInstanceOf(RFC822Name::class, $name);
         return $name;
     }
 
@@ -34,7 +34,7 @@ final class RFC822NameTest extends TestCase
     public function encode(RFC822Name $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -48,7 +48,7 @@ final class RFC822NameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_RFC822_NAME, $el->tag());
+        static::assertEquals(GeneralName::TAG_RFC822_NAME, $el->tag());
     }
 
     /**
@@ -61,7 +61,7 @@ final class RFC822NameTest extends TestCase
     public function decode($der)
     {
         $name = RFC822Name::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(RFC822Name::class, $name);
+        static::assertInstanceOf(RFC822Name::class, $name);
         return $name;
     }
 
@@ -73,7 +73,7 @@ final class RFC822NameTest extends TestCase
      */
     public function recoded(RFC822Name $ref, RFC822Name $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -83,7 +83,7 @@ final class RFC822NameTest extends TestCase
      */
     public function string(RFC822Name $name)
     {
-        $this->assertIsString($name->string());
+        static::assertIsString($name->string());
     }
 
     /**
@@ -93,6 +93,6 @@ final class RFC822NameTest extends TestCase
      */
     public function email(RFC822Name $name)
     {
-        $this->assertEquals('test@example.com', $name->email());
+        static::assertEquals('test@example.com', $name->email());
     }
 }

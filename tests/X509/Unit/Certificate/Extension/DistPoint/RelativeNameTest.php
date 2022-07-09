@@ -23,7 +23,7 @@ final class RelativeNameTest extends TestCase
     public function create()
     {
         $name = new RelativeName(new RDN(AttributeTypeAndValue::fromAttributeValue(new CommonNameValue('Test'))));
-        $this->assertInstanceOf(RelativeName::class, $name);
+        static::assertInstanceOf(RelativeName::class, $name);
         return $name;
     }
 
@@ -35,7 +35,7 @@ final class RelativeNameTest extends TestCase
     public function encode(RelativeName $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -49,7 +49,7 @@ final class RelativeNameTest extends TestCase
     public function decode($data)
     {
         $name = RelativeName::fromTaggedType(TaggedType::fromDER($data));
-        $this->assertInstanceOf(RelativeName::class, $name);
+        static::assertInstanceOf(RelativeName::class, $name);
         return $name;
     }
 
@@ -61,7 +61,7 @@ final class RelativeNameTest extends TestCase
      */
     public function recoded(RelativeName $ref, RelativeName $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -72,6 +72,6 @@ final class RelativeNameTest extends TestCase
     public function rDN(RelativeName $name)
     {
         $rdn = $name->rdn();
-        $this->assertInstanceOf(RDN::class, $rdn);
+        static::assertInstanceOf(RDN::class, $rdn);
     }
 }

@@ -23,7 +23,7 @@ final class InsignificantSpaceStepTest extends TestCase
     public function applyNonSubstring($string, $expected)
     {
         $step = new InsignificantNonSubstringSpaceStep();
-        $this->assertEquals($expected, $step->apply($string));
+        static::assertEquals($expected, $step->apply($string));
     }
 
     public function provideApplyNonSubstring()

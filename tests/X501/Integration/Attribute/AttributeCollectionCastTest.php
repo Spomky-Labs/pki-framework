@@ -28,7 +28,7 @@ final class AttributeCollectionCastTest extends TestCase
         $out = AttributeCollectionCastTestCollection::fromASN1($asn1);
         $value = $out->firstOf('1.3.6.1.3')
             ->first();
-        $this->assertInstanceOf(AttributeCollectionCastTestAttrValue::class, $value);
-        $this->assertEquals('test', $value->stringValue());
+        static::assertInstanceOf(AttributeCollectionCastTestAttrValue::class, $value);
+        static::assertEquals('test', $value->stringValue());
     }
 }

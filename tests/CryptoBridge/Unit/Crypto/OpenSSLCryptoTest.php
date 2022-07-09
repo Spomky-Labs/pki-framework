@@ -83,10 +83,10 @@ final class OpenSSLCryptoTest extends TestCase
     public function signAndVerifyRSA(SignatureAlgorithmIdentifier $algo)
     {
         $signature = self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
-        $this->assertInstanceOf(Signature::class, $signature);
+        static::assertInstanceOf(Signature::class, $signature);
         $pubkey_info = self::$_rsaPrivKeyInfo->publicKeyInfo();
         $result = self::$_crypto->verify(self::DATA, $signature, $pubkey_info, $algo);
-        $this->assertTrue($result);
+        static::assertTrue($result);
     }
 
     /**
@@ -113,10 +113,10 @@ final class OpenSSLCryptoTest extends TestCase
     public function signAndVerifyEC(SignatureAlgorithmIdentifier $algo)
     {
         $signature = self::$_crypto->sign(self::DATA, self::$_ecPrivKeyInfo, $algo);
-        $this->assertInstanceOf(Signature::class, $signature);
+        static::assertInstanceOf(Signature::class, $signature);
         $pubkey_info = self::$_ecPrivKeyInfo->publicKeyInfo();
         $result = self::$_crypto->verify(self::DATA, $signature, $pubkey_info, $algo);
-        $this->assertTrue($result);
+        static::assertTrue($result);
     }
 
     /**
@@ -183,9 +183,9 @@ final class OpenSSLCryptoTest extends TestCase
     public function encryptAndDecrypt($data, CipherAlgorithmIdentifier $algo, $key)
     {
         $ciphertext = self::$_crypto->encrypt($data, $key, $algo);
-        $this->assertNotEquals($data, $ciphertext);
+        static::assertNotEquals($data, $ciphertext);
         $plaintext = self::$_crypto->decrypt($ciphertext, $key, $algo);
-        $this->assertEquals($data, $plaintext);
+        static::assertEquals($data, $plaintext);
     }
 
     /**
@@ -286,7 +286,7 @@ final class OpenSSLCryptoTest extends TestCase
     {
         $signature = self::$_crypto->sign(self::DATA, $pki, $algo);
         $result = self::$_crypto->verify(self::DATA, $signature, $pki->publicKeyInfo(), $algo);
-        $this->assertTrue($result);
+        static::assertTrue($result);
     }
 
     /**

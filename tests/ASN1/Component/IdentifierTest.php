@@ -18,7 +18,7 @@ final class IdentifierTest extends TestCase
     public function classToName()
     {
         $name = Identifier::classToName(Identifier::CLASS_UNIVERSAL);
-        $this->assertEquals('UNIVERSAL', $name);
+        static::assertEquals('UNIVERSAL', $name);
     }
 
     /**
@@ -27,6 +27,6 @@ final class IdentifierTest extends TestCase
     public function unknownClassToName()
     {
         $name = Identifier::classToName(0xff);
-        $this->assertEquals('CLASS 255', $name);
+        static::assertEquals('CLASS 255', $name);
     }
 }

@@ -21,7 +21,7 @@ final class UniqueIdentifierTest extends TestCase
     public function create()
     {
         $id = UniqueIdentifier::fromString(self::UID);
-        $this->assertInstanceOf(UniqueIdentifier::class, $id);
+        static::assertInstanceOf(UniqueIdentifier::class, $id);
         return $id;
     }
 
@@ -33,7 +33,7 @@ final class UniqueIdentifierTest extends TestCase
     public function encode(UniqueIdentifier $id)
     {
         $bs = $id->toASN1();
-        $this->assertInstanceOf(BitString::class, $bs);
+        static::assertInstanceOf(BitString::class, $bs);
         return $bs->toDER();
     }
 
@@ -47,7 +47,7 @@ final class UniqueIdentifierTest extends TestCase
     public function decode($der)
     {
         $id = UniqueIdentifier::fromASN1(BitString::fromDER($der));
-        $this->assertInstanceOf(UniqueIdentifier::class, $id);
+        static::assertInstanceOf(UniqueIdentifier::class, $id);
         return $id;
     }
 
@@ -59,7 +59,7 @@ final class UniqueIdentifierTest extends TestCase
      */
     public function recoded(UniqueIdentifier $ref, UniqueIdentifier $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -69,7 +69,7 @@ final class UniqueIdentifierTest extends TestCase
      */
     public function string(UniqueIdentifier $id)
     {
-        $this->assertEquals(self::UID, $id->string());
+        static::assertEquals(self::UID, $id->string());
     }
 
     /**
@@ -79,6 +79,6 @@ final class UniqueIdentifierTest extends TestCase
      */
     public function bitString(UniqueIdentifier $id)
     {
-        $this->assertInstanceOf(BitString::class, $id->bitString());
+        static::assertInstanceOf(BitString::class, $id->bitString());
     }
 }

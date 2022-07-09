@@ -24,7 +24,7 @@ final class UTCTimeTest extends TestCase
     public function create()
     {
         $el = UTCTime::fromString('Mon Jan 2 15:04:05 MST 2006');
-        $this->assertInstanceOf(UTCTime::class, $el);
+        static::assertInstanceOf(UTCTime::class, $el);
         return $el;
     }
 
@@ -35,7 +35,7 @@ final class UTCTimeTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_UTC_TIME, $el->tag());
+        static::assertEquals(Element::TYPE_UTC_TIME, $el->tag());
     }
 
     /**
@@ -46,7 +46,7 @@ final class UTCTimeTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -58,7 +58,7 @@ final class UTCTimeTest extends TestCase
     public function decode(string $data): UTCTime
     {
         $el = UTCTime::fromDER($data);
-        $this->assertInstanceOf(UTCTime::class, $el);
+        static::assertInstanceOf(UTCTime::class, $el);
         return $el;
     }
 
@@ -70,7 +70,7 @@ final class UTCTimeTest extends TestCase
      */
     public function recoded(TimeType $ref, TimeType $el)
     {
-        $this->assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
+        static::assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
     }
 
     /**
@@ -81,7 +81,7 @@ final class UTCTimeTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(UTCTime::class, $wrap->asUTCTime());
+        static::assertInstanceOf(UTCTime::class, $wrap->asUTCTime());
     }
 
     /**
@@ -102,7 +102,7 @@ final class UTCTimeTest extends TestCase
      */
     public function stringable(TimeType $time)
     {
-        $this->assertEquals('060102220405Z', $time->string());
-        $this->assertEquals('060102220405Z', strval($time));
+        static::assertEquals('060102220405Z', $time->string());
+        static::assertEquals('060102220405Z', strval($time));
     }
 }

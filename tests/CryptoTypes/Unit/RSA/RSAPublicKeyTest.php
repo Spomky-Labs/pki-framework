@@ -23,7 +23,7 @@ final class RSAPublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = RSAPublicKey::fromDER($pem->data());
-        $this->assertInstanceOf(RSAPublicKey::class, $pk);
+        static::assertInstanceOf(RSAPublicKey::class, $pk);
         return $pk;
     }
 
@@ -36,7 +36,7 @@ final class RSAPublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = RSAPublicKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPublicKey::class, $pk);
+        static::assertInstanceOf(RSAPublicKey::class, $pk);
         return $pk;
     }
 
@@ -48,7 +48,7 @@ final class RSAPublicKeyTest extends TestCase
     public function toPEM(RSAPublicKey $pk)
     {
         $pem = $pk->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -60,7 +60,7 @@ final class RSAPublicKeyTest extends TestCase
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
-        $this->assertEquals($ref, $pem);
+        static::assertEquals($ref, $pem);
     }
 
     /**
@@ -70,7 +70,7 @@ final class RSAPublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $pk = RSAPublicKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPublicKey::class, $pk);
+        static::assertInstanceOf(RSAPublicKey::class, $pk);
     }
 
     /**
@@ -100,7 +100,7 @@ final class RSAPublicKeyTest extends TestCase
      */
     public function modulus(RSAPublicKey $pk)
     {
-        $this->assertNotEmpty($pk->modulus());
+        static::assertNotEmpty($pk->modulus());
     }
 
     /**
@@ -110,6 +110,6 @@ final class RSAPublicKeyTest extends TestCase
      */
     public function publicExponent(RSAPublicKey $pk)
     {
-        $this->assertNotEmpty($pk->publicExponent());
+        static::assertNotEmpty($pk->publicExponent());
     }
 }

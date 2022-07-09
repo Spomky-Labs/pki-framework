@@ -20,7 +20,7 @@ final class NoticeReferenceTest extends TestCase
     public function create()
     {
         $ref = new NoticeReference(DisplayText::fromString('org'), 1, 2, 3);
-        $this->assertInstanceOf(NoticeReference::class, $ref);
+        static::assertInstanceOf(NoticeReference::class, $ref);
         return $ref;
     }
 
@@ -32,7 +32,7 @@ final class NoticeReferenceTest extends TestCase
     public function encode(NoticeReference $ref)
     {
         $el = $ref->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -46,7 +46,7 @@ final class NoticeReferenceTest extends TestCase
     public function decode($data)
     {
         $ref = NoticeReference::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(NoticeReference::class, $ref);
+        static::assertInstanceOf(NoticeReference::class, $ref);
         return $ref;
     }
 
@@ -58,7 +58,7 @@ final class NoticeReferenceTest extends TestCase
      */
     public function recoded(NoticeReference $ref, NoticeReference $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -68,7 +68,7 @@ final class NoticeReferenceTest extends TestCase
      */
     public function organization(NoticeReference $ref)
     {
-        $this->assertEquals('org', $ref->organization() ->string());
+        static::assertEquals('org', $ref->organization() ->string());
     }
 
     /**
@@ -78,6 +78,6 @@ final class NoticeReferenceTest extends TestCase
      */
     public function numbers(NoticeReference $ref)
     {
-        $this->assertEquals([1, 2, 3], $ref->numbers());
+        static::assertEquals([1, 2, 3], $ref->numbers());
     }
 }

@@ -21,7 +21,7 @@ final class AAControlsTest extends TestCase
     public function create()
     {
         $ext = new AAControlsExtension(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
-        $this->assertInstanceOf(AAControlsExtension::class, $ext);
+        static::assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }
 
@@ -32,7 +32,7 @@ final class AAControlsTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_AA_CONTROLS, $ext->oid());
+        static::assertEquals(Extension::OID_AA_CONTROLS, $ext->oid());
     }
 
     /**
@@ -42,7 +42,7 @@ final class AAControlsTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -53,7 +53,7 @@ final class AAControlsTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -67,7 +67,7 @@ final class AAControlsTest extends TestCase
     public function decode($der)
     {
         $ext = AAControlsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(AAControlsExtension::class, $ext);
+        static::assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }
 
@@ -79,7 +79,7 @@ final class AAControlsTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -89,7 +89,7 @@ final class AAControlsTest extends TestCase
      */
     public function pathLen(AAControlsExtension $ext)
     {
-        $this->assertEquals(3, $ext->pathLen());
+        static::assertEquals(3, $ext->pathLen());
     }
 
     /**
@@ -99,7 +99,7 @@ final class AAControlsTest extends TestCase
      */
     public function permitted(AAControlsExtension $ext)
     {
-        $this->assertEquals(['1.2.3.4'], $ext->permittedAttrs());
+        static::assertEquals(['1.2.3.4'], $ext->permittedAttrs());
     }
 
     /**
@@ -109,7 +109,7 @@ final class AAControlsTest extends TestCase
      */
     public function excluded(AAControlsExtension $ext)
     {
-        $this->assertEquals(['1.2.3.5', '1.2.3.6'], $ext->excludedAttrs());
+        static::assertEquals(['1.2.3.5', '1.2.3.6'], $ext->excludedAttrs());
     }
 
     /**
@@ -119,7 +119,7 @@ final class AAControlsTest extends TestCase
      */
     public function unspecified(AAControlsExtension $ext)
     {
-        $this->assertFalse($ext->permitUnspecified());
+        static::assertFalse($ext->permitUnspecified());
     }
 
     /**
@@ -128,7 +128,7 @@ final class AAControlsTest extends TestCase
     public function createEmpty()
     {
         $ext = new AAControlsExtension(false);
-        $this->assertInstanceOf(AAControlsExtension::class, $ext);
+        static::assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }
 
@@ -140,7 +140,7 @@ final class AAControlsTest extends TestCase
     public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -154,7 +154,7 @@ final class AAControlsTest extends TestCase
     public function decodeEmpty($der)
     {
         $ext = AAControlsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(AAControlsExtension::class, $ext);
+        static::assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }
 
@@ -166,7 +166,7 @@ final class AAControlsTest extends TestCase
      */
     public function recodedEmpty(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**

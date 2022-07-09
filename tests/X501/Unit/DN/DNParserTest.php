@@ -26,7 +26,7 @@ final class DNParserTest extends TestCase
     public function parseString($dn, $expected)
     {
         $result = DNParser::parseString($dn);
-        $this->assertEquals($expected, $result);
+        static::assertEquals($expected, $result);
     }
 
     public function provideParseString(): Iterator
@@ -169,7 +169,7 @@ final class DNParserTest extends TestCase
     public function escapeString($str, $expected)
     {
         $escaped = DNParser::escapeString($str);
-        $this->assertEquals($expected, $escaped);
+        static::assertEquals($expected, $escaped);
     }
 
     public function provideEscapeString(): Iterator

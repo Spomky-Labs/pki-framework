@@ -46,7 +46,7 @@ final class ConstructedStringTest extends TestCase
             new OctetString('Hello'),
             new OctetString('World')
         )->withIndefiniteLength();
-        $this->assertInstanceOf(ConstructedString::class, $cs);
+        static::assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
 
@@ -57,7 +57,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
     }
 
     /**
@@ -68,7 +68,7 @@ final class ConstructedStringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -80,7 +80,7 @@ final class ConstructedStringTest extends TestCase
     public function decode(string $data): ConstructedString
     {
         $el = ConstructedString::fromDER($data);
-        $this->assertInstanceOf(ConstructedString::class, $el);
+        static::assertInstanceOf(ConstructedString::class, $el);
         return $el;
     }
 
@@ -92,7 +92,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -102,7 +102,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function strings(ConstructedString $cs)
     {
-        $this->assertEquals(['Hello', 'World'], $cs->strings());
+        static::assertEquals(['Hello', 'World'], $cs->strings());
     }
 
     /**
@@ -112,8 +112,8 @@ final class ConstructedStringTest extends TestCase
      */
     public function stringable(ConstructedString $cs)
     {
-        $this->assertEquals('HelloWorld', $cs->string());
-        $this->assertEquals('HelloWorld', strval($cs));
+        static::assertEquals('HelloWorld', $cs->string());
+        static::assertEquals('HelloWorld', strval($cs));
     }
 
     /**
@@ -123,7 +123,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function isPseudoType(ConstructedString $cs)
     {
-        $this->assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
+        static::assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
     }
 
     /**
@@ -134,7 +134,7 @@ final class ConstructedStringTest extends TestCase
     public function unspecified(ConstructedString $cs)
     {
         $ut = new UnspecifiedType($cs);
-        $this->assertInstanceOf(ConstructedString::class, $ut->asConstructedString());
+        static::assertInstanceOf(ConstructedString::class, $ut->asConstructedString());
     }
 
     /**
@@ -154,7 +154,7 @@ final class ConstructedStringTest extends TestCase
     public function createFromElements()
     {
         $cs = ConstructedString::create(new OctetString('Hello'), new OctetString('World'));
-        $this->assertInstanceOf(ConstructedString::class, $cs);
+        static::assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
 
@@ -165,7 +165,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function fromElementsTag(ConstructedString $cs)
     {
-        $this->assertEquals(Element::TYPE_OCTET_STRING, $cs->tag());
+        static::assertEquals(Element::TYPE_OCTET_STRING, $cs->tag());
     }
 
     /**
@@ -200,8 +200,8 @@ final class ConstructedStringTest extends TestCase
         $der = $cs->toDER();
         $ut = ConstructedString::fromDER($der)->asUnspecified();
         $s = $ut->asString();
-        $this->assertInstanceOf(StringType::class, $s);
-        $this->assertEquals("{$str}{$str}", $s->string());
+        static::assertInstanceOf(StringType::class, $s);
+        static::assertEquals("{$str}{$str}", $s->string());
     }
 
     public function provideStringType(): iterable

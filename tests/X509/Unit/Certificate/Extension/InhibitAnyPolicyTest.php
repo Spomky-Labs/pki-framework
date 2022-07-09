@@ -21,7 +21,7 @@ final class InhibitAnyPolicyTest extends TestCase
     public function create()
     {
         $ext = new InhibitAnyPolicyExtension(true, 3);
-        $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
+        static::assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
         return $ext;
     }
 
@@ -32,7 +32,7 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_INHIBIT_ANY_POLICY, $ext->oid());
+        static::assertEquals(Extension::OID_INHIBIT_ANY_POLICY, $ext->oid());
     }
 
     /**
@@ -42,7 +42,7 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -53,7 +53,7 @@ final class InhibitAnyPolicyTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -67,7 +67,7 @@ final class InhibitAnyPolicyTest extends TestCase
     public function decode($der)
     {
         $ext = InhibitAnyPolicyExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
+        static::assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
         return $ext;
     }
 
@@ -79,7 +79,7 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -89,7 +89,7 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function skipCerts(InhibitAnyPolicyExtension $ext)
     {
-        $this->assertEquals(3, $ext->skipCerts());
+        static::assertEquals(3, $ext->skipCerts());
     }
 
     /**
@@ -100,7 +100,7 @@ final class InhibitAnyPolicyTest extends TestCase
     public function extensions(InhibitAnyPolicyExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasInhibitAnyPolicy());
+        static::assertTrue($extensions->hasInhibitAnyPolicy());
         return $extensions;
     }
 
@@ -112,6 +112,6 @@ final class InhibitAnyPolicyTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->inhibitAnyPolicy();
-        $this->assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
+        static::assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
     }
 }

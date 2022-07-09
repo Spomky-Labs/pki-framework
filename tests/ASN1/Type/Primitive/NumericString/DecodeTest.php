@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = NumericString::fromDER("\x12\x0");
-        $this->assertInstanceOf(NumericString::class, $el);
+        static::assertInstanceOf(NumericString::class, $el);
     }
 
     /**
@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     {
         $str = '123 456 789 0';
         $el = NumericString::fromDER("\x12\x0d{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 
     /**

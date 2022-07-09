@@ -25,7 +25,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
             AuthorityAccessDescription::OID_METHOD_OSCP,
             new UniformResourceIdentifier(self::URI)
         );
-        $this->assertInstanceOf(AuthorityAccessDescription::class, $desc);
+        static::assertInstanceOf(AuthorityAccessDescription::class, $desc);
         return $desc;
     }
 
@@ -37,7 +37,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
     public function encode(AuthorityAccessDescription $desc)
     {
         $el = $desc->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -51,7 +51,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
     public function decode($data)
     {
         $desc = AuthorityAccessDescription::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(AuthorityAccessDescription::class, $desc);
+        static::assertInstanceOf(AuthorityAccessDescription::class, $desc);
         return $desc;
     }
 
@@ -63,7 +63,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function recoded(AuthorityAccessDescription $ref, AuthorityAccessDescription $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -73,7 +73,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function isOSCP(AuthorityAccessDescription $desc)
     {
-        $this->assertTrue($desc->isOSCPMethod());
+        static::assertTrue($desc->isOSCPMethod());
     }
 
     /**
@@ -83,7 +83,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function isNotCAIssuers(AuthorityAccessDescription $desc)
     {
-        $this->assertFalse($desc->isCAIssuersMethod());
+        static::assertFalse($desc->isCAIssuersMethod());
     }
 
     /**
@@ -93,7 +93,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function accessMethod(AuthorityAccessDescription $desc)
     {
-        $this->assertEquals(AuthorityAccessDescription::OID_METHOD_OSCP, $desc->accessMethod());
+        static::assertEquals(AuthorityAccessDescription::OID_METHOD_OSCP, $desc->accessMethod());
     }
 
     /**
@@ -103,6 +103,6 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function location(AuthorityAccessDescription $desc)
     {
-        $this->assertEquals(self::URI, $desc->accessLocation() ->string());
+        static::assertEquals(self::URI, $desc->accessLocation() ->string());
     }
 }

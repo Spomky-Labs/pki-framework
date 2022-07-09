@@ -60,7 +60,7 @@ final class CertificationRequestInfoTest extends TestCase
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
         $cri = new CertificationRequestInfo(self::$_subject, $pkinfo);
         $cri = $cri->withAttributes(self::$_attribs);
-        $this->assertInstanceOf(CertificationRequestInfo::class, $cri);
+        static::assertInstanceOf(CertificationRequestInfo::class, $cri);
         return $cri;
     }
 
@@ -72,7 +72,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function encode(CertificationRequestInfo $cri)
     {
         $seq = $cri->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -86,7 +86,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function decode($der)
     {
         $cert = CertificationRequestInfo::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(CertificationRequestInfo::class, $cert);
+        static::assertInstanceOf(CertificationRequestInfo::class, $cert);
         return $cert;
     }
 
@@ -98,7 +98,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function recoded(CertificationRequestInfo $ref, CertificationRequestInfo $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -108,7 +108,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function version(CertificationRequestInfo $cri)
     {
-        $this->assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
+        static::assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
     }
 
     /**
@@ -118,7 +118,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function subject(CertificationRequestInfo $cri)
     {
-        $this->assertEquals(self::$_subject, $cri->subject());
+        static::assertEquals(self::$_subject, $cri->subject());
     }
 
     /**
@@ -130,7 +130,7 @@ final class CertificationRequestInfoTest extends TestCase
     {
         static $name = 'cn=New Name';
         $cri = $cri->withSubject(Name::fromString($name));
-        $this->assertEquals($name, $cri->subject());
+        static::assertEquals($name, $cri->subject());
     }
 
     /**
@@ -141,7 +141,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function withExtensionRequest(CertificationRequestInfo $cri)
     {
         $cri = $cri->withExtensionRequest(new Extensions());
-        $this->assertTrue($cri->attributes() ->hasExtensionRequest());
+        static::assertTrue($cri->attributes() ->hasExtensionRequest());
     }
 
     /**
@@ -151,7 +151,7 @@ final class CertificationRequestInfoTest extends TestCase
     {
         $cri = new CertificationRequestInfo(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
         $cri = $cri->withExtensionRequest(new Extensions());
-        $this->assertTrue($cri->attributes() ->hasExtensionRequest());
+        static::assertTrue($cri->attributes() ->hasExtensionRequest());
     }
 
     /**
@@ -162,7 +162,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function subjectPKI(CertificationRequestInfo $cri)
     {
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
-        $this->assertEquals($pkinfo, $cri->subjectPKInfo());
+        static::assertEquals($pkinfo, $cri->subjectPKInfo());
     }
 
     /**
@@ -173,7 +173,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function attribs(CertificationRequestInfo $cri)
     {
         $attribs = $cri->attributes();
-        $this->assertInstanceOf(Attributes::class, $attribs);
+        static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
 
@@ -200,7 +200,7 @@ final class CertificationRequestInfoTest extends TestCase
             ->names()
             ->firstDN()
             ->toString();
-        $this->assertEquals(self::SAN_DN, $dn);
+        static::assertEquals(self::SAN_DN, $dn);
     }
 
     /**
@@ -225,6 +225,6 @@ final class CertificationRequestInfoTest extends TestCase
     public function sign(CertificationRequestInfo $cri)
     {
         $csr = $cri->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        $this->assertInstanceOf(CertificationRequest::class, $csr);
+        static::assertInstanceOf(CertificationRequest::class, $csr);
     }
 }

@@ -20,7 +20,7 @@ final class KeyUsageTest extends RefExtTestHelper
     public function keyUsage()
     {
         $ext = self::$_extensions->get(Extension::OID_KEY_USAGE);
-        $this->assertInstanceOf(KeyUsageExtension::class, $ext);
+        static::assertInstanceOf(KeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -31,14 +31,14 @@ final class KeyUsageTest extends RefExtTestHelper
      */
     public function keyUsageBits(KeyUsageExtension $ku)
     {
-        $this->assertFalse($ku->isDigitalSignature());
-        $this->assertFalse($ku->isNonRepudiation());
-        $this->assertTrue($ku->isKeyEncipherment());
-        $this->assertFalse($ku->isDataEncipherment());
-        $this->assertFalse($ku->isKeyAgreement());
-        $this->assertTrue($ku->isKeyCertSign());
-        $this->assertFalse($ku->isCRLSign());
-        $this->assertFalse($ku->isEncipherOnly());
-        $this->assertFalse($ku->isDecipherOnly());
+        static::assertFalse($ku->isDigitalSignature());
+        static::assertFalse($ku->isNonRepudiation());
+        static::assertTrue($ku->isKeyEncipherment());
+        static::assertFalse($ku->isDataEncipherment());
+        static::assertFalse($ku->isKeyAgreement());
+        static::assertTrue($ku->isKeyCertSign());
+        static::assertFalse($ku->isCRLSign());
+        static::assertFalse($ku->isEncipherOnly());
+        static::assertFalse($ku->isDecipherOnly());
     }
 }

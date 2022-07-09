@@ -21,7 +21,7 @@ final class SubjectDirectoryAttributesTest extends RefExtTestHelper
     public function subjectDirectoryAttributesExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES);
-        $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
+        static::assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
 
@@ -35,6 +35,6 @@ final class SubjectDirectoryAttributesTest extends RefExtTestHelper
         $desc = $sda->firstOf(AttributeType::OID_DESCRIPTION)
             ->first()
             ->stringValue();
-        $this->assertEquals('A Company Manufacturing Everything', $desc);
+        static::assertEquals('A Company Manufacturing Everything', $desc);
     }
 }

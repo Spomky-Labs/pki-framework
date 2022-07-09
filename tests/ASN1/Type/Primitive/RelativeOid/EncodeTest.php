@@ -18,7 +18,7 @@ final class EncodeTest extends TestCase
     public function zero()
     {
         $oid = new RelativeOID('0');
-        $this->assertEquals("\x0d\1\0", $oid->toDER());
+        static::assertEquals("\x0d\1\0", $oid->toDER());
     }
 
     /**
@@ -27,6 +27,6 @@ final class EncodeTest extends TestCase
     public function encodeLong()
     {
         $oid = new RelativeOID('1.2.840.113549');
-        $this->assertEquals("\x0d\x07\x01\02\x86\x48\x86\xf7\x0d", $oid->toDER());
+        static::assertEquals("\x0d\x07\x01\02\x86\x48\x86\xf7\x0d", $oid->toDER());
     }
 }

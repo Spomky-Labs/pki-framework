@@ -25,7 +25,7 @@ final class TargetNameTest extends TestCase
     public function create()
     {
         $target = new TargetName(new UniformResourceIdentifier(self::URI));
-        $this->assertInstanceOf(TargetName::class, $target);
+        static::assertInstanceOf(TargetName::class, $target);
         return $target;
     }
 
@@ -37,7 +37,7 @@ final class TargetNameTest extends TestCase
     public function encode(Target $target)
     {
         $el = $target->toASN1();
-        $this->assertInstanceOf(ExplicitTagging::class, $el);
+        static::assertInstanceOf(ExplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -51,7 +51,7 @@ final class TargetNameTest extends TestCase
     public function decode($data)
     {
         $target = TargetName::fromASN1(TaggedType::fromDER($data));
-        $this->assertInstanceOf(TargetName::class, $target);
+        static::assertInstanceOf(TargetName::class, $target);
         return $target;
     }
 
@@ -63,7 +63,7 @@ final class TargetNameTest extends TestCase
      */
     public function recoded(Target $ref, Target $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -73,7 +73,7 @@ final class TargetNameTest extends TestCase
      */
     public function type(Target $target)
     {
-        $this->assertEquals(Target::TYPE_NAME, $target->type());
+        static::assertEquals(Target::TYPE_NAME, $target->type());
     }
 
     /**
@@ -84,7 +84,7 @@ final class TargetNameTest extends TestCase
     public function name(TargetName $target)
     {
         $name = $target->name();
-        $this->assertInstanceOf(GeneralName::class, $name);
+        static::assertInstanceOf(GeneralName::class, $name);
     }
 
     /**
@@ -94,6 +94,6 @@ final class TargetNameTest extends TestCase
      */
     public function string(TargetName $target)
     {
-        $this->assertIsString($target->string());
+        static::assertIsString($target->string());
     }
 }

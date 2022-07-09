@@ -55,7 +55,7 @@ final class TargetTest extends TestCase
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetName(new DNSName('n1'));
-        $this->assertTrue($t1->equals($t2));
+        static::assertTrue($t1->equals($t2));
     }
 
     /**
@@ -65,7 +65,7 @@ final class TargetTest extends TestCase
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetName(new DNSName('n2'));
-        $this->assertFalse($t1->equals($t2));
+        static::assertFalse($t1->equals($t2));
     }
 
     /**
@@ -75,7 +75,7 @@ final class TargetTest extends TestCase
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetName(new RFC822Name('n2'));
-        $this->assertFalse($t1->equals($t2));
+        static::assertFalse($t1->equals($t2));
     }
 
     /**
@@ -85,6 +85,6 @@ final class TargetTest extends TestCase
     {
         $t1 = new TargetName(new DNSName('n1'));
         $t2 = new TargetGroup(new DNSName('n1'));
-        $this->assertFalse($t1->equals($t2));
+        static::assertFalse($t1->equals($t2));
     }
 }

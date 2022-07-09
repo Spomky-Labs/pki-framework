@@ -61,12 +61,12 @@ return static function (ECSConfig $config) use ($header): void {
     $config->rule(CombineConsecutiveUnsetsFixer::class);
     $config->rule(CompactNullableTypehintFixer::class);
     $config->rule(NoSuperfluousElseifFixer::class);
+    */
     $config->rule(NoSuperfluousPhpdocTagsFixer::class);
     $config->rule(PhpdocTrimConsecutiveBlankLineSeparationFixer::class);
     $config->rule(PhpdocOrderFixer::class);
     $config->rule(SimplifiedNullReturnFixer::class);
     $config->rule(PhpUnitTestCaseStaticMethodCallsFixer::class);
-    */
     $config->ruleWithConfiguration(ArraySyntaxFixer::class, [
         'syntax' => 'short',
     ]);

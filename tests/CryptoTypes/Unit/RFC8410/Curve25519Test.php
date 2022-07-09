@@ -30,7 +30,7 @@ final class Curve25519Test extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(Ed25519PrivateKey::class, $pk);
+        static::assertInstanceOf(Ed25519PrivateKey::class, $pk);
         return $pk;
     }
 
@@ -42,7 +42,7 @@ final class Curve25519Test extends TestCase
     public function recodeEd25519WithPub(Ed25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
-        $this->assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
     /**
@@ -53,7 +53,7 @@ final class Curve25519Test extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(Ed25519PrivateKey::class, $pk);
+        static::assertInstanceOf(Ed25519PrivateKey::class, $pk);
         return $pk;
     }
 
@@ -65,7 +65,7 @@ final class Curve25519Test extends TestCase
     public function recodeEd25519(Ed25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
-        $this->assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
     /**
@@ -81,7 +81,7 @@ D4 EE 72 DB F9 13 58 4A D5 B6 D8 F1 F7 69 F8 AD
 3A FE 7C 28 CB F1 D4 FB E0 97 A8 8F 44 75 58 42
 CODE_SAMPLE;
         $data = hex2bin(preg_replace('/[^\w]+/', '', $data));
-        $this->assertEquals($data, $pk->privateKeyData());
+        static::assertEquals($data, $pk->privateKeyData());
     }
 
     /**
@@ -91,7 +91,7 @@ CODE_SAMPLE;
      */
     public function ed25519HasPublicKey(Ed25519PrivateKey $pk)
     {
-        $this->assertTrue($pk->hasPublicKey());
+        static::assertTrue($pk->hasPublicKey());
     }
 
     /**
@@ -102,7 +102,7 @@ CODE_SAMPLE;
     public function ed25519PublicKey(Ed25519PrivateKey $pk): Ed25519PublicKey
     {
         $pub = $pk->publicKey();
-        $this->assertInstanceOf(Ed25519PublicKey::class, $pub);
+        static::assertInstanceOf(Ed25519PublicKey::class, $pub);
         return $pub;
     }
 
@@ -155,7 +155,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $this->assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
+        static::assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
     }
 
     /**
@@ -165,7 +165,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $this->assertInstanceOf(BitString::class, $pki->publicKeyData());
+        static::assertInstanceOf(BitString::class, $pki->publicKeyData());
     }
 
     /**
@@ -187,7 +187,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(Ed25519PublicKey::class, $pub);
+        static::assertInstanceOf(Ed25519PublicKey::class, $pub);
         return $pub;
     }
 
@@ -199,7 +199,7 @@ CODE_SAMPLE;
     public function recodeEd25519Pub(Ed25519PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_public_key.pem');
-        $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     /**
@@ -221,7 +221,7 @@ CODE_SAMPLE;
      */
     public function ed25519PubKeyData(Ed25519PublicKey $pub)
     {
-        $this->assertInstanceOf(BitString::class, $pub->subjectPublicKey());
+        static::assertInstanceOf(BitString::class, $pub->subjectPublicKey());
     }
 
     /**
@@ -232,7 +232,7 @@ CODE_SAMPLE;
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(X25519PrivateKey::class, $pk);
+        static::assertInstanceOf(X25519PrivateKey::class, $pk);
         return $pk;
     }
 
@@ -244,7 +244,7 @@ CODE_SAMPLE;
     public function recodeX25519(X25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
-        $this->assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
     /**
@@ -254,7 +254,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(X25519PublicKey::class, $pub);
+        static::assertInstanceOf(X25519PublicKey::class, $pub);
         return $pub;
     }
 
@@ -266,7 +266,7 @@ CODE_SAMPLE;
     public function recodeX25519Pub(X25519PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_public_key.pem');
-        $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     /**
@@ -287,6 +287,6 @@ CODE_SAMPLE;
     public function x25519PkGetPub()
     {
         $pk = new X25519PrivateKey(str_repeat("\0", 32), str_repeat("\0", 32));
-        $this->assertInstanceOf(X25519PublicKey::class, $pk->publicKey());
+        static::assertInstanceOf(X25519PublicKey::class, $pk->publicKey());
     }
 }

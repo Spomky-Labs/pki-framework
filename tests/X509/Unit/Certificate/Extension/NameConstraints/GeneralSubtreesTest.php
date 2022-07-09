@@ -27,7 +27,7 @@ final class GeneralSubtreesTest extends TestCase
             new GeneralSubtree(new UniformResourceIdentifier('.example.com')),
             new GeneralSubtree(DirectoryName::fromDNString('cn=Test'))
         );
-        $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
+        static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
 
@@ -39,7 +39,7 @@ final class GeneralSubtreesTest extends TestCase
     public function encode(GeneralSubtrees $subtrees)
     {
         $el = $subtrees->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -53,7 +53,7 @@ final class GeneralSubtreesTest extends TestCase
     public function decode($data)
     {
         $subtrees = GeneralSubtrees::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
+        static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
 
@@ -65,7 +65,7 @@ final class GeneralSubtreesTest extends TestCase
      */
     public function recoded(GeneralSubtrees $ref, GeneralSubtrees $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -75,7 +75,7 @@ final class GeneralSubtreesTest extends TestCase
      */
     public function all(GeneralSubtrees $subtrees)
     {
-        $this->assertContainsOnlyInstancesOf(GeneralSubtree::class, $subtrees->all());
+        static::assertContainsOnlyInstancesOf(GeneralSubtree::class, $subtrees->all());
     }
 
     /**
@@ -85,7 +85,7 @@ final class GeneralSubtreesTest extends TestCase
      */
     public function countMethod(GeneralSubtrees $subtrees)
     {
-        $this->assertCount(2, $subtrees);
+        static::assertCount(2, $subtrees);
     }
 
     /**
@@ -99,7 +99,7 @@ final class GeneralSubtreesTest extends TestCase
         foreach ($subtrees as $subtree) {
             $values[] = $subtree;
         }
-        $this->assertContainsOnlyInstancesOf(GeneralSubtree::class, $values);
+        static::assertContainsOnlyInstancesOf(GeneralSubtree::class, $values);
     }
 
     /**

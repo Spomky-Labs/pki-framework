@@ -34,7 +34,7 @@ final class AttributeValueTest extends TestCase
     public function toAttribute()
     {
         $val = new CommonNameValue('name');
-        $this->assertInstanceOf(Attribute::class, $val->toAttribute());
+        static::assertInstanceOf(Attribute::class, $val->toAttribute());
     }
 
     /**
@@ -43,6 +43,6 @@ final class AttributeValueTest extends TestCase
     public function toAttributeTypeAndValue()
     {
         $val = new CommonNameValue('name');
-        $this->assertInstanceOf(AttributeTypeAndValue::class, $val->toAttributeTypeAndValue());
+        static::assertInstanceOf(AttributeTypeAndValue::class, $val->toAttributeTypeAndValue());
     }
 }

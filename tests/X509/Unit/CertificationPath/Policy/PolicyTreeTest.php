@@ -26,7 +26,7 @@ final class PolicyTreeTest extends TestCase
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
-        $this->assertEmpty($tree->policiesAtDepth(1));
+        static::assertEmpty($tree->policiesAtDepth(1));
     }
 
     /**
@@ -43,7 +43,7 @@ final class PolicyTreeTest extends TestCase
         $prop->setValue($tree, null);
         $mtd = $obj->getMethod('_validPolicyNodeSet');
         $mtd->setAccessible(true);
-        $this->assertEmpty($mtd->invoke($tree));
+        static::assertEmpty($mtd->invoke($tree));
     }
 
     /**
@@ -60,6 +60,6 @@ final class PolicyTreeTest extends TestCase
         $prop->setValue($tree, null);
         $mtd = $obj->getMethod('_pruneTree');
         $mtd->setAccessible(true);
-        $this->assertEquals(0, $mtd->invoke($tree, 0));
+        static::assertEquals(0, $mtd->invoke($tree, 0));
     }
 }

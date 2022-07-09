@@ -19,7 +19,7 @@ final class EOCTest extends TestCase
     public function create(): Element
     {
         $el = new EOC();
-        $this->assertInstanceOf(EOC::class, $el);
+        static::assertInstanceOf(EOC::class, $el);
         return $el;
     }
 
@@ -30,7 +30,7 @@ final class EOCTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_EOC, $el->tag());
+        static::assertEquals(Element::TYPE_EOC, $el->tag());
     }
 
     /**
@@ -41,7 +41,7 @@ final class EOCTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -55,7 +55,7 @@ final class EOCTest extends TestCase
     public function decode($data): EOC
     {
         $el = EOC::fromDER($data);
-        $this->assertInstanceOf(EOC::class, $el);
+        static::assertInstanceOf(EOC::class, $el);
         return $el;
     }
 
@@ -67,6 +67,6 @@ final class EOCTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 }

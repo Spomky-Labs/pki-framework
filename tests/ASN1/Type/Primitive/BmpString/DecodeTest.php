@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = BMPString::fromDER("\x1e\x0");
-        $this->assertInstanceOf(BMPString::class, $el);
+        static::assertInstanceOf(BMPString::class, $el);
     }
 
     /**
@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     {
         $str = "\0H\0e\0l\0l\0o\0 \0W\0o\0r\0l\0d\0!";
         $el = BMPString::fromDER("\x1e\x18{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 
     /**

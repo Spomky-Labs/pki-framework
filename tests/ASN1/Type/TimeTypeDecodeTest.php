@@ -22,7 +22,7 @@ final class TimeTypeDecodeTest extends TestCase
     public function type()
     {
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertInstanceOf(TimeType::class, $el);
+        static::assertInstanceOf(TimeType::class, $el);
     }
 
     /**
@@ -32,7 +32,7 @@ final class TimeTypeDecodeTest extends TestCase
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertEquals($date, $el->dateTime() ->getTimestamp());
+        static::assertEquals($date, $el->dateTime() ->getTimestamp());
     }
 
     /**
@@ -41,7 +41,7 @@ final class TimeTypeDecodeTest extends TestCase
     public function expectation()
     {
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertInstanceOf(TimeType::class, $el->expectType(Element::TYPE_TIME));
+        static::assertInstanceOf(TimeType::class, $el->expectType(Element::TYPE_TIME));
     }
 
     /**

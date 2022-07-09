@@ -18,7 +18,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = GraphicString::fromDER("\x19\x0");
-        $this->assertInstanceOf(GraphicString::class, $el);
+        static::assertInstanceOf(GraphicString::class, $el);
     }
 
     /**
@@ -28,6 +28,6 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = GraphicString::fromDER("\x19\x0c{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 }

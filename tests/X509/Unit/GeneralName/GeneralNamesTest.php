@@ -28,7 +28,7 @@ final class GeneralNamesTest extends TestCase
     public function create()
     {
         $gns = new GeneralNames(new DNSName('test1'), new DNSName('test2'));
-        $this->assertInstanceOf(GeneralNames::class, $gns);
+        static::assertInstanceOf(GeneralNames::class, $gns);
         return $gns;
     }
 
@@ -40,7 +40,7 @@ final class GeneralNamesTest extends TestCase
     public function encode(GeneralNames $gns)
     {
         $seq = $gns->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -54,7 +54,7 @@ final class GeneralNamesTest extends TestCase
     public function decode($der)
     {
         $gns = GeneralNames::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(GeneralNames::class, $gns);
+        static::assertInstanceOf(GeneralNames::class, $gns);
         return $gns;
     }
 
@@ -66,7 +66,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function recoded(GeneralNames $ref, GeneralNames $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -76,7 +76,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function has(GeneralNames $gns)
     {
-        $this->assertTrue($gns->has(GeneralName::TAG_DNS_NAME));
+        static::assertTrue($gns->has(GeneralName::TAG_DNS_NAME));
     }
 
     /**
@@ -86,7 +86,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function hasNot(GeneralNames $gns)
     {
-        $this->assertFalse($gns->has(GeneralName::TAG_URI));
+        static::assertFalse($gns->has(GeneralName::TAG_URI));
     }
 
     /**
@@ -96,7 +96,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function allOf(GeneralNames $gns)
     {
-        $this->assertCount(2, $gns->allOf(GeneralName::TAG_DNS_NAME));
+        static::assertCount(2, $gns->allOf(GeneralName::TAG_DNS_NAME));
     }
 
     /**
@@ -106,7 +106,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function firstOf(GeneralNames $gns)
     {
-        $this->assertInstanceOf(DNSName::class, $gns->firstOf(GeneralName::TAG_DNS_NAME));
+        static::assertInstanceOf(DNSName::class, $gns->firstOf(GeneralName::TAG_DNS_NAME));
     }
 
     /**
@@ -127,7 +127,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function countMethod(GeneralNames $gns)
     {
-        $this->assertCount(2, $gns);
+        static::assertCount(2, $gns);
     }
 
     /**
@@ -141,8 +141,8 @@ final class GeneralNamesTest extends TestCase
         foreach ($gns as $gn) {
             $values[] = $gn;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(GeneralName::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(GeneralName::class, $values);
     }
 
     /**
@@ -171,7 +171,7 @@ final class GeneralNamesTest extends TestCase
     {
         $name = new DNSName('example.com');
         $gn = new GeneralNames($name);
-        $this->assertEquals($name, $gn->firstDNS());
+        static::assertEquals($name, $gn->firstDNS());
     }
 
     /**
@@ -181,7 +181,7 @@ final class GeneralNamesTest extends TestCase
     {
         $name = DirectoryName::fromDNString('cn=Example');
         $gn = new GeneralNames($name);
-        $this->assertEquals($name->dn(), $gn->firstDN());
+        static::assertEquals($name->dn(), $gn->firstDN());
     }
 
     /**
@@ -191,7 +191,7 @@ final class GeneralNamesTest extends TestCase
     {
         $name = new UniformResourceIdentifier('urn:example');
         $gn = new GeneralNames($name);
-        $this->assertEquals($name, $gn->firstURI());
+        static::assertEquals($name, $gn->firstURI());
     }
 
     /**

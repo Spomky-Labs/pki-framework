@@ -22,7 +22,7 @@ final class EncodeTest extends TestCase
     public function encode()
     {
         $el = new Set();
-        $this->assertEquals("\x31\x0", $el->toDER());
+        static::assertEquals("\x31\x0", $el->toDER());
     }
 
     /**
@@ -35,7 +35,7 @@ final class EncodeTest extends TestCase
             new ImplicitlyTaggedType(2, new NullType()),
             new ImplicitlyTaggedType(0, new NullType())
         );
-        $this->assertEquals("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet() ->toDER());
+        static::assertEquals("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet() ->toDER());
     }
 
     /**
@@ -48,7 +48,7 @@ final class EncodeTest extends TestCase
             new ImplicitlyTaggedType(6, new NullType()),
             new NullType()
         );
-        $this->assertEquals("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet() ->toDER());
+        static::assertEquals("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet() ->toDER());
     }
 
     /**
@@ -57,6 +57,6 @@ final class EncodeTest extends TestCase
     public function setOfSort()
     {
         $set = new Set(new PrintableString('B'), new PrintableString('C'), new PrintableString('A'));
-        $this->assertEquals("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf() ->toDER());
+        static::assertEquals("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf() ->toDER());
     }
 }

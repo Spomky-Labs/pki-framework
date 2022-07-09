@@ -24,7 +24,7 @@ final class NameEqualityTest extends TestCase
     public function equal($dn1, $dn2)
     {
         $result = Name::fromString($dn1)->equals(Name::fromString($dn2));
-        $this->assertTrue($result);
+        static::assertTrue($result);
     }
 
     public function provideEqual(): Iterator
@@ -56,7 +56,7 @@ final class NameEqualityTest extends TestCase
     public function unequal($dn1, $dn2)
     {
         $result = Name::fromString($dn1)->equals(Name::fromString($dn2));
-        $this->assertFalse($result);
+        static::assertFalse($result);
     }
 
     public function provideUnequal(): Iterator

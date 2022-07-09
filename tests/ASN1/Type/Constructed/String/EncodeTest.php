@@ -19,7 +19,7 @@ final class EncodeTest extends TestCase
     public function encodeDefinite()
     {
         $el = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING);
-        $this->assertEquals(hex2bin('2400'), $el->toDER());
+        static::assertEquals(hex2bin('2400'), $el->toDER());
     }
 
     /**
@@ -29,6 +29,6 @@ final class EncodeTest extends TestCase
     {
         $el = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING)
             ->withIndefiniteLength();
-        $this->assertEquals(hex2bin('24800000'), $el->toDER());
+        static::assertEquals(hex2bin('24800000'), $el->toDER());
     }
 }

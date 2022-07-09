@@ -23,7 +23,7 @@ final class DirectoryNameTest extends TestCase
     public function create()
     {
         $name = DirectoryName::fromDNString('cn=Test');
-        $this->assertInstanceOf(DirectoryName::class, $name);
+        static::assertInstanceOf(DirectoryName::class, $name);
         return $name;
     }
 
@@ -35,7 +35,7 @@ final class DirectoryNameTest extends TestCase
     public function encode(DirectoryName $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ExplicitTagging::class, $el);
+        static::assertInstanceOf(ExplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -49,7 +49,7 @@ final class DirectoryNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_DIRECTORY_NAME, $el->tag());
+        static::assertEquals(GeneralName::TAG_DIRECTORY_NAME, $el->tag());
     }
 
     /**
@@ -62,7 +62,7 @@ final class DirectoryNameTest extends TestCase
     public function decode($der)
     {
         $name = DirectoryName::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(DirectoryName::class, $name);
+        static::assertInstanceOf(DirectoryName::class, $name);
         return $name;
     }
 
@@ -74,7 +74,7 @@ final class DirectoryNameTest extends TestCase
      */
     public function recoded(DirectoryName $ref, DirectoryName $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -84,7 +84,7 @@ final class DirectoryNameTest extends TestCase
      */
     public function string(DirectoryName $name)
     {
-        $this->assertEquals('cn=Test', $name->string());
+        static::assertEquals('cn=Test', $name->string());
     }
 
     /**
@@ -94,6 +94,6 @@ final class DirectoryNameTest extends TestCase
      */
     public function dN(DirectoryName $name)
     {
-        $this->assertEquals(Name::fromString('cn=Test'), $name->dn());
+        static::assertEquals(Name::fromString('cn=Test'), $name->dn());
     }
 }

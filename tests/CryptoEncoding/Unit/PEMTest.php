@@ -22,7 +22,7 @@ final class PEMTest extends TestCase
     {
         $str = file_get_contents(TEST_ASSETS_DIR . '/public_key.pem');
         $pem = PEM::fromString($str);
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
     }
 
     /**
@@ -31,7 +31,7 @@ final class PEMTest extends TestCase
     public function fromFile(): PEM
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/public_key.pem');
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -42,7 +42,7 @@ final class PEMTest extends TestCase
      */
     public function type(PEM $pem)
     {
-        $this->assertEquals(PEM::TYPE_PUBLIC_KEY, $pem->type());
+        static::assertEquals(PEM::TYPE_PUBLIC_KEY, $pem->type());
     }
 
     /**
@@ -57,7 +57,7 @@ final class PEMTest extends TestCase
 {$encoded}
 -----END TEST-----
 CODE_SAMPLE;
-        $this->assertEquals($data, PEM::fromString($str)->data());
+        static::assertEquals($data, PEM::fromString($str)->data());
     }
 
     /**
@@ -99,7 +99,7 @@ CODE_SAMPLE;
      */
     public function string(PEM $pem)
     {
-        $this->assertIsString($pem->string());
+        static::assertIsString($pem->string());
     }
 
     /**
@@ -109,6 +109,6 @@ CODE_SAMPLE;
      */
     public function toStringMethod(PEM $pem)
     {
-        $this->assertIsString(strval($pem));
+        static::assertIsString(strval($pem));
     }
 }

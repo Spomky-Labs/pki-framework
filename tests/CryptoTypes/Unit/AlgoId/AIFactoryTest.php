@@ -22,7 +22,7 @@ final class AIFactoryTest extends TestCase
         $factory = new AlgorithmIdentifierFactory(new AIFactoryTestProvider());
         $seq = new Sequence(new ObjectIdentifier('1.3.6.1.3'));
         $ai = $factory->parse($seq);
-        $this->assertInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
+        static::assertInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
     }
 
     /**
@@ -33,6 +33,6 @@ final class AIFactoryTest extends TestCase
         $factory = new AlgorithmIdentifierFactory(new AIFactoryTestProvider());
         $seq = new Sequence(new ObjectIdentifier('1.3.6.1.3.1'));
         $ai = $factory->parse($seq);
-        $this->assertNotInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
+        static::assertNotInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
     }
 }

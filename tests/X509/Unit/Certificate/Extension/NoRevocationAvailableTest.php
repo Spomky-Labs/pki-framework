@@ -20,7 +20,7 @@ final class NoRevocationAvailableTest extends TestCase
     public function create()
     {
         $ext = new NoRevocationAvailableExtension(true);
-        $this->assertInstanceOf(NoRevocationAvailableExtension::class, $ext);
+        static::assertInstanceOf(NoRevocationAvailableExtension::class, $ext);
         return $ext;
     }
 
@@ -31,7 +31,7 @@ final class NoRevocationAvailableTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_NO_REV_AVAIL, $ext->oid());
+        static::assertEquals(Extension::OID_NO_REV_AVAIL, $ext->oid());
     }
 
     /**
@@ -41,7 +41,7 @@ final class NoRevocationAvailableTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -52,7 +52,7 @@ final class NoRevocationAvailableTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -66,7 +66,7 @@ final class NoRevocationAvailableTest extends TestCase
     public function decode($der)
     {
         $ext = NoRevocationAvailableExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(NoRevocationAvailableExtension::class, $ext);
+        static::assertInstanceOf(NoRevocationAvailableExtension::class, $ext);
         return $ext;
     }
 
@@ -78,6 +78,6 @@ final class NoRevocationAvailableTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 }

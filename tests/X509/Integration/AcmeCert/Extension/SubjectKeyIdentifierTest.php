@@ -22,7 +22,7 @@ final class SubjectKeyIdentifierTest extends RefExtTestHelper
     public function subjectKeyIdentifier()
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_KEY_IDENTIFIER);
-        $this->assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
+        static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
         return $ext;
     }
 
@@ -37,6 +37,6 @@ final class SubjectKeyIdentifierTest extends RefExtTestHelper
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()
             ->keyIdentifier();
-        $this->assertEquals($keyid, $ski->keyIdentifier());
+        static::assertEquals($keyid, $ski->keyIdentifier());
     }
 }

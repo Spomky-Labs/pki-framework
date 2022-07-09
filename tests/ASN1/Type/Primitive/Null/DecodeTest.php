@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = NullType::fromDER("\x5\0");
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
     }
 
     /**

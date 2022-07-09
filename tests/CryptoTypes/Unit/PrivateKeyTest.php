@@ -24,7 +24,7 @@ final class PrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPrivateKey::class, $pk);
+        static::assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
     /**
@@ -34,7 +34,7 @@ final class PrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPrivateKey::class, $pk);
+        static::assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
     /**
@@ -46,7 +46,7 @@ final class PrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(ECPrivateKey::class, $pk);
+        static::assertInstanceOf(ECPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -57,7 +57,7 @@ final class PrivateKeyTest extends TestCase
      */
     public function eCPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -69,7 +69,7 @@ final class PrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $pk = PrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(ECPrivateKey::class, $pk);
+        static::assertInstanceOf(ECPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -80,7 +80,7 @@ final class PrivateKeyTest extends TestCase
      */
     public function eCPKIPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**

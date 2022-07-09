@@ -22,7 +22,7 @@ final class DNSNameTest extends TestCase
     public function create()
     {
         $name = new DNSName('test.example.com');
-        $this->assertInstanceOf(DNSName::class, $name);
+        static::assertInstanceOf(DNSName::class, $name);
         return $name;
     }
 
@@ -34,7 +34,7 @@ final class DNSNameTest extends TestCase
     public function encode(DNSName $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -48,7 +48,7 @@ final class DNSNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_DNS_NAME, $el->tag());
+        static::assertEquals(GeneralName::TAG_DNS_NAME, $el->tag());
     }
 
     /**
@@ -61,7 +61,7 @@ final class DNSNameTest extends TestCase
     public function decode($der)
     {
         $name = DNSName::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(DNSName::class, $name);
+        static::assertInstanceOf(DNSName::class, $name);
         return $name;
     }
 
@@ -73,7 +73,7 @@ final class DNSNameTest extends TestCase
      */
     public function recoded(DNSName $ref, DNSName $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -83,6 +83,6 @@ final class DNSNameTest extends TestCase
      */
     public function dNS(DNSName $name)
     {
-        $this->assertEquals('test.example.com', $name->name());
+        static::assertEquals('test.example.com', $name->name());
     }
 }

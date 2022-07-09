@@ -23,7 +23,7 @@ final class BigIntTest extends TestCase
     public function maxInt()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10)));
-        $this->assertEquals(PHP_INT_MAX, $int->intVal());
+        static::assertEquals(PHP_INT_MAX, $int->intVal());
     }
 
     /**
@@ -32,7 +32,7 @@ final class BigIntTest extends TestCase
     public function minInt()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10)));
-        $this->assertEquals(PHP_INT_MIN, $int->intVal());
+        static::assertEquals(PHP_INT_MIN, $int->intVal());
     }
 
     /**
@@ -63,7 +63,7 @@ final class BigIntTest extends TestCase
     public function toStringMethod()
     {
         $int = new BigInt(1);
-        $this->assertSame('1', strval($int));
+        static::assertSame('1', strval($int));
     }
 
     /**
@@ -72,7 +72,7 @@ final class BigIntTest extends TestCase
     public function gmpObj()
     {
         $int = new BigInt(1);
-        $this->assertInstanceOf(GMP::class, $int->gmpObj());
+        static::assertInstanceOf(GMP::class, $int->gmpObj());
     }
 
     /**
@@ -105,7 +105,7 @@ final class BigIntTest extends TestCase
     public function fromUnsignedOctets()
     {
         $int = BigInt::fromUnsignedOctets(hex2bin('ff'));
-        $this->assertEquals(255, $int->intVal());
+        static::assertEquals(255, $int->intVal());
     }
 
     /**
@@ -124,7 +124,7 @@ final class BigIntTest extends TestCase
     public function fromSignedOctets()
     {
         $int = BigInt::fromSignedOctets(hex2bin('80'));
-        $this->assertEquals(-128, $int->intVal());
+        static::assertEquals(-128, $int->intVal());
     }
 
     /**
@@ -143,7 +143,7 @@ final class BigIntTest extends TestCase
     public function toUnsignedOctets()
     {
         $int = new BigInt(255);
-        $this->assertEquals(hex2bin('ff'), $int->unsignedOctets());
+        static::assertEquals(hex2bin('ff'), $int->unsignedOctets());
     }
 
     /**
@@ -152,7 +152,7 @@ final class BigIntTest extends TestCase
     public function toSignedPositiveOctets()
     {
         $int = new BigInt(127);
-        $this->assertEquals(hex2bin('7f'), $int->signedOctets());
+        static::assertEquals(hex2bin('7f'), $int->signedOctets());
     }
 
     /**
@@ -161,7 +161,7 @@ final class BigIntTest extends TestCase
     public function toSignedPositiveOctetsPrepend()
     {
         $int = new BigInt(128);
-        $this->assertEquals(hex2bin('0080'), $int->signedOctets());
+        static::assertEquals(hex2bin('0080'), $int->signedOctets());
     }
 
     /**
@@ -170,7 +170,7 @@ final class BigIntTest extends TestCase
     public function toSignedNegativeOctets()
     {
         $int = new BigInt(-128);
-        $this->assertEquals(hex2bin('80'), $int->signedOctets());
+        static::assertEquals(hex2bin('80'), $int->signedOctets());
     }
 
     /**
@@ -179,7 +179,7 @@ final class BigIntTest extends TestCase
     public function toSignedNegativeOctetsPrepend()
     {
         $int = new BigInt(-32769);
-        $this->assertEquals(hex2bin('ff7fff'), $int->signedOctets());
+        static::assertEquals(hex2bin('ff7fff'), $int->signedOctets());
     }
 
     /**
@@ -188,6 +188,6 @@ final class BigIntTest extends TestCase
     public function toSignedZeroOctets()
     {
         $int = new BigInt(0);
-        $this->assertEquals(hex2bin('00'), $int->signedOctets());
+        static::assertEquals(hex2bin('00'), $int->signedOctets());
     }
 }

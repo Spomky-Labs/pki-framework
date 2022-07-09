@@ -29,7 +29,7 @@ final class RC2CBCAITest extends TestCase
     {
         $ai = new RC2CBCAlgorithmIdentifier(64, self::IV);
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -41,7 +41,7 @@ final class RC2CBCAITest extends TestCase
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -52,7 +52,7 @@ final class RC2CBCAITest extends TestCase
     {
         $seq = new Sequence(new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), new OctetString(self::IV));
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
     }
 
     /**
@@ -62,7 +62,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function effectiveKeyBits(RC2CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(64, $ai->effectiveKeyBits());
+        static::assertEquals(64, $ai->effectiveKeyBits());
     }
 
     /**
@@ -72,7 +72,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function iV(RC2CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(self::IV, $ai->initializationVector());
+        static::assertEquals(self::IV, $ai->initializationVector());
     }
 
     /**
@@ -104,7 +104,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function blockSize(RC2CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(8, $ai->blockSize());
+        static::assertEquals(8, $ai->blockSize());
     }
 
     /**
@@ -114,7 +114,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function keySize(RC2CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(8, $ai->keySize());
+        static::assertEquals(8, $ai->keySize());
     }
 
     /**
@@ -124,7 +124,7 @@ final class RC2CBCAITest extends TestCase
     {
         $ai = new RC2CBCAlgorithmIdentifier(512, self::IV);
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -136,7 +136,7 @@ final class RC2CBCAITest extends TestCase
     public function decodeLargeKey(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
     }
 
     /**
@@ -155,6 +155,6 @@ final class RC2CBCAITest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

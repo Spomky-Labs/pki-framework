@@ -23,7 +23,7 @@ final class MD2WithRSAAITest extends TestCase
     {
         $ai = new MD2WithRSAEncryptionAlgorithmIdentifier();
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -35,7 +35,7 @@ final class MD2WithRSAAITest extends TestCase
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(MD2WithRSAEncryptionAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(MD2WithRSAEncryptionAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -46,6 +46,6 @@ final class MD2WithRSAAITest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

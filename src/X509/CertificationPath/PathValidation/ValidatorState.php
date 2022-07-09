@@ -51,8 +51,6 @@ class ValidatorState
      *
      * A set of root names for each name type defining a set of subtrees within which all subject names in subsequent
      * certificates in the certification path must fall.
-     *
-     * @var mixed
      */
     protected $_permittedSubtrees;
 
@@ -61,8 +59,6 @@ class ValidatorState
      *
      * A set of root names for each name type defining a set of subtrees within which no subject name in subsequent
      * certificates in the certification path may fall.
-     *
-     * @var mixed
      */
     protected $_excludedSubtrees;
 
@@ -316,21 +312,11 @@ class ValidatorState
         return $this->_validPolicyTree;
     }
 
-    /**
-     * Get permitted_subtrees.
-     *
-     * @return mixed
-     */
     public function permittedSubtrees()
     {
         return $this->_permittedSubtrees;
     }
 
-    /**
-     * Get excluded_subtrees.
-     *
-     * @return mixed
-     */
     public function excludedSubtrees()
     {
         return $this->_excludedSubtrees;

@@ -26,7 +26,7 @@ final class ECPKAITest extends TestCase
     {
         $ai = new ECPublicKeyAlgorithmIdentifier(self::OID);
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -38,7 +38,7 @@ final class ECPKAITest extends TestCase
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(ECPublicKeyAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(ECPublicKeyAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -61,7 +61,7 @@ final class ECPKAITest extends TestCase
      */
     public function namedCurve(ECPublicKeyAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(self::OID, $ai->namedCurve());
+        static::assertEquals(self::OID, $ai->namedCurve());
     }
 
     /**
@@ -71,6 +71,6 @@ final class ECPKAITest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

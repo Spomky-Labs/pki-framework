@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = UTF8String::fromDER("\x0c\x0");
-        $this->assertInstanceOf(UTF8String::class, $el);
+        static::assertInstanceOf(UTF8String::class, $el);
     }
 
     /**
@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     {
         $str = '⠠⠓⠑⠇⠇⠕ ⠠⠺⠕⠗⠇⠙!';
         $el = UTF8String::fromDER("\x0c\x26{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 
     /**

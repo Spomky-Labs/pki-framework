@@ -23,7 +23,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     public function create()
     {
         $ext = new SubjectKeyIdentifierExtension(true, self::KEY_ID);
-        $this->assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
+        static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
         return $ext;
     }
 
@@ -34,7 +34,7 @@ final class SubjectKeyIdentifierTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_SUBJECT_KEY_IDENTIFIER, $ext->oid());
+        static::assertEquals(Extension::OID_SUBJECT_KEY_IDENTIFIER, $ext->oid());
     }
 
     /**
@@ -44,7 +44,7 @@ final class SubjectKeyIdentifierTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -55,7 +55,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -69,7 +69,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     public function decode($der)
     {
         $ext = SubjectKeyIdentifierExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
+        static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
         return $ext;
     }
 
@@ -81,7 +81,7 @@ final class SubjectKeyIdentifierTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -91,7 +91,7 @@ final class SubjectKeyIdentifierTest extends TestCase
      */
     public function keyIdentifier(SubjectKeyIdentifierExtension $ext)
     {
-        $this->assertEquals(self::KEY_ID, $ext->keyIdentifier());
+        static::assertEquals(self::KEY_ID, $ext->keyIdentifier());
     }
 
     /**
@@ -102,7 +102,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     public function extensions(SubjectKeyIdentifierExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasSubjectKeyIdentifier());
+        static::assertTrue($extensions->hasSubjectKeyIdentifier());
         return $extensions;
     }
 
@@ -114,6 +114,6 @@ final class SubjectKeyIdentifierTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->subjectKeyIdentifier();
-        $this->assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
+        static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
     }
 }

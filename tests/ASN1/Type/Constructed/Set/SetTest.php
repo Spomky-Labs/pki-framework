@@ -24,7 +24,7 @@ final class SetTest extends TestCase
     public function create()
     {
         $set = new Set(new NullType(), new Boolean(true));
-        $this->assertInstanceOf(Structure::class, $set);
+        static::assertInstanceOf(Structure::class, $set);
         return $set;
     }
 
@@ -35,7 +35,7 @@ final class SetTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_SET, $el->tag());
+        static::assertEquals(Element::TYPE_SET, $el->tag());
     }
 
     /**
@@ -46,7 +46,7 @@ final class SetTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -58,7 +58,7 @@ final class SetTest extends TestCase
     public function decode(string $data): Set
     {
         $el = Set::fromDER($data);
-        $this->assertInstanceOf(Set::class, $el);
+        static::assertInstanceOf(Set::class, $el);
         return $el;
     }
 
@@ -70,7 +70,7 @@ final class SetTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -80,7 +80,7 @@ final class SetTest extends TestCase
     {
         $set = new Set(new NullType(), new NullType());
         $sorted = $set->sortedSet();
-        $this->assertEquals($set, $sorted);
+        static::assertEquals($set, $sorted);
     }
 
     /**
@@ -91,7 +91,7 @@ final class SetTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(Set::class, $wrap->asSet());
+        static::assertInstanceOf(Set::class, $wrap->asSet());
     }
 
     /**

@@ -29,7 +29,7 @@ final class ECPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = ECPrivateKey::fromDER($pem->data());
-        $this->assertInstanceOf(ECPrivateKey::class, $pk);
+        static::assertInstanceOf(ECPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -42,7 +42,7 @@ final class ECPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = ECPrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(ECPrivateKey::class, $pk);
+        static::assertInstanceOf(ECPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -54,7 +54,7 @@ final class ECPrivateKeyTest extends TestCase
     public function toPEM(ECPrivateKey $pk)
     {
         $pem = $pk->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -66,7 +66,7 @@ final class ECPrivateKeyTest extends TestCase
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
-        $this->assertEquals($ref, $pem);
+        static::assertEquals($ref, $pem);
     }
 
     /**
@@ -78,7 +78,7 @@ final class ECPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $pk = ECPrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(ECPrivateKey::class, $pk);
+        static::assertInstanceOf(ECPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -90,7 +90,7 @@ final class ECPrivateKeyTest extends TestCase
     public function privateKeyOctets(ECPrivateKey $pk)
     {
         $octets = $pk->privateKeyOctets();
-        $this->assertIsString($octets);
+        static::assertIsString($octets);
     }
 
     /**
@@ -100,7 +100,7 @@ final class ECPrivateKeyTest extends TestCase
      */
     public function hasNamedCurveFromPKI(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -112,7 +112,7 @@ final class ECPrivateKeyTest extends TestCase
     {
         $pub = $pk->publicKey();
         $ref = ECPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem'));
-        $this->assertEquals($ref, $pub);
+        static::assertEquals($ref, $pub);
     }
 
     /**
@@ -123,7 +123,7 @@ final class ECPrivateKeyTest extends TestCase
     public function getPrivateKeyInfo(ECPrivateKey $pk)
     {
         $pki = $pk->privateKeyInfo();
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
     /**

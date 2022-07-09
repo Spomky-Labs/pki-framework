@@ -92,6 +92,6 @@ final class PolicyMappingTest extends TestCase
         $config = new PathValidationConfig(new DateTimeImmutable(), 3);
         $config = $config->withExplicitPolicy(true);
         $result = $path->validate($config);
-        $this->assertInstanceOf(PathValidationResult::class, $result);
+        static::assertInstanceOf(PathValidationResult::class, $result);
     }
 }

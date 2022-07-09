@@ -27,7 +27,7 @@ final class AES192CBCAITest extends TestCase
     {
         $ai = new AES192CBCAlgorithmIdentifier(self::IV);
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -39,7 +39,7 @@ final class AES192CBCAITest extends TestCase
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(AES192CBCAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(AES192CBCAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -50,7 +50,7 @@ final class AES192CBCAITest extends TestCase
      */
     public function iV(AES192CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(self::IV, $ai->initializationVector());
+        static::assertEquals(self::IV, $ai->initializationVector());
     }
 
     /**
@@ -82,7 +82,7 @@ final class AES192CBCAITest extends TestCase
      */
     public function blockSize(AES192CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(16, $ai->blockSize());
+        static::assertEquals(16, $ai->blockSize());
     }
 
     /**
@@ -92,7 +92,7 @@ final class AES192CBCAITest extends TestCase
      */
     public function keySize(AES192CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(24, $ai->keySize());
+        static::assertEquals(24, $ai->keySize());
     }
 
     /**
@@ -111,6 +111,6 @@ final class AES192CBCAITest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

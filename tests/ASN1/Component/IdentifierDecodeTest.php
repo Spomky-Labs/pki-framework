@@ -21,7 +21,7 @@ final class IdentifierDecodeTest extends TestCase
     public function type()
     {
         $identifier = Identifier::fromDER("\x0");
-        $this->assertInstanceOf(Identifier::class, $identifier);
+        static::assertInstanceOf(Identifier::class, $identifier);
     }
 
     /**
@@ -30,7 +30,7 @@ final class IdentifierDecodeTest extends TestCase
     public function universal()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
-        $this->assertTrue($identifier->isUniversal());
+        static::assertTrue($identifier->isUniversal());
     }
 
     /**
@@ -39,7 +39,7 @@ final class IdentifierDecodeTest extends TestCase
     public function application()
     {
         $identifier = Identifier::fromDER(chr(0b01000000));
-        $this->assertTrue($identifier->isApplication());
+        static::assertTrue($identifier->isApplication());
     }
 
     /**
@@ -48,7 +48,7 @@ final class IdentifierDecodeTest extends TestCase
     public function contextSpecific()
     {
         $identifier = Identifier::fromDER(chr(0b10000000));
-        $this->assertTrue($identifier->isContextSpecific());
+        static::assertTrue($identifier->isContextSpecific());
     }
 
     /**
@@ -57,7 +57,7 @@ final class IdentifierDecodeTest extends TestCase
     public function private()
     {
         $identifier = Identifier::fromDER(chr(0b11000000));
-        $this->assertTrue($identifier->isPrivate());
+        static::assertTrue($identifier->isPrivate());
     }
 
     /**
@@ -66,7 +66,7 @@ final class IdentifierDecodeTest extends TestCase
     public function pC()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
-        $this->assertEquals(Identifier::PRIMITIVE, $identifier->pc());
+        static::assertEquals(Identifier::PRIMITIVE, $identifier->pc());
     }
 
     /**
@@ -75,7 +75,7 @@ final class IdentifierDecodeTest extends TestCase
     public function primitive()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
-        $this->assertTrue($identifier->isPrimitive());
+        static::assertTrue($identifier->isPrimitive());
     }
 
     /**
@@ -84,7 +84,7 @@ final class IdentifierDecodeTest extends TestCase
     public function constructed()
     {
         $identifier = Identifier::fromDER(chr(0b00100000));
-        $this->assertTrue($identifier->isConstructed());
+        static::assertTrue($identifier->isConstructed());
     }
 
     /**
@@ -93,7 +93,7 @@ final class IdentifierDecodeTest extends TestCase
     public function tag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
-        $this->assertEquals(0b1111, $identifier->tag());
+        static::assertEquals(0b1111, $identifier->tag());
     }
 
     /**
@@ -102,7 +102,7 @@ final class IdentifierDecodeTest extends TestCase
     public function intTag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
-        $this->assertEquals(0b1111, $identifier->intTag());
+        static::assertEquals(0b1111, $identifier->intTag());
     }
 
     /**
@@ -111,7 +111,7 @@ final class IdentifierDecodeTest extends TestCase
     public function longTag()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\x7f");
-        $this->assertEquals(0x7f, $identifier->tag());
+        static::assertEquals(0x7f, $identifier->tag());
     }
 
     /**
@@ -120,7 +120,7 @@ final class IdentifierDecodeTest extends TestCase
     public function longTag2()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\xff\x7f");
-        $this->assertEquals((0x7f << 7) + 0x7f, $identifier->tag());
+        static::assertEquals((0x7f << 7) + 0x7f, $identifier->tag());
     }
 
     /**
@@ -131,7 +131,7 @@ final class IdentifierDecodeTest extends TestCase
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $identifier = Identifier::fromDER($der);
         $num = gmp_init(str_repeat('1111111', 100) . '1111111', 2);
-        $this->assertEquals(gmp_strval($num, 10), $identifier->tag());
+        static::assertEquals(gmp_strval($num, 10), $identifier->tag());
     }
 
     /**

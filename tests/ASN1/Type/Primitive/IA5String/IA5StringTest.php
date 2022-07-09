@@ -22,7 +22,7 @@ final class IA5StringTest extends TestCase
     public function create()
     {
         $el = new IA5String('');
-        $this->assertInstanceOf(IA5String::class, $el);
+        static::assertInstanceOf(IA5String::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class IA5StringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_IA5_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_IA5_STRING, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class IA5StringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -56,7 +56,7 @@ final class IA5StringTest extends TestCase
     public function decode(string $data): IA5String
     {
         $el = IA5String::fromDER($data);
-        $this->assertInstanceOf(IA5String::class, $el);
+        static::assertInstanceOf(IA5String::class, $el);
         return $el;
     }
 
@@ -68,7 +68,7 @@ final class IA5StringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -79,7 +79,7 @@ final class IA5StringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(IA5String::class, $wrap->asIA5String());
+        static::assertInstanceOf(IA5String::class, $wrap->asIA5String());
     }
 
     /**

@@ -32,23 +32,17 @@ final class ValueInitializationTest extends TestCase
     /**
      * @dataProvider provideStringAttribClasses
      *
-     * @param mixed $cls
-     * @param mixed $oid
-     *
      * @test
      */
     public function create($cls, $oid)
     {
         $el = AttributeType::asn1StringForType($oid, 'Test');
         $val = AttributeValue::fromASN1ByOID($oid, new UnspecifiedType($el));
-        $this->assertInstanceOf($cls, $val);
+        static::assertInstanceOf($cls, $val);
     }
 
     /**
      * @dataProvider provideStringAttribClasses
-     *
-     * @param mixed $cls
-     * @param mixed $oid
      *
      * @test
      */
@@ -56,7 +50,7 @@ final class ValueInitializationTest extends TestCase
     {
         $val = new $cls('Test');
         $el = $val->toASN1();
-        $this->assertInstanceOf(StringType::class, $el);
+        static::assertInstanceOf(StringType::class, $el);
     }
 
     public function provideStringAttribClasses(): Iterator

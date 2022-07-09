@@ -19,7 +19,7 @@ final class LengthEncodeTest extends TestCase
     public function definite()
     {
         $length = new Length(0, false);
-        $this->assertEquals("\x0", $length->toDER());
+        static::assertEquals("\x0", $length->toDER());
     }
 
     /**
@@ -28,7 +28,7 @@ final class LengthEncodeTest extends TestCase
     public function indefinite()
     {
         $length = new Length(0, true);
-        $this->assertEquals("\x80", $length->toDER());
+        static::assertEquals("\x80", $length->toDER());
     }
 
     /**
@@ -37,7 +37,7 @@ final class LengthEncodeTest extends TestCase
     public function short()
     {
         $length = new Length(0x7f);
-        $this->assertEquals("\x7f", $length->toDER());
+        static::assertEquals("\x7f", $length->toDER());
     }
 
     /**
@@ -46,7 +46,7 @@ final class LengthEncodeTest extends TestCase
     public function long()
     {
         $length = new Length(0xff);
-        $this->assertEquals("\x81\xff", $length->toDER());
+        static::assertEquals("\x81\xff", $length->toDER());
     }
 
     /**
@@ -55,7 +55,7 @@ final class LengthEncodeTest extends TestCase
     public function long2()
     {
         $length = new Length(0xcafe);
-        $this->assertEquals("\x82\xca\xfe", $length->toDER());
+        static::assertEquals("\x82\xca\xfe", $length->toDER());
     }
 
     /**
@@ -66,7 +66,7 @@ final class LengthEncodeTest extends TestCase
         $largenum = gmp_init(str_repeat('ff', 126), 16);
         $length = new Length(gmp_strval($largenum, 10));
         $expected = "\xfe" . str_repeat("\xff", 126);
-        $this->assertEquals($expected, $length->toDER());
+        static::assertEquals($expected, $length->toDER());
     }
 
     /**

@@ -24,7 +24,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function asElement()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->assertInstanceOf(ElementBase::class, $wrap->asElement());
+        static::assertInstanceOf(ElementBase::class, $wrap->asElement());
         return $wrap;
     }
 
@@ -34,7 +34,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function asUnspecified()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->assertInstanceOf(UnspecifiedType::class, $wrap->asUnspecified());
+        static::assertInstanceOf(UnspecifiedType::class, $wrap->asUnspecified());
     }
 
     /**
@@ -44,7 +44,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = UnspecifiedType::fromElementBase($el);
-        $this->assertInstanceOf(UnspecifiedType::class, $wrap);
+        static::assertInstanceOf(UnspecifiedType::class, $wrap);
     }
 
     /**
@@ -53,7 +53,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function fromDER()
     {
         $el = UnspecifiedType::fromDER("\x5\0")->asNull();
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
     }
 
     /**
@@ -64,7 +64,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function fromElementBaseAsWrap(UnspecifiedType $type)
     {
         $wrap = UnspecifiedType::fromElementBase($type);
-        $this->assertInstanceOf(UnspecifiedType::class, $wrap);
+        static::assertInstanceOf(UnspecifiedType::class, $wrap);
     }
 
     /**
@@ -119,7 +119,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertEquals($el->toDER(), $wrap->toDER());
+        static::assertEquals($el->toDER(), $wrap->toDER());
     }
 
     /**
@@ -129,7 +129,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertEquals($el->typeClass(), $wrap->typeClass());
+        static::assertEquals($el->typeClass(), $wrap->typeClass());
     }
 
     /**
@@ -139,7 +139,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertEquals($el->isConstructed(), $wrap->isConstructed());
+        static::assertEquals($el->isConstructed(), $wrap->isConstructed());
     }
 
     /**
@@ -149,7 +149,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertEquals($el->tag(), $wrap->tag());
+        static::assertEquals($el->tag(), $wrap->tag());
     }
 
     /**
@@ -159,7 +159,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertTrue($wrap->isType(Element::TYPE_NULL));
+        static::assertTrue($wrap->isType(Element::TYPE_NULL));
     }
 
     /**
@@ -169,7 +169,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ElementBase::class, $wrap->expectType(Element::TYPE_NULL));
+        static::assertInstanceOf(ElementBase::class, $wrap->expectType(Element::TYPE_NULL));
     }
 
     /**
@@ -179,7 +179,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertEquals($el->isTagged(), $wrap->isTagged());
+        static::assertEquals($el->isTagged(), $wrap->isTagged());
     }
 
     /**
@@ -189,6 +189,6 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new ImplicitlyTaggedType(0, new NullType());
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ElementBase::class, $wrap->expectTagged(0));
+        static::assertInstanceOf(ElementBase::class, $wrap->expectTagged(0));
     }
 }

@@ -24,7 +24,7 @@ final class StringTypeDecodeTest extends TestCase
     public function type()
     {
         $el = BaseString::fromDER("\x13\x0");
-        $this->assertInstanceOf(StringType::class, $el);
+        static::assertInstanceOf(StringType::class, $el);
     }
 
     /**
@@ -33,7 +33,7 @@ final class StringTypeDecodeTest extends TestCase
     public function value()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
-        $this->assertEquals('Hello World', $el->string());
+        static::assertEquals('Hello World', $el->string());
     }
 
     /**
@@ -42,7 +42,7 @@ final class StringTypeDecodeTest extends TestCase
     public function expectation()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
-        $this->assertInstanceOf(StringType::class, $el->expectType(Element::TYPE_STRING));
+        static::assertInstanceOf(StringType::class, $el->expectType(Element::TYPE_STRING));
     }
 
     /**

@@ -24,7 +24,7 @@ final class FlagsTest extends TestCase
     public function flags($num, int $width, string $result)
     {
         $flags = new Flags($num, $width);
-        $this->assertEquals($result, $flags->string());
+        static::assertEquals($result, $flags->string());
     }
 
     public function flagsProvider(): array
@@ -57,7 +57,7 @@ final class FlagsTest extends TestCase
     public function setBit(int $num, int $width, int $idx)
     {
         $flags = new Flags($num, $width);
-        $this->assertTrue($flags->test($idx));
+        static::assertTrue($flags->test($idx));
     }
 
     public function setBitProvider(): array
@@ -83,7 +83,7 @@ final class FlagsTest extends TestCase
     public function unsetBit(int $num, int $width, int $idx)
     {
         $flags = new Flags($num, $width);
-        $this->assertFalse($flags->test($idx));
+        static::assertFalse($flags->test($idx));
     }
 
     public function unsetBitProvider(): array
@@ -102,8 +102,8 @@ final class FlagsTest extends TestCase
     {
         $flags = new Flags($num, $width);
         $bs = $flags->bitString();
-        $this->assertEquals($result, $bs->string());
-        $this->assertEquals($unused_bits, $bs->unusedBits());
+        static::assertEquals($result, $bs->string());
+        static::assertEquals($unused_bits, $bs->unusedBits());
     }
 
     public function toBitStringProvider(): array
@@ -129,7 +129,7 @@ final class FlagsTest extends TestCase
     public function fromBitString(string $str, int $unused_bits, int $width, string $result)
     {
         $flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
-        $this->assertEquals($result, $flags->string());
+        static::assertEquals($result, $flags->string());
     }
 
     public function fromBitStringProvider(): array
@@ -157,7 +157,7 @@ final class FlagsTest extends TestCase
     public function number($num, $width, $result)
     {
         $flags = new Flags($num, $width);
-        $this->assertEquals($result, $flags->number());
+        static::assertEquals($result, $flags->number());
     }
 
     public function numberProvider(): array
@@ -191,7 +191,7 @@ final class FlagsTest extends TestCase
     {
         $bs = new BitString($str, $unused_bits);
         $flags = Flags::fromBitString($bs, $width);
-        $this->assertEquals($number, $flags->number());
+        static::assertEquals($number, $flags->number());
     }
 
     public function bitStringToNumberProvider(): array
@@ -205,7 +205,7 @@ final class FlagsTest extends TestCase
     public function intNumber()
     {
         $flags = new Flags(0x80, 16);
-        $this->assertSame($flags->intNumber(), 128);
+        static::assertSame($flags->intNumber(), 128);
     }
 
     /**

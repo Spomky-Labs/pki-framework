@@ -24,7 +24,7 @@ final class EDIPartyNameTest extends TestCase
     public function create()
     {
         $name = EDIPartyName::fromASN1(new ImplicitlyTaggedType(GeneralName::TAG_EDI_PARTY_NAME, new Sequence()));
-        $this->assertInstanceOf(EDIPartyName::class, $name);
+        static::assertInstanceOf(EDIPartyName::class, $name);
         return $name;
     }
 
@@ -36,7 +36,7 @@ final class EDIPartyNameTest extends TestCase
     public function encode(EDIPartyName $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -50,7 +50,7 @@ final class EDIPartyNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_EDI_PARTY_NAME, $el->tag());
+        static::assertEquals(GeneralName::TAG_EDI_PARTY_NAME, $el->tag());
     }
 
     /**
@@ -63,7 +63,7 @@ final class EDIPartyNameTest extends TestCase
     public function decode($der)
     {
         $name = EDIPartyName::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(EDIPartyName::class, $name);
+        static::assertInstanceOf(EDIPartyName::class, $name);
         return $name;
     }
 
@@ -75,7 +75,7 @@ final class EDIPartyNameTest extends TestCase
      */
     public function recoded(EDIPartyName $ref, EDIPartyName $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -85,6 +85,6 @@ final class EDIPartyNameTest extends TestCase
      */
     public function string(EDIPartyName $name)
     {
-        $this->assertIsString($name->string());
+        static::assertIsString($name->string());
     }
 }

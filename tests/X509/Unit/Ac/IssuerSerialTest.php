@@ -40,7 +40,7 @@ final class IssuerSerialTest extends TestCase
     public function create()
     {
         $iss_ser = new IssuerSerial(self::$_issuer, 1, self::$_uid);
-        $this->assertInstanceOf(IssuerSerial::class, $iss_ser);
+        static::assertInstanceOf(IssuerSerial::class, $iss_ser);
         return $iss_ser;
     }
 
@@ -52,7 +52,7 @@ final class IssuerSerialTest extends TestCase
     public function encode(IssuerSerial $iss_ser)
     {
         $seq = $iss_ser->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -66,7 +66,7 @@ final class IssuerSerialTest extends TestCase
     public function decode($data)
     {
         $iss_ser = IssuerSerial::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(IssuerSerial::class, $iss_ser);
+        static::assertInstanceOf(IssuerSerial::class, $iss_ser);
         return $iss_ser;
     }
 
@@ -78,7 +78,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function recoded(IssuerSerial $ref, IssuerSerial $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -88,7 +88,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function issuer(IssuerSerial $is)
     {
-        $this->assertEquals(self::$_issuer, $is->issuer());
+        static::assertEquals(self::$_issuer, $is->issuer());
     }
 
     /**
@@ -98,7 +98,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function serial(IssuerSerial $is)
     {
-        $this->assertEquals(1, $is->serial());
+        static::assertEquals(1, $is->serial());
     }
 
     /**
@@ -108,7 +108,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function issuerUID(IssuerSerial $is)
     {
-        $this->assertEquals(self::$_uid, $is->issuerUID());
+        static::assertEquals(self::$_uid, $is->issuerUID());
     }
 
     /**

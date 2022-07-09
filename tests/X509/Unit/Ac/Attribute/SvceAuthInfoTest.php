@@ -26,7 +26,7 @@ final class SvceAuthInfoTest extends TestCase
             DirectoryName::fromDNString('cn=Svc'),
             DirectoryName::fromDNString('cn=Ident')
         );
-        $this->assertInstanceOf(SvceAuthInfo::class, $val);
+        static::assertInstanceOf(SvceAuthInfo::class, $val);
         return $val;
     }
 
@@ -48,7 +48,7 @@ final class SvceAuthInfoTest extends TestCase
      */
     public function stringValue(SvceAuthInfo $val)
     {
-        $this->assertIsString($val->stringValue());
+        static::assertIsString($val->stringValue());
     }
 
     /**
@@ -58,7 +58,7 @@ final class SvceAuthInfoTest extends TestCase
      */
     public function equalityMatchingRule(SvceAuthInfo $val)
     {
-        $this->assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
+        static::assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
     /**
@@ -68,7 +68,7 @@ final class SvceAuthInfoTest extends TestCase
      */
     public function rFC2253String(SvceAuthInfo $val)
     {
-        $this->assertIsString($val->rfc2253String());
+        static::assertIsString($val->rfc2253String());
     }
 
     /**
@@ -78,6 +78,6 @@ final class SvceAuthInfoTest extends TestCase
      */
     public function toStringMethod(SvceAuthInfo $val)
     {
-        $this->assertIsString(strval($val));
+        static::assertIsString(strval($val));
     }
 }

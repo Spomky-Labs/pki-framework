@@ -27,7 +27,7 @@ final class DESEDE3CBCAITest extends TestCase
     {
         $ai = new DESEDE3CBCAlgorithmIdentifier(self::IV);
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -39,7 +39,7 @@ final class DESEDE3CBCAITest extends TestCase
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(DESEDE3CBCAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(DESEDE3CBCAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -50,7 +50,7 @@ final class DESEDE3CBCAITest extends TestCase
      */
     public function iV(DESEDE3CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(self::IV, $ai->initializationVector());
+        static::assertEquals(self::IV, $ai->initializationVector());
     }
 
     /**
@@ -82,7 +82,7 @@ final class DESEDE3CBCAITest extends TestCase
      */
     public function blockSize(DESEDE3CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(8, $ai->blockSize());
+        static::assertEquals(8, $ai->blockSize());
     }
 
     /**
@@ -92,7 +92,7 @@ final class DESEDE3CBCAITest extends TestCase
      */
     public function keySize(DESEDE3CBCAlgorithmIdentifier $ai)
     {
-        $this->assertEquals(24, $ai->keySize());
+        static::assertEquals(24, $ai->keySize());
     }
 
     /**
@@ -111,6 +111,6 @@ final class DESEDE3CBCAITest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

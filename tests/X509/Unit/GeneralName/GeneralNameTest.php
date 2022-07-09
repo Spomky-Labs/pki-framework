@@ -44,7 +44,7 @@ final class GeneralNameTest extends TestCase
     {
         $n1 = new UniformResourceIdentifier('urn:1');
         $n2 = new UniformResourceIdentifier('urn:1');
-        $this->assertTrue($n1->equals($n2));
+        static::assertTrue($n1->equals($n2));
     }
 
     /**
@@ -54,7 +54,7 @@ final class GeneralNameTest extends TestCase
     {
         $n1 = new UniformResourceIdentifier('urn:1');
         $n2 = new UniformResourceIdentifier('urn:2');
-        $this->assertFalse($n1->equals($n2));
+        static::assertFalse($n1->equals($n2));
     }
 
     /**
@@ -64,6 +64,6 @@ final class GeneralNameTest extends TestCase
     {
         $n1 = new UniformResourceIdentifier('urn:1');
         $n2 = new DNSName('test');
-        $this->assertFalse($n1->equals($n2));
+        static::assertFalse($n1->equals($n2));
     }
 }

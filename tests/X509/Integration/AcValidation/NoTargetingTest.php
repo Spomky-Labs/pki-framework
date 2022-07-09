@@ -69,6 +69,6 @@ final class NoTargetingTest extends TestCase
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
         $config = $config->withTargets(new TargetName(new DNSName('test')));
         $validator = new ACValidator(self::$_ac, $config);
-        $this->assertInstanceOf(AttributeCertificate::class, $validator->validate());
+        static::assertInstanceOf(AttributeCertificate::class, $validator->validate());
     }
 }

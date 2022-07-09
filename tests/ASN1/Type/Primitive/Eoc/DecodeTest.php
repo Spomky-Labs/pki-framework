@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = EOC::fromDER("\0\0");
-        $this->assertInstanceOf(EOC::class, $el);
+        static::assertInstanceOf(EOC::class, $el);
     }
 
     /**

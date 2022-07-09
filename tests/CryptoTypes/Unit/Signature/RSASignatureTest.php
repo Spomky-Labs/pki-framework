@@ -21,7 +21,7 @@ final class RSASignatureTest extends TestCase
     public function fromSignatureString()
     {
         $sig = RSASignature::fromSignatureString('test');
-        $this->assertInstanceOf(RSASignature::class, $sig);
+        static::assertInstanceOf(RSASignature::class, $sig);
         return $sig;
     }
 
@@ -32,6 +32,6 @@ final class RSASignatureTest extends TestCase
      */
     public function bitString(RSASignature $sig)
     {
-        $this->assertInstanceOf(BitString::class, $sig->bitString());
+        static::assertInstanceOf(BitString::class, $sig->bitString());
     }
 }

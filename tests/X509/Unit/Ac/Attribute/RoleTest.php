@@ -35,7 +35,7 @@ final class RoleTest extends TestCase
             new UniformResourceIdentifier(self::ROLE_URI),
             new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN))
         );
-        $this->assertInstanceOf(RoleAttributeValue::class, $value);
+        static::assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
 
@@ -47,7 +47,7 @@ final class RoleTest extends TestCase
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -61,7 +61,7 @@ final class RoleTest extends TestCase
     public function decode($der)
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
-        $this->assertInstanceOf(RoleAttributeValue::class, $value);
+        static::assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
 
@@ -73,7 +73,7 @@ final class RoleTest extends TestCase
      */
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -83,7 +83,7 @@ final class RoleTest extends TestCase
      */
     public function oID(AttributeValue $value)
     {
-        $this->assertEquals(AttributeType::OID_ROLE, $value->oid());
+        static::assertEquals(AttributeType::OID_ROLE, $value->oid());
     }
 
     /**
@@ -95,7 +95,7 @@ final class RoleTest extends TestCase
             self::ROLE_URI,
             new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN))
         );
-        $this->assertInstanceOf(RoleAttributeValue::class, $value);
+        static::assertInstanceOf(RoleAttributeValue::class, $value);
     }
 
     /**
@@ -105,7 +105,7 @@ final class RoleTest extends TestCase
      */
     public function roleName(RoleAttributeValue $value)
     {
-        $this->assertEquals(self::ROLE_URI, $value->roleName());
+        static::assertEquals(self::ROLE_URI, $value->roleName());
     }
 
     /**
@@ -115,7 +115,7 @@ final class RoleTest extends TestCase
      */
     public function roleAuthority(RoleAttributeValue $value)
     {
-        $this->assertEquals(self::AUTHORITY_DN, $value->roleAuthority() ->firstDN());
+        static::assertEquals(self::AUTHORITY_DN, $value->roleAuthority() ->firstDN());
     }
 
     /**
@@ -126,7 +126,7 @@ final class RoleTest extends TestCase
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
-        $this->assertTrue($attribs->hasRole());
+        static::assertTrue($attribs->hasRole());
         return $attribs;
     }
 
@@ -137,7 +137,7 @@ final class RoleTest extends TestCase
      */
     public function fromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(RoleAttributeValue::class, $attribs->role());
+        static::assertInstanceOf(RoleAttributeValue::class, $attribs->role());
     }
 
     /**
@@ -147,7 +147,7 @@ final class RoleTest extends TestCase
      */
     public function allFromAttributes(Attributes $attribs)
     {
-        $this->assertContainsOnlyInstancesOf(RoleAttributeValue::class, $attribs->roles());
+        static::assertContainsOnlyInstancesOf(RoleAttributeValue::class, $attribs->roles());
     }
 
     /**
@@ -159,7 +159,7 @@ final class RoleTest extends TestCase
             RoleAttributeValue::fromString('urn:role:1'),
             RoleAttributeValue::fromString('urn:role:2')
         );
-        $this->assertCount(2, $attribs->roles());
+        static::assertCount(2, $attribs->roles());
     }
 
     /**
@@ -168,7 +168,7 @@ final class RoleTest extends TestCase
     public function createWithoutAuthority()
     {
         $value = new RoleAttributeValue(new UniformResourceIdentifier(self::ROLE_URI));
-        $this->assertInstanceOf(RoleAttributeValue::class, $value);
+        static::assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
 
@@ -180,7 +180,7 @@ final class RoleTest extends TestCase
     public function encodeWithoutAuthority(AttributeValue $value)
     {
         $el = $value->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -194,7 +194,7 @@ final class RoleTest extends TestCase
     public function decodeWithoutAuthority($der)
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
-        $this->assertInstanceOf(RoleAttributeValue::class, $value);
+        static::assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
 
@@ -206,7 +206,7 @@ final class RoleTest extends TestCase
      */
     public function recodedWithoutAuthority(AttributeValue $ref, AttributeValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -227,7 +227,7 @@ final class RoleTest extends TestCase
      */
     public function stringValue(AttributeValue $value)
     {
-        $this->assertIsString($value->stringValue());
+        static::assertIsString($value->stringValue());
     }
 
     /**
@@ -237,7 +237,7 @@ final class RoleTest extends TestCase
      */
     public function equalityMatchingRule(AttributeValue $value)
     {
-        $this->assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
+        static::assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
     /**
@@ -247,7 +247,7 @@ final class RoleTest extends TestCase
      */
     public function rFC2253String(AttributeValue $value)
     {
-        $this->assertIsString($value->rfc2253String());
+        static::assertIsString($value->rfc2253String());
     }
 
     /**
@@ -257,6 +257,6 @@ final class RoleTest extends TestCase
      */
     public function toStringMethod(AttributeValue $value)
     {
-        $this->assertIsString(strval($value));
+        static::assertIsString(strval($value));
     }
 }

@@ -40,7 +40,7 @@ final class AttributeCastTest extends TestCase
     public function cast()
     {
         $attr = self::$_attr->castValues(CommonNameValue::class);
-        $this->assertInstanceOf(CommonNameValue::class, $attr->first());
+        static::assertInstanceOf(CommonNameValue::class, $attr->first());
     }
 
     /**

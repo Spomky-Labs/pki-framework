@@ -22,7 +22,7 @@ final class BMPStringTest extends TestCase
     public function create()
     {
         $el = new BMPString('');
-        $this->assertInstanceOf(BMPString::class, $el);
+        static::assertInstanceOf(BMPString::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class BMPStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_BMP_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_BMP_STRING, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class BMPStringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -56,7 +56,7 @@ final class BMPStringTest extends TestCase
     public function decode(string $data): BMPString
     {
         $el = BMPString::fromDER($data);
-        $this->assertInstanceOf(BMPString::class, $el);
+        static::assertInstanceOf(BMPString::class, $el);
         return $el;
     }
 
@@ -68,7 +68,7 @@ final class BMPStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -79,7 +79,7 @@ final class BMPStringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(BMPString::class, $wrap->asBMPString());
+        static::assertInstanceOf(BMPString::class, $wrap->asBMPString());
     }
 
     /**

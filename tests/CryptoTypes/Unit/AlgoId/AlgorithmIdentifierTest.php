@@ -38,7 +38,7 @@ final class AlgorithmIdentifierTest extends TestCase
     public function fromUnknownASN1()
     {
         $ai = AlgorithmIdentifier::fromASN1(self::$_unknownASN1);
-        $this->assertInstanceOf(GenericAlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(GenericAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -50,7 +50,7 @@ final class AlgorithmIdentifierTest extends TestCase
     public function encodeUnknown(GenericAlgorithmIdentifier $ai)
     {
         $seq = $ai->toASN1();
-        $this->assertEquals(self::$_unknownASN1, $seq);
+        static::assertEquals(self::$_unknownASN1, $seq);
     }
 
     /**
@@ -69,6 +69,6 @@ final class AlgorithmIdentifierTest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

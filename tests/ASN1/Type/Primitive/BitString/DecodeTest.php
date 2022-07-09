@@ -20,7 +20,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = BitString::fromDER("\x3\x2\x0\xff");
-        $this->assertInstanceOf(BitString::class, $el);
+        static::assertInstanceOf(BitString::class, $el);
     }
 
     /**
@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     public function unusedBits()
     {
         $el = BitString::fromDER("\x3\x3\x4\xff\xf0");
-        $this->assertEquals(4, $el->unusedBits());
+        static::assertEquals(4, $el->unusedBits());
     }
 
     /**
@@ -38,7 +38,7 @@ final class DecodeTest extends TestCase
     public function numBits()
     {
         $el = BitString::fromDER("\x3\x3\x4\xff\xf0");
-        $this->assertEquals(12, $el->numBits());
+        static::assertEquals(12, $el->numBits());
     }
 
     /**
@@ -59,7 +59,7 @@ final class DecodeTest extends TestCase
     public function setBit()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
-        $this->assertTrue($el->testBit(4));
+        static::assertTrue($el->testBit(4));
     }
 
     /**
@@ -68,7 +68,7 @@ final class DecodeTest extends TestCase
     public function unsetBit()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
-        $this->assertFalse($el->testBit(5));
+        static::assertFalse($el->testBit(5));
     }
 
     /**

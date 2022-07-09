@@ -23,7 +23,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
     public function create()
     {
         $el = new ExplicitlyTaggedType(1, new NullType());
-        $this->assertInstanceOf(ExplicitTagging::class, $el);
+        static::assertInstanceOf(ExplicitTagging::class, $el);
         return $el;
     }
 
@@ -34,7 +34,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function getExplicit(ExplicitTagging $el)
     {
-        $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function expectTagged(ExplicitlyTaggedType $el)
     {
-        $this->assertInstanceOf(TaggedType::class, $el->expectTagged());
+        static::assertInstanceOf(TaggedType::class, $el->expectTagged());
     }
 
     /**
@@ -54,7 +54,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function expectTag(ExplicitlyTaggedType $el)
     {
-        $this->assertInstanceOf(TaggedType::class, $el->expectTagged(1));
+        static::assertInstanceOf(TaggedType::class, $el->expectTagged(1));
     }
 
     /**
@@ -76,7 +76,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function expectExplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(ExplicitTagging::class, $el->expectExplicit());
+        static::assertInstanceOf(ExplicitTagging::class, $el->expectExplicit());
     }
 
     /**
@@ -98,7 +98,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function expectExplicitWithTag(TaggedType $el)
     {
-        $this->assertInstanceOf(ExplicitTagging::class, $el->expectExplicit(1));
+        static::assertInstanceOf(ExplicitTagging::class, $el->expectExplicit(1));
     }
 
     /**
@@ -132,7 +132,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function asExplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(NullType::class, $el->asExplicit(1) ->asNull());
+        static::assertInstanceOf(NullType::class, $el->asExplicit(1) ->asNull());
     }
 
     /**

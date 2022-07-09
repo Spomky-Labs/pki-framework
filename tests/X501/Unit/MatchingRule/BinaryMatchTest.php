@@ -24,7 +24,7 @@ final class BinaryMatchTest extends TestCase
     public function match($assertion, $value, $expected)
     {
         $rule = new BinaryMatch();
-        $this->assertEquals($expected, $rule->compare($assertion, $value));
+        static::assertEquals($expected, $rule->compare($assertion, $value));
     }
 
     public function provideMatch()

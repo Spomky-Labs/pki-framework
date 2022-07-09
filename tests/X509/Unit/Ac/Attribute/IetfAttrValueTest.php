@@ -42,7 +42,7 @@ final class IetfAttrValueTest extends TestCase
     public function createOctetString()
     {
         $val = IetfAttrValue::fromOctets('test');
-        $this->assertInstanceOf(IetfAttrValue::class, $val);
+        static::assertInstanceOf(IetfAttrValue::class, $val);
         return $val;
     }
 
@@ -53,7 +53,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function octetStringType(IetfAttrValue $val)
     {
-        $this->assertEquals(Element::TYPE_OCTET_STRING, $val->type());
+        static::assertEquals(Element::TYPE_OCTET_STRING, $val->type());
     }
 
     /**
@@ -63,7 +63,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function isOctetString(IetfAttrValue $val)
     {
-        $this->assertTrue($val->isOctets());
+        static::assertTrue($val->isOctets());
     }
 
     /**
@@ -73,7 +73,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function value(IetfAttrValue $val)
     {
-        $this->assertEquals('test', $val->value());
+        static::assertEquals('test', $val->value());
     }
 
     /**
@@ -82,7 +82,7 @@ final class IetfAttrValueTest extends TestCase
     public function createUTF8String()
     {
         $val = IetfAttrValue::fromString('test');
-        $this->assertInstanceOf(IetfAttrValue::class, $val);
+        static::assertInstanceOf(IetfAttrValue::class, $val);
         return $val;
     }
 
@@ -93,7 +93,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function uTF8StringType(IetfAttrValue $val)
     {
-        $this->assertEquals(Element::TYPE_UTF8_STRING, $val->type());
+        static::assertEquals(Element::TYPE_UTF8_STRING, $val->type());
     }
 
     /**
@@ -103,7 +103,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function isUTF8String(IetfAttrValue $val)
     {
-        $this->assertTrue($val->isString());
+        static::assertTrue($val->isString());
     }
 
     /**
@@ -112,7 +112,7 @@ final class IetfAttrValueTest extends TestCase
     public function createOID()
     {
         $val = IetfAttrValue::fromOID('1.3.6.1.3');
-        $this->assertInstanceOf(IetfAttrValue::class, $val);
+        static::assertInstanceOf(IetfAttrValue::class, $val);
         return $val;
     }
 
@@ -123,7 +123,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function oIDType(IetfAttrValue $val)
     {
-        $this->assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $val->type());
+        static::assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $val->type());
     }
 
     /**
@@ -133,6 +133,6 @@ final class IetfAttrValueTest extends TestCase
      */
     public function isOID(IetfAttrValue $val)
     {
-        $this->assertTrue($val->isOID());
+        static::assertTrue($val->isOID());
     }
 }

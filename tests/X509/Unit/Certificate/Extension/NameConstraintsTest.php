@@ -35,7 +35,7 @@ final class NameConstraintsTest extends TestCase
             new GeneralSubtree(new UniformResourceIdentifier(self::PERMITTED_URI)),
             new GeneralSubtree(DirectoryName::fromDNString(self::PERMITTED_DN))
         );
-        $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
+        static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
 
@@ -45,7 +45,7 @@ final class NameConstraintsTest extends TestCase
     public function createExcluded()
     {
         $subtrees = new GeneralSubtrees(new GeneralSubtree(new UniformResourceIdentifier(self::EXCLUDED_URI)));
-        $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
+        static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
 
@@ -58,7 +58,7 @@ final class NameConstraintsTest extends TestCase
     public function create(GeneralSubtrees $permitted, GeneralSubtrees $excluded)
     {
         $ext = new NameConstraintsExtension(true, $permitted, $excluded);
-        $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
+        static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -69,7 +69,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_NAME_CONSTRAINTS, $ext->oid());
+        static::assertEquals(Extension::OID_NAME_CONSTRAINTS, $ext->oid());
     }
 
     /**
@@ -79,7 +79,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -90,7 +90,7 @@ final class NameConstraintsTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -104,7 +104,7 @@ final class NameConstraintsTest extends TestCase
     public function decode($der)
     {
         $ext = NameConstraintsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
+        static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -116,7 +116,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -127,7 +127,7 @@ final class NameConstraintsTest extends TestCase
     public function permitted(NameConstraintsExtension $ext)
     {
         $subtrees = $ext->permittedSubtrees();
-        $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
+        static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
 
@@ -139,7 +139,7 @@ final class NameConstraintsTest extends TestCase
     public function excluded(NameConstraintsExtension $ext)
     {
         $subtrees = $ext->excludedSubtrees();
-        $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
+        static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
 
@@ -150,7 +150,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function countMethod(GeneralSubtrees $subtrees)
     {
-        $this->assertCount(2, $subtrees);
+        static::assertCount(2, $subtrees);
     }
 
     /**
@@ -164,8 +164,8 @@ final class NameConstraintsTest extends TestCase
         foreach ($subtrees as $subtree) {
             $values[] = $subtree;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(GeneralSubtree::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(GeneralSubtree::class, $values);
     }
 
     /**
@@ -175,7 +175,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function permittedURI(GeneralSubtrees $subtrees)
     {
-        $this->assertEquals(self::PERMITTED_URI, $subtrees->all()[0] ->base() ->string());
+        static::assertEquals(self::PERMITTED_URI, $subtrees->all()[0] ->base() ->string());
     }
 
     /**
@@ -185,7 +185,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function permittedDN(GeneralSubtrees $subtrees)
     {
-        $this->assertEquals(self::PERMITTED_DN, $subtrees->all()[1] ->base() ->string());
+        static::assertEquals(self::PERMITTED_DN, $subtrees->all()[1] ->base() ->string());
     }
 
     /**
@@ -195,7 +195,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function excludedURI(GeneralSubtrees $subtrees)
     {
-        $this->assertEquals(self::EXCLUDED_URI, $subtrees->all()[0] ->base() ->string());
+        static::assertEquals(self::EXCLUDED_URI, $subtrees->all()[0] ->base() ->string());
     }
 
     /**
@@ -206,7 +206,7 @@ final class NameConstraintsTest extends TestCase
     public function extensions(NameConstraintsExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasNameConstraints());
+        static::assertTrue($extensions->hasNameConstraints());
         return $extensions;
     }
 
@@ -218,7 +218,7 @@ final class NameConstraintsTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->nameConstraints();
-        $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
+        static::assertInstanceOf(NameConstraintsExtension::class, $ext);
     }
 
     /**
@@ -227,7 +227,7 @@ final class NameConstraintsTest extends TestCase
     public function createEmpty()
     {
         $ext = new NameConstraintsExtension(false);
-        $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
+        static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -239,7 +239,7 @@ final class NameConstraintsTest extends TestCase
     public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -253,7 +253,7 @@ final class NameConstraintsTest extends TestCase
     public function decodeEmpty($der)
     {
         $ext = NameConstraintsExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
+        static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }
 
@@ -265,7 +265,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function recodedEmpty(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**

@@ -20,7 +20,7 @@ final class EncodeTest extends TestCase
     public function longExponent()
     {
         $real = new Real(1, gmp_init('0x40000000'), 2);
-        $this->assertEquals(hex2bin('090783044000000001'), $real->toDER());
+        static::assertEquals(hex2bin('090783044000000001'), $real->toDER());
     }
 
     /**
@@ -40,8 +40,8 @@ final class EncodeTest extends TestCase
     public function mantissaNormalization()
     {
         $real = new Real(8, 0, 2);
-        $this->assertEquals(hex2bin('0903800301'), $real->toDER());
-        $this->assertEquals(8.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertEquals(hex2bin('0903800301'), $real->toDER());
+        static::assertEquals(8.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     /**
@@ -50,8 +50,8 @@ final class EncodeTest extends TestCase
     public function mantissaNormalizationBase8()
     {
         $real = (new Real(8, 3, 2))->withStrictDER(false);
-        $this->assertEquals(hex2bin('0903900201'), $real->toDER());
-        $this->assertEquals(64.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertEquals(hex2bin('0903900201'), $real->toDER());
+        static::assertEquals(64.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     /**
@@ -60,8 +60,8 @@ final class EncodeTest extends TestCase
     public function mantissaNormalizationBase16()
     {
         $real = (new Real(16, 4, 2))->withStrictDER(false);
-        $this->assertEquals(hex2bin('0903A00201'), $real->toDER());
-        $this->assertEquals(256.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertEquals(hex2bin('0903A00201'), $real->toDER());
+        static::assertEquals(256.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     /**
@@ -70,8 +70,8 @@ final class EncodeTest extends TestCase
     public function scaleFactor()
     {
         $real = (new Real(128, 4, 2))->withStrictDER(false);
-        $this->assertEquals(hex2bin('0903AC0201'), $real->toDER());
-        $this->assertEquals(2048.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertEquals(hex2bin('0903AC0201'), $real->toDER());
+        static::assertEquals(2048.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     /**
@@ -81,7 +81,7 @@ final class EncodeTest extends TestCase
     {
         $real = new Real(1, gmp_init('0x40' . str_repeat('00', 254)), 2);
         $expected = hex2bin('0982010283ff40' . str_repeat('00', 254) . '01');
-        $this->assertEquals($expected, $real->toDER());
+        static::assertEquals($expected, $real->toDER());
     }
 
     /**

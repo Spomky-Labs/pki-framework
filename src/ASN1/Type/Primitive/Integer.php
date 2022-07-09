@@ -86,8 +86,6 @@ class Integer extends Element
 
     /**
      * Test that number is valid for this context.
-     *
-     * @param mixed $num
      */
     private static function _validateNumber($num): bool
     {

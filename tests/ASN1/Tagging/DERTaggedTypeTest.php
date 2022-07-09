@@ -21,7 +21,7 @@ final class DERTaggedTypeTest extends TestCase
     public function create()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertInstanceOf(DERTaggedType::class, $el);
+        static::assertInstanceOf(DERTaggedType::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class DERTaggedTypeTest extends TestCase
     public function encode(DERTaggedType $el)
     {
         $der = $el->toDER();
-        $this->assertEquals("\xa0\x2\x5\x0", $der);
+        static::assertEquals("\xa0\x2\x5\x0", $der);
     }
 
     /**
@@ -43,7 +43,7 @@ final class DERTaggedTypeTest extends TestCase
      */
     public function expectExplicit(DERTaggedType $el)
     {
-        $this->assertInstanceOf(TaggedType::class, $el->expectExplicit());
+        static::assertInstanceOf(TaggedType::class, $el->expectExplicit());
     }
 
     /**
@@ -53,7 +53,7 @@ final class DERTaggedTypeTest extends TestCase
      */
     public function expectImplicit(DERTaggedType $el)
     {
-        $this->assertInstanceOf(TaggedType::class, $el->expectImplicit());
+        static::assertInstanceOf(TaggedType::class, $el->expectImplicit());
     }
 
     /**
@@ -64,6 +64,6 @@ final class DERTaggedTypeTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(TaggedType::class, $wrap->asTagged());
+        static::assertInstanceOf(TaggedType::class, $wrap->asTagged());
     }
 }

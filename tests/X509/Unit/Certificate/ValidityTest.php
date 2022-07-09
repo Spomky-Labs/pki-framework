@@ -24,7 +24,7 @@ final class ValidityTest extends TestCase
     public function create()
     {
         $validity = Validity::fromStrings(self::NB, self::NA);
-        $this->assertInstanceOf(Validity::class, $validity);
+        static::assertInstanceOf(Validity::class, $validity);
         return $validity;
     }
 
@@ -36,7 +36,7 @@ final class ValidityTest extends TestCase
     public function encode(Validity $validity)
     {
         $seq = $validity->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -50,7 +50,7 @@ final class ValidityTest extends TestCase
     public function decode($der)
     {
         $validity = Validity::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(Validity::class, $validity);
+        static::assertInstanceOf(Validity::class, $validity);
         return $validity;
     }
 
@@ -62,7 +62,7 @@ final class ValidityTest extends TestCase
      */
     public function recoded(Validity $ref, Validity $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -72,7 +72,7 @@ final class ValidityTest extends TestCase
      */
     public function notBefore(Validity $validity)
     {
-        $this->assertEquals(new DateTimeImmutable(self::NB), $validity->notBefore() ->dateTime());
+        static::assertEquals(new DateTimeImmutable(self::NB), $validity->notBefore() ->dateTime());
     }
 
     /**
@@ -82,6 +82,6 @@ final class ValidityTest extends TestCase
      */
     public function notAfter(Validity $validity)
     {
-        $this->assertEquals(new DateTimeImmutable(self::NA), $validity->notAfter() ->dateTime());
+        static::assertEquals(new DateTimeImmutable(self::NA), $validity->notAfter() ->dateTime());
     }
 }

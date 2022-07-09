@@ -41,7 +41,7 @@ final class CertificationPathTest extends TestCase
     public function create()
     {
         $path = new CertificationPath(...self::$_certs);
-        $this->assertInstanceOf(CertificationPath::class, $path);
+        static::assertInstanceOf(CertificationPath::class, $path);
         return $path;
     }
 
@@ -52,7 +52,7 @@ final class CertificationPathTest extends TestCase
      */
     public function countMethod(CertificationPath $path)
     {
-        $this->assertCount(3, $path);
+        static::assertCount(3, $path);
     }
 
     /**
@@ -66,8 +66,8 @@ final class CertificationPathTest extends TestCase
         foreach ($path as $cert) {
             $values[] = $cert;
         }
-        $this->assertCount(3, $values);
-        $this->assertContainsOnlyInstancesOf(Certificate::class, $values);
+        static::assertCount(3, $values);
+        static::assertContainsOnlyInstancesOf(Certificate::class, $values);
     }
 
     /**
@@ -78,7 +78,7 @@ final class CertificationPathTest extends TestCase
     public function validate(CertificationPath $path)
     {
         $result = $path->validate(PathValidationConfig::defaultConfig());
-        $this->assertInstanceOf(PathValidationResult::class, $result);
+        static::assertInstanceOf(PathValidationResult::class, $result);
     }
 
     /**
@@ -91,7 +91,7 @@ final class CertificationPathTest extends TestCase
             self::$_certs[2],
             new CertificateBundle(...self::$_certs)
         );
-        $this->assertInstanceOf(CertificationPath::class, $path);
+        static::assertInstanceOf(CertificationPath::class, $path);
     }
 
     /**
@@ -101,7 +101,7 @@ final class CertificationPathTest extends TestCase
     {
         $chain = new CertificateChain(...array_reverse(self::$_certs, false));
         $path = CertificationPath::fromCertificateChain($chain);
-        $this->assertInstanceOf(CertificationPath::class, $path);
+        static::assertInstanceOf(CertificationPath::class, $path);
         return $path;
     }
 
@@ -113,7 +113,7 @@ final class CertificationPathTest extends TestCase
      */
     public function fromChainEquals(CertificationPath $ref, CertificationPath $path)
     {
-        $this->assertEquals($ref, $path);
+        static::assertEquals($ref, $path);
     }
 
     /**
@@ -124,7 +124,7 @@ final class CertificationPathTest extends TestCase
     public function trustAnchor(CertificationPath $path)
     {
         $cert = $path->trustAnchorCertificate();
-        $this->assertEquals(self::$_certs[0], $cert);
+        static::assertEquals(self::$_certs[0], $cert);
     }
 
     /**
@@ -145,7 +145,7 @@ final class CertificationPathTest extends TestCase
     public function endEntity(CertificationPath $path)
     {
         $cert = $path->endEntityCertificate();
-        $this->assertEquals(self::$_certs[2], $cert);
+        static::assertEquals(self::$_certs[2], $cert);
     }
 
     /**
@@ -166,7 +166,7 @@ final class CertificationPathTest extends TestCase
     public function certificateChain(CertificationPath $path)
     {
         $chain = $path->certificateChain();
-        $this->assertInstanceOf(CertificateChain::class, $chain);
+        static::assertInstanceOf(CertificateChain::class, $chain);
     }
 
     /**
@@ -176,7 +176,7 @@ final class CertificationPathTest extends TestCase
      */
     public function startWithSingle(CertificationPath $path)
     {
-        $this->assertTrue($path->startsWith(self::$_certs[0]));
+        static::assertTrue($path->startsWith(self::$_certs[0]));
     }
 
     /**
@@ -186,7 +186,7 @@ final class CertificationPathTest extends TestCase
      */
     public function startWithMulti(CertificationPath $path)
     {
-        $this->assertTrue($path->startsWith(...array_slice(self::$_certs, 0, 2, false)));
+        static::assertTrue($path->startsWith(...array_slice(self::$_certs, 0, 2, false)));
     }
 
     /**
@@ -196,7 +196,7 @@ final class CertificationPathTest extends TestCase
      */
     public function startWithAll(CertificationPath $path)
     {
-        $this->assertTrue($path->startsWith(...self::$_certs));
+        static::assertTrue($path->startsWith(...self::$_certs));
     }
 
     /**
@@ -206,7 +206,7 @@ final class CertificationPathTest extends TestCase
      */
     public function startWithTooManyFail(CertificationPath $path)
     {
-        $this->assertFalse($path->startsWith(...array_merge(self::$_certs, [self::$_certs[0]])));
+        static::assertFalse($path->startsWith(...array_merge(self::$_certs, [self::$_certs[0]])));
     }
 
     /**
@@ -216,6 +216,6 @@ final class CertificationPathTest extends TestCase
      */
     public function startWithFail(CertificationPath $path)
     {
-        $this->assertFalse($path->startsWith(self::$_certs[1]));
+        static::assertFalse($path->startsWith(self::$_certs[1]));
     }
 }

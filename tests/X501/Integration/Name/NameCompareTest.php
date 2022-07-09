@@ -26,7 +26,7 @@ final class NameCompareTest extends TestCase
     {
         $n1 = Name::fromString($dn1);
         $n2 = Name::fromString($dn2);
-        $this->assertEquals($expected, $n1->equals($n2));
+        static::assertEquals($expected, $n1->equals($n2));
     }
 
     /**
@@ -41,9 +41,9 @@ final class NameCompareTest extends TestCase
     public function toStringMethod($dn1, $dn2, $expected)
     {
         $n1 = Name::fromString($dn1);
-        $this->assertEquals($dn1, $n1->toString());
+        static::assertEquals($dn1, $n1->toString());
         $n2 = Name::fromString($dn2);
-        $this->assertEquals($dn2, $n2->toString());
+        static::assertEquals($dn2, $n2->toString());
     }
 
     public function provideCompareNames(): Iterator

@@ -29,7 +29,7 @@ final class IPv4AddressNameTest extends TestCase
     public function create()
     {
         $ip = new IPv4Address(self::ADDR);
-        $this->assertInstanceOf(IPAddress::class, $ip);
+        static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }
 
@@ -41,7 +41,7 @@ final class IPv4AddressNameTest extends TestCase
     public function encode(IPAddress $ip)
     {
         $el = $ip->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -55,7 +55,7 @@ final class IPv4AddressNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_IP_ADDRESS, $el->tag());
+        static::assertEquals(GeneralName::TAG_IP_ADDRESS, $el->tag());
     }
 
     /**
@@ -68,7 +68,7 @@ final class IPv4AddressNameTest extends TestCase
     public function decode($der)
     {
         $ip = IPAddress::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(IPAddress::class, $ip);
+        static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }
 
@@ -80,7 +80,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function recoded(IPAddress $ref, IPAddress $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -90,7 +90,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function address(IPAddress $ip)
     {
-        $this->assertEquals(self::ADDR, $ip->address());
+        static::assertEquals(self::ADDR, $ip->address());
     }
 
     /**
@@ -99,7 +99,7 @@ final class IPv4AddressNameTest extends TestCase
     public function createWithMask()
     {
         $ip = new IPv4Address(self::ADDR, self::MASK);
-        $this->assertInstanceOf(IPAddress::class, $ip);
+        static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }
 
@@ -111,7 +111,7 @@ final class IPv4AddressNameTest extends TestCase
     public function encodeWithMask(IPAddress $ip)
     {
         $el = $ip->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -125,7 +125,7 @@ final class IPv4AddressNameTest extends TestCase
     public function decodeWithMask($der)
     {
         $ip = IPAddress::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(IPAddress::class, $ip);
+        static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }
 
@@ -137,7 +137,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function recodedWithMask(IPAddress $ref, IPAddress $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -147,7 +147,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function mask(IPAddress $ip)
     {
-        $this->assertEquals(self::MASK, $ip->mask());
+        static::assertEquals(self::MASK, $ip->mask());
     }
 
     /**
@@ -157,7 +157,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function string(IPAddress $ip)
     {
-        $this->assertEquals(self::ADDR . '/' . self::MASK, $ip->string());
+        static::assertEquals(self::ADDR . '/' . self::MASK, $ip->string());
     }
 
     /**

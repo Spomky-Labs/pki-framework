@@ -32,7 +32,7 @@ final class AuthenticationInfoTest extends TestCase
             new UniformResourceIdentifier(self::IDENT_URI),
             self::AUTH_INFO
         );
-        $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
+        static::assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
         return $value;
     }
 
@@ -44,7 +44,7 @@ final class AuthenticationInfoTest extends TestCase
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -58,7 +58,7 @@ final class AuthenticationInfoTest extends TestCase
     public function decode($der)
     {
         $value = AuthenticationInfoAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
-        $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
+        static::assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
         return $value;
     }
 
@@ -70,7 +70,7 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -80,7 +80,7 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function oID(AttributeValue $value)
     {
-        $this->assertEquals(AuthenticationInfoAttributeValue::OID, $value->oid());
+        static::assertEquals(AuthenticationInfoAttributeValue::OID, $value->oid());
     }
 
     /**
@@ -90,7 +90,7 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function service(AuthenticationInfoAttributeValue $value)
     {
-        $this->assertEquals(self::SERVICE_URI, $value->service());
+        static::assertEquals(self::SERVICE_URI, $value->service());
     }
 
     /**
@@ -100,7 +100,7 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function ident(AuthenticationInfoAttributeValue $value)
     {
-        $this->assertEquals(self::IDENT_URI, $value->ident());
+        static::assertEquals(self::IDENT_URI, $value->ident());
     }
 
     /**
@@ -110,7 +110,7 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function authInfo(AuthenticationInfoAttributeValue $value)
     {
-        $this->assertEquals(self::AUTH_INFO, $value->authInfo());
+        static::assertEquals(self::AUTH_INFO, $value->authInfo());
     }
 
     /**
@@ -121,7 +121,7 @@ final class AuthenticationInfoTest extends TestCase
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
-        $this->assertTrue($attribs->hasAuthenticationInformation());
+        static::assertTrue($attribs->hasAuthenticationInformation());
         return $attribs;
     }
 
@@ -132,6 +132,6 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function fromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $attribs->authenticationInformation());
+        static::assertInstanceOf(AuthenticationInfoAttributeValue::class, $attribs->authenticationInformation());
     }
 }

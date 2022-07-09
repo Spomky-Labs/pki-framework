@@ -23,7 +23,7 @@ final class UniversalStringTest extends TestCase
     public function create()
     {
         $el = new UniversalString('');
-        $this->assertInstanceOf(UniversalString::class, $el);
+        static::assertInstanceOf(UniversalString::class, $el);
         return $el;
     }
 
@@ -34,7 +34,7 @@ final class UniversalStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_UNIVERSAL_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_UNIVERSAL_STRING, $el->tag());
     }
 
     /**
@@ -45,7 +45,7 @@ final class UniversalStringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -57,7 +57,7 @@ final class UniversalStringTest extends TestCase
     public function decode(string $data): UniversalString
     {
         $el = UniversalString::fromDER($data);
-        $this->assertInstanceOf(UniversalString::class, $el);
+        static::assertInstanceOf(UniversalString::class, $el);
         return $el;
     }
 
@@ -69,7 +69,7 @@ final class UniversalStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -90,7 +90,7 @@ final class UniversalStringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(UniversalString::class, $wrap->asUniversalString());
+        static::assertInstanceOf(UniversalString::class, $wrap->asUniversalString());
     }
 
     /**

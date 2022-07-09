@@ -25,7 +25,7 @@ final class SequenceTest extends TestCase
     public function create()
     {
         $seq = new Sequence(new NullType(), new Boolean(true));
-        $this->assertInstanceOf(Structure::class, $seq);
+        static::assertInstanceOf(Structure::class, $seq);
         return $seq;
     }
 
@@ -36,7 +36,7 @@ final class SequenceTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_SEQUENCE, $el->tag());
+        static::assertEquals(Element::TYPE_SEQUENCE, $el->tag());
     }
 
     /**
@@ -47,7 +47,7 @@ final class SequenceTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -59,7 +59,7 @@ final class SequenceTest extends TestCase
     public function decode(string $data): Sequence
     {
         $el = Sequence::fromDER($data);
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el;
     }
 
@@ -71,7 +71,7 @@ final class SequenceTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -82,7 +82,7 @@ final class SequenceTest extends TestCase
     public function elements(Sequence $seq)
     {
         $elements = $seq->elements();
-        $this->assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
+        static::assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
     }
 
     /**
@@ -92,7 +92,7 @@ final class SequenceTest extends TestCase
      */
     public function countMethod(Sequence $seq)
     {
-        $this->assertCount(2, $seq);
+        static::assertCount(2, $seq);
     }
 
     /**
@@ -106,8 +106,8 @@ final class SequenceTest extends TestCase
         foreach ($seq as $el) {
             $elements[] = $el;
         }
-        $this->assertCount(2, $elements);
-        $this->assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
+        static::assertCount(2, $elements);
+        static::assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
     }
 
     /**
@@ -119,7 +119,7 @@ final class SequenceTest extends TestCase
     {
         $el = $seq->at(0)
             ->asNull();
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
     }
 
     /**
@@ -131,7 +131,7 @@ final class SequenceTest extends TestCase
     {
         $el = $seq->at(0)
             ->asNull();
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
     }
 
     /**
@@ -154,7 +154,7 @@ final class SequenceTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(Sequence::class, $wrap->asSequence());
+        static::assertInstanceOf(Sequence::class, $wrap->asSequence());
     }
 
     /**

@@ -21,7 +21,7 @@ final class AttributeTypeAndValueTest extends TestCase
     public function create()
     {
         $atv = AttributeTypeAndValue::fromAttributeValue(new NameValue('one'));
-        $this->assertInstanceOf(AttributeTypeAndValue::class, $atv);
+        static::assertInstanceOf(AttributeTypeAndValue::class, $atv);
         return $atv;
     }
 
@@ -34,7 +34,7 @@ final class AttributeTypeAndValueTest extends TestCase
     {
         $der = $atv->toASN1()
             ->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -48,7 +48,7 @@ final class AttributeTypeAndValueTest extends TestCase
     public function decode($der)
     {
         $atv = AttributeTypeAndValue::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(AttributeTypeAndValue::class, $atv);
+        static::assertInstanceOf(AttributeTypeAndValue::class, $atv);
         return $atv;
     }
 
@@ -60,7 +60,7 @@ final class AttributeTypeAndValueTest extends TestCase
      */
     public function recoded(AttributeTypeAndValue $ref, AttributeTypeAndValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -70,7 +70,7 @@ final class AttributeTypeAndValueTest extends TestCase
      */
     public function value(AttributeTypeAndValue $atv)
     {
-        $this->assertEquals('one', $atv->value()->rfc2253String());
+        static::assertEquals('one', $atv->value()->rfc2253String());
     }
 
     /**
@@ -80,7 +80,7 @@ final class AttributeTypeAndValueTest extends TestCase
      */
     public function string(AttributeTypeAndValue $atv)
     {
-        $this->assertEquals('name=one', $atv->toString());
+        static::assertEquals('name=one', $atv->toString());
     }
 
     /**
@@ -90,6 +90,6 @@ final class AttributeTypeAndValueTest extends TestCase
      */
     public function toStringMethod(AttributeTypeAndValue $atv)
     {
-        $this->assertIsString(strval($atv));
+        static::assertIsString(strval($atv));
     }
 }

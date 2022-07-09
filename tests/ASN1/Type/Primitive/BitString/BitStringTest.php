@@ -24,7 +24,7 @@ final class BitStringTest extends TestCase
     public function create()
     {
         $el = new BitString('');
-        $this->assertInstanceOf(BitString::class, $el);
+        static::assertInstanceOf(BitString::class, $el);
         return $el;
     }
 
@@ -35,7 +35,7 @@ final class BitStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_BIT_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_BIT_STRING, $el->tag());
     }
 
     /**
@@ -46,7 +46,7 @@ final class BitStringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -58,7 +58,7 @@ final class BitStringTest extends TestCase
     public function decode(string $data): BitString
     {
         $el = BitString::fromDER($data);
-        $this->assertInstanceOf(BitString::class, $el);
+        static::assertInstanceOf(BitString::class, $el);
         return $el;
     }
 
@@ -70,7 +70,7 @@ final class BitStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -81,7 +81,7 @@ final class BitStringTest extends TestCase
     public function range8(int $start, int $length, string $result)
     {
         $bs = new BitString("\xff");
-        $this->assertEquals($result, $bs->range($start, $length));
+        static::assertEquals($result, $bs->range($start, $length));
     }
 
     public function ffProvider(): array
@@ -97,7 +97,7 @@ final class BitStringTest extends TestCase
     public function range16(int $start, int $length, string $result)
     {
         $bs = new BitString("\xff\xff");
-        $this->assertEquals($result, $bs->range($start, $length));
+        static::assertEquals($result, $bs->range($start, $length));
     }
 
     public function ffffProvider(): array
@@ -111,7 +111,7 @@ final class BitStringTest extends TestCase
     public function emptyRange()
     {
         $bs = new BitString("\0");
-        $this->assertEquals(0, $bs->range(0, 0));
+        static::assertEquals(0, $bs->range(0, 0));
     }
 
     /**
@@ -133,7 +133,7 @@ final class BitStringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(BitString::class, $wrap->asBitString());
+        static::assertInstanceOf(BitString::class, $wrap->asBitString());
     }
 
     /**

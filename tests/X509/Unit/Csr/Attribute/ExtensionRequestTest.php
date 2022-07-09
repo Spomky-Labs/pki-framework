@@ -23,7 +23,7 @@ final class ExtensionRequestTest extends TestCase
     public function create()
     {
         $value = new ExtensionRequestValue(new Extensions());
-        $this->assertInstanceOf(ExtensionRequestValue::class, $value);
+        static::assertInstanceOf(ExtensionRequestValue::class, $value);
         return $value;
     }
 
@@ -35,7 +35,7 @@ final class ExtensionRequestTest extends TestCase
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -49,7 +49,7 @@ final class ExtensionRequestTest extends TestCase
     public function decode($der)
     {
         $value = ExtensionRequestValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
-        $this->assertInstanceOf(ExtensionRequestValue::class, $value);
+        static::assertInstanceOf(ExtensionRequestValue::class, $value);
         return $value;
     }
 
@@ -61,7 +61,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -71,7 +71,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function oID(AttributeValue $value)
     {
-        $this->assertEquals(ExtensionRequestValue::OID, $value->oid());
+        static::assertEquals(ExtensionRequestValue::OID, $value->oid());
     }
 
     /**
@@ -81,7 +81,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function extensions(ExtensionRequestValue $value)
     {
-        $this->assertInstanceOf(Extensions::class, $value->extensions());
+        static::assertInstanceOf(Extensions::class, $value->extensions());
     }
 
     /**
@@ -91,7 +91,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function stringValue(ExtensionRequestValue $value)
     {
-        $this->assertIsString($value->stringValue());
+        static::assertIsString($value->stringValue());
     }
 
     /**
@@ -101,7 +101,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function equalityMatchingRule(ExtensionRequestValue $value)
     {
-        $this->assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
+        static::assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
     /**
@@ -111,7 +111,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function rFC2253String(ExtensionRequestValue $value)
     {
-        $this->assertIsString($value->rfc2253String());
+        static::assertIsString($value->rfc2253String());
     }
 
     /**
@@ -121,6 +121,6 @@ final class ExtensionRequestTest extends TestCase
      */
     public function toStringMethod(ExtensionRequestValue $value)
     {
-        $this->assertIsString(strval($value));
+        static::assertIsString(strval($value));
     }
 }

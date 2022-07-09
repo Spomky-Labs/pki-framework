@@ -21,7 +21,7 @@ final class StringTypeTest extends TestCase
     public function wrapped()
     {
         $wrap = new UnspecifiedType(new OctetString(''));
-        $this->assertInstanceOf(StringType::class, $wrap->asString());
+        static::assertInstanceOf(StringType::class, $wrap->asString());
     }
 
     /**
@@ -30,6 +30,6 @@ final class StringTypeTest extends TestCase
     public function stringable()
     {
         $s = new OctetString('test');
-        $this->assertEquals('test', strval($s));
+        static::assertEquals('test', strval($s));
     }
 }

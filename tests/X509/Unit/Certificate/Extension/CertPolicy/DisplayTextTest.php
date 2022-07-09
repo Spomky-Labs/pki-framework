@@ -27,7 +27,7 @@ final class DisplayTextTest extends TestCase
     public function create()
     {
         $dt = DisplayText::fromString('test');
-        $this->assertInstanceOf(DisplayText::class, $dt);
+        static::assertInstanceOf(DisplayText::class, $dt);
         return $dt;
     }
 
@@ -39,7 +39,7 @@ final class DisplayTextTest extends TestCase
     public function encode(DisplayText $dt)
     {
         $el = $dt->toASN1();
-        $this->assertInstanceOf(StringType::class, $el);
+        static::assertInstanceOf(StringType::class, $el);
         return $el->toDER();
     }
 
@@ -53,7 +53,7 @@ final class DisplayTextTest extends TestCase
     public function decode($data)
     {
         $qual = DisplayText::fromASN1(BaseString::fromDER($data));
-        $this->assertInstanceOf(DisplayText::class, $qual);
+        static::assertInstanceOf(DisplayText::class, $qual);
         return $qual;
     }
 
@@ -65,7 +65,7 @@ final class DisplayTextTest extends TestCase
      */
     public function recoded(DisplayText $ref, DisplayText $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -75,7 +75,7 @@ final class DisplayTextTest extends TestCase
      */
     public function string(DisplayText $dt)
     {
-        $this->assertEquals('test', $dt->string());
+        static::assertEquals('test', $dt->string());
     }
 
     /**
@@ -84,7 +84,7 @@ final class DisplayTextTest extends TestCase
     public function encodeIA5String()
     {
         $dt = new DisplayText('', Element::TYPE_IA5_STRING);
-        $this->assertInstanceOf(IA5String::class, $dt->toASN1());
+        static::assertInstanceOf(IA5String::class, $dt->toASN1());
     }
 
     /**
@@ -93,7 +93,7 @@ final class DisplayTextTest extends TestCase
     public function encodeVisibleString()
     {
         $dt = new DisplayText('', Element::TYPE_VISIBLE_STRING);
-        $this->assertInstanceOf(VisibleString::class, $dt->toASN1());
+        static::assertInstanceOf(VisibleString::class, $dt->toASN1());
     }
 
     /**
@@ -102,7 +102,7 @@ final class DisplayTextTest extends TestCase
     public function encodeBMPString()
     {
         $dt = new DisplayText('', Element::TYPE_BMP_STRING);
-        $this->assertInstanceOf(BMPString::class, $dt->toASN1());
+        static::assertInstanceOf(BMPString::class, $dt->toASN1());
     }
 
     /**
@@ -111,7 +111,7 @@ final class DisplayTextTest extends TestCase
     public function encodeUTF8String()
     {
         $dt = new DisplayText('', Element::TYPE_UTF8_STRING);
-        $this->assertInstanceOf(UTF8String::class, $dt->toASN1());
+        static::assertInstanceOf(UTF8String::class, $dt->toASN1());
     }
 
     /**
@@ -131,6 +131,6 @@ final class DisplayTextTest extends TestCase
      */
     public function toStringMethod(DisplayText $dt)
     {
-        $this->assertIsString(strval($dt));
+        static::assertIsString(strval($dt));
     }
 }

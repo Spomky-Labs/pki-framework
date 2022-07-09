@@ -30,7 +30,7 @@ final class TimeTest extends TestCase
     public function create()
     {
         $time = Time::fromString(self::TIME);
-        $this->assertInstanceOf(Time::class, $time);
+        static::assertInstanceOf(Time::class, $time);
         return $time;
     }
 
@@ -42,7 +42,7 @@ final class TimeTest extends TestCase
     public function encode(Time $time)
     {
         $seq = $time->toASN1();
-        $this->assertInstanceOf(UTCTime::class, $seq);
+        static::assertInstanceOf(UTCTime::class, $seq);
         return $seq->toDER();
     }
 
@@ -56,7 +56,7 @@ final class TimeTest extends TestCase
     public function decode($der)
     {
         $time = Time::fromASN1(UTCTime::fromDER($der));
-        $this->assertInstanceOf(Time::class, $time);
+        static::assertInstanceOf(Time::class, $time);
         return $time;
     }
 
@@ -68,7 +68,7 @@ final class TimeTest extends TestCase
      */
     public function recoded(Time $ref, Time $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -78,7 +78,7 @@ final class TimeTest extends TestCase
      */
     public function time(Time $time)
     {
-        $this->assertEquals(new DateTimeImmutable(self::TIME), $time->dateTime());
+        static::assertEquals(new DateTimeImmutable(self::TIME), $time->dateTime());
     }
 
     /**
@@ -87,7 +87,7 @@ final class TimeTest extends TestCase
     public function timezone()
     {
         $time = Time::fromString(self::TIME, 'UTC');
-        $this->assertEquals(new DateTimeImmutable(self::TIME, new DateTimeZone('UTC')), $time->dateTime());
+        static::assertEquals(new DateTimeImmutable(self::TIME, new DateTimeZone('UTC')), $time->dateTime());
     }
 
     /**
@@ -96,7 +96,7 @@ final class TimeTest extends TestCase
     public function createGeneralized()
     {
         $time = Time::fromString(self::TIME_GEN, 'UTC');
-        $this->assertInstanceOf(Time::class, $time);
+        static::assertInstanceOf(Time::class, $time);
         return $time;
     }
 
@@ -108,7 +108,7 @@ final class TimeTest extends TestCase
     public function encodeGeneralized(Time $time)
     {
         $el = $time->toASN1();
-        $this->assertInstanceOf(GeneralizedTime::class, $el);
+        static::assertInstanceOf(GeneralizedTime::class, $el);
         return $el->toDER();
     }
 
@@ -122,7 +122,7 @@ final class TimeTest extends TestCase
     public function decodeGeneralized($der)
     {
         $time = Time::fromASN1(GeneralizedTime::fromDER($der));
-        $this->assertInstanceOf(Time::class, $time);
+        static::assertInstanceOf(Time::class, $time);
         return $time;
     }
 
@@ -134,7 +134,7 @@ final class TimeTest extends TestCase
      */
     public function recodedGeneralized(Time $ref, Time $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -144,7 +144,7 @@ final class TimeTest extends TestCase
     {
         $dt = DateTimeImmutable::createFromFormat('!Y-m-d H:i:s.u', '2050-01-01 12:00:00.500');
         $time = new Time($dt);
-        $this->assertInstanceOf(GeneralizedTime::class, $time->toASN1());
+        static::assertInstanceOf(GeneralizedTime::class, $time->toASN1());
     }
 
     /**

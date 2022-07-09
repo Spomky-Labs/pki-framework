@@ -26,7 +26,7 @@ final class AttributesTest extends TestCase
     public function create()
     {
         $attribs = Attributes::fromAttributeValues(new ExtensionRequestValue(new Extensions()));
-        $this->assertInstanceOf(Attributes::class, $attribs);
+        static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
 
@@ -38,7 +38,7 @@ final class AttributesTest extends TestCase
     public function encode(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
-        $this->assertInstanceOf(Set::class, $seq);
+        static::assertInstanceOf(Set::class, $seq);
         return $seq->toDER();
     }
 
@@ -52,7 +52,7 @@ final class AttributesTest extends TestCase
     public function decode($data)
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
-        $this->assertInstanceOf(Attributes::class, $attribs);
+        static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
 
@@ -64,7 +64,7 @@ final class AttributesTest extends TestCase
      */
     public function recoded(Attributes $ref, Attributes $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -74,7 +74,7 @@ final class AttributesTest extends TestCase
      */
     public function extensionRequest(Attributes $attribs)
     {
-        $this->assertInstanceOf(ExtensionRequestValue::class, $attribs->extensionRequest());
+        static::assertInstanceOf(ExtensionRequestValue::class, $attribs->extensionRequest());
     }
 
     /**
@@ -84,7 +84,7 @@ final class AttributesTest extends TestCase
      */
     public function all(Attributes $attribs)
     {
-        $this->assertContainsOnlyInstancesOf(Attribute::class, $attribs->all());
+        static::assertContainsOnlyInstancesOf(Attribute::class, $attribs->all());
     }
 
     /**
@@ -94,7 +94,7 @@ final class AttributesTest extends TestCase
      */
     public function countMethod(Attributes $attribs)
     {
-        $this->assertCount(1, $attribs);
+        static::assertCount(1, $attribs);
     }
 
     /**
@@ -108,7 +108,7 @@ final class AttributesTest extends TestCase
         foreach ($attribs as $attr) {
             $values[] = $attr;
         }
-        $this->assertContainsOnlyInstancesOf(Attribute::class, $values);
+        static::assertContainsOnlyInstancesOf(Attribute::class, $values);
     }
 
     /**
@@ -140,7 +140,7 @@ final class AttributesTest extends TestCase
     public function withAdditional(Attributes $attribs)
     {
         $attribs = $attribs->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('Test')));
-        $this->assertCount(2, $attribs);
+        static::assertCount(2, $attribs);
         return $attribs;
     }
 
@@ -152,7 +152,7 @@ final class AttributesTest extends TestCase
     public function encodeWithAdditional(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
-        $this->assertInstanceOf(Set::class, $seq);
+        static::assertInstanceOf(Set::class, $seq);
         return $seq->toDER();
     }
 
@@ -166,7 +166,7 @@ final class AttributesTest extends TestCase
     public function decodeWithAdditional($data)
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
-        $this->assertInstanceOf(Attributes::class, $attribs);
+        static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
 
@@ -177,7 +177,7 @@ final class AttributesTest extends TestCase
      */
     public function decodedWithAdditionalHasCustomAttribute(Attributes $attribs)
     {
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             CommonNameValue::class,
             $attribs->firstOf(AttributeType::OID_COMMON_NAME)
                 ->first()

@@ -67,7 +67,7 @@ final class AttributeCertificateTest extends TestCase
             ->withSerialNumber(1);
         $signature = Crypto::getDefault()->sign($acinfo->toASN1() ->toDER(), self::$_privateKeyInfo, $algo);
         $ac = new AttributeCertificate($acinfo, $algo, $signature);
-        $this->assertInstanceOf(AttributeCertificate::class, $ac);
+        static::assertInstanceOf(AttributeCertificate::class, $ac);
         return $ac;
     }
 
@@ -79,7 +79,7 @@ final class AttributeCertificateTest extends TestCase
     public function encode(AttributeCertificate $ac)
     {
         $seq = $ac->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -93,7 +93,7 @@ final class AttributeCertificateTest extends TestCase
     public function decode($der)
     {
         $ac = AttributeCertificate::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(AttributeCertificate::class, $ac);
+        static::assertInstanceOf(AttributeCertificate::class, $ac);
         return $ac;
     }
 
@@ -105,7 +105,7 @@ final class AttributeCertificateTest extends TestCase
      */
     public function recoded(AttributeCertificate $ref, AttributeCertificate $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -115,7 +115,7 @@ final class AttributeCertificateTest extends TestCase
      */
     public function attributeCertificateInfo(AttributeCertificate $ac)
     {
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $ac->acinfo());
+        static::assertInstanceOf(AttributeCertificateInfo::class, $ac->acinfo());
     }
 
     /**
@@ -125,7 +125,7 @@ final class AttributeCertificateTest extends TestCase
      */
     public function signatureAlgo(AttributeCertificate $ac)
     {
-        $this->assertInstanceOf(SignatureAlgorithmIdentifier::class, $ac->signatureAlgorithm());
+        static::assertInstanceOf(SignatureAlgorithmIdentifier::class, $ac->signatureAlgorithm());
     }
 
     /**
@@ -135,7 +135,7 @@ final class AttributeCertificateTest extends TestCase
      */
     public function signatureValue(AttributeCertificate $ac)
     {
-        $this->assertInstanceOf(Signature::class, $ac->signatureValue());
+        static::assertInstanceOf(Signature::class, $ac->signatureValue());
     }
 
     /**
@@ -146,7 +146,7 @@ final class AttributeCertificateTest extends TestCase
     public function verify(AttributeCertificate $ac)
     {
         $pubkey_info = self::$_privateKeyInfo->publicKeyInfo();
-        $this->assertTrue($ac->verify($pubkey_info));
+        static::assertTrue($ac->verify($pubkey_info));
     }
 
     /**
@@ -169,7 +169,7 @@ final class AttributeCertificateTest extends TestCase
     public function fromPEM()
     {
         $ac = AttributeCertificate::fromPEM(self::$_acPem);
-        $this->assertInstanceOf(AttributeCertificate::class, $ac);
+        static::assertInstanceOf(AttributeCertificate::class, $ac);
         return $ac;
     }
 
@@ -181,7 +181,7 @@ final class AttributeCertificateTest extends TestCase
     public function toPEM(AttributeCertificate $ac)
     {
         $pem = $ac->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -192,7 +192,7 @@ final class AttributeCertificateTest extends TestCase
      */
     public function pEMEquals(PEM $pem)
     {
-        $this->assertEquals(self::$_acPem, $pem);
+        static::assertEquals(self::$_acPem, $pem);
     }
 
     /**
@@ -211,7 +211,7 @@ final class AttributeCertificateTest extends TestCase
      */
     public function toStringMethod(AttributeCertificate $ac)
     {
-        $this->assertIsString(strval($ac));
+        static::assertIsString(strval($ac));
     }
 
     /**
@@ -222,7 +222,7 @@ final class AttributeCertificateTest extends TestCase
     public function isHeldBy(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
-        $this->assertTrue($ac->isHeldBy($cert));
+        static::assertTrue($ac->isHeldBy($cert));
     }
 
     /**
@@ -233,7 +233,7 @@ final class AttributeCertificateTest extends TestCase
     public function isHeldByFail(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
-        $this->assertFalse($ac->isHeldBy($cert));
+        static::assertFalse($ac->isHeldBy($cert));
     }
 
     /**
@@ -244,7 +244,7 @@ final class AttributeCertificateTest extends TestCase
     public function isIssuedBy(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
-        $this->assertTrue($ac->isIssuedBy($cert));
+        static::assertTrue($ac->isIssuedBy($cert));
     }
 
     /**
@@ -255,6 +255,6 @@ final class AttributeCertificateTest extends TestCase
     public function isIssuedByFail(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
-        $this->assertFalse($ac->isIssuedBy($cert));
+        static::assertFalse($ac->isIssuedBy($cert));
     }
 }

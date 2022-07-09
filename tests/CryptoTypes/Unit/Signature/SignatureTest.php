@@ -30,7 +30,7 @@ final class SignatureTest extends TestCase
     public function fromRSAAlgo()
     {
         $sig = Signature::fromSignatureData('test', new SHA1WithRSAEncryptionAlgorithmIdentifier());
-        $this->assertInstanceOf(RSASignature::class, $sig);
+        static::assertInstanceOf(RSASignature::class, $sig);
     }
 
     /**
@@ -40,7 +40,7 @@ final class SignatureTest extends TestCase
     {
         $seq = new Sequence(new Integer(1), new Integer(2));
         $sig = Signature::fromSignatureData($seq->toDER(), new ECDSAWithSHA1AlgorithmIdentifier());
-        $this->assertInstanceOf(ECSignature::class, $sig);
+        static::assertInstanceOf(ECSignature::class, $sig);
     }
 
     /**
@@ -49,7 +49,7 @@ final class SignatureTest extends TestCase
     public function fromEd25519Algo()
     {
         $sig = Signature::fromSignatureData(str_repeat("\0", 64), new Ed25519AlgorithmIdentifier());
-        $this->assertInstanceOf(Ed25519Signature::class, $sig);
+        static::assertInstanceOf(Ed25519Signature::class, $sig);
     }
 
     /**
@@ -58,7 +58,7 @@ final class SignatureTest extends TestCase
     public function fromEd448Algo()
     {
         $sig = Signature::fromSignatureData(str_repeat("\0", 114), new Ed448AlgorithmIdentifier());
-        $this->assertInstanceOf(Ed448Signature::class, $sig);
+        static::assertInstanceOf(Ed448Signature::class, $sig);
     }
 
     /**
@@ -67,6 +67,6 @@ final class SignatureTest extends TestCase
     public function fromUnknownAlgo()
     {
         $sig = Signature::fromSignatureData('', new GenericAlgorithmIdentifier('1.3.6.1.3'));
-        $this->assertInstanceOf(GenericSignature::class, $sig);
+        static::assertInstanceOf(GenericSignature::class, $sig);
     }
 }

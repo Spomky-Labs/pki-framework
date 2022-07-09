@@ -18,6 +18,6 @@ final class EncodeTest extends TestCase
     public function encode()
     {
         $el = new EOC();
-        $this->assertEquals("\0\0", $el->toDER());
+        static::assertEquals("\0\0", $el->toDER());
     }
 }

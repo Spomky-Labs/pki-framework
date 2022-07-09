@@ -25,7 +25,7 @@ final class KeyUsageTest extends TestCase
             KeyUsageExtension::DIGITAL_SIGNATURE |
             KeyUsageExtension::KEY_ENCIPHERMENT
         );
-        $this->assertInstanceOf(KeyUsageExtension::class, $ext);
+        static::assertInstanceOf(KeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -36,7 +36,7 @@ final class KeyUsageTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_KEY_USAGE, $ext->oid());
+        static::assertEquals(Extension::OID_KEY_USAGE, $ext->oid());
     }
 
     /**
@@ -46,7 +46,7 @@ final class KeyUsageTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -57,7 +57,7 @@ final class KeyUsageTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -71,7 +71,7 @@ final class KeyUsageTest extends TestCase
     public function decode($der)
     {
         $ext = KeyUsageExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(KeyUsageExtension::class, $ext);
+        static::assertInstanceOf(KeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -83,7 +83,7 @@ final class KeyUsageTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -93,7 +93,7 @@ final class KeyUsageTest extends TestCase
      */
     public function digitalSignature(KeyUsageExtension $ext)
     {
-        $this->assertTrue($ext->isDigitalSignature());
+        static::assertTrue($ext->isDigitalSignature());
     }
 
     /**
@@ -103,7 +103,7 @@ final class KeyUsageTest extends TestCase
      */
     public function nonRepudiation(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isNonRepudiation());
+        static::assertFalse($ext->isNonRepudiation());
     }
 
     /**
@@ -113,7 +113,7 @@ final class KeyUsageTest extends TestCase
      */
     public function keyEncipherment(KeyUsageExtension $ext)
     {
-        $this->assertTrue($ext->isKeyEncipherment());
+        static::assertTrue($ext->isKeyEncipherment());
     }
 
     /**
@@ -123,7 +123,7 @@ final class KeyUsageTest extends TestCase
      */
     public function dataEncipherment(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isDataEncipherment());
+        static::assertFalse($ext->isDataEncipherment());
     }
 
     /**
@@ -133,7 +133,7 @@ final class KeyUsageTest extends TestCase
      */
     public function keyAgreement(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isKeyAgreement());
+        static::assertFalse($ext->isKeyAgreement());
     }
 
     /**
@@ -143,7 +143,7 @@ final class KeyUsageTest extends TestCase
      */
     public function keyCertSign(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isKeyCertSign());
+        static::assertFalse($ext->isKeyCertSign());
     }
 
     /**
@@ -153,7 +153,7 @@ final class KeyUsageTest extends TestCase
      */
     public function cRLSign(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isCRLSign());
+        static::assertFalse($ext->isCRLSign());
     }
 
     /**
@@ -163,7 +163,7 @@ final class KeyUsageTest extends TestCase
      */
     public function encipherOnly(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isEncipherOnly());
+        static::assertFalse($ext->isEncipherOnly());
     }
 
     /**
@@ -173,7 +173,7 @@ final class KeyUsageTest extends TestCase
      */
     public function decipherOnly(KeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->isDecipherOnly());
+        static::assertFalse($ext->isDecipherOnly());
     }
 
     /**
@@ -184,7 +184,7 @@ final class KeyUsageTest extends TestCase
     public function extensions(KeyUsageExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasKeyUsage());
+        static::assertTrue($extensions->hasKeyUsage());
         return $extensions;
     }
 
@@ -196,6 +196,6 @@ final class KeyUsageTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->keyUsage();
-        $this->assertInstanceOf(KeyUsageExtension::class, $ext);
+        static::assertInstanceOf(KeyUsageExtension::class, $ext);
     }
 }

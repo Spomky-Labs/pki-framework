@@ -23,7 +23,7 @@ final class RDNTest extends TestCase
     public function create()
     {
         $rdn = RDN::fromAttributeValues(new NameValue('one'), new NameValue('two'));
-        $this->assertInstanceOf(RDN::class, $rdn);
+        static::assertInstanceOf(RDN::class, $rdn);
         return $rdn;
     }
 
@@ -36,7 +36,7 @@ final class RDNTest extends TestCase
     {
         $der = $rdn->toASN1()
             ->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -50,7 +50,7 @@ final class RDNTest extends TestCase
     public function decode($der)
     {
         $rdn = RDN::fromASN1(Set::fromDER($der));
-        $this->assertInstanceOf(RDN::class, $rdn);
+        static::assertInstanceOf(RDN::class, $rdn);
         return $rdn;
     }
 
@@ -62,7 +62,7 @@ final class RDNTest extends TestCase
      */
     public function recoded(RDN $ref, RDN $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -72,7 +72,7 @@ final class RDNTest extends TestCase
      */
     public function all(RDN $rdn)
     {
-        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->all());
+        static::assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->all());
     }
 
     /**
@@ -82,7 +82,7 @@ final class RDNTest extends TestCase
      */
     public function allOf(RDN $rdn)
     {
-        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->allOf('name'));
+        static::assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->allOf('name'));
     }
 
     /**
@@ -92,7 +92,7 @@ final class RDNTest extends TestCase
      */
     public function allOfCount(RDN $rdn)
     {
-        $this->assertCount(2, $rdn->allOf('name'));
+        static::assertCount(2, $rdn->allOf('name'));
     }
 
     /**
@@ -102,7 +102,7 @@ final class RDNTest extends TestCase
      */
     public function allOfEmpty(RDN $rdn)
     {
-        $this->assertEmpty($rdn->allOf('cn'));
+        static::assertEmpty($rdn->allOf('cn'));
     }
 
     /**
@@ -112,7 +112,7 @@ final class RDNTest extends TestCase
      */
     public function countMethod(RDN $rdn)
     {
-        $this->assertCount(2, $rdn);
+        static::assertCount(2, $rdn);
     }
 
     /**
@@ -126,7 +126,7 @@ final class RDNTest extends TestCase
         foreach ($rdn as $tv) {
             $values[] = $tv;
         }
-        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $values);
+        static::assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $values);
     }
 
     /**
@@ -136,7 +136,7 @@ final class RDNTest extends TestCase
      */
     public function string(RDN $rdn)
     {
-        $this->assertEquals('name=one+name=two', $rdn->toString());
+        static::assertEquals('name=one+name=two', $rdn->toString());
     }
 
     /**
@@ -146,7 +146,7 @@ final class RDNTest extends TestCase
      */
     public function toStringMethod(RDN $rdn)
     {
-        $this->assertIsString(strval($rdn));
+        static::assertIsString(strval($rdn));
     }
 
     /**

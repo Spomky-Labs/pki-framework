@@ -88,6 +88,6 @@ final class NoPoliciesTest extends TestCase
         $config = new PathValidationConfig(new DateTimeImmutable(), 3);
         $config = $config->withPolicySet('1.3.6.1.3.2');
         $result = $path->validate($config);
-        $this->assertEmpty($result->policies());
+        static::assertEmpty($result->policies());
     }
 }

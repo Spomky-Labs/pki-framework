@@ -63,7 +63,7 @@ final class TBSCertificateTest extends TestCase
             self::$_issuer,
             self::$_validity
         );
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
         return $tc;
     }
 
@@ -84,7 +84,7 @@ final class TBSCertificateTest extends TestCase
             ->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'))
             ->withSubjectUniqueID(UniqueIdentifier::fromString('subject'))
             ->withAdditionalExtensions(new BasicConstraintsExtension(true, false));
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
         return $tc;
     }
 
@@ -96,7 +96,7 @@ final class TBSCertificateTest extends TestCase
     public function encodeWithAll(TBSCertificate $tc)
     {
         $seq = $tc->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -110,7 +110,7 @@ final class TBSCertificateTest extends TestCase
     public function decodeWithAll($der)
     {
         $tc = TBSCertificate::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
         return $tc;
     }
 
@@ -122,7 +122,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function recoded(TBSCertificate $ref, TBSCertificate $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -132,7 +132,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function version(TBSCertificate $tc)
     {
-        $this->assertEquals(TBSCertificate::VERSION_3, $tc->version());
+        static::assertEquals(TBSCertificate::VERSION_3, $tc->version());
     }
 
     /**
@@ -142,7 +142,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function serialNumber(TBSCertificate $tc)
     {
-        $this->assertEquals(1, $tc->serialNumber());
+        static::assertEquals(1, $tc->serialNumber());
     }
 
     /**
@@ -152,7 +152,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function signature(TBSCertificate $tc)
     {
-        $this->assertEquals(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $tc->signature());
+        static::assertEquals(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $tc->signature());
     }
 
     /**
@@ -162,7 +162,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function issuer(TBSCertificate $tc)
     {
-        $this->assertEquals(self::$_issuer, $tc->issuer());
+        static::assertEquals(self::$_issuer, $tc->issuer());
     }
 
     /**
@@ -172,7 +172,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function validity(TBSCertificate $tc)
     {
-        $this->assertEquals(self::$_validity, $tc->validity());
+        static::assertEquals(self::$_validity, $tc->validity());
     }
 
     /**
@@ -182,7 +182,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function subject(TBSCertificate $tc)
     {
-        $this->assertEquals(self::$_subject, $tc->subject());
+        static::assertEquals(self::$_subject, $tc->subject());
     }
 
     /**
@@ -192,7 +192,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function subjectPKI(TBSCertificate $tc)
     {
-        $this->assertEquals(self::$_privateKeyInfo->publicKeyInfo(), $tc->subjectPublicKeyInfo());
+        static::assertEquals(self::$_privateKeyInfo->publicKeyInfo(), $tc->subjectPublicKeyInfo());
     }
 
     /**
@@ -202,7 +202,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function issuerUniqueID(TBSCertificate $tc)
     {
-        $this->assertEquals('issuer', $tc->issuerUniqueID() ->string());
+        static::assertEquals('issuer', $tc->issuerUniqueID() ->string());
     }
 
     /**
@@ -212,7 +212,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function subjectUniqueID(TBSCertificate $tc)
     {
-        $this->assertEquals('subject', $tc->subjectUniqueID() ->string());
+        static::assertEquals('subject', $tc->subjectUniqueID() ->string());
     }
 
     /**
@@ -222,7 +222,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function extensions(TBSCertificate $tc)
     {
-        $this->assertInstanceOf(Extensions::class, $tc->extensions());
+        static::assertInstanceOf(Extensions::class, $tc->extensions());
     }
 
     /**
@@ -233,7 +233,7 @@ final class TBSCertificateTest extends TestCase
     public function withVersion(TBSCertificate $tc)
     {
         $tc = $tc->withVersion(TBSCertificate::VERSION_1);
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -244,7 +244,7 @@ final class TBSCertificateTest extends TestCase
     public function withSerialNumber(TBSCertificate $tc)
     {
         $tc = $tc->withSerialNumber(123);
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -256,7 +256,7 @@ final class TBSCertificateTest extends TestCase
     {
         $tc = $tc->withRandomSerialNumber(16);
         $bin = gmp_export(gmp_init($tc->serialNumber(), 10), 1);
-        $this->assertEquals(16, strlen($bin));
+        static::assertEquals(16, strlen($bin));
     }
 
     /**
@@ -267,7 +267,7 @@ final class TBSCertificateTest extends TestCase
     public function withSignature(TBSCertificate $tc)
     {
         $tc = $tc->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -278,7 +278,7 @@ final class TBSCertificateTest extends TestCase
     public function withIssuer(TBSCertificate $tc)
     {
         $tc = $tc->withIssuer(self::$_issuer);
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -289,7 +289,7 @@ final class TBSCertificateTest extends TestCase
     public function withValidity(TBSCertificate $tc)
     {
         $tc = $tc->withValidity(self::$_validity);
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -300,7 +300,7 @@ final class TBSCertificateTest extends TestCase
     public function withSubject(TBSCertificate $tc)
     {
         $tc = $tc->withSubject(self::$_subject);
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -311,7 +311,7 @@ final class TBSCertificateTest extends TestCase
     public function withSubjectPublicKeyInfo(TBSCertificate $tc)
     {
         $tc = $tc->withSubjectPublicKeyInfo(self::$_privateKeyInfo->publicKeyInfo());
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -322,7 +322,7 @@ final class TBSCertificateTest extends TestCase
     public function withIssuerUniqueID(TBSCertificate $tc)
     {
         $tc = $tc->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -333,7 +333,7 @@ final class TBSCertificateTest extends TestCase
     public function withSubjectUniqueID(TBSCertificate $tc)
     {
         $tc = $tc->withSubjectUniqueID(UniqueIdentifier::fromString('uid'));
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -344,7 +344,7 @@ final class TBSCertificateTest extends TestCase
     public function withExtensions(TBSCertificate $tc)
     {
         $tc = $tc->withExtensions(new Extensions());
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -355,7 +355,7 @@ final class TBSCertificateTest extends TestCase
     public function withAdditionalExtensions(TBSCertificate $tc)
     {
         $tc = $tc->withAdditionalExtensions(new UnknownExtension('1.3.6.1.3', false, new NullType()));
-        $this->assertInstanceOf(TBSCertificate::class, $tc);
+        static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
     /**
@@ -421,7 +421,7 @@ final class TBSCertificateTest extends TestCase
     public function sign(TBSCertificate $tc)
     {
         $cert = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
     }
 
     /**
@@ -436,7 +436,7 @@ final class TBSCertificateTest extends TestCase
             ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
         $seq = $tc->toASN1();
         $tbs_cert = TBSCertificate::fromASN1($seq);
-        $this->assertInstanceOf(TBSCertificate::class, $tbs_cert);
+        static::assertInstanceOf(TBSCertificate::class, $tbs_cert);
     }
 
     /**

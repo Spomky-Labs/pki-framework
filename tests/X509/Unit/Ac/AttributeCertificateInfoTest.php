@@ -80,7 +80,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function create()
     {
         $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
@@ -94,7 +94,7 @@ final class AttributeCertificateInfoTest extends TestCase
             ->withSerialNumber(1)
             ->withExtensions(self::$_extensions)
             ->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
@@ -106,7 +106,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function encode(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -120,7 +120,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function decode($der)
     {
         $tc = AttributeCertificateInfo::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $tc);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $tc);
         return $tc;
     }
 
@@ -132,7 +132,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function recoded(AttributeCertificateInfo $ref, AttributeCertificateInfo $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -142,7 +142,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function version(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(AttributeCertificateInfo::VERSION_2, $aci->version());
+        static::assertEquals(AttributeCertificateInfo::VERSION_2, $aci->version());
     }
 
     /**
@@ -152,7 +152,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function holder(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(self::$_holder, $aci->holder());
+        static::assertEquals(self::$_holder, $aci->holder());
     }
 
     /**
@@ -162,7 +162,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function issuer(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(self::$_issuer, $aci->issuer());
+        static::assertEquals(self::$_issuer, $aci->issuer());
     }
 
     /**
@@ -172,7 +172,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function signature(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(new SHA256WithRSAEncryptionAlgorithmIdentifier(), $aci->signature());
+        static::assertEquals(new SHA256WithRSAEncryptionAlgorithmIdentifier(), $aci->signature());
     }
 
     /**
@@ -182,7 +182,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function serialNumber(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(1, $aci->serialNumber());
+        static::assertEquals(1, $aci->serialNumber());
     }
 
     /**
@@ -192,7 +192,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function validityPeriod(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(self::$_validity, $aci->validityPeriod());
+        static::assertEquals(self::$_validity, $aci->validityPeriod());
     }
 
     /**
@@ -202,7 +202,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function attributes(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(self::$_attribs, $aci->attributes());
+        static::assertEquals(self::$_attribs, $aci->attributes());
     }
 
     /**
@@ -212,7 +212,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function issuerUniqueID(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals('uid', $aci->issuerUniqueID() ->string());
+        static::assertEquals('uid', $aci->issuerUniqueID() ->string());
     }
 
     /**
@@ -222,7 +222,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function extensions(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(self::$_extensions, $aci->extensions());
+        static::assertEquals(self::$_extensions, $aci->extensions());
     }
 
     /**
@@ -233,7 +233,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withHolder(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withHolder(self::$_holder);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
@@ -244,7 +244,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withIssuer(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withIssuer(self::$_issuer);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
@@ -255,7 +255,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withSignature(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
@@ -266,7 +266,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withSerial(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSerialNumber(123);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
@@ -278,7 +278,7 @@ final class AttributeCertificateInfoTest extends TestCase
     {
         $aci = $aci->withRandomSerialNumber(16);
         $bin = gmp_export(gmp_init($aci->serialNumber(), 10), 1);
-        $this->assertEquals(16, strlen($bin));
+        static::assertEquals(16, strlen($bin));
     }
 
     /**
@@ -289,7 +289,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withValidity(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withValidity(self::$_validity);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
@@ -300,7 +300,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withAttributes(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAttributes(self::$_attribs);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
     /**
@@ -311,7 +311,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withIssuerUniqueID(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withIssuerUniqueID(UniqueIdentifier::fromString('id'));
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
@@ -323,7 +323,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withExtensions(self::$_extensions);
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
@@ -335,7 +335,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withAdditionalExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAdditionalExtensions(new AuthorityKeyIdentifierExtension(true, 'test'));
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
@@ -393,7 +393,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function sign(AttributeCertificateInfo $aci)
     {
         $ac = $aci->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privKeyInfo);
-        $this->assertInstanceOf(AttributeCertificate::class, $ac);
+        static::assertInstanceOf(AttributeCertificate::class, $ac);
     }
 
     /**

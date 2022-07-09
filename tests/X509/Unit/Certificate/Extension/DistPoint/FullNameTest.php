@@ -23,7 +23,7 @@ final class FullNameTest extends TestCase
     public function create()
     {
         $name = FullName::fromURI(self::URI);
-        $this->assertInstanceOf(FullName::class, $name);
+        static::assertInstanceOf(FullName::class, $name);
         return $name;
     }
 
@@ -35,7 +35,7 @@ final class FullNameTest extends TestCase
     public function encode(FullName $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -49,7 +49,7 @@ final class FullNameTest extends TestCase
     public function decode($data)
     {
         $name = FullName::fromTaggedType(TaggedType::fromDER($data));
-        $this->assertInstanceOf(FullName::class, $name);
+        static::assertInstanceOf(FullName::class, $name);
         return $name;
     }
 
@@ -61,7 +61,7 @@ final class FullNameTest extends TestCase
      */
     public function recoded(FullName $ref, FullName $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -72,6 +72,6 @@ final class FullNameTest extends TestCase
     public function names(FullName $name)
     {
         $names = $name->names();
-        $this->assertInstanceOf(GeneralNames::class, $names);
+        static::assertInstanceOf(GeneralNames::class, $names);
     }
 }

@@ -22,7 +22,7 @@ final class PathValidationConfigTest extends TestCase
     public function create()
     {
         $config = PathValidationConfig::defaultConfig();
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
         return $config;
     }
 
@@ -33,7 +33,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function maxLength(PathValidationConfig $config)
     {
-        $this->assertEquals(3, $config->maxLength());
+        static::assertEquals(3, $config->maxLength());
     }
 
     /**
@@ -43,7 +43,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function dateTime(PathValidationConfig $config)
     {
-        $this->assertInstanceOf(DateTimeImmutable::class, $config->dateTime());
+        static::assertInstanceOf(DateTimeImmutable::class, $config->dateTime());
     }
 
     /**
@@ -53,7 +53,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function policySet(PathValidationConfig $config)
     {
-        $this->assertContainsOnly('string', $config->policySet());
+        static::assertContainsOnly('string', $config->policySet());
     }
 
     /**
@@ -64,7 +64,7 @@ final class PathValidationConfigTest extends TestCase
     public function withMaxLength(PathValidationConfig $config)
     {
         $config = $config->withMaxLength(5);
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
     }
 
     /**
@@ -75,7 +75,7 @@ final class PathValidationConfigTest extends TestCase
     public function withDateTime(PathValidationConfig $config)
     {
         $config = $config->withDateTime(new DateTimeImmutable());
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
     }
 
     /**
@@ -88,7 +88,7 @@ final class PathValidationConfigTest extends TestCase
         $config = $config->withTrustAnchor(
             Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'))
         );
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
         return $config;
     }
 
@@ -100,7 +100,7 @@ final class PathValidationConfigTest extends TestCase
     public function withPolicyMappingInhibit(PathValidationConfig $config)
     {
         $config = $config->withPolicyMappingInhibit(true);
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
         return $config;
     }
 
@@ -112,7 +112,7 @@ final class PathValidationConfigTest extends TestCase
     public function withExplicitPolicy(PathValidationConfig $config)
     {
         $config = $config->withExplicitPolicy(true);
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
         return $config;
     }
 
@@ -124,7 +124,7 @@ final class PathValidationConfigTest extends TestCase
     public function withAnyPolicyInhibit(PathValidationConfig $config)
     {
         $config = $config->withAnyPolicyInhibit(true);
-        $this->assertInstanceOf(PathValidationConfig::class, $config);
+        static::assertInstanceOf(PathValidationConfig::class, $config);
         return $config;
     }
 
@@ -135,7 +135,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function trustAnchor(PathValidationConfig $config)
     {
-        $this->assertInstanceOf(Certificate::class, $config->trustAnchor());
+        static::assertInstanceOf(Certificate::class, $config->trustAnchor());
     }
 
     /**
@@ -156,7 +156,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function policyMappingInhibit(PathValidationConfig $config)
     {
-        $this->assertIsBool($config->policyMappingInhibit());
+        static::assertIsBool($config->policyMappingInhibit());
     }
 
     /**
@@ -166,7 +166,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function explicitPolicy(PathValidationConfig $config)
     {
-        $this->assertIsBool($config->explicitPolicy());
+        static::assertIsBool($config->explicitPolicy());
     }
 
     /**
@@ -176,6 +176,6 @@ final class PathValidationConfigTest extends TestCase
      */
     public function anyPolicyInhibit(PathValidationConfig $config)
     {
-        $this->assertIsBool($config->anyPolicyInhibit());
+        static::assertIsBool($config->anyPolicyInhibit());
     }
 }

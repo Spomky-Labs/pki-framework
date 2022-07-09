@@ -28,7 +28,7 @@ final class DecodeTest extends TestCase
     public function pEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem');
-        $this->assertEquals(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $pem->type());
+        static::assertEquals(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $pem->type());
         return $pem;
     }
 
@@ -43,7 +43,7 @@ final class DecodeTest extends TestCase
     {
         $seq = Sequence::fromDER($pem->data());
         $ac = AttributeCertificate::fromASN1($seq);
-        $this->assertInstanceOf(AttributeCertificate::class, $ac);
+        static::assertInstanceOf(AttributeCertificate::class, $ac);
         return $ac;
     }
 
@@ -57,7 +57,7 @@ final class DecodeTest extends TestCase
     public function aCI(AttributeCertificate $ac)
     {
         $aci = $ac->acinfo();
-        $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
+        static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
@@ -71,7 +71,7 @@ final class DecodeTest extends TestCase
     public function signatureAlgo(AttributeCertificate $ac)
     {
         $algo = $ac->signatureAlgorithm();
-        $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $algo);
+        static::assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $algo);
         return $algo;
     }
 
@@ -85,6 +85,6 @@ final class DecodeTest extends TestCase
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
         $pubkey_info = $cert->tbsCertificate()
             ->subjectPublicKeyInfo();
-        $this->assertTrue($ac->verify($pubkey_info));
+        static::assertTrue($ac->verify($pubkey_info));
     }
 }

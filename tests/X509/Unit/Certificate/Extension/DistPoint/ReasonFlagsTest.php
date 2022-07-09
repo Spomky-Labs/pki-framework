@@ -25,7 +25,7 @@ final class ReasonFlagsTest extends TestCase
             ReasonFlags::CESSATION_OF_OPERATION |
             ReasonFlags::PRIVILEGE_WITHDRAWN
         );
-        $this->assertInstanceOf(ReasonFlags::class, $reasons);
+        static::assertInstanceOf(ReasonFlags::class, $reasons);
         return $reasons;
     }
 
@@ -37,7 +37,7 @@ final class ReasonFlagsTest extends TestCase
     public function encode(ReasonFlags $reasons)
     {
         $el = $reasons->toASN1();
-        $this->assertInstanceOf(BitString::class, $el);
+        static::assertInstanceOf(BitString::class, $el);
         return $el->toDER();
     }
 
@@ -51,7 +51,7 @@ final class ReasonFlagsTest extends TestCase
     public function decode($data)
     {
         $reasons = ReasonFlags::fromASN1(BitString::fromDER($data));
-        $this->assertInstanceOf(ReasonFlags::class, $reasons);
+        static::assertInstanceOf(ReasonFlags::class, $reasons);
         return $reasons;
     }
 
@@ -63,7 +63,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function recoded(ReasonFlags $ref, ReasonFlags $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -73,7 +73,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function keyCompromise(ReasonFlags $reasons)
     {
-        $this->assertTrue($reasons->isKeyCompromise());
+        static::assertTrue($reasons->isKeyCompromise());
     }
 
     /**
@@ -83,7 +83,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function cACompromise(ReasonFlags $reasons)
     {
-        $this->assertFalse($reasons->isCACompromise());
+        static::assertFalse($reasons->isCACompromise());
     }
 
     /**
@@ -93,7 +93,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function affiliationChanged(ReasonFlags $reasons)
     {
-        $this->assertTrue($reasons->isAffiliationChanged());
+        static::assertTrue($reasons->isAffiliationChanged());
     }
 
     /**
@@ -103,7 +103,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function superseded(ReasonFlags $reasons)
     {
-        $this->assertFalse($reasons->isSuperseded());
+        static::assertFalse($reasons->isSuperseded());
     }
 
     /**
@@ -113,7 +113,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function cessationOfOperation(ReasonFlags $reasons)
     {
-        $this->assertTrue($reasons->isCessationOfOperation());
+        static::assertTrue($reasons->isCessationOfOperation());
     }
 
     /**
@@ -123,7 +123,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function certificateHold(ReasonFlags $reasons)
     {
-        $this->assertFalse($reasons->isCertificateHold());
+        static::assertFalse($reasons->isCertificateHold());
     }
 
     /**
@@ -133,7 +133,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function priviligeWhitdrawn(ReasonFlags $reasons)
     {
-        $this->assertTrue($reasons->isPrivilegeWithdrawn());
+        static::assertTrue($reasons->isPrivilegeWithdrawn());
     }
 
     /**
@@ -143,6 +143,6 @@ final class ReasonFlagsTest extends TestCase
      */
     public function aACompromise(ReasonFlags $reasons)
     {
-        $this->assertFalse($reasons->isAACompromise());
+        static::assertFalse($reasons->isAACompromise());
     }
 }

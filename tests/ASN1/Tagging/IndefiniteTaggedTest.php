@@ -20,7 +20,7 @@ final class IndefiniteTaggedTest extends TestCase
     public function decodeIndefinite()
     {
         $el = TaggedType::fromDER(hex2bin('a0800201010000'));
-        $this->assertInstanceOf(DERTaggedType::class, $el);
+        static::assertInstanceOf(DERTaggedType::class, $el);
         return $el;
     }
 
@@ -32,7 +32,7 @@ final class IndefiniteTaggedTest extends TestCase
     public function encodeIndefinite(TaggedType $el)
     {
         $der = $el->toDER();
-        $this->assertEquals(hex2bin('a0800201010000'), $der);
+        static::assertEquals(hex2bin('a0800201010000'), $der);
     }
 
     /**

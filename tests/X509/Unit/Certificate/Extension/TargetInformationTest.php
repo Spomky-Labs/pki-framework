@@ -33,7 +33,7 @@ final class TargetInformationTest extends TestCase
             new TargetName(DirectoryName::fromDNString(self::NAME_DN)),
             new TargetGroup(new DNSName(self::GROUP_DOMAIN))
         );
-        $this->assertInstanceOf(Targets::class, $targets);
+        static::assertInstanceOf(Targets::class, $targets);
         return $targets;
     }
 
@@ -45,7 +45,7 @@ final class TargetInformationTest extends TestCase
     public function create(Targets $targets)
     {
         $ext = new TargetInformationExtension(true, $targets);
-        $this->assertInstanceOf(TargetInformationExtension::class, $ext);
+        static::assertInstanceOf(TargetInformationExtension::class, $ext);
         return $ext;
     }
 
@@ -56,7 +56,7 @@ final class TargetInformationTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_TARGET_INFORMATION, $ext->oid());
+        static::assertEquals(Extension::OID_TARGET_INFORMATION, $ext->oid());
     }
 
     /**
@@ -66,7 +66,7 @@ final class TargetInformationTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -77,7 +77,7 @@ final class TargetInformationTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -91,7 +91,7 @@ final class TargetInformationTest extends TestCase
     public function decode($der)
     {
         $ext = TargetInformationExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(TargetInformationExtension::class, $ext);
+        static::assertInstanceOf(TargetInformationExtension::class, $ext);
         return $ext;
     }
 
@@ -103,7 +103,7 @@ final class TargetInformationTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -113,7 +113,7 @@ final class TargetInformationTest extends TestCase
      */
     public function countMethod(TargetInformationExtension $ext)
     {
-        $this->assertCount(2, $ext);
+        static::assertCount(2, $ext);
     }
 
     /**
@@ -127,8 +127,8 @@ final class TargetInformationTest extends TestCase
         foreach ($ext as $target) {
             $values[] = $target;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(Target::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(Target::class, $values);
     }
 
     /**
@@ -138,7 +138,7 @@ final class TargetInformationTest extends TestCase
      */
     public function name(TargetInformationExtension $ext)
     {
-        $this->assertEquals(self::NAME_DN, $ext->names()[0]->string());
+        static::assertEquals(self::NAME_DN, $ext->names()[0]->string());
     }
 
     /**
@@ -148,7 +148,7 @@ final class TargetInformationTest extends TestCase
      */
     public function group(TargetInformationExtension $ext)
     {
-        $this->assertEquals(self::GROUP_DOMAIN, $ext->groups()[0]->string());
+        static::assertEquals(self::GROUP_DOMAIN, $ext->groups()[0]->string());
     }
 
     /**
@@ -160,7 +160,7 @@ final class TargetInformationTest extends TestCase
      */
     public function clone(TargetInformationExtension $ext)
     {
-        $this->assertInstanceOf(TargetInformationExtension::class, clone $ext);
+        static::assertInstanceOf(TargetInformationExtension::class, clone $ext);
     }
 
     /**
@@ -169,6 +169,6 @@ final class TargetInformationTest extends TestCase
     public function fromTargets()
     {
         $ext = TargetInformationExtension::fromTargets(new TargetName(DirectoryName::fromDNString(self::NAME_DN)));
-        $this->assertInstanceOf(TargetInformationExtension::class, $ext);
+        static::assertInstanceOf(TargetInformationExtension::class, $ext);
     }
 }

@@ -21,7 +21,7 @@ final class SequenceOfAttributesTest extends TestCase
     public function create()
     {
         $c = SequenceOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
-        $this->assertInstanceOf(SequenceOfAttributes::class, $c);
+        static::assertInstanceOf(SequenceOfAttributes::class, $c);
         return $c;
     }
 
@@ -33,7 +33,7 @@ final class SequenceOfAttributesTest extends TestCase
     public function encode(SequenceOfAttributes $c)
     {
         $el = $c->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el;
     }
 
@@ -45,7 +45,7 @@ final class SequenceOfAttributesTest extends TestCase
     public function decode(Sequence $seq)
     {
         $c = SequenceOfAttributes::fromASN1($seq);
-        $this->assertInstanceOf(SequenceOfAttributes::class, $c);
+        static::assertInstanceOf(SequenceOfAttributes::class, $c);
         return $c;
     }
 
@@ -57,6 +57,6 @@ final class SequenceOfAttributesTest extends TestCase
      */
     public function recoded(SequenceOfAttributes $original, SequenceOfAttributes $recoded)
     {
-        $this->assertEquals($original, $recoded);
+        static::assertEquals($original, $recoded);
     }
 }

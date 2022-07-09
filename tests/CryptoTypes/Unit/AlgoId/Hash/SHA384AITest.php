@@ -23,7 +23,7 @@ final class SHA384AITest extends TestCase
     {
         $ai = new SHA384AlgorithmIdentifier();
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -35,7 +35,7 @@ final class SHA384AITest extends TestCase
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(SHA384AlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(SHA384AlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -46,6 +46,6 @@ final class SHA384AITest extends TestCase
      */
     public function name(AlgorithmIdentifier $algo)
     {
-        $this->assertIsString($algo->name());
+        static::assertIsString($algo->name());
     }
 }

@@ -21,7 +21,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function type()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertInstanceOf(DERTaggedType::class, $el);
+        static::assertInstanceOf(DERTaggedType::class, $el);
     }
 
     /**
@@ -30,7 +30,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function tag()
     {
         $el = TaggedType::fromDER("\xa1\x2\x5\x0");
-        $this->assertEquals(1, $el->tag());
+        static::assertEquals(1, $el->tag());
     }
 
     /**
@@ -39,7 +39,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function typeClass()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
+        static::assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
     }
 
     /**
@@ -48,7 +48,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function constructed()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertTrue($el->isConstructed());
+        static::assertTrue($el->isConstructed());
     }
 
     /**
@@ -57,7 +57,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function innerType()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
     }
 
     /**
@@ -66,8 +66,8 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function nestedTagging()
     {
         $el = TaggedType::fromDER("\xa1\x4\xa2\x2\x5\x0");
-        $this->assertEquals(1, $el->tag());
-        $this->assertEquals(2, $el->explicit() ->tag());
-        $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->asTagged() ->explicit() ->tag());
+        static::assertEquals(1, $el->tag());
+        static::assertEquals(2, $el->explicit() ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->explicit() ->asTagged() ->explicit() ->tag());
     }
 }

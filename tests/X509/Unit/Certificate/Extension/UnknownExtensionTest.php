@@ -24,7 +24,7 @@ final class UnknownExtensionTest extends TestCase
     public function createWithDER()
     {
         $ext = new UnknownExtension('1.3.6.1.3.1', true, new NullType());
-        $this->assertInstanceOf(UnknownExtension::class, $ext);
+        static::assertInstanceOf(UnknownExtension::class, $ext);
         return $ext;
     }
 
@@ -36,7 +36,7 @@ final class UnknownExtensionTest extends TestCase
     public function extensionValueDER(UnknownExtension $ext)
     {
         $expect = (new NullType())->toDER();
-        $this->assertEquals($expect, $ext->extensionValue());
+        static::assertEquals($expect, $ext->extensionValue());
     }
 
     /**
@@ -47,7 +47,7 @@ final class UnknownExtensionTest extends TestCase
     public function createFromString()
     {
         $ext = UnknownExtension::fromRawString('1.3.6.1.3.1', true, 'DATA');
-        $this->assertInstanceOf(UnknownExtension::class, $ext);
+        static::assertInstanceOf(UnknownExtension::class, $ext);
         return $ext;
     }
 
@@ -58,7 +58,7 @@ final class UnknownExtensionTest extends TestCase
      */
     public function extensionValueRaw(UnknownExtension $ext)
     {
-        $this->assertEquals('DATA', $ext->extensionValue());
+        static::assertEquals('DATA', $ext->extensionValue());
     }
 
     /**
@@ -72,7 +72,7 @@ final class UnknownExtensionTest extends TestCase
         $mtd = $cls->getMethod('_valueASN1');
         $mtd->setAccessible(true);
         $result = $mtd->invoke($ext);
-        $this->assertInstanceOf(Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
     }
 
     /**

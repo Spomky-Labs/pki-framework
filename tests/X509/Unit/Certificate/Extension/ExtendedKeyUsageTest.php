@@ -25,7 +25,7 @@ final class ExtendedKeyUsageTest extends TestCase
             ExtendedKeyUsageExtension::OID_SERVER_AUTH,
             ExtendedKeyUsageExtension::OID_CLIENT_AUTH
         );
-        $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
+        static::assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -36,7 +36,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_EXT_KEY_USAGE, $ext->oid());
+        static::assertEquals(Extension::OID_EXT_KEY_USAGE, $ext->oid());
     }
 
     /**
@@ -46,7 +46,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -57,7 +57,7 @@ final class ExtendedKeyUsageTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -71,7 +71,7 @@ final class ExtendedKeyUsageTest extends TestCase
     public function decode($der)
     {
         $ext = ExtendedKeyUsageExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
+        static::assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -83,7 +83,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -93,7 +93,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function has(ExtendedKeyUsageExtension $ext)
     {
-        $this->assertTrue(
+        static::assertTrue(
             $ext->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH, ExtendedKeyUsageExtension::OID_CLIENT_AUTH)
         );
     }
@@ -105,7 +105,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function hasNot(ExtendedKeyUsageExtension $ext)
     {
-        $this->assertFalse($ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
+        static::assertFalse($ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
     }
 
     /**
@@ -115,7 +115,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function purposes(ExtendedKeyUsageExtension $ext)
     {
-        $this->assertContainsOnly('string', $ext->purposes());
+        static::assertContainsOnly('string', $ext->purposes());
     }
 
     /**
@@ -125,7 +125,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function countMethod(ExtendedKeyUsageExtension $ext)
     {
-        $this->assertCount(2, $ext);
+        static::assertCount(2, $ext);
     }
 
     /**
@@ -139,7 +139,7 @@ final class ExtendedKeyUsageTest extends TestCase
         foreach ($ext as $oid) {
             $values[] = $oid;
         }
-        $this->assertContainsOnly('string', $values);
+        static::assertContainsOnly('string', $values);
     }
 
     /**
@@ -150,7 +150,7 @@ final class ExtendedKeyUsageTest extends TestCase
     public function extensions(ExtendedKeyUsageExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasExtendedKeyUsage());
+        static::assertTrue($extensions->hasExtendedKeyUsage());
         return $extensions;
     }
 
@@ -162,6 +162,6 @@ final class ExtendedKeyUsageTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->extendedKeyUsage();
-        $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
+        static::assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
     }
 }

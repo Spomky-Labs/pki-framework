@@ -93,7 +93,7 @@ final class PolicyMappingMapAnyTest extends TestCase
         $config = new PathValidationConfig(new DateTimeImmutable(), 3);
         $config = $config->withExplicitPolicy(true);
         $result = $path->validate($config);
-        $this->assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
+        static::assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
     }
 
     /**
@@ -107,6 +107,6 @@ final class PolicyMappingMapAnyTest extends TestCase
         $mtd->setAccessible(true);
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
         $mtd->invoke($tree, self::$_cert, $state, '1.3.6.1.3', []);
-        $this->assertTrue(true);
+        static::assertTrue(true);
     }
 }

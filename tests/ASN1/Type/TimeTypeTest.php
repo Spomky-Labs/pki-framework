@@ -23,7 +23,7 @@ final class TimeTypeTest extends TestCase
     public function fromString()
     {
         $el = GeneralizedTime::fromString(self::VALUE);
-        $this->assertInstanceOf(TimeType::class, $el);
+        static::assertInstanceOf(TimeType::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class TimeTypeTest extends TestCase
     public function fromStringWithTz()
     {
         $el = GeneralizedTime::fromString(self::VALUE, 'Europe/Helsinki');
-        $this->assertInstanceOf(TimeType::class, $el);
+        static::assertInstanceOf(TimeType::class, $el);
     }
 
     /**
@@ -64,6 +64,6 @@ final class TimeTypeTest extends TestCase
     public function wrapped(TimeType $time)
     {
         $wrap = new UnspecifiedType($time->asElement());
-        $this->assertInstanceOf(TimeType::class, $wrap->asTime());
+        static::assertInstanceOf(TimeType::class, $wrap->asTime());
     }
 }

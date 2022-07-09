@@ -29,7 +29,7 @@ final class AccessIdentityTest extends TestCase
             new UniformResourceIdentifier(self::SERVICE_URI),
             new UniformResourceIdentifier(self::IDENT_URI)
         );
-        $this->assertInstanceOf(AccessIdentityAttributeValue::class, $value);
+        static::assertInstanceOf(AccessIdentityAttributeValue::class, $value);
         return $value;
     }
 
@@ -41,7 +41,7 @@ final class AccessIdentityTest extends TestCase
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -55,7 +55,7 @@ final class AccessIdentityTest extends TestCase
     public function decode($der)
     {
         $value = AccessIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
-        $this->assertInstanceOf(AccessIdentityAttributeValue::class, $value);
+        static::assertInstanceOf(AccessIdentityAttributeValue::class, $value);
         return $value;
     }
 
@@ -67,7 +67,7 @@ final class AccessIdentityTest extends TestCase
      */
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -77,7 +77,7 @@ final class AccessIdentityTest extends TestCase
      */
     public function oID(AttributeValue $value)
     {
-        $this->assertEquals(AccessIdentityAttributeValue::OID, $value->oid());
+        static::assertEquals(AccessIdentityAttributeValue::OID, $value->oid());
     }
 
     /**
@@ -87,7 +87,7 @@ final class AccessIdentityTest extends TestCase
      */
     public function service(AccessIdentityAttributeValue $value)
     {
-        $this->assertEquals(self::SERVICE_URI, $value->service());
+        static::assertEquals(self::SERVICE_URI, $value->service());
     }
 
     /**
@@ -97,7 +97,7 @@ final class AccessIdentityTest extends TestCase
      */
     public function ident(AccessIdentityAttributeValue $value)
     {
-        $this->assertEquals(self::IDENT_URI, $value->ident());
+        static::assertEquals(self::IDENT_URI, $value->ident());
     }
 
     /**
@@ -108,7 +108,7 @@ final class AccessIdentityTest extends TestCase
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
-        $this->assertTrue($attribs->hasAccessIdentity());
+        static::assertTrue($attribs->hasAccessIdentity());
         return $attribs;
     }
 
@@ -119,6 +119,6 @@ final class AccessIdentityTest extends TestCase
      */
     public function fromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(AccessIdentityAttributeValue::class, $attribs->accessIdentity());
+        static::assertInstanceOf(AccessIdentityAttributeValue::class, $attribs->accessIdentity());
     }
 }

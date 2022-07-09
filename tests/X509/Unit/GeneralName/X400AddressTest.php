@@ -24,7 +24,7 @@ final class X400AddressTest extends TestCase
     public function create()
     {
         $name = X400Address::fromASN1(new ImplicitlyTaggedType(GeneralName::TAG_X400_ADDRESS, new Sequence()));
-        $this->assertInstanceOf(X400Address::class, $name);
+        static::assertInstanceOf(X400Address::class, $name);
         return $name;
     }
 
@@ -36,7 +36,7 @@ final class X400AddressTest extends TestCase
     public function encode(X400Address $name)
     {
         $el = $name->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -50,7 +50,7 @@ final class X400AddressTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_X400_ADDRESS, $el->tag());
+        static::assertEquals(GeneralName::TAG_X400_ADDRESS, $el->tag());
     }
 
     /**
@@ -63,7 +63,7 @@ final class X400AddressTest extends TestCase
     public function decode($der)
     {
         $name = X400Address::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(X400Address::class, $name);
+        static::assertInstanceOf(X400Address::class, $name);
         return $name;
     }
 
@@ -75,7 +75,7 @@ final class X400AddressTest extends TestCase
      */
     public function recoded(X400Address $ref, X400Address $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -85,6 +85,6 @@ final class X400AddressTest extends TestCase
      */
     public function string(X400Address $name)
     {
-        $this->assertIsString($name->string());
+        static::assertIsString($name->string());
     }
 }

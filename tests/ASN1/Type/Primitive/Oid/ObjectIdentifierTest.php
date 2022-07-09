@@ -23,7 +23,7 @@ final class ObjectIdentifierTest extends TestCase
     public function create()
     {
         $el = new ObjectIdentifier('1.3.6.1.3');
-        $this->assertInstanceOf(ObjectIdentifier::class, $el);
+        static::assertInstanceOf(ObjectIdentifier::class, $el);
         return $el;
     }
 
@@ -34,7 +34,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $el->tag());
+        static::assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $el->tag());
     }
 
     /**
@@ -45,7 +45,7 @@ final class ObjectIdentifierTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -57,7 +57,7 @@ final class ObjectIdentifierTest extends TestCase
     public function decode(string $data): ObjectIdentifier
     {
         $el = ObjectIdentifier::fromDER($data);
-        $this->assertInstanceOf(ObjectIdentifier::class, $el);
+        static::assertInstanceOf(ObjectIdentifier::class, $el);
         return $el;
     }
 
@@ -69,7 +69,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -80,7 +80,7 @@ final class ObjectIdentifierTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ObjectIdentifier::class, $wrap->asObjectIdentifier());
+        static::assertInstanceOf(ObjectIdentifier::class, $wrap->asObjectIdentifier());
     }
 
     /**
@@ -169,7 +169,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $x = new ObjectIdentifier($oid);
         $der = $x->toDER();
-        $this->assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier() ->oid());
+        static::assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier() ->oid());
     }
 
     /**

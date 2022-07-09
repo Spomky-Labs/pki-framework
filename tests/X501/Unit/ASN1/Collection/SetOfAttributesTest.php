@@ -21,7 +21,7 @@ final class SetOfAttributesTest extends TestCase
     public function create()
     {
         $c = SetOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
-        $this->assertInstanceOf(SetOfAttributes::class, $c);
+        static::assertInstanceOf(SetOfAttributes::class, $c);
         return $c;
     }
 
@@ -33,7 +33,7 @@ final class SetOfAttributesTest extends TestCase
     public function encode(SetOfAttributes $c)
     {
         $el = $c->toASN1();
-        $this->assertInstanceOf(Set::class, $el);
+        static::assertInstanceOf(Set::class, $el);
         return $el;
     }
 
@@ -45,7 +45,7 @@ final class SetOfAttributesTest extends TestCase
     public function decode(Set $set)
     {
         $c = SetOfAttributes::fromASN1($set);
-        $this->assertInstanceOf(SetOfAttributes::class, $c);
+        static::assertInstanceOf(SetOfAttributes::class, $c);
         return $c;
     }
 
@@ -58,6 +58,6 @@ final class SetOfAttributesTest extends TestCase
     public function recoded(SetOfAttributes $original, SetOfAttributes $recoded)
     {
         // compare DER encodings because SET OF sorts the elements
-        $this->assertEquals($original->toASN1()->toDER(), $recoded->toASN1()->toDER());
+        static::assertEquals($original->toASN1()->toDER(), $recoded->toASN1()->toDER());
     }
 }

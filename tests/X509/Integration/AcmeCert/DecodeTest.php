@@ -34,7 +34,7 @@ final class DecodeTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem');
         $cert = Certificate::fromPEM($pem);
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }
 
@@ -48,7 +48,7 @@ final class DecodeTest extends TestCase
     public function tBSCertificate(Certificate $cert)
     {
         $tbsCert = $cert->tbsCertificate();
-        $this->assertInstanceOf(TBSCertificate::class, $tbsCert);
+        static::assertInstanceOf(TBSCertificate::class, $tbsCert);
         return $tbsCert;
     }
 
@@ -62,7 +62,7 @@ final class DecodeTest extends TestCase
     public function signatureAlgorithm(Certificate $cert)
     {
         $algo = $cert->signatureAlgorithm();
-        $this->assertInstanceOf(SignatureAlgorithmIdentifier::class, $algo);
+        static::assertInstanceOf(SignatureAlgorithmIdentifier::class, $algo);
         return $algo;
     }
 
@@ -73,7 +73,7 @@ final class DecodeTest extends TestCase
      */
     public function signatureAlgorithmValue(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -86,7 +86,7 @@ final class DecodeTest extends TestCase
     public function signature(Certificate $cert)
     {
         $signature = $cert->signatureValue();
-        $this->assertInstanceOf(Signature::class, $signature);
+        static::assertInstanceOf(Signature::class, $signature);
         return $signature;
     }
 
@@ -98,7 +98,7 @@ final class DecodeTest extends TestCase
     public function signatureValue(Signature $sig)
     {
         $expected = hex2bin(trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.pem.sig')));
-        $this->assertEquals($expected, $sig->bitString() ->string());
+        static::assertEquals($expected, $sig->bitString() ->string());
     }
 
     /**
@@ -108,7 +108,7 @@ final class DecodeTest extends TestCase
      */
     public function version(TBSCertificate $tbsCert)
     {
-        $this->assertEquals(TBSCertificate::VERSION_3, $tbsCert->version());
+        static::assertEquals(TBSCertificate::VERSION_3, $tbsCert->version());
     }
 
     /**
@@ -118,7 +118,7 @@ final class DecodeTest extends TestCase
      */
     public function serial(TBSCertificate $tbsCert)
     {
-        $this->assertEquals(42, $tbsCert->serialNumber());
+        static::assertEquals(42, $tbsCert->serialNumber());
     }
 
     /**
@@ -128,7 +128,7 @@ final class DecodeTest extends TestCase
      */
     public function signatureAlgo(TBSCertificate $tbsCert)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $tbsCert->signature() ->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $tbsCert->signature() ->oid());
     }
 
     /**
@@ -141,7 +141,7 @@ final class DecodeTest extends TestCase
     public function issuer(TBSCertificate $tbsCert)
     {
         $issuer = $tbsCert->issuer();
-        $this->assertInstanceOf(Name::class, $issuer);
+        static::assertInstanceOf(Name::class, $issuer);
         return $issuer;
     }
 
@@ -152,7 +152,7 @@ final class DecodeTest extends TestCase
      */
     public function issuerDN(Name $name)
     {
-        $this->assertEquals('o=ACME Ltd.,c=FI,cn=ACME Intermediate CA', $name->toString());
+        static::assertEquals('o=ACME Ltd.,c=FI,cn=ACME Intermediate CA', $name->toString());
     }
 
     /**
@@ -165,7 +165,7 @@ final class DecodeTest extends TestCase
     public function validity(TBSCertificate $tbsCert)
     {
         $validity = $tbsCert->validity();
-        $this->assertInstanceOf(Validity::class, $validity);
+        static::assertInstanceOf(Validity::class, $validity);
         return $validity;
     }
 
@@ -180,7 +180,7 @@ final class DecodeTest extends TestCase
             ->dateTime()
             ->setTimezone(new DateTimeZone('GMT'))
             ->format('M j H:i:s Y T');
-        $this->assertEquals('Jan 1 12:00:00 2016 GMT', $str);
+        static::assertEquals('Jan 1 12:00:00 2016 GMT', $str);
     }
 
     /**
@@ -194,7 +194,7 @@ final class DecodeTest extends TestCase
             ->dateTime()
             ->setTimezone(new DateTimeZone('GMT'))
             ->format('M j H:i:s Y T');
-        $this->assertEquals('Jan 2 15:04:05 2026 GMT', $str);
+        static::assertEquals('Jan 2 15:04:05 2026 GMT', $str);
     }
 
     /**
@@ -207,7 +207,7 @@ final class DecodeTest extends TestCase
     public function subject(TBSCertificate $tbsCert)
     {
         $subject = $tbsCert->subject();
-        $this->assertInstanceOf(Name::class, $subject);
+        static::assertInstanceOf(Name::class, $subject);
         return $subject;
     }
 
@@ -218,7 +218,7 @@ final class DecodeTest extends TestCase
      */
     public function subjectDN(Name $name)
     {
-        $this->assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
+        static::assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
     }
 
     /**
@@ -231,7 +231,7 @@ final class DecodeTest extends TestCase
     public function subjectPublicKeyInfo(TBSCertificate $tbsCert)
     {
         $pki = $tbsCert->subjectPublicKeyInfo();
-        $this->assertInstanceOf(PublicKeyInfo::class, $pki);
+        static::assertInstanceOf(PublicKeyInfo::class, $pki);
         return $pki;
     }
 
@@ -242,7 +242,7 @@ final class DecodeTest extends TestCase
      */
     public function publicKeyAlgo(PublicKeyInfo $pki)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $pki->algorithmIdentifier() ->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $pki->algorithmIdentifier() ->oid());
     }
 
     /**
@@ -253,7 +253,7 @@ final class DecodeTest extends TestCase
     public function publicKey(PublicKeyInfo $pki)
     {
         $pk = PrivateKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
-        $this->assertEquals($pk, $pki->publicKey());
+        static::assertEquals($pk, $pki->publicKey());
     }
 
     /**
@@ -266,7 +266,7 @@ final class DecodeTest extends TestCase
     public function extensions(TBSCertificate $tbsCert)
     {
         $extensions = $tbsCert->extensions();
-        $this->assertInstanceOf(Extensions::class, $extensions);
+        static::assertInstanceOf(Extensions::class, $extensions);
         return $extensions;
     }
 }

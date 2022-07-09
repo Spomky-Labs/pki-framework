@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = UniversalString::fromDER("\x1c\x0");
-        $this->assertInstanceOf(UniversalString::class, $el);
+        static::assertInstanceOf(UniversalString::class, $el);
     }
 
     /**
@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0l\0\0\0o";
         $el = UniversalString::fromDER("\x1c\x14{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 
     /**

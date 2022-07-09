@@ -25,7 +25,7 @@ final class UserNoticeQualifierTest extends TestCase
             DisplayText::fromString('test'),
             new NoticeReference(DisplayText::fromString('org'), 1, 2, 3)
         );
-        $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
+        static::assertInstanceOf(UserNoticeQualifier::class, $qual);
         return $qual;
     }
 
@@ -37,7 +37,7 @@ final class UserNoticeQualifierTest extends TestCase
     public function encode(UserNoticeQualifier $qual)
     {
         $el = $qual->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -51,7 +51,7 @@ final class UserNoticeQualifierTest extends TestCase
     public function decode($data)
     {
         $qual = UserNoticeQualifier::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
+        static::assertInstanceOf(UserNoticeQualifier::class, $qual);
         return $qual;
     }
 
@@ -63,7 +63,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function recoded(UserNoticeQualifier $ref, UserNoticeQualifier $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -73,7 +73,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function explicitText(UserNoticeQualifier $qual)
     {
-        $this->assertInstanceOf(DisplayText::class, $qual->explicitText());
+        static::assertInstanceOf(DisplayText::class, $qual->explicitText());
     }
 
     /**
@@ -83,7 +83,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function noticeRef(UserNoticeQualifier $qual)
     {
-        $this->assertInstanceOf(NoticeReference::class, $qual->noticeRef());
+        static::assertInstanceOf(NoticeReference::class, $qual->noticeRef());
     }
 
     /**
@@ -92,7 +92,7 @@ final class UserNoticeQualifierTest extends TestCase
     public function createEmpty()
     {
         $qual = new UserNoticeQualifier();
-        $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
+        static::assertInstanceOf(UserNoticeQualifier::class, $qual);
         return $qual;
     }
 

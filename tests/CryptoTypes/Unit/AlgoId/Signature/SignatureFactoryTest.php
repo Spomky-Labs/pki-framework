@@ -48,7 +48,7 @@ final class SignatureFactoryTest extends TestCase
     public function algoForAsymmetricCrypto($crypto_algo, $hash_algo, $expected_class)
     {
         $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
-        $this->assertInstanceOf($expected_class, $algo);
+        static::assertInstanceOf($expected_class, $algo);
     }
 
     /**

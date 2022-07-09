@@ -22,7 +22,7 @@ final class NameTest extends TestCase
     public function create()
     {
         $name = Name::fromString('name=one,name=two');
-        $this->assertInstanceOf(Name::class, $name);
+        static::assertInstanceOf(Name::class, $name);
         return $name;
     }
 
@@ -35,7 +35,7 @@ final class NameTest extends TestCase
     {
         $der = $name->toASN1()
             ->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -49,7 +49,7 @@ final class NameTest extends TestCase
     public function decode($der)
     {
         $name = Name::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(Name::class, $name);
+        static::assertInstanceOf(Name::class, $name);
         return $name;
     }
 
@@ -61,7 +61,7 @@ final class NameTest extends TestCase
      */
     public function recoded(Name $ref, Name $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -71,7 +71,7 @@ final class NameTest extends TestCase
      */
     public function all(Name $name)
     {
-        $this->assertContainsOnlyInstancesOf(RDN::class, $name->all());
+        static::assertContainsOnlyInstancesOf(RDN::class, $name->all());
     }
 
     /**
@@ -81,7 +81,7 @@ final class NameTest extends TestCase
      */
     public function firstValueOf(Name $name)
     {
-        $this->assertEquals('two', $name->firstValueOf('name')->stringValue());
+        static::assertEquals('two', $name->firstValueOf('name')->stringValue());
     }
 
     /**
@@ -113,7 +113,7 @@ final class NameTest extends TestCase
      */
     public function countMethod(Name $name)
     {
-        $this->assertCount(2, $name);
+        static::assertCount(2, $name);
     }
 
     /**
@@ -123,7 +123,7 @@ final class NameTest extends TestCase
      */
     public function countOfType(Name $name)
     {
-        $this->assertEquals(2, $name->countOfType('name'));
+        static::assertEquals(2, $name->countOfType('name'));
     }
 
     /**
@@ -133,7 +133,7 @@ final class NameTest extends TestCase
      */
     public function countOfTypeNone(Name $name)
     {
-        $this->assertEquals(0, $name->countOfType('cn'));
+        static::assertEquals(0, $name->countOfType('cn'));
     }
 
     /**
@@ -147,7 +147,7 @@ final class NameTest extends TestCase
         foreach ($name as $rdn) {
             $values[] = $rdn;
         }
-        $this->assertContainsOnlyInstancesOf(RDN::class, $values);
+        static::assertContainsOnlyInstancesOf(RDN::class, $values);
     }
 
     /**
@@ -157,7 +157,7 @@ final class NameTest extends TestCase
      */
     public function string(Name $name)
     {
-        $this->assertEquals('name=one,name=two', $name->toString());
+        static::assertEquals('name=one,name=two', $name->toString());
     }
 
     /**
@@ -167,6 +167,6 @@ final class NameTest extends TestCase
      */
     public function toStringMethod(Name $name)
     {
-        $this->assertIsString(strval($name));
+        static::assertIsString(strval($name));
     }
 }

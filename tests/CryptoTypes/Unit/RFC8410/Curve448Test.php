@@ -28,7 +28,7 @@ final class Curve448Test extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(Ed448PrivateKey::class, $pk);
+        static::assertInstanceOf(Ed448PrivateKey::class, $pk);
         return $pk;
     }
 
@@ -40,7 +40,7 @@ final class Curve448Test extends TestCase
     public function recodeEd448(Ed448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
-        $this->assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
     /**
@@ -50,7 +50,7 @@ final class Curve448Test extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(Ed448PublicKey::class, $pub);
+        static::assertInstanceOf(Ed448PublicKey::class, $pub);
         return $pub;
     }
 
@@ -62,7 +62,7 @@ final class Curve448Test extends TestCase
     public function recodeEd448Pub(Ed448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
-        $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     /**
@@ -101,7 +101,7 @@ final class Curve448Test extends TestCase
     public function ed448PublicKey()
     {
         $pk = new Ed448PrivateKey(str_repeat("\0", 57), str_repeat("\0", 57));
-        $this->assertInstanceOf(Ed448PublicKey::class, $pk->publicKey());
+        static::assertInstanceOf(Ed448PublicKey::class, $pk->publicKey());
     }
 
     /**
@@ -124,7 +124,7 @@ final class Curve448Test extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(X448PrivateKey::class, $pk);
+        static::assertInstanceOf(X448PrivateKey::class, $pk);
         return $pk;
     }
 
@@ -136,7 +136,7 @@ final class Curve448Test extends TestCase
     public function recodeX448(X448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
-        $this->assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
     /**
@@ -146,7 +146,7 @@ final class Curve448Test extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
         $pub = PublicKey::fromPEM($pem);
-        $this->assertInstanceOf(X448PublicKey::class, $pub);
+        static::assertInstanceOf(X448PublicKey::class, $pub);
         return $pub;
     }
 
@@ -158,7 +158,7 @@ final class Curve448Test extends TestCase
     public function recodeX448Pub(X448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
-        $this->assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     /**
@@ -197,7 +197,7 @@ final class Curve448Test extends TestCase
     public function x448PublicKey()
     {
         $pk = new X448PrivateKey(str_repeat("\0", 56), str_repeat("\0", 56));
-        $this->assertInstanceOf(X448PublicKey::class, $pk->publicKey());
+        static::assertInstanceOf(X448PublicKey::class, $pk->publicKey());
     }
 
     /**

@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = Boolean::fromDER("\x1\x1\x00");
-        $this->assertInstanceOf(Boolean::class, $el);
+        static::assertInstanceOf(Boolean::class, $el);
     }
 
     /**
@@ -28,7 +28,7 @@ final class DecodeTest extends TestCase
     public function true()
     {
         $el = Boolean::fromDER("\x1\x1\xff");
-        $this->assertTrue($el->value());
+        static::assertTrue($el->value());
     }
 
     /**
@@ -37,7 +37,7 @@ final class DecodeTest extends TestCase
     public function false()
     {
         $el = Boolean::fromDER("\x1\x1\x00");
-        $this->assertFalse($el->value());
+        static::assertFalse($el->value());
     }
 
     /**

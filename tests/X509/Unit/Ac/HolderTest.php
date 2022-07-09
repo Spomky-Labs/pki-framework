@@ -51,7 +51,7 @@ final class HolderTest extends TestCase
     {
         $holder = new Holder(self::$_issuerSerial, self::$_subject);
         $holder = $holder->withObjectDigestInfo(self::$_odi);
-        $this->assertInstanceOf(Holder::class, $holder);
+        static::assertInstanceOf(Holder::class, $holder);
         return $holder;
     }
 
@@ -63,7 +63,7 @@ final class HolderTest extends TestCase
     public function encode(Holder $holder)
     {
         $seq = $holder->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -77,7 +77,7 @@ final class HolderTest extends TestCase
     public function decode($data)
     {
         $holder = Holder::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(Holder::class, $holder);
+        static::assertInstanceOf(Holder::class, $holder);
         return $holder;
     }
 
@@ -89,7 +89,7 @@ final class HolderTest extends TestCase
      */
     public function recoded(Holder $ref, Holder $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -99,7 +99,7 @@ final class HolderTest extends TestCase
      */
     public function baseCertificateID(Holder $holder)
     {
-        $this->assertEquals(self::$_issuerSerial, $holder->baseCertificateID());
+        static::assertEquals(self::$_issuerSerial, $holder->baseCertificateID());
     }
 
     /**
@@ -109,7 +109,7 @@ final class HolderTest extends TestCase
      */
     public function entityName(Holder $holder)
     {
-        $this->assertEquals(self::$_subject, $holder->entityName());
+        static::assertEquals(self::$_subject, $holder->entityName());
     }
 
     /**
@@ -119,7 +119,7 @@ final class HolderTest extends TestCase
      */
     public function objectDigestInfo(Holder $holder)
     {
-        $this->assertEquals(self::$_odi, $holder->objectDigestInfo());
+        static::assertEquals(self::$_odi, $holder->objectDigestInfo());
     }
 
     /**
@@ -129,7 +129,7 @@ final class HolderTest extends TestCase
     {
         $holder = new Holder();
         $holder = $holder->withBaseCertificateID(self::$_issuerSerial);
-        $this->assertInstanceOf(Holder::class, $holder);
+        static::assertInstanceOf(Holder::class, $holder);
     }
 
     /**
@@ -139,7 +139,7 @@ final class HolderTest extends TestCase
     {
         $holder = new Holder();
         $holder = $holder->withEntityName(self::$_subject);
-        $this->assertInstanceOf(Holder::class, $holder);
+        static::assertInstanceOf(Holder::class, $holder);
     }
 
     /**
@@ -149,7 +149,7 @@ final class HolderTest extends TestCase
     {
         $holder = new Holder();
         $holder = $holder->withObjectDigestInfo(self::$_odi);
-        $this->assertInstanceOf(Holder::class, $holder);
+        static::assertInstanceOf(Holder::class, $holder);
     }
 
     /**

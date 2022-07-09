@@ -28,7 +28,7 @@ final class AttributeCollectionTest extends TestCase
             new NameValue('n2'),
             new DescriptionValue('d')
         );
-        $this->assertInstanceOf(AttributeCollection::class, $c);
+        static::assertInstanceOf(AttributeCollection::class, $c);
         return $c;
     }
 
@@ -39,7 +39,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function has(AttributeCollection $c)
     {
-        $this->assertTrue($c->has('name'));
+        static::assertTrue($c->has('name'));
     }
 
     /**
@@ -49,7 +49,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function hasNot(AttributeCollection $c)
     {
-        $this->assertFalse($c->has('commonName'));
+        static::assertFalse($c->has('commonName'));
     }
 
     /**
@@ -59,7 +59,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function firstOf(AttributeCollection $c)
     {
-        $this->assertEquals('n1', $c->firstOf('name')->first()->stringValue());
+        static::assertEquals('n1', $c->firstOf('name')->first()->stringValue());
     }
 
     /**
@@ -82,7 +82,7 @@ final class AttributeCollectionTest extends TestCase
     public function allOf(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->allOf('name'));
-        $this->assertEquals(['n1', 'n2'], $vals);
+        static::assertEquals(['n1', 'n2'], $vals);
     }
 
     /**
@@ -92,7 +92,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function allOfNone(AttributeCollection $c)
     {
-        $this->assertEquals([], $c->allOf('commonName'));
+        static::assertEquals([], $c->allOf('commonName'));
     }
 
     /**
@@ -103,7 +103,7 @@ final class AttributeCollectionTest extends TestCase
     public function all(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
-        $this->assertEquals(['n1', 'n2', 'd'], $vals);
+        static::assertEquals(['n1', 'n2', 'd'], $vals);
     }
 
     /**
@@ -115,7 +115,7 @@ final class AttributeCollectionTest extends TestCase
     {
         $c = $c->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('cn')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
-        $this->assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
+        static::assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
     }
 
     /**
@@ -127,7 +127,7 @@ final class AttributeCollectionTest extends TestCase
     {
         $c = $c->withUnique(Attribute::fromAttributeValues(new NameValue('uniq')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
-        $this->assertEquals(['d', 'uniq'], $vals);
+        static::assertEquals(['d', 'uniq'], $vals);
     }
 
     /**
@@ -137,7 +137,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function countMethod(AttributeCollection $c)
     {
-        $this->assertCount(3, $c);
+        static::assertCount(3, $c);
     }
 
     /**
@@ -151,6 +151,6 @@ final class AttributeCollectionTest extends TestCase
         foreach ($c as $attr) {
             $vals[] = $attr->first()->stringValue();
         }
-        $this->assertEquals(['n1', 'n2', 'd'], $vals);
+        static::assertEquals(['n1', 'n2', 'd'], $vals);
     }
 }

@@ -58,7 +58,7 @@ final class CertificateBundleTest extends TestCase
     public function create()
     {
         $bundle = new CertificateBundle(self::$_cert1, self::$_cert2);
-        $this->assertInstanceOf(CertificateBundle::class, $bundle);
+        static::assertInstanceOf(CertificateBundle::class, $bundle);
         return $bundle;
     }
 
@@ -69,7 +69,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function countMethod(CertificateBundle $bundle)
     {
-        $this->assertCount(2, $bundle);
+        static::assertCount(2, $bundle);
     }
 
     /**
@@ -79,7 +79,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function all(CertificateBundle $bundle)
     {
-        $this->assertCount(2, $bundle->all());
+        static::assertCount(2, $bundle->all());
     }
 
     /**
@@ -93,8 +93,8 @@ final class CertificateBundleTest extends TestCase
         foreach ($bundle as $cert) {
             $values[] = $cert;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(Certificate::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(Certificate::class, $values);
     }
 
     /**
@@ -104,7 +104,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function contains(CertificateBundle $bundle)
     {
-        $this->assertTrue($bundle->contains(self::$_cert1));
+        static::assertTrue($bundle->contains(self::$_cert1));
     }
 
     /**
@@ -113,7 +113,7 @@ final class CertificateBundleTest extends TestCase
     public function doesNotContain()
     {
         $bundle = new CertificateBundle(self::$_cert1, self::$_cert2);
-        $this->assertFalse($bundle->contains(self::$_cert3));
+        static::assertFalse($bundle->contains(self::$_cert3));
     }
 
     /**
@@ -132,7 +132,7 @@ final class CertificateBundleTest extends TestCase
         $tc = $tc->withSubject(Name::fromString('cn=Issuer 2'));
         $cert2 = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $priv_key_info);
         $bundle = new CertificateBundle($cert1);
-        $this->assertFalse($bundle->contains($cert2));
+        static::assertFalse($bundle->contains($cert2));
     }
 
     /**
@@ -147,7 +147,7 @@ final class CertificateBundleTest extends TestCase
             ->subjectKeyIdentifier()
             ->keyIdentifier();
         $certs = $bundle->allBySubjectKeyIdentifier($id);
-        $this->assertCount(1, $certs);
+        static::assertCount(1, $certs);
     }
 
     /**
@@ -158,7 +158,7 @@ final class CertificateBundleTest extends TestCase
     public function withPEM(CertificateBundle $bundle)
     {
         $bundle = $bundle->withPEM(self::$_pem3);
-        $this->assertCount(3, $bundle);
+        static::assertCount(3, $bundle);
     }
 
     /**
@@ -169,7 +169,7 @@ final class CertificateBundleTest extends TestCase
     public function withPEMBundle(CertificateBundle $bundle)
     {
         $bundle = $bundle->withPEMBundle(new PEMBundle(self::$_pem3));
-        $this->assertCount(3, $bundle);
+        static::assertCount(3, $bundle);
     }
 
     /**
@@ -180,7 +180,7 @@ final class CertificateBundleTest extends TestCase
     public function withCertificates(CertificateBundle $bundle)
     {
         $bundle = $bundle->withCertificates(Certificate::fromPEM(self::$_pem3));
-        $this->assertCount(3, $bundle);
+        static::assertCount(3, $bundle);
     }
 
     /**
@@ -189,7 +189,7 @@ final class CertificateBundleTest extends TestCase
     public function fromPEMBundle()
     {
         $bundle = CertificateBundle::fromPEMBundle(new PEMBundle(self::$_pem1, self::$_pem2));
-        $this->assertInstanceOf(CertificateBundle::class, $bundle);
+        static::assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
     /**
@@ -198,7 +198,7 @@ final class CertificateBundleTest extends TestCase
     public function fromPEMs()
     {
         $bundle = CertificateBundle::fromPEMs(self::$_pem1, self::$_pem2);
-        $this->assertInstanceOf(CertificateBundle::class, $bundle);
+        static::assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
     /**
@@ -215,6 +215,6 @@ final class CertificateBundleTest extends TestCase
         );
         $cert = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $priv_key_info);
         $bundle = new CertificateBundle($cert);
-        $this->assertEmpty($bundle->allBySubjectKeyIdentifier('nope'));
+        static::assertEmpty($bundle->allBySubjectKeyIdentifier('nope'));
     }
 }

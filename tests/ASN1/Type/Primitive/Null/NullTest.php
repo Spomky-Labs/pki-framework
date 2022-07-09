@@ -22,7 +22,7 @@ final class NullTest extends TestCase
     public function create()
     {
         $el = new NullType();
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class NullTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_NULL, $el->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class NullTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -58,7 +58,7 @@ final class NullTest extends TestCase
     public function decode($data): NullType
     {
         $el = NullType::fromDER($data);
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
         return $el;
     }
 
@@ -70,7 +70,7 @@ final class NullTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -81,7 +81,7 @@ final class NullTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(NullType::class, $wrap->asNull());
+        static::assertInstanceOf(NullType::class, $wrap->asNull());
     }
 
     /**

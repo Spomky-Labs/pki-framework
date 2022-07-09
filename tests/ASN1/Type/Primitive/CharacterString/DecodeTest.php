@@ -18,7 +18,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = CharacterString::fromDER("\x1d\x0");
-        $this->assertInstanceOf(CharacterString::class, $el);
+        static::assertInstanceOf(CharacterString::class, $el);
     }
 
     /**
@@ -28,6 +28,6 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = CharacterString::fromDER("\x1d\x0c{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 }

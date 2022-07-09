@@ -28,7 +28,7 @@ final class ECPublicKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $pk = ECPublicKey::fromPEM($pem);
-        $this->assertInstanceOf(ECPublicKey::class, $pk);
+        static::assertInstanceOf(ECPublicKey::class, $pk);
         return $pk;
     }
 
@@ -39,7 +39,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function eCPoint(ECPublicKey $pk)
     {
-        $this->assertNotEmpty($pk->ECPoint());
+        static::assertNotEmpty($pk->ECPoint());
     }
 
     /**
@@ -50,7 +50,7 @@ final class ECPublicKeyTest extends TestCase
     public function publicKeyInfo(ECPublicKey $pk)
     {
         $pki = $pk->publicKeyInfo();
-        $this->assertInstanceOf(PublicKeyInfo::class, $pki);
+        static::assertInstanceOf(PublicKeyInfo::class, $pki);
     }
 
     /**
@@ -99,7 +99,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function toDER(ECPublicKey $pk)
     {
-        $this->assertNotEmpty($pk->toDER());
+        static::assertNotEmpty($pk->toDER());
     }
 
     /**
@@ -110,7 +110,7 @@ final class ECPublicKeyTest extends TestCase
     public function curvePoint(ECPublicKey $pk)
     {
         $point = $pk->curvePoint();
-        $this->assertContainsOnly('string', $point);
+        static::assertContainsOnly('string', $point);
         return $point;
     }
 
@@ -121,7 +121,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function hasNamedCurve(ECPublicKey $pk)
     {
-        $this->assertTrue($pk->hasNamedCurve());
+        static::assertTrue($pk->hasNamedCurve());
     }
 
     /**
@@ -131,7 +131,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function namedCurve(ECPublicKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -163,7 +163,7 @@ final class ECPublicKeyTest extends TestCase
     {
         [$x, $y] = $points;
         $pk = ECPublicKey::fromCoordinates($x, $y, ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
-        $this->assertInstanceOf(ECPublicKey::class, $pk);
+        static::assertInstanceOf(ECPublicKey::class, $pk);
         return $pk;
     }
 
@@ -175,7 +175,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function fromCoordsEqualsPEM(ECPublicKey $ref, ECPublicKey $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -184,6 +184,6 @@ final class ECPublicKeyTest extends TestCase
     public function fromCoordsUnknownCurve()
     {
         $pk = ECPublicKey::fromCoordinates(0, 0, '1.3.6.1.3');
-        $this->assertInstanceOf(ECPublicKey::class, $pk);
+        static::assertInstanceOf(ECPublicKey::class, $pk);
     }
 }

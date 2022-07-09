@@ -19,7 +19,7 @@ final class StringPreparerTest extends TestCase
     public function create()
     {
         $preparer = StringPreparer::forStringType(Element::TYPE_UTF8_STRING);
-        $this->assertInstanceOf(StringPreparer::class, $preparer);
+        static::assertInstanceOf(StringPreparer::class, $preparer);
         return $preparer;
     }
 
@@ -31,7 +31,7 @@ final class StringPreparerTest extends TestCase
     public function withCaseFolding(StringPreparer $preparer)
     {
         $preparer = $preparer->withCaseFolding(true);
-        $this->assertInstanceOf(StringPreparer::class, $preparer);
+        static::assertInstanceOf(StringPreparer::class, $preparer);
         return $preparer;
     }
 
@@ -43,6 +43,6 @@ final class StringPreparerTest extends TestCase
     public function prepare(StringPreparer $preparer)
     {
         $str = $preparer->prepare('TEST');
-        $this->assertEquals(' test ', $str);
+        static::assertEquals(' test ', $str);
     }
 }

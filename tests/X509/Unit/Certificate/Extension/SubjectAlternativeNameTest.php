@@ -25,7 +25,7 @@ final class SubjectAlternativeNameTest extends TestCase
     public function create()
     {
         $ext = new SubjectAlternativeNameExtension(true, new GeneralNames(DirectoryName::fromDNString(self::DN)));
-        $this->assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
+        static::assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
         return $ext;
     }
 
@@ -36,7 +36,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_SUBJECT_ALT_NAME, $ext->oid());
+        static::assertEquals(Extension::OID_SUBJECT_ALT_NAME, $ext->oid());
     }
 
     /**
@@ -46,7 +46,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertTrue($ext->isCritical());
+        static::assertTrue($ext->isCritical());
     }
 
     /**
@@ -57,7 +57,7 @@ final class SubjectAlternativeNameTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -71,7 +71,7 @@ final class SubjectAlternativeNameTest extends TestCase
     public function decode($der)
     {
         $ext = SubjectAlternativeNameExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
+        static::assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
         return $ext;
     }
 
@@ -83,7 +83,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -93,7 +93,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function name(SubjectAlternativeNameExtension $ext)
     {
-        $this->assertEquals(self::DN, $ext->names() ->firstDN());
+        static::assertEquals(self::DN, $ext->names() ->firstDN());
     }
 
     /**
@@ -104,7 +104,7 @@ final class SubjectAlternativeNameTest extends TestCase
     public function extensions(SubjectAlternativeNameExtension $ext)
     {
         $extensions = new Extensions($ext);
-        $this->assertTrue($extensions->hasSubjectAlternativeName());
+        static::assertTrue($extensions->hasSubjectAlternativeName());
         return $extensions;
     }
 
@@ -116,6 +116,6 @@ final class SubjectAlternativeNameTest extends TestCase
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->subjectAlternativeName();
-        $this->assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
+        static::assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
     }
 }

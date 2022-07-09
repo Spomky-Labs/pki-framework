@@ -21,7 +21,7 @@ final class CPSQualifierTest extends TestCase
     public function create()
     {
         $qual = new CPSQualifier(self::URI);
-        $this->assertInstanceOf(CPSQualifier::class, $qual);
+        static::assertInstanceOf(CPSQualifier::class, $qual);
         return $qual;
     }
 
@@ -33,7 +33,7 @@ final class CPSQualifierTest extends TestCase
     public function encode(CPSQualifier $qual)
     {
         $el = $qual->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -47,7 +47,7 @@ final class CPSQualifierTest extends TestCase
     public function decode($data)
     {
         $qual = CPSQualifier::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(CPSQualifier::class, $qual);
+        static::assertInstanceOf(CPSQualifier::class, $qual);
         return $qual;
     }
 
@@ -59,7 +59,7 @@ final class CPSQualifierTest extends TestCase
      */
     public function recoded(CPSQualifier $ref, CPSQualifier $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -69,7 +69,7 @@ final class CPSQualifierTest extends TestCase
      */
     public function uRI(CPSQualifier $qual)
     {
-        $this->assertEquals(self::URI, $qual->uri());
+        static::assertEquals(self::URI, $qual->uri());
     }
 
     /**
@@ -79,6 +79,6 @@ final class CPSQualifierTest extends TestCase
      */
     public function oID(CPSQualifier $qual)
     {
-        $this->assertEquals(CPSQualifier::OID_CPS, $qual->oid());
+        static::assertEquals(CPSQualifier::OID_CPS, $qual->oid());
     }
 }

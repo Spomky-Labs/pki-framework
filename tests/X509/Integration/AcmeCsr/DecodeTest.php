@@ -34,7 +34,7 @@ final class DecodeTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.csr');
         $csr = CertificationRequest::fromPEM($pem);
-        $this->assertInstanceOf(CertificationRequest::class, $csr);
+        static::assertInstanceOf(CertificationRequest::class, $csr);
         return $csr;
     }
 
@@ -48,7 +48,7 @@ final class DecodeTest extends TestCase
     public function certificationRequestInfo(CertificationRequest $cr)
     {
         $cri = $cr->certificationRequestInfo();
-        $this->assertInstanceOf(CertificationRequestInfo::class, $cri);
+        static::assertInstanceOf(CertificationRequestInfo::class, $cri);
         return $cri;
     }
 
@@ -62,7 +62,7 @@ final class DecodeTest extends TestCase
     public function signatureAlgorithm(CertificationRequest $cr)
     {
         $algo = $cr->signatureAlgorithm();
-        $this->assertInstanceOf(SignatureAlgorithmIdentifier::class, $algo);
+        static::assertInstanceOf(SignatureAlgorithmIdentifier::class, $algo);
         return $algo;
     }
 
@@ -73,7 +73,7 @@ final class DecodeTest extends TestCase
      */
     public function algoType(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -86,7 +86,7 @@ final class DecodeTest extends TestCase
     public function signature(CertificationRequest $cr)
     {
         $signature = $cr->signature();
-        $this->assertInstanceOf(Signature::class, $signature);
+        static::assertInstanceOf(Signature::class, $signature);
         return $signature;
     }
 
@@ -98,7 +98,7 @@ final class DecodeTest extends TestCase
     public function signatureValue(Signature $signature)
     {
         $expected = hex2bin(trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig')));
-        $this->assertEquals($expected, $signature->bitString() ->string());
+        static::assertEquals($expected, $signature->bitString() ->string());
     }
 
     /**
@@ -108,7 +108,7 @@ final class DecodeTest extends TestCase
      */
     public function version(CertificationRequestInfo $cri)
     {
-        $this->assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
+        static::assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
     }
 
     /**
@@ -121,7 +121,7 @@ final class DecodeTest extends TestCase
     public function subject(CertificationRequestInfo $cri)
     {
         $subject = $cri->subject();
-        $this->assertInstanceOf(Name::class, $subject);
+        static::assertInstanceOf(Name::class, $subject);
         return $subject;
     }
 
@@ -132,7 +132,7 @@ final class DecodeTest extends TestCase
      */
     public function subjectDN(Name $name)
     {
-        $this->assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
+        static::assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
     }
 
     /**
@@ -145,7 +145,7 @@ final class DecodeTest extends TestCase
     public function subjectPKInfo(CertificationRequestInfo $cri)
     {
         $info = $cri->subjectPKInfo();
-        $this->assertInstanceOf(PublicKeyInfo::class, $info);
+        static::assertInstanceOf(PublicKeyInfo::class, $info);
         return $info;
     }
 
@@ -156,7 +156,7 @@ final class DecodeTest extends TestCase
      */
     public function publicKeyAlgo(PublicKeyInfo $info)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier() ->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier() ->oid());
     }
 
     /**
@@ -167,7 +167,7 @@ final class DecodeTest extends TestCase
     public function publicKey(PublicKeyInfo $info)
     {
         $pk = PrivateKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
-        $this->assertEquals($pk, $info->publicKey());
+        static::assertEquals($pk, $info->publicKey());
     }
 
     /**
@@ -179,9 +179,9 @@ final class DecodeTest extends TestCase
      */
     public function attributes(CertificationRequestInfo $cri)
     {
-        $this->assertTrue($cri->hasAttributes());
+        static::assertTrue($cri->hasAttributes());
         $attribs = $cri->attributes();
-        $this->assertInstanceOf(Attributes::class, $attribs);
+        static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
 
@@ -195,7 +195,7 @@ final class DecodeTest extends TestCase
     public function extensionRequestAttribute(Attributes $attribs)
     {
         $attr = ExtensionRequestValue::fromSelf($attribs->firstOf(ExtensionRequestValue::OID)->first());
-        $this->assertInstanceOf(ExtensionRequestValue::class, $attr);
+        static::assertInstanceOf(ExtensionRequestValue::class, $attr);
         return $attr;
     }
 
@@ -209,7 +209,7 @@ final class DecodeTest extends TestCase
     public function requestedExtensions(ExtensionRequestValue $attr)
     {
         $extensions = $attr->extensions();
-        $this->assertInstanceOf(Extensions::class, $extensions);
+        static::assertInstanceOf(Extensions::class, $extensions);
         return $extensions;
     }
 
@@ -223,7 +223,7 @@ final class DecodeTest extends TestCase
     public function keyUsageExtension(Extensions $extensions)
     {
         $ext = $extensions->get(Extension::OID_KEY_USAGE);
-        $this->assertInstanceOf(KeyUsageExtension::class, $ext);
+        static::assertInstanceOf(KeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -234,7 +234,7 @@ final class DecodeTest extends TestCase
      */
     public function keyUsageExtensionValue(KeyUsageExtension $ext)
     {
-        $this->assertTrue($ext->isKeyEncipherment());
-        $this->assertTrue($ext->isKeyCertSign());
+        static::assertTrue($ext->isKeyEncipherment());
+        static::assertTrue($ext->isKeyCertSign());
     }
 }

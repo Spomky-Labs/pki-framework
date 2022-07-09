@@ -37,7 +37,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pki = PrivateKeyInfo::fromDER($pem->data());
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
         return $pki;
     }
 
@@ -50,7 +50,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $ref = new RSAEncryptionAlgorithmIdentifier();
         $algo = $pki->algorithmIdentifier();
-        $this->assertEquals($ref, $algo);
+        static::assertEquals($ref, $algo);
         return $algo;
     }
 
@@ -61,7 +61,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function algoOID(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -72,7 +72,7 @@ final class PrivateKeyInfoTest extends TestCase
     public function getRSAPrivateKey(PrivateKeyInfo $pki)
     {
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(RSAPrivateKey::class, $pk);
+        static::assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
     /**
@@ -82,7 +82,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function privateKeyData(PrivateKeyInfo $pki)
     {
-        $this->assertIsString($pki->privateKeyData());
+        static::assertIsString($pki->privateKeyData());
     }
 
     /**
@@ -94,7 +94,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $pki = PrivateKeyInfo::fromDER($pem->data());
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
         return $pki;
     }
 
@@ -106,7 +106,7 @@ final class PrivateKeyInfoTest extends TestCase
     public function getECPrivateKey(PrivateKeyInfo $pki)
     {
         $pk = $pki->privateKey();
-        $this->assertInstanceOf(ECPrivateKey::class, $pk);
+        static::assertInstanceOf(ECPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -117,7 +117,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function eCPrivateKeyHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -127,7 +127,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function getRSAPublicKeyInfo(PrivateKeyInfo $pki)
     {
-        $this->assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
+        static::assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
     }
 
     /**
@@ -137,7 +137,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function getECPublicKeyInfo(PrivateKeyInfo $pki)
     {
-        $this->assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
+        static::assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
     }
 
     /**
@@ -149,7 +149,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
         return $pki;
     }
 
@@ -161,7 +161,7 @@ final class PrivateKeyInfoTest extends TestCase
     public function toPEM(PrivateKeyInfo $pki)
     {
         $pem = $pki->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -173,7 +173,7 @@ final class PrivateKeyInfoTest extends TestCase
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
-        $this->assertEquals($ref, $pem);
+        static::assertEquals($ref, $pem);
     }
 
     /**
@@ -183,7 +183,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
     /**
@@ -193,7 +193,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
     /**
@@ -203,7 +203,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function version(PrivateKeyInfo $pki)
     {
-        $this->assertEquals(PrivateKeyInfo::VERSION_1, $pki->version());
+        static::assertEquals(PrivateKeyInfo::VERSION_1, $pki->version());
     }
 
     /**
@@ -270,7 +270,7 @@ final class PrivateKeyInfoTest extends TestCase
         $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(new CommonNameValue('John Doe'));
         $pki = new PrivateKeyInfo($ref->algorithmIdentifier(), $ref->privateKeyData(), $attribs);
         $pem = $pki->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -286,7 +286,7 @@ final class PrivateKeyInfoTest extends TestCase
             ->firstOf(AttributeType::OID_COMMON_NAME)
             ->first()
             ->stringValue();
-        $this->assertEquals('John Doe', $value);
+        static::assertEquals('John Doe', $value);
     }
 
     /**

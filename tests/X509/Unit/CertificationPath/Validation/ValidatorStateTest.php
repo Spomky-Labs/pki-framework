@@ -35,7 +35,7 @@ final class ValidatorStateTest extends TestCase
     public function initialize()
     {
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
-        $this->assertInstanceOf(ValidatorState::class, $state);
+        static::assertInstanceOf(ValidatorState::class, $state);
         return $state;
     }
 
@@ -58,6 +58,6 @@ final class ValidatorStateTest extends TestCase
      */
     public function workingPublicKeyParameters(ValidatorState $state)
     {
-        $this->assertInstanceOf(NullType::class, $state->workingPublicKeyParameters());
+        static::assertInstanceOf(NullType::class, $state->workingPublicKeyParameters());
     }
 }

@@ -24,7 +24,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     public function create()
     {
         $el = new ImplicitlyTaggedType(1, new NullType());
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el;
     }
 
@@ -35,7 +35,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function getImplicit(ImplicitTagging $el)
     {
-        $this->assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
     }
 
     /**
@@ -57,7 +57,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function expectImplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(ImplicitTagging::class, $el->expectImplicit());
+        static::assertInstanceOf(ImplicitTagging::class, $el->expectImplicit());
     }
 
     /**
@@ -79,7 +79,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function expectImplicitWithTag(TaggedType $el)
     {
-        $this->assertInstanceOf(ImplicitTagging::class, $el->expectImplicit(1));
+        static::assertInstanceOf(ImplicitTagging::class, $el->expectImplicit(1));
     }
 
     /**
@@ -113,7 +113,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function asImplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(NullType::class, $el->asImplicit(Element::TYPE_NULL, 1) ->asNull());
+        static::assertInstanceOf(NullType::class, $el->asImplicit(Element::TYPE_NULL, 1) ->asNull());
     }
 
     /**

@@ -18,7 +18,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = OctetString::fromDER("\x4\0");
-        $this->assertInstanceOf(OctetString::class, $el);
+        static::assertInstanceOf(OctetString::class, $el);
     }
 
     /**
@@ -27,7 +27,7 @@ final class DecodeTest extends TestCase
     public function helloWorld()
     {
         $el = OctetString::fromDER("\x4\x0cHello World!");
-        $this->assertEquals('Hello World!', $el->string());
+        static::assertEquals('Hello World!', $el->string());
     }
 
     /**
@@ -36,6 +36,6 @@ final class DecodeTest extends TestCase
     public function nullString()
     {
         $el = OctetString::fromDER("\x4\x3\x0\x0\x0");
-        $this->assertEquals("\0\0\0", $el->string());
+        static::assertEquals("\0\0\0", $el->string());
     }
 }

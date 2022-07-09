@@ -54,7 +54,7 @@ final class CertificateTest extends TestCase
             ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
         $signature = Crypto::getDefault()->sign($tc->toASN1() ->toDER(), self::$_privateKeyInfo, $tc->signature());
         $cert = new Certificate($tc, $tc->signature(), $signature);
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }
 
@@ -66,7 +66,7 @@ final class CertificateTest extends TestCase
     public function encode(Certificate $cert)
     {
         $seq = $cert->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -80,7 +80,7 @@ final class CertificateTest extends TestCase
     public function decode($der)
     {
         $cert = Certificate::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }
 
@@ -92,7 +92,7 @@ final class CertificateTest extends TestCase
      */
     public function recoded(Certificate $ref, Certificate $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -102,7 +102,7 @@ final class CertificateTest extends TestCase
      */
     public function tBSCertificate(Certificate $cert)
     {
-        $this->assertInstanceOf(TBSCertificate::class, $cert->tbsCertificate());
+        static::assertInstanceOf(TBSCertificate::class, $cert->tbsCertificate());
     }
 
     /**
@@ -112,7 +112,7 @@ final class CertificateTest extends TestCase
      */
     public function signatureAlgorithm(Certificate $cert)
     {
-        $this->assertInstanceOf(AlgorithmIdentifier::class, $cert->signatureAlgorithm());
+        static::assertInstanceOf(AlgorithmIdentifier::class, $cert->signatureAlgorithm());
     }
 
     /**
@@ -122,7 +122,7 @@ final class CertificateTest extends TestCase
      */
     public function signature(Certificate $cert)
     {
-        $this->assertInstanceOf(Signature::class, $cert->signatureValue());
+        static::assertInstanceOf(Signature::class, $cert->signatureValue());
     }
 
     /**
@@ -133,7 +133,7 @@ final class CertificateTest extends TestCase
     public function toPEM(Certificate $cert)
     {
         $pem = $cert->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -144,7 +144,7 @@ final class CertificateTest extends TestCase
      */
     public function pEMType(PEM $pem)
     {
-        $this->assertEquals(PEM::TYPE_CERTIFICATE, $pem->type());
+        static::assertEquals(PEM::TYPE_CERTIFICATE, $pem->type());
     }
 
     /**
@@ -155,7 +155,7 @@ final class CertificateTest extends TestCase
     public function fromPEM(PEM $pem)
     {
         $cert = Certificate::fromPEM($pem);
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }
 
@@ -167,7 +167,7 @@ final class CertificateTest extends TestCase
      */
     public function pEMRecoded(Certificate $ref, Certificate $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -186,7 +186,7 @@ final class CertificateTest extends TestCase
      */
     public function toStringMethod(Certificate $cert)
     {
-        $this->assertIsString(strval($cert));
+        static::assertIsString(strval($cert));
     }
 
     /**

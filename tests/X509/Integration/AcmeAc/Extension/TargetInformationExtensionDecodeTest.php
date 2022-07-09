@@ -21,7 +21,7 @@ final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
     public function extension()
     {
         $ext = self::$_extensions->get(Extension::OID_TARGET_INFORMATION);
-        $this->assertInstanceOf(TargetInformationExtension::class, $ext);
+        static::assertInstanceOf(TargetInformationExtension::class, $ext);
         return $ext;
     }
 
@@ -33,7 +33,7 @@ final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
     public function countMethod(TargetInformationExtension $ti)
     {
         $targets = $ti->targets();
-        $this->assertCount(3, $targets);
+        static::assertCount(3, $targets);
     }
 
     /**
@@ -46,6 +46,6 @@ final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
         $vals = array_map(function (Target $target) {
             return $target->string();
         }, $ti->targets()  ->all());
-        $this->assertEqualsCanonicalizing(['urn:test', '*.example.com', 'urn:another'], $vals);
+        static::assertEqualsCanonicalizing(['urn:test', '*.example.com', 'urn:another'], $vals);
     }
 }

@@ -21,7 +21,7 @@ final class LengthDecodeTest extends TestCase
     public function type()
     {
         $length = Length::fromDER("\x0");
-        $this->assertInstanceOf(Length::class, $length);
+        static::assertInstanceOf(Length::class, $length);
     }
 
     /**
@@ -30,7 +30,7 @@ final class LengthDecodeTest extends TestCase
     public function definite()
     {
         $length = Length::fromDER("\x00");
-        $this->assertFalse($length->isIndefinite());
+        static::assertFalse($length->isIndefinite());
     }
 
     /**
@@ -39,7 +39,7 @@ final class LengthDecodeTest extends TestCase
     public function indefinite()
     {
         $length = Length::fromDER("\x80");
-        $this->assertTrue($length->isIndefinite());
+        static::assertTrue($length->isIndefinite());
     }
 
     /**
@@ -79,8 +79,8 @@ final class LengthDecodeTest extends TestCase
     public function shortForm()
     {
         $length = Length::fromDER("\x7f");
-        $this->assertEquals(0x7f, $length->length());
-        $this->assertEquals(0x7f, $length->intLength());
+        static::assertEquals(0x7f, $length->length());
+        static::assertEquals(0x7f, $length->intLength());
     }
 
     /**
@@ -89,7 +89,7 @@ final class LengthDecodeTest extends TestCase
     public function longForm()
     {
         $length = Length::fromDER("\x81\xff");
-        $this->assertEquals(0xff, $length->length());
+        static::assertEquals(0xff, $length->length());
     }
 
     /**
@@ -98,8 +98,8 @@ final class LengthDecodeTest extends TestCase
     public function longForm2()
     {
         $length = Length::fromDER("\x82\xca\xfe");
-        $this->assertEquals(0xcafe, $length->length());
-        $this->assertEquals(0xcafe, $length->intLength());
+        static::assertEquals(0xcafe, $length->length());
+        static::assertEquals(0xcafe, $length->intLength());
     }
 
     /**
@@ -134,7 +134,7 @@ final class LengthDecodeTest extends TestCase
         $der = "\xfe" . str_repeat("\xff", 126);
         $length = Length::fromDER($der);
         $num = gmp_init(str_repeat('ff', 126), 16);
-        $this->assertEquals($length->length(), gmp_strval($num));
+        static::assertEquals($length->length(), gmp_strval($num));
     }
 
     /**

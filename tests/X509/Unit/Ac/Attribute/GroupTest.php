@@ -29,7 +29,7 @@ final class GroupTest extends TestCase
     {
         $value = new GroupAttributeValue(IetfAttrValue::fromString(self::GROUP_NAME));
         $value = $value->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
-        $this->assertInstanceOf(GroupAttributeValue::class, $value);
+        static::assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;
     }
 
@@ -41,7 +41,7 @@ final class GroupTest extends TestCase
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -55,7 +55,7 @@ final class GroupTest extends TestCase
     public function decode($der)
     {
         $value = GroupAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
-        $this->assertInstanceOf(GroupAttributeValue::class, $value);
+        static::assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;
     }
 
@@ -67,7 +67,7 @@ final class GroupTest extends TestCase
      */
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -77,7 +77,7 @@ final class GroupTest extends TestCase
      */
     public function oID(AttributeValue $value)
     {
-        $this->assertEquals(GroupAttributeValue::OID, $value->oid());
+        static::assertEquals(GroupAttributeValue::OID, $value->oid());
     }
 
     /**
@@ -87,7 +87,7 @@ final class GroupTest extends TestCase
      */
     public function authority(GroupAttributeValue $value)
     {
-        $this->assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
+        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
     }
 
     /**
@@ -97,7 +97,7 @@ final class GroupTest extends TestCase
      */
     public function countMethod(GroupAttributeValue $value)
     {
-        $this->assertCount(1, $value);
+        static::assertCount(1, $value);
     }
 
     /**
@@ -107,7 +107,7 @@ final class GroupTest extends TestCase
      */
     public function groupName(GroupAttributeValue $value)
     {
-        $this->assertEquals(self::GROUP_NAME, $value->first());
+        static::assertEquals(self::GROUP_NAME, $value->first());
     }
 
     /**
@@ -118,7 +118,7 @@ final class GroupTest extends TestCase
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
-        $this->assertTrue($attribs->hasGroup());
+        static::assertTrue($attribs->hasGroup());
         return $attribs;
     }
 
@@ -129,6 +129,6 @@ final class GroupTest extends TestCase
      */
     public function fromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(GroupAttributeValue::class, $attribs->group());
+        static::assertInstanceOf(GroupAttributeValue::class, $attribs->group());
     }
 }

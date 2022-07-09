@@ -22,7 +22,7 @@ final class IetfAttrSyntaxTest extends TestCase
     public function createEmpty()
     {
         $val = new GroupAttributeValue();
-        $this->assertInstanceOf(IetfAttrSyntax::class, $val);
+        static::assertInstanceOf(IetfAttrSyntax::class, $val);
         return $val;
     }
 
@@ -55,7 +55,7 @@ final class IetfAttrSyntaxTest extends TestCase
      */
     public function stringValue(IetfAttrSyntax $val)
     {
-        $this->assertIsString($val->stringValue());
+        static::assertIsString($val->stringValue());
     }
 
     /**
@@ -65,7 +65,7 @@ final class IetfAttrSyntaxTest extends TestCase
      */
     public function equalityMatchingRule(IetfAttrSyntax $val)
     {
-        $this->assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
+        static::assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
     /**
@@ -75,7 +75,7 @@ final class IetfAttrSyntaxTest extends TestCase
      */
     public function rFC2253String(IetfAttrSyntax $val)
     {
-        $this->assertIsString($val->rfc2253String());
+        static::assertIsString($val->rfc2253String());
     }
 
     /**
@@ -85,6 +85,6 @@ final class IetfAttrSyntaxTest extends TestCase
      */
     public function toStringMethod(IetfAttrSyntax $val)
     {
-        $this->assertIsString(strval($val));
+        static::assertIsString(strval($val));
     }
 }

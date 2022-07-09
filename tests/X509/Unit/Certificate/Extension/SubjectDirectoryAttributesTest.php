@@ -34,7 +34,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
         $cn = new CommonNameValue(self::CN);
         $desc = new DescriptionValue(self::DESC);
         $ext = new SubjectDirectoryAttributesExtension(false, $cn->toAttribute(), $desc->toAttribute());
-        $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
+        static::assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
 
@@ -45,7 +45,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
+        static::assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
     }
 
     /**
@@ -55,7 +55,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertFalse($ext->isCritical());
+        static::assertFalse($ext->isCritical());
     }
 
     /**
@@ -66,7 +66,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -80,7 +80,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
     public function decode($der)
     {
         $ext = SubjectDirectoryAttributesExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
+        static::assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
 
@@ -92,7 +92,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -102,7 +102,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function cN(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME) ->first() ->stringValue());
+        static::assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME) ->first() ->stringValue());
     }
 
     /**
@@ -112,7 +112,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function desc(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION) ->first() ->stringValue());
+        static::assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION) ->first() ->stringValue());
     }
 
     /**
@@ -122,7 +122,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function has(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertTrue($ext->has('cn'));
+        static::assertTrue($ext->has('cn'));
     }
 
     /**
@@ -132,7 +132,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function hasNot(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertFalse($ext->has('ou'));
+        static::assertFalse($ext->has('ou'));
     }
 
     /**
@@ -142,7 +142,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function allOf(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertCount(1, $ext->allOf('cn'));
+        static::assertCount(1, $ext->allOf('cn'));
     }
 
     /**
@@ -152,7 +152,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function allOfNone(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertCount(0, $ext->allOf('ou'));
+        static::assertCount(0, $ext->allOf('ou'));
     }
 
     /**
@@ -162,7 +162,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function all(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertCount(2, $ext->all());
+        static::assertCount(2, $ext->all());
     }
 
     /**
@@ -172,7 +172,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function countMethod(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertCount(2, $ext);
+        static::assertCount(2, $ext);
     }
 
     /**
@@ -186,8 +186,8 @@ final class SubjectDirectoryAttributesTest extends TestCase
         foreach ($ext as $attr) {
             $values[] = $attr;
         }
-        $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(Attribute::class, $values);
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(Attribute::class, $values);
     }
 
     /**

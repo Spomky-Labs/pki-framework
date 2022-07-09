@@ -24,7 +24,7 @@ final class AttributeTest extends TestCase
     public function create()
     {
         $attr = Attribute::fromAttributeValues(new NameValue('one'), new NameValue('two'));
-        $this->assertInstanceOf(Attribute::class, $attr);
+        static::assertInstanceOf(Attribute::class, $attr);
         return $attr;
     }
 
@@ -37,7 +37,7 @@ final class AttributeTest extends TestCase
     {
         $der = $attr->toASN1()
             ->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -51,7 +51,7 @@ final class AttributeTest extends TestCase
     public function decode($der)
     {
         $attr = Attribute::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(Attribute::class, $attr);
+        static::assertInstanceOf(Attribute::class, $attr);
         return $attr;
     }
 
@@ -63,7 +63,7 @@ final class AttributeTest extends TestCase
      */
     public function recoded(Attribute $ref, Attribute $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -73,7 +73,7 @@ final class AttributeTest extends TestCase
      */
     public function type(Attribute $attr)
     {
-        $this->assertEquals(AttributeType::fromName('name'), $attr->type());
+        static::assertEquals(AttributeType::fromName('name'), $attr->type());
     }
 
     /**
@@ -83,7 +83,7 @@ final class AttributeTest extends TestCase
      */
     public function first(Attribute $attr)
     {
-        $this->assertEquals('one', $attr->first()->rfc2253String());
+        static::assertEquals('one', $attr->first()->rfc2253String());
     }
 
     /**
@@ -93,7 +93,7 @@ final class AttributeTest extends TestCase
      */
     public function values(Attribute $attr)
     {
-        $this->assertContainsOnlyInstancesOf(AttributeValue::class, $attr->values());
+        static::assertContainsOnlyInstancesOf(AttributeValue::class, $attr->values());
     }
 
     /**
@@ -103,7 +103,7 @@ final class AttributeTest extends TestCase
      */
     public function countMethod(Attribute $attr)
     {
-        $this->assertCount(2, $attr);
+        static::assertCount(2, $attr);
     }
 
     /**
@@ -117,7 +117,7 @@ final class AttributeTest extends TestCase
         foreach ($attr as $value) {
             $values[] = $value;
         }
-        $this->assertContainsOnlyInstancesOf(AttributeValue::class, $values);
+        static::assertContainsOnlyInstancesOf(AttributeValue::class, $values);
     }
 
     /**
@@ -146,7 +146,7 @@ final class AttributeTest extends TestCase
     public function createEmpty()
     {
         $attr = new Attribute(AttributeType::fromName('cn'));
-        $this->assertInstanceOf(Attribute::class, $attr);
+        static::assertInstanceOf(Attribute::class, $attr);
         return $attr;
     }
 

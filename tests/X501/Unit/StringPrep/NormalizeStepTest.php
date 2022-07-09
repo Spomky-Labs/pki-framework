@@ -21,6 +21,6 @@ final class NormalizeStepTest extends TestCase
         $source = 'ฉันกินกระจกได้ แต่มันไม่ทำให้ฉันเจ็บ';
         $step = new NormalizeStep();
         $expected = normalizer_normalize($source, Normalizer::FORM_KC);
-        $this->assertEquals($expected, $step->apply($source));
+        static::assertEquals($expected, $step->apply($source));
     }
 }

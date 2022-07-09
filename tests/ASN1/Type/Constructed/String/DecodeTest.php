@@ -21,8 +21,8 @@ final class DecodeTest extends TestCase
     public function decodeDefinite()
     {
         $el = ConstructedString::fromDER(hex2bin('2400'));
-        $this->assertInstanceOf(ConstructedString::class, $el);
-        $this->assertFalse($el->hasIndefiniteLength());
+        static::assertInstanceOf(ConstructedString::class, $el);
+        static::assertFalse($el->hasIndefiniteLength());
     }
 
     /**
@@ -31,8 +31,8 @@ final class DecodeTest extends TestCase
     public function decodeIndefinite()
     {
         $el = ConstructedString::fromDER(hex2bin('24800000'));
-        $this->assertInstanceOf(ConstructedString::class, $el);
-        $this->assertTrue($el->hasIndefiniteLength());
+        static::assertInstanceOf(ConstructedString::class, $el);
+        static::assertTrue($el->hasIndefiniteLength());
     }
 
     /**
@@ -51,7 +51,7 @@ final class DecodeTest extends TestCase
     public function decodeBitString()
     {
         $el = ConstructedString::fromDER(hex2bin('23800301000000'));
-        $this->assertInstanceOf(ConstructedString::class, $el);
-        $this->assertTrue($el->has(0, Element::TYPE_BIT_STRING));
+        static::assertInstanceOf(ConstructedString::class, $el);
+        static::assertTrue($el->has(0, Element::TYPE_BIT_STRING));
     }
 }

@@ -20,7 +20,7 @@ final class ExtendedKeyUsageTest extends RefExtTestHelper
     public function extendedKeyUsageExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_EXT_KEY_USAGE);
-        $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
+        static::assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
         return $ext;
     }
 
@@ -31,7 +31,7 @@ final class ExtendedKeyUsageTest extends RefExtTestHelper
      */
     public function usage(ExtendedKeyUsageExtension $eku)
     {
-        $this->assertTrue($eku->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH));
-        $this->assertTrue($eku->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
+        static::assertTrue($eku->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH));
+        static::assertTrue($eku->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
     }
 }

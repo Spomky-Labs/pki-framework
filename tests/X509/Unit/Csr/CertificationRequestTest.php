@@ -51,7 +51,7 @@ final class CertificationRequestTest extends TestCase
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
         $signature = Crypto::getDefault()->sign($data, self::$_privateKeyInfo, $algo);
         $cr = new CertificationRequest($cri, $algo, $signature);
-        $this->assertInstanceOf(CertificationRequest::class, $cr);
+        static::assertInstanceOf(CertificationRequest::class, $cr);
         return $cr;
     }
 
@@ -63,7 +63,7 @@ final class CertificationRequestTest extends TestCase
     public function encode(CertificationRequest $cr)
     {
         $seq = $cr->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -77,7 +77,7 @@ final class CertificationRequestTest extends TestCase
     public function decode($der)
     {
         $cr = CertificationRequest::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(CertificationRequest::class, $cr);
+        static::assertInstanceOf(CertificationRequest::class, $cr);
         return $cr;
     }
 
@@ -89,7 +89,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function recoded(CertificationRequest $ref, CertificationRequest $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -99,7 +99,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function certificationRequestInfo(CertificationRequest $cr)
     {
-        $this->assertInstanceOf(CertificationRequestInfo::class, $cr->certificationRequestInfo());
+        static::assertInstanceOf(CertificationRequestInfo::class, $cr->certificationRequestInfo());
     }
 
     /**
@@ -109,7 +109,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function algo(CertificationRequest $cr)
     {
-        $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $cr->signatureAlgorithm());
+        static::assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $cr->signatureAlgorithm());
     }
 
     /**
@@ -119,7 +119,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function signature(CertificationRequest $cr)
     {
-        $this->assertInstanceOf(Signature::class, $cr->signature());
+        static::assertInstanceOf(Signature::class, $cr->signature());
     }
 
     /**
@@ -129,7 +129,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function verify(CertificationRequest $cr)
     {
-        $this->assertTrue($cr->verify());
+        static::assertTrue($cr->verify());
     }
 
     /**
@@ -154,7 +154,7 @@ final class CertificationRequestTest extends TestCase
     public function toPEM(CertificationRequest $cr)
     {
         $pem = $cr->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -165,7 +165,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function toStringMethod(CertificationRequest $cr)
     {
-        $this->assertIsString(strval($cr));
+        static::assertIsString(strval($cr));
     }
 
     /**
@@ -175,7 +175,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function pEMType(PEM $pem)
     {
-        $this->assertEquals(PEM::TYPE_CERTIFICATE_REQUEST, $pem->type());
+        static::assertEquals(PEM::TYPE_CERTIFICATE_REQUEST, $pem->type());
     }
 
     /**
@@ -186,7 +186,7 @@ final class CertificationRequestTest extends TestCase
     public function fromPEM(PEM $pem)
     {
         $cr = CertificationRequest::fromPEM($pem);
-        $this->assertInstanceOf(CertificationRequest::class, $cr);
+        static::assertInstanceOf(CertificationRequest::class, $cr);
         return $cr;
     }
 
@@ -198,7 +198,7 @@ final class CertificationRequestTest extends TestCase
      */
     public function pEMRecoded(CertificationRequest $ref, CertificationRequest $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**

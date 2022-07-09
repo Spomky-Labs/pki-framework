@@ -26,7 +26,7 @@ final class ApplicationTypeTest extends TestCase
     {
         // Data ::= [APPLICATION 1] IMPLICIT INTEGER
         $el = Element::fromDER("\x41\x01\x2a");
-        $this->assertInstanceOf(ApplicationType::class, $el);
+        static::assertInstanceOf(ApplicationType::class, $el);
         return $el;
     }
 
@@ -36,7 +36,7 @@ final class ApplicationTypeTest extends TestCase
     public function createImplicit()
     {
         $el = new ImplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_APPLICATION);
-        $this->assertEquals("\x41\x01\x2a", $el->toDER());
+        static::assertEquals("\x41\x01\x2a", $el->toDER());
     }
 
     /**
@@ -47,7 +47,7 @@ final class ApplicationTypeTest extends TestCase
     public function unwrapImplicit(ApplicationType $el)
     {
         $inner = $el->implicit(Element::TYPE_INTEGER)->asInteger();
-        $this->assertInstanceOf(Integer::class, $inner);
+        static::assertInstanceOf(Integer::class, $inner);
         return $inner;
     }
 
@@ -60,7 +60,7 @@ final class ApplicationTypeTest extends TestCase
      */
     public function implicitValue(Integer $el)
     {
-        $this->assertEquals(42, $el->intNumber());
+        static::assertEquals(42, $el->intNumber());
     }
 
     /**
@@ -70,7 +70,7 @@ final class ApplicationTypeTest extends TestCase
     {
         // Data ::= [APPLICATION 1] EXPLICIT INTEGER
         $el = Element::fromDER("\x61\x03\x02\x01\x2a");
-        $this->assertInstanceOf(ApplicationType::class, $el);
+        static::assertInstanceOf(ApplicationType::class, $el);
         return $el;
     }
 
@@ -80,7 +80,7 @@ final class ApplicationTypeTest extends TestCase
     public function createExplicit()
     {
         $el = new ExplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_APPLICATION);
-        $this->assertEquals("\x61\x03\x02\x01\x2a", $el->toDER());
+        static::assertEquals("\x61\x03\x02\x01\x2a", $el->toDER());
     }
 
     /**
@@ -92,7 +92,7 @@ final class ApplicationTypeTest extends TestCase
     {
         $inner = $el->explicit()
             ->asInteger();
-        $this->assertInstanceOf(Integer::class, $inner);
+        static::assertInstanceOf(Integer::class, $inner);
         return $inner;
     }
 
@@ -105,7 +105,7 @@ final class ApplicationTypeTest extends TestCase
      */
     public function explicitValue(Integer $el)
     {
-        $this->assertEquals(42, $el->intNumber());
+        static::assertEquals(42, $el->intNumber());
     }
 
     /**
@@ -116,7 +116,7 @@ final class ApplicationTypeTest extends TestCase
     public function recodeExplicit(ApplicationType $el)
     {
         $der = $el->toDER();
-        $this->assertEquals("\x61\x03\x02\x01\x2a", $der);
+        static::assertEquals("\x61\x03\x02\x01\x2a", $der);
     }
 
     /**
@@ -125,7 +125,7 @@ final class ApplicationTypeTest extends TestCase
     public function fromUnspecified()
     {
         $el = UnspecifiedType::fromDER("\x41\x01\x2a");
-        $this->assertInstanceOf(ApplicationType::class, $el->asApplication());
+        static::assertInstanceOf(ApplicationType::class, $el->asApplication());
     }
 
     /**

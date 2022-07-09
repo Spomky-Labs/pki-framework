@@ -22,7 +22,7 @@ final class T61StringTest extends TestCase
     public function create()
     {
         $el = new T61String('');
-        $this->assertInstanceOf(T61String::class, $el);
+        static::assertInstanceOf(T61String::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class T61StringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_T61_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_T61_STRING, $el->tag());
     }
 
     /**
@@ -44,7 +44,7 @@ final class T61StringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -56,7 +56,7 @@ final class T61StringTest extends TestCase
     public function decode(string $data): T61String
     {
         $el = T61String::fromDER($data);
-        $this->assertInstanceOf(T61String::class, $el);
+        static::assertInstanceOf(T61String::class, $el);
         return $el;
     }
 
@@ -68,7 +68,7 @@ final class T61StringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -79,7 +79,7 @@ final class T61StringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(T61String::class, $wrap->asT61String());
+        static::assertInstanceOf(T61String::class, $wrap->asT61String());
     }
 
     /**

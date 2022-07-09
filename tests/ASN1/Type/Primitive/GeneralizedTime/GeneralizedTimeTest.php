@@ -26,7 +26,7 @@ final class GeneralizedTimeTest extends TestCase
     public function create()
     {
         $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
-        $this->assertInstanceOf(GeneralizedTime::class, $el);
+        static::assertInstanceOf(GeneralizedTime::class, $el);
         return $el;
     }
 
@@ -37,7 +37,7 @@ final class GeneralizedTimeTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_GENERALIZED_TIME, $el->tag());
+        static::assertEquals(Element::TYPE_GENERALIZED_TIME, $el->tag());
     }
 
     /**
@@ -48,7 +48,7 @@ final class GeneralizedTimeTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -60,7 +60,7 @@ final class GeneralizedTimeTest extends TestCase
     public function decode(string $data): GeneralizedTime
     {
         $el = GeneralizedTime::fromDER($data);
-        $this->assertInstanceOf(GeneralizedTime::class, $el);
+        static::assertInstanceOf(GeneralizedTime::class, $el);
         return $el;
     }
 
@@ -72,7 +72,7 @@ final class GeneralizedTimeTest extends TestCase
      */
     public function recoded(TimeType $ref, TimeType $el)
     {
-        $this->assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
+        static::assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
     }
 
     /**
@@ -83,7 +83,7 @@ final class GeneralizedTimeTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(GeneralizedTime::class, $wrap->asGeneralizedTime());
+        static::assertInstanceOf(GeneralizedTime::class, $wrap->asGeneralizedTime());
     }
 
     /**
@@ -105,7 +105,7 @@ final class GeneralizedTimeTest extends TestCase
     public function clone(Element $el)
     {
         $clone = clone $el;
-        $this->assertInstanceOf(GeneralizedTime::class, $clone);
+        static::assertInstanceOf(GeneralizedTime::class, $clone);
     }
 
     /**
@@ -115,8 +115,8 @@ final class GeneralizedTimeTest extends TestCase
      */
     public function stringable(TimeType $time)
     {
-        $this->assertEquals('20060102220405Z', $time->string());
-        $this->assertEquals('20060102220405Z', strval($time));
+        static::assertEquals('20060102220405Z', $time->string());
+        static::assertEquals('20060102220405Z', strval($time));
     }
 
     /**
@@ -132,6 +132,6 @@ final class GeneralizedTimeTest extends TestCase
         $str = $el->string();
         $der = $el->toDER();
         $el = GeneralizedTime::fromDER($der);
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 }

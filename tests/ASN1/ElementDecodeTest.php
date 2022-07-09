@@ -24,7 +24,7 @@ final class ElementDecodeTest extends TestCase
     public function abstract()
     {
         $el = Element::fromDER("\x5\x0");
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
     }
 
     /**
@@ -33,7 +33,7 @@ final class ElementDecodeTest extends TestCase
     public function concrete()
     {
         $el = NullType::fromDER("\x5\x0");
-        $this->assertInstanceOf(NullType::class, $el);
+        static::assertInstanceOf(NullType::class, $el);
     }
 
     /**

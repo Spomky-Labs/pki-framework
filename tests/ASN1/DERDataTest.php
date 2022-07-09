@@ -24,7 +24,7 @@ final class DERDataTest extends TestCase
     public function create()
     {
         $el = new DERData("\x5\x0");
-        $this->assertEquals(Element::TYPE_NULL, $el->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->tag());
         return $el;
     }
 
@@ -35,7 +35,7 @@ final class DERDataTest extends TestCase
      */
     public function class(DERData $el)
     {
-        $this->assertEquals(Identifier::CLASS_UNIVERSAL, $el->typeClass());
+        static::assertEquals(Identifier::CLASS_UNIVERSAL, $el->typeClass());
     }
 
     /**
@@ -45,7 +45,7 @@ final class DERDataTest extends TestCase
      */
     public function constructed(DERData $el)
     {
-        $this->assertFalse($el->isConstructed());
+        static::assertFalse($el->isConstructed());
     }
 
     /**
@@ -55,7 +55,7 @@ final class DERDataTest extends TestCase
      */
     public function encode(DERData $el)
     {
-        $this->assertEquals("\x5\x0", $el->toDER());
+        static::assertEquals("\x5\x0", $el->toDER());
     }
 
     /**
@@ -65,7 +65,7 @@ final class DERDataTest extends TestCase
     {
         $el = new DERData("\x5\x0");
         $seq = new Sequence($el);
-        $this->assertEquals("\x30\x2\x5\x0", $seq->toDER());
+        static::assertEquals("\x30\x2\x5\x0", $seq->toDER());
     }
 
     /**
@@ -75,7 +75,7 @@ final class DERDataTest extends TestCase
     {
         $el = new DERData("\x5\x0");
         $seq = new Sequence($el, new Boolean(true));
-        $this->assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
+        static::assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
 
     /**
@@ -88,7 +88,7 @@ final class DERDataTest extends TestCase
         $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
-        $this->assertEquals('', $content);
+        static::assertEquals('', $content);
     }
 
     /**
@@ -101,6 +101,6 @@ final class DERDataTest extends TestCase
         $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
-        $this->assertEquals('test', $content);
+        static::assertEquals('test', $content);
     }
 }

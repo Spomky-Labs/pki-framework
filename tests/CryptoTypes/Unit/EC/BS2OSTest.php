@@ -22,7 +22,7 @@ final class BS2OSTest extends TestCase
     public function oSType()
     {
         $os = ECConversion::bitStringToOctetString(new BitString('test'));
-        $this->assertInstanceOf(OctetString::class, $os);
+        static::assertInstanceOf(OctetString::class, $os);
     }
 
     /**
@@ -31,7 +31,7 @@ final class BS2OSTest extends TestCase
     public function bSType()
     {
         $bs = ECConversion::octetStringToBitString(new OctetString('test'));
-        $this->assertInstanceOf(BitString::class, $bs);
+        static::assertInstanceOf(BitString::class, $bs);
     }
 
     /**
@@ -51,9 +51,9 @@ final class BS2OSTest extends TestCase
     public function convert(OctetString $os, BitString $bs)
     {
         $tmp = ECConversion::octetStringToBitString($os);
-        $this->assertEquals($bs, $tmp);
+        static::assertEquals($bs, $tmp);
         $result = ECConversion::bitStringToOctetString($tmp);
-        $this->assertEquals($os, $result);
+        static::assertEquals($os, $result);
     }
 
     public function provideConvert(): Iterator

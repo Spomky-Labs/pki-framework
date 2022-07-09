@@ -41,7 +41,7 @@ final class FreshestCRLTest extends TestCase
     public function create()
     {
         $ext = new FreshestCRLExtension(false, self::$_dp);
-        $this->assertInstanceOf(FreshestCRLExtension::class, $ext);
+        static::assertInstanceOf(FreshestCRLExtension::class, $ext);
         return $ext;
     }
 
@@ -52,7 +52,7 @@ final class FreshestCRLTest extends TestCase
      */
     public function oID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_FRESHEST_CRL, $ext->oid());
+        static::assertEquals(Extension::OID_FRESHEST_CRL, $ext->oid());
     }
 
     /**
@@ -62,7 +62,7 @@ final class FreshestCRLTest extends TestCase
      */
     public function critical(Extension $ext)
     {
-        $this->assertFalse($ext->isCritical());
+        static::assertFalse($ext->isCritical());
     }
 
     /**
@@ -73,7 +73,7 @@ final class FreshestCRLTest extends TestCase
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
@@ -87,7 +87,7 @@ final class FreshestCRLTest extends TestCase
     public function decode($der)
     {
         $ext = FreshestCRLExtension::fromASN1(Sequence::fromDER($der));
-        $this->assertInstanceOf(FreshestCRLExtension::class, $ext);
+        static::assertInstanceOf(FreshestCRLExtension::class, $ext);
         return $ext;
     }
 
@@ -99,6 +99,6 @@ final class FreshestCRLTest extends TestCase
      */
     public function recoded(Extension $ref, Extension $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 }

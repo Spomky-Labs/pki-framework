@@ -20,7 +20,7 @@ final class Ed25519SignatureTest extends TestCase
     public function create(): Ed25519Signature
     {
         $sig = new Ed25519Signature(str_repeat("\0", 64));
-        $this->assertInstanceOf(Ed25519Signature::class, $sig);
+        static::assertInstanceOf(Ed25519Signature::class, $sig);
         return $sig;
     }
 
@@ -31,7 +31,7 @@ final class Ed25519SignatureTest extends TestCase
      */
     public function bitString(Ed25519Signature $sig)
     {
-        $this->assertInstanceOf(BitString::class, $sig->bitString());
+        static::assertInstanceOf(BitString::class, $sig->bitString());
     }
 
     /**

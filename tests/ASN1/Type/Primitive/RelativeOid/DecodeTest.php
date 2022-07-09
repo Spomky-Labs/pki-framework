@@ -18,6 +18,6 @@ final class DecodeTest extends TestCase
     public function decode()
     {
         $el = RelativeOID::fromDER("\x0d\x07\x01\02\x86\x48\x86\xf7\x0d");
-        $this->assertEquals('1.2.840.113549', $el->oid());
+        static::assertEquals('1.2.840.113549', $el->oid());
     }
 }

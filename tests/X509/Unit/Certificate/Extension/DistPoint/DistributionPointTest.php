@@ -33,7 +33,7 @@ final class DistributionPointTest extends TestCase
             new ReasonFlags(ReasonFlags::KEY_COMPROMISE),
             new GeneralNames(DirectoryName::fromDNString('cn=Issuer'))
         );
-        $this->assertInstanceOf(DistributionPoint::class, $dp);
+        static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }
 
@@ -45,7 +45,7 @@ final class DistributionPointTest extends TestCase
     public function encodeWithFullName(DistributionPoint $dp)
     {
         $el = $dp->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -59,7 +59,7 @@ final class DistributionPointTest extends TestCase
     public function decodeWithFullName($data)
     {
         $qual = DistributionPoint::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(DistributionPoint::class, $qual);
+        static::assertInstanceOf(DistributionPoint::class, $qual);
         return $qual;
     }
 
@@ -71,7 +71,7 @@ final class DistributionPointTest extends TestCase
      */
     public function recodedWithFullName(DistributionPoint $ref, DistributionPoint $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -81,7 +81,7 @@ final class DistributionPointTest extends TestCase
      */
     public function distributionPointName(DistributionPoint $dp)
     {
-        $this->assertInstanceOf(DistributionPointName::class, $dp->distributionPointName());
+        static::assertInstanceOf(DistributionPointName::class, $dp->distributionPointName());
     }
 
     /**
@@ -91,7 +91,7 @@ final class DistributionPointTest extends TestCase
      */
     public function fullName(DistributionPoint $dp)
     {
-        $this->assertInstanceOf(FullName::class, $dp->fullName());
+        static::assertInstanceOf(FullName::class, $dp->fullName());
     }
 
     /**
@@ -112,7 +112,7 @@ final class DistributionPointTest extends TestCase
      */
     public function reasons(DistributionPoint $dp)
     {
-        $this->assertInstanceOf(ReasonFlags::class, $dp->reasons());
+        static::assertInstanceOf(ReasonFlags::class, $dp->reasons());
     }
 
     /**
@@ -122,7 +122,7 @@ final class DistributionPointTest extends TestCase
      */
     public function cRLIssuer(DistributionPoint $dp)
     {
-        $this->assertInstanceOf(GeneralNames::class, $dp->crlIssuer());
+        static::assertInstanceOf(GeneralNames::class, $dp->crlIssuer());
     }
 
     /**
@@ -133,7 +133,7 @@ final class DistributionPointTest extends TestCase
         $dp = new DistributionPoint(
             new RelativeName(new RDN(AttributeTypeAndValue::fromAttributeValue(new CommonNameValue('Test'))))
         );
-        $this->assertInstanceOf(DistributionPoint::class, $dp);
+        static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }
 
@@ -145,7 +145,7 @@ final class DistributionPointTest extends TestCase
     public function encodeWithRelativeName(DistributionPoint $dp)
     {
         $el = $dp->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -159,7 +159,7 @@ final class DistributionPointTest extends TestCase
     public function decodeWithRelativeName($data)
     {
         $qual = DistributionPoint::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(DistributionPoint::class, $qual);
+        static::assertInstanceOf(DistributionPoint::class, $qual);
         return $qual;
     }
 
@@ -171,7 +171,7 @@ final class DistributionPointTest extends TestCase
      */
     public function recodedWithRelativeName(DistributionPoint $ref, DistributionPoint $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -181,7 +181,7 @@ final class DistributionPointTest extends TestCase
      */
     public function relativeName(DistributionPoint $dp)
     {
-        $this->assertInstanceOf(RelativeName::class, $dp->relativeName());
+        static::assertInstanceOf(RelativeName::class, $dp->relativeName());
     }
 
     /**
@@ -201,7 +201,7 @@ final class DistributionPointTest extends TestCase
     public function createEmpty()
     {
         $dp = new DistributionPoint();
-        $this->assertInstanceOf(DistributionPoint::class, $dp);
+        static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }
 

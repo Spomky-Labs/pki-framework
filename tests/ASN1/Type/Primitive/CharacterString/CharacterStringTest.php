@@ -22,7 +22,7 @@ final class CharacterStringTest extends TestCase
     public function create()
     {
         $el = new CharacterString('');
-        $this->assertInstanceOf(CharacterString::class, $el);
+        static::assertInstanceOf(CharacterString::class, $el);
         return $el;
     }
 
@@ -33,7 +33,7 @@ final class CharacterStringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_CHARACTER_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_CHARACTER_STRING, $el->tag());
     }
 
     /**
@@ -46,7 +46,7 @@ final class CharacterStringTest extends TestCase
     public function encode(Element $el)
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -62,7 +62,7 @@ final class CharacterStringTest extends TestCase
     public function decode($data)
     {
         $el = CharacterString::fromDER($data);
-        $this->assertInstanceOf(CharacterString::class, $el);
+        static::assertInstanceOf(CharacterString::class, $el);
         return $el;
     }
 
@@ -74,7 +74,7 @@ final class CharacterStringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -85,7 +85,7 @@ final class CharacterStringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(CharacterString::class, $wrap->asCharacterString());
+        static::assertInstanceOf(CharacterString::class, $wrap->asCharacterString());
     }
 
     /**

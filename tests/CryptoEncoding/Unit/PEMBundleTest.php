@@ -25,7 +25,7 @@ final class PEMBundleTest extends TestCase
     public function bundle()
     {
         $bundle = PEMBundle::fromFile(TEST_ASSETS_DIR . '/cacert.pem');
-        $this->assertInstanceOf(PEMBundle::class, $bundle);
+        static::assertInstanceOf(PEMBundle::class, $bundle);
         return $bundle;
     }
 
@@ -36,7 +36,7 @@ final class PEMBundleTest extends TestCase
      */
     public function all(PEMBundle $bundle)
     {
-        $this->assertContainsOnlyInstancesOf(PEM::class, $bundle->all());
+        static::assertContainsOnlyInstancesOf(PEM::class, $bundle->all());
     }
 
     /**
@@ -46,8 +46,8 @@ final class PEMBundleTest extends TestCase
      */
     public function first(PEMBundle $bundle)
     {
-        $this->assertInstanceOf(PEM::class, $bundle->first());
-        $this->assertEquals($bundle->all()[0], $bundle->first());
+        static::assertInstanceOf(PEM::class, $bundle->first());
+        static::assertEquals($bundle->all()[0], $bundle->first());
     }
 
     /**
@@ -57,8 +57,8 @@ final class PEMBundleTest extends TestCase
      */
     public function last(PEMBundle $bundle)
     {
-        $this->assertInstanceOf(PEM::class, $bundle->last());
-        $this->assertEquals($bundle->all()[149], $bundle->last());
+        static::assertInstanceOf(PEM::class, $bundle->last());
+        static::assertEquals($bundle->all()[149], $bundle->last());
     }
 
     /**
@@ -68,7 +68,7 @@ final class PEMBundleTest extends TestCase
      */
     public function countMethod(PEMBundle $bundle)
     {
-        $this->assertCount(150, $bundle);
+        static::assertCount(150, $bundle);
     }
 
     /**
@@ -82,7 +82,7 @@ final class PEMBundleTest extends TestCase
         foreach ($bundle as $pem) {
             $values[] = $pem;
         }
-        $this->assertContainsOnlyInstancesOf(PEM::class, $values);
+        static::assertContainsOnlyInstancesOf(PEM::class, $values);
     }
 
     /**
@@ -92,7 +92,7 @@ final class PEMBundleTest extends TestCase
      */
     public function string(PEMBundle $bundle)
     {
-        $this->assertIsString($bundle->string());
+        static::assertIsString($bundle->string());
     }
 
     /**
@@ -102,7 +102,7 @@ final class PEMBundleTest extends TestCase
      */
     public function toStringMethod(PEMBundle $bundle)
     {
-        $this->assertIsString(strval($bundle));
+        static::assertIsString(strval($bundle));
     }
 
     /**
@@ -165,6 +165,6 @@ CODE_SAMPLE;
     public function withPEMs(PEMBundle $bundle)
     {
         $bundle = $bundle->withPEMs(new PEM('TEST', 'data'));
-        $this->assertCount(151, $bundle);
+        static::assertCount(151, $bundle);
     }
 }

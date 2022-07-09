@@ -23,7 +23,7 @@ final class UTF8StringTest extends TestCase
     public function create()
     {
         $el = new UTF8String('');
-        $this->assertInstanceOf(UTF8String::class, $el);
+        static::assertInstanceOf(UTF8String::class, $el);
         return $el;
     }
 
@@ -34,7 +34,7 @@ final class UTF8StringTest extends TestCase
      */
     public function tag(Element $el)
     {
-        $this->assertEquals(Element::TYPE_UTF8_STRING, $el->tag());
+        static::assertEquals(Element::TYPE_UTF8_STRING, $el->tag());
     }
 
     /**
@@ -45,7 +45,7 @@ final class UTF8StringTest extends TestCase
     public function encode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -59,7 +59,7 @@ final class UTF8StringTest extends TestCase
     public function decode($data): UTF8String
     {
         $el = UTF8String::fromDER($data);
-        $this->assertInstanceOf(UTF8String::class, $el);
+        static::assertInstanceOf(UTF8String::class, $el);
         return $el;
     }
 
@@ -71,7 +71,7 @@ final class UTF8StringTest extends TestCase
      */
     public function recoded(Element $ref, Element $el)
     {
-        $this->assertEquals($ref, $el);
+        static::assertEquals($ref, $el);
     }
 
     /**
@@ -92,7 +92,7 @@ final class UTF8StringTest extends TestCase
     public function wrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(UTF8String::class, $wrap->asUTF8String());
+        static::assertInstanceOf(UTF8String::class, $wrap->asUTF8String());
     }
 
     /**

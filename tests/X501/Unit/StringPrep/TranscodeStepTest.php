@@ -21,7 +21,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_UTF8_STRING);
-        $this->assertEquals($str, $step->apply($str));
+        static::assertEquals($str, $step->apply($str));
     }
 
     /**
@@ -31,7 +31,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'ASCII';
         $step = new TranscodeStep(Element::TYPE_PRINTABLE_STRING);
-        $this->assertEquals($str, $step->apply($str));
+        static::assertEquals($str, $step->apply($str));
     }
 
     /**
@@ -41,7 +41,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_BMP_STRING);
-        $this->assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8')));
+        static::assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8')));
     }
 
     /**
@@ -51,7 +51,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_UNIVERSAL_STRING);
-        $this->assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8')));
+        static::assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8')));
     }
 
     /**
@@ -61,7 +61,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'TEST';
         $step = new TranscodeStep(Element::TYPE_T61_STRING);
-        $this->assertIsString($step->apply($str));
+        static::assertIsString($step->apply($str));
     }
 
     /**

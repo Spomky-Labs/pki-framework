@@ -24,7 +24,7 @@ final class UnknownAttributeValueTest extends TestCase
     public function create()
     {
         $val = AttributeValue::fromASN1ByOID(self::OID, new UnspecifiedType(new UTF8String('Test')));
-        $this->assertInstanceOf(UnknownAttributeValue::class, $val);
+        static::assertInstanceOf(UnknownAttributeValue::class, $val);
         return $val;
     }
 
@@ -35,7 +35,7 @@ final class UnknownAttributeValueTest extends TestCase
      */
     public function oID(AttributeValue $val)
     {
-        $this->assertEquals(self::OID, $val->oid());
+        static::assertEquals(self::OID, $val->oid());
     }
 
     /**
@@ -45,7 +45,7 @@ final class UnknownAttributeValueTest extends TestCase
      */
     public function aNS1(AttributeValue $val)
     {
-        $this->assertInstanceOf(UTF8String::class, $val->toASN1());
+        static::assertInstanceOf(UTF8String::class, $val->toASN1());
     }
 
     /**
@@ -55,7 +55,7 @@ final class UnknownAttributeValueTest extends TestCase
      */
     public function string(AttributeValue $val)
     {
-        $this->assertEquals('Test', $val->rfc2253String());
+        static::assertEquals('Test', $val->rfc2253String());
     }
 
     /**
@@ -65,6 +65,6 @@ final class UnknownAttributeValueTest extends TestCase
      */
     public function toStringMethod(AttributeValue $val)
     {
-        $this->assertIsString(strval($val));
+        static::assertIsString(strval($val));
     }
 }

@@ -27,7 +27,7 @@ final class RSAPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = RSAPrivateKey::fromDER($pem->data());
-        $this->assertInstanceOf(RSAPrivateKey::class, $pk);
+        static::assertInstanceOf(RSAPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -40,7 +40,7 @@ final class RSAPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = RSAPrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPrivateKey::class, $pk);
+        static::assertInstanceOf(RSAPrivateKey::class, $pk);
         return $pk;
     }
 
@@ -52,7 +52,7 @@ final class RSAPrivateKeyTest extends TestCase
     public function toPEM(RSAPrivateKey $pk)
     {
         $pem = $pk->toPEM();
-        $this->assertInstanceOf(PEM::class, $pem);
+        static::assertInstanceOf(PEM::class, $pem);
         return $pem;
     }
 
@@ -64,7 +64,7 @@ final class RSAPrivateKeyTest extends TestCase
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
-        $this->assertEquals($ref, $pem);
+        static::assertEquals($ref, $pem);
     }
 
     /**
@@ -74,7 +74,7 @@ final class RSAPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pk = RSAPrivateKey::fromPEM($pem);
-        $this->assertInstanceOf(RSAPrivateKey::class, $pk);
+        static::assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
     /**
@@ -86,7 +86,7 @@ final class RSAPrivateKeyTest extends TestCase
     {
         $pub = $pk->publicKey();
         $ref = RSAPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem'));
-        $this->assertEquals($ref, $pub);
+        static::assertEquals($ref, $pub);
     }
 
     /**
@@ -128,7 +128,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function modulus(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->modulus());
+        static::assertNotEmpty($pk->modulus());
     }
 
     /**
@@ -138,7 +138,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function publicExponent(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->publicExponent());
+        static::assertNotEmpty($pk->publicExponent());
     }
 
     /**
@@ -148,7 +148,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function privateExponent(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->privateExponent());
+        static::assertNotEmpty($pk->privateExponent());
     }
 
     /**
@@ -158,7 +158,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function prime1(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->prime1());
+        static::assertNotEmpty($pk->prime1());
     }
 
     /**
@@ -168,7 +168,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function prime2(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->prime2());
+        static::assertNotEmpty($pk->prime2());
     }
 
     /**
@@ -178,7 +178,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function exponent1(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->exponent1());
+        static::assertNotEmpty($pk->exponent1());
     }
 
     /**
@@ -188,7 +188,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function exponent2(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->exponent2());
+        static::assertNotEmpty($pk->exponent2());
     }
 
     /**
@@ -198,7 +198,7 @@ final class RSAPrivateKeyTest extends TestCase
      */
     public function coefficient(RSAPrivateKey $pk)
     {
-        $this->assertNotEmpty($pk->coefficient());
+        static::assertNotEmpty($pk->coefficient());
     }
 
     /**
@@ -209,6 +209,6 @@ final class RSAPrivateKeyTest extends TestCase
     public function privateKeyInfo(RSAPrivateKey $pk)
     {
         $pki = $pk->privateKeyInfo();
-        $this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+        static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 }

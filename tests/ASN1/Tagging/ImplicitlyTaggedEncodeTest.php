@@ -21,7 +21,7 @@ final class ImplicitlyTaggedEncodeTest extends TestCase
     public function null()
     {
         $el = new ImplicitlyTaggedType(0, new NullType());
-        $this->assertEquals("\x80\x0", $el->toDER());
+        static::assertEquals("\x80\x0", $el->toDER());
     }
 
     /**
@@ -30,7 +30,7 @@ final class ImplicitlyTaggedEncodeTest extends TestCase
     public function longTag()
     {
         $el = new ImplicitlyTaggedType(255, new NullType());
-        $this->assertEquals("\x9f\x81\x7f\x0", $el->toDER());
+        static::assertEquals("\x9f\x81\x7f\x0", $el->toDER());
     }
 
     /**
@@ -39,6 +39,6 @@ final class ImplicitlyTaggedEncodeTest extends TestCase
     public function recode()
     {
         $el = new ImplicitlyTaggedType(0, new Boolean(true));
-        $this->assertInstanceOf(Boolean::class, $el->implicit(Element::TYPE_BOOLEAN) ->asBoolean());
+        static::assertInstanceOf(Boolean::class, $el->implicit(Element::TYPE_BOOLEAN) ->asBoolean());
     }
 }

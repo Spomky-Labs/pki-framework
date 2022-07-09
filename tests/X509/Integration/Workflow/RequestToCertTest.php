@@ -64,7 +64,7 @@ final class RequestToCertTest extends TestCase
         );
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }
 
@@ -79,7 +79,7 @@ final class RequestToCertTest extends TestCase
         $cri = $cri->withExtensionRequest(new Extensions(new BasicConstraintsExtension(true, false)));
         $algo = new ECDSAWithSHA1AlgorithmIdentifier();
         $csr = $cri->sign($algo, self::$_subjectKey);
-        $this->assertInstanceOf(CertificationRequest::class, $csr);
+        static::assertInstanceOf(CertificationRequest::class, $csr);
         return $csr;
     }
 
@@ -100,7 +100,7 @@ final class RequestToCertTest extends TestCase
         );
         $algo = new SHA512WithRSAEncryptionAlgorithmIdentifier();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);
-        $this->assertInstanceOf(Certificate::class, $cert);
+        static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }
 
@@ -113,7 +113,7 @@ final class RequestToCertTest extends TestCase
     public function buildPath(Certificate $ca, Certificate $cert)
     {
         $path = CertificationPath::fromTrustAnchorToTarget($ca, $cert);
-        $this->assertInstanceOf(CertificationPath::class, $path);
+        static::assertInstanceOf(CertificationPath::class, $path);
         return $path;
     }
 
@@ -126,6 +126,6 @@ final class RequestToCertTest extends TestCase
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2016-05-02 12:30:00'));
         $result = $path->validate($config);
-        $this->assertInstanceOf(PathValidationResult::class, $result);
+        static::assertInstanceOf(PathValidationResult::class, $result);
     }
 }

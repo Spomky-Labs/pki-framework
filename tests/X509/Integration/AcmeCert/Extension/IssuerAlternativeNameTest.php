@@ -21,7 +21,7 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
     public function issuerAlternativeName()
     {
         $ext = self::$_extensions->get(Extension::OID_ISSUER_ALT_NAME);
-        $this->assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);
+        static::assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);
         return $ext;
     }
 
@@ -36,6 +36,6 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()
             ->toString();
-        $this->assertEquals('o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate', $dn);
+        static::assertEquals('o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate', $dn);
     }
 }

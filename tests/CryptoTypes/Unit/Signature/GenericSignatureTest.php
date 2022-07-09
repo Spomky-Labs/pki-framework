@@ -23,7 +23,7 @@ final class GenericSignatureTest extends TestCase
     public function create()
     {
         $sig = new GenericSignature(new BitString('test'), new SHA1WithRSAEncryptionAlgorithmIdentifier());
-        $this->assertInstanceOf(GenericSignature::class, $sig);
+        static::assertInstanceOf(GenericSignature::class, $sig);
         return $sig;
     }
 
@@ -34,7 +34,7 @@ final class GenericSignatureTest extends TestCase
      */
     public function bitString(GenericSignature $sig)
     {
-        $this->assertInstanceOf(BitString::class, $sig->bitString());
+        static::assertInstanceOf(BitString::class, $sig->bitString());
     }
 
     /**
@@ -44,6 +44,6 @@ final class GenericSignatureTest extends TestCase
      */
     public function signatureAlgorithm(GenericSignature $sig)
     {
-        $this->assertInstanceOf(AlgorithmIdentifier::class, $sig->signatureAlgorithm());
+        static::assertInstanceOf(AlgorithmIdentifier::class, $sig->signatureAlgorithm());
     }
 }

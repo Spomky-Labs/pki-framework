@@ -20,7 +20,7 @@ final class AttributeTypeTest extends TestCase
     public function create()
     {
         $type = AttributeType::fromName('name');
-        $this->assertInstanceOf(AttributeType::class, $type);
+        static::assertInstanceOf(AttributeType::class, $type);
         return $type;
     }
 
@@ -33,7 +33,7 @@ final class AttributeTypeTest extends TestCase
     {
         $der = $type->toASN1()
             ->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -47,7 +47,7 @@ final class AttributeTypeTest extends TestCase
     public function decode($der)
     {
         $type = AttributeType::fromASN1(ObjectIdentifier::fromDER($der));
-        $this->assertInstanceOf(AttributeType::class, $type);
+        static::assertInstanceOf(AttributeType::class, $type);
         return $type;
     }
 
@@ -59,7 +59,7 @@ final class AttributeTypeTest extends TestCase
      */
     public function recoded(AttributeType $ref, AttributeType $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -69,7 +69,7 @@ final class AttributeTypeTest extends TestCase
      */
     public function oID(AttributeType $type)
     {
-        $this->assertEquals(AttributeType::OID_NAME, $type->oid());
+        static::assertEquals(AttributeType::OID_NAME, $type->oid());
     }
 
     /**
@@ -79,7 +79,7 @@ final class AttributeTypeTest extends TestCase
      */
     public function name(AttributeType $type)
     {
-        $this->assertEquals('name', $type->typeName());
+        static::assertEquals('name', $type->typeName());
     }
 
     /**
@@ -89,7 +89,7 @@ final class AttributeTypeTest extends TestCase
     {
         static $oid = '1.3.6.1.3';
         $type = new AttributeType($oid);
-        $this->assertEquals($oid, $type->typeName());
+        static::assertEquals($oid, $type->typeName());
     }
 
     /**

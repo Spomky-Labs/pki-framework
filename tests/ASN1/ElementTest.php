@@ -20,7 +20,7 @@ final class ElementTest extends TestCase
      */
     public function unknownTagToName()
     {
-        $this->assertEquals('TAG 100', Element::tagToName(100));
+        static::assertEquals('TAG 100', Element::tagToName(100));
     }
 
     /**
@@ -33,7 +33,7 @@ final class ElementTest extends TestCase
         $prop = $cls->getProperty('_typeTag');
         $prop->setAccessible(true);
         $prop->setValue($el, Element::TYPE_BOOLEAN);
-        $this->assertFalse($el->isType(Element::TYPE_BOOLEAN));
+        static::assertFalse($el->isType(Element::TYPE_BOOLEAN));
     }
 
     /**
@@ -42,7 +42,7 @@ final class ElementTest extends TestCase
     public function isPseudotypeFail()
     {
         $el = new NullType();
-        $this->assertFalse($el->isType(-99));
+        static::assertFalse($el->isType(-99));
     }
 
     /**
@@ -51,7 +51,7 @@ final class ElementTest extends TestCase
     public function asElement()
     {
         $el = new NullType();
-        $this->assertEquals($el, $el->asElement());
+        static::assertEquals($el, $el->asElement());
         return $el;
     }
 
@@ -63,7 +63,7 @@ final class ElementTest extends TestCase
     public function asUnspecified(Element $el)
     {
         $type = $el->asUnspecified();
-        $this->assertInstanceOf(UnspecifiedType::class, $type);
+        static::assertInstanceOf(UnspecifiedType::class, $type);
     }
 
     /**
@@ -72,7 +72,7 @@ final class ElementTest extends TestCase
     public function isIndefinite()
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
-        $this->assertTrue($el->hasIndefiniteLength());
+        static::assertTrue($el->hasIndefiniteLength());
     }
 
     /**
@@ -82,6 +82,6 @@ final class ElementTest extends TestCase
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
         $el = $el->withIndefiniteLength(false);
-        $this->assertEquals(hex2bin('30020500'), $el->toDER());
+        static::assertEquals(hex2bin('30020500'), $el->toDER());
     }
 }

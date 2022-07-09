@@ -86,7 +86,7 @@ final class DifferentAlgoParamsTest extends TestCase
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
-        $this->assertInstanceOf(PathValidationResult::class, $result);
+        static::assertInstanceOf(PathValidationResult::class, $result);
     }
 }
 

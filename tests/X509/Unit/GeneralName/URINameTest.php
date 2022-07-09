@@ -24,7 +24,7 @@ final class URINameTest extends TestCase
     public function create()
     {
         $uri = new UniformResourceIdentifier(self::URI);
-        $this->assertInstanceOf(UniformResourceIdentifier::class, $uri);
+        static::assertInstanceOf(UniformResourceIdentifier::class, $uri);
         return $uri;
     }
 
@@ -36,7 +36,7 @@ final class URINameTest extends TestCase
     public function encode(UniformResourceIdentifier $uri)
     {
         $el = $uri->toASN1();
-        $this->assertInstanceOf(ImplicitTagging::class, $el);
+        static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el->toDER();
     }
 
@@ -50,7 +50,7 @@ final class URINameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        $this->assertEquals(GeneralName::TAG_URI, $el->tag());
+        static::assertEquals(GeneralName::TAG_URI, $el->tag());
     }
 
     /**
@@ -63,7 +63,7 @@ final class URINameTest extends TestCase
     public function decode($der)
     {
         $uri = UniformResourceIdentifier::fromASN1(Element::fromDER($der));
-        $this->assertInstanceOf(UniformResourceIdentifier::class, $uri);
+        static::assertInstanceOf(UniformResourceIdentifier::class, $uri);
         return $uri;
     }
 
@@ -75,7 +75,7 @@ final class URINameTest extends TestCase
      */
     public function recoded(UniformResourceIdentifier $ref, UniformResourceIdentifier $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -85,7 +85,7 @@ final class URINameTest extends TestCase
      */
     public function string(UniformResourceIdentifier $uri)
     {
-        $this->assertEquals(self::URI, $uri->string());
+        static::assertEquals(self::URI, $uri->string());
     }
 
     /**
@@ -95,6 +95,6 @@ final class URINameTest extends TestCase
      */
     public function uRI(UniformResourceIdentifier $uri)
     {
-        $this->assertEquals(self::URI, $uri->uri());
+        static::assertEquals(self::URI, $uri->uri());
     }
 }

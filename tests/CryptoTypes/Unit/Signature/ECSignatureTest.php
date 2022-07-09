@@ -22,7 +22,7 @@ final class ECSignatureTest extends TestCase
     public function create()
     {
         $sig = new ECSignature('123456789', '987654321');
-        $this->assertInstanceOf(ECSignature::class, $sig);
+        static::assertInstanceOf(ECSignature::class, $sig);
         return $sig;
     }
 
@@ -34,7 +34,7 @@ final class ECSignatureTest extends TestCase
     public function encode(ECSignature $sig)
     {
         $el = $sig->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
     }
 
     /**
@@ -45,7 +45,7 @@ final class ECSignatureTest extends TestCase
     public function toDER(ECSignature $sig)
     {
         $der = $sig->toDER();
-        $this->assertIsString($der);
+        static::assertIsString($der);
         return $der;
     }
 
@@ -59,7 +59,7 @@ final class ECSignatureTest extends TestCase
     public function decode($data)
     {
         $sig = ECSignature::fromDER($data);
-        $this->assertInstanceOf(ECSignature::class, $sig);
+        static::assertInstanceOf(ECSignature::class, $sig);
         return $sig;
     }
 
@@ -71,7 +71,7 @@ final class ECSignatureTest extends TestCase
      */
     public function recoded(ECSignature $ref, ECSignature $sig)
     {
-        $this->assertEquals($ref, $sig);
+        static::assertEquals($ref, $sig);
     }
 
     /**
@@ -81,7 +81,7 @@ final class ECSignatureTest extends TestCase
      */
     public function rValue(ECSignature $sig)
     {
-        $this->assertEquals('123456789', $sig->r());
+        static::assertEquals('123456789', $sig->r());
     }
 
     /**
@@ -91,7 +91,7 @@ final class ECSignatureTest extends TestCase
      */
     public function sValue(ECSignature $sig)
     {
-        $this->assertEquals('987654321', $sig->s());
+        static::assertEquals('987654321', $sig->s());
     }
 
     /**
@@ -101,6 +101,6 @@ final class ECSignatureTest extends TestCase
      */
     public function bitString(ECSignature $sig)
     {
-        $this->assertInstanceOf(BitString::class, $sig->bitString());
+        static::assertInstanceOf(BitString::class, $sig->bitString());
     }
 }

@@ -19,7 +19,7 @@ final class DecodeTest extends TestCase
     public function type()
     {
         $el = IA5String::fromDER("\x16\x0");
-        $this->assertInstanceOf(IA5String::class, $el);
+        static::assertInstanceOf(IA5String::class, $el);
     }
 
     /**
@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = IA5String::fromDER("\x16\x0c{$str}");
-        $this->assertEquals($str, $el->string());
+        static::assertEquals($str, $el->string());
     }
 
     /**

@@ -23,7 +23,7 @@ final class PolicyMappingTest extends TestCase
     public function create()
     {
         $mapping = new PolicyMapping(self::ISSUER_POLICY, self::SUBJECT_POLICY);
-        $this->assertInstanceOf(PolicyMapping::class, $mapping);
+        static::assertInstanceOf(PolicyMapping::class, $mapping);
         return $mapping;
     }
 
@@ -35,7 +35,7 @@ final class PolicyMappingTest extends TestCase
     public function encode(PolicyMapping $mapping)
     {
         $el = $mapping->toASN1();
-        $this->assertInstanceOf(Sequence::class, $el);
+        static::assertInstanceOf(Sequence::class, $el);
         return $el->toDER();
     }
 
@@ -49,7 +49,7 @@ final class PolicyMappingTest extends TestCase
     public function decode($data)
     {
         $mapping = PolicyMapping::fromASN1(Sequence::fromDER($data));
-        $this->assertInstanceOf(PolicyMapping::class, $mapping);
+        static::assertInstanceOf(PolicyMapping::class, $mapping);
         return $mapping;
     }
 
@@ -61,7 +61,7 @@ final class PolicyMappingTest extends TestCase
      */
     public function recoded(PolicyMapping $ref, PolicyMapping $new)
     {
-        $this->assertEquals($ref, $new);
+        static::assertEquals($ref, $new);
     }
 
     /**
@@ -71,7 +71,7 @@ final class PolicyMappingTest extends TestCase
      */
     public function issuerDomainPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::ISSUER_POLICY, $mapping->issuerDomainPolicy());
+        static::assertEquals(self::ISSUER_POLICY, $mapping->issuerDomainPolicy());
     }
 
     /**
@@ -81,6 +81,6 @@ final class PolicyMappingTest extends TestCase
      */
     public function subjectDomainPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());
+        static::assertEquals(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());
     }
 }

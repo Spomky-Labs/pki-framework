@@ -27,7 +27,7 @@ final class Curve25519AITest extends TestCase
     {
         $ai = new Ed25519AlgorithmIdentifier();
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -39,7 +39,7 @@ final class Curve25519AITest extends TestCase
     public function decodeEd25519(Sequence $seq): Ed25519AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(Ed25519AlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(Ed25519AlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -50,7 +50,7 @@ final class Curve25519AITest extends TestCase
      */
     public function ed25519Name(Ed25519AlgorithmIdentifier $ai)
     {
-        $this->assertIsString($ai->name());
+        static::assertIsString($ai->name());
     }
 
     /**
@@ -62,7 +62,7 @@ final class Curve25519AITest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pk = PrivateKeyInfo::fromPEM($pem);
-        $this->assertTrue($ai->supportsKeyAlgorithm($pk->algorithmIdentifier()));
+        static::assertTrue($ai->supportsKeyAlgorithm($pk->algorithmIdentifier()));
     }
 
     /**
@@ -72,7 +72,7 @@ final class Curve25519AITest extends TestCase
     {
         $ai = new X25519AlgorithmIdentifier();
         $seq = $ai->toASN1();
-        $this->assertInstanceOf(Sequence::class, $seq);
+        static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
 
@@ -84,7 +84,7 @@ final class Curve25519AITest extends TestCase
     public function decodeX25519(Sequence $seq): X25519AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(X25519AlgorithmIdentifier::class, $ai);
+        static::assertInstanceOf(X25519AlgorithmIdentifier::class, $ai);
         return $ai;
     }
 
@@ -95,7 +95,7 @@ final class Curve25519AITest extends TestCase
      */
     public function x25519Name(X25519AlgorithmIdentifier $ai)
     {
-        $this->assertIsString($ai->name());
+        static::assertIsString($ai->name());
     }
 
     /**
