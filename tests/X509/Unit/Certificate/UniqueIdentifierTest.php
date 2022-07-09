@@ -9,11 +9,9 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\X509\Certificate\UniqueIdentifier;
 
 /**
- * @group certificate
- *
  * @internal
  */
-class UniqueIdentifierTest extends TestCase
+final class UniqueIdentifierTest extends TestCase
 {
     final public const UID = 'urn:test';
 

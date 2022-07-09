@@ -10,12 +10,9 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class AIFactoryTest extends TestCase
+final class AIFactoryTest extends TestCase
 {
     public function testProvider()
     {

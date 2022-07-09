@@ -16,20 +16,15 @@ use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class FreshestCRLTest extends TestCase
+final class FreshestCRLTest extends TestCase
 {
     private static $_dp;
 
     public static function setUpBeforeClass(): void
     {
-        $name = new FullName(
-            new GeneralNames(new UniformResourceIdentifier('urn:test'))
-        );
+        $name = new FullName(new GeneralNames(new UniformResourceIdentifier('urn:test')));
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
         $issuer = new GeneralNames(DirectoryName::fromDNString('cn=Issuer'));
         self::$_dp = new DistributionPoint($name, $reasons, $issuer);

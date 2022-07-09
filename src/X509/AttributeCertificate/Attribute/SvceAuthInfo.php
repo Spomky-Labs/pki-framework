@@ -14,8 +14,7 @@ use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * Base class implementing *SvceAuthInfo* ASN.1 type used by
- * attribute certificate attribute values.
+ * Base class implementing *SvceAuthInfo* ASN.1 type used by attribute certificate attribute values.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4.1
  */
@@ -45,11 +44,8 @@ abstract class SvceAuthInfo extends AttributeValue
     /**
      * Constructor.
      */
-    public function __construct(
-        GeneralName $service,
-        GeneralName $ident,
-        ?string $auth_info = null
-    ) {
+    public function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
+    {
         $this->_service = $service;
         $this->_ident = $ident;
         $this->_authInfo = $auth_info;
@@ -65,7 +61,9 @@ abstract class SvceAuthInfo extends AttributeValue
         $ident = GeneralName::fromASN1($seq->at(1)->asTagged());
         $auth_info = null;
         if ($seq->has(2, Element::TYPE_OCTET_STRING)) {
-            $auth_info = $seq->at(2)->asString()->string();
+            $auth_info = $seq->at(2)
+                ->asString()
+                ->string();
         }
         return new static($service, $ident, $auth_info);
     }
@@ -93,8 +91,6 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Get authentication info.
-     *
-     * @throws \LogicException If not set
      */
     public function authInfo(): string
     {

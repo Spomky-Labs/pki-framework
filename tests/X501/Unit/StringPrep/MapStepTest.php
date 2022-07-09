@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\StringPrep\MapStep;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class MapStepTest extends TestCase
+final class MapStepTest extends TestCase
 {
     /**
      * @dataProvider provideApplyCaseFold
@@ -28,9 +26,6 @@ class MapStepTest extends TestCase
 
     public function provideApplyCaseFold()
     {
-        return [
-            ['abc', 'abc'],
-            ['ABC', 'abc'],
-        ];
+        return [['abc', 'abc'], ['ABC', 'abc']];
     }
 }

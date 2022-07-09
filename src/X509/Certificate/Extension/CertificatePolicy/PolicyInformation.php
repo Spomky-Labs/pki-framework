@@ -9,8 +9,7 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * Implements *PolicyInformation* ASN.1 type used by 'Certificate Policies'
- * certificate extension.
+ * Implements *PolicyInformation* ASN.1 type used by 'Certificate Policies' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -54,14 +53,18 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $oid = $seq->at(0)->asObjectIdentifier()->oid();
+        $oid = $seq->at(0)
+            ->asObjectIdentifier()
+            ->oid();
         $qualifiers = [];
         if (count($seq) > 1) {
             $qualifiers = array_map(
                 function (UnspecifiedType $el) {
                     return PolicyQualifierInfo::fromASN1($el->asSequence());
                 },
-                $seq->at(1)->asSequence()->elements()
+                $seq->at(1)
+                    ->asSequence()
+                    ->elements()
             );
         }
         return new self($oid, ...$qualifiers);
@@ -103,8 +106,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Get qualifier by OID.
-     *
-     * @throws \LogicException IF not set
      */
     public function get(string $oid): PolicyQualifierInfo
     {
@@ -124,8 +125,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Get CPS qualifier.
-     *
-     * @throws \LogicException If not set
      */
     public function CPSQualifier(): CPSQualifier
     {
@@ -145,8 +144,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Get user notice qualifier.
-     *
-     * @throws \LogicException If not set
      */
     public function userNoticeQualifier(): UserNoticeQualifier
     {

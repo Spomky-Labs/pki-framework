@@ -11,12 +11,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\SHA224AlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class SHA224AITest extends TestCase
+final class SHA224AITest extends TestCase
 {
     /**
      * @return Sequence

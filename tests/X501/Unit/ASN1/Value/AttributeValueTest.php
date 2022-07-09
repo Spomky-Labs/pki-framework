@@ -13,12 +13,9 @@ use Sop\X501\ASN1\AttributeValue\AttributeValue;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 
 /**
- * @group asn1
- * @group value
- *
  * @internal
  */
-class AttributeValueTest extends TestCase
+final class AttributeValueTest extends TestCase
 {
     public function testFromASN1BadCall()
     {
@@ -36,9 +33,6 @@ class AttributeValueTest extends TestCase
     public function testToAttributeTypeAndValue()
     {
         $val = new CommonNameValue('name');
-        $this->assertInstanceOf(
-            AttributeTypeAndValue::class,
-            $val->toAttributeTypeAndValue()
-        );
+        $this->assertInstanceOf(AttributeTypeAndValue::class, $val->toAttributeTypeAndValue());
     }
 }

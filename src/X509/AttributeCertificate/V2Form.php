@@ -62,13 +62,15 @@ class V2Form extends AttCertIssuer
         }
         if ($seq->hasTagged(0)) {
             $cert_id = IssuerSerial::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
         if ($seq->hasTagged(1)) {
             $digest_info = ObjectDigestInfo::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(1)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
@@ -88,8 +90,6 @@ class V2Form extends AttCertIssuer
 
     /**
      * Get issuer name.
-     *
-     * @throws \LogicException If not set
      */
     public function issuerName(): GeneralNames
     {
@@ -102,12 +102,13 @@ class V2Form extends AttCertIssuer
     /**
      * Get DN of the issuer.
      *
-     * This is a convenience method conforming to RFC 5755, which states
-     * that Issuer must contain only one non-empty distinguished name.
+     * This is a convenience method conforming to RFC 5755, which states that Issuer must contain only one non-empty
+     * distinguished name.
      */
     public function name(): Name
     {
-        return $this->issuerName()->firstDN();
+        return $this->issuerName()
+            ->firstDN();
     }
 
     public function toASN1(): Element
@@ -117,16 +118,10 @@ class V2Form extends AttCertIssuer
             $elements[] = $this->_issuerName->toASN1();
         }
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                $this->_baseCertificateID->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(0, $this->_baseCertificateID->toASN1());
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(
-                1,
-                $this->_objectDigestInfo->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(1, $this->_objectDigestInfo->toASN1());
         }
         return new ImplicitlyTaggedType(0, new Sequence(...$elements));
     }

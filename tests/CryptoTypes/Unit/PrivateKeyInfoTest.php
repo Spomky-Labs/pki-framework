@@ -21,12 +21,9 @@ use Sop\X501\ASN1\AttributeType;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 
 /**
- * @group asn1
- * @group privatekey
- *
  * @internal
  */
-class PrivateKeyInfoTest extends TestCase
+final class PrivateKeyInfoTest extends TestCase
 {
     /**
      * @return PrivateKeyInfo
@@ -55,10 +52,7 @@ class PrivateKeyInfoTest extends TestCase
      */
     public function testAlgoOID(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(
-            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
-            $algo->oid()
-        );
+        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -104,10 +98,7 @@ class PrivateKeyInfoTest extends TestCase
      */
     public function testECPrivateKeyHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve()
-        );
+        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -202,7 +193,8 @@ class PrivateKeyInfoTest extends TestCase
     public function testInvalidAI(PrivateKeyInfo $pki)
     {
         $seq = $pki->toASN1();
-        $ai = $seq->at(1)->asSequence()
+        $ai = $seq->at(1)
+            ->asSequence()
             ->withReplaced(0, new ObjectIdentifier('1.3.6.1.3'));
         $seq = $seq->withReplaced(1, $ai);
         $this->expectException(\RuntimeException::class);
@@ -225,14 +217,8 @@ class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $ref = PrivateKeyInfo::fromPEM($pem);
-        $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(
-            new CommonNameValue('John Doe')
-        );
-        $pki = new PrivateKeyInfo(
-            $ref->algorithmIdentifier(),
-            $ref->privateKeyData(),
-            $attribs
-        );
+        $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(new CommonNameValue('John Doe'));
+        $pki = new PrivateKeyInfo($ref->algorithmIdentifier(), $ref->privateKeyData(), $attribs);
         $pem = $pki->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
         return $pem;
@@ -244,8 +230,10 @@ class PrivateKeyInfoTest extends TestCase
     public function testAttributes(PEM $pem)
     {
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $value = $pki->attributes()->firstOf(AttributeType::OID_COMMON_NAME)
-            ->first()->stringValue();
+        $value = $pki->attributes()
+            ->firstOf(AttributeType::OID_COMMON_NAME)
+            ->first()
+            ->stringValue();
         $this->assertEquals('John Doe', $value);
     }
 

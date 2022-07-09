@@ -44,15 +44,11 @@ abstract class Target
      */
     public static function fromChosenASN1(TaggedType $el): Target
     {
-        throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in the derived class.'
-        );
+        throw new \BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
     }
 
     /**
      * Parse from ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(TaggedType $el): self
     {
@@ -64,9 +60,7 @@ abstract class Target
             case self::TYPE_CERT:
                 throw new \RuntimeException('targetCert not supported.');
         }
-        throw new \UnexpectedValueException(
-            'Target type ' . $el->tag() . ' not supported.'
-        );
+        throw new \UnexpectedValueException('Target type ' . $el->tag() . ' not supported.');
     }
 
     /**

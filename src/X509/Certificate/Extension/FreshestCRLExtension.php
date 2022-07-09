@@ -16,10 +16,8 @@ class FreshestCRLExtension extends CRLDistributionPointsExtension
     /**
      * Constructor.
      */
-    public function __construct(
-        bool $critical,
-        DistributionPoint ...$distribution_points
-    ) {
+    public function __construct(bool $critical, DistributionPoint ...$distribution_points)
+    {
         Extension::__construct(self::OID_FRESHEST_CRL, $critical);
         $this->_distributionPoints = $distribution_points;
     }

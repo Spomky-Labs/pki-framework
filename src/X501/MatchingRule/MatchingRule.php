@@ -18,7 +18,7 @@ abstract class MatchingRule
      * @param mixed $value     Attribute value
      *
      * @return null|bool True if value matches. Null shall be returned if match
-     *                   evaluates to Undefined.
+     * evaluates to Undefined.
      */
     abstract public function compare($assertion, $value): ?bool;
 }

@@ -59,9 +59,6 @@ class RegisteredID extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType(
-            $this->_tag,
-            new ObjectIdentifier($this->_oid)
-        );
+        return new ImplicitlyTaggedType($this->_tag, new ObjectIdentifier($this->_oid));
     }
 }

@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class SubjectKeyIdentifierTest extends TestCase
+final class SubjectKeyIdentifierTest extends TestCase
 {
     final public const KEY_ID = 'test-id';
 

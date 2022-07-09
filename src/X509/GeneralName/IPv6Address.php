@@ -8,8 +8,6 @@ class IPv6Address extends IPAddress
 {
     /**
      * Initialize from octets.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function fromOctets(string $octets): self
     {
@@ -36,12 +34,9 @@ class IPv6Address extends IPAddress
      */
     protected static function _wordsToIPv6String(array $words): string
     {
-        $groups = array_map(
-            function ($word) {
-                return sprintf('%04x', $word);
-            },
-            $words
-        );
+        $groups = array_map(function ($word) {
+            return sprintf('%04x', $word);
+        }, $words);
         return implode(':', $groups);
     }
 
@@ -49,10 +44,7 @@ class IPv6Address extends IPAddress
     {
         $words = array_map('hexdec', explode(':', $this->_ip));
         if (isset($this->_mask)) {
-            $words = array_merge(
-                $words,
-                array_map('hexdec', explode(':', $this->_mask))
-            );
+            $words = array_merge($words, array_map('hexdec', explode(':', $this->_mask)));
         }
         return pack('n*', ...$words);
     }

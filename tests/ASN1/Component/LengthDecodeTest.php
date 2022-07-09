@@ -9,12 +9,9 @@ use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
 
 /**
- * @group decode
- * @group length
- *
  * @internal
  */
-class LengthDecodeTest extends TestCase
+final class LengthDecodeTest extends TestCase
 {
     public function testType()
     {
@@ -82,9 +79,7 @@ class LengthDecodeTest extends TestCase
     public function testInvalidLongForm()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Unexpected end of data while decoding long form length'
-        );
+        $this->expectExceptionMessage('Unexpected end of data while decoding long form length');
         Length::fromDER("\x82\xff");
     }
 
@@ -110,9 +105,7 @@ class LengthDecodeTest extends TestCase
     {
         $offset = 1;
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Unexpected end of data while decoding length'
-        );
+        $this->expectExceptionMessage('Unexpected end of data while decoding length');
         Length::fromDER("\x0", $offset);
     }
 

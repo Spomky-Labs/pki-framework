@@ -20,11 +20,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
 /**
  * Covers case when public key algorithm and parameters change.
  *
- * @group certification-path
- *
  * @internal
  */
-class DifferentAlgoParamsTest extends TestCase
+final class DifferentAlgoParamsTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -53,20 +51,14 @@ class DifferentAlgoParamsTest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();
         // hack modified algorithm identifier into PublicKeyInfo
         $cls = new \ReflectionClass($pubkey);
         $prop = $cls->getProperty('_algo');
         $prop->setAccessible(true);
-        $prop->setValue(
-            $pubkey,
-            new DifferentAlgoParamsValidationIntegrationTest_RSAAlgo()
-        );
+        $prop->setValue($pubkey, new DifferentAlgoParamsValidationIntegrationTest_RSAAlgo());
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
             $pubkey,
@@ -74,10 +66,7 @@ class DifferentAlgoParamsTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -91,9 +80,7 @@ class DifferentAlgoParamsTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(
-            new PathValidationConfig(new \DateTimeImmutable(), 3)
-        );
+        $result = $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

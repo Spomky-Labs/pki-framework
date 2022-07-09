@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group null
- *
  * @internal
  */
-class NullTest extends TestCase
+final class NullTest extends TestCase
 {
     public function testCreate()
     {

@@ -11,8 +11,7 @@ use Sop\X501\ASN1\RDN;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * Base class for *DistributionPointName* ASN.1 CHOICE type used by
- * 'CRL Distribution Points' certificate extension.
+ * Base class for *DistributionPointName* ASN.1 CHOICE type used by 'CRL Distribution Points' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
@@ -31,26 +30,16 @@ abstract class DistributionPointName
 
     /**
      * Initialize from TaggedType.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromTaggedType(TaggedType $el): self
     {
         switch ($el->tag()) {
             case self::TAG_FULL_NAME:
-                return new FullName(
-                    GeneralNames::fromASN1(
-                        $el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
-                    )
-                );
+                return new FullName(GeneralNames::fromASN1($el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()));
             case self::TAG_RDN:
-                return new RelativeName(
-                    RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet())
-                );
+                return new RelativeName(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet()));
             default:
-                throw new \UnexpectedValueException(
-                    'DistributionPointName tag ' . $el->tag() . ' not supported.'
-                );
+                throw new \UnexpectedValueException('DistributionPointName tag ' . $el->tag() . ' not supported.');
         }
     }
 

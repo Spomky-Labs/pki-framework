@@ -11,12 +11,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class ECDSAWithSHA1AITest extends TestCase
+final class ECDSAWithSHA1AITest extends TestCase
 {
     /**
      * @return Sequence

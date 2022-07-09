@@ -19,12 +19,9 @@ use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class CRLDistributionPointTest extends TestCase
+final class CRLDistributionPointTest extends TestCase
 {
     final public const DP_URI = 'urn:test';
 
@@ -32,9 +29,7 @@ class CRLDistributionPointTest extends TestCase
 
     public function testCreateDistributionPoint()
     {
-        $name = new FullName(
-            new GeneralNames(new UniformResourceIdentifier(self::DP_URI))
-        );
+        $name = new FullName(new GeneralNames(new UniformResourceIdentifier(self::DP_URI)));
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
         $issuer = new GeneralNames(DirectoryName::fromDNString(self::ISSUER_DN));
         $dp = new DistributionPoint($name, $reasons, $issuer);
@@ -47,11 +42,7 @@ class CRLDistributionPointTest extends TestCase
      */
     public function testCreate(DistributionPoint $dp)
     {
-        $ext = new CRLDistributionPointsExtension(
-            true,
-            $dp,
-            new DistributionPoint()
-        );
+        $ext = new CRLDistributionPointsExtension(true, $dp, new DistributionPoint());
         $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }
@@ -150,8 +141,7 @@ class CRLDistributionPointTest extends TestCase
      */
     public function testDPReasons(DistributionPoint $dp)
     {
-        $this->assertTrue($dp->reasons()
-            ->isPrivilegeWithdrawn());
+        $this->assertTrue($dp->reasons() ->isPrivilegeWithdrawn());
     }
 
     /**
@@ -159,11 +149,7 @@ class CRLDistributionPointTest extends TestCase
      */
     public function testDPIssuer(DistributionPoint $dp)
     {
-        $this->assertEquals(
-            self::ISSUER_DN,
-            $dp->crlIssuer()
-                ->firstDN()
-        );
+        $this->assertEquals(self::ISSUER_DN, $dp->crlIssuer() ->firstDN());
     }
 
     /**

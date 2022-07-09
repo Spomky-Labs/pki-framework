@@ -12,12 +12,9 @@ use Sop\X509\Certificate\Extension\UnknownExtension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class ExtensionsTest extends TestCase
+final class ExtensionsTest extends TestCase
 {
     public function testCreate()
     {
@@ -120,9 +117,7 @@ class ExtensionsTest extends TestCase
     public function testWithExtensions(Extensions $exts)
     {
         static $oid = '1.3.6.1.3.3';
-        $exts = $exts->withExtensions(
-            new UnknownExtension($oid, true, new DERData("\x05\x00"))
-        );
+        $exts = $exts->withExtensions(new UnknownExtension($oid, true, new DERData("\x05\x00")));
         $this->assertTrue($exts->has($oid));
     }
 }

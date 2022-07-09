@@ -49,8 +49,12 @@ class ECSignature extends Signature
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $r = $seq->at(0)->asInteger()->number();
-        $s = $seq->at(1)->asInteger()->number();
+        $r = $seq->at(0)
+            ->asInteger()
+            ->number();
+        $s = $seq->at(1)
+            ->asInteger()
+            ->number();
         return new self($r, $s);
     }
 
@@ -95,7 +99,8 @@ class ECSignature extends Signature
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     public function bitString(): BitString

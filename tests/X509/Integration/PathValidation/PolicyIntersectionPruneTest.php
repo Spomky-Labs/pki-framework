@@ -21,11 +21,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers case where policy tree is fully pruned in intersection calculation.
  *
- * @group certification-path
- *
  * @internal
  */
-class PolicyIntersectionPruneTest extends TestCase
+final class PolicyIntersectionPruneTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -56,15 +54,9 @@ class PolicyIntersectionPruneTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -74,15 +66,9 @@ class PolicyIntersectionPruneTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation('1.3.6.1.3.1')
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3.1'))
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -97,9 +83,8 @@ class PolicyIntersectionPruneTest extends TestCase
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $config = new PathValidationConfig(new \DateTimeImmutable(), 3);
-        $config = $config->withPolicySet('1.3.6.1.3.2')->withExplicitPolicy(
-            true
-        );
+        $config = $config->withPolicySet('1.3.6.1.3.2')
+            ->withExplicitPolicy(true);
         $this->expectException(PathValidationException::class);
         $path->validate($config);
     }

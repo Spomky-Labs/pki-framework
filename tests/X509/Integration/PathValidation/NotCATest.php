@@ -19,11 +19,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers validation failure when issuer is not a CA.
  *
- * @group certification-path
- *
  * @internal
  */
-class NotCATest extends TestCase
+final class NotCATest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -52,13 +50,8 @@ class NotCATest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, false)
-        );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, false));
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -67,10 +60,7 @@ class NotCATest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

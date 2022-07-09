@@ -12,12 +12,9 @@ use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 
 /**
- * @group asn1
- * @group privatekey
- *
  * @internal
  */
-class PrivateKeyTest extends TestCase
+final class PrivateKeyTest extends TestCase
 {
     public function testFromRSAPEM()
     {
@@ -49,10 +46,7 @@ class PrivateKeyTest extends TestCase
      */
     public function testECPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve()
-        );
+        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -71,10 +65,7 @@ class PrivateKeyTest extends TestCase
      */
     public function testECPKIPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve()
-        );
+        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     public function testInvalidPEMType()

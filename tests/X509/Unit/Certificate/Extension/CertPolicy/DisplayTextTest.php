@@ -15,13 +15,9 @@ use Sop\ASN1\Type\StringType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\DisplayText;
 
 /**
- * @group certificate
- * @group extension
- * @group certificate-policy
- *
  * @internal
  */
-class DisplayTextTest extends TestCase
+final class DisplayTextTest extends TestCase
 {
     public function testCreate()
     {

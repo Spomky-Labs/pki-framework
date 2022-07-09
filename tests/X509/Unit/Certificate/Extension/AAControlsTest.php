@@ -10,22 +10,13 @@ use Sop\X509\Certificate\Extension\AAControlsExtension;
 use Sop\X509\Certificate\Extension\Extension;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class AAControlsTest extends TestCase
+final class AAControlsTest extends TestCase
 {
     public function testCreate()
     {
-        $ext = new AAControlsExtension(
-            true,
-            3,
-            ['1.2.3.4'],
-            ['1.2.3.5', '1.2.3.6'],
-            false
-        );
+        $ext = new AAControlsExtension(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
         $this->assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }

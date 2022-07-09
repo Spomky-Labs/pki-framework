@@ -54,8 +54,7 @@ class PathValidationConfig
     protected $_policyMappingInhibit;
 
     /**
-     * Whether the path must be valid for at least one policy in the
-     * initial policy set.
+     * Whether the path must be valid for at least one policy in the initial policy set.
      *
      * @var bool
      */
@@ -216,8 +215,6 @@ class PathValidationConfig
 
     /**
      * Get trust anchor certificate.
-     *
-     * @throws \LogicException If not set
      */
     public function trustAnchor(): Certificate
     {

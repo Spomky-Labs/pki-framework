@@ -32,8 +32,7 @@ class RSASignature extends Signature
     /**
      * Initialize from RSA signature *S*.
      *
-     * Signature value *S* is the result of last step in RSA signature
-     * process defined in PKCS #1.
+     * Signature value *S* is the result of last step in RSA signature process defined in PKCS #1.
      *
      * @see https://tools.ietf.org/html/rfc2313#section-10.1.4
      *

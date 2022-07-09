@@ -43,10 +43,8 @@ class Holder
     /**
      * Constructor.
      */
-    public function __construct(
-        ?IssuerSerial $issuer_serial = null,
-        ?GeneralNames $entity_name = null
-    ) {
+    public function __construct(?IssuerSerial $issuer_serial = null, ?GeneralNames $entity_name = null)
+    {
         $this->_baseCertificateID = $issuer_serial;
         $this->_entityName = $entity_name;
     }
@@ -69,19 +67,22 @@ class Holder
         $digest_info = null;
         if ($seq->hasTagged(0)) {
             $cert_id = IssuerSerial::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
         if ($seq->hasTagged(1)) {
             $entity_name = GeneralNames::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(1)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
         if ($seq->hasTagged(2)) {
             $digest_info = ObjectDigestInfo::fromASN1(
-                $seq->getTagged(2)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(2)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
@@ -130,8 +131,6 @@ class Holder
 
     /**
      * Get base certificate ID.
-     *
-     * @throws \LogicException If not set
      */
     public function baseCertificateID(): IssuerSerial
     {
@@ -151,8 +150,6 @@ class Holder
 
     /**
      * Get entity name.
-     *
-     * @throws \LogicException If not set
      */
     public function entityName(): GeneralNames
     {
@@ -172,8 +169,6 @@ class Holder
 
     /**
      * Get object digest info.
-     *
-     * @throws \LogicException If not set
      */
     public function objectDigestInfo(): ObjectDigestInfo
     {
@@ -190,22 +185,13 @@ class Holder
     {
         $elements = [];
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                $this->_baseCertificateID->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(0, $this->_baseCertificateID->toASN1());
         }
         if (isset($this->_entityName)) {
-            $elements[] = new ImplicitlyTaggedType(
-                1,
-                $this->_entityName->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(1, $this->_entityName->toASN1());
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(
-                2,
-                $this->_objectDigestInfo->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(2, $this->_objectDigestInfo->toASN1());
         }
         return new Sequence(...$elements);
     }
@@ -240,7 +226,8 @@ class Holder
         if ($cert->tbsCertificate()->subject()->equals($name)) {
             return true;
         }
-        $exts = $cert->tbsCertificate()->extensions();
+        $exts = $cert->tbsCertificate()
+            ->extensions();
         if ($exts->hasSubjectAlternativeName()) {
             $ext = $exts->subjectAlternativeName();
             if ($this->_checkEntityAlternativeNames($ext->names())) {

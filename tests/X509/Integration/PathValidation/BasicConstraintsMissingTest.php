@@ -16,14 +16,11 @@ use Sop\X509\CertificationPath\Exception\PathValidationException;
 use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
- * Covers handling of missing basic constraints extensions from version 3
- * certificate.
- *
- * @group certification-path
+ * Covers handling of missing basic constraints extensions from version 3 certificate.
  *
  * @internal
  */
-class BasicConstraintsMissingTest extends TestCase
+final class BasicConstraintsMissingTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -53,10 +50,7 @@ class BasicConstraintsMissingTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withVersion(TBSCertificate::VERSION_3);
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -65,10 +59,7 @@ class BasicConstraintsMissingTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

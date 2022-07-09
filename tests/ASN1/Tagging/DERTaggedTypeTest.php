@@ -11,11 +11,9 @@ use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group tagging
- *
  * @internal
  */
-class DERTaggedTypeTest extends TestCase
+final class DERTaggedTypeTest extends TestCase
 {
     public function testCreate()
     {

@@ -11,12 +11,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\SHA1AlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class SHA1AITest extends TestCase
+final class SHA1AITest extends TestCase
 {
     /**
      * @return Sequence

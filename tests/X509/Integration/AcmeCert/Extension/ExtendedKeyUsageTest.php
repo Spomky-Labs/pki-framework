@@ -8,13 +8,9 @@ use Sop\X509\Certificate\Extension\ExtendedKeyUsageExtension;
 use Sop\X509\Certificate\Extension\Extension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class ExtendedKeyUsageTest extends RefExtTestHelper
+final class ExtendedKeyUsageTest extends RefExtTestHelper
 {
     /**
      * @return ExtendedKeyUsageExtension
@@ -32,8 +28,6 @@ class ExtendedKeyUsageTest extends RefExtTestHelper
     public function testUsage(ExtendedKeyUsageExtension $eku)
     {
         $this->assertTrue($eku->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH));
-        $this->assertTrue(
-            $eku->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING)
-        );
+        $this->assertTrue($eku->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
     }
 }

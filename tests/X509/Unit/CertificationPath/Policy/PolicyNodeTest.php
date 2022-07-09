@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X509\CertificationPath\Policy\PolicyNode;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class PolicyNodeTest extends TestCase
+final class PolicyNodeTest extends TestCase
 {
     public function testCreate()
     {
@@ -22,9 +20,7 @@ class PolicyNodeTest extends TestCase
 
     public function testHasChildWithPolicyMatch()
     {
-        $node = PolicyNode::anyPolicyNode()->addChild(
-            new PolicyNode('1.3.6.1.3', [], [])
-        );
+        $node = PolicyNode::anyPolicyNode()->addChild(new PolicyNode('1.3.6.1.3', [], []));
         $this->assertTrue($node->hasChildWithValidPolicy('1.3.6.1.3'));
     }
 

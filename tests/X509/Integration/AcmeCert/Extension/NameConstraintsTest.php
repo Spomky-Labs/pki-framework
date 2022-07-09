@@ -9,13 +9,9 @@ use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
 use Sop\X509\Certificate\Extension\NameConstraintsExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class NameConstraintsTest extends RefExtTestHelper
+final class NameConstraintsTest extends RefExtTestHelper
 {
     /**
      * @return NameConstraintsExtension
@@ -32,9 +28,8 @@ class NameConstraintsTest extends RefExtTestHelper
      *
      * @return GeneralSubtrees
      */
-    public function testNameConstraintPermittedSubtrees(
-        NameConstraintsExtension $nc
-    ) {
+    public function testNameConstraintPermittedSubtrees(NameConstraintsExtension $nc)
+    {
         $subtrees = $nc->permittedSubtrees();
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
@@ -45,10 +40,6 @@ class NameConstraintsTest extends RefExtTestHelper
      */
     public function testNameConstraintPermittedDomain(GeneralSubtrees $gs)
     {
-        $this->assertEquals(
-            '.example.com',
-            $gs->all()[0]->base()
-                ->name()
-        );
+        $this->assertEquals('.example.com', $gs->all()[0] ->base() ->name());
     }
 }

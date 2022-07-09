@@ -57,9 +57,8 @@ class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Hash
     /**
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null
-    ): SpecificAlgorithmIdentifier {
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
         $obj = new static();
         // if parameters field is present, it must be null type
         if (isset($params)) {

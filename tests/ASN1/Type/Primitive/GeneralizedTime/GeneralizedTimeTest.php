@@ -12,12 +12,9 @@ use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group generalized-time
- *
  * @internal
  */
-class GeneralizedTimeTest extends TestCase
+final class GeneralizedTimeTest extends TestCase
 {
     public function testCreate()
     {
@@ -60,9 +57,7 @@ class GeneralizedTimeTest extends TestCase
      */
     public function testRecoded(TimeType $ref, TimeType $el)
     {
-        $this->assertEquals($ref->dateTime()
-            ->getTimestamp(), $el->dateTime()
-            ->getTimestamp());
+        $this->assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
     }
 
     /**
@@ -71,19 +66,14 @@ class GeneralizedTimeTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            GeneralizedTime::class,
-            $wrap->asGeneralizedTime()
-        );
+        $this->assertInstanceOf(GeneralizedTime::class, $wrap->asGeneralizedTime());
     }
 
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'GeneralizedTime expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('GeneralizedTime expected, got primitive NULL');
         $wrap->asGeneralizedTime();
     }
 
@@ -106,17 +96,12 @@ class GeneralizedTimeTest extends TestCase
     }
 
     /**
-     * Test bug where leading zeroes in fraction gets stripped,
-     * such that `.05` becomes `.5`.
+     * Test bug where leading zeroes in fraction gets stripped, such that `.05` becomes `.5`.
      */
     public function testLeadingFractionZeroes()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat(
-            'U.u',
-            "{$ts}.05",
-            new \DateTimeZone('UTC')
-        );
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.05", new \DateTimeZone('UTC'));
         $el = new GeneralizedTime($dt);
         $str = $el->string();
         $der = $el->toDER();

@@ -89,8 +89,6 @@ class BitString extends BaseString
      * @param int $start  Index of first bit
      * @param int $length Number of bits in range
      *
-     * @throws \OutOfBoundsException
-     *
      * @return string Integer of $length bits
      */
     public function range(int $start, int $length): string
@@ -163,11 +161,8 @@ class BitString extends BaseString
         return $der;
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         if ($length->intLength() < 1) {
@@ -175,9 +170,7 @@ class BitString extends BaseString
         }
         $unused_bits = ord($data[$idx++]);
         if ($unused_bits > 7) {
-            throw new DecodeException(
-                'Unused bits in a bit string must be less than 8.'
-            );
+            throw new DecodeException('Unused bits in a bit string must be less than 8.');
         }
         $str_len = $length->intLength() - 1;
         if ($str_len) {
@@ -185,9 +178,7 @@ class BitString extends BaseString
             if ($unused_bits) {
                 $mask = (1 << $unused_bits) - 1;
                 if (ord($str[strlen($str) - 1]) & $mask) {
-                    throw new DecodeException(
-                        'DER encoded bit string must have zero padding.'
-                    );
+                    throw new DecodeException('DER encoded bit string must have zero padding.');
                 }
             }
         } else {

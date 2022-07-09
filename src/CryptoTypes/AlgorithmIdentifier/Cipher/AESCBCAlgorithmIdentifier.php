@@ -39,13 +39,13 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null
-    ): SpecificAlgorithmIdentifier {
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
         if (! isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }
-        $iv = $params->asOctetString()->string();
+        $iv = $params->asOctetString()
+            ->string();
         return new static($iv);
     }
 

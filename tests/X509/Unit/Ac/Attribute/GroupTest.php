@@ -14,12 +14,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- * @group attribute
- *
  * @internal
  */
-class GroupTest extends TestCase
+final class GroupTest extends TestCase
 {
     final public const AUTHORITY_DN = 'cn=Authority Name';
 
@@ -27,12 +24,8 @@ class GroupTest extends TestCase
 
     public function testCreate()
     {
-        $value = new GroupAttributeValue(
-            IetfAttrValue::fromString(self::GROUP_NAME)
-        );
-        $value = $value->withPolicyAuthority(
-            new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN))
-        );
+        $value = new GroupAttributeValue(IetfAttrValue::fromString(self::GROUP_NAME));
+        $value = $value->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
         $this->assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;
     }
@@ -54,9 +47,7 @@ class GroupTest extends TestCase
      */
     public function testDecode($der)
     {
-        $value = GroupAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified()
-        );
+        $value = GroupAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;
     }
@@ -83,11 +74,7 @@ class GroupTest extends TestCase
      */
     public function testAuthority(GroupAttributeValue $value)
     {
-        $this->assertEquals(
-            self::AUTHORITY_DN,
-            $value->policyAuthority()
-                ->firstDN()
-        );
+        $this->assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
     }
 
     /**

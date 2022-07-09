@@ -11,9 +11,8 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * Implements implicit tagging mode.
  *
- * Implicit tagging changes the tag of the tagged type. This changes the
- * DER encoding of the type, and hence the abstract syntax must be known when
- * decoding the data.
+ * Implicit tagging changes the tag of the tagged type. This changes the DER encoding of the type, and hence the
+ * abstract syntax must be known when decoding the data.
  */
 class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
 {
@@ -24,11 +23,8 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
      * @param Element $element Wrapped element
      * @param int     $class   Type class
      */
-    public function __construct(
-        int $tag,
-        Element $element,
-        int $class = Identifier::CLASS_CONTEXT_SPECIFIC
-    ) {
+    public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
+    {
         $this->_typeTag = $tag;
         $this->_element = $element;
         $this->_class = $class;
@@ -40,10 +36,8 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
         return $this->_element->isConstructed();
     }
 
-    public function implicit(
-        int $tag,
-        int $class = Identifier::CLASS_UNIVERSAL
-    ): UnspecifiedType {
+    public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
+    {
         $this->_element->expectType($tag);
         if ($this->_element->typeClass() !== $class) {
             throw new \UnexpectedValueException(

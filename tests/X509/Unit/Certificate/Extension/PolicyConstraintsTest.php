@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\PolicyConstraintsExtension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class PolicyConstraintsTest extends TestCase
+final class PolicyConstraintsTest extends TestCase
 {
     public function testCreate()
     {

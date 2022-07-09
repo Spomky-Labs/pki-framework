@@ -13,11 +13,9 @@ use Sop\X509\GeneralName\IPAddress;
 use Sop\X509\GeneralName\IPv6Address;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class IPv6AddressNameTest extends TestCase
+final class IPv6AddressNameTest extends TestCase
 {
     public const ADDR = '0000:0000:0000:0000:0000:0000:0000:0001';
 

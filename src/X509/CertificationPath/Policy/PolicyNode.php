@@ -14,42 +14,42 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.2
  */
-class PolicyNode implements \IteratorAggregate, \Countable
+final class PolicyNode implements \IteratorAggregate, \Countable
 {
     /**
      * Policy OID.
      *
      * @var string
      */
-    protected $_validPolicy;
+    private $_validPolicy;
 
     /**
      * List of qualifiers.
      *
      * @var PolicyQualifierInfo[]
      */
-    protected $_qualifiers;
+    private $_qualifiers;
 
     /**
      * List of expected policy OIDs.
      *
      * @var string[]
      */
-    protected $_expectedPolicies;
+    private $_expectedPolicies;
 
     /**
      * List of child nodes.
      *
      * @var PolicyNode[]
      */
-    protected $_children;
+    private $_children;
 
     /**
      * Reference to the parent node.
      *
      * @var null|PolicyNode
      */
-    protected $_parent;
+    private $_parent;
 
     /**
      * Constructor.
@@ -58,11 +58,8 @@ class PolicyNode implements \IteratorAggregate, \Countable
      * @param PolicyQualifierInfo[] $qualifiers
      * @param string[]              $expected_policies
      */
-    public function __construct(
-        string $valid_policy,
-        array $qualifiers,
-        array $expected_policies
-    ) {
+    public function __construct(string $valid_policy, array $qualifiers, array $expected_policies)
+    {
         $this->_validPolicy = $valid_policy;
         $this->_qualifiers = $qualifiers;
         $this->_expectedPolicies = $expected_policies;
@@ -74,11 +71,7 @@ class PolicyNode implements \IteratorAggregate, \Countable
      */
     public static function anyPolicyNode(): self
     {
-        return new self(
-            PolicyInformation::OID_ANY_POLICY,
-            [],
-            [PolicyInformation::OID_ANY_POLICY]
-        );
+        return new self(PolicyInformation::OID_ANY_POLICY, [], [PolicyInformation::OID_ANY_POLICY]);
     }
 
     /**

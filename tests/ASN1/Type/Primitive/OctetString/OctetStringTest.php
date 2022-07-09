@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group octet-string
- *
  * @internal
  */
-class OctetStringTest extends TestCase
+final class OctetStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class OctetStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'OCTET STRING expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('OCTET STRING expected, got primitive NULL');
         $wrap->asOctetString();
     }
 }

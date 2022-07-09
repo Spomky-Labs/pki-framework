@@ -11,12 +11,9 @@ use Sop\X509\AttributeCertificate\Attribute\SvceAuthInfo;
 use Sop\X509\GeneralName\DirectoryName;
 
 /**
- * @group ac
- * @group attribute
- *
  * @internal
  */
-class SvceAuthInfoTest extends TestCase
+final class SvceAuthInfoTest extends TestCase
 {
     public function testCreateWithoutAuthInfo()
     {
@@ -50,10 +47,7 @@ class SvceAuthInfoTest extends TestCase
      */
     public function testEqualityMatchingRule(SvceAuthInfo $val)
     {
-        $this->assertInstanceOf(
-            MatchingRule::class,
-            $val->equalityMatchingRule()
-        );
+        $this->assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
     /**

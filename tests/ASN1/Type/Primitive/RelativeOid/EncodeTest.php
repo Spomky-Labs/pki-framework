@@ -8,12 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\RelativeOID;
 
 /**
- * @group encode
- * @group oid
- *
  * @internal
  */
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     public function testZero()
     {

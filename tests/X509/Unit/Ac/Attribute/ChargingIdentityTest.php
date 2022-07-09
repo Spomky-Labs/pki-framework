@@ -14,12 +14,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- * @group attribute
- *
  * @internal
  */
-class ChargingIdentityTest extends TestCase
+final class ChargingIdentityTest extends TestCase
 {
     final public const AUTHORITY_DN = 'cn=Authority Name';
 
@@ -36,9 +33,7 @@ class ChargingIdentityTest extends TestCase
             IetfAttrValue::fromOID(self::OID_VAL),
             IetfAttrValue::fromString(self::UTF8_VAL)
         );
-        $value = $value->withPolicyAuthority(
-            new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN))
-        );
+        $value = $value->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
         $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $value);
         return $value;
     }
@@ -60,9 +55,7 @@ class ChargingIdentityTest extends TestCase
      */
     public function testDecode($der)
     {
-        $value = ChargingIdentityAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified()
-        );
+        $value = ChargingIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $value);
         return $value;
     }
@@ -89,11 +82,7 @@ class ChargingIdentityTest extends TestCase
      */
     public function testAuthority(ChargingIdentityAttributeValue $value)
     {
-        $this->assertEquals(
-            self::AUTHORITY_DN,
-            $value->policyAuthority()
-                ->firstDN()
-        );
+        $this->assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
     }
 
     /**
@@ -156,9 +145,6 @@ class ChargingIdentityTest extends TestCase
      */
     public function testFromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(
-            ChargingIdentityAttributeValue::class,
-            $attribs->chargingIdentity()
-        );
+        $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $attribs->chargingIdentity());
     }
 }

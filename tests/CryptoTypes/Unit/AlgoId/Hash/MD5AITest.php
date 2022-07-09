@@ -10,12 +10,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\MD5AlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class MD5AITest extends TestCase
+final class MD5AITest extends TestCase
 {
     /**
      * @return Sequence

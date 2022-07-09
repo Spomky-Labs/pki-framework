@@ -13,12 +13,9 @@ use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group structure
- * @group sequence
- *
  * @internal
  */
-class SequenceTest extends TestCase
+final class SequenceTest extends TestCase
 {
     public function testCreate()
     {
@@ -99,7 +96,8 @@ class SequenceTest extends TestCase
      */
     public function testAt(Sequence $seq)
     {
-        $el = $seq->at(0)->asNull();
+        $el = $seq->at(0)
+            ->asNull();
         $this->assertInstanceOf(NullType::class, $el);
     }
 
@@ -108,7 +106,8 @@ class SequenceTest extends TestCase
      */
     public function testAtExpected(Sequence $seq)
     {
-        $el = $seq->at(0)->asNull();
+        $el = $seq->at(0)
+            ->asNull();
         $this->assertInstanceOf(NullType::class, $el);
     }
 
@@ -118,9 +117,7 @@ class SequenceTest extends TestCase
     public function testAtOOB(Sequence $seq)
     {
         $this->expectException(\OutOfBoundsException::class);
-        $this->expectExceptionMessage(
-            'Structure doesn\'t have an element at index 2'
-        );
+        $this->expectExceptionMessage('Structure doesn\'t have an element at index 2');
         $seq->at(2);
     }
 

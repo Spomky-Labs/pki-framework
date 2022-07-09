@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\ASN1\Type\Primitive\NullType;
 
 /**
- * @group decode
- * @group element
- *
  * @internal
  */
-class ElementDecodeTest extends TestCase
+final class ElementDecodeTest extends TestCase
 {
     public function testAbstract()
     {
@@ -33,9 +30,7 @@ class ElementDecodeTest extends TestCase
     public function testConcreteWrongClass()
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            Boolean::class . ' expected, got ' . NullType::class
-        );
+        $this->expectExceptionMessage(Boolean::class . ' expected, got ' . NullType::class);
         Boolean::fromDER("\x5\x0");
     }
 
@@ -49,9 +44,7 @@ class ElementDecodeTest extends TestCase
     public function testExpectTaggedFail()
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Context specific element expected, got UNIVERSAL'
-        );
+        $this->expectExceptionMessage('Context specific element expected, got UNIVERSAL');
         Element::fromDER("\x5\x0")->expectTagged();
     }
 
@@ -60,11 +53,7 @@ class ElementDecodeTest extends TestCase
         $cls = new \ReflectionClass(Element::class);
         $mtd = $cls->getMethod('_decodeFromDER');
         $mtd->setAccessible(true);
-        $identifier = new Identifier(
-            Identifier::CLASS_UNIVERSAL,
-            Identifier::PRIMITIVE,
-            Element::TYPE_NULL
-        );
+        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL, Identifier::PRIMITIVE, Element::TYPE_NULL);
         $offset = 0;
         $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('must be implemented in derived class');

@@ -30,9 +30,8 @@ interface ElementBase extends Encodable
     /**
      * Get the tag of the element.
      *
-     * Interpretation of the tag depends on the context. For example it may
-     * represent a universal type tag or a tag of an implicitly or explicitly
-     * tagged type.
+     * Interpretation of the tag depends on the context. For example it may represent a universal type tag or a tag of
+     * an implicitly or explicitly tagged type.
      */
     public function tag(): int;
 
@@ -49,8 +48,6 @@ interface ElementBase extends Encodable
      * Throws an exception if expectation fails.
      *
      * @param int $tag Type tag
-     *
-     * @throws \UnexpectedValueException If the element type differs from the expected
      */
     public function expectType(int $tag): ElementBase;
 
@@ -60,15 +57,11 @@ interface ElementBase extends Encodable
     public function isTagged(): bool;
 
     /**
-     * Check whether the element is tagged (context specific) and optionally has
-     * a given tag.
+     * Check whether the element is tagged (context specific) and optionally has a given tag.
      *
-     * Throws an exception if the element is not tagged or tag differs from
-     * the expected.
+     * Throws an exception if the element is not tagged or tag differs from the expected.
      *
      * @param null|int $tag Optional type tag
-     *
-     * @throws \UnexpectedValueException If expectation fails
      */
     public function expectTagged(?int $tag = null): TaggedType;
 

@@ -10,13 +10,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class SubjectKeyIdentifierTest extends RefExtTestHelper
+final class SubjectKeyIdentifierTest extends RefExtTestHelper
 {
     /**
      * @return SubjectKeyIdentifierExtension
@@ -31,9 +27,8 @@ class SubjectKeyIdentifierTest extends RefExtTestHelper
     /**
      * @depends testSubjectKeyIdentifier
      */
-    public function testSubjectKeyIdentifierKey(
-        SubjectKeyIdentifierExtension $ski
-    ) {
+    public function testSubjectKeyIdentifierKey(SubjectKeyIdentifierExtension $ski)
+    {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem');
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()

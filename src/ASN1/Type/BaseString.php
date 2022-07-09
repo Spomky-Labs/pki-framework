@@ -20,8 +20,6 @@ abstract class BaseString extends Element implements StringType
 
     /**
      * Constructor.
-     *
-     * @throws \InvalidArgumentException
      */
     public function __construct(string $string)
     {

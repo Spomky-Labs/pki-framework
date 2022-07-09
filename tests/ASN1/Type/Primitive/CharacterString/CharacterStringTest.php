@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group character-string
- *
  * @internal
  */
-class CharacterStringTest extends TestCase
+final class CharacterStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -74,19 +71,14 @@ class CharacterStringTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            CharacterString::class,
-            $wrap->asCharacterString()
-        );
+        $this->assertInstanceOf(CharacterString::class, $wrap->asCharacterString());
     }
 
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'CHARACTER STRING expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('CHARACTER STRING expected, got primitive NULL');
         $wrap->asCharacterString();
     }
 }

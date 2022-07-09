@@ -103,19 +103,21 @@ class RSAPrivateKey extends PrivateKey
     /**
      * Initialize from ASN.1.
      *
-     * @throws \UnexpectedValueException
-     *
      * @return self
      */
     public static function fromASN1(Sequence $seq): RSAPrivateKey
     {
-        $version = $seq->at(0)->asInteger()->intNumber();
+        $version = $seq->at(0)
+            ->asInteger()
+            ->intNumber();
         if (0 !== $version) {
             throw new \UnexpectedValueException('Version must be 0.');
         }
         // helper function get integer from given index
         $get_int = function ($idx) use ($seq) {
-            return $seq->at($idx)->asInteger()->number();
+            return $seq->at($idx)
+                ->asInteger()
+                ->number();
         };
         $n = $get_int(1);
         $e = $get_int(2);
@@ -140,8 +142,6 @@ class RSAPrivateKey extends PrivateKey
 
     /**
      * @see PrivateKey::fromPEM()
-     *
-     * @throws \UnexpectedValueException
      *
      * @return self
      */
@@ -267,7 +267,8 @@ class RSAPrivateKey extends PrivateKey
 
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     public function toPEM(): PEM

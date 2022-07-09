@@ -13,18 +13,13 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class AttributeTest extends TestCase
+final class AttributeTest extends TestCase
 {
     public function testCreate()
     {
-        $attr = Attribute::fromAttributeValues(
-            new NameValue('one'),
-            new NameValue('two')
-        );
+        $attr = Attribute::fromAttributeValues(new NameValue('one'), new NameValue('two'));
         $this->assertInstanceOf(Attribute::class, $attr);
         return $attr;
     }
@@ -34,7 +29,8 @@ class AttributeTest extends TestCase
      */
     public function testEncode(Attribute $attr)
     {
-        $der = $attr->toASN1()->toDER();
+        $der = $attr->toASN1()
+            ->toDER();
         $this->assertIsString($der);
         return $der;
     }
@@ -108,10 +104,7 @@ class AttributeTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
-        Attribute::fromAttributeValues(
-            new NameValue('name'),
-            new CommonNameValue('cn')
-        );
+        Attribute::fromAttributeValues(new NameValue('name'), new CommonNameValue('cn'));
     }
 
     public function testEmptyFromValuesFail()

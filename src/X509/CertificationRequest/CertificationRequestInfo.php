@@ -69,24 +69,20 @@ class CertificationRequestInfo
 
     /**
      * Initialize from ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $version = $seq->at(0)->asInteger()->intNumber();
+        $version = $seq->at(0)
+            ->asInteger()
+            ->intNumber();
         if (self::VERSION_1 !== $version) {
-            throw new \UnexpectedValueException(
-                "Version {$version} not supported."
-            );
+            throw new \UnexpectedValueException("Version {$version} not supported.");
         }
         $subject = Name::fromASN1($seq->at(1)->asSequence());
         $pkinfo = PublicKeyInfo::fromASN1($seq->at(2)->asSequence());
         $obj = new self($subject, $pkinfo);
         if ($seq->hasTagged(0)) {
-            $obj->_attributes = Attributes::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet()
-            );
+            $obj->_attributes = Attributes::fromASN1($seq->getTagged(0) ->asImplicit(Element::TYPE_SET)->asSet());
         }
         return $obj;
     }
@@ -127,11 +123,6 @@ class CertificationRequestInfo
         return isset($this->_attributes);
     }
 
-    /**
-     * Get attributes.
-     *
-     * @throws \LogicException If not set
-     */
     public function attributes(): Attributes
     {
         if (! $this->hasAttributes()) {
@@ -162,9 +153,7 @@ class CertificationRequestInfo
             $obj->_attributes = new Attributes();
         }
         $obj->_attributes = $obj->_attributes->withUnique(
-            Attribute::fromAttributeValues(
-                new ExtensionRequestValue($extensions)
-            )
+            Attribute::fromAttributeValues(new ExtensionRequestValue($extensions))
         );
         return $obj;
     }
@@ -174,13 +163,9 @@ class CertificationRequestInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer($this->_version),
-            $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1(), ];
+        $elements = [new Integer($this->_version), $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1()];
         if (isset($this->_attributes)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                $this->_attributes->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
         }
         return new Sequence(...$elements);
     }
@@ -198,7 +183,8 @@ class CertificationRequestInfo
         ?Crypto $crypto = null
     ): CertificationRequest {
         $crypto = $crypto ?? Crypto::getDefault();
-        $data = $this->toASN1()->toDER();
+        $data = $this->toASN1()
+            ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
         return new CertificationRequest($this, $algo, $signature);
     }

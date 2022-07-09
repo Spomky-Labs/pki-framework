@@ -36,12 +36,11 @@ use Sop\CryptoTypes\Signature\RSASignature;
 use Sop\CryptoTypes\Signature\Signature;
 
 /**
- * @group crypto
  * @requires extension openssl
  *
  * @internal
  */
-class OpenSSLCryptoTest extends TestCase
+final class OpenSSLCryptoTest extends TestCase
 {
     public const DATA = 'PAYLOAD';
 
@@ -63,12 +62,8 @@ class OpenSSLCryptoTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_crypto = new OpenSSLCrypto();
-        self::$_rsaPrivKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
-        );
-        self::$_ecPrivKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem')
-        );
+        self::$_rsaPrivKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+        self::$_ecPrivKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -83,19 +78,10 @@ class OpenSSLCryptoTest extends TestCase
      */
     public function testSignAndVerifyRSA(SignatureAlgorithmIdentifier $algo)
     {
-        $signature = self::$_crypto->sign(
-            self::DATA,
-            self::$_rsaPrivKeyInfo,
-            $algo
-        );
+        $signature = self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
         $this->assertInstanceOf(Signature::class, $signature);
         $pubkey_info = self::$_rsaPrivKeyInfo->publicKeyInfo();
-        $result = self::$_crypto->verify(
-            self::DATA,
-            $signature,
-            $pubkey_info,
-            $algo
-        );
+        $result = self::$_crypto->verify(self::DATA, $signature, $pubkey_info, $algo);
         $this->assertTrue($result);
     }
 
@@ -120,19 +106,10 @@ class OpenSSLCryptoTest extends TestCase
      */
     public function testSignAndVerifyEC(SignatureAlgorithmIdentifier $algo)
     {
-        $signature = self::$_crypto->sign(
-            self::DATA,
-            self::$_ecPrivKeyInfo,
-            $algo
-        );
+        $signature = self::$_crypto->sign(self::DATA, self::$_ecPrivKeyInfo, $algo);
         $this->assertInstanceOf(Signature::class, $signature);
         $pubkey_info = self::$_ecPrivKeyInfo->publicKeyInfo();
-        $result = self::$_crypto->verify(
-            self::DATA,
-            $signature,
-            $pubkey_info,
-            $algo
-        );
+        $result = self::$_crypto->verify(self::DATA, $signature, $pubkey_info, $algo);
         $this->assertTrue($result);
     }
 
@@ -141,9 +118,7 @@ class OpenSSLCryptoTest extends TestCase
      */
     public function provideSignAndVerifyEC()
     {
-        return [
-            [new ECDSAWithSHA1AlgorithmIdentifier()],
-        ];
+        return [[new ECDSAWithSHA1AlgorithmIdentifier()]];
     }
 
     public function testUnsupportedDigestFail()
@@ -167,12 +142,7 @@ class OpenSSLCryptoTest extends TestCase
         $algo = new OpenSSLCryptoTest_SHA1WithRSAAsEC();
         $pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
         $this->expectException(\RuntimeException::class);
-        self::$_crypto->verify(
-            self::DATA,
-            $signature,
-            $pk->publicKeyInfo(),
-            $algo
-        );
+        self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), $algo);
     }
 
     public function testVerifyInvalidKeyType()
@@ -181,12 +151,7 @@ class OpenSSLCryptoTest extends TestCase
         $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
         $this->expectException(\RuntimeException::class);
-        self::$_crypto->verify(
-            self::DATA,
-            $signature,
-            $pk->publicKeyInfo(),
-            $algo
-        );
+        self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), $algo);
     }
 
     /**
@@ -195,11 +160,8 @@ class OpenSSLCryptoTest extends TestCase
      * @param string $data
      * @param string $key
      */
-    public function testEncryptAndDecrypt(
-        $data,
-        CipherAlgorithmIdentifier $algo,
-        $key
-    ) {
+    public function testEncryptAndDecrypt($data, CipherAlgorithmIdentifier $algo, $key)
+    {
         $ciphertext = self::$_crypto->encrypt($data, $key, $algo);
         $this->assertNotEquals($data, $ciphertext);
         $plaintext = self::$_crypto->decrypt($ciphertext, $key, $algo);
@@ -262,47 +224,28 @@ class OpenSSLCryptoTest extends TestCase
     public function testUnsupportedCipherFail()
     {
         $this->expectException(\UnexpectedValueException::class);
-        self::$_crypto->encrypt(
-            self::DATA,
-            '',
-            new OpenSSLCryptoTest_UnsupportedCipher()
-        );
+        self::$_crypto->encrypt(self::DATA, '', new OpenSSLCryptoTest_UnsupportedCipher());
     }
 
     public function testInvalidRC2AlgoFail()
     {
         $this->expectException(\UnexpectedValueException::class);
-        self::$_crypto->encrypt(
-            self::DATA,
-            '',
-            new OpenSSLCryptoTest_InvalidRC2()
-        );
+        self::$_crypto->encrypt(self::DATA, '', new OpenSSLCryptoTest_InvalidRC2());
     }
 
     public function testUnsupportedRC2KeySizeFail()
     {
         $this->expectException(\UnexpectedValueException::class);
-        self::$_crypto->encrypt(
-            self::DATA,
-            'x',
-            new RC2CBCAlgorithmIdentifier(8, '87654321')
-        );
+        self::$_crypto->encrypt(self::DATA, 'x', new RC2CBCAlgorithmIdentifier(8, '87654321'));
     }
 
     /**
      * @dataProvider provideSignatureMethod
      */
-    public function testSignatureMethod(
-        PrivateKeyInfo $pki,
-        SignatureAlgorithmIdentifier $algo
-    ) {
+    public function testSignatureMethod(PrivateKeyInfo $pki, SignatureAlgorithmIdentifier $algo)
+    {
         $signature = self::$_crypto->sign(self::DATA, $pki, $algo);
-        $result = self::$_crypto->verify(
-            self::DATA,
-            $signature,
-            $pki->publicKeyInfo(),
-            $algo
-        );
+        $result = self::$_crypto->verify(self::DATA, $signature, $pki->publicKeyInfo(), $algo);
         $this->assertTrue($result);
     }
 
@@ -311,12 +254,8 @@ class OpenSSLCryptoTest extends TestCase
      */
     public function provideSignatureMethod()
     {
-        $rsa_key = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
-        );
-        $ec_key = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem')
-        );
+        $rsa_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+        $ec_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));
         return [
             [$rsa_key, new MD4WithRSAEncryptionAlgorithmIdentifier()],
             [$rsa_key, new MD5WithRSAEncryptionAlgorithmIdentifier()],

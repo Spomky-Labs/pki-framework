@@ -19,11 +19,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers case when certification path length exceeds.
  *
- * @group certification-path
- *
  * @internal
  */
-class PathLengthFailTest extends TestCase
+final class PathLengthFailTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -61,13 +59,8 @@ class PathLengthFailTest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true, 0)
-        );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true, 0));
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create intermediate certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::INTERM_NAME),
@@ -76,13 +69,8 @@ class PathLengthFailTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true)
-        );
-        self::$_interm = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true));
+        self::$_interm = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -91,10 +79,7 @@ class PathLengthFailTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_interm);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_intermKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_intermKey);
     }
 
     public static function tearDownAfterClass(): void

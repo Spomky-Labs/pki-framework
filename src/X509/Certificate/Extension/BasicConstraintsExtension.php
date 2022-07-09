@@ -59,8 +59,6 @@ class BasicConstraintsExtension extends Extension
 
     /**
      * Get path length.
-     *
-     * @throws \LogicException If not set
      */
     public function pathLen(): int
     {
@@ -77,10 +75,14 @@ class BasicConstraintsExtension extends Extension
         $path_len = null;
         $idx = 0;
         if ($seq->has($idx, Element::TYPE_BOOLEAN)) {
-            $ca = $seq->at($idx++)->asBoolean()->value();
+            $ca = $seq->at($idx++)
+                ->asBoolean()
+                ->value();
         }
         if ($seq->has($idx, Element::TYPE_INTEGER)) {
-            $path_len = $seq->at($idx)->asInteger()->intNumber();
+            $path_len = $seq->at($idx)
+                ->asInteger()
+                ->intNumber();
         }
         return new self($critical, $ca, $path_len);
     }

@@ -11,13 +11,9 @@ use Sop\X509\Certificate\Extension\DistributionPoint\FullName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group certificate
- * @group extension
- * @group distribution-point
- *
  * @internal
  */
-class FullNameTest extends TestCase
+final class FullNameTest extends TestCase
 {
     public const URI = 'urn:test';
 

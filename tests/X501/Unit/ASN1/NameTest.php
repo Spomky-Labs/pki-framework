@@ -10,11 +10,9 @@ use Sop\X501\ASN1\Name;
 use Sop\X501\ASN1\RDN;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class NameTest extends TestCase
+final class NameTest extends TestCase
 {
     public function testCreate()
     {
@@ -28,7 +26,8 @@ class NameTest extends TestCase
      */
     public function testEncode(Name $name)
     {
-        $der = $name->toASN1()->toDER();
+        $der = $name->toASN1()
+            ->toDER();
         $this->assertIsString($der);
         return $der;
     }

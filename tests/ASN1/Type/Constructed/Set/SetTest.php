@@ -13,12 +13,9 @@ use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group structure
- * @group set
- *
  * @internal
  */
-class SetTest extends TestCase
+final class SetTest extends TestCase
 {
     public function testCreate()
     {

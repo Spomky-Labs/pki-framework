@@ -12,11 +12,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- *
  * @internal
  */
-class AttCertIssuerTest extends TestCase
+final class AttCertIssuerTest extends TestCase
 {
     public function testV1FormFail()
     {

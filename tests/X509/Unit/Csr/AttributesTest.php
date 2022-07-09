@@ -14,18 +14,13 @@ use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 use Sop\X509\CertificationRequest\Attributes;
 
 /**
- * @group csr
- * @group attribute
- *
  * @internal
  */
-class AttributesTest extends TestCase
+final class AttributesTest extends TestCase
 {
     public function testCreate()
     {
-        $attribs = Attributes::fromAttributeValues(
-            new ExtensionRequestValue(new Extensions())
-        );
+        $attribs = Attributes::fromAttributeValues(new ExtensionRequestValue(new Extensions()));
         $this->assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
@@ -66,10 +61,7 @@ class AttributesTest extends TestCase
      */
     public function testExtensionRequest(Attributes $attribs)
     {
-        $this->assertInstanceOf(
-            ExtensionRequestValue::class,
-            $attribs->extensionRequest()
-        );
+        $this->assertInstanceOf(ExtensionRequestValue::class, $attribs->extensionRequest());
     }
 
     /**
@@ -121,9 +113,7 @@ class AttributesTest extends TestCase
      */
     public function testWithAdditional(Attributes $attribs)
     {
-        $attribs = $attribs->withAdditional(
-            Attribute::fromAttributeValues(new CommonNameValue('Test'))
-        );
+        $attribs = $attribs->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('Test')));
         $this->assertCount(2, $attribs);
         return $attribs;
     }
@@ -153,9 +143,8 @@ class AttributesTest extends TestCase
     /**
      * @depends testDecodeWithAdditional
      */
-    public function testDecodedWithAdditionalHasCustomAttribute(
-        Attributes $attribs
-    ) {
+    public function testDecodedWithAdditionalHasCustomAttribute(Attributes $attribs)
+    {
         $this->assertInstanceOf(
             CommonNameValue::class,
             $attribs->firstOf(AttributeType::OID_COMMON_NAME)

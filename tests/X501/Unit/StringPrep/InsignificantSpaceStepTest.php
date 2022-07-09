@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\StringPrep\InsignificantNonSubstringSpaceStep;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class InsignificantSpaceStepTest extends TestCase
+final class InsignificantSpaceStepTest extends TestCase
 {
     /**
      * @dataProvider provideApplyNonSubstring

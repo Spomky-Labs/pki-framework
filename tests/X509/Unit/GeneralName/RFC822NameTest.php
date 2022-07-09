@@ -12,11 +12,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\RFC822Name;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class RFC822NameTest extends TestCase
+final class RFC822NameTest extends TestCase
 {
     public function testCreate()
     {

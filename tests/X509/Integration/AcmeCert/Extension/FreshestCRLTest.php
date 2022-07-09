@@ -14,13 +14,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class FreshestCRLTest extends RefExtTestHelper
+final class FreshestCRLTest extends RefExtTestHelper
 {
     /**
      * @return FreshestCRLExtension
@@ -61,11 +57,7 @@ class FreshestCRLTest extends RefExtTestHelper
      */
     public function testRDN(RelativeName $name)
     {
-        $this->assertEquals(
-            'cn=Delta Distribution Point',
-            $name->rdn()
-                ->toString()
-        );
+        $this->assertEquals('cn=Delta Distribution Point', $name->rdn() ->toString());
     }
 
     /**

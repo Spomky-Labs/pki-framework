@@ -23,11 +23,9 @@ use Sop\X509\CertificationPath\Policy\PolicyNode;
 use Sop\X509\CertificationPath\Policy\PolicyTree;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class PolicyMappingMapAnyTest extends TestCase
+final class PolicyMappingMapAnyTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -58,19 +56,10 @@ class PolicyMappingMapAnyTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-            ),
-            new PolicyMappingsExtension(
-                true,
-                new PolicyMapping('1.3.6.1.3.1', '1.3.6.1.3.2')
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY)),
+            new PolicyMappingsExtension(true, new PolicyMapping('1.3.6.1.3.1', '1.3.6.1.3.2'))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -80,15 +69,9 @@ class PolicyMappingMapAnyTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation('1.3.6.1.3.2')
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3.2'))
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -110,17 +93,11 @@ class PolicyMappingMapAnyTest extends TestCase
 
     public function testCoverLogicException()
     {
-        $tree = new PolicyTree(
-            PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode())
-        );
+        $tree = new PolicyTree(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));
         $refl = new \ReflectionClass($tree);
         $mtd = $refl->getMethod('_applyAnyPolicyMapping');
         $mtd->setAccessible(true);
-        $state = ValidatorState::initialize(
-            PathValidationConfig::defaultConfig(),
-            self::$_ca,
-            3
-        );
+        $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
         $mtd->invoke($tree, self::$_cert, $state, '1.3.6.1.3', []);
         $this->assertTrue(true);
     }

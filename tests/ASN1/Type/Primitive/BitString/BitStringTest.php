@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group bit-string
- *
  * @internal
  */
-class BitStringTest extends TestCase
+final class BitStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -73,12 +70,7 @@ class BitStringTest extends TestCase
 
     public function ffProvider(): array
     {
-        return [
-            [0, 8, strval(0xff)],
-            [1, 2, strval(0x03)],
-            [6, 2, strval(0x03)],
-            [2, 4, strval(0x0f)],
-        ];
+        return [[0, 8, strval(0xff)], [1, 2, strval(0x03)], [6, 2, strval(0x03)], [2, 4, strval(0x0f)]];
     }
 
     /**
@@ -92,11 +84,7 @@ class BitStringTest extends TestCase
 
     public function ffffProvider(): array
     {
-        return [
-            [0, 8, strval(0xff)],
-            [6, 4, strval(0x0f)],
-            [12, 4, strval(0x0f)],
-        ];
+        return [[0, 8, strval(0xff)], [6, 4, strval(0x0f)], [12, 4, strval(0x0f)]];
     }
 
     public function testEmptyRange()
@@ -126,9 +114,7 @@ class BitStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'BIT STRING expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('BIT STRING expected, got primitive NULL');
         $wrap->asBitString();
     }
 }

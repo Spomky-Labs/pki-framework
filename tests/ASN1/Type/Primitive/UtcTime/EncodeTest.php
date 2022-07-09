@@ -8,12 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\UTCTime;
 
 /**
- * @group encode
- * @group utc-time
- *
  * @internal
  */
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     public function testEncode()
     {

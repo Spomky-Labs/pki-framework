@@ -97,19 +97,19 @@ class OneAsymmetricKey
 
     /**
      * Initialize from ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $version = $seq->at(0)->asInteger()->intNumber();
+        $version = $seq->at(0)
+            ->asInteger()
+            ->intNumber();
         if (! in_array($version, [self::VERSION_1, self::VERSION_2])) {
-            throw new \UnexpectedValueException(
-                "Version {$version} not supported."
-            );
+            throw new \UnexpectedValueException("Version {$version} not supported.");
         }
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
-        $key = $seq->at(2)->asOctetString()->string();
+        $key = $seq->at(2)
+            ->asOctetString()
+            ->string();
         $attribs = null;
         if ($seq->hasTagged(0)) {
             $attribs = OneAsymmetricKeyAttributes::fromASN1($seq->getTagged(0)
@@ -136,23 +136,17 @@ class OneAsymmetricKey
     /**
      * Initialize from a `PrivateKey`.
      *
-     * Note that `OneAsymmetricKey` <-> `PrivateKey` conversions may not be
-     * bidirectional with all key types, since `OneAsymmetricKey` may include
-     * attributes as well the public key that are not conveyed in a specific
-     * `PrivateKey` object.
+     * Note that `OneAsymmetricKey` <-> `PrivateKey` conversions may not be bidirectional with all key types, since
+     * `OneAsymmetricKey` may include attributes as well the public key that are not conveyed in a specific `PrivateKey`
+     * object.
      */
     public static function fromPrivateKey(PrivateKey $private_key): self
     {
-        return new static(
-            $private_key->algorithmIdentifier(),
-            $private_key->privateKeyData()
-        );
+        return new static($private_key->algorithmIdentifier(), $private_key->privateKeyData());
     }
 
     /**
      * Initialize from PEM.
-     *
-     * @throws \UnexpectedValueException If PEM type is not supported
      */
     public static function fromPEM(PEM $pem): self
     {
@@ -160,13 +154,9 @@ class OneAsymmetricKey
             case PEM::TYPE_PRIVATE_KEY:
                 return self::fromDER($pem->data());
             case PEM::TYPE_RSA_PRIVATE_KEY:
-                return self::fromPrivateKey(
-                    RSA\RSAPrivateKey::fromDER($pem->data())
-                );
+                return self::fromPrivateKey(RSA\RSAPrivateKey::fromDER($pem->data()));
             case PEM::TYPE_EC_PRIVATE_KEY:
-                return self::fromPrivateKey(
-                    EC\ECPrivateKey::fromDER($pem->data())
-                );
+                return self::fromPrivateKey(EC\ECPrivateKey::fromDER($pem->data()));
         }
         throw new \UnexpectedValueException('Invalid PEM type.');
     }
@@ -207,8 +197,6 @@ class OneAsymmetricKey
 
     /**
      * Get private key.
-     *
-     * @throws \RuntimeException
      */
     public function privateKey(): PrivateKey
     {
@@ -275,9 +263,7 @@ class OneAsymmetricKey
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
         }
-        throw new \RuntimeException(
-            'Private key ' . $algo->name() . ' not supported.'
-        );
+        throw new \RuntimeException('Private key ' . $algo->name() . ' not supported.');
     }
 
     /**
@@ -290,7 +276,9 @@ class OneAsymmetricKey
             return new PublicKeyInfo($this->_algo, $this->_publicKeyData);
         }
         // else derive from private key
-        return $this->privateKey()->publicKey()->publicKeyInfo();
+        return $this->privateKey()
+            ->publicKey()
+            ->publicKeyInfo();
     }
 
     /**
@@ -301,11 +289,6 @@ class OneAsymmetricKey
         return isset($this->_attributes);
     }
 
-    /**
-     * Get attributes.
-     *
-     * @throws \LogicException If attributes are not present
-     */
     public function attributes(): OneAsymmetricKeyAttributes
     {
         if (! $this->hasAttributes()) {
@@ -346,10 +329,7 @@ class OneAsymmetricKey
             new OctetString($this->_privateKeyData),
         ];
         if ($this->_attributes) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                $this->_attributes->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
         }
         if ($this->_publicKeyData) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_publicKeyData);
@@ -362,7 +342,8 @@ class OneAsymmetricKey
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**

@@ -18,11 +18,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class IntermediateTest extends TestCase
+final class IntermediateTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -64,10 +62,7 @@ class IntermediateTest extends TestCase
             new BasicConstraintsExtension(true, true),
             new KeyUsageExtension(true, KeyUsageExtension::KEY_CERT_SIGN)
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create intermediate certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::INTERM_NAME),
@@ -76,13 +71,8 @@ class IntermediateTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true)
-        );
-        self::$_interm = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true));
+        self::$_interm = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -91,10 +81,7 @@ class IntermediateTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_interm);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_intermKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_intermKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -110,9 +97,7 @@ class IntermediateTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_interm, self::$_cert);
-        $result = $path->validate(
-            new PathValidationConfig(new \DateTimeImmutable(), 3)
-        );
+        $result = $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

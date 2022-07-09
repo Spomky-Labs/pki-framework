@@ -10,12 +10,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA224AlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class ECDSAWithSHA224AITest extends TestCase
+final class ECDSAWithSHA224AITest extends TestCase
 {
     /**
      * @return Sequence

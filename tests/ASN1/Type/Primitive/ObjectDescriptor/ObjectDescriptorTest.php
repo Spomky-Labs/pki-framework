@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\ObjectDescriptor;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group object-descriptor
- *
  * @internal
  */
-class ObjectDescriptorTest extends TestCase
+final class ObjectDescriptorTest extends TestCase
 {
     final public const DESCRIPTOR = 'test';
 
@@ -80,19 +77,14 @@ class ObjectDescriptorTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            ObjectDescriptor::class,
-            $wrap->asObjectDescriptor()
-        );
+        $this->assertInstanceOf(ObjectDescriptor::class, $wrap->asObjectDescriptor());
     }
 
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'ObjectDescriptor expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('ObjectDescriptor expected, got primitive NULL');
         $wrap->asObjectDescriptor();
     }
 }

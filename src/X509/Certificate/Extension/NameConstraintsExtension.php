@@ -57,8 +57,6 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Get permitted subtrees.
-     *
-     * @throws \LogicException If not set
      */
     public function permittedSubtrees(): GeneralSubtrees
     {
@@ -78,8 +76,6 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Get excluded subtrees.
-     *
-     * @throws \LogicException If not set
      */
     public function excludedSubtrees(): GeneralSubtrees
     {
@@ -96,12 +92,14 @@ class NameConstraintsExtension extends Extension
         $excluded = null;
         if ($seq->hasTagged(0)) {
             $permitted = GeneralSubtrees::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
             );
         }
         if ($seq->hasTagged(1)) {
             $excluded = GeneralSubtrees::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+                $seq->getTagged(1)
+                    ->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
             );
         }
         return new self($critical, $permitted, $excluded);

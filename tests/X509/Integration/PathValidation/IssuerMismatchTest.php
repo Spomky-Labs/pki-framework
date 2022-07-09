@@ -18,11 +18,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers validation failure when issuer name doesn't match.
  *
- * @group certification-path
- *
  * @internal
  */
-class IssuerMismatchTest extends TestCase
+final class IssuerMismatchTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -51,10 +49,7 @@ class IssuerMismatchTest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -62,10 +57,7 @@ class IssuerMismatchTest extends TestCase
             Name::fromString('cn=Someone else'),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

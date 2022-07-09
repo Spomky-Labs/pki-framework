@@ -13,19 +13,15 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- *
  * @internal
  */
-class HolderTest extends TestCase
+final class HolderTest extends TestCase
 {
     private static $_pkc;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_pkc = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
-        );
+        self::$_pkc = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -41,20 +37,14 @@ class HolderTest extends TestCase
 
     public function testIdentifiesPKCByEntityName()
     {
-        $gn = new GeneralNames(
-            new DirectoryName(self::$_pkc->tbsCertificate()->subject())
-        );
+        $gn = new GeneralNames(new DirectoryName(self::$_pkc->tbsCertificate()->subject()));
         $holder = new Holder(null, $gn);
         $this->assertTrue($holder->identifiesPKC(self::$_pkc));
     }
 
     public function testIdentifiesPKCByEntityNameSANDirectoryName()
     {
-        $gn = new GeneralNames(
-            DirectoryName::fromDNString(
-                'o=ACME Alternative Ltd., c=FI, cn=alt.example.com'
-            )
-        );
+        $gn = new GeneralNames(DirectoryName::fromDNString('o=ACME Alternative Ltd., c=FI, cn=alt.example.com'));
         $holder = new Holder(null, $gn);
         $this->assertTrue($holder->identifiesPKC(self::$_pkc));
     }
@@ -67,10 +57,7 @@ class HolderTest extends TestCase
 
     public function testIdentifiesPKCNoCertIdMatch()
     {
-        $is = new IssuerSerial(
-            new GeneralNames(DirectoryName::fromDNString('cn=Fail')),
-            1
-        );
+        $is = new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Fail')), 1);
         $holder = new Holder($is);
         $this->assertFalse($holder->identifiesPKC(self::$_pkc));
     }

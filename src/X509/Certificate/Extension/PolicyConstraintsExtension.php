@@ -48,11 +48,6 @@ class PolicyConstraintsExtension extends Extension
         return isset($this->_requireExplicitPolicy);
     }
 
-    /**
-     * Get requireExplicitPolicy.
-     *
-     * @throws \LogicException If not set
-     */
     public function requireExplicitPolicy(): int
     {
         if (! $this->hasRequireExplicitPolicy()) {
@@ -69,11 +64,6 @@ class PolicyConstraintsExtension extends Extension
         return isset($this->_inhibitPolicyMapping);
     }
 
-    /**
-     * Get inhibitPolicyMapping.
-     *
-     * @throws \LogicException If not set
-     */
     public function inhibitPolicyMapping(): int
     {
         if (! $this->hasInhibitPolicyMapping()) {
@@ -102,16 +92,10 @@ class PolicyConstraintsExtension extends Extension
     {
         $elements = [];
         if (isset($this->_requireExplicitPolicy)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                new Integer($this->_requireExplicitPolicy)
-            );
+            $elements[] = new ImplicitlyTaggedType(0, new Integer($this->_requireExplicitPolicy));
         }
         if (isset($this->_inhibitPolicyMapping)) {
-            $elements[] = new ImplicitlyTaggedType(
-                1,
-                new Integer($this->_inhibitPolicyMapping)
-            );
+            $elements[] = new ImplicitlyTaggedType(1, new Integer($this->_inhibitPolicyMapping));
         }
         return new Sequence(...$elements);
     }

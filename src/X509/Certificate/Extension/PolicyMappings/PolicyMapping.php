@@ -8,8 +8,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 
 /**
- * Implements ASN.1 type containing policy mapping values to be used
- * in 'Policy Mappings' certificate extension.
+ * Implements ASN.1 type containing policy mapping values to be used in 'Policy Mappings' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.5
  */
@@ -46,8 +45,12 @@ class PolicyMapping
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $issuer_policy = $seq->at(0)->asObjectIdentifier()->oid();
-        $subject_policy = $seq->at(1)->asObjectIdentifier()->oid();
+        $issuer_policy = $seq->at(0)
+            ->asObjectIdentifier()
+            ->oid();
+        $subject_policy = $seq->at(1)
+            ->asObjectIdentifier()
+            ->oid();
         return new self($issuer_policy, $subject_policy);
     }
 

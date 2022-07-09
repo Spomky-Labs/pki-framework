@@ -30,8 +30,8 @@ class Flags
      *
      * @param int|string $flags Flags
      * @param int        $width The number of flags. If width is larger than
-     *                          number of bits in $flags, zeroes are prepended
-     *                          to flag field.
+     * number of bits in $flags, zeroes are prepended
+     * to flag field.
      */
     public function __construct($flags, int $width)
     {
@@ -46,11 +46,7 @@ class Flags
             $mask = gmp_sub(gmp_init(1) << $width, 1);
             $num &= $mask;
             // shift towards MSB if needed
-            $data = gmp_export(
-                $num << $unused_bits,
-                1,
-                GMP_MSW_FIRST | GMP_BIG_ENDIAN
-            );
+            $data = gmp_export($num << $unused_bits, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
             $octets = unpack('C*', $data);
             assert(is_array($octets), new \RuntimeException('unpack() failed'));
             $bits = count($octets) * 8;
@@ -82,8 +78,6 @@ class Flags
      * Check whether a bit at given index is set.
      *
      * Index 0 is the leftmost bit.
-     *
-     * @throws \OutOfBoundsException
      */
     public function test(int $idx): bool
     {

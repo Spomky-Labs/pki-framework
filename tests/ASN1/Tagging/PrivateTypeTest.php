@@ -14,12 +14,9 @@ use Sop\ASN1\Type\Tagged\PrivateType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group private
- *
  * @internal
  */
-class PrivateTypeTest extends TestCase
+final class PrivateTypeTest extends TestCase
 {
     public function testImplicitType()
     {
@@ -31,11 +28,7 @@ class PrivateTypeTest extends TestCase
 
     public function testCreateImplicit()
     {
-        $el = new ImplicitlyTaggedType(
-            1,
-            new Integer(42),
-            Identifier::CLASS_PRIVATE
-        );
+        $el = new ImplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_PRIVATE);
         $this->assertEquals("\xc1\x01\x2a", $el->toDER());
     }
 
@@ -69,11 +62,7 @@ class PrivateTypeTest extends TestCase
 
     public function testCreateExplicit()
     {
-        $el = new ExplicitlyTaggedType(
-            1,
-            new Integer(42),
-            Identifier::CLASS_PRIVATE
-        );
+        $el = new ExplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_PRIVATE);
         $this->assertEquals("\xe1\x03\x02\x01\x2a", $el->toDER());
     }
 
@@ -82,7 +71,8 @@ class PrivateTypeTest extends TestCase
      */
     public function testUnwrapExplicit(PrivateType $el)
     {
-        $inner = $el->explicit()->asInteger();
+        $inner = $el->explicit()
+            ->asInteger();
         $this->assertInstanceOf(Integer::class, $inner);
         return $inner;
     }
@@ -116,9 +106,7 @@ class PrivateTypeTest extends TestCase
     {
         $el = UnspecifiedType::fromDER("\x5\0");
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Private type expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('Private type expected, got primitive NULL');
         $el->asPrivate();
     }
 }

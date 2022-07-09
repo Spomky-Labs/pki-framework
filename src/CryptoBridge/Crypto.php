@@ -48,8 +48,7 @@ abstract class Crypto
     /**
      * Encrypt data with given algorithm using given key.
      *
-     * Padding must be added by the caller. Initialization vector is
-     * taken from the algorithm identifier if available.
+     * Padding must be added by the caller. Initialization vector is taken from the algorithm identifier if available.
      *
      * @param string                    $data Plaintext
      * @param string                    $key  Encryption key
@@ -57,18 +56,13 @@ abstract class Crypto
      *
      * @return string Ciphertext
      */
-    abstract public function encrypt(
-        string $data,
-        string $key,
-        CipherAlgorithmIdentifier $algo
-    ): string;
+    abstract public function encrypt(string $data, string $key, CipherAlgorithmIdentifier $algo): string;
 
     /**
      * Decrypt data with given algorithm using given key.
      *
-     * Possible padding is not removed and must be handled by the caller.
-     * Initialization vector is taken from the algorithm identifier if
-     * available.
+     * Possible padding is not removed and must be handled by the caller. Initialization vector is taken from the
+     * algorithm identifier if available.
      *
      * @param string                    $data Ciphertext
      * @param string                    $key  Encryption key
@@ -76,11 +70,7 @@ abstract class Crypto
      *
      * @return string Plaintext
      */
-    abstract public function decrypt(
-        string $data,
-        string $key,
-        CipherAlgorithmIdentifier $algo
-    ): string;
+    abstract public function decrypt(string $data, string $key, CipherAlgorithmIdentifier $algo): string;
 
     /**
      * Get default supported crypto implementation.

@@ -13,12 +13,9 @@ use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\Tagged\DERTaggedType;
 
 /**
- * @group decode
- * @group structure
- *
  * @internal
  */
-class StructureDecodeTest extends TestCase
+final class StructureDecodeTest extends TestCase
 {
     /**
      * Test too short length.
@@ -26,9 +23,7 @@ class StructureDecodeTest extends TestCase
     public function testTooShort()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Structure\'s content overflows length'
-        );
+        $this->expectExceptionMessage('Structure\'s content overflows length');
         Structure::fromDER("\x30\x1\x5\x0");
     }
 
@@ -48,9 +43,7 @@ class StructureDecodeTest extends TestCase
     public function testNotConstructed()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Structured element must have constructed bit set'
-        );
+        $this->expectExceptionMessage('Structured element must have constructed bit set');
         Structure::fromDER("\x10\x0");
     }
 
@@ -80,13 +73,7 @@ class StructureDecodeTest extends TestCase
         // null, tag 1 (null), null
         $set = Set::fromDER("\x31\x8\x5\x0\xa1\x2\x5\x0\x5\x0");
         $this->assertInstanceOf(DERTaggedType::class, $set->getTagged(1));
-        $this->assertInstanceOf(
-            NullType::class,
-            $set->getTagged(1)
-                ->expectExplicit()
-                ->explicit()
-                ->asNull()
-        );
+        $this->assertInstanceOf(NullType::class, $set->getTagged(1) ->expectExplicit() ->explicit() ->asNull());
     }
 
     public function testInvalidTag()
@@ -107,9 +94,7 @@ class StructureDecodeTest extends TestCase
     public function testIndefiniteUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Unexpected end of data while decoding indefinite length structure'
-        );
+        $this->expectExceptionMessage('Unexpected end of data while decoding indefinite length structure');
         Sequence::fromDER(hex2bin('3080020101'));
     }
 }

@@ -46,12 +46,10 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     }
 
     /**
-     * Get mappings flattened into a single array of arrays of subject domains
-     * keyed by issuer domain.
+     * Get mappings flattened into a single array of arrays of subject domains keyed by issuer domain.
      *
-     * Eg. if policy mappings contains multiple mappings with the same issuer
-     * domain policy, their corresponding subject domain policies are placed
-     * under the same key.
+     * Eg. if policy mappings contains multiple mappings with the same issuer domain policy, their corresponding subject
+     * domain policies are placed under the same key.
      *
      * @return (string[])[]
      */
@@ -69,8 +67,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     }
 
     /**
-     * Get all subject domain policy OIDs that are mapped to given issuer
-     * domain policy OID.
+     * Get all subject domain policy OIDs that are mapped to given issuer domain policy OID.
      *
      * @param string $oid Issuer domain policy
      *
@@ -106,8 +103,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     /**
      * Check whether policy mappings have anyPolicy mapped.
      *
-     * RFC 5280 section 4.2.1.5 states that "Policies MUST NOT be mapped either
-     * to or from the special value anyPolicy".
+     * RFC 5280 section 4.2.1.5 states that "Policies MUST NOT be mapped either to or from the special value anyPolicy".
      */
     public function hasAnyPolicyMapping(): bool
     {
@@ -151,9 +147,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($mappings)) {
-            throw new \UnexpectedValueException(
-                'PolicyMappings must have at least one mapping.'
-            );
+            throw new \UnexpectedValueException('PolicyMappings must have at least one mapping.');
         }
         return new self($critical, ...$mappings);
     }
@@ -163,12 +157,9 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         if (! count($this->_mappings)) {
             throw new \LogicException('No mappings.');
         }
-        $elements = array_map(
-            function (PolicyMapping $mapping) {
-                return $mapping->toASN1();
-            },
-            $this->_mappings
-        );
+        $elements = array_map(function (PolicyMapping $mapping) {
+            return $mapping->toASN1();
+        }, $this->_mappings);
         return new Sequence(...$elements);
     }
 }

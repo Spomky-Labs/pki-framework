@@ -9,11 +9,9 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoTypes\Signature\Ed448Signature;
 
 /**
- * @group signature
- *
  * @internal
  */
-class Ed448SignatureTest extends TestCase
+final class Ed448SignatureTest extends TestCase
 {
     public function testCreate(): Ed448Signature
     {

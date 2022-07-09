@@ -13,11 +13,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\OtherName;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class OtherNameTest extends TestCase
+final class OtherNameTest extends TestCase
 {
     public function testCreate()
     {

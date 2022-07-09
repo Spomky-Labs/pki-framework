@@ -9,12 +9,9 @@ use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Exception\DecodeException;
 
 /**
- * @group decode
- * @group identifier
- *
  * @internal
  */
-class IdentifierDecodeTest extends TestCase
+final class IdentifierDecodeTest extends TestCase
 {
     public function testType()
     {
@@ -115,9 +112,7 @@ class IdentifierDecodeTest extends TestCase
     public function testUnexpectedTagEnd()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Unexpected end of data while decoding long form identifier'
-        );
+        $this->expectExceptionMessage('Unexpected end of data while decoding long form identifier');
         Identifier::fromDER("\x1f\xff");
     }
 }

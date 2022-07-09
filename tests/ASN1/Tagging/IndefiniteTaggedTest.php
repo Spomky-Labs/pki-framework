@@ -10,12 +10,9 @@ use Sop\ASN1\Type\Tagged\DERTaggedType;
 use Sop\ASN1\Type\TaggedType;
 
 /**
- * @group tagging
- * @group indefinite
- *
  * @internal
  */
-class IndefiniteTaggedTest extends TestCase
+final class IndefiniteTaggedTest extends TestCase
 {
     public function testDecodeIndefinite()
     {
@@ -36,9 +33,7 @@ class IndefiniteTaggedTest extends TestCase
     public function testPrimitiveFail()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Primitive type with indefinite length is not supported'
-        );
+        $this->expectExceptionMessage('Primitive type with indefinite length is not supported');
         TaggedType::fromDER(hex2bin('80800201010000'));
     }
 }

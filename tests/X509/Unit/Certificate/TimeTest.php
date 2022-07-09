@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\UTCTime;
 use Sop\X509\Certificate\Time;
 
 /**
- * @group certificate
- * @group time
- *
  * @internal
  */
-class TimeTest extends TestCase
+final class TimeTest extends TestCase
 {
     final public const TIME = '2016-04-06 12:00:00';
 
@@ -65,19 +62,13 @@ class TimeTest extends TestCase
      */
     public function testTime(Time $time)
     {
-        $this->assertEquals(
-            new \DateTimeImmutable(self::TIME),
-            $time->dateTime()
-        );
+        $this->assertEquals(new \DateTimeImmutable(self::TIME), $time->dateTime());
     }
 
     public function testTimezone()
     {
         $time = Time::fromString(self::TIME, 'UTC');
-        $this->assertEquals(
-            new \DateTimeImmutable(self::TIME, new \DateTimeZone('UTC')),
-            $time->dateTime()
-        );
+        $this->assertEquals(new \DateTimeImmutable(self::TIME, new \DateTimeZone('UTC')), $time->dateTime());
     }
 
     public function testCreateGeneralized()
@@ -120,10 +111,7 @@ class TimeTest extends TestCase
 
     public function testDecodeFractional()
     {
-        $dt = \DateTimeImmutable::createFromFormat(
-            '!Y-m-d H:i:s.u',
-            '2050-01-01 12:00:00.500'
-        );
+        $dt = \DateTimeImmutable::createFromFormat('!Y-m-d H:i:s.u', '2050-01-01 12:00:00.500');
         $time = new Time($dt);
         $this->assertInstanceOf(GeneralizedTime::class, $time->toASN1());
     }

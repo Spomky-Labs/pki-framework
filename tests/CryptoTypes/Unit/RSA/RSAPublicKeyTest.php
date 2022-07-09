@@ -9,11 +9,9 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class RSAPublicKeyTest extends TestCase
+final class RSAPublicKeyTest extends TestCase
 {
     /**
      * @return RSAPublicKey

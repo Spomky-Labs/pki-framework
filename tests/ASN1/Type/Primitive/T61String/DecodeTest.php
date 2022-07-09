@@ -8,12 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\T61String;
 
 /**
- * @group decode
- * @group t61-string
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testType()
     {

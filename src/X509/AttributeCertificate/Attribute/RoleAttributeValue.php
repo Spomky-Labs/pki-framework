@@ -44,10 +44,8 @@ class RoleAttributeValue extends AttributeValue
      * @param GeneralName       $name      Role name
      * @param null|GeneralNames $authority Issuing authority
      */
-    public function __construct(
-        GeneralName $name,
-        ?GeneralNames $authority = null
-    ) {
+    public function __construct(GeneralName $name, ?GeneralNames $authority = null)
+    {
         $this->_roleAuthority = $authority;
         $this->_roleName = $name;
         $this->_oid = AttributeType::OID_ROLE;
@@ -59,10 +57,8 @@ class RoleAttributeValue extends AttributeValue
      * @param string            $role_name Role name in URI format
      * @param null|GeneralNames $authority Issuing authority
      */
-    public static function fromString(
-        string $role_name,
-        ?GeneralNames $authority = null
-    ): self {
+    public static function fromString(string $role_name, ?GeneralNames $authority = null): self
+    {
         return new self(new UniformResourceIdentifier($role_name), $authority);
     }
 
@@ -75,12 +71,12 @@ class RoleAttributeValue extends AttributeValue
         $authority = null;
         if ($seq->hasTagged(0)) {
             $authority = GeneralNames::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
-        $name = GeneralName::fromASN1($seq->getTagged(1)
-            ->asExplicit()->asTagged());
+        $name = GeneralName::fromASN1($seq->getTagged(1) ->asExplicit() ->asTagged());
         return new self($name, $authority);
     }
 
@@ -94,8 +90,6 @@ class RoleAttributeValue extends AttributeValue
 
     /**
      * Get issuing authority.
-     *
-     * @throws \LogicException If not set
      */
     public function roleAuthority(): GeneralNames
     {
@@ -117,15 +111,9 @@ class RoleAttributeValue extends AttributeValue
     {
         $elements = [];
         if (isset($this->_roleAuthority)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                $this->_roleAuthority->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(0, $this->_roleAuthority->toASN1());
         }
-        $elements[] = new ExplicitlyTaggedType(
-            1,
-            $this->_roleName->toASN1()
-        );
+        $elements[] = new ExplicitlyTaggedType(1, $this->_roleName->toASN1());
         return new Sequence(...$elements);
     }
 

@@ -20,12 +20,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class AuthorityKeyIdentifierTest extends TestCase
+final class AuthorityKeyIdentifierTest extends TestCase
 {
     final public const KEY_ID = 'test-id';
 
@@ -35,9 +32,7 @@ class AuthorityKeyIdentifierTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuer = new GeneralNames(
-            new DirectoryName(Name::fromString('cn=Issuer'))
-        );
+        self::$_issuer = new GeneralNames(new DirectoryName(Name::fromString('cn=Issuer')));
     }
 
     public static function tearDownAfterClass(): void
@@ -47,21 +42,14 @@ class AuthorityKeyIdentifierTest extends TestCase
 
     public function testCreate()
     {
-        $ext = new AuthorityKeyIdentifierExtension(
-            true,
-            self::KEY_ID,
-            self::$_issuer,
-            self::SERIAL
-        );
+        $ext = new AuthorityKeyIdentifierExtension(true, self::KEY_ID, self::$_issuer, self::SERIAL);
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
         return $ext;
     }
 
     public function testFromPKI()
     {
-        $pki = PublicKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem')
-        );
+        $pki = PublicKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem'));
         $ext = AuthorityKeyIdentifierExtension::fromPublicKeyInfo($pki);
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
     }
@@ -99,9 +87,7 @@ class AuthorityKeyIdentifierTest extends TestCase
      */
     public function testDecode($der)
     {
-        $ext = AuthorityKeyIdentifierExtension::fromASN1(
-            Sequence::fromDER($der)
-        );
+        $ext = AuthorityKeyIdentifierExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
         return $ext;
     }

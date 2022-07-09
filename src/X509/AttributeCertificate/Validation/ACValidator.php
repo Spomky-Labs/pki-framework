@@ -49,11 +49,8 @@ class ACValidator
      * @param ACValidationConfig   $config Validation configuration
      * @param null|Crypto          $crypto Crypto engine, use default if not set
      */
-    public function __construct(
-        AttributeCertificate $ac,
-        ACValidationConfig $config,
-        ?Crypto $crypto = null
-    ) {
+    public function __construct(AttributeCertificate $ac, ACValidationConfig $config, ?Crypto $crypto = null)
+    {
         $this->_ac = $ac;
         $this->_config = $config;
         $this->_crypto = $crypto ?? Crypto::getDefault();
@@ -61,8 +58,6 @@ class ACValidator
 
     /**
      * Validate attribute certificate.
-     *
-     * @throws ACValidationException If validation fails
      *
      * @return AttributeCertificate Validated AC
      */
@@ -79,8 +74,6 @@ class ACValidator
     /**
      * Validate AC holder's certification.
      *
-     * @throws ACValidationException
-     *
      * @return Certificate Certificate of the AC's holder
      */
     private function _validateHolder(): Certificate
@@ -90,13 +83,10 @@ class ACValidator
             ->withMaxLength(count($path))
             ->withDateTime($this->_config->evaluationTime());
         try {
-            $holder = $path->validate($config, $this->_crypto)->certificate();
+            $holder = $path->validate($config, $this->_crypto)
+                ->certificate();
         } catch (PathValidationException $e) {
-            throw new ACValidationException(
-                "Failed to validate holder PKC's certification path.",
-                0,
-                $e
-            );
+            throw new ACValidationException("Failed to validate holder PKC's certification path.", 0, $e);
         }
         if (! $this->_ac->isHeldBy($holder)) {
             throw new ACValidationException("Name mismatch of AC's holder PKC.");
@@ -107,8 +97,6 @@ class ACValidator
     /**
      * Verify AC's signature and issuer's certification.
      *
-     * @throws ACValidationException
-     *
      * @return Certificate Certificate of the AC's issuer
      */
     private function _verifyIssuer(): Certificate
@@ -118,18 +106,16 @@ class ACValidator
             ->withMaxLength(count($path))
             ->withDateTime($this->_config->evaluationTime());
         try {
-            $issuer = $path->validate($config, $this->_crypto)->certificate();
+            $issuer = $path->validate($config, $this->_crypto)
+                ->certificate();
         } catch (PathValidationException $e) {
-            throw new ACValidationException(
-                "Failed to validate issuer PKC's certification path.",
-                0,
-                $e
-            );
+            throw new ACValidationException("Failed to validate issuer PKC's certification path.", 0, $e);
         }
         if (! $this->_ac->isIssuedBy($issuer)) {
             throw new ACValidationException("Name mismatch of AC's issuer PKC.");
         }
-        $pubkey_info = $issuer->tbsCertificate()->subjectPublicKeyInfo();
+        $pubkey_info = $issuer->tbsCertificate()
+            ->subjectPublicKeyInfo();
         if (! $this->_ac->verify($pubkey_info, $this->_crypto)) {
             throw new ACValidationException('Failed to verify signature.');
         }
@@ -140,12 +126,11 @@ class ACValidator
      * Validate AC issuer's profile.
      *
      * @see https://tools.ietf.org/html/rfc5755#section-4.5
-     *
-     * @throws ACValidationException
      */
     private function _validateIssuerProfile(Certificate $cert): void
     {
-        $exts = $cert->tbsCertificate()->extensions();
+        $exts = $cert->tbsCertificate()
+            ->extensions();
         if ($exts->hasKeyUsage() && ! $exts->keyUsage()->isDigitalSignature()) {
             throw new ACValidationException(
                 "Issuer PKC's Key Usage extension doesn't permit" .
@@ -159,13 +144,12 @@ class ACValidator
 
     /**
      * Validate AC's validity period.
-     *
-     * @throws ACValidationException
      */
     private function _validateTime(): void
     {
         $t = $this->_config->evaluationTime();
-        $validity = $this->_ac->acinfo()->validityPeriod();
+        $validity = $this->_ac->acinfo()
+            ->validityPeriod();
         if ($validity->notBeforeTime()->diff($t)->invert) {
             throw new ACValidationException('Validity period has not started.');
         }
@@ -176,12 +160,11 @@ class ACValidator
 
     /**
      * Validate AC's target information.
-     *
-     * @throws ACValidationException
      */
     private function _validateTargeting(): void
     {
-        $exts = $this->_ac->acinfo()->extensions();
+        $exts = $this->_ac->acinfo()
+            ->extensions();
         // if target information extension is not present
         if (! $exts->has(Extension::OID_TARGET_INFORMATION)) {
             return;
@@ -189,9 +172,7 @@ class ACValidator
         $ext = $exts->get(Extension::OID_TARGET_INFORMATION);
         if ($ext instanceof TargetInformationExtension &&
             ! $this->_hasMatchingTarget($ext->targets())) {
-            throw new ACValidationException(
-                "Attribute certificate doesn't have a matching target."
-            );
+            throw new ACValidationException("Attribute certificate doesn't have a matching target.");
         }
     }
 

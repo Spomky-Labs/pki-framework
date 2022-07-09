@@ -9,8 +9,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * Implements *UserNotice* ASN.1 type used by 'Certificate Policies'
- * certificate extension.
+ * Implements *UserNotice* ASN.1 type used by 'Certificate Policies' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -33,10 +32,8 @@ class UserNoticeQualifier extends PolicyQualifierInfo
     /**
      * Constructor.
      */
-    public function __construct(
-        ?DisplayText $text = null,
-        ?NoticeReference $ref = null
-    ) {
+    public function __construct(?DisplayText $text = null, ?NoticeReference $ref = null)
+    {
         $this->_oid = self::OID_UNOTICE;
         $this->_text = $text;
         $this->_ref = $ref;
@@ -70,8 +67,6 @@ class UserNoticeQualifier extends PolicyQualifierInfo
 
     /**
      * Get explicit text.
-     *
-     * @throws \LogicException If not set
      */
     public function explicitText(): DisplayText
     {
@@ -91,8 +86,6 @@ class UserNoticeQualifier extends PolicyQualifierInfo
 
     /**
      * Get notice reference.
-     *
-     * @throws \LogicException If not set
      */
     public function noticeRef(): NoticeReference
     {

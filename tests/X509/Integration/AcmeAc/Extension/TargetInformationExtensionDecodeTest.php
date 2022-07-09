@@ -11,13 +11,9 @@ use Sop\X509\Certificate\Extension\TargetInformationExtension;
 require_once __DIR__ . '/RefACExtTestHelper.php';
 
 /**
- * @group ac
- * @group decode
- * @group extension
- *
  * @internal
  */
-class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
+final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
 {
     public function testExtension()
     {
@@ -40,15 +36,9 @@ class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
      */
     public function testValues(TargetInformationExtension $ti)
     {
-        $vals = array_map(
-            function (Target $target) {
-                return $target->string();
-            },
-            $ti->targets()->all()
-        );
-        $this->assertEqualsCanonicalizing(
-            ['urn:test', '*.example.com', 'urn:another'],
-            $vals
-        );
+        $vals = array_map(function (Target $target) {
+            return $target->string();
+        }, $ti->targets()  ->all());
+        $this->assertEqualsCanonicalizing(['urn:test', '*.example.com', 'urn:another'], $vals);
     }
 }

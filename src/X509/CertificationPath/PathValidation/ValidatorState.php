@@ -37,10 +37,9 @@ class ValidatorState
     /**
      * Valid policy tree (valid_policy_tree).
      *
-     * A tree of certificate policies with their optional qualifiers.
-     * Each of the leaves of the tree represents a valid policy at this stage in
-     * the certification path validation.
-     * Once the tree is set to NULL, policy processing ceases.
+     * A tree of certificate policies with their optional qualifiers. Each of the leaves of the tree represents a valid
+     * policy at this stage in the certification path validation. Once the tree is set to NULL, policy processing
+     * ceases.
      *
      * @var null|PolicyTree
      */
@@ -49,9 +48,8 @@ class ValidatorState
     /**
      * Permitted subtrees (permitted_subtrees).
      *
-     * A set of root names for each name type defining a set of subtrees within
-     * which all subject names in subsequent certificates in the certification
-     * path must fall.
+     * A set of root names for each name type defining a set of subtrees within which all subject names in subsequent
+     * certificates in the certification path must fall.
      *
      * @var mixed
      */
@@ -60,9 +58,8 @@ class ValidatorState
     /**
      * Excluded subtrees (excluded_subtrees).
      *
-     * A set of root names for each name type defining a set of subtrees within
-     * which no subject name in subsequent certificates in the certification
-     * path may fall.
+     * A set of root names for each name type defining a set of subtrees within which no subject name in subsequent
+     * certificates in the certification path may fall.
      *
      * @var mixed
      */
@@ -80,8 +77,7 @@ class ValidatorState
     /**
      * Inhibit anyPolicy (inhibit_anyPolicy).
      *
-     * An integer that indicates whether the anyPolicy policy identifier is
-     * considered a match.
+     * An integer that indicates whether the anyPolicy policy identifier is considered a match.
      *
      * @var int
      */
@@ -99,8 +95,7 @@ class ValidatorState
     /**
      * Working public key algorithm (working_public_key_algorithm).
      *
-     * The digital signature algorithm used to verify the signature of a
-     * certificate.
+     * The digital signature algorithm used to verify the signature of a certificate.
      *
      * @var AlgorithmIdentifierType
      */
@@ -118,8 +113,7 @@ class ValidatorState
     /**
      * Working public key parameters (working_public_key_parameters).
      *
-     * Parameters associated with the current public key that may be required to
-     * verify a signature.
+     * Parameters associated with the current public key that may be required to verify a signature.
      *
      * @var null|Element
      */
@@ -128,8 +122,7 @@ class ValidatorState
     /**
      * Working issuer name (working_issuer_name).
      *
-     * The issuer distinguished name expected in the next certificate in the
-     * chain.
+     * The issuer distinguished name expected in the next certificate in the chain.
      *
      * @var Name
      */
@@ -156,13 +149,10 @@ class ValidatorState
      *
      * @param Certificate          $trust_anchor Trust anchor certificate
      * @param int                  $n            Number of certificates
-     *                                           in the certification path
+     * in the certification path
      */
-    public static function initialize(
-        PathValidationConfig $config,
-        Certificate $trust_anchor,
-        int $n
-    ): self {
+    public static function initialize(PathValidationConfig $config, Certificate $trust_anchor, int $n): self
+    {
         $state = new self();
         $state->_pathLength = $n;
         $state->_index = 1;
@@ -317,11 +307,6 @@ class ValidatorState
         return isset($this->_validPolicyTree);
     }
 
-    /**
-     * Get valid_policy_tree.
-     *
-     * @throws \LogicException If not set
-     */
     public function validPolicyTree(): PolicyTree
     {
         if (! $this->hasValidPolicyTree()) {
@@ -425,6 +410,7 @@ class ValidatorState
     public static function getAlgorithmParameters(AlgorithmIdentifierType $algo): ?Element
     {
         $seq = $algo->toASN1();
-        return $seq->has(1) ? $seq->at(1)->asElement() : null;
+        return $seq->has(1) ? $seq->at(1)
+            ->asElement() : null;
     }
 }

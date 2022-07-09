@@ -9,12 +9,9 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Primitive\EOC;
 
 /**
- * @group decode
- * @group eoc
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testType()
     {

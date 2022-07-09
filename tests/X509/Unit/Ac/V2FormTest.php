@@ -18,19 +18,15 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- *
  * @internal
  */
-class V2FormTest extends TestCase
+final class V2FormTest extends TestCase
 {
     private static $_issuerName;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuerName = new GeneralNames(
-            DirectoryName::fromDNString('cn=Test')
-        );
+        self::$_issuerName = new GeneralNames(DirectoryName::fromDNString('cn=Test'));
     }
 
     public static function tearDownAfterClass(): void

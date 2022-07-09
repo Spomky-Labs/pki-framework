@@ -13,11 +13,9 @@ use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\ASN1\Type\Primitive\OctetString;
 
 /**
- * @group der-data
- *
  * @internal
  */
-class DERDataTest extends TestCase
+final class DERDataTest extends TestCase
 {
     public function testCreate()
     {

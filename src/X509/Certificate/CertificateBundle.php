@@ -51,12 +51,9 @@ class CertificateBundle implements \Countable, \IteratorAggregate
      */
     public static function fromPEMs(PEM ...$pems): self
     {
-        $certs = array_map(
-            function ($pem) {
-                return Certificate::fromPEM($pem);
-            },
-            $pems
-        );
+        $certs = array_map(function ($pem) {
+            return Certificate::fromPEM($pem);
+        }, $pems);
         return new self(...$certs);
     }
 
@@ -187,10 +184,14 @@ class CertificateBundle implements \Countable, \IteratorAggregate
      */
     private static function _getCertKeyId(Certificate $cert): string
     {
-        $exts = $cert->tbsCertificate()->extensions();
+        $exts = $cert->tbsCertificate()
+            ->extensions();
         if ($exts->hasSubjectKeyIdentifier()) {
-            return $exts->subjectKeyIdentifier()->keyIdentifier();
+            return $exts->subjectKeyIdentifier()
+                ->keyIdentifier();
         }
-        return $cert->tbsCertificate()->subjectPublicKeyInfo()->keyIdentifier();
+        return $cert->tbsCertificate()
+            ->subjectPublicKeyInfo()
+            ->keyIdentifier();
     }
 }

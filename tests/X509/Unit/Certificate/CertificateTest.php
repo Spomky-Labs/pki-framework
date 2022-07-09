@@ -19,19 +19,15 @@ use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\Validity;
 
 /**
- * @group certificate
- *
  * @internal
  */
-class CertificateTest extends TestCase
+final class CertificateTest extends TestCase
 {
     private static $_privateKeyInfo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
-        );
+        self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -51,12 +47,7 @@ class CertificateTest extends TestCase
         $tc = $tc->withVersion(TBSCertificate::VERSION_1)
             ->withSerialNumber(0)
             ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
-        $signature = Crypto::getDefault()->sign(
-            $tc->toASN1()
-                ->toDER(),
-            self::$_privateKeyInfo,
-            $tc->signature()
-        );
+        $signature = Crypto::getDefault()->sign($tc->toASN1() ->toDER(), self::$_privateKeyInfo, $tc->signature());
         $cert = new Certificate($tc, $tc->signature(), $signature);
         $this->assertInstanceOf(Certificate::class, $cert);
         return $cert;
@@ -106,10 +97,7 @@ class CertificateTest extends TestCase
      */
     public function testSignatureAlgorithm(Certificate $cert)
     {
-        $this->assertInstanceOf(
-            AlgorithmIdentifier::class,
-            $cert->signatureAlgorithm()
-        );
+        $this->assertInstanceOf(AlgorithmIdentifier::class, $cert->signatureAlgorithm());
     }
 
     /**

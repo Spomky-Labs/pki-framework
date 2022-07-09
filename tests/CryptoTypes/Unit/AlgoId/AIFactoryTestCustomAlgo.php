@@ -10,9 +10,8 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 class AIFactoryTestCustomAlgo extends SpecificAlgorithmIdentifier
 {
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null
-    ): SpecificAlgorithmIdentifier {
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
         return new self();
     }
 

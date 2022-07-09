@@ -74,15 +74,9 @@ class DNParser
             '/([\pC])/u',
             function ($m) {
                 $octets = str_split(bin2hex($m[1]), 2);
-                return implode(
-                    '',
-                    array_map(
-                        function ($octet) {
-                            return '\\' . strtoupper($octet);
-                        },
-                        $octets
-                    )
-                );
+                return implode('', array_map(function ($octet) {
+                    return '\\' . strtoupper($octet);
+                }, $octets));
             },
             $str
         );
@@ -91,8 +85,6 @@ class DNParser
 
     /**
      * Parse DN to name-components.
-     *
-     * @throws \RuntimeException
      */
     protected function parse(): array
     {
@@ -164,10 +156,8 @@ class DNParser
      *
      * attributeType "=" attributeValue
      *
-     * @throws \UnexpectedValueException
-     *
      * @return array A tuple of [type, value]. Value may be either a string or
-     *               an Element, if it's encoded as hexstring.
+     * an Element, if it's encoded as hexstring.
      */
     private function _parseAttrTypeAndValue(int &$offset): array
     {
@@ -185,11 +175,7 @@ class DNParser
             try {
                 $value = Element::fromDER($data);
             } catch (DecodeException $e) {
-                throw new \UnexpectedValueException(
-                    'Invalid DER encoding from hexstring.',
-                    0,
-                    $e
-                );
+                throw new \UnexpectedValueException('Invalid DER encoding from hexstring.', 0, $e);
             }
         } else {
             $value = $this->_parseAttrStringValue($idx);
@@ -202,8 +188,6 @@ class DNParser
      * Parse 'attributeType'.
      *
      * (ALPHA 1*keychar) / oid
-     *
-     * @throws \UnexpectedValueException
      */
     private function _parseAttrType(int &$offset): string
     {
@@ -223,8 +207,6 @@ class DNParser
 
     /**
      * Parse 'attributeValue' of string type.
-     *
-     * @throws \UnexpectedValueException
      */
     private function _parseAttrStringValue(int &$offset): string
     {
@@ -243,8 +225,6 @@ class DNParser
 
     /**
      * Parse plain 'attributeValue' string.
-     *
-     * @throws \UnexpectedValueException
      */
     private function _parseAttrString(int &$offset): string
     {
@@ -290,8 +270,6 @@ class DNParser
      * Parse quoted 'attributeValue' string.
      *
      * @param int $offset Offset to starting quote
-     *
-     * @throws \UnexpectedValueException
      */
     private function _parseQuotedAttrString(int &$offset): string
     {
@@ -317,8 +295,6 @@ class DNParser
 
     /**
      * Parse 'attributeValue' of binary type.
-     *
-     * @throws \UnexpectedValueException
      */
     private function _parseAttrHexValue(int &$offset): string
     {
@@ -334,16 +310,12 @@ class DNParser
 
     /**
      * Parse 'pair' after leading slash.
-     *
-     * @throws \UnexpectedValueException
      */
     private function _parsePairAfterSlash(int &$offset): string
     {
         $idx = $offset;
         if ($idx >= $this->_len) {
-            throw new \UnexpectedValueException(
-                'Unexpected end of escape sequence.'
-            );
+            throw new \UnexpectedValueException('Unexpected end of escape sequence.');
         }
         $c = $this->_dn[$idx++];
         // special | \ | " | SPACE

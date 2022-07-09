@@ -11,21 +11,15 @@ use Sop\X501\ASN1\AttributeValue\AttributeValue;
 use Sop\X501\ASN1\AttributeValue\UnknownAttributeValue;
 
 /**
- * @group asn1
- * @group value
- *
  * @internal
  */
-class UnknownAttributeValueTest extends TestCase
+final class UnknownAttributeValueTest extends TestCase
 {
     final public const OID = '1.3.6.1.3';
 
     public function testCreate()
     {
-        $val = AttributeValue::fromASN1ByOID(
-            self::OID,
-            new UnspecifiedType(new UTF8String('Test'))
-        );
+        $val = AttributeValue::fromASN1ByOID(self::OID, new UnspecifiedType(new UTF8String('Test')));
         $this->assertInstanceOf(UnknownAttributeValue::class, $val);
         return $val;
     }

@@ -13,12 +13,9 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\StringType;
 
 /**
- * @group decode
- * @group string
- *
  * @internal
  */
-class StringTypeDecodeTest extends TestCase
+final class StringTypeDecodeTest extends TestCase
 {
     public function testType()
     {
@@ -35,10 +32,7 @@ class StringTypeDecodeTest extends TestCase
     public function testExpectation()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
-        $this->assertInstanceOf(
-            StringType::class,
-            $el->expectType(Element::TYPE_STRING)
-        );
+        $this->assertInstanceOf(StringType::class, $el->expectType(Element::TYPE_STRING));
     }
 
     /**

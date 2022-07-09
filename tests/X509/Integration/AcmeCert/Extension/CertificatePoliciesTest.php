@@ -13,13 +13,9 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
 use Sop\X509\Certificate\Extension\Extension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class CertificatePoliciesTest extends RefExtTestHelper
+final class CertificatePoliciesTest extends RefExtTestHelper
 {
     /**
      * @return CertificatePoliciesExtension
@@ -80,11 +76,7 @@ class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function testPolicyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
-        $this->assertEquals(
-            'All your base are belong to us!',
-            $un->explicitText()
-                ->string()
-        );
+        $this->assertEquals('All your base are belong to us!', $un->explicitText() ->string());
     }
 
     /**
@@ -102,14 +94,9 @@ class CertificatePoliciesTest extends RefExtTestHelper
     /**
      * @depends testPolicyUserNoticeQualifierRef
      */
-    public function testPolicyUserNoticeQualifierOrganization(
-        NoticeReference $ref
-    ) {
-        $this->assertEquals(
-            'Toaplan Co., Ltd.',
-            $ref->organization()
-                ->string()
-        );
+    public function testPolicyUserNoticeQualifierOrganization(NoticeReference $ref)
+    {
+        $this->assertEquals('Toaplan Co., Ltd.', $ref->organization() ->string());
     }
 
     /**

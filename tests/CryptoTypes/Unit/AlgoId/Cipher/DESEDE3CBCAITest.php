@@ -10,12 +10,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class DESEDE3CBCAITest extends TestCase
+final class DESEDE3CBCAITest extends TestCase
 {
     private const IV = '12345678';
 

@@ -9,12 +9,9 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Primitive\BitString;
 
 /**
- * @group decode
- * @group bit-string
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testType()
     {
@@ -40,9 +37,7 @@ class DecodeTest extends TestCase
     public function testDerPadding()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'DER encoded bit string must have zero padding'
-        );
+        $this->expectExceptionMessage('DER encoded bit string must have zero padding');
         BitString::fromDER("\x3\x3\x4\xff\xf8");
     }
 
@@ -90,9 +85,7 @@ class DecodeTest extends TestCase
     public function testUnusedBitsFail()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'Unused bits in a bit string must be less than 8'
-        );
+        $this->expectExceptionMessage('Unused bits in a bit string must be less than 8');
         BitString::fromDER("\x3\x3\x8\xff\x00");
     }
 }

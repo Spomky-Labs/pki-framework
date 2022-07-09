@@ -14,8 +14,7 @@ use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * Base class implementing *IetfAttrSyntax* ASN.1 type used by
- * attribute certificate attribute values.
+ * Base class implementing *IetfAttrSyntax* ASN.1 type used by attribute certificate attribute values.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4
  */
@@ -54,7 +53,8 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
         $idx = 0;
         if ($seq->hasTagged(0)) {
             $authority = GeneralNames::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
             ++$idx;
@@ -63,7 +63,9 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
             function (UnspecifiedType $el) {
                 return IetfAttrValue::fromASN1($el);
             },
-            $seq->at($idx)->asSequence()->elements()
+            $seq->at($idx)
+                ->asSequence()
+                ->elements()
         );
         $obj = new static(...$values);
         $obj->_policyAuthority = $authority;
@@ -90,8 +92,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Get policy authority.
-     *
-     * @throws \LogicException If not set
      */
     public function policyAuthority(): GeneralNames
     {
@@ -113,8 +113,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Get first value.
-     *
-     * @throws \LogicException If not set
      */
     public function first(): IetfAttrValue
     {
@@ -128,17 +126,11 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
     {
         $elements = [];
         if (isset($this->_policyAuthority)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                $this->_policyAuthority->toASN1()
-            );
+            $elements[] = new ImplicitlyTaggedType(0, $this->_policyAuthority->toASN1());
         }
-        $values = array_map(
-            function (IetfAttrValue $val) {
-                return $val->toASN1();
-            },
-            $this->_values
-        );
+        $values = array_map(function (IetfAttrValue $val) {
+            return $val->toASN1();
+        }, $this->_values);
         $elements[] = new Sequence(...$values);
         return new Sequence(...$elements);
     }

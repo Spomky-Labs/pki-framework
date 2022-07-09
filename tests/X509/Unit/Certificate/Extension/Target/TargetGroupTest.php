@@ -13,13 +13,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- * @group target
- *
  * @internal
  */
-class TargetGroupTest extends TestCase
+final class TargetGroupTest extends TestCase
 {
     final public const URI = 'urn:test';
 

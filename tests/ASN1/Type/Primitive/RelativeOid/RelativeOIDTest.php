@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\RelativeOID;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group oid
- *
  * @internal
  */
-class RelativeOIDTest extends TestCase
+final class RelativeOIDTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class RelativeOIDTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'RELATIVE-OID expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('RELATIVE-OID expected, got primitive NULL');
         $wrap->asRelativeOID();
     }
 }

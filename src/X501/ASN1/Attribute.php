@@ -54,7 +54,9 @@ class Attribute implements \Countable, \IteratorAggregate
             function (UnspecifiedType $el) use ($type) {
                 return AttributeValue::fromASN1ByOID($type->oid(), $el);
             },
-            $seq->at(1)->asSet()->elements()
+            $seq->at(1)
+                ->asSet()
+                ->elements()
         );
         return new self($type, ...$values);
     }
@@ -63,8 +65,6 @@ class Attribute implements \Countable, \IteratorAggregate
      * Convenience method to initialize from attribute values.
      *
      * @param AttributeValue ...$values One or more values
-     *
-     * @throws \LogicException
      */
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
@@ -72,14 +72,13 @@ class Attribute implements \Countable, \IteratorAggregate
         if (! count($values)) {
             throw new \LogicException('No values.');
         }
-        $oid = reset($values)->oid();
+        $oid = reset($values)
+            ->oid();
         return new self(new AttributeType($oid), ...$values);
     }
 
     /**
      * Get first value of the attribute.
-     *
-     * @throws \LogicException
      */
     public function first(): AttributeValue
     {
@@ -104,12 +103,9 @@ class Attribute implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $values = array_map(
-            function (AttributeValue $value) {
-                return $value->toASN1();
-            },
-            $this->_values
-        );
+        $values = array_map(function (AttributeValue $value) {
+            return $value->toASN1();
+        }, $this->_values);
         $valueset = new Set(...$values);
         return new Sequence($this->_type->toASN1(), $valueset->sortedSetOf());
     }
@@ -117,25 +113,18 @@ class Attribute implements \Countable, \IteratorAggregate
     /**
      * Cast attribute values to another AttributeValue class.
      *
-     * This method is generally used to cast UnknownAttributeValue values
-     * to specific objects when class is declared outside this package.
+     * This method is generally used to cast UnknownAttributeValue values to specific objects when class is declared
+     * outside this package.
      *
-     * The new class must be derived from AttributeValue and have the same OID
-     * as current attribute values.
+     * The new class must be derived from AttributeValue and have the same OID as current attribute values.
      *
      * @param string $cls AttributeValue class name
-     *
-     * @throws \LogicException
      */
     public function castValues(string $cls): self
     {
         // check that target class derives from AttributeValue
         if (! is_subclass_of($cls, AttributeValue::class)) {
-            throw new \LogicException(sprintf(
-                '%s must be derived from %s.',
-                $cls,
-                AttributeValue::class
-            ));
+            throw new \LogicException(sprintf('%s must be derived from %s.', $cls, AttributeValue::class));
         }
         $values = array_map(
             function (AttributeValue $value) use ($cls) {

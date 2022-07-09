@@ -14,12 +14,9 @@ use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 
 /**
- * @group asn1
- * @group ec
- *
  * @internal
  */
-class ECPrivateKeyTest extends TestCase
+final class ECPrivateKeyTest extends TestCase
 {
     /**
      * @return ECPrivateKey
@@ -87,10 +84,7 @@ class ECPrivateKeyTest extends TestCase
      */
     public function testHasNamedCurveFromPKI(ECPrivateKey $pk)
     {
-        $this->assertEquals(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve()
-        );
+        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -99,9 +93,7 @@ class ECPrivateKeyTest extends TestCase
     public function testGetPublicKey(ECPrivateKey $pk)
     {
         $pub = $pk->publicKey();
-        $ref = ECPublicKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem')
-        );
+        $ref = ECPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem'));
         $this->assertEquals($ref, $pub);
     }
 

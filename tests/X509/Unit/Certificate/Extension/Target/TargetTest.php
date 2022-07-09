@@ -14,13 +14,9 @@ use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\RFC822Name;
 
 /**
- * @group certificate
- * @group extension
- * @group target
- *
  * @internal
  */
-class TargetTest extends TestCase
+final class TargetTest extends TestCase
 {
     public function testFromASN1BadCall()
     {
@@ -31,9 +27,7 @@ class TargetTest extends TestCase
     public function testDecodeTargetCertUnsupportedFail()
     {
         $this->expectException(\RuntimeException::class);
-        Target::fromASN1(
-            new ImplicitlyTaggedType(Target::TYPE_CERT, new NullType())
-        );
+        Target::fromASN1(new ImplicitlyTaggedType(Target::TYPE_CERT, new NullType()));
     }
 
     public function testDecodeUnsupportedTagFail()

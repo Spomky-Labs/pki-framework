@@ -13,8 +13,8 @@ use Sop\X509\Certificate\Extension\Target\Targets;
 /**
  * Implements 'AC Targeting' certificate extension.
  *
- * **NOTE**: Syntax is *SEQUENCE OF Targets*, but only one *Targets* element
- * must be used. Multiple *Targets* elements shall be merged into single *Targets*.
+ * NOTE**: Syntax is *SEQUENCE OF Targets*, but only one *Targets* element must be used. Multiple *Targets* elements
+ * shall be merged into single *Targets*.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
@@ -85,7 +85,8 @@ class TargetInformationExtension extends Extension implements \Countable, \Itera
      */
     public function names(): array
     {
-        return $this->targets()->nameTargets();
+        return $this->targets()
+            ->nameTargets();
     }
 
     /**
@@ -95,7 +96,8 @@ class TargetInformationExtension extends Extension implements \Countable, \Itera
      */
     public function groups(): array
     {
-        return $this->targets()->groupTargets();
+        return $this->targets()
+            ->groupTargets();
     }
 
     /**
@@ -129,12 +131,9 @@ class TargetInformationExtension extends Extension implements \Countable, \Itera
 
     protected function _valueASN1(): Element
     {
-        $elements = array_map(
-            function (Targets $targets) {
-                return $targets->toASN1();
-            },
-            $this->_targets
-        );
+        $elements = array_map(function (Targets $targets) {
+            return $targets->toASN1();
+        }, $this->_targets);
         return new Sequence(...$elements);
     }
 }

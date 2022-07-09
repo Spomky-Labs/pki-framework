@@ -6,7 +6,6 @@ namespace Sop\ASN1;
 
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
-use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\Constructed;
 use Sop\ASN1\Type\Constructed\ConstructedString;
@@ -212,13 +211,9 @@ abstract class Element implements ElementBase
      *
      * @param string   $data   DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
-     *                         into the data where to start parsing.
-     *                         Variable is updated to the offset next to the
-     *                         parsed element. If null, start from offset 0.
-     *
-     * @throws DecodeException           If decoding fails
-     * @throws \UnexpectedValueException If called in the context of an expected
-     *                                   type, but decoding yields another type
+     * into the data where to start parsing.
+     * Variable is updated to the offset next to the
+     * parsed element. If null, start from offset 0.
      */
     public static function fromDER(string $data, int &$offset = null): ElementBase
     {
@@ -285,11 +280,7 @@ abstract class Element implements ElementBase
     {
         if (! $this->isType($tag)) {
             throw new \UnexpectedValueException(
-                sprintf(
-                    '%s expected, got %s.',
-                    self::tagToName($tag),
-                    $this->_typeDescriptorString()
-                )
+                sprintf('%s expected, got %s.', self::tagToName($tag), $this->_typeDescriptorString())
             );
         }
         return $this;
@@ -304,16 +295,11 @@ abstract class Element implements ElementBase
     {
         if (! $this->isTagged()) {
             throw new \UnexpectedValueException(
-                sprintf(
-                    'Context specific element expected, got %s.',
-                    Identifier::classToName($this->typeClass())
-                )
+                sprintf('Context specific element expected, got %s.', Identifier::classToName($this->typeClass()))
             );
         }
         if (isset($tag) && $this->tag() !== $tag) {
-            throw new \UnexpectedValueException(
-                sprintf('Tag %d expected, got %d.', $tag, $this->tag())
-            );
+            throw new \UnexpectedValueException(sprintf('Tag %d expected, got %d.', $tag, $this->tag()));
         }
         return $this;
     }
@@ -375,17 +361,10 @@ abstract class Element implements ElementBase
      * @param Identifier $identifier Pre-parsed identifier
      * @param string     $data       DER data
      * @param int        $offset     Offset in data to the next byte after identifier
-     *
-     * @throws DecodeException If decoding fails
      */
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
-        throw new \BadMethodCallException(
-            __METHOD__ . ' must be implemented in derived class.'
-        );
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
+        throw new \BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
     }
 
     /**
@@ -421,16 +400,12 @@ abstract class Element implements ElementBase
     /**
      * Determine the class that implements an universal type of the given tag.
      *
-     * @throws \UnexpectedValueException
-     *
      * @return string Class name
      */
     protected static function _determineUniversalImplClass(int $tag): string
     {
         if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
-            throw new \UnexpectedValueException(
-                "Universal tag {$tag} not implemented."
-            );
+            throw new \UnexpectedValueException("Universal tag {$tag} not implemented.");
         }
         return self::MAP_TAG_TO_CLASS[$tag];
     }
@@ -443,11 +418,7 @@ abstract class Element implements ElementBase
         if (Identifier::CLASS_UNIVERSAL === $this->typeClass()) {
             return self::tagToName($this->_typeTag);
         }
-        return sprintf(
-            '%s TAG %d',
-            Identifier::classToName($this->typeClass()),
-            $this->_typeTag
-        );
+        return sprintf('%s TAG %d', Identifier::classToName($this->typeClass()), $this->_typeTag);
     }
 
     /**

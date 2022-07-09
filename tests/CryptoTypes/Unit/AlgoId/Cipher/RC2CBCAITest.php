@@ -12,12 +12,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class RC2CBCAITest extends TestCase
+final class RC2CBCAITest extends TestCase
 {
     private const IV = '12345678';
 
@@ -44,10 +41,7 @@ class RC2CBCAITest extends TestCase
 
     public function testDecodeRFC2268OnlyIV()
     {
-        $seq = new Sequence(
-            new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC),
-            new OctetString(self::IV)
-        );
+        $seq = new Sequence(new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), new OctetString(self::IV));
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
     }

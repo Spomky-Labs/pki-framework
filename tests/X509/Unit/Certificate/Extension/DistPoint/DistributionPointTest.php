@@ -18,13 +18,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group certificate
- * @group extension
- * @group distribution-point
- *
  * @internal
  */
-class DistributionPointTest extends TestCase
+final class DistributionPointTest extends TestCase
 {
     public function testCreateWithFullName()
     {
@@ -63,10 +59,8 @@ class DistributionPointTest extends TestCase
      * @depends testCreateWithFullName
      * @depends testDecodeWithFullName
      */
-    public function testRecodedWithFullName(
-        DistributionPoint $ref,
-        DistributionPoint $new
-    ) {
+    public function testRecodedWithFullName(DistributionPoint $ref, DistributionPoint $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -75,10 +69,7 @@ class DistributionPointTest extends TestCase
      */
     public function testDistributionPointName(DistributionPoint $dp)
     {
-        $this->assertInstanceOf(
-            DistributionPointName::class,
-            $dp->distributionPointName()
-        );
+        $this->assertInstanceOf(DistributionPointName::class, $dp->distributionPointName());
     }
 
     /**
@@ -117,13 +108,7 @@ class DistributionPointTest extends TestCase
     public function testCreateWithRelativeName()
     {
         $dp = new DistributionPoint(
-            new RelativeName(
-                new RDN(
-                    AttributeTypeAndValue::fromAttributeValue(
-                        new CommonNameValue('Test')
-                    )
-                )
-            )
+            new RelativeName(new RDN(AttributeTypeAndValue::fromAttributeValue(new CommonNameValue('Test'))))
         );
         $this->assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
@@ -155,10 +140,8 @@ class DistributionPointTest extends TestCase
      * @depends testCreateWithRelativeName
      * @depends testDecodeWithRelativeName
      */
-    public function testRecodedWithRelativeName(
-        DistributionPoint $ref,
-        DistributionPoint $new
-    ) {
+    public function testRecodedWithRelativeName(DistributionPoint $ref, DistributionPoint $new)
+    {
         $this->assertEquals($ref, $new);
     }
 

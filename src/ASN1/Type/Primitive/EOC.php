@@ -33,11 +33,8 @@ class EOC extends Element
         return '';
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         if (! $identifier->isPrimitive()) {
             throw new DecodeException('EOC value must be primitive.');

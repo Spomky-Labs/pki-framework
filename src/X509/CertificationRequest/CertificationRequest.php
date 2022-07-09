@@ -58,7 +58,8 @@ class CertificationRequest
      */
     public function __toString(): string
     {
-        return $this->toPEM()->string();
+        return $this->toPEM()
+            ->string();
     }
 
     /**
@@ -69,14 +70,9 @@ class CertificationRequest
         $info = CertificationRequestInfo::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $algo->oid() . '.'
-            );
+            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData(
-            $seq->at(2)->asBitString()->string(),
-            $algo
-        );
+        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
         return new self($info, $algo, $signature);
     }
 
@@ -90,8 +86,6 @@ class CertificationRequest
 
     /**
      * Initialize from PEM.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromPEM(PEM $pem): self
     {
@@ -139,7 +133,8 @@ class CertificationRequest
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**
@@ -160,13 +155,9 @@ class CertificationRequest
     public function verify(?Crypto $crypto = null): bool
     {
         $crypto = $crypto ?? Crypto::getDefault();
-        $data = $this->_certificationRequestInfo->toASN1()->toDER();
+        $data = $this->_certificationRequestInfo->toASN1()
+            ->toDER();
         $pk_info = $this->_certificationRequestInfo->subjectPKInfo();
-        return $crypto->verify(
-            $data,
-            $this->_signature,
-            $pk_info,
-            $this->_signatureAlgorithm
-        );
+        return $crypto->verify($data, $this->_signature, $pk_info, $this->_signatureAlgorithm);
     }
 }

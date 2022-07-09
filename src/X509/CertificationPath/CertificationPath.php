@@ -16,9 +16,8 @@ use Sop\X509\CertificationPath\PathValidation\PathValidator;
 /**
  * Implements certification path structure.
  *
- * Certification path is a list of certificates from the trust anchor to
- * the end entity certificate, possibly spanning over multiple intermediate
- * certificates.
+ * Certification path is a list of certificates from the trust anchor to the end entity certificate, possibly spanning
+ * over multiple intermediate certificates.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-3.2
  */
@@ -35,7 +34,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * Constructor.
      *
      * @param Certificate ...$certificates Certificates from the trust anchor
-     *                                     to the target end-entity certificate
+     * to the target end-entity certificate
      */
     public function __construct(Certificate ...$certificates)
     {
@@ -67,8 +66,8 @@ class CertificationPath implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Build certification path from given trust anchor to target certificate,
-     * using intermediate certificates from given bundle.
+     * Build certification path from given trust anchor to target certificate, using intermediate certificates from
+     * given bundle.
      *
      * @param Certificate            $trust_anchor Trust anchor certificate
      * @param Certificate            $target       Target end-entity certificate
@@ -79,11 +78,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
         Certificate $target,
         ?CertificateBundle $intermediate = null
     ): self {
-        return self::toTarget(
-            $target,
-            new CertificateBundle($trust_anchor),
-            $intermediate
-        );
+        return self::toTarget($target, new CertificateBundle($trust_anchor), $intermediate);
     }
 
     /**
@@ -98,8 +93,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
 
     /**
      * Get the trust anchor certificate from the path.
-     *
-     * @throws \LogicException If path is empty
      */
     public function trustAnchorCertificate(): Certificate
     {
@@ -111,8 +104,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
 
     /**
      * Get the end-entity certificate from the path.
-     *
-     * @throws \LogicException If path is empty
      */
     public function endEntityCertificate(): Certificate
     {
@@ -131,8 +122,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Check whether certification path starts with one ore more given
-     * certificates in parameter order.
+     * Check whether certification path starts with one ore more given certificates in parameter order.
      *
      * @param Certificate ...$certs Certificates
      */
@@ -154,13 +144,9 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * Validate certification path.
      *
      * @param null|Crypto          $crypto Crypto engine, use default if not set
-     *
-     * @throws Exception\PathValidationException
      */
-    public function validate(
-        PathValidationConfig $config,
-        ?Crypto $crypto = null
-    ): PathValidationResult {
+    public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
+    {
         $crypto = $crypto ?? Crypto::getDefault();
         $validator = new PathValidator($crypto, $config, ...$this->_certificates);
         return $validator->validate();

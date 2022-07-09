@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\T61String;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group t61-string
- *
  * @internal
  */
-class T61StringTest extends TestCase
+final class T61StringTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class T61StringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'T61String expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('T61String expected, got primitive NULL');
         $wrap->asT61String();
     }
 }

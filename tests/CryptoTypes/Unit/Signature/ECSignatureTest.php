@@ -10,11 +10,9 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoTypes\Signature\ECSignature;
 
 /**
- * @group signature
- *
  * @internal
  */
-class ECSignatureTest extends TestCase
+final class ECSignatureTest extends TestCase
 {
     /**
      * @return ECSignature

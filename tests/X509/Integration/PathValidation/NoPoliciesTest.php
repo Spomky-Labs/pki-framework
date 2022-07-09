@@ -20,11 +20,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Cover case when there's no matching policies.
  *
- * @group certification-path
- *
  * @internal
  */
-class NoPoliciesTest extends TestCase
+final class NoPoliciesTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -55,15 +53,9 @@ class NoPoliciesTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                false,
-                new PolicyInformation('1.3.6.1.3.1')
-            )
+            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3.1'))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -73,15 +65,9 @@ class NoPoliciesTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(
-                false,
-                new PolicyInformation('1.3.6.1.3.1')
-            )
+            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3.1'))
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

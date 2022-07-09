@@ -261,12 +261,18 @@ abstract class Extension
     public static function fromASN1(Sequence $seq): Extension
     {
         $idx = 0;
-        $extnID = $seq->at($idx++)->asObjectIdentifier()->oid();
+        $extnID = $seq->at($idx++)
+            ->asObjectIdentifier()
+            ->oid();
         $critical = false;
         if ($seq->has($idx, Element::TYPE_BOOLEAN)) {
-            $critical = $seq->at($idx++)->asBoolean()->value();
+            $critical = $seq->at($idx++)
+                ->asBoolean()
+                ->value();
         }
-        $data = $seq->at($idx)->asOctetString()->string();
+        $data = $seq->at($idx)
+            ->asOctetString()
+            ->string();
         if (array_key_exists($extnID, self::MAP_OID_TO_CLASS)) {
             $cls = self::MAP_OID_TO_CLASS[$extnID];
             return $cls::_fromDER($data, $critical);
@@ -325,15 +331,11 @@ abstract class Extension
      * @param string $data     DER data
      * @param bool   $critical Whether extension is critical
      *
-     * @throws \BadMethodCallException
-     *
      * @return self
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in derived class.'
-        );
+        throw new \BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 
     /**

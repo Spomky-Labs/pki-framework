@@ -23,11 +23,9 @@ use Sop\X509\GeneralName\DirectoryName;
 /**
  * Covers handling of name constraints extension.
  *
- * @group certification-path
- *
  * @internal
  */
-class NameConstraintsTest extends TestCase
+final class NameConstraintsTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -60,15 +58,10 @@ class NameConstraintsTest extends TestCase
             new BasicConstraintsExtension(true, true, 1),
             new NameConstraintsExtension(
                 true,
-                new GeneralSubtrees(
-                    new GeneralSubtree(DirectoryName::fromDNString('c=FI'))
-                )
+                new GeneralSubtrees(new GeneralSubtree(DirectoryName::fromDNString('c=FI')))
             )
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -77,10 +70,7 @@ class NameConstraintsTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -94,9 +84,7 @@ class NameConstraintsTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(
-            new PathValidationConfig(new \DateTimeImmutable(), 3)
-        );
+        $result = $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

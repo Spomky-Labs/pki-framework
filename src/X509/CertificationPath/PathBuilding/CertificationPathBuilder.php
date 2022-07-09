@@ -34,26 +34,20 @@ class CertificationPathBuilder
     }
 
     /**
-     * Get all certification paths to given target certificate from
-     * any trust anchor.
+     * Get all certification paths to given target certificate from any trust anchor.
      *
      * @param Certificate            $target       Target certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
      *
      * @return CertificationPath[]
      */
-    public function allPathsToTarget(
-        Certificate $target,
-        ?CertificateBundle $intermediate = null
-    ): array {
+    public function allPathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
+    {
         $paths = $this->_resolvePathsToTarget($target, $intermediate);
         // map paths to CertificationPath objects
-        return array_map(
-            function ($certs) {
-                return new CertificationPath(...$certs);
-            },
-            $paths
-        );
+        return array_map(function ($certs) {
+            return new CertificationPath(...$certs);
+        }, $paths);
     }
 
     /**
@@ -61,8 +55,6 @@ class CertificationPathBuilder
      *
      * @param Certificate            $target       Target certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
-     *
-     * @throws PathBuildingException
      */
     public function shortestPathToTarget(
         Certificate $target,
@@ -72,12 +64,9 @@ class CertificationPathBuilder
         if (! count($paths)) {
             throw new PathBuildingException('No certification paths.');
         }
-        usort(
-            $paths,
-            function ($a, $b) {
-                return count($a) < count($b) ? -1 : 1;
-            }
-        );
+        usort($paths, function ($a, $b) {
+            return count($a) < count($b) ? -1 : 1;
+        });
         return reset($paths);
     }
 
@@ -89,20 +78,18 @@ class CertificationPathBuilder
      *
      * @return Certificate[]
      */
-    protected function _findIssuers(
-        Certificate $target,
-        CertificateBundle $bundle
-    ): array {
+    protected function _findIssuers(Certificate $target, CertificateBundle $bundle): array
+    {
         $issuers = [];
-        $issuer_name = $target->tbsCertificate()->issuer();
-        $extensions = $target->tbsCertificate()->extensions();
+        $issuer_name = $target->tbsCertificate()
+            ->issuer();
+        $extensions = $target->tbsCertificate()
+            ->extensions();
         // find by authority key identifier
         if ($extensions->hasAuthorityKeyIdentifier()) {
             $ext = $extensions->authorityKeyIdentifier();
             if ($ext->hasKeyIdentifier()) {
-                foreach ($bundle->allBySubjectKeyIdentifier(
-                    $ext->keyIdentifier()
-                ) as $issuer) {
+                foreach ($bundle->allBySubjectKeyIdentifier($ext->keyIdentifier()) as $issuer) {
                     // check that issuer name matches
                     if ($issuer->tbsCertificate()->subject()->equals($issuer_name)) {
                         $issuers[] = $issuer;
@@ -114,8 +101,8 @@ class CertificationPathBuilder
     }
 
     /**
-     * Resolve all possible certification paths from any trust anchor to
-     * the target certificate, using optional intermediate certificates.
+     * Resolve all possible certification paths from any trust anchor to the target certificate, using optional
+     * intermediate certificates.
      *
      * Helper method for allPathsToTarget to be called recursively.
      *
@@ -123,10 +110,8 @@ class CertificationPathBuilder
      *
      * @return array[] Array of arrays containing path certificates
      */
-    private function _resolvePathsToTarget(
-        Certificate $target,
-        ?CertificateBundle $intermediate = null
-    ): array {
+    private function _resolvePathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
+    {
         // array of possible paths
         $paths = [];
         // signed by certificate in the trust list

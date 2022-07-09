@@ -47,13 +47,10 @@ abstract class SignatureAlgorithmIdentifierFactory
     ];
 
     /**
-     * Get signature algorithm identifier of given asymmetric cryptographic type
-     * utilizing given hash algorithm.
+     * Get signature algorithm identifier of given asymmetric cryptographic type utilizing given hash algorithm.
      *
      * @param AsymmetricCryptoAlgorithmIdentifier $crypto_algo Cryptographic algorithm identifier, eg. RSA or EC
      * @param HashAlgorithmIdentifier             $hash_algo   Hash algorithm identifier
-     *
-     * @throws \UnexpectedValueException
      */
     public static function algoForAsymmetricCrypto(
         AsymmetricCryptoAlgorithmIdentifier $crypto_algo,
@@ -68,10 +65,7 @@ abstract class SignatureAlgorithmIdentifierFactory
                 break;
             default:
                 throw new \UnexpectedValueException(
-                    sprintf(
-                        'Crypto algorithm %s not supported.',
-                        $crypto_algo->name()
-                    )
+                    sprintf('Crypto algorithm %s not supported.', $crypto_algo->name())
                 );
         }
         $cls = (new AlgorithmIdentifierFactory())->getClass($oid);
@@ -80,30 +74,22 @@ abstract class SignatureAlgorithmIdentifierFactory
 
     /**
      * Get RSA signature algorithm OID for the given hash algorithm identifier.
-     *
-     * @throws \UnexpectedValueException
      */
     private static function _oidForRSA(HashAlgorithmIdentifier $hash_algo): string
     {
         if (! array_key_exists($hash_algo->oid(), self::MAP_RSA_OID)) {
-            throw new \UnexpectedValueException(
-                sprintf('No RSA signature algorithm for %s.', $hash_algo->name())
-            );
+            throw new \UnexpectedValueException(sprintf('No RSA signature algorithm for %s.', $hash_algo->name()));
         }
         return self::MAP_RSA_OID[$hash_algo->oid()];
     }
 
     /**
      * Get EC signature algorithm OID for the given hash algorithm identifier.
-     *
-     * @throws \UnexpectedValueException
      */
     private static function _oidForEC(HashAlgorithmIdentifier $hash_algo): string
     {
         if (! array_key_exists($hash_algo->oid(), self::MAP_EC_OID)) {
-            throw new \UnexpectedValueException(
-                sprintf('No EC signature algorithm for %s.', $hash_algo->name())
-            );
+            throw new \UnexpectedValueException(sprintf('No EC signature algorithm for %s.', $hash_algo->name()));
         }
         return self::MAP_EC_OID[$hash_algo->oid()];
     }

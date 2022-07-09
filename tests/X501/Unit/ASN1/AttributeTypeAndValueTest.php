@@ -10,11 +10,9 @@ use Sop\X501\ASN1\AttributeTypeAndValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class AttributeTypeAndValueTest extends TestCase
+final class AttributeTypeAndValueTest extends TestCase
 {
     public function testCreate()
     {
@@ -28,7 +26,8 @@ class AttributeTypeAndValueTest extends TestCase
      */
     public function testEncode(AttributeTypeAndValue $atv)
     {
-        $der = $atv->toASN1()->toDER();
+        $der = $atv->toASN1()
+            ->toDER();
         $this->assertIsString($der);
         return $der;
     }
@@ -49,10 +48,8 @@ class AttributeTypeAndValueTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        AttributeTypeAndValue $ref,
-        AttributeTypeAndValue $new
-    ) {
+    public function testRecoded(AttributeTypeAndValue $ref, AttributeTypeAndValue $new)
+    {
         $this->assertEquals($ref, $new);
     }
 

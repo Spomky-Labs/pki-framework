@@ -20,11 +20,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers case where node is removed from valid_policy_node_set.
  *
- * @group certification-path
- *
  * @internal
  */
-class PolicyIntersectionRemoveTest extends TestCase
+final class PolicyIntersectionRemoveTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -64,15 +62,9 @@ class PolicyIntersectionRemoveTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create intermediate certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::INTERM_NAME),
@@ -83,15 +75,9 @@ class PolicyIntersectionRemoveTest extends TestCase
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
         );
-        self::$_interm = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_interm = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -107,10 +93,7 @@ class PolicyIntersectionRemoveTest extends TestCase
                 new PolicyInformation('1.3.6.1.3.2')
             )
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_intermKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_intermKey);
     }
 
     public static function tearDownAfterClass(): void

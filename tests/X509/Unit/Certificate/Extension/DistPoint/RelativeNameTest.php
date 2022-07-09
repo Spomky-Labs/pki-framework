@@ -13,23 +13,13 @@ use Sop\X501\ASN1\RDN;
 use Sop\X509\Certificate\Extension\DistributionPoint\RelativeName;
 
 /**
- * @group certificate
- * @group extension
- * @group distribution-point
- *
  * @internal
  */
-class RelativeNameTest extends TestCase
+final class RelativeNameTest extends TestCase
 {
     public function testCreate()
     {
-        $name = new RelativeName(
-            new RDN(
-                AttributeTypeAndValue::fromAttributeValue(
-                    new CommonNameValue('Test')
-                )
-            )
-        );
+        $name = new RelativeName(new RDN(AttributeTypeAndValue::fromAttributeValue(new CommonNameValue('Test'))));
         $this->assertInstanceOf(RelativeName::class, $name);
         return $name;
     }

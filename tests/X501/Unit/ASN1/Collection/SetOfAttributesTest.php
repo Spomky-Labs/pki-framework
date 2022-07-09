@@ -11,18 +11,13 @@ use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\Collection\SetOfAttributes;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class SetOfAttributesTest extends TestCase
+final class SetOfAttributesTest extends TestCase
 {
     public function testCreate()
     {
-        $c = SetOfAttributes::fromAttributeValues(
-            new NameValue('n'),
-            new DescriptionValue('d')
-        );
+        $c = SetOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
         $this->assertInstanceOf(SetOfAttributes::class, $c);
         return $c;
     }

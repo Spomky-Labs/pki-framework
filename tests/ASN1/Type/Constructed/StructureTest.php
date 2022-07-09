@@ -14,12 +14,9 @@ use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 
 /**
- * @group type
- * @group structure
- *
  * @internal
  */
-class StructureTest extends TestCase
+final class StructureTest extends TestCase
 {
     /**
      * @dataProvider hasProvider
@@ -32,12 +29,7 @@ class StructureTest extends TestCase
 
     public function hasProvider(): array
     {
-        return [
-            [0, true],
-            [1, true],
-            [2, true],
-            [3, false],
-        ];
+        return [[0, true], [1, true], [2, true], [3, false]];
     }
 
     /**
@@ -99,9 +91,7 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $this->expectException(\OutOfBoundsException::class);
-        $this->expectExceptionMessage(
-            'Structure doesn\'t have element at index 2'
-        );
+        $this->expectExceptionMessage('Structure doesn\'t have element at index 2');
         $seq->withReplaced(2, new Boolean(true));
     }
 
@@ -109,11 +99,7 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(0, new Boolean(true));
-        $expected = new Sequence(
-            new Boolean(true),
-            new NullType(),
-            new NullType()
-        );
+        $expected = new Sequence(new Boolean(true), new NullType(), new NullType());
         $this->assertEquals($expected, $seq);
     }
 
@@ -121,11 +107,7 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(1, new Boolean(true));
-        $expected = new Sequence(
-            new NullType(),
-            new Boolean(true),
-            new NullType()
-        );
+        $expected = new Sequence(new NullType(), new Boolean(true), new NullType());
         $this->assertEquals($expected, $seq);
     }
 
@@ -133,11 +115,7 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(2, new Boolean(true));
-        $expected = new Sequence(
-            new NullType(),
-            new NullType(),
-            new Boolean(true)
-        );
+        $expected = new Sequence(new NullType(), new NullType(), new Boolean(true));
         $this->assertEquals($expected, $seq);
     }
 
@@ -193,9 +171,7 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType());
         $this->expectException(\OutOfBoundsException::class);
-        $this->expectExceptionMessage(
-            'Structure doesn\'t have element at index 1'
-        );
+        $this->expectExceptionMessage('Structure doesn\'t have element at index 1');
         $seq->withoutElement(1);
     }
 

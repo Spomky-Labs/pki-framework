@@ -9,11 +9,9 @@ use Sop\ASN1\Element;
 use Sop\X501\StringPrep\TranscodeStep;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class TranscodeStepTest extends TestCase
+final class TranscodeStepTest extends TestCase
 {
     public function testUTF8()
     {
@@ -33,20 +31,14 @@ class TranscodeStepTest extends TestCase
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_BMP_STRING);
-        $this->assertEquals(
-            $str,
-            $step->apply(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8'))
-        );
+        $this->assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8')));
     }
 
     public function testUniversal()
     {
         static $str = 'κόσμε';
         $step = new TranscodeStep(Element::TYPE_UNIVERSAL_STRING);
-        $this->assertEquals(
-            $str,
-            $step->apply(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8'))
-        );
+        $this->assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8')));
     }
 
     public function testTeletex()

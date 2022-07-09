@@ -16,12 +16,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class SubjectDirectoryAttributesTest extends TestCase
+final class SubjectDirectoryAttributesTest extends TestCase
 {
     final public const CN = 'Test';
 
@@ -31,11 +28,7 @@ class SubjectDirectoryAttributesTest extends TestCase
     {
         $cn = new CommonNameValue(self::CN);
         $desc = new DescriptionValue(self::DESC);
-        $ext = new SubjectDirectoryAttributesExtension(
-            false,
-            $cn->toAttribute(),
-            $desc->toAttribute()
-        );
+        $ext = new SubjectDirectoryAttributesExtension(false, $cn->toAttribute(), $desc->toAttribute());
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
@@ -45,10 +38,7 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testOID(Extension $ext)
     {
-        $this->assertEquals(
-            Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES,
-            $ext->oid()
-        );
+        $this->assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
     }
 
     /**
@@ -76,9 +66,7 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testDecode($der)
     {
-        $ext = SubjectDirectoryAttributesExtension::fromASN1(
-            Sequence::fromDER($der)
-        );
+        $ext = SubjectDirectoryAttributesExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
@@ -97,12 +85,7 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testCN(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertEquals(
-            self::CN,
-            $ext->firstOf(AttributeType::OID_COMMON_NAME)
-                ->first()
-                ->stringValue()
-        );
+        $this->assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME) ->first() ->stringValue());
     }
 
     /**
@@ -110,12 +93,7 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testDesc(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertEquals(
-            self::DESC,
-            $ext->firstOf(AttributeType::OID_DESCRIPTION)
-                ->first()
-                ->stringValue()
-        );
+        $this->assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION) ->first() ->stringValue());
     }
 
     /**

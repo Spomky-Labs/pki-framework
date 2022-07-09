@@ -9,11 +9,9 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\X501\ASN1\AttributeType;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class AttributeTypeTest extends TestCase
+final class AttributeTypeTest extends TestCase
 {
     public function testCreate()
     {
@@ -27,7 +25,8 @@ class AttributeTypeTest extends TestCase
      */
     public function testEncode(AttributeType $type)
     {
-        $der = $type->toASN1()->toDER();
+        $der = $type->toASN1()
+            ->toDER();
         $this->assertIsString($der);
         return $der;
     }

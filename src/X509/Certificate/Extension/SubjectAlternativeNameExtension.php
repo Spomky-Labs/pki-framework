@@ -38,12 +38,7 @@ class SubjectAlternativeNameExtension extends Extension
 
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self(
-            $critical,
-            GeneralNames::fromASN1(
-                UnspecifiedType::fromDER($data)->asSequence()
-            )
-        );
+        return new self($critical, GeneralNames::fromASN1(UnspecifiedType::fromDER($data)->asSequence()));
     }
 
     protected function _valueASN1(): Element

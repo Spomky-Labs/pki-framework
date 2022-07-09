@@ -13,8 +13,7 @@ use Sop\X501\DN\DNParser;
 /**
  * Implements *Name* ASN.1 type.
  *
- * Since *Name* is a CHOICE only supporting *RDNSequence* type,
- * this class implements *RDNSequence* semantics as well.
+ * Since *Name* is a CHOICE only supporting *RDNSequence* type, this class implements *RDNSequence* semantics as well.
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.Name
  */
@@ -50,12 +49,9 @@ class Name implements \Countable, \IteratorAggregate
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $rdns = array_map(
-            function (UnspecifiedType $el) {
-                return RDN::fromASN1($el->asSet());
-            },
-            $seq->elements()
-        );
+        $rdns = array_map(function (UnspecifiedType $el) {
+            return RDN::fromASN1($el->asSet());
+        }, $seq->elements());
         return new self(...$rdns);
     }
 
@@ -77,10 +73,7 @@ class Name implements \Countable, \IteratorAggregate
                 } else {
                     $el = AttributeType::asn1StringForType($type->oid(), $val);
                 }
-                $value = AttributeValue::fromASN1ByOID(
-                    $type->oid(),
-                    $el->asUnspecified()
-                );
+                $value = AttributeValue::fromASN1ByOID($type->oid(), $el->asUnspecified());
                 $attribs[] = new AttributeTypeAndValue($type, $value);
             }
             $rdns[] = new RDN(...$attribs);
@@ -93,12 +86,9 @@ class Name implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(
-            function (RDN $rdn) {
-                return $rdn->toASN1();
-            },
-            $this->_rdns
-        );
+        $elements = array_map(function (RDN $rdn) {
+            return $rdn->toASN1();
+        }, $this->_rdns);
         return new Sequence(...$elements);
     }
 
@@ -109,12 +99,9 @@ class Name implements \Countable, \IteratorAggregate
      */
     public function toString(): string
     {
-        $parts = array_map(
-            function (RDN $rdn) {
-                return $rdn->toString();
-            },
-            array_reverse($this->_rdns)
-        );
+        $parts = array_map(function (RDN $rdn) {
+            return $rdn->toString();
+        }, array_reverse($this->_rdns));
         return implode(',', $parts);
     }
 
@@ -156,14 +143,11 @@ class Name implements \Countable, \IteratorAggregate
     /**
      * Get the first AttributeValue of given type.
      *
-     * Relative name components shall be traversed in encoding order, which is
-     * reversed in regards to the string representation.
-     * Multi-valued RDN with multiple attributes of the requested type is
-     * ambiguous and shall throw an exception.
+     * Relative name components shall be traversed in encoding order, which is reversed in regards to the string
+     * representation. Multi-valued RDN with multiple attributes of the requested type is ambiguous and shall throw an
+     * exception.
      *
      * @param string $name Attribute OID or name
-     *
-     * @throws \RuntimeException If attribute cannot be resolved
      */
     public function firstValueOf(string $name): AttributeValue
     {
@@ -197,12 +181,9 @@ class Name implements \Countable, \IteratorAggregate
     {
         $oid = AttributeType::attrNameToOID($name);
         return (int) array_sum(
-            array_map(
-                function (RDN $rdn) use ($oid): int {
-                    return count($rdn->allOf($oid));
-                },
-                $this->_rdns
-            )
+            array_map(function (RDN $rdn) use ($oid): int {
+                return count($rdn->allOf($oid));
+            }, $this->_rdns)
         );
     }
 

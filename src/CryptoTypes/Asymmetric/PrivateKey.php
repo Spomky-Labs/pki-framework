@@ -54,8 +54,6 @@ abstract class PrivateKey
     /**
      * Initialize private key from PEM.
      *
-     * @throws \UnexpectedValueException
-     *
      * @return PrivateKey
      */
     public static function fromPEM(PEM $pem)
@@ -68,8 +66,6 @@ abstract class PrivateKey
             case PEM::TYPE_PRIVATE_KEY:
                 return PrivateKeyInfo::fromDER($pem->data())->privateKey();
         }
-        throw new \UnexpectedValueException(
-            'PEM type ' . $pem->type() . ' is not a valid private key.'
-        );
+        throw new \UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid private key.');
     }
 }

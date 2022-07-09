@@ -12,8 +12,7 @@ use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
 
 /**
- * Implements *DisplayText* ASN.1 CHOICE type used by 'Certificate Policies'
- * certificate extension.
+ * Implements *DisplayText* ASN.1 CHOICE type used by 'Certificate Policies' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -73,8 +72,6 @@ class DisplayText
 
     /**
      * Generate ASN.1 element.
-     *
-     * @throws \UnexpectedValueException
      */
     public function toASN1(): StringType
     {
@@ -88,9 +85,7 @@ class DisplayText
             case Element::TYPE_UTF8_STRING:
                 return new UTF8String($this->_text);
             default:
-                throw new \UnexpectedValueException(
-                    'Type ' . Element::tagToName($this->_tag) . ' not supported.'
-                );
+                throw new \UnexpectedValueException('Type ' . Element::tagToName($this->_tag) . ' not supported.');
         }
     }
 }

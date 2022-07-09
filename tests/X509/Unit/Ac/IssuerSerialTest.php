@@ -13,11 +13,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- *
  * @internal
  */
-class IssuerSerialTest extends TestCase
+final class IssuerSerialTest extends TestCase
 {
     private static $_issuer;
 

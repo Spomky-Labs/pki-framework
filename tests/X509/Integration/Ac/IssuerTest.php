@@ -11,19 +11,15 @@ use Sop\X509\AttributeCertificate\AttCertIssuer;
 use Sop\X509\Certificate\Certificate;
 
 /**
- * @group ac
- *
  * @internal
  */
-class IssuerTest extends TestCase
+final class IssuerTest extends TestCase
 {
     private static $_pkc;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_pkc = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
-        );
+        self::$_pkc = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
     }
 
     public static function tearDownAfterClass(): void

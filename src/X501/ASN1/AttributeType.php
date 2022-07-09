@@ -235,8 +235,7 @@ class AttributeType
     /**
      * OID to attribute names mapping.
      *
-     * First name is the primary name. If there's more than one name, others may
-     * be used as an alias.
+     * First name is the primary name. If there's more than one name, others may be used as an alias.
      *
      * Generated using ldap-attribs.py.
      *
@@ -475,8 +474,6 @@ class AttributeType
      *
      * @param string $name Primary attribute name or an alias
      *
-     * @throws \OutOfBoundsException
-     *
      * @return string OID in dotted format
      */
     public static function attrNameToOID(string $name): string
@@ -498,8 +495,6 @@ class AttributeType
      *
      * @param string $oid Attribute OID
      * @param string $str String
-     *
-     * @throws \LogicException
      */
     public static function asn1StringForType(string $oid, string $str): StringType
     {

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Sop\X501\StringPrep;
 
 /**
- * Implements 'Map' step of the Internationalized String Preparation
- * as specified by RFC 4518.
+ * Implements 'Map' step of the Internationalized String Preparation as specified by RFC 4518.
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.2
  */

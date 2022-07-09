@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\StringPrep\ProhibitStep;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class ProhibitStepTest extends TestCase
+final class ProhibitStepTest extends TestCase
 {
     public function testApply()
     {

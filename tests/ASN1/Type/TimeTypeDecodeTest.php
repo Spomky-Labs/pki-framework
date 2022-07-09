@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\TimeType;
 
 /**
- * @group decode
- * @group time
- *
  * @internal
  */
-class TimeTypeDecodeTest extends TestCase
+final class TimeTypeDecodeTest extends TestCase
 {
     public function testType()
     {
@@ -28,17 +25,13 @@ class TimeTypeDecodeTest extends TestCase
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertEquals($date, $el->dateTime()
-            ->getTimestamp());
+        $this->assertEquals($date, $el->dateTime() ->getTimestamp());
     }
 
     public function testExpectation()
     {
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertInstanceOf(
-            TimeType::class,
-            $el->expectType(Element::TYPE_TIME)
-        );
+        $this->assertInstanceOf(TimeType::class, $el->expectType(Element::TYPE_TIME));
     }
 
     public function testExpectationFails()

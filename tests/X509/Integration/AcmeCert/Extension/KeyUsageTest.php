@@ -8,13 +8,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\KeyUsageExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class KeyUsageTest extends RefExtTestHelper
+final class KeyUsageTest extends RefExtTestHelper
 {
     /**
      * @return KeyUsageExtension

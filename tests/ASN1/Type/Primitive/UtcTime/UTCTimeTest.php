@@ -12,12 +12,9 @@ use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group utc-time
- *
  * @internal
  */
-class UTCTimeTest extends TestCase
+final class UTCTimeTest extends TestCase
 {
     public function testCreate()
     {
@@ -60,9 +57,7 @@ class UTCTimeTest extends TestCase
      */
     public function testRecoded(TimeType $ref, TimeType $el)
     {
-        $this->assertEquals($ref->dateTime()
-            ->getTimestamp(), $el->dateTime()
-            ->getTimestamp());
+        $this->assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
     }
 
     /**

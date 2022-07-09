@@ -11,13 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 
 /**
- * @group encode
- * @group tagging
- * @group implicit-tag
- *
  * @internal
  */
-class ImplicitlyTaggedEncodeTest extends TestCase
+final class ImplicitlyTaggedEncodeTest extends TestCase
 {
     public function testNull()
     {
@@ -34,10 +30,6 @@ class ImplicitlyTaggedEncodeTest extends TestCase
     public function testRecode()
     {
         $el = new ImplicitlyTaggedType(0, new Boolean(true));
-        $this->assertInstanceOf(
-            Boolean::class,
-            $el->implicit(Element::TYPE_BOOLEAN)
-                ->asBoolean()
-        );
+        $this->assertInstanceOf(Boolean::class, $el->implicit(Element::TYPE_BOOLEAN) ->asBoolean());
     }
 }

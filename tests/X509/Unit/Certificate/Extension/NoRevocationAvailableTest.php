@@ -10,12 +10,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\NoRevocationAvailableExtension;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class NoRevocationAvailableTest extends TestCase
+final class NoRevocationAvailableTest extends TestCase
 {
     public function testCreate()
     {

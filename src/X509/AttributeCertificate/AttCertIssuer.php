@@ -31,9 +31,8 @@ abstract class AttCertIssuer
     /**
      * Initialize from distinguished name.
      *
-     * This conforms to RFC 5755 which states that only v2Form must be used,
-     * and issuerName must contain exactly one GeneralName of DirectoryName
-     * type.
+     * This conforms to RFC 5755 which states that only v2Form must be used, and issuerName must contain exactly one
+     * GeneralName of DirectoryName type.
      *
      * @see https://tools.ietf.org/html/rfc5755#section-4.2.3
      */
@@ -54,8 +53,6 @@ abstract class AttCertIssuer
      * Initialize from ASN.1.
      *
      * @param UnspecifiedType $el CHOICE
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(UnspecifiedType $el): self
     {
@@ -65,9 +62,7 @@ abstract class AttCertIssuer
         $tagged = $el->asTagged();
         switch ($tagged->tag()) {
             case 0:
-                return V2Form::fromV2ASN1(
-                    $tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
-                );
+                return V2Form::fromV2ASN1($tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
         }
         throw new \UnexpectedValueException('Unsupported issuer type.');
     }

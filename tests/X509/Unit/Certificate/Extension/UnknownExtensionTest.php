@@ -10,12 +10,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\X509\Certificate\Extension\UnknownExtension;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class UnknownExtensionTest extends TestCase
+final class UnknownExtensionTest extends TestCase
 {
     /**
      * @return UnknownExtension

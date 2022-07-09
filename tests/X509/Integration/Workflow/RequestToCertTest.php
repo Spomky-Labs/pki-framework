@@ -25,11 +25,9 @@ use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
 
 /**
- * @group workflow
- *
  * @internal
  */
-class RequestToCertTest extends TestCase
+final class RequestToCertTest extends TestCase
 {
     private static $_issuerKey;
 
@@ -37,12 +35,8 @@ class RequestToCertTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuerKey = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
-        );
-        self::$_subjectKey = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem')
-        );
+        self::$_issuerKey = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+        self::$_subjectKey = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -54,21 +48,14 @@ class RequestToCertTest extends TestCase
     public function testCreateCA()
     {
         $name = Name::fromString('cn=Issuer');
-        $validity = Validity::fromStrings(
-            '2016-05-02 12:00:00',
-            '2016-05-03 12:00:00'
-        );
+        $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-03 12:00:00');
         $pki = self::$_issuerKey->publicKeyInfo();
         $tbs_cert = new TBSCertificate($name, $pki, $name, $validity);
         $tbs_cert = $tbs_cert->withExtensions(
             new Extensions(
                 new BasicConstraintsExtension(true, true),
                 new SubjectKeyIdentifierExtension(false, $pki->keyIdentifier()),
-                new KeyUsageExtension(
-                    true,
-                    KeyUsageExtension::DIGITAL_SIGNATURE |
-                    KeyUsageExtension::KEY_CERT_SIGN
-                )
+                new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_CERT_SIGN)
             )
         );
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
@@ -82,9 +69,7 @@ class RequestToCertTest extends TestCase
         $subject = Name::fromString('cn=Subject');
         $pkinfo = self::$_subjectKey->publicKeyInfo();
         $cri = new CertificationRequestInfo($subject, $pkinfo);
-        $cri = $cri->withExtensionRequest(
-            new Extensions(new BasicConstraintsExtension(true, false))
-        );
+        $cri = $cri->withExtensionRequest(new Extensions(new BasicConstraintsExtension(true, false)));
         $algo = new ECDSAWithSHA1AlgorithmIdentifier();
         $csr = $cri->sign($algo, self::$_subjectKey);
         $this->assertInstanceOf(CertificationRequest::class, $csr);
@@ -95,24 +80,13 @@ class RequestToCertTest extends TestCase
      * @depends testCreateRequest
      * @depends testCreateCA
      */
-    public function testIssueCertificate(
-        CertificationRequest $csr,
-        Certificate $ca_cert
-    ) {
-        $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate(
-            $ca_cert
-        );
-        $validity = Validity::fromStrings(
-            '2016-05-02 12:00:00',
-            '2016-05-02 13:00:00'
-        );
+    public function testIssueCertificate(CertificationRequest $csr, Certificate $ca_cert)
+    {
+        $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate($ca_cert);
+        $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-02 13:00:00');
         $tbs_cert = $tbs_cert->withValidity($validity);
         $tbs_cert = $tbs_cert->withAdditionalExtensions(
-            new KeyUsageExtension(
-                true,
-                KeyUsageExtension::DIGITAL_SIGNATURE |
-                KeyUsageExtension::KEY_ENCIPHERMENT
-            ),
+            new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_ENCIPHERMENT),
             new BasicConstraintsExtension(true, false)
         );
         $algo = new SHA512WithRSAEncryptionAlgorithmIdentifier();

@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group utf8-string
- *
  * @internal
  */
-class UTF8StringTest extends TestCase
+final class UTF8StringTest extends TestCase
 {
     public function testCreate()
     {
@@ -84,9 +81,7 @@ class UTF8StringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'UTF8String expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('UTF8String expected, got primitive NULL');
         $wrap->asUTF8String();
     }
 }

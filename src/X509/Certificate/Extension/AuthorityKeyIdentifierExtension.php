@@ -81,8 +81,6 @@ class AuthorityKeyIdentifierExtension extends Extension
 
     /**
      * Get key identifier.
-     *
-     * @throws \LogicException If not set
      */
     public function keyIdentifier(): string
     {
@@ -100,11 +98,6 @@ class AuthorityKeyIdentifierExtension extends Extension
         return isset($this->_authorityCertIssuer);
     }
 
-    /**
-     * Get issuer.
-     *
-     * @throws \LogicException If not set
-     */
     public function issuer(): GeneralNames
     {
         if (! $this->hasIssuer()) {
@@ -123,8 +116,6 @@ class AuthorityKeyIdentifierExtension extends Extension
 
     /**
      * Get serial number.
-     *
-     * @throws \LogicException If not set
      *
      * @return string Base 10 integer string
      */
@@ -145,7 +136,8 @@ class AuthorityKeyIdentifierExtension extends Extension
         if ($seq->hasTagged(0)) {
             $keyIdentifier = $seq->getTagged(0)
                 ->asImplicit(Element::TYPE_OCTET_STRING)
-                ->asOctetString()->string();
+                ->asOctetString()
+                ->string();
         }
         if ($seq->hasTagged(1) || $seq->hasTagged(2)) {
             if (! $seq->hasTagged(1) || ! $seq->hasTagged(2)) {
@@ -155,10 +147,11 @@ class AuthorityKeyIdentifierExtension extends Extension
                         ' present or both absent.'
                 );
             }
-            $issuer = GeneralNames::fromASN1($seq->getTagged(1)
-                ->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
-            $serial = $seq->getTagged(2)->asImplicit(Element::TYPE_INTEGER)
-                ->asInteger()->number();
+            $issuer = GeneralNames::fromASN1($seq->getTagged(1) ->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+            $serial = $seq->getTagged(2)
+                ->asImplicit(Element::TYPE_INTEGER)
+                ->asInteger()
+                ->number();
         }
         return new self($critical, $keyIdentifier, $issuer, $serial);
     }
@@ -167,10 +160,7 @@ class AuthorityKeyIdentifierExtension extends Extension
     {
         $elements = [];
         if (isset($this->_keyIdentifier)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0,
-                new OctetString($this->_keyIdentifier)
-            );
+            $elements[] = new ImplicitlyTaggedType(0, new OctetString($this->_keyIdentifier));
         }
         // if either issuer or serial is set, both must be set
         if (isset($this->_authorityCertIssuer) ||
@@ -183,14 +173,8 @@ class AuthorityKeyIdentifierExtension extends Extension
                         ' present or both absent.'
                 );
             }
-            $elements[] = new ImplicitlyTaggedType(
-                1,
-                $this->_authorityCertIssuer->toASN1()
-            );
-            $elements[] = new ImplicitlyTaggedType(
-                2,
-                new Integer($this->_authorityCertSerialNumber)
-            );
+            $elements[] = new ImplicitlyTaggedType(1, $this->_authorityCertIssuer->toASN1());
+            $elements[] = new ImplicitlyTaggedType(2, new Integer($this->_authorityCertSerialNumber));
         }
         return new Sequence(...$elements);
     }

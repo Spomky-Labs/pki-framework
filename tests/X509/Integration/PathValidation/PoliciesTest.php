@@ -21,11 +21,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
 /**
  * Cover policy information processing.
  *
- * @group certification-path
- *
  * @internal
  */
-class PoliciesTest extends TestCase
+final class PoliciesTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -56,15 +54,9 @@ class PoliciesTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
-            new CertificatePoliciesExtension(
-                false,
-                new PolicyInformation('1.3.6.1.3')
-            )
+            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3'))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -74,15 +66,9 @@ class PoliciesTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(
-                false,
-                new PolicyInformation('1.3.6.1.3')
-            )
+            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3'))
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

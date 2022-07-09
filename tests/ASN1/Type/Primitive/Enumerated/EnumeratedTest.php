@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group enumerated
- *
  * @internal
  */
-class EnumeratedTest extends TestCase
+final class EnumeratedTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class EnumeratedTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'ENUMERATED expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('ENUMERATED expected, got primitive NULL');
         $wrap->asEnumerated();
     }
 }

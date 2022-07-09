@@ -45,11 +45,8 @@ class IssuerSerial
      *
      * @param int|string            $serial
      */
-    public function __construct(
-        GeneralNames $issuer,
-        $serial,
-        ?UniqueIdentifier $uid = null
-    ) {
+    public function __construct(GeneralNames $issuer, $serial, ?UniqueIdentifier $uid = null)
+    {
         $this->_issuer = $issuer;
         $this->_serial = strval($serial);
         $this->_issuerUID = $uid;
@@ -63,7 +60,9 @@ class IssuerSerial
     public static function fromASN1(Sequence $seq): IssuerSerial
     {
         $issuer = GeneralNames::fromASN1($seq->at(0)->asSequence());
-        $serial = $seq->at(1)->asInteger()->number();
+        $serial = $seq->at(1)
+            ->asInteger()
+            ->number();
         $uid = null;
         if ($seq->has(2, Element::TYPE_BIT_STRING)) {
             $uid = UniqueIdentifier::fromASN1($seq->at(2)->asBitString());
@@ -111,8 +110,6 @@ class IssuerSerial
 
     /**
      * Get issuer unique identifier.
-     *
-     * @throws \LogicException If not set
      */
     public function issuerUID(): UniqueIdentifier
     {
@@ -160,7 +157,9 @@ class IssuerSerial
         if (! $cert->tbsCertificate()->hasIssuerUniqueID()) {
             return false;
         }
-        $uid = $cert->tbsCertificate()->issuerUniqueID()->string();
+        $uid = $cert->tbsCertificate()
+            ->issuerUniqueID()
+            ->string();
         if ($this->_issuerUID->string() !== $uid) {
             return false;
         }

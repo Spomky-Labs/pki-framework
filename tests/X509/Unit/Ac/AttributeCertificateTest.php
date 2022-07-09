@@ -28,11 +28,9 @@ use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group ac
- *
  * @internal
  */
-class AttributeCertificateTest extends TestCase
+final class AttributeCertificateTest extends TestCase
 {
     private static $_acPem;
 
@@ -41,9 +39,7 @@ class AttributeCertificateTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_acPem = PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem');
-        self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
-        );
+        self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -54,34 +50,17 @@ class AttributeCertificateTest extends TestCase
 
     public function testCreate()
     {
-        $holder = new Holder(
-            new IssuerSerial(
-                new GeneralNames(DirectoryName::fromDNString('cn=Issuer')),
-                42
-            )
-        );
+        $holder = new Holder(new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Issuer')), 42));
         $issuer = AttCertIssuer::fromName(Name::fromString('cn=Issuer'));
-        $validity = AttCertValidityPeriod::fromStrings(
-            '2016-04-29 12:00:00',
-            '2016-04-29 13:00:00'
-        );
+        $validity = AttCertValidityPeriod::fromStrings('2016-04-29 12:00:00', '2016-04-29 13:00:00');
         $attribs = Attributes::fromAttributeValues(
             new RoleAttributeValue(new UniformResourceIdentifier('urn:admin'))
         );
-        $acinfo = new AttributeCertificateInfo(
-            $holder,
-            $issuer,
-            $validity,
-            $attribs
-        );
+        $acinfo = new AttributeCertificateInfo($holder, $issuer, $validity, $attribs);
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
-        $acinfo = $acinfo->withSignature($algo)->withSerialNumber(1);
-        $signature = Crypto::getDefault()->sign(
-            $acinfo->toASN1()
-                ->toDER(),
-            self::$_privateKeyInfo,
-            $algo
-        );
+        $acinfo = $acinfo->withSignature($algo)
+            ->withSerialNumber(1);
+        $signature = Crypto::getDefault()->sign($acinfo->toASN1() ->toDER(), self::$_privateKeyInfo, $algo);
         $ac = new AttributeCertificate($acinfo, $algo, $signature);
         $this->assertInstanceOf(AttributeCertificate::class, $ac);
         return $ac;
@@ -113,10 +92,8 @@ class AttributeCertificateTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        AttributeCertificate $ref,
-        AttributeCertificate $new
-    ) {
+    public function testRecoded(AttributeCertificate $ref, AttributeCertificate $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -133,10 +110,7 @@ class AttributeCertificateTest extends TestCase
      */
     public function testSignatureAlgo(AttributeCertificate $ac)
     {
-        $this->assertInstanceOf(
-            SignatureAlgorithmIdentifier::class,
-            $ac->signatureAlgorithm()
-        );
+        $this->assertInstanceOf(SignatureAlgorithmIdentifier::class, $ac->signatureAlgorithm());
     }
 
     /**
@@ -212,9 +186,7 @@ class AttributeCertificateTest extends TestCase
      */
     public function testIsHeldBy(AttributeCertificate $ac)
     {
-        $cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')
-        );
+        $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
         $this->assertTrue($ac->isHeldBy($cert));
     }
 
@@ -223,9 +195,7 @@ class AttributeCertificateTest extends TestCase
      */
     public function testIsHeldByFail(AttributeCertificate $ac)
     {
-        $cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
-        );
+        $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
         $this->assertFalse($ac->isHeldBy($cert));
     }
 
@@ -234,9 +204,7 @@ class AttributeCertificateTest extends TestCase
      */
     public function testIsIssuedBy(AttributeCertificate $ac)
     {
-        $cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
-        );
+        $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
         $this->assertTrue($ac->isIssuedBy($cert));
     }
 
@@ -245,9 +213,7 @@ class AttributeCertificateTest extends TestCase
      */
     public function testIsIssuedByFail(AttributeCertificate $ac)
     {
-        $cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
-        );
+        $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
         $this->assertFalse($ac->isIssuedBy($cert));
     }
 }

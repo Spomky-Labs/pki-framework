@@ -17,12 +17,9 @@ use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 
 /**
- * @group asn1
- * @group publickey
- *
  * @internal
  */
-class PublicKeyInfoTest extends TestCase
+final class PublicKeyInfoTest extends TestCase
 {
     /**
      * @return PublicKeyInfo
@@ -51,10 +48,7 @@ class PublicKeyInfoTest extends TestCase
      */
     public function testAlgoOID(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(
-            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
-            $algo->oid()
-        );
+        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -154,7 +148,8 @@ class PublicKeyInfoTest extends TestCase
     public function testInvalidAI(PublicKeyInfo $pki)
     {
         $seq = $pki->toASN1();
-        $ai = $seq->at(0)->asSequence()
+        $ai = $seq->at(0)
+            ->asSequence()
             ->withReplaced(0, new ObjectIdentifier('1.3.6.1.3'));
         $seq = $seq->withReplaced(0, $ai);
         $this->expectException(\RuntimeException::class);
@@ -163,10 +158,7 @@ class PublicKeyInfoTest extends TestCase
 
     public function testInvalidECAlgoFail()
     {
-        $pki = new PublicKeyInfo(
-            new PubliceKeyInfoTest_InvalidECAlgo(),
-            new BitString('')
-        );
+        $pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), new BitString(''));
         $this->expectException(\UnexpectedValueException::class);
         $pki->publicKey();
     }

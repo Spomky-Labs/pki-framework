@@ -81,8 +81,6 @@ class PEM
 
     /**
      * Initialize from a PEM-formatted string.
-     *
-     * @throws \UnexpectedValueException If string is not valid PEM
      */
     public static function fromString(string $str): self
     {
@@ -101,8 +99,6 @@ class PEM
      * Initialize from a file.
      *
      * @param string $filename Path to file
-     *
-     * @throws \RuntimeException If file reading fails
      */
     public static function fromFile(string $filename): self
     {

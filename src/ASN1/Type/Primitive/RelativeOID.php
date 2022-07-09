@@ -30,11 +30,8 @@ class RelativeOID extends ObjectIdentifier
         return self::_encodeSubIDs(...$this->_subids);
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
         $subids = self::_decodeSubIDs(substr($data, $idx, $len));

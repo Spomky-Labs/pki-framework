@@ -22,11 +22,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers validation error when final certificate requires explicit policy.
  *
- * @group certification-path
- *
  * @internal
  */
-class WrapUpPolicyErrorTest extends TestCase
+final class WrapUpPolicyErrorTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -57,15 +55,9 @@ class WrapUpPolicyErrorTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
-            new CertificatePoliciesExtension(
-                false,
-                new PolicyInformation('1.3.6.1.3')
-            )
+            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3'))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -74,13 +66,8 @@ class WrapUpPolicyErrorTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(
-            new PolicyConstraintsExtension(true, 0)
-        );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        $tbs = $tbs->withAdditionalExtensions(new PolicyConstraintsExtension(true, 0));
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

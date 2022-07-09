@@ -14,13 +14,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class CRLDistributionPointsTest extends RefExtTestHelper
+final class CRLDistributionPointsTest extends RefExtTestHelper
 {
     /**
      * @return CRLDistributionPointsExtension

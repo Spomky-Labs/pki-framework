@@ -10,12 +10,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class SHA256WithRSAAITest extends TestCase
+final class SHA256WithRSAAITest extends TestCase
 {
     /**
      * @return Sequence
@@ -34,10 +31,7 @@ class SHA256WithRSAAITest extends TestCase
     public function testDecode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(
-            SHA256WithRSAEncryptionAlgorithmIdentifier::class,
-            $ai
-        );
+        $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 

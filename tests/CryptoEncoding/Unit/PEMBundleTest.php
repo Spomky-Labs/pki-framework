@@ -9,11 +9,9 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoEncoding\PEMBundle;
 
 /**
- * @group pem
- *
  * @internal
  */
-class PEMBundleTest extends TestCase
+final class PEMBundleTest extends TestCase
 {
     /**
      * @return PEMBundle
@@ -95,11 +93,11 @@ class PEMBundleTest extends TestCase
 
     public function testInvalidPEMData()
     {
-        $str = <<<'DATA'
+        $str = <<<'CODE_SAMPLE'
 -----BEGIN TEST-----
 %%%
 -----END TEST-----
-DATA;
+CODE_SAMPLE;
         $this->expectException(\UnexpectedValueException::class);
         PEMBundle::fromString($str);
     }

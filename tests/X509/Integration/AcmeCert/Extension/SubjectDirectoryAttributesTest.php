@@ -9,22 +9,16 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class SubjectDirectoryAttributesTest extends RefExtTestHelper
+final class SubjectDirectoryAttributesTest extends RefExtTestHelper
 {
     /**
      * @return SubjectDirectoryAttributesExtension
      */
     public function testSubjectDirectoryAttributesExtension()
     {
-        $ext = self::$_extensions->get(
-            Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES
-        );
+        $ext = self::$_extensions->get(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES);
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }

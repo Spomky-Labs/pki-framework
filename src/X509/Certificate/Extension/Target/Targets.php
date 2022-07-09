@@ -91,12 +91,9 @@ class Targets implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(
-            function (Target $target) {
-                return $target->toASN1();
-            },
-            $this->_targets
-        );
+        $elements = array_map(function (Target $target) {
+            return $target->toASN1();
+        }, $this->_targets);
         return new Sequence(...$elements);
     }
 

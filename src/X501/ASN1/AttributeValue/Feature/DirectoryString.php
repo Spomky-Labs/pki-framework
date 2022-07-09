@@ -144,17 +144,12 @@ abstract class DirectoryString extends AttributeValue
 
     /**
      * Get ASN.1 class name for given DirectoryString type tag.
-     *
-     * @throws \UnexpectedValueException
      */
     private static function _tagToASN1Class(int $tag): string
     {
         if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
-                sprintf(
-                    'Type %s is not valid DirectoryString.',
-                    Element::tagToName($tag)
-                )
+                sprintf('Type %s is not valid DirectoryString.', Element::tagToName($tag))
             );
         }
         return self::MAP_TAG_TO_CLASS[$tag];

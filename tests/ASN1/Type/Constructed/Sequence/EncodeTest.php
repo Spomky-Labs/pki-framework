@@ -9,13 +9,9 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
 
 /**
- * @group encode
- * @group structure
- * @group sequence
- *
  * @internal
  */
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     public function testEncode()
     {

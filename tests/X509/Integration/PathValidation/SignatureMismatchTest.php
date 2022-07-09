@@ -18,11 +18,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers validation failure when signature doesn't match.
  *
- * @group certification-path
- *
  * @internal
  */
-class SignatureMismatchTest extends TestCase
+final class SignatureMismatchTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -51,10 +49,7 @@ class SignatureMismatchTest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -63,10 +58,7 @@ class SignatureMismatchTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_certKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_certKey);
     }
 
     public static function tearDownAfterClass(): void

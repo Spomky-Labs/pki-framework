@@ -9,11 +9,9 @@ use Sop\X509\CertificationPath\Policy\PolicyNode;
 use Sop\X509\CertificationPath\Policy\PolicyTree;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class PolicyTreeTest extends TestCase
+final class PolicyTreeTest extends TestCase
 {
     /**
      * Cover edge case where root node is pruned.

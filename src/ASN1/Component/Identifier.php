@@ -81,11 +81,9 @@ class Identifier implements Encodable
      *
      * @param string   $data   DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
-     *                         into the data where to start parsing.
-     *                         Variable is updated to the offset next to the
-     *                         parsed identifier. If null, start from offset 0.
-     *
-     * @throws DecodeException If decoding fails
+     * into the data where to start parsing.
+     * Variable is updated to the offset next to the
+     * parsed identifier. If null, start from offset 0.
      *
      * @return self
      */
@@ -262,8 +260,6 @@ class Identifier implements Encodable
      * @param string $data   DER data
      * @param int    $offset Reference to the variable containing offset to data
      *
-     * @throws DecodeException If decoding fails
-     *
      * @return \GMP Tag number
      */
     private static function _decodeLongFormTag(string $data, int &$offset): \GMP
@@ -272,9 +268,7 @@ class Identifier implements Encodable
         $tag = gmp_init(0, 10);
         while (true) {
             if ($offset >= $datalen) {
-                throw new DecodeException(
-                    'Unexpected end of data while decoding long form identifier.'
-                );
+                throw new DecodeException('Unexpected end of data while decoding long form identifier.');
             }
             $byte = ord($data[$offset++]);
             $tag <<= 7;

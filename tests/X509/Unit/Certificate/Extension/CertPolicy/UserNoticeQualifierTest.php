@@ -11,13 +11,9 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\NoticeReference;
 use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
 
 /**
- * @group certificate
- * @group extension
- * @group certificate-policy
- *
  * @internal
  */
-class UserNoticeQualifierTest extends TestCase
+final class UserNoticeQualifierTest extends TestCase
 {
     public function testCreate()
     {
@@ -55,10 +51,8 @@ class UserNoticeQualifierTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        UserNoticeQualifier $ref,
-        UserNoticeQualifier $new
-    ) {
+    public function testRecoded(UserNoticeQualifier $ref, UserNoticeQualifier $new)
+    {
         $this->assertEquals($ref, $new);
     }
 

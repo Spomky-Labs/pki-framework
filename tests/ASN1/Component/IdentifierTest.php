@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Component\Identifier;
 
 /**
- * @group identifier
- *
  * @internal
  */
-class IdentifierTest extends TestCase
+final class IdentifierTest extends TestCase
 {
     public function testClassToName()
     {

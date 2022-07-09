@@ -42,9 +42,8 @@ abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
     /**
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null
-    ): SpecificAlgorithmIdentifier {
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
         $obj = new static();
         // store parameters so re-encoding doesn't change
         if (isset($params)) {

@@ -24,8 +24,8 @@ use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 /**
  * Implements *Extensions* ASN.1 type.
  *
- * Several convenience methods are provided to fetch commonly used standard extensions.
- * Others can be accessed using `get($oid)`.
+ * Several convenience methods are provided to fetch commonly used standard extensions. Others can be accessed using
+ * `get($oid)`.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.9
  */
@@ -72,14 +72,9 @@ class Extensions implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_values(
-            array_map(
-                function ($ext) {
-                    return $ext->toASN1();
-                },
-                $this->_extensions
-            )
-        );
+        $elements = array_values(array_map(function ($ext) {
+            return $ext->toASN1();
+        }, $this->_extensions));
         return new Sequence(...$elements);
     }
 
@@ -111,8 +106,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get extension by OID.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function get(string $oid): Extension
     {
@@ -132,8 +125,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Authority Key Identifier' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function authorityKeyIdentifier(): AuthorityKeyIdentifierExtension
     {
@@ -150,8 +141,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Subject Key Identifier' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function subjectKeyIdentifier(): SubjectKeyIdentifierExtension
     {
@@ -168,8 +157,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Key Usage' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function keyUsage(): KeyUsageExtension
     {
@@ -186,8 +173,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Certificate Policies' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function certificatePolicies(): CertificatePoliciesExtension
     {
@@ -204,8 +189,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Policy Mappings' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function policyMappings(): PolicyMappingsExtension
     {
@@ -222,8 +205,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Subject Alternative Name' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function subjectAlternativeName(): SubjectAlternativeNameExtension
     {
@@ -256,8 +237,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Basic Constraints' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function basicConstraints(): BasicConstraintsExtension
     {
@@ -274,8 +253,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Name Constraints' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function nameConstraints(): NameConstraintsExtension
     {
@@ -292,8 +269,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Policy Constraints' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function policyConstraints(): PolicyConstraintsExtension
     {
@@ -310,8 +285,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Extended Key Usage' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function extendedKeyUsage(): ExtendedKeyUsageExtension
     {
@@ -328,8 +301,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'CRL Distribution Points' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function crlDistributionPoints(): CRLDistributionPointsExtension
     {
@@ -346,8 +317,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Inhibit anyPolicy' extension.
-     *
-     * @throws \LogicException If extension is not present
      */
     public function inhibitAnyPolicy(): InhibitAnyPolicyExtension
     {

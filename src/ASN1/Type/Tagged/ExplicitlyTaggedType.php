@@ -11,8 +11,7 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * Implements explicit tagging mode.
  *
- * Explicit tagging wraps a type by prepending a tag. Underlying DER encoding
- * is not changed.
+ * Explicit tagging wraps a type by prepending a tag. Underlying DER encoding is not changed.
  */
 class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
 {
@@ -23,11 +22,8 @@ class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
      * @param Element $element Wrapped element
      * @param int     $class   Type class
      */
-    public function __construct(
-        int $tag,
-        Element $element,
-        int $class = Identifier::CLASS_CONTEXT_SPECIFIC
-    ) {
+    public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
+    {
         $this->_typeTag = $tag;
         $this->_element = $element;
         $this->_class = $class;

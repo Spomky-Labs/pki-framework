@@ -39,8 +39,6 @@ class DERData extends Element
      * Constructor.
      *
      * @param string $data DER encoded data
-     *
-     * @throws \Sop\ASN1\Exception\DecodeException If data does not adhere to DER
      */
     public function __construct(string $data)
     {

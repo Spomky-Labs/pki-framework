@@ -21,12 +21,9 @@ use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
 
 /**
- * @group csr
- * @group decode
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     /**
      * @return CertificationRequest
@@ -68,10 +65,7 @@ class DecodeTest extends TestCase
      */
     public function testAlgoType(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(
-            AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
-            $algo->oid()
-        );
+        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -91,14 +85,8 @@ class DecodeTest extends TestCase
      */
     public function testSignatureValue(Signature $signature)
     {
-        $expected = hex2bin(
-            trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig'))
-        );
-        $this->assertEquals(
-            $expected,
-            $signature->bitString()
-                ->string()
-        );
+        $expected = hex2bin(trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig')));
+        $this->assertEquals($expected, $signature->bitString() ->string());
     }
 
     /**
@@ -146,11 +134,7 @@ class DecodeTest extends TestCase
      */
     public function testPublicKeyAlgo(PublicKeyInfo $info)
     {
-        $this->assertEquals(
-            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
-            $info->algorithmIdentifier()
-                ->oid()
-        );
+        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier() ->oid());
     }
 
     /**
@@ -158,9 +142,7 @@ class DecodeTest extends TestCase
      */
     public function testPublicKey(PublicKeyInfo $info)
     {
-        $pk = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
-        )->publicKey();
+        $pk = PrivateKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
         $this->assertEquals($pk, $info->publicKey());
     }
 
@@ -184,9 +166,7 @@ class DecodeTest extends TestCase
      */
     public function testExtensionRequestAttribute(Attributes $attribs)
     {
-        $attr = ExtensionRequestValue::fromSelf(
-            $attribs->firstOf(ExtensionRequestValue::OID)->first()
-        );
+        $attr = ExtensionRequestValue::fromSelf($attribs->firstOf(ExtensionRequestValue::OID)->first());
         $this->assertInstanceOf(ExtensionRequestValue::class, $attr);
         return $attr;
     }

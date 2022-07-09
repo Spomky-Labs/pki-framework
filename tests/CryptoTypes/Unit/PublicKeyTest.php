@@ -11,12 +11,9 @@ use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 
 /**
- * @group asn1
- * @group publickey
- *
  * @internal
  */
-class PublicKeyTest extends TestCase
+final class PublicKeyTest extends TestCase
 {
     public function testFromRSAPEM()
     {

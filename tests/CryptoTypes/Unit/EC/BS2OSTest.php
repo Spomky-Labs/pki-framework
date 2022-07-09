@@ -11,11 +11,9 @@ use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
 
 /**
- * @group conversion
- *
  * @internal
  */
-class BS2OSTest extends TestCase
+final class BS2OSTest extends TestCase
 {
     public function testOSType()
     {
@@ -50,7 +48,6 @@ class BS2OSTest extends TestCase
     {
         yield [new OctetString(''), new BitString('')];
         yield [new OctetString("\0"), new BitString("\0")];
-        yield [new OctetString(str_repeat("\1\2\3\4", 256)),
-            new BitString(str_repeat("\1\2\3\4", 256)), ];
+        yield [new OctetString(str_repeat("\1\2\3\4", 256)), new BitString(str_repeat("\1\2\3\4", 256))];
     }
 }

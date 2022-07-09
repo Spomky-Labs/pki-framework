@@ -12,13 +12,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- * @group name-constraint
- *
  * @internal
  */
-class GeneralSubtreesTest extends TestCase
+final class GeneralSubtreesTest extends TestCase
 {
     public function testCreate()
     {
@@ -66,10 +62,7 @@ class GeneralSubtreesTest extends TestCase
      */
     public function testAll(GeneralSubtrees $subtrees)
     {
-        $this->assertContainsOnlyInstancesOf(
-            GeneralSubtree::class,
-            $subtrees->all()
-        );
+        $this->assertContainsOnlyInstancesOf(GeneralSubtree::class, $subtrees->all());
     }
 
     /**

@@ -9,13 +9,9 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
 
 /**
- * @group certificate
- * @group extension
- * @group policy-mapping
- *
  * @internal
  */
-class PolicyMappingTest extends TestCase
+final class PolicyMappingTest extends TestCase
 {
     public const ISSUER_POLICY = '1.3.6.1.3.1';
 
@@ -72,9 +68,6 @@ class PolicyMappingTest extends TestCase
      */
     public function testSubjectDomainPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(
-            self::SUBJECT_POLICY,
-            $mapping->subjectDomainPolicy()
-        );
+        $this->assertEquals(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());
     }
 }

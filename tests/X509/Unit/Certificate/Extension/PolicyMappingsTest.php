@@ -15,12 +15,9 @@ use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class PolicyMappingsTest extends TestCase
+final class PolicyMappingsTest extends TestCase
 {
     final public const ISSUER_POLICY_OID = '1.3.6.1.3.1';
 
@@ -97,10 +94,7 @@ class PolicyMappingsTest extends TestCase
      */
     public function testMappings(PolicyMappingsExtension $ext)
     {
-        $this->assertContainsOnlyInstancesOf(
-            PolicyMapping::class,
-            $ext->mappings()
-        );
+        $this->assertContainsOnlyInstancesOf(PolicyMapping::class, $ext->mappings());
     }
 
     /**
@@ -108,10 +102,7 @@ class PolicyMappingsTest extends TestCase
      */
     public function testIssuerMappings(PolicyMappingsExtension $ext)
     {
-        $this->assertContainsOnly(
-            'string',
-            $ext->issuerMappings(self::ISSUER_POLICY_OID)
-        );
+        $this->assertContainsOnly('string', $ext->issuerMappings(self::ISSUER_POLICY_OID));
     }
 
     /**
@@ -150,10 +141,7 @@ class PolicyMappingsTest extends TestCase
      */
     public function testIssuerPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(
-            self::ISSUER_POLICY_OID,
-            $mapping->issuerDomainPolicy()
-        );
+        $this->assertEquals(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
     }
 
     /**
@@ -161,10 +149,7 @@ class PolicyMappingsTest extends TestCase
      */
     public function testSubjectPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(
-            self::SUBJECT_POLICY_OID,
-            $mapping->subjectDomainPolicy()
-        );
+        $this->assertEquals(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
     }
 
     /**
@@ -179,10 +164,7 @@ class PolicyMappingsTest extends TestCase
     {
         $ext = new PolicyMappingsExtension(
             false,
-            new PolicyMapping(
-                PolicyInformation::OID_ANY_POLICY,
-                self::SUBJECT_POLICY_OID
-            )
+            new PolicyMapping(PolicyInformation::OID_ANY_POLICY, self::SUBJECT_POLICY_OID)
         );
         $this->assertTrue($ext->hasAnyPolicyMapping());
     }
@@ -191,10 +173,7 @@ class PolicyMappingsTest extends TestCase
     {
         $ext = new PolicyMappingsExtension(
             false,
-            new PolicyMapping(
-                self::ISSUER_POLICY_OID,
-                PolicyInformation::OID_ANY_POLICY
-            )
+            new PolicyMapping(self::ISSUER_POLICY_OID, PolicyInformation::OID_ANY_POLICY)
         );
         $this->assertTrue($ext->hasAnyPolicyMapping());
     }

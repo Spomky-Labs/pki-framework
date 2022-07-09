@@ -13,13 +13,9 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
 
 /**
- * @group certificate
- * @group extension
- * @group certificate-policy
- *
  * @internal
  */
-class PolicyInformationTest extends TestCase
+final class PolicyInformationTest extends TestCase
 {
     public const OID = '1.3.6.1.3';
 
@@ -56,10 +52,8 @@ class PolicyInformationTest extends TestCase
      * @depends testCreateWithCPS
      * @depends testDecodeWithCPS
      */
-    public function testRecodedWithCPS(
-        PolicyInformation $ref,
-        PolicyInformation $new
-    ) {
+    public function testRecodedWithCPS(PolicyInformation $ref, PolicyInformation $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -92,10 +86,7 @@ class PolicyInformationTest extends TestCase
      */
     public function testGet(PolicyInformation $pi)
     {
-        $this->assertInstanceOf(
-            PolicyQualifierInfo::class,
-            $pi->get(CPSQualifier::OID_CPS)
-        );
+        $this->assertInstanceOf(PolicyQualifierInfo::class, $pi->get(CPSQualifier::OID_CPS));
     }
 
     /**
@@ -126,10 +117,7 @@ class PolicyInformationTest extends TestCase
 
     public function testCreateWithNotice()
     {
-        $pi = new PolicyInformation(
-            self::OID,
-            new UserNoticeQualifier(DisplayText::fromString('notice'))
-        );
+        $pi = new PolicyInformation(self::OID, new UserNoticeQualifier(DisplayText::fromString('notice')));
         $this->assertInstanceOf(PolicyInformation::class, $pi);
         return $pi;
     }
@@ -148,10 +136,7 @@ class PolicyInformationTest extends TestCase
      */
     public function testUserNoticeQualifier(PolicyInformation $pi)
     {
-        $this->assertInstanceOf(
-            UserNoticeQualifier::class,
-            $pi->userNoticeQualifier()
-        );
+        $this->assertInstanceOf(UserNoticeQualifier::class, $pi->userNoticeQualifier());
     }
 
     public function testCreateWithMultiple()
@@ -191,10 +176,8 @@ class PolicyInformationTest extends TestCase
      * @depends testCreateWithMultiple
      * @depends testDecodeWithMultiple
      */
-    public function testRecodedMultiple(
-        PolicyInformation $ref,
-        PolicyInformation $new
-    ) {
+    public function testRecodedMultiple(PolicyInformation $ref, PolicyInformation $new)
+    {
         $this->assertEquals($ref, $new);
     }
 

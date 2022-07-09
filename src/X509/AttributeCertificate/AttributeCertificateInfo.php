@@ -111,13 +111,13 @@ class AttributeCertificateInfo
 
     /**
      * Initialize from ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(Sequence $seq): self
     {
         $idx = 0;
-        $version = $seq->at($idx++)->asInteger()->intNumber();
+        $version = $seq->at($idx++)
+            ->asInteger()
+            ->intNumber();
         if (self::VERSION_2 !== $version) {
             throw new \UnexpectedValueException('Version must be 2.');
         }
@@ -125,25 +125,21 @@ class AttributeCertificateInfo
         $issuer = AttCertIssuer::fromASN1($seq->at($idx++));
         $signature = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
         if (! $signature instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $signature->oid() . '.'
-            );
+            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $signature->oid() . '.');
         }
-        $serial = $seq->at($idx++)->asInteger()->number();
+        $serial = $seq->at($idx++)
+            ->asInteger()
+            ->number();
         $validity = AttCertValidityPeriod::fromASN1($seq->at($idx++)->asSequence());
         $attribs = Attributes::fromASN1($seq->at($idx++)->asSequence());
         $obj = new self($holder, $issuer, $validity, $attribs);
         $obj->_signature = $signature;
         $obj->_serialNumber = $serial;
         if ($seq->has($idx, Element::TYPE_BIT_STRING)) {
-            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1(
-                $seq->at($idx++)->asBitString()
-            );
+            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++) ->asBitString());
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
-            $obj->_extensions = Extensions::fromASN1(
-                $seq->at($idx++)->asSequence()
-            );
+            $obj->_extensions = Extensions::fromASN1($seq->at($idx++) ->asSequence());
         }
         return $obj;
     }
@@ -289,8 +285,6 @@ class AttributeCertificateInfo
 
     /**
      * Get signature algorithm identifier.
-     *
-     * @throws \LogicException If not set
      */
     public function signature(): SignatureAlgorithmIdentifier
     {
@@ -310,8 +304,6 @@ class AttributeCertificateInfo
 
     /**
      * Get AC serial number as a base 10 integer.
-     *
-     * @throws \LogicException If not set
      */
     public function serialNumber(): string
     {
@@ -344,8 +336,6 @@ class AttributeCertificateInfo
 
     /**
      * Get issuer unique identifier.
-     *
-     * @throws \LogicException If not set
      */
     public function issuerUniqueID(): UniqueIdentifier
     {
@@ -366,7 +356,8 @@ class AttributeCertificateInfo
     public function toASN1(): Sequence
     {
         $elements = [new Integer($this->_version), $this->_holder->toASN1(),
-            $this->_issuer->toASN1(), $this->signature()->toASN1(),
+            $this->_issuer->toASN1(), $this->signature()
+                ->toASN1(),
             new Integer($this->serialNumber()),
             $this->_attrCertValidityPeriod->toASN1(),
             $this->_attributes->toASN1(), ];
@@ -397,7 +388,8 @@ class AttributeCertificateInfo
             $aci->_serialNumber = '0';
         }
         $aci->_signature = $algo;
-        $data = $aci->toASN1()->toDER();
+        $data = $aci->toASN1()
+            ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
         return new AttributeCertificate($aci, $algo, $signature);
     }

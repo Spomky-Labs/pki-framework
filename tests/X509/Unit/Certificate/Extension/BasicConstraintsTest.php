@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class BasicConstraintsTest extends TestCase
+final class BasicConstraintsTest extends TestCase
 {
     public function testCreate()
     {

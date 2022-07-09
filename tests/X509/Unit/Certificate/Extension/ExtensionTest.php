@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\UnknownExtension;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class ExtensionTest extends TestCase
+final class ExtensionTest extends TestCase
 {
     public function testFromDERBadCall()
     {

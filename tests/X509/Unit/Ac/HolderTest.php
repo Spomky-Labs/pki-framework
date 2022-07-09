@@ -15,11 +15,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group ac
- *
  * @internal
  */
-class HolderTest extends TestCase
+final class HolderTest extends TestCase
 {
     private static $_issuerSerial;
 
@@ -29,13 +27,8 @@ class HolderTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuerSerial = new IssuerSerial(
-            new GeneralNames(DirectoryName::fromDNString('cn=Test')),
-            1
-        );
-        self::$_subject = new GeneralNames(
-            DirectoryName::fromDNString('cn=Subject')
-        );
+        self::$_issuerSerial = new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Test')), 1);
+        self::$_subject = new GeneralNames(DirectoryName::fromDNString('cn=Subject'));
         self::$_odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             new SHA1WithRSAEncryptionAlgorithmIdentifier(),

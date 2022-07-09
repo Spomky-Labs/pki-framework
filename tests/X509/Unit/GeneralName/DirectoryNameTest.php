@@ -13,11 +13,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class DirectoryNameTest extends TestCase
+final class DirectoryNameTest extends TestCase
 {
     public function testCreate()
     {

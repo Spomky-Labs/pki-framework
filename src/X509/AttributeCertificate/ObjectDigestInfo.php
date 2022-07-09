@@ -57,11 +57,8 @@ class ObjectDigestInfo
     /**
      * Constructor.
      */
-    public function __construct(
-        int $type,
-        AlgorithmIdentifierType $algo,
-        BitString $digest
-    ) {
+    public function __construct(int $type, AlgorithmIdentifierType $algo, BitString $digest)
+    {
         $this->_digestedObjectType = $type;
         $this->_otherObjectTypeID = null;
         $this->_digestAlgorithm = $algo;
@@ -77,12 +74,17 @@ class ObjectDigestInfo
     {
         $idx = 0;
         $oid = null;
-        $type = $seq->at($idx++)->asEnumerated()->intNumber();
+        $type = $seq->at($idx++)
+            ->asEnumerated()
+            ->intNumber();
         if ($seq->has($idx, Element::TYPE_OBJECT_IDENTIFIER)) {
-            $oid = $seq->at($idx++)->asObjectIdentifier()->oid();
+            $oid = $seq->at($idx++)
+                ->asObjectIdentifier()
+                ->oid();
         }
         $algo = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
-        $digest = $seq->at($idx)->asBitString();
+        $digest = $seq->at($idx)
+            ->asBitString();
         $obj = new self($type, $algo, $digest);
         $obj->_otherObjectTypeID = $oid;
         return $obj;

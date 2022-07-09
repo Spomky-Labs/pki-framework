@@ -8,12 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\Integer;
 
 /**
- * @group encode
- * @group integer
- *
  * @internal
  */
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     public function testZero()
     {

@@ -10,12 +10,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentif
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class RSASigAITest extends TestCase
+final class RSASigAITest extends TestCase
 {
     public function testSupportsKeyAlgorithm()
     {
@@ -27,9 +24,7 @@ class RSASigAITest extends TestCase
     public function testDoesntSupportsKeyAlgorithm()
     {
         $sig_algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
-        $key_algo = new ECPublicKeyAlgorithmIdentifier(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1
-        );
+        $key_algo = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1);
         $this->assertFalse($sig_algo->supportsKeyAlgorithm($key_algo));
     }
 }

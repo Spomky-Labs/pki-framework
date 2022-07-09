@@ -33,35 +33,21 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
 require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 // load issuer certificate
-$issuer_cert = Certificate::fromPEM(
-    PEM::fromFile(dirname(__DIR__) . '/certs/acme-rsa.pem')
-);
+$issuer_cert = Certificate::fromPEM(PEM::fromFile(dirname(__DIR__) . '/certs/acme-rsa.pem'));
 // load issuer private and public keys
 $issuer_private_key = PrivateKey::fromPEM(
     PEM::fromFile(dirname(__DIR__) . '/certs/keys/acme-rsa.pem')
 )->privateKeyInfo();
 $issuer_public_key = $issuer_private_key->publicKeyInfo();
 // load AC holder certificate
-$holder_cert = Certificate::fromPEM(
-    PEM::fromFile(dirname(__DIR__) . '/certs/acme-ecdsa.pem')
-);
+$holder_cert = Certificate::fromPEM(PEM::fromFile(dirname(__DIR__) . '/certs/acme-ecdsa.pem'));
 
 $holder = new Holder(
     IssuerSerial::fromPKC($holder_cert),
-    new GeneralNames(
-        new DirectoryName($holder_cert->tbsCertificate()->subject())
-    )
+    new GeneralNames(new DirectoryName($holder_cert->tbsCertificate()->subject()))
 );
-$issuer = new V2Form(
-    new GeneralNames(
-        new DirectoryName($issuer_cert->tbsCertificate()->subject())
-    )
-);
-$validity = AttCertValidityPeriod::fromStrings(
-    '2016-01-01 12:00:00',
-    '2016-03-01 12:00:00',
-    'UTC'
-);
+$issuer = new V2Form(new GeneralNames(new DirectoryName($issuer_cert->tbsCertificate()->subject())));
+$validity = AttCertValidityPeriod::fromStrings('2016-01-01 12:00:00', '2016-03-01 12:00:00', 'UTC');
 $authinfo_attr = new AuthenticationInfoAttributeValue(
     new UniformResourceIdentifier('urn:service'),
     DirectoryName::fromDNString('cn=username'),
@@ -71,16 +57,9 @@ $authid_attr = new AccessIdentityAttributeValue(
     new UniformResourceIdentifier('urn:service'),
     DirectoryName::fromDNString('cn=username')
 );
-$charge_attr = new ChargingIdentityAttributeValue(
-    IetfAttrValue::fromString('ACME Ltd.')
-);
-$charge_attr = $charge_attr->withPolicyAuthority(
-    new GeneralNames(DirectoryName::fromDNString('cn=ACME Ltd.'))
-);
-$group_attr = new GroupAttributeValue(
-    IetfAttrValue::fromString('group1'),
-    IetfAttrValue::fromString('group2')
-);
+$charge_attr = new ChargingIdentityAttributeValue(IetfAttrValue::fromString('ACME Ltd.'));
+$charge_attr = $charge_attr->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString('cn=ACME Ltd.')));
+$group_attr = new GroupAttributeValue(IetfAttrValue::fromString('group1'), IetfAttrValue::fromString('group2'));
 $role_attr = Attribute::fromAttributeValues(
     new RoleAttributeValue(new UniformResourceIdentifier('urn:role1')),
     new RoleAttributeValue(new UniformResourceIdentifier('urn:role2'))
@@ -91,10 +70,7 @@ $attribs = Attributes::fromAttributeValues(
     $charge_attr,
     $group_attr
 )->withAdditional($role_attr);
-$aki_ext = new AuthorityKeyIdentifierExtension(
-    false,
-    $issuer_public_key->keyIdentifier()
-);
+$aki_ext = new AuthorityKeyIdentifierExtension(false, $issuer_public_key->keyIdentifier());
 $ti_ext = new TargetInformationExtension(
     true,
     new Targets(
@@ -108,8 +84,5 @@ $extensions = new Extensions($aki_ext, $nra_ext, $ti_ext);
 $aci = new AttributeCertificateInfo($holder, $issuer, $validity, $attribs);
 $aci = $aci->withSerialNumber(0xbadcafe);
 $aci = $aci->withExtensions($extensions);
-$ac = $aci->sign(
-    new SHA256WithRSAEncryptionAlgorithmIdentifier(),
-    $issuer_private_key
-);
+$ac = $aci->sign(new SHA256WithRSAEncryptionAlgorithmIdentifier(), $issuer_private_key);
 echo $ac;

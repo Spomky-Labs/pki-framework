@@ -9,11 +9,9 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\AttributeCertificate\AttCertValidityPeriod;
 
 /**
- * @group ac
- *
  * @internal
  */
-class AttCertValidityPeriodTest extends TestCase
+final class AttCertValidityPeriodTest extends TestCase
 {
     private static $_nb;
 
@@ -63,16 +61,10 @@ class AttCertValidityPeriodTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        AttCertValidityPeriod $ref,
-        AttCertValidityPeriod $new
-    ) {
-        $this->assertEquals($ref->notBeforeTime()
-            ->getTimestamp(), $new->notBeforeTime()
-            ->getTimestamp());
-        $this->assertEquals($ref->notAfterTime()
-            ->getTimestamp(), $new->notAfterTime()
-            ->getTimestamp());
+    public function testRecoded(AttCertValidityPeriod $ref, AttCertValidityPeriod $new)
+    {
+        $this->assertEquals($ref->notBeforeTime() ->getTimestamp(), $new->notBeforeTime() ->getTimestamp());
+        $this->assertEquals($ref->notAfterTime() ->getTimestamp(), $new->notAfterTime() ->getTimestamp());
     }
 
     /**
@@ -93,11 +85,7 @@ class AttCertValidityPeriodTest extends TestCase
 
     public function testFromStrings()
     {
-        $validity = AttCertValidityPeriod::fromStrings(
-            'now',
-            'now + 1 day',
-            'UTC'
-        );
+        $validity = AttCertValidityPeriod::fromStrings('now', 'now + 1 day', 'UTC');
         $this->assertInstanceOf(AttCertValidityPeriod::class, $validity);
     }
 }

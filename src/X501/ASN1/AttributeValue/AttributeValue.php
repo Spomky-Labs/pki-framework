@@ -87,9 +87,7 @@ abstract class AttributeValue
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
     {
-        throw new \BadMethodCallException(
-            'ASN.1 parsing must be implemented in a concrete class.'
-        );
+        throw new \BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
     }
 
     /**
@@ -109,8 +107,8 @@ abstract class AttributeValue
     /**
      * Initialize from another AttributeValue.
      *
-     * This method is generally used to cast UnknownAttributeValue to
-     * specific object when class is declared outside this package.
+     * This method is generally used to cast UnknownAttributeValue to specific object when class is declared outside
+     * this package.
      *
      * @param self $obj Instance of AttributeValue
      */

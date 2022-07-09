@@ -9,11 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\ASN1\Name;
 
 /**
- * @group dn
- *
  * @internal
  */
-class NameEqualityTest extends TestCase
+final class NameEqualityTest extends TestCase
 {
     /**
      * @dataProvider provideEqual

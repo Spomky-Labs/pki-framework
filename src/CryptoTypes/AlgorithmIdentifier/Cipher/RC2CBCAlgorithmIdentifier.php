@@ -118,26 +118,30 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null
-    ): SpecificAlgorithmIdentifier {
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
         if (! isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }
         $key_bits = 32;
         // rfc2268 a choice containing only IV
         if ($params->isType(Element::TYPE_OCTET_STRING)) {
-            $iv = $params->asOctetString()->string();
+            $iv = $params->asOctetString()
+                ->string();
         } else {
             $seq = $params->asSequence();
             $idx = 0;
             // version is optional in rfc2898
             if ($seq->has($idx, Element::TYPE_INTEGER)) {
-                $version = $seq->at($idx++)->asInteger()->intNumber();
+                $version = $seq->at($idx++)
+                    ->asInteger()
+                    ->intNumber();
                 $key_bits = self::_versionToEKB($version);
             }
             // IV is present in all variants
-            $iv = $seq->at($idx)->asOctetString()->string();
+            $iv = $seq->at($idx)
+                ->asOctetString()
+                ->string();
         }
         return new self($key_bits, $iv);
     }
@@ -178,10 +182,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if (! isset($this->_initializationVector)) {
             throw new \LogicException('IV not set.');
         }
-        return new Sequence(
-            new Integer($version),
-            new OctetString($this->_initializationVector)
-        );
+        return new Sequence(new Integer($version), new OctetString($this->_initializationVector));
     }
 
     /**

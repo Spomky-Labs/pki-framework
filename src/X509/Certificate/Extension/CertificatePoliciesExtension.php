@@ -45,8 +45,6 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
 
     /**
      * Get policy information by OID.
-     *
-     * @throws \LogicException If not set
      */
     public function get(string $oid): PolicyInformation
     {
@@ -66,8 +64,6 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
 
     /**
      * Get anyPolicy information.
-     *
-     * @throws \LogicException if anyPolicy is not present
      */
     public function anyPolicy(): PolicyInformation
     {
@@ -106,9 +102,7 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($policies)) {
-            throw new \UnexpectedValueException(
-                'certificatePolicies must contain at least one PolicyInformation.'
-            );
+            throw new \UnexpectedValueException('certificatePolicies must contain at least one PolicyInformation.');
         }
         return new self($critical, ...$policies);
     }

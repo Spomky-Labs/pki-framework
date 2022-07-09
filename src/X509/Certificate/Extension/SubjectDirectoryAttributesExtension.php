@@ -48,8 +48,6 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
      * Get first attribute by OID or attribute name.
      *
      * @param string $name OID or attribute name
-     *
-     * @throws \UnexpectedValueException if attribute is not present
      */
     public function firstOf(string $name): Attribute
     {
@@ -98,13 +96,9 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
 
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        $attribs = SequenceOfAttributes::fromASN1(
-            UnspecifiedType::fromDER($data)->asSequence()
-        );
+        $attribs = SequenceOfAttributes::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
         if (! count($attribs)) {
-            throw new \UnexpectedValueException(
-                'SubjectDirectoryAttributes must have at least one Attribute.'
-            );
+            throw new \UnexpectedValueException('SubjectDirectoryAttributes must have at least one Attribute.');
         }
         return new self($critical, ...$attribs->all());
     }

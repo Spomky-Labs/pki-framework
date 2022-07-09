@@ -13,12 +13,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X448AlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class Curve448AITest extends TestCase
+final class Curve448AITest extends TestCase
 {
     public function testEncodeEd448(): Sequence
     {

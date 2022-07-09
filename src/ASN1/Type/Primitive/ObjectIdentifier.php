@@ -47,21 +47,15 @@ class ObjectIdentifier extends Element
         if (count($this->_subids) > 0) {
             // check that at least two nodes are set
             if (count($this->_subids) < 2) {
-                throw new \UnexpectedValueException(
-                    'OID must have at least two nodes.'
-                );
+                throw new \UnexpectedValueException('OID must have at least two nodes.');
             }
             // check that root arc is in 0..2 range
             if ($this->_subids[0] > 2) {
-                throw new \UnexpectedValueException(
-                    'Root arc must be in range of 0..2.'
-                );
+                throw new \UnexpectedValueException('Root arc must be in range of 0..2.');
             }
             // if root arc is 0 or 1, second node must be in 0..39 range
             if ($this->_subids[0] < 2 && $this->_subids[1] >= 40) {
-                throw new \UnexpectedValueException(
-                    'Second node must be in 0..39 range for root arcs 0 and 1.'
-                );
+                throw new \UnexpectedValueException('Second node must be in 0..39 range for root arcs 0 and 1.');
             }
         }
         $this->_typeTag = self::TYPE_OBJECT_IDENTIFIER;
@@ -86,11 +80,8 @@ class ObjectIdentifier extends Element
         return self::_encodeSubIDs(...$subids);
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
         $subids = self::_decodeSubIDs(substr($data, $idx, $len));
@@ -123,9 +114,7 @@ class ObjectIdentifier extends Element
             foreach (explode('.', $oid) as $subid) {
                 $n = @gmp_init($subid, 10);
                 if (false === $n) {
-                    throw new \UnexpectedValueException(
-                        "'{$subid}' is not a number."
-                    );
+                    throw new \UnexpectedValueException("'{$subid}' is not a number.");
                 }
                 $subids[] = $n;
             }
@@ -138,12 +127,9 @@ class ObjectIdentifier extends Element
      */
     protected static function _implodeSubIDs(\GMP ...$subids): string
     {
-        return implode(
-            '.',
-            array_map(function ($num) {
-                return gmp_strval($num, 10);
-            }, $subids)
-        );
+        return implode('.', array_map(function ($num) {
+            return gmp_strval($num, 10);
+        }, $subids));
     }
 
     /**
@@ -174,8 +160,6 @@ class ObjectIdentifier extends Element
 
     /**
      * Decode sub ID's from DER data.
-     *
-     * @throws DecodeException
      *
      * @return \GMP[] Array of GMP numbers
      */

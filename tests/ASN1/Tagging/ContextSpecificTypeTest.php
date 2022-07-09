@@ -9,12 +9,9 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Tagged\ContextSpecificType;
 
 /**
- * @group type
- * @group context-specific
- *
  * @internal
  */
-class ContextSpecificTypeTest extends TestCase
+final class ContextSpecificTypeTest extends TestCase
 {
     public function testExplicitType()
     {

@@ -12,11 +12,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\RegisteredID;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class RegisteredIDNameTest extends TestCase
+final class RegisteredIDNameTest extends TestCase
 {
     public function testCreate()
     {

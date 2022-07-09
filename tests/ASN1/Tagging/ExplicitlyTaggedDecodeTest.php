@@ -11,13 +11,9 @@ use Sop\ASN1\Type\Tagged\DERTaggedType;
 use Sop\ASN1\Type\TaggedType;
 
 /**
- * @group decode
- * @group tagging
- * @group explicit-tag
- *
  * @internal
  */
-class ExplicitlyTaggedDecodeTest extends TestCase
+final class ExplicitlyTaggedDecodeTest extends TestCase
 {
     public function testType()
     {
@@ -46,25 +42,14 @@ class ExplicitlyTaggedDecodeTest extends TestCase
     public function testInnerType()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertEquals(
-            Element::TYPE_NULL,
-            $el->explicit()
-                ->tag()
-        );
+        $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
     }
 
     public function testNestedTagging()
     {
         $el = TaggedType::fromDER("\xa1\x4\xa2\x2\x5\x0");
         $this->assertEquals(1, $el->tag());
-        $this->assertEquals(2, $el->explicit()
-            ->tag());
-        $this->assertEquals(
-            Element::TYPE_NULL,
-            $el->explicit()
-                ->asTagged()
-                ->explicit()
-                ->tag()
-        );
+        $this->assertEquals(2, $el->explicit() ->tag());
+        $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->asTagged() ->explicit() ->tag());
     }
 }

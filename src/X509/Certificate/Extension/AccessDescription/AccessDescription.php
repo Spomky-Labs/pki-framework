@@ -9,9 +9,8 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * Base class implementing *AccessDescription* ASN.1 type for
- * 'Authority Information Access' and 'Subject Information Access' certificate
- * extensions.
+ * Base class implementing *AccessDescription* ASN.1 type for 'Authority Information Access' and 'Subject Information
+ * Access' certificate extensions.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.1
  */
@@ -48,8 +47,7 @@ abstract class AccessDescription
      */
     public static function fromASN1(Sequence $seq): self
     {
-        return new static($seq->at(0)->asObjectIdentifier()->oid(),
-            GeneralName::fromASN1($seq->at(1)->asTagged()));
+        return new static($seq->at(0)->asObjectIdentifier()->oid(), GeneralName::fromASN1($seq->at(1)->asTagged()));
     }
 
     /**
@@ -73,9 +71,6 @@ abstract class AccessDescription
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
-            new ObjectIdentifier($this->_accessMethod),
-            $this->_accessLocation->toASN1()
-        );
+        return new Sequence(new ObjectIdentifier($this->_accessMethod), $this->_accessLocation->toASN1());
     }
 }

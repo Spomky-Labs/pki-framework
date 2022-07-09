@@ -9,12 +9,9 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\ConstructedString;
 
 /**
- * @group structure
- * @group string
- *
  * @internal
  */
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     public function testEncodeDefinite()
     {

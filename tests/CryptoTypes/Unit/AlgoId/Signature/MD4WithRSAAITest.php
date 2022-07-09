@@ -10,12 +10,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\MD4WithRSAEncryptionAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class MD4WithRSAAITest extends TestCase
+final class MD4WithRSAAITest extends TestCase
 {
     /**
      * @return Sequence
@@ -34,10 +31,7 @@ class MD4WithRSAAITest extends TestCase
     public function testDecode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(
-            MD4WithRSAEncryptionAlgorithmIdentifier::class,
-            $ai
-        );
+        $this->assertInstanceOf(MD4WithRSAEncryptionAlgorithmIdentifier::class, $ai);
         return $ai;
     }
 

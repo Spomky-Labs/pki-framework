@@ -22,11 +22,9 @@ use Sop\X509\CertificationPath\CertificationPath;
 use Sop\X509\Exception\X509ValidationException;
 
 /**
- * @group ac-validation
- *
  * @internal
  */
-class InvalidIssuerPathTest extends TestCase
+final class InvalidIssuerPathTest extends TestCase
 {
     private static $_holderPath;
 
@@ -36,28 +34,14 @@ class InvalidIssuerPathTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $root_ca = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
-        );
+        $root_ca = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
         $interms = CertificateBundle::fromPEMBundle(
-            PEMBundle::fromFile(
-                TEST_ASSETS_DIR . '/certs/intermediate-bundle.pem'
-            )
+            PEMBundle::fromFile(TEST_ASSETS_DIR . '/certs/intermediate-bundle.pem')
         );
-        $holder = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
-        );
-        $issuer = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')
-        );
-        $issuer_pk = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem')
-        );
-        self::$_holderPath = CertificationPath::fromTrustAnchorToTarget(
-            $root_ca,
-            $holder,
-            $interms
-        );
+        $holder = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+        $issuer = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
+        $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
+        self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         // intentionally missing intermediate certificate
         self::$_issuerPath = new CertificationPath($root_ca, $issuer);
         $aci = new AttributeCertificateInfo(
@@ -66,10 +50,7 @@ class InvalidIssuerPathTest extends TestCase
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
             new Attributes()
         );
-        self::$_ac = $aci->sign(
-            new ECDSAWithSHA256AlgorithmIdentifier(),
-            $issuer_pk
-        );
+        self::$_ac = $aci->sign(new ECDSAWithSHA256AlgorithmIdentifier(), $issuer_pk);
     }
 
     public static function tearDownAfterClass(): void

@@ -9,12 +9,9 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
 
 /**
- * @group decode
- * @group generalized-time
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testType()
     {
@@ -26,24 +23,15 @@ class DecodeTest extends TestCase
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = GeneralizedTime::fromDER("\x18\x0f" . '20060102220405Z');
-        $this->assertEquals($date, $el->dateTime()
-            ->getTimestamp());
+        $this->assertEquals($date, $el->dateTime() ->getTimestamp());
     }
 
     public function testFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat(
-            'U.u',
-            "{$ts}.99999",
-            new \DateTimeZone('UTC')
-        );
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999", new \DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x15" . '20060102220405.99999Z');
-        $this->assertEquals(
-            $dt->format('c u'),
-            $el->dateTime()
-                ->format('c u')
-        );
+        $this->assertEquals($dt->format('c u'), $el->dateTime() ->format('c u'));
     }
 
     public function testNoFractions()
@@ -51,11 +39,7 @@ class DecodeTest extends TestCase
         $dt = new \DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006');
         $dt = $dt->setTimezone(new \DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x0f" . '20060102220405Z');
-        $this->assertEquals(
-            $dt->format('c u'),
-            $el->dateTime()
-                ->format('c u')
-        );
+        $this->assertEquals($dt->format('c u'), $el->dateTime() ->format('c u'));
     }
 
     public function testInvalidFractions()

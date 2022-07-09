@@ -9,13 +9,9 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
 
 /**
- * @group certificate
- * @group extension
- * @group distribution-point
- *
  * @internal
  */
-class ReasonFlagsTest extends TestCase
+final class ReasonFlagsTest extends TestCase
 {
     public const URI = 'urn:test';
 

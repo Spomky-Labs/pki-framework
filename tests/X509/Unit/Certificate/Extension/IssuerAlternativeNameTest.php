@@ -13,21 +13,15 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class IssuerAlternativeNameTest extends TestCase
+final class IssuerAlternativeNameTest extends TestCase
 {
     final public const DN = 'cn=Alt name';
 
     public function testCreate()
     {
-        $ext = new IssuerAlternativeNameExtension(
-            true,
-            new GeneralNames(DirectoryName::fromDNString(self::DN))
-        );
+        $ext = new IssuerAlternativeNameExtension(true, new GeneralNames(DirectoryName::fromDNString(self::DN)));
         $this->assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);
         return $ext;
     }
@@ -84,8 +78,7 @@ class IssuerAlternativeNameTest extends TestCase
      */
     public function testName(IssuerAlternativeNameExtension $ext)
     {
-        $this->assertEquals(self::DN, $ext->names()
-            ->firstDN());
+        $this->assertEquals(self::DN, $ext->names() ->firstDN());
     }
 
     /**

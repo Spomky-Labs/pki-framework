@@ -10,12 +10,9 @@ use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
 use Sop\X509\AttributeCertificate\Attribute\IetfAttrSyntax;
 
 /**
- * @group ac
- * @group attribute
- *
  * @internal
  */
-class IetfAttrSyntaxTest extends TestCase
+final class IetfAttrSyntaxTest extends TestCase
 {
     public function testCreateEmpty()
     {
@@ -55,10 +52,7 @@ class IetfAttrSyntaxTest extends TestCase
      */
     public function testEqualityMatchingRule(IetfAttrSyntax $val)
     {
-        $this->assertInstanceOf(
-            MatchingRule::class,
-            $val->equalityMatchingRule()
-        );
+        $this->assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
     /**

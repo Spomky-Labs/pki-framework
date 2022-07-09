@@ -9,12 +9,9 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Primitive\UTCTime;
 
 /**
- * @group decode
- * @group utc-time
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testType()
     {
@@ -26,8 +23,7 @@ class DecodeTest extends TestCase
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = UTCTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertEquals($date, $el->dateTime()
-            ->getTimestamp());
+        $this->assertEquals($date, $el->dateTime() ->getTimestamp());
     }
 
     public function testWithoutSeconds()

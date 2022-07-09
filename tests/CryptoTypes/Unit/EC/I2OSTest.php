@@ -11,11 +11,9 @@ use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
 
 /**
- * @group conversion
- *
  * @internal
  */
-class I2OSTest extends TestCase
+final class I2OSTest extends TestCase
 {
     public function testOSType()
     {

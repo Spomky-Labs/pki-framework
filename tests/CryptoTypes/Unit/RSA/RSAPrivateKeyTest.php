@@ -13,12 +13,9 @@ use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 
 /**
- * @group asn1
- * @group privatekey
- *
  * @internal
  */
-class RSAPrivateKeyTest extends TestCase
+final class RSAPrivateKeyTest extends TestCase
 {
     /**
      * @return RSAPrivateKey
@@ -74,9 +71,7 @@ class RSAPrivateKeyTest extends TestCase
     public function testGetPublicKey(RSAPrivateKey $pk)
     {
         $pub = $pk->publicKey();
-        $ref = RSAPublicKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem')
-        );
+        $ref = RSAPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem'));
         $this->assertEquals($ref, $pub);
     }
 

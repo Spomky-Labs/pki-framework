@@ -29,12 +29,9 @@ use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group structure
- * @group string
- *
  * @internal
  */
-class ConstructedStringTest extends TestCase
+final class ConstructedStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -122,18 +119,13 @@ class ConstructedStringTest extends TestCase
     {
         $ut = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Constructed String expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('Constructed String expected, got primitive NULL');
         $ut->asConstructedString();
     }
 
     public function testCreateFromElements()
     {
-        $cs = ConstructedString::create(
-            new OctetString('Hello'),
-            new OctetString('World')
-        );
+        $cs = ConstructedString::create(new OctetString('Hello'), new OctetString('World'));
         $this->assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
@@ -149,22 +141,15 @@ class ConstructedStringTest extends TestCase
     public function testCreateNoElementsFail()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage(
-            'No elements, unable to determine type tag'
-        );
+        $this->expectExceptionMessage('No elements, unable to determine type tag');
         ConstructedString::create();
     }
 
     public function testCreateMixedElementsFail()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage(
-            'All elements in constructed string must have the same type'
-        );
-        ConstructedString::create(
-            new OctetString('Hello'),
-            new BitString('World')
-        );
+        $this->expectExceptionMessage('All elements in constructed string must have the same type');
+        ConstructedString::create(new OctetString('Hello'), new BitString('World'));
     }
 
     /**

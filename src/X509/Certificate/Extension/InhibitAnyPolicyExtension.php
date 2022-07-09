@@ -36,10 +36,7 @@ class InhibitAnyPolicyExtension extends Extension
 
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self(
-            $critical,
-            UnspecifiedType::fromDER($data)->asInteger()->intNumber()
-        );
+        return new self($critical, UnspecifiedType::fromDER($data)->asInteger()->intNumber());
     }
 
     protected function _valueASN1(): Element

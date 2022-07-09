@@ -10,11 +10,9 @@ use Sop\X509\Certificate\Certificate;
 use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class PathValidationConfigTest extends TestCase
+final class PathValidationConfigTest extends TestCase
 {
     public function testCreate()
     {
@@ -71,9 +69,7 @@ class PathValidationConfigTest extends TestCase
     public function testWithTrustAnchor(PathValidationConfig $config)
     {
         $config = $config->withTrustAnchor(
-            Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
-            )
+            Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'))
         );
         $this->assertInstanceOf(PathValidationConfig::class, $config);
         return $config;

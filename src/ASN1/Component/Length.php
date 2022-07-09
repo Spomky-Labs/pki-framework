@@ -44,20 +44,16 @@ class Length implements Encodable
      *
      * @param string   $data   DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
-     *                         into the data where to start parsing.
-     *                         Variable is updated to the offset next to the
-     *                         parsed length component. If null, start from offset 0.
-     *
-     * @throws DecodeException If decoding fails
+     * into the data where to start parsing.
+     * Variable is updated to the offset next to the
+     * parsed length component. If null, start from offset 0.
      */
     public static function fromDER(string $data, int &$offset = null): self
     {
         $idx = $offset ?? 0;
         $datalen = strlen($data);
         if ($idx >= $datalen) {
-            throw new DecodeException(
-                'Unexpected end of data while decoding length.'
-            );
+            throw new DecodeException('Unexpected end of data while decoding length.');
         }
         $indefinite = false;
         $byte = ord($data[$idx++]);
@@ -69,9 +65,7 @@ class Length implements Encodable
                 $indefinite = true;
             } else {
                 if ($idx + $length > $datalen) {
-                    throw new DecodeException(
-                        'Unexpected end of data while decoding long form length.'
-                    );
+                    throw new DecodeException('Unexpected end of data while decoding long form length.');
                 }
                 $length = self::_decodeLongFormLength($length, $data, $idx);
             }
@@ -85,62 +79,40 @@ class Length implements Encodable
     /**
      * Decode length from DER.
      *
-     * Throws an exception if length doesn't match with expected or if data
-     * doesn't contain enough bytes.
+     * Throws an exception if length doesn't match with expected or if data doesn't contain enough bytes.
      *
-     * Requirement of definite length is relaxed contrary to the specification
-     * (sect. 10.1).
+     * Requirement of definite length is relaxed contrary to the specification (sect. 10.1).
      *
      * @see self::fromDER
      *
      * @param string   $data     DER data
      * @param int      $offset   Reference to the offset variable
      * @param null|int $expected Expected length, null to bypass checking
-     *
-     * @throws DecodeException If decoding or expectation fails
      */
-    public static function expectFromDER(
-        string $data,
-        int &$offset,
-        int $expected = null
-    ): self {
+    public static function expectFromDER(string $data, int &$offset, int $expected = null): self
+    {
         $idx = $offset;
         $length = self::fromDER($data, $idx);
         // if certain length was expected
         if (isset($expected)) {
             if ($length->isIndefinite()) {
-                throw new DecodeException(
-                    sprintf('Expected length %d, got indefinite.', $expected)
-                );
+                throw new DecodeException(sprintf('Expected length %d, got indefinite.', $expected));
             }
             if ($expected !== $length->intLength()) {
-                throw new DecodeException(
-                    sprintf(
-                        'Expected length %d, got %d.',
-                        $expected,
-                        $length->intLength()
-                    )
-                );
+                throw new DecodeException(sprintf('Expected length %d, got %d.', $expected, $length->intLength()));
             }
         }
         // check that enough data is available
         if (! $length->isIndefinite()
             && strlen($data) < $idx + $length->intLength()) {
             throw new DecodeException(
-                sprintf(
-                    'Length %d overflows data, %d bytes left.',
-                    $length->intLength(),
-                    strlen($data) - $idx
-                )
+                sprintf('Length %d overflows data, %d bytes left.', $length->intLength(), strlen($data) - $idx)
             );
         }
         $offset = $idx;
         return $length;
     }
 
-    /**
-     * @throws \DomainException If length is too large to encode
-     */
     public function toDER(): string
     {
         $bytes = [];
@@ -175,8 +147,6 @@ class Length implements Encodable
     /**
      * Get the length.
      *
-     * @throws \LogicException If length is indefinite
-     *
      * @return string Length as an integer string
      */
     public function length(): string
@@ -189,9 +159,6 @@ class Length implements Encodable
 
     /**
      * Get the length as an integer.
-     *
-     * @throws \LogicException   If length is indefinite
-     * @throws \RuntimeException If length overflows integer size
      */
     public function intLength(): int
     {
@@ -215,14 +182,9 @@ class Length implements Encodable
      * @param int    $length Number of octets
      * @param string $data   Data
      * @param int    $offset reference to the variable containing offset to the data
-     *
-     * @throws DecodeException If decoding fails
      */
-    private static function _decodeLongFormLength(
-        int $length,
-        string $data,
-        int &$offset
-    ): \GMP {
+    private static function _decodeLongFormLength(int $length, string $data, int &$offset): \GMP
+    {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if (127 === $length) {
             throw new DecodeException('Invalid number of length octets.');

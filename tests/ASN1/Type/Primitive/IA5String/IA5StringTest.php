@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group ia5-string
- *
  * @internal
  */
-class IA5StringTest extends TestCase
+final class IA5StringTest extends TestCase
 {
     public function testCreate()
     {

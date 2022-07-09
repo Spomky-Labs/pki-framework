@@ -9,8 +9,7 @@ use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * Implements *NoticeReference* ASN.1 type used by 'Certificate Policies'
- * certificate extension.
+ * Implements *NoticeReference* ASN.1 type used by 'Certificate Policies' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -47,9 +46,12 @@ class NoticeReference
         $org = DisplayText::fromASN1($seq->at(0)->asString());
         $numbers = array_map(
             function (UnspecifiedType $el) {
-                return $el->asInteger()->intNumber();
+                return $el->asInteger()
+                    ->intNumber();
             },
-            $seq->at(1)->asSequence()->elements()
+            $seq->at(1)
+                ->asSequence()
+                ->elements()
         );
         return new self($org, ...$numbers);
     }
@@ -78,12 +80,9 @@ class NoticeReference
     public function toASN1(): Sequence
     {
         $org = $this->_organization->toASN1();
-        $nums = array_map(
-            function ($number) {
-                return new Integer($number);
-            },
-            $this->_numbers
-        );
+        $nums = array_map(function ($number) {
+            return new Integer($number);
+        }, $this->_numbers);
         return new Sequence($org, new Sequence(...$nums));
     }
 }

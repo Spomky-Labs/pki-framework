@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\VideotexString;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group videotex-string
- *
  * @internal
  */
-class VideotexStringTest extends TestCase
+final class VideotexStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class VideotexStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'VideotexString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('VideotexString expected, got primitive NULL');
         $wrap->asVideotexString();
     }
 }

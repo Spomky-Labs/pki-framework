@@ -65,11 +65,8 @@ class Integer extends Element
         return $this->_number->signedOctets();
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         $bytes = substr($data, $idx, $length);

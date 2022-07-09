@@ -51,8 +51,12 @@ class OtherName extends GeneralName
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
         $seq = $el->asSequence();
-        $type_id = $seq->at(0)->asObjectIdentifier()->oid();
-        $value = $seq->getTagged(0)->asExplicit()->asElement();
+        $type_id = $seq->at(0)
+            ->asObjectIdentifier()
+            ->oid();
+        $value = $seq->getTagged(0)
+            ->asExplicit()
+            ->asElement();
         return new self($type_id, $value);
     }
 
@@ -81,10 +85,7 @@ class OtherName extends GeneralName
     {
         return new ImplicitlyTaggedType(
             $this->_tag,
-            new Sequence(
-                new ObjectIdentifier($this->_type),
-                new ExplicitlyTaggedType(0, $this->_element)
-            )
+            new Sequence(new ObjectIdentifier($this->_type), new ExplicitlyTaggedType(0, $this->_element))
         );
     }
 }

@@ -31,8 +31,7 @@ class ECPublicKey extends PublicKey
     /**
      * Named curve OID.
      *
-     * Named curve is not a part of ECPublicKey, but it's stored as a hint
-     * for the purpose of PublicKeyInfo creation.
+     * Named curve is not a part of ECPublicKey, but it's stored as a hint for the purpose of PublicKeyInfo creation.
      *
      * @var null|string
      */
@@ -43,8 +42,6 @@ class ECPublicKey extends PublicKey
      *
      * @param string      $ec_point    ECPoint
      * @param null|string $named_curve Named curve OID
-     *
-     * @throws \InvalidArgumentException If ECPoint is invalid
      */
     public function __construct(string $ec_point, ?string $named_curve = null)
     {
@@ -67,12 +64,8 @@ class ECPublicKey extends PublicKey
      *
      * @return self
      */
-    public static function fromCoordinates(
-        $x,
-        $y,
-        ?string $named_curve = null,
-        ?int $bits = null
-    ): ECPublicKey {
+    public static function fromCoordinates($x, $y, ?string $named_curve = null, ?int $bits = null): ECPublicKey
+    {
         // if bitsize is not explicitly set, check from supported curves
         if (! isset($bits) && isset($named_curve)) {
             $bits = self::_curveSize($named_curve);
@@ -89,8 +82,6 @@ class ECPublicKey extends PublicKey
 
     /**
      * @see PublicKey::fromPEM()
-     *
-     * @throws \UnexpectedValueException
      *
      * @return self
      */
@@ -124,12 +115,9 @@ class ECPublicKey extends PublicKey
      */
     public function curvePoint(): array
     {
-        return array_map(
-            function ($str) {
-                return ECConversion::octetsToNumber($str);
-            },
-            $this->curvePointOctets()
-        );
+        return array_map(function ($str) {
+            return ECConversion::octetsToNumber($str);
+        }, $this->curvePointOctets());
     }
 
     /**
@@ -166,8 +154,6 @@ class ECPublicKey extends PublicKey
 
     /**
      * Get named curve OID.
-     *
-     * @throws \LogicException
      */
     public function namedCurve(): string
     {
@@ -192,7 +178,8 @@ class ECPublicKey extends PublicKey
 
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**

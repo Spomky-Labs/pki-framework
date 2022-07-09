@@ -8,13 +8,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\InhibitAnyPolicyExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class InhibitAnyPolicyTest extends RefExtTestHelper
+final class InhibitAnyPolicyTest extends RefExtTestHelper
 {
     /**
      * @return InhibitAnyPolicyExtension

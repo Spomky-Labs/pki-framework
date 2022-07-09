@@ -20,10 +20,8 @@ class OrganizationalUnitNameValue extends DirectoryString
      * @param string $value      String value
      * @param int    $string_tag Syntax choice
      */
-    public function __construct(
-        string $value,
-        int $string_tag = DirectoryString::UTF8
-    ) {
+    public function __construct(string $value, int $string_tag = DirectoryString::UTF8)
+    {
         $this->_oid = AttributeType::OID_ORGANIZATIONAL_UNIT_NAME;
         parent::__construct($value, $string_tag);
     }

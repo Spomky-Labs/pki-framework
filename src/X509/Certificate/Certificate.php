@@ -44,11 +44,8 @@ class Certificate
     /**
      * Constructor.
      */
-    public function __construct(
-        TBSCertificate $tbsCert,
-        SignatureAlgorithmIdentifier $algo,
-        Signature $signature
-    ) {
+    public function __construct(TBSCertificate $tbsCert, SignatureAlgorithmIdentifier $algo, Signature $signature)
+    {
         $this->_tbsCertificate = $tbsCert;
         $this->_signatureAlgorithm = $algo;
         $this->_signatureValue = $signature;
@@ -59,7 +56,8 @@ class Certificate
      */
     public function __toString(): string
     {
-        return $this->toPEM()->string();
+        return $this->toPEM()
+            ->string();
     }
 
     /**
@@ -70,14 +68,9 @@ class Certificate
         $tbsCert = TBSCertificate::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $algo->oid() . '.'
-            );
+            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData(
-            $seq->at(2)->asBitString()->string(),
-            $algo
-        );
+        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
         return new self($tbsCert, $algo, $signature);
     }
 
@@ -91,8 +84,6 @@ class Certificate
 
     /**
      * Initialize from PEM.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromPEM(PEM $pem): self
     {
@@ -131,9 +122,8 @@ class Certificate
      */
     public function isSelfIssued(): bool
     {
-        return $this->_tbsCertificate->subject()->equals(
-            $this->_tbsCertificate->issuer()
-        );
+        return $this->_tbsCertificate->subject()
+            ->equals($this->_tbsCertificate->issuer());
     }
 
     /**
@@ -164,7 +154,8 @@ class Certificate
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**
@@ -186,13 +177,9 @@ class Certificate
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {
         $crypto = $crypto ?? Crypto::getDefault();
-        $data = $this->_tbsCertificate->toASN1()->toDER();
-        return $crypto->verify(
-            $data,
-            $this->_signatureValue,
-            $pubkey_info,
-            $this->_signatureAlgorithm
-        );
+        $data = $this->_tbsCertificate->toASN1()
+            ->toDER();
+        return $crypto->verify($data, $this->_signatureValue, $pubkey_info, $this->_signatureAlgorithm);
     }
 
     /**
@@ -210,8 +197,10 @@ class Certificate
      */
     private function _hasEqualPublicKey(Certificate $cert): bool
     {
-        $kid1 = $this->_tbsCertificate->subjectPublicKeyInfo()->keyIdentifier();
-        $kid2 = $cert->_tbsCertificate->subjectPublicKeyInfo()->keyIdentifier();
+        $kid1 = $this->_tbsCertificate->subjectPublicKeyInfo()
+            ->keyIdentifier();
+        $kid2 = $cert->_tbsCertificate->subjectPublicKeyInfo()
+            ->keyIdentifier();
         return $kid1 === $kid2;
     }
 

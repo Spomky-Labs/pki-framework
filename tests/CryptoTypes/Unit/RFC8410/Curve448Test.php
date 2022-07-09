@@ -14,11 +14,9 @@ use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey;
 
 /**
- * @group rfc8410
- *
  * @internal
  */
-class Curve448Test extends TestCase
+final class Curve448Test extends TestCase
 {
     public function testDecodeEd448(): Ed448PrivateKey
     {

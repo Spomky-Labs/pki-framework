@@ -10,12 +10,9 @@ use Sop\ASN1\Type\Constructed\ConstructedString;
 use Sop\ASN1\Type\Primitive\NullType;
 
 /**
- * @group structure
- * @group string
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testDecodeDefinite()
     {
@@ -34,9 +31,7 @@ class DecodeTest extends TestCase
     public function testInvalidCallingClass()
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            NullType::class . ' expected, got ' . ConstructedString::class
-        );
+        $this->expectExceptionMessage(NullType::class . ' expected, got ' . ConstructedString::class);
         NullType::fromDER(hex2bin('2400'));
     }
 

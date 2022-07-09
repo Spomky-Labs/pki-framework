@@ -19,8 +19,6 @@ class ECConversion
      * Perform Bit-String-to-Octet-String Conversion.
      *
      * Defined in SEC 1 section 2.3.1.
-     *
-     * @throws \RuntimeException
      */
     public static function bitStringToOctetString(BitString $bs): OctetString
     {
@@ -49,8 +47,6 @@ class ECConversion
      *
      * @param int      $num
      * @param null|int $mlen Optional desired output length
-     *
-     * @throws \UnexpectedValueException
      */
     public static function integerToOctetString(Integer $num, ?int $mlen = null): OctetString
     {
@@ -86,8 +82,8 @@ class ECConversion
     /**
      * Convert a base-10 number to octets.
      *
-     * This is a convenicence method for integer <-> octet string conversion
-     * without the need for external ASN.1 dependencies.
+     * This is a convenicence method for integer <-> octet string conversion without the need for external ASN.1
+     * dependencies.
      *
      * @param int|string $num  Number in base-10
      * @param null|int   $mlen Optional desired output length
@@ -100,8 +96,8 @@ class ECConversion
     /**
      * Convert octets to a base-10 number.
      *
-     * This is a convenicence method for integer <-> octet string conversion
-     * without the need for external ASN.1 dependencies.
+     * This is a convenicence method for integer <-> octet string conversion without the need for external ASN.1
+     * dependencies.
      *
      * @return string Number in base-10
      */

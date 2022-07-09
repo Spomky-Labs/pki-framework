@@ -12,12 +12,9 @@ use Sop\X509\Certificate\Extensions;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 
 /**
- * @group csr
- * @group attribute
- *
  * @internal
  */
-class ExtensionRequestTest extends TestCase
+final class ExtensionRequestTest extends TestCase
 {
     public function testCreate()
     {
@@ -43,9 +40,7 @@ class ExtensionRequestTest extends TestCase
      */
     public function testDecode($der)
     {
-        $value = ExtensionRequestValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified()
-        );
+        $value = ExtensionRequestValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(ExtensionRequestValue::class, $value);
         return $value;
     }
@@ -88,10 +83,7 @@ class ExtensionRequestTest extends TestCase
      */
     public function testEqualityMatchingRule(ExtensionRequestValue $value)
     {
-        $this->assertInstanceOf(
-            MatchingRule::class,
-            $value->equalityMatchingRule()
-        );
+        $this->assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
     /**

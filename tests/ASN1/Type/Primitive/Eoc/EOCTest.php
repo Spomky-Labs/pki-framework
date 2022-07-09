@@ -9,12 +9,9 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\EOC;
 
 /**
- * @group type
- * @group eoc
- *
  * @internal
  */
-class EOCTest extends TestCase
+final class EOCTest extends TestCase
 {
     public function testCreate(): Element
     {

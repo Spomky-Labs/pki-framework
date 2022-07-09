@@ -133,16 +133,14 @@ class KeyUsageExtension extends Extension
     {
         return new self(
             $critical,
-            Flags::fromBitString(
-                UnspecifiedType::fromDER($data)->asBitString(),
-                9
-            )->intNumber()
+            Flags::fromBitString(UnspecifiedType::fromDER($data)->asBitString(), 9)->intNumber()
         );
     }
 
     protected function _valueASN1(): Element
     {
         $flags = new Flags($this->_keyUsage, 9);
-        return $flags->bitString()->withoutTrailingZeroes();
+        return $flags->bitString()
+            ->withoutTrailingZeroes();
     }
 }

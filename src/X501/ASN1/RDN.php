@@ -30,9 +30,7 @@ class RDN implements \Countable, \IteratorAggregate
     public function __construct(AttributeTypeAndValue ...$attribs)
     {
         if (! count($attribs)) {
-            throw new \UnexpectedValueException(
-                'RDN must have at least one AttributeTypeAndValue.'
-            );
+            throw new \UnexpectedValueException('RDN must have at least one AttributeTypeAndValue.');
         }
         $this->_attribs = $attribs;
     }
@@ -54,10 +52,7 @@ class RDN implements \Countable, \IteratorAggregate
     {
         $attribs = array_map(
             function (AttributeValue $value) {
-                return new AttributeTypeAndValue(
-                    new AttributeType($value->oid()),
-                    $value
-                );
+                return new AttributeTypeAndValue(new AttributeType($value->oid()), $value);
             },
             $values
         );
@@ -83,12 +78,9 @@ class RDN implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Set
     {
-        $elements = array_map(
-            function (AttributeTypeAndValue $tv) {
-                return $tv->toASN1();
-            },
-            $this->_attribs
-        );
+        $elements = array_map(function (AttributeTypeAndValue $tv) {
+            return $tv->toASN1();
+        }, $this->_attribs);
         $set = new Set(...$elements);
         return $set->sortedSetOf();
     }
@@ -100,12 +92,9 @@ class RDN implements \Countable, \IteratorAggregate
      */
     public function toString(): string
     {
-        $parts = array_map(
-            function (AttributeTypeAndValue $tv) {
-                return $tv->toString();
-            },
-            $this->_attribs
-        );
+        $parts = array_map(function (AttributeTypeAndValue $tv) {
+            return $tv->toString();
+        }, $this->_attribs);
         return implode('+', $parts);
     }
 

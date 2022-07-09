@@ -17,11 +17,9 @@ use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
 
 /**
- * @group csr
- *
  * @internal
  */
-class CertificationRequestTest extends TestCase
+final class CertificationRequestTest extends TestCase
 {
     private static $_subject;
 
@@ -30,9 +28,7 @@ class CertificationRequestTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_subject = Name::fromString('cn=Subject');
-        self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
-        );
+        self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -45,13 +41,10 @@ class CertificationRequestTest extends TestCase
     {
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
         $cri = new CertificationRequestInfo(self::$_subject, $pkinfo);
-        $data = $cri->toASN1()->toDER();
+        $data = $cri->toASN1()
+            ->toDER();
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
-        $signature = Crypto::getDefault()->sign(
-            $data,
-            self::$_privateKeyInfo,
-            $algo
-        );
+        $signature = Crypto::getDefault()->sign($data, self::$_privateKeyInfo, $algo);
         $cr = new CertificationRequest($cri, $algo, $signature);
         $this->assertInstanceOf(CertificationRequest::class, $cr);
         return $cr;
@@ -83,10 +76,8 @@ class CertificationRequestTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        CertificationRequest $ref,
-        CertificationRequest $new
-    ) {
+    public function testRecoded(CertificationRequest $ref, CertificationRequest $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -95,10 +86,7 @@ class CertificationRequestTest extends TestCase
      */
     public function testCertificationRequestInfo(CertificationRequest $cr)
     {
-        $this->assertInstanceOf(
-            CertificationRequestInfo::class,
-            $cr->certificationRequestInfo()
-        );
+        $this->assertInstanceOf(CertificationRequestInfo::class, $cr->certificationRequestInfo());
     }
 
     /**
@@ -106,10 +94,7 @@ class CertificationRequestTest extends TestCase
      */
     public function testAlgo(CertificationRequest $cr)
     {
-        $this->assertInstanceOf(
-            SHA256WithRSAEncryptionAlgorithmIdentifier::class,
-            $cr->signatureAlgorithm()
-        );
+        $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $cr->signatureAlgorithm());
     }
 
     /**
@@ -180,10 +165,8 @@ class CertificationRequestTest extends TestCase
      * @depends testCreate
      * @depends testFromPEM
      */
-    public function testPEMRecoded(
-        CertificationRequest $ref,
-        CertificationRequest $new
-    ) {
+    public function testPEMRecoded(CertificationRequest $ref, CertificationRequest $new)
+    {
         $this->assertEquals($ref, $new);
     }
 

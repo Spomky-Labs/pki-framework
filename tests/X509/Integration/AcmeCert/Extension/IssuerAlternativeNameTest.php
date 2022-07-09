@@ -9,13 +9,9 @@ use Sop\X509\Certificate\Extension\IssuerAlternativeNameExtension;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class IssuerAlternativeNameTest extends RefExtTestHelper
+final class IssuerAlternativeNameTest extends RefExtTestHelper
 {
     /**
      * @return IssuerAlternativeNameExtension
@@ -36,9 +32,6 @@ class IssuerAlternativeNameTest extends RefExtTestHelper
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()
             ->toString();
-        $this->assertEquals(
-            'o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate',
-            $dn
-        );
+        $this->assertEquals('o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate', $dn);
     }
 }

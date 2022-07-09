@@ -14,26 +14,18 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class CertificationPathTest extends TestCase
+final class CertificationPathTest extends TestCase
 {
     private static $_certs;
 
     public static function setUpBeforeClass(): void
     {
         self::$_certs = [
-            Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
-            ),
-            Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem')
-            ),
-            Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
-            ), ];
+            Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')),
+            Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem')),
+            Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')), ];
     }
 
     public static function tearDownAfterClass(): void
@@ -100,10 +92,8 @@ class CertificationPathTest extends TestCase
      * @depends testCreate
      * @depends testFromCertificateChain
      */
-    public function testFromChainEquals(
-        CertificationPath $ref,
-        CertificationPath $path
-    ) {
+    public function testFromChainEquals(CertificationPath $ref, CertificationPath $path)
+    {
         $this->assertEquals($ref, $path);
     }
 
@@ -161,9 +151,7 @@ class CertificationPathTest extends TestCase
      */
     public function testStartWithMulti(CertificationPath $path)
     {
-        $this->assertTrue(
-            $path->startsWith(...array_slice(self::$_certs, 0, 2, false))
-        );
+        $this->assertTrue($path->startsWith(...array_slice(self::$_certs, 0, 2, false)));
     }
 
     /**
@@ -179,11 +167,7 @@ class CertificationPathTest extends TestCase
      */
     public function testStartWithTooManyFail(CertificationPath $path)
     {
-        $this->assertFalse(
-            $path->startsWith(
-                ...array_merge(self::$_certs, [self::$_certs[0]])
-            )
-        );
+        $this->assertFalse($path->startsWith(...array_merge(self::$_certs, [self::$_certs[0]])));
     }
 
     /**

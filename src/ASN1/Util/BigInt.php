@@ -45,9 +45,7 @@ class BigInt
         if (! ($num instanceof \GMP)) {
             $gmp = @gmp_init($num, 10);
             if (false === $gmp) {
-                throw new \InvalidArgumentException(
-                    "Unable to convert '{$num}' to integer."
-                );
+                throw new \InvalidArgumentException("Unable to convert '{$num}' to integer.");
             }
             $num = $gmp;
         }
@@ -71,8 +69,7 @@ class BigInt
     }
 
     /**
-     * Initialize from an arbitrary length of octets as an signed integer
-     * having two's complement encoding.
+     * Initialize from an arbitrary length of octets as an signed integer having two's complement encoding.
      */
     public static function fromSignedOctets(string $octets): self
     {
@@ -105,8 +102,6 @@ class BigInt
 
     /**
      * Get the number as an integer.
-     *
-     * @throws \RuntimeException If number overflows integer size
      */
     public function intVal(): int
     {
@@ -124,8 +119,6 @@ class BigInt
 
     /**
      * Get the number as a `GMP` object.
-     *
-     * @throws \RuntimeException if number is not a valid integer
      */
     public function gmpObj(): \GMP
     {

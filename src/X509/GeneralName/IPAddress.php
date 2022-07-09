@@ -12,8 +12,7 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * Implements *iPAddress* CHOICE type of *GeneralName*.
  *
- * Concrete classes `IPv4Address` and `IPv6Address`
- * furthermore implement the parsing semantics.
+ * Concrete classes `IPv4Address` and `IPv6Address` furthermore implement the parsing semantics.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.6
  */
@@ -48,7 +47,8 @@ abstract class IPAddress extends GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        $octets = $el->asOctetString()->string();
+        $octets = $el->asOctetString()
+            ->string();
         switch (strlen($octets)) {
             case 4:
             case 8:
@@ -57,9 +57,7 @@ abstract class IPAddress extends GeneralName
             case 32:
                 return IPv6Address::fromOctets($octets);
             default:
-                throw new \UnexpectedValueException(
-                    'Invalid octet length for IP address.'
-                );
+                throw new \UnexpectedValueException('Invalid octet length for IP address.');
         }
     }
 
@@ -86,8 +84,6 @@ abstract class IPAddress extends GeneralName
 
     /**
      * Get subnet mask as a string.
-     *
-     * @throws \LogicException If not set
      */
     public function mask(): string
     {
@@ -104,9 +100,6 @@ abstract class IPAddress extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType(
-            $this->_tag,
-            new OctetString($this->_octets())
-        );
+        return new ImplicitlyTaggedType($this->_tag, new OctetString($this->_octets()));
     }
 }

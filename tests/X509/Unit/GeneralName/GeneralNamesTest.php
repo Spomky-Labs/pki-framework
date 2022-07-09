@@ -15,11 +15,9 @@ use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class GeneralNamesTest extends TestCase
+final class GeneralNamesTest extends TestCase
 {
     public function testCreate()
     {
@@ -88,10 +86,7 @@ class GeneralNamesTest extends TestCase
      */
     public function testFirstOf(GeneralNames $gns)
     {
-        $this->assertInstanceOf(
-            DNSName::class,
-            $gns->firstOf(GeneralName::TAG_DNS_NAME)
-        );
+        $this->assertInstanceOf(DNSName::class, $gns->firstOf(GeneralName::TAG_DNS_NAME));
     }
 
     /**
@@ -160,27 +155,21 @@ class GeneralNamesTest extends TestCase
 
     public function testFirstDNSFail()
     {
-        $gn = new GeneralNames(
-            new GeneralNamesTest_NameMockup(GeneralName::TAG_DNS_NAME)
-        );
+        $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DNS_NAME));
         $this->expectException(\RuntimeException::class);
         $gn->firstDNS();
     }
 
     public function testFirstDNFail()
     {
-        $gn = new GeneralNames(
-            new GeneralNamesTest_NameMockup(GeneralName::TAG_DIRECTORY_NAME)
-        );
+        $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DIRECTORY_NAME));
         $this->expectException(\RuntimeException::class);
         $gn->firstDN();
     }
 
     public function testFirstURIFail()
     {
-        $gn = new GeneralNames(
-            new GeneralNamesTest_NameMockup(GeneralName::TAG_URI)
-        );
+        $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_URI));
         $this->expectException(\RuntimeException::class);
         $gn->firstURI();
     }

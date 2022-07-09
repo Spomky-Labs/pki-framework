@@ -350,11 +350,8 @@ class Real extends Element
         throw new \LogicException('Invalid special value.');
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         // if length is zero, value is zero (spec 8.5.2)
@@ -395,9 +392,7 @@ class Real extends Element
                 $base = 16;
                 break;
             default:
-                throw new DecodeException(
-                    'Reserved REAL binary encoding base not supported.'
-                );
+                throw new DecodeException('Reserved REAL binary encoding base not supported.');
         }
         // scaling factor in bits 4 and 3
         $scale = ($byte >> 2) & 0x03;
@@ -407,17 +402,13 @@ class Real extends Element
         // if both bits are set, the next octet encodes the length
         if ($len > 3) {
             if (strlen($data) < 2) {
-                throw new DecodeException(
-                    'Unexpected end of data while decoding REAL exponent length.'
-                );
+                throw new DecodeException('Unexpected end of data while decoding REAL exponent length.');
             }
             $len = ord($data[1]);
             $idx = 2;
         }
         if (strlen($data) < $idx + $len) {
-            throw new DecodeException(
-                'Unexpected end of data while decoding REAL exponent.'
-            );
+            throw new DecodeException('Unexpected end of data while decoding REAL exponent.');
         }
         // decode exponent
         $octets = substr($data, $idx, $len);
@@ -428,9 +419,7 @@ class Real extends Element
             $exp *= 4;
         }
         if (strlen($data) <= $idx + $len) {
-            throw new DecodeException(
-                'Unexpected end of data while decoding REAL mantissa.'
-            );
+            throw new DecodeException('Unexpected end of data while decoding REAL mantissa.');
         }
         // decode mantissa
         $octets = substr($data, $idx + $len);
@@ -444,8 +433,6 @@ class Real extends Element
 
     /**
      * Decode decimal encoding.
-     *
-     * @throws \RuntimeException
      */
     protected static function _decodeDecimalEncoding(string $data): self
     {
@@ -463,9 +450,7 @@ class Real extends Element
     protected static function _decodeSpecialRealValue(string $data): self
     {
         if (1 !== strlen($data)) {
-            throw new DecodeException(
-                'SpecialRealValue must have one content octet.'
-            );
+            throw new DecodeException('SpecialRealValue must have one content octet.');
         }
         $byte = ord($data[0]);
         if (0x40 === $byte) {   // positive infinity
@@ -513,8 +498,7 @@ class Real extends Element
     }
 
     /**
-     * Parse IEEE 754 big endian formatted double precision float to base 2
-     * mantissa and exponent.
+     * Parse IEEE 754 big endian formatted double precision float to base 2 mantissa and exponent.
      *
      * @param string $octets 64 bits
      *
@@ -581,9 +565,7 @@ class Real extends Element
         }
         // invalid number
         else {
-            throw new \UnexpectedValueException(
-                "{$str} could not be parsed to REAL."
-            );
+            throw new \UnexpectedValueException("{$str} could not be parsed to REAL.");
         }
         // normalize so that mantsissa has no trailing zeroes
         while (0 != $m && 0 == $m % 10) {

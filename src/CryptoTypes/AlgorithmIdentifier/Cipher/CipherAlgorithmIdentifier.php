@@ -40,8 +40,6 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
      * Get copy of the object with given initialization vector.
      *
      * @param null|string $iv Initialization vector or null to remove
-     *
-     * @throws \UnexpectedValueException If initialization vector size is invalid
      */
     public function withInitializationVector(?string $iv): self
     {
@@ -53,8 +51,6 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 
     /**
      * Check that initialization vector size is valid for the cipher.
-     *
-     * @throws \UnexpectedValueException
      */
     protected function _checkIVSize(?string $iv): void
     {

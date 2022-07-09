@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\StringPrep\CheckBidiStep;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class CheckBidiStepTest extends TestCase
+final class CheckBidiStepTest extends TestCase
 {
     public function testApply()
     {

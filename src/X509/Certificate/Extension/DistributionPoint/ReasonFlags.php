@@ -8,8 +8,7 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Util\Flags;
 
 /**
- * Implements *ReasonFlags* ASN.1 type used by 'CRL Distribution Points'
- * certificate extension.
+ * Implements *ReasonFlags* ASN.1 type used by 'CRL Distribution Points' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
@@ -125,7 +124,8 @@ class ReasonFlags
     public function toASN1(): BitString
     {
         $flags = new Flags($this->_flags, 9);
-        return $flags->bitString()->withoutTrailingZeroes();
+        return $flags->bitString()
+            ->withoutTrailingZeroes();
     }
 
     /**

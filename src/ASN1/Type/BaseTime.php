@@ -45,8 +45,6 @@ abstract class BaseTime extends Element implements TimeType
      *
      * @param string      $time Time string
      * @param null|string $tz   timezone, if null use default
-     *
-     * @throws \RuntimeException
      */
     public static function fromString(string $time, ?string $tz = null): self
     {
@@ -54,8 +52,7 @@ abstract class BaseTime extends Element implements TimeType
             if (! isset($tz)) {
                 $tz = date_default_timezone_get();
             }
-            return new static(
-                new \DateTimeImmutable($time, self::_createTimeZone($tz)));
+            return new static(new \DateTimeImmutable($time, self::_createTimeZone($tz)));
         } catch (\Exception $e) {
             throw new \RuntimeException(
                 'Failed to create DateTime: ' .
@@ -84,8 +81,6 @@ abstract class BaseTime extends Element implements TimeType
 
     /**
      * Create `DateTimeZone` object from string.
-     *
-     * @throws \UnexpectedValueException If timezone is invalid
      */
     protected static function _createTimeZone(string $tz): \DateTimeZone
     {

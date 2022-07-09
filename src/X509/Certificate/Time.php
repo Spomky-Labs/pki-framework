@@ -67,8 +67,6 @@ class Time
 
     /**
      * Generate ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public function toASN1(): TimeType
     {
@@ -85,9 +83,7 @@ class Time
                 }
                 return new GeneralizedTime($dt);
         }
-        throw new \UnexpectedValueException(
-            'Time type ' . Element::tagToName($this->_type) . ' not supported.'
-        );
+        throw new \UnexpectedValueException('Time type ' . Element::tagToName($this->_type) . ' not supported.');
     }
 
     /**

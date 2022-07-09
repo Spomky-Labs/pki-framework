@@ -14,13 +14,9 @@ use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- * @group target
- *
  * @internal
  */
-class TargetsTest extends TestCase
+final class TargetsTest extends TestCase
 {
     private static $_name;
 
@@ -28,12 +24,8 @@ class TargetsTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_name = new TargetName(
-            new UniformResourceIdentifier('urn:target')
-        );
-        self::$_group = new TargetGroup(
-            new UniformResourceIdentifier('urn:group')
-        );
+        self::$_name = new TargetName(new UniformResourceIdentifier('urn:target'));
+        self::$_group = new TargetGroup(new UniformResourceIdentifier('urn:group'));
     }
 
     public static function tearDownAfterClass(): void
@@ -121,8 +113,6 @@ class TargetsTest extends TestCase
      */
     public function testHasNoTarget(Targets $targets)
     {
-        $this->assertFalse(
-            $targets->hasTarget(new TargetName(new DNSName('nope')))
-        );
+        $this->assertFalse($targets->hasTarget(new TargetName(new DNSName('nope'))));
     }
 }

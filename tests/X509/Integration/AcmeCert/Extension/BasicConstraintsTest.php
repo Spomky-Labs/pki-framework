@@ -7,13 +7,9 @@ namespace Sop\Test\X509\Integration\AcmeCert\Extension;
 use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class BasicConstraintsTest extends RefExtTestHelper
+final class BasicConstraintsTest extends RefExtTestHelper
 {
     /**
      * @return BasicConstraintsExtension

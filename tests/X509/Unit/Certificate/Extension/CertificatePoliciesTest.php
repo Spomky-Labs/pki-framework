@@ -19,12 +19,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class CertificatePoliciesTest extends TestCase
+final class CertificatePoliciesTest extends TestCase
 {
     final public const INFO_OID = '1.3.6.1.3';
 
@@ -55,10 +52,8 @@ class CertificatePoliciesTest extends TestCase
      * @depends testCreateCPS
      * @depends testCreateNotice
      */
-    public function testCreatePolicyInfo(
-        PolicyQualifierInfo $q1,
-        PolicyQualifierInfo $q2
-    ) {
+    public function testCreatePolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2)
+    {
         $info = new PolicyInformation(self::INFO_OID, $q1, $q2);
         $this->assertInstanceOf(PolicyInformation::class, $info);
         return $info;
@@ -69,11 +64,7 @@ class CertificatePoliciesTest extends TestCase
      */
     public function testCreate(PolicyInformation $info)
     {
-        $ext = new CertificatePoliciesExtension(
-            true,
-            $info,
-            new PolicyInformation('1.3.6.1.3.10')
-        );
+        $ext = new CertificatePoliciesExtension(true, $info, new PolicyInformation('1.3.6.1.3.10'));
         $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
         return $ext;
     }
@@ -157,19 +148,13 @@ class CertificatePoliciesTest extends TestCase
 
     public function testHasAnyPolicy()
     {
-        $ext = new CertificatePoliciesExtension(
-            true,
-            new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-        );
+        $ext = new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY));
         $this->assertTrue($ext->hasAnyPolicy());
     }
 
     public function testAnyPolicyFail()
     {
-        $ext = new CertificatePoliciesExtension(
-            true,
-            new PolicyInformation('1.3.6.1.3')
-        );
+        $ext = new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'));
         $this->expectException(\LogicException::class);
         $ext->anyPolicy();
     }

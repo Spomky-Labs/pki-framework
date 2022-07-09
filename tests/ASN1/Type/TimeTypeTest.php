@@ -10,12 +10,9 @@ use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group time
- *
  * @internal
  */
-class TimeTypeTest extends TestCase
+final class TimeTypeTest extends TestCase
 {
     final public const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
 

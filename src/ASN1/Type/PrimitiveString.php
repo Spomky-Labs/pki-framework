@@ -25,11 +25,8 @@ abstract class PrimitiveString extends BaseString
         return $this->_string;
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         if (! $identifier->isPrimitive()) {
             throw new DecodeException('DER encoded string must be primitive.');

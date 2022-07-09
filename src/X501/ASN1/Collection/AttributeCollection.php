@@ -67,8 +67,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Get first attribute by OID or attribute name.
      *
      * @param string $name OID or attribute name
-     *
-     * @throws \UnexpectedValueException if attribute is not present
      */
     public function firstOf(string $name): Attribute
     {

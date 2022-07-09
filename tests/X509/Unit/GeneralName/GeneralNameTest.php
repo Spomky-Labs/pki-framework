@@ -13,11 +13,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class GeneralNameTest extends TestCase
+final class GeneralNameTest extends TestCase
 {
     public function testInvalidTagFail()
     {

@@ -9,11 +9,9 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoTypes\Signature\RSASignature;
 
 /**
- * @group signature
- *
  * @internal
  */
-class RSASignatureTest extends TestCase
+final class RSASignatureTest extends TestCase
 {
     /**
      * @return RSASignature

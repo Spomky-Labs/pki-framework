@@ -14,20 +14,13 @@ use Sop\X509\GeneralName\EDIPartyName;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class EDIPartyNameTest extends TestCase
+final class EDIPartyNameTest extends TestCase
 {
     public function testCreate()
     {
-        $name = EDIPartyName::fromASN1(
-            new ImplicitlyTaggedType(
-                GeneralName::TAG_EDI_PARTY_NAME,
-                new Sequence()
-            )
-        );
+        $name = EDIPartyName::fromASN1(new ImplicitlyTaggedType(GeneralName::TAG_EDI_PARTY_NAME, new Sequence()));
         $this->assertInstanceOf(EDIPartyName::class, $name);
         return $name;
     }

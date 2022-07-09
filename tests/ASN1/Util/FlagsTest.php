@@ -9,12 +9,9 @@ use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Util\Flags;
 
 /**
- * @group util
- * @group flags
- *
  * @internal
  */
-class FlagsTest extends TestCase
+final class FlagsTest extends TestCase
 {
     /**
      * @dataProvider flagsProvider
@@ -45,8 +42,7 @@ class FlagsTest extends TestCase
             [0xffff, 1, "\x80"],
             [0xffffff, 12, "\xff\xf0"],
             [1, 128, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01"],
-            ['0x80000000000000000000000000000000',
-                128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", ],
+            ['0x80000000000000000000000000000000', 128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"],
         ];
     }
 
@@ -85,13 +81,7 @@ class FlagsTest extends TestCase
 
     public function unsetBitProvider(): array
     {
-        return [
-            [0x7f, 8, 0],
-            [0xfe, 8, 7],
-            [0xff7f, 8, 0],
-            [0xff7f, 12, 4],
-            [0xff7f, 16, 8],
-        ];
+        return [[0x7f, 8, 0], [0xfe, 8, 7], [0xff7f, 8, 0], [0xff7f, 12, 4], [0xff7f, 16, 8]];
     }
 
     /**
@@ -99,12 +89,8 @@ class FlagsTest extends TestCase
      *
      * @param string $result
      */
-    public function testToBitString(
-        int $num,
-        int $width,
-        $result,
-        int $unused_bits
-    ) {
+    public function testToBitString(int $num, int $width, $result, int $unused_bits)
+    {
         $flags = new Flags($num, $width);
         $bs = $flags->bitString();
         $this->assertEquals($result, $bs->string());
@@ -129,12 +115,8 @@ class FlagsTest extends TestCase
     /**
      * @dataProvider fromBitStringProvider
      */
-    public function testFromBitString(
-        string $str,
-        int $unused_bits,
-        int $width,
-        string $result
-    ) {
+    public function testFromBitString(string $str, int $unused_bits, int $width, string $result)
+    {
         $flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
         $this->assertEquals($result, $flags->string());
     }
@@ -180,8 +162,7 @@ class FlagsTest extends TestCase
             [1, 16, 1],
             [0x80, 24, 0x80],
             [0x8000, 16, 0x8000],
-            ['0x80000000000000000000000000000000', 128,
-                '170141183460469231731687303715884105728', ],
+            ['0x80000000000000000000000000000000', 128, '170141183460469231731687303715884105728'],
         ];
     }
 
@@ -191,12 +172,8 @@ class FlagsTest extends TestCase
      * @param string $str
      * @param number $number
      */
-    public function testBitStringToNumber(
-        $str,
-        int $unused_bits,
-        int $width,
-        $number
-    ) {
+    public function testBitStringToNumber($str, int $unused_bits, int $width, $number)
+    {
         $bs = new BitString($str, $unused_bits);
         $flags = Flags::fromBitString($bs, $width);
         $this->assertEquals($number, $flags->number());
@@ -204,9 +181,7 @@ class FlagsTest extends TestCase
 
     public function bitStringToNumberProvider(): array
     {
-        return [
-            ["\x20", 5, 9, 64],
-        ];
+        return [["\x20", 5, 9, 64]];
     }
 
     public function testIntNumber()

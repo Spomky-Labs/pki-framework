@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\MatchingRule\BinaryMatch;
 
 /**
- * @group matching-rule
- *
  * @internal
  */
-class BinaryMatchTest extends TestCase
+final class BinaryMatchTest extends TestCase
 {
     /**
      * @dataProvider provideMatch

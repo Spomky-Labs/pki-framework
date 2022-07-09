@@ -8,8 +8,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\T61String;
 
 /**
- * Implements 'Transcode' step of the Internationalized String Preparation
- * as specified by RFC 4518.
+ * Implements 'Transcode' step of the Internationalized String Preparation as specified by RFC 4518.
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.1
  */
@@ -58,8 +57,6 @@ class TranscodeStep implements PrepareStep
     /**
      * @param string $string String to prepare
      *
-     * @throws \LogicException If string type is not supported
-     *
      * @return string UTF-8 encoded string
      */
     public function apply(string $string): string
@@ -83,9 +80,6 @@ class TranscodeStep implements PrepareStep
                 $el = new T61String($string);
                 return '#' . bin2hex($el->toDER());
         }
-        throw new \LogicException(sprintf(
-            'Unsupported string type %s.',
-            Element::tagToName($this->_type)
-        ));
+        throw new \LogicException(sprintf('Unsupported string type %s.', Element::tagToName($this->_type)));
     }
 }

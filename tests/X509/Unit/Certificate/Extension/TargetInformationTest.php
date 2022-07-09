@@ -16,12 +16,9 @@ use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\DNSName;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class TargetInformationTest extends TestCase
+final class TargetInformationTest extends TestCase
 {
     final public const NAME_DN = 'cn=Target';
 
@@ -143,9 +140,7 @@ class TargetInformationTest extends TestCase
 
     public function testFromTargets()
     {
-        $ext = TargetInformationExtension::fromTargets(
-            new TargetName(DirectoryName::fromDNString(self::NAME_DN))
-        );
+        $ext = TargetInformationExtension::fromTargets(new TargetName(DirectoryName::fromDNString(self::NAME_DN)));
         $this->assertInstanceOf(TargetInformationExtension::class, $ext);
     }
 }

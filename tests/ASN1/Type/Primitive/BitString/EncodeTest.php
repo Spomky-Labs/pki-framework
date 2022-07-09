@@ -8,12 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\BitString;
 
 /**
- * @group encode
- * @group bit-string
- *
  * @internal
  */
-class EncodeTest extends TestCase
+final class EncodeTest extends TestCase
 {
     /**
      * @dataProvider withoutTrailingZeroesProvider
@@ -21,11 +18,7 @@ class EncodeTest extends TestCase
     public function testWithoutTrailingZeroes(string $bits, string $expected)
     {
         $bs = new BitString($bits);
-        $this->assertEquals(
-            $expected,
-            $bs->withoutTrailingZeroes()
-                ->toDER()
-        );
+        $this->assertEquals($expected, $bs->withoutTrailingZeroes() ->toDER());
     }
 
     public function withoutTrailingZeroesProvider(): array

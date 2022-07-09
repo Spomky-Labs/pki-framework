@@ -102,10 +102,7 @@ class AttributeTypeAndValue
             return false;
         }
         $matcher = $this->_value->equalityMatchingRule();
-        $result = $matcher->compare(
-            $this->_value->stringValue(),
-            $other->_value->stringValue()
-        );
+        $result = $matcher->compare($this->_value->stringValue(), $other->_value->stringValue());
         // match
         if ($result) {
             return true;

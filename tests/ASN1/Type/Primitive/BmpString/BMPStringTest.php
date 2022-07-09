@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group bmp-string
- *
  * @internal
  */
-class BMPStringTest extends TestCase
+final class BMPStringTest extends TestCase
 {
     public function testCreate()
     {

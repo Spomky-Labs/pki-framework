@@ -7,11 +7,10 @@ namespace Sop\CryptoTypes\AlgorithmIdentifier;
 use Sop\ASN1\Type\Constructed\Sequence;
 
 /**
- * Factory class to parse AlgorithmIdentifier ASN.1 types to specific
- * algorithm identifier objects.
+ * Factory class to parse AlgorithmIdentifier ASN.1 types to specific algorithm identifier objects.
  *
- * Additional providers may be added to the process to support algorithm
- * identifiers that are implemented in external libraries.
+ * Additional providers may be added to the process to support algorithm identifiers that are implemented in external
+ * libraries.
  */
 class AlgorithmIdentifierFactory
 {
@@ -79,8 +78,7 @@ class AlgorithmIdentifierFactory
     }
 
     /**
-     * Get the name of a class that implements algorithm identifier for given
-     * OID.
+     * Get the name of a class that implements algorithm identifier for given OID.
      *
      * @param string $oid Object identifier in dotted format
      *
@@ -106,7 +104,9 @@ class AlgorithmIdentifierFactory
      */
     public function parse(Sequence $seq): AlgorithmIdentifier
     {
-        $oid = $seq->at(0)->asObjectIdentifier()->oid();
+        $oid = $seq->at(0)
+            ->asObjectIdentifier()
+            ->oid();
         $params = $seq->has(1) ? $seq->at(1) : null;
         /** @var SpecificAlgorithmIdentifier $cls */
         $cls = $this->getClass($oid);

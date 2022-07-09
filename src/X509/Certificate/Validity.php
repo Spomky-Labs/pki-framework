@@ -53,15 +53,9 @@ class Validity
      * @param null|string $na_date Not after date
      * @param null|string $tz      Timezone string
      */
-    public static function fromStrings(
-        ?string $nb_date,
-        ?string $na_date,
-        ?string $tz = null
-    ): self {
-        return new self(
-            Time::fromString($nb_date, $tz),
-            Time::fromString($na_date, $tz)
-        );
+    public static function fromStrings(?string $nb_date, ?string $na_date, ?string $tz = null): self
+    {
+        return new self(Time::fromString($nb_date, $tz), Time::fromString($na_date, $tz));
     }
 
     /**
@@ -85,9 +79,6 @@ class Validity
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
-            $this->_notBefore->toASN1(),
-            $this->_notAfter->toASN1()
-        );
+        return new Sequence($this->_notBefore->toASN1(), $this->_notAfter->toASN1());
     }
 }

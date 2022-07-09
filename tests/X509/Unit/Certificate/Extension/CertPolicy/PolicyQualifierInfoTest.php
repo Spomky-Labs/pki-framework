@@ -12,13 +12,9 @@ use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 
 /**
- * @group certificate
- * @group extension
- * @group certificate-policy
- *
  * @internal
  */
-class PolicyQualifierInfoTest extends TestCase
+final class PolicyQualifierInfoTest extends TestCase
 {
     public function testFromASN1UnknownTypeFail()
     {
@@ -30,8 +26,6 @@ class PolicyQualifierInfoTest extends TestCase
     public function testFromQualifierBadCall()
     {
         $this->expectException(\BadMethodCallException::class);
-        PolicyQualifierInfo::fromQualifierASN1(
-            new UnspecifiedType(new NullType())
-        );
+        PolicyQualifierInfo::fromQualifierASN1(new UnspecifiedType(new NullType()));
     }
 }

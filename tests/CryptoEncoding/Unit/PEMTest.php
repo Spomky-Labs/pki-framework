@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 
 /**
- * @group pem
- *
  * @internal
  */
-class PEMTest extends TestCase
+final class PEMTest extends TestCase
 {
     public function testFromString()
     {
@@ -40,11 +38,11 @@ class PEMTest extends TestCase
     {
         $data = 'payload';
         $encoded = base64_encode($data);
-        $str = <<<DATA
+        $str = <<<CODE_SAMPLE
 -----BEGIN TEST-----
 {$encoded}
 -----END TEST-----
-DATA;
+CODE_SAMPLE;
         $this->assertEquals($data, PEM::fromString($str)->data());
     }
 
@@ -56,11 +54,11 @@ DATA;
 
     public function testInvalidPEMData()
     {
-        $str = <<<'DATA'
+        $str = <<<'CODE_SAMPLE'
 -----BEGIN TEST-----
 %%%
 -----END TEST-----
-DATA;
+CODE_SAMPLE;
         $this->expectException(\UnexpectedValueException::class);
         PEM::fromString($str);
     }

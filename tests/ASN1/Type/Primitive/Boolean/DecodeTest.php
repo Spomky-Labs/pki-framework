@@ -9,12 +9,9 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Primitive\Boolean;
 
 /**
- * @group decode
- * @group boolean
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     public function testType()
     {
@@ -37,9 +34,7 @@ class DecodeTest extends TestCase
     public function testInvalidDER()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage(
-            'DER encoded boolean true must have all bits set to 1'
-        );
+        $this->expectExceptionMessage('DER encoded boolean true must have all bits set to 1');
         Boolean::fromDER("\x1\x1\x55");
     }
 

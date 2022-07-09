@@ -24,11 +24,9 @@ From RFC 8410:
 */
 
 /**
- * Algorithm identifier for the Edwards-curve Digital Signature Algorithm (EdDSA)
- * identifiers specified by RFC 8410.
+ * Algorithm identifier for the Edwards-curve Digital Signature Algorithm (EdDSA) identifiers specified by RFC 8410.
  *
- * Same algorithm identifier is used for public and private keys as well as for
- * signatures.
+ * Same algorithm identifier is used for public and private keys as well as for signatures.
  *
  * @see https://tools.ietf.org/html/rfc8410#section-3
  * @see https://tools.ietf.org/html/rfc8410#section-6
@@ -38,9 +36,8 @@ abstract class RFC8410EdAlgorithmIdentifier extends SpecificAlgorithmIdentifier 
     /**
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null
-    ): SpecificAlgorithmIdentifier {
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
         if (isset($params)) {
             throw new \UnexpectedValueException('Parameters must be absent.');
         }

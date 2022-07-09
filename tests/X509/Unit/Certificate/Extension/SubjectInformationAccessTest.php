@@ -12,12 +12,9 @@ use Sop\X509\Certificate\Extension\SubjectInformationAccessExtension;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class SubjectInformationAccessTest extends TestCase
+final class SubjectInformationAccessTest extends TestCase
 {
     public function testCreate()
     {
@@ -41,10 +38,7 @@ class SubjectInformationAccessTest extends TestCase
      */
     public function testOID(Extension $ext)
     {
-        $this->assertEquals(
-            Extension::OID_SUBJECT_INFORMATION_ACCESS,
-            $ext->oid()
-        );
+        $this->assertEquals(Extension::OID_SUBJECT_INFORMATION_ACCESS, $ext->oid());
     }
 
     /**
@@ -72,9 +66,7 @@ class SubjectInformationAccessTest extends TestCase
      */
     public function testDecode($der)
     {
-        $ext = SubjectInformationAccessExtension::fromASN1(
-            Sequence::fromDER($der)
-        );
+        $ext = SubjectInformationAccessExtension::fromASN1(Sequence::fromDER($der));
         $this->assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
         return $ext;
     }
@@ -91,13 +83,9 @@ class SubjectInformationAccessTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testAccessDescriptions(
-        SubjectInformationAccessExtension $ext
-    ) {
-        $this->assertContainsOnlyInstancesOf(
-            SubjectAccessDescription::class,
-            $ext->accessDescriptions()
-        );
+    public function testAccessDescriptions(SubjectInformationAccessExtension $ext)
+    {
+        $this->assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $ext->accessDescriptions());
     }
 
     /**
@@ -118,9 +106,6 @@ class SubjectInformationAccessTest extends TestCase
             $values[] = $desc;
         }
         $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(
-            SubjectAccessDescription::class,
-            $values
-        );
+        $this->assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $values);
     }
 }

@@ -10,13 +10,9 @@ use Sop\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class AuthorityKeyIdentifierTest extends RefExtTestHelper
+final class AuthorityKeyIdentifierTest extends RefExtTestHelper
 {
     /**
      * @return AuthorityKeyIdentifierExtension
@@ -31,12 +27,9 @@ class AuthorityKeyIdentifierTest extends RefExtTestHelper
     /**
      * @depends testAuthorityKeyIdentifier
      */
-    public function testAuthorityKeyIdentifierKey(
-        AuthorityKeyIdentifierExtension $aki
-    ) {
-        $pem = PEM::fromFile(
-            TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem'
-        );
+    public function testAuthorityKeyIdentifierKey(AuthorityKeyIdentifierExtension $aki)
+    {
+        $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem');
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()
             ->keyIdentifier();
@@ -46,9 +39,8 @@ class AuthorityKeyIdentifierTest extends RefExtTestHelper
     /**
      * @depends testAuthorityKeyIdentifier
      */
-    public function testAuthorityKeyIdentifierIssuer(
-        AuthorityKeyIdentifierExtension $aki
-    ) {
+    public function testAuthorityKeyIdentifierIssuer(AuthorityKeyIdentifierExtension $aki)
+    {
         $issuer_dn = $aki->issuer()
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()

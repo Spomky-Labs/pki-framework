@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\Real;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group real
- *
  * @internal
  */
-class RealTest extends TestCase
+final class RealTest extends TestCase
 {
     public function testCreate(): Real
     {

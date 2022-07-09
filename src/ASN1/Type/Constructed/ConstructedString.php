@@ -13,21 +13,13 @@ use Sop\ASN1\Type\Structure;
 /**
  * Implements constructed type of simple strings.
  *
- * Constructed strings only exist in BER encodings, and often with
- * indefinite length. Generally constructed string must contain only elements
- * that have the same type tag as the constructing element.
- * For example:
- * ```
- *  OCTET STRING (cons) {
- *      OCTET STRING (prim) "ABC"
- *      OCTET STRING (prim) "DEF"
- *  }
- * ```
- * Canonically this corresponds to a payload of "ABCDEF" string.
+ * Constructed strings only exist in BER encodings, and often with indefinite length. Generally constructed string must
+ * contain only elements that have the same type tag as the constructing element. For example: ``` OCTET STRING (cons) {
+ * OCTET STRING (prim) "ABC" OCTET STRING (prim) "DEF" } ``` Canonically this corresponds to a payload of "ABCDEF"
+ * string.
  *
- * From API standpoint this can also be seen as a string type
- * (as it implements `StringType`), and thus `UnspecifiedType::asString()`
- * method may return `ConstructedString` instances.
+ * From API standpoint this can also be seen as a string type (as it implements `StringType`), and thus
+ * `UnspecifiedType::asString()` method may return `ConstructedString` instances.
  */
 class ConstructedString extends Structure implements StringType
 {
@@ -52,8 +44,6 @@ class ConstructedString extends Structure implements StringType
      * Create from a list of string type elements.
      *
      * All strings must have the same type.
-     *
-     * @throws \LogicException
      */
     public static function create(StringType ...$elements): self
     {
@@ -63,9 +53,7 @@ class ConstructedString extends Structure implements StringType
         $tag = $elements[0]->tag();
         foreach ($elements as $el) {
             if ($el->tag() !== $tag) {
-                throw new \LogicException(
-                    'All elements in constructed string must have the same type.'
-                );
+                throw new \LogicException('All elements in constructed string must have the same type.');
             }
         }
         return self::createWithTag($tag, ...$elements);
@@ -113,16 +101,10 @@ class ConstructedString extends Structure implements StringType
     /**
      * @return self
      */
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         /** @var ConstructedString $type */
-        $type = forward_static_call_array(
-            [parent::class, __FUNCTION__],
-            [$identifier, $data, &$offset]
-        );
+        $type = forward_static_call_array([parent::class, __FUNCTION__], [$identifier, $data, &$offset]);
         $type->_typeTag = $identifier->intTag();
         return $type;
     }

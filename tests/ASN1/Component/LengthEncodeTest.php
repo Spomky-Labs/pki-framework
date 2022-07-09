@@ -8,12 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Component\Length;
 
 /**
- * @group encode
- * @group length
- *
  * @internal
  */
-class LengthEncodeTest extends TestCase
+final class LengthEncodeTest extends TestCase
 {
     public function testDefinite()
     {

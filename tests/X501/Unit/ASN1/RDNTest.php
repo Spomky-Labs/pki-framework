@@ -11,18 +11,13 @@ use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\RDN;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class RDNTest extends TestCase
+final class RDNTest extends TestCase
 {
     public function testCreate()
     {
-        $rdn = RDN::fromAttributeValues(
-            new NameValue('one'),
-            new NameValue('two')
-        );
+        $rdn = RDN::fromAttributeValues(new NameValue('one'), new NameValue('two'));
         $this->assertInstanceOf(RDN::class, $rdn);
         return $rdn;
     }
@@ -32,7 +27,8 @@ class RDNTest extends TestCase
      */
     public function testEncode(RDN $rdn)
     {
-        $der = $rdn->toASN1()->toDER();
+        $der = $rdn->toASN1()
+            ->toDER();
         $this->assertIsString($der);
         return $der;
     }
@@ -63,10 +59,7 @@ class RDNTest extends TestCase
      */
     public function testAll(RDN $rdn)
     {
-        $this->assertContainsOnlyInstancesOf(
-            AttributeTypeAndValue::class,
-            $rdn->all()
-        );
+        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->all());
     }
 
     /**
@@ -74,10 +67,7 @@ class RDNTest extends TestCase
      */
     public function testAllOf(RDN $rdn)
     {
-        $this->assertContainsOnlyInstancesOf(
-            AttributeTypeAndValue::class,
-            $rdn->allOf('name')
-        );
+        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->allOf('name'));
     }
 
     /**
@@ -113,10 +103,7 @@ class RDNTest extends TestCase
         foreach ($rdn as $tv) {
             $values[] = $tv;
         }
-        $this->assertContainsOnlyInstancesOf(
-            AttributeTypeAndValue::class,
-            $values
-        );
+        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $values);
     }
 
     /**
@@ -138,9 +125,7 @@ class RDNTest extends TestCase
     public function testCreateFail()
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'RDN must have at least one AttributeTypeAndValue'
-        );
+        $this->expectExceptionMessage('RDN must have at least one AttributeTypeAndValue');
         new RDN();
     }
 }

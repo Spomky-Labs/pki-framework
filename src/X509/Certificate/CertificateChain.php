@@ -35,12 +35,9 @@ class CertificateChain implements \Countable, \IteratorAggregate
      */
     public static function fromPEMs(PEM ...$pems): self
     {
-        $certs = array_map(
-            function (PEM $pem) {
-                return Certificate::fromPEM($pem);
-            },
-            $pems
-        );
+        $certs = array_map(function (PEM $pem) {
+            return Certificate::fromPEM($pem);
+        }, $pems);
         return new self(...$certs);
     }
 
@@ -54,8 +51,7 @@ class CertificateChain implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Get all certificates in a chain ordered from the end-entity certificate
-     * to the trust anchor.
+     * Get all certificates in a chain ordered from the end-entity certificate to the trust anchor.
      *
      * @return Certificate[]
      */
@@ -66,8 +62,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * Get the end-entity certificate.
-     *
-     * @throws \LogicException
      */
     public function endEntityCertificate(): Certificate
     {
@@ -79,8 +73,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * Get the trust anchor certificate.
-     *
-     * @throws \LogicException
      */
     public function trustAnchorCertificate(): Certificate
     {
@@ -105,12 +97,10 @@ class CertificateChain implements \Countable, \IteratorAggregate
     {
         return implode(
             "\n",
-            array_map(
-                function (Certificate $cert) {
-                    return $cert->toPEM()->string();
-                },
-                $this->_certs
-            )
+            array_map(function (Certificate $cert) {
+                return $cert->toPEM()
+                    ->string();
+            }, $this->_certs)
         );
     }
 

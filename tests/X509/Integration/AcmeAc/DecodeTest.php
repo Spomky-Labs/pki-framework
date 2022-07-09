@@ -16,12 +16,9 @@ use Sop\X509\Certificate\Certificate;
 /**
  * Decodes reference attribute certificate acme-ac.pem.
  *
- * @group ac
- * @group decode
- *
  * @internal
  */
-class DecodeTest extends TestCase
+final class DecodeTest extends TestCase
 {
     /**
      * @return PEM
@@ -66,10 +63,7 @@ class DecodeTest extends TestCase
     public function testSignatureAlgo(AttributeCertificate $ac)
     {
         $algo = $ac->signatureAlgorithm();
-        $this->assertInstanceOf(
-            SHA256WithRSAEncryptionAlgorithmIdentifier::class,
-            $algo
-        );
+        $this->assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $algo);
         return $algo;
     }
 
@@ -78,10 +72,9 @@ class DecodeTest extends TestCase
      */
     public function testVerifySignature(AttributeCertificate $ac)
     {
-        $cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
-        );
-        $pubkey_info = $cert->tbsCertificate()->subjectPublicKeyInfo();
+        $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+        $pubkey_info = $cert->tbsCertificate()
+            ->subjectPublicKeyInfo();
         $this->assertTrue($ac->verify($pubkey_info));
     }
 }

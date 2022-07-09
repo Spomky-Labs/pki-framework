@@ -13,11 +13,9 @@ use Sop\X509\GeneralName\IPAddress;
 use Sop\X509\GeneralName\IPv4Address;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class IPv4AddressNameTest extends TestCase
+final class IPv4AddressNameTest extends TestCase
 {
     public const ADDR = '127.0.0.1';
 

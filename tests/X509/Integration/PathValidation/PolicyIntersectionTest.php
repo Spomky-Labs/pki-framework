@@ -20,11 +20,9 @@ use Sop\X509\CertificationPath\CertificationPath;
 use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class PolicyIntersectionTest extends TestCase
+final class PolicyIntersectionTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -64,15 +62,9 @@ class PolicyIntersectionTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create intermediate certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::INTERM_NAME),
@@ -83,15 +75,9 @@ class PolicyIntersectionTest extends TestCase
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
         );
-        self::$_interm = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_interm = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -103,16 +89,10 @@ class PolicyIntersectionTest extends TestCase
         $tbs = $tbs->withAdditionalExtensions(
             new CertificatePoliciesExtension(
                 true,
-                new PolicyInformation(
-                    '1.3.6.1.3',
-                    new UserNoticeQualifier(DisplayText::fromString('Test'))
-                )
+                new PolicyInformation('1.3.6.1.3', new UserNoticeQualifier(DisplayText::fromString('Test')))
             )
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_intermKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_intermKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -131,11 +111,6 @@ class PolicyIntersectionTest extends TestCase
         $config = new PathValidationConfig(new \DateTimeImmutable(), 3);
         $config = $config->withPolicySet('1.3.6.1.3');
         $result = $path->validate($config);
-        $this->assertEquals(
-            'Test',
-            $result->policies()[0]->userNoticeQualifier()
-                ->explicitText()
-                ->string()
-        );
+        $this->assertEquals('Test', $result->policies()[0] ->userNoticeQualifier() ->explicitText() ->string());
     }
 }

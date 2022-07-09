@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group oid
- *
  * @internal
  */
-class ObjectIdentifierTest extends TestCase
+final class ObjectIdentifierTest extends TestCase
 {
     public function testCreate()
     {
@@ -68,19 +65,14 @@ class ObjectIdentifierTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            ObjectIdentifier::class,
-            $wrap->asObjectIdentifier()
-        );
+        $this->assertInstanceOf(ObjectIdentifier::class, $wrap->asObjectIdentifier());
     }
 
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'OBJECT IDENTIFIER expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('OBJECT IDENTIFIER expected, got primitive NULL');
         $wrap->asObjectIdentifier();
     }
 
@@ -101,18 +93,14 @@ class ObjectIdentifierTest extends TestCase
     public function testInvalidSubarc()
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Second node must be in 0..39 range for root arcs 0 and 1'
-        );
+        $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
         new ObjectIdentifier('0.40');
     }
 
     public function testInvalidSubarc1()
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Second node must be in 0..39 range for root arcs 0 and 1'
-        );
+        $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
         new ObjectIdentifier('1.40');
     }
 
@@ -145,11 +133,7 @@ class ObjectIdentifierTest extends TestCase
     {
         $x = new ObjectIdentifier($oid);
         $der = $x->toDER();
-        $this->assertEquals(
-            $oid,
-            UnspecifiedType::fromDER($der)->asObjectIdentifier()
-                ->oid()
-        );
+        $this->assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier() ->oid());
     }
 
     /**
@@ -159,8 +143,7 @@ class ObjectIdentifierTest extends TestCase
     {
         return array_map(
             fn ($x) => [$x],
-            ['0.0', '0.1', '1.0', '0.0.0', '0.39', '1.39', '2.39', '2.40',
-                '2.999999', '2.99999.1', ]
+            ['0.0', '0.1', '1.0', '0.0.0', '0.39', '1.39', '2.39', '2.40', '2.999999', '2.99999.1']
         );
     }
 }

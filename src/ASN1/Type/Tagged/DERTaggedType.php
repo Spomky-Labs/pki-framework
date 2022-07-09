@@ -15,8 +15,8 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * Intermediate class to store tagged DER data.
  *
- * `implicit($tag)` or `explicit()` method is used to decode the actual element,
- * which is only known by the abstract syntax of data structure.
+ * `implicit($tag)` or `explicit()` method is used to decode the actual element, which is only known by the abstract
+ * syntax of data structure.
  *
  * May be encoded back to complete DER encoding.
  */
@@ -95,7 +95,8 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
 
     public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
-        $identifier = $this->_identifier->withClass($class)->withTag($tag);
+        $identifier = $this->_identifier->withClass($class)
+            ->withTag($tag);
         $cls = self::_determineImplClass($identifier);
         $idx = $this->_offset;
         /** @var \Sop\ASN1\Feature\ElementBase $element */
@@ -109,20 +110,15 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         return Element::fromDER($this->_data, $idx)->asUnspecified();
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         // offset to inner value
         $value_offset = $idx;
         if ($length->isIndefinite()) {
             if ($identifier->isPrimitive()) {
-                throw new DecodeException(
-                    'Primitive type with indefinite length is not supported.'
-                );
+                throw new DecodeException('Primitive type with indefinite length is not supported.');
             }
             while (! Element::fromDER($data, $idx)->isType(self::TYPE_EOC));
             // EOC consists of two octets.
@@ -132,8 +128,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
             $idx += $value_length;
         }
         // late static binding since ApplicationType and PrivateType extend this class
-        $type = new static($identifier, $data, $offset, $value_offset,
-            $value_length, $length->isIndefinite());
+        $type = new static($identifier, $data, $offset, $value_offset, $value_length, $length->isIndefinite());
         $offset = $idx;
         return $type;
     }

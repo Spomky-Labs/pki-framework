@@ -25,12 +25,9 @@ use Sop\X501\ASN1\AttributeValue\SurnameValue;
 use Sop\X501\ASN1\AttributeValue\TitleValue;
 
 /**
- * @group asn1
- * @group value
- *
  * @internal
  */
-class ValueInitializationTest extends TestCase
+final class ValueInitializationTest extends TestCase
 {
     /**
      * @dataProvider provideStringAttribClasses

@@ -12,11 +12,9 @@ use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class URINameTest extends TestCase
+final class URINameTest extends TestCase
 {
     public const URI = 'urn:test';
 
@@ -64,10 +62,8 @@ class URINameTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        UniformResourceIdentifier $ref,
-        UniformResourceIdentifier $new
-    ) {
+    public function testRecoded(UniformResourceIdentifier $ref, UniformResourceIdentifier $new)
+    {
         $this->assertEquals($ref, $new);
     }
 

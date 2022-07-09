@@ -10,13 +10,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
 
 /**
- * @group encode
- * @group tagging
- * @group explicit-tag
- *
  * @internal
  */
-class ExplicitlyTaggedEncodeTest extends TestCase
+final class ExplicitlyTaggedEncodeTest extends TestCase
 {
     public function testNull()
     {
@@ -26,10 +22,7 @@ class ExplicitlyTaggedEncodeTest extends TestCase
 
     public function testNested()
     {
-        $el = new ExplicitlyTaggedType(
-            1,
-            new ExplicitlyTaggedType(2, new NullType())
-        );
+        $el = new ExplicitlyTaggedType(1, new ExplicitlyTaggedType(2, new NullType()));
         $this->assertEquals("\xa1\x4\xa2\x2\x5\x0", $el->toDER());
     }
 
@@ -42,10 +35,6 @@ class ExplicitlyTaggedEncodeTest extends TestCase
     public function testRecode()
     {
         $el = new ExplicitlyTaggedType(0, new Boolean(true));
-        $this->assertInstanceOf(
-            Boolean::class,
-            $el->explicit()
-                ->asBoolean()
-        );
+        $this->assertInstanceOf(Boolean::class, $el->explicit() ->asBoolean());
     }
 }

@@ -20,11 +20,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
 /**
  * Covers handling of inhibit anyPolicy extension.
  *
- * @group certification-path
- *
  * @internal
  */
-class InhibitAnyPolicyTest extends TestCase
+final class InhibitAnyPolicyTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -57,10 +55,7 @@ class InhibitAnyPolicyTest extends TestCase
             new BasicConstraintsExtension(true, true, 1),
             new InhibitAnyPolicyExtension(true, 0)
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -69,10 +64,7 @@ class InhibitAnyPolicyTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -86,9 +78,7 @@ class InhibitAnyPolicyTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(
-            new PathValidationConfig(new \DateTimeImmutable(), 3)
-        );
+        $result = $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

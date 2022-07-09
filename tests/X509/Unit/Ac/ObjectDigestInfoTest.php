@@ -13,11 +13,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithm
 use Sop\X509\AttributeCertificate\ObjectDigestInfo;
 
 /**
- * @group ac
- *
  * @internal
  */
-class ObjectDigestInfoTest extends TestCase
+final class ObjectDigestInfoTest extends TestCase
 {
     public function testCreate()
     {

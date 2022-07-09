@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NumericString;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group numeric-string
- *
  * @internal
  */
-class NumericStringTest extends TestCase
+final class NumericStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -77,9 +74,7 @@ class NumericStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'NumericString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('NumericString expected, got primitive NULL');
         $wrap->asNumericString();
     }
 }

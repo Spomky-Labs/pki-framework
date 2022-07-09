@@ -39,11 +39,8 @@ class UnknownExtension extends Extension
     /**
      * Create instance from a raw encoded extension value.
      */
-    public static function fromRawString(
-        string $oid,
-        bool $critical,
-        string $data
-    ): self {
+    public static function fromRawString(string $oid, bool $critical, string $data): self
+    {
         $obj = new self($oid, $critical, new OctetString(''));
         $obj->_element = null;
         $obj->_data = $data;

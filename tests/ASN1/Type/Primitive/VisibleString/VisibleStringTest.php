@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group visible-string
- *
  * @internal
  */
-class VisibleStringTest extends TestCase
+final class VisibleStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -77,9 +74,7 @@ class VisibleStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'VisibleString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('VisibleString expected, got primitive NULL');
         $wrap->asVisibleString();
     }
 }

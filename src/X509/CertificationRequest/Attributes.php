@@ -36,8 +36,6 @@ class Attributes extends SetOfAttributes
 
     /**
      * Get extension request attribute value.
-     *
-     * @throws \LogicException
      */
     public function extensionRequest(): ExtensionRequestValue
     {

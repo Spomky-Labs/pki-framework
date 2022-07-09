@@ -19,11 +19,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
 /**
  * Covers handling of path length in basic constraints extension.
  *
- * @group certification-path
- *
  * @internal
  */
-class PathLengthTest extends TestCase
+final class PathLengthTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -52,13 +50,8 @@ class PathLengthTest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true, 1)
-        );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true, 1));
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -67,10 +60,7 @@ class PathLengthTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void
@@ -84,9 +74,7 @@ class PathLengthTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(
-            new PathValidationConfig(new \DateTimeImmutable(), 3)
-        );
+        $result = $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

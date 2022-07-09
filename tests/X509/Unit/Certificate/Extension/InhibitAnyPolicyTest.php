@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\InhibitAnyPolicyExtension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class InhibitAnyPolicyTest extends TestCase
+final class InhibitAnyPolicyTest extends TestCase
 {
     public function testCreate()
     {

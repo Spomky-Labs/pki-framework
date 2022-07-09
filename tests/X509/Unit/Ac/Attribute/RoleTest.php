@@ -16,12 +16,9 @@ use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group ac
- * @group attribute
- *
  * @internal
  */
-class RoleTest extends TestCase
+final class RoleTest extends TestCase
 {
     final public const ROLE_URI = 'urn:administrator';
 
@@ -54,9 +51,7 @@ class RoleTest extends TestCase
      */
     public function testDecode($der)
     {
-        $value = RoleAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified()
-        );
+        $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
@@ -100,11 +95,7 @@ class RoleTest extends TestCase
      */
     public function testRoleAuthority(RoleAttributeValue $value)
     {
-        $this->assertEquals(
-            self::AUTHORITY_DN,
-            $value->roleAuthority()
-                ->firstDN()
-        );
+        $this->assertEquals(self::AUTHORITY_DN, $value->roleAuthority() ->firstDN());
     }
 
     /**
@@ -130,10 +121,7 @@ class RoleTest extends TestCase
      */
     public function testAllFromAttributes(Attributes $attribs)
     {
-        $this->assertContainsOnlyInstancesOf(
-            RoleAttributeValue::class,
-            $attribs->roles()
-        );
+        $this->assertContainsOnlyInstancesOf(RoleAttributeValue::class, $attribs->roles());
     }
 
     public function testAllFromMultipleAttributes()
@@ -147,9 +135,7 @@ class RoleTest extends TestCase
 
     public function testCreateWithoutAuthority()
     {
-        $value = new RoleAttributeValue(
-            new UniformResourceIdentifier(self::ROLE_URI)
-        );
+        $value = new RoleAttributeValue(new UniformResourceIdentifier(self::ROLE_URI));
         $this->assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
@@ -171,9 +157,7 @@ class RoleTest extends TestCase
      */
     public function testDecodeWithoutAuthority($der)
     {
-        $value = RoleAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified()
-        );
+        $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }
@@ -182,10 +166,8 @@ class RoleTest extends TestCase
      * @depends testCreateWithoutAuthority
      * @depends testDecodeWithoutAuthority
      */
-    public function testRecodedWithoutAuthority(
-        AttributeValue $ref,
-        AttributeValue $new
-    ) {
+    public function testRecodedWithoutAuthority(AttributeValue $ref, AttributeValue $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -211,10 +193,7 @@ class RoleTest extends TestCase
      */
     public function testEqualityMatchingRule(AttributeValue $value)
     {
-        $this->assertInstanceOf(
-            MatchingRule::class,
-            $value->equalityMatchingRule()
-        );
+        $this->assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
     /**

@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group general-string
- *
  * @internal
  */
-class GeneralStringTest extends TestCase
+final class GeneralStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class GeneralStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'GeneralString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('GeneralString expected, got primitive NULL');
         $wrap->asGeneralString();
     }
 }

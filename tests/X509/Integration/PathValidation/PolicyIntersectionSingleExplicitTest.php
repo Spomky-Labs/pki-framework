@@ -20,11 +20,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 /**
  * Covers case where there's no anyPolicy nodes in policy path.
  *
- * @group certification-path
- *
  * @internal
  */
-class PolicyIntersectionSingleExplicitTest extends TestCase
+final class PolicyIntersectionSingleExplicitTest extends TestCase
 {
     public const CA_NAME = 'cn=CA';
 
@@ -64,15 +62,9 @@ class PolicyIntersectionSingleExplicitTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation('1.3.6.1.3')
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'))
         );
-        self::$_ca = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create intermediate certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::INTERM_NAME),
@@ -83,15 +75,9 @@ class PolicyIntersectionSingleExplicitTest extends TestCase
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation('1.3.6.1.3')
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'))
         );
-        self::$_interm = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey
-        );
+        self::$_interm = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -101,15 +87,9 @@ class PolicyIntersectionSingleExplicitTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_interm);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(
-                true,
-                new PolicyInformation('1.3.6.1.3')
-            )
+            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'))
         );
-        self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_intermKey
-        );
+        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_intermKey);
     }
 
     public static function tearDownAfterClass(): void

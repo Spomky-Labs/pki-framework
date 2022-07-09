@@ -139,7 +139,8 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
     {
         $purposes = array_map(
             function (UnspecifiedType $el) {
-                return $el->asObjectIdentifier()->oid();
+                return $el->asObjectIdentifier()
+                    ->oid();
             },
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
@@ -148,12 +149,9 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
 
     protected function _valueASN1(): Element
     {
-        $elements = array_map(
-            function ($oid) {
-                return new ObjectIdentifier($oid);
-            },
-            $this->_purposes
-        );
+        $elements = array_map(function ($oid) {
+            return new ObjectIdentifier($oid);
+        }, $this->_purposes);
         return new Sequence(...$elements);
     }
 }

@@ -10,11 +10,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group element
- *
  * @internal
  */
-class ElementTest extends TestCase
+final class ElementTest extends TestCase
 {
     public function testUnknownTagToName()
     {

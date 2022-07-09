@@ -10,8 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *BMPString* type.
  *
- * BMP stands for Basic Multilingual Plane. This is generally an Unicode string
- * with UCS-2 encoding.
+ * BMP stands for Basic Multilingual Plane. This is generally an Unicode string with UCS-2 encoding.
  */
 class BMPString extends PrimitiveString
 {

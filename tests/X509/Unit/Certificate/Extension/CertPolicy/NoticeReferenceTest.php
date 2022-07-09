@@ -10,13 +10,9 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\DisplayText;
 use Sop\X509\Certificate\Extension\CertificatePolicy\NoticeReference;
 
 /**
- * @group certificate
- * @group extension
- * @group certificate-policy
- *
  * @internal
  */
-class NoticeReferenceTest extends TestCase
+final class NoticeReferenceTest extends TestCase
 {
     public function testCreate()
     {
@@ -61,8 +57,7 @@ class NoticeReferenceTest extends TestCase
      */
     public function testOrganization(NoticeReference $ref)
     {
-        $this->assertEquals('org', $ref->organization()
-            ->string());
+        $this->assertEquals('org', $ref->organization() ->string());
     }
 
     /**

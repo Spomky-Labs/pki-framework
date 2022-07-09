@@ -10,11 +10,9 @@ use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\X501\DN\DNParser;
 
 /**
- * @group dn
- *
  * @internal
  */
-class DNParserTest extends TestCase
+final class DNParserTest extends TestCase
 {
     /**
      * @dataProvider provideParseString
@@ -58,8 +56,7 @@ class DNParserTest extends TestCase
         yield [
             // multiple name-components and attributes
             'cn=one+cn=two,cn=three+cn=four',
-            [[['cn', 'three'], ['cn', 'four']],
-                [['cn', 'one'], ['cn', 'two']], ],
+            [[['cn', 'three'], ['cn', 'four']], [['cn', 'one'], ['cn', 'two']]],
         ];
         yield [
             // empty attribute value

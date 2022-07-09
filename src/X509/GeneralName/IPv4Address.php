@@ -8,8 +8,6 @@ class IPv4Address extends IPAddress
 {
     /**
      * Initialize from octets.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function fromOctets(string $octets): self
     {
@@ -33,10 +31,7 @@ class IPv4Address extends IPAddress
     {
         $bytes = array_map('intval', explode('.', $this->_ip));
         if (isset($this->_mask)) {
-            $bytes = array_merge(
-                $bytes,
-                array_map('intval', explode('.', $this->_mask))
-            );
+            $bytes = array_merge($bytes, array_map('intval', explode('.', $this->_mask)));
         }
         return pack('C*', ...$bytes);
     }

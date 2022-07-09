@@ -10,13 +10,9 @@ use Sop\X509\Certificate\Extension\AccessDescription\SubjectAccessDescription;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- * @group access-description
- *
  * @internal
  */
-class SubjectAccessDescriptionTest extends TestCase
+final class SubjectAccessDescriptionTest extends TestCase
 {
     public const URI = 'urn:test';
 
@@ -56,10 +52,8 @@ class SubjectAccessDescriptionTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        SubjectAccessDescription $ref,
-        SubjectAccessDescription $new
-    ) {
+    public function testRecoded(SubjectAccessDescription $ref, SubjectAccessDescription $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -84,10 +78,7 @@ class SubjectAccessDescriptionTest extends TestCase
      */
     public function testAccessMethod(SubjectAccessDescription $desc)
     {
-        $this->assertEquals(
-            SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
-            $desc->accessMethod()
-        );
+        $this->assertEquals(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY, $desc->accessMethod());
     }
 
     /**
@@ -95,7 +86,6 @@ class SubjectAccessDescriptionTest extends TestCase
      */
     public function testLocation(SubjectAccessDescription $desc)
     {
-        $this->assertEquals(self::URI, $desc->accessLocation()
-            ->string());
+        $this->assertEquals(self::URI, $desc->accessLocation() ->string());
     }
 }

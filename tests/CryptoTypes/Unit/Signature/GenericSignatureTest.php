@@ -11,21 +11,16 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithm
 use Sop\CryptoTypes\Signature\GenericSignature;
 
 /**
- * @group signature
- *
  * @internal
  */
-class GenericSignatureTest extends TestCase
+final class GenericSignatureTest extends TestCase
 {
     /**
      * @return GenericSignature
      */
     public function testCreate()
     {
-        $sig = new GenericSignature(
-            new BitString('test'),
-            new SHA1WithRSAEncryptionAlgorithmIdentifier()
-        );
+        $sig = new GenericSignature(new BitString('test'), new SHA1WithRSAEncryptionAlgorithmIdentifier());
         $this->assertInstanceOf(GenericSignature::class, $sig);
         return $sig;
     }
@@ -43,9 +38,6 @@ class GenericSignatureTest extends TestCase
      */
     public function testSignatureAlgorithm(GenericSignature $sig)
     {
-        $this->assertInstanceOf(
-            AlgorithmIdentifier::class,
-            $sig->signatureAlgorithm()
-        );
+        $this->assertInstanceOf(AlgorithmIdentifier::class, $sig->signatureAlgorithm());
     }
 }

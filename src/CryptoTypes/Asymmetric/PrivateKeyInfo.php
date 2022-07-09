@@ -9,8 +9,8 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
 
 /**
- * PrivateKeyInfo was first introduced in RFC 5208, but later
- * refined as OneAsymmetricKey in RFC 5958 with backwards compatibility.
+ * PrivateKeyInfo was first introduced in RFC 5208, but later refined as OneAsymmetricKey in RFC 5958 with backwards
+ * compatibility.
  *
  * Thus `PrivateKeyInfo ::= OneAsymmetricKey`
  *

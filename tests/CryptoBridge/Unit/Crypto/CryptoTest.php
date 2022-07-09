@@ -10,7 +10,7 @@ use Sop\CryptoBridge\Crypto;
 /**
  * @internal
  */
-class CryptoTest extends TestCase
+final class CryptoTest extends TestCase
 {
     public function testDefault()
     {

@@ -10,8 +10,7 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * Base class for *PolicyQualifierInfo* ASN.1 types used by 'Certificate Policies'
- * certificate extension.
+ * Base class for *PolicyQualifierInfo* ASN.1 types used by 'Certificate Policies' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -45,19 +44,17 @@ abstract class PolicyQualifierInfo
      */
     public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo
     {
-        throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in the derived class.'
-        );
+        throw new \BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
     }
 
     /**
      * Initialize from ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $oid = $seq->at(0)->asObjectIdentifier()->oid();
+        $oid = $seq->at(0)
+            ->asObjectIdentifier()
+            ->oid();
         switch ($oid) {
             case self::OID_CPS:
                 return CPSQualifier::fromQualifierASN1($seq->at(1));
@@ -80,10 +77,7 @@ abstract class PolicyQualifierInfo
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
-            new ObjectIdentifier($this->_oid),
-            $this->_qualifierASN1()
-        );
+        return new Sequence(new ObjectIdentifier($this->_oid), $this->_qualifierASN1());
     }
 
     /**

@@ -26,10 +26,8 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
     /**
      * Constructor.
      */
-    public function __construct(
-        bool $critical,
-        DistributionPoint ...$distribution_points
-    ) {
+    public function __construct(bool $critical, DistributionPoint ...$distribution_points)
+    {
         parent::__construct(self::OID_CRL_DISTRIBUTION_POINTS, $critical);
         $this->_distributionPoints = $distribution_points;
     }
@@ -73,9 +71,7 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($dps)) {
-            throw new \UnexpectedValueException(
-                'CRLDistributionPoints must have at least one DistributionPoint.'
-            );
+            throw new \UnexpectedValueException('CRLDistributionPoints must have at least one DistributionPoint.');
         }
         // late static bound, extended by Freshest CRL extension
         return new static($critical, ...$dps);

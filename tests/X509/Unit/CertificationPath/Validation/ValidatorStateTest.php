@@ -12,19 +12,15 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
 use Sop\X509\CertificationPath\PathValidation\ValidatorState;
 
 /**
- * @group certification-path
- *
  * @internal
  */
-class ValidatorStateTest extends TestCase
+final class ValidatorStateTest extends TestCase
 {
     private static $_ca;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_ca = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
-        );
+        self::$_ca = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
     }
 
     public static function tearDownAfterClass(): void
@@ -34,11 +30,7 @@ class ValidatorStateTest extends TestCase
 
     public function testInitialize()
     {
-        $state = ValidatorState::initialize(
-            PathValidationConfig::defaultConfig(),
-            self::$_ca,
-            3
-        );
+        $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
         $this->assertInstanceOf(ValidatorState::class, $state);
         return $state;
     }
@@ -49,7 +41,8 @@ class ValidatorStateTest extends TestCase
     public function testValidPolicyTreeFail(ValidatorState $state)
     {
         $this->expectException(\LogicException::class);
-        $state->withoutValidPolicyTree()->validPolicyTree();
+        $state->withoutValidPolicyTree()
+            ->validPolicyTree();
     }
 
     /**
@@ -57,9 +50,6 @@ class ValidatorStateTest extends TestCase
      */
     public function testWorkingPublicKeyParameters(ValidatorState $state)
     {
-        $this->assertInstanceOf(
-            NullType::class,
-            $state->workingPublicKeyParameters()
-        );
+        $this->assertInstanceOf(NullType::class, $state->workingPublicKeyParameters());
     }
 }

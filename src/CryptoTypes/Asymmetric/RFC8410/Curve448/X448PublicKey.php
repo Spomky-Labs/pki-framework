@@ -23,9 +23,7 @@ class X448PublicKey extends RFC8410PublicKey
     public function __construct(string $public_key)
     {
         if (56 !== strlen($public_key)) {
-            throw new \UnexpectedValueException(
-                'X448 public key must be exactly 56 bytes.'
-            );
+            throw new \UnexpectedValueException('X448 public key must be exactly 56 bytes.');
         }
         parent::__construct($public_key);
     }

@@ -9,11 +9,9 @@ use Sop\ASN1\Element;
 use Sop\X501\StringPrep\StringPreparer;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class StringPreparerTest extends TestCase
+final class StringPreparerTest extends TestCase
 {
     public function testCreate()
     {

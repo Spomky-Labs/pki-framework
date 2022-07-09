@@ -12,11 +12,9 @@ use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * @group general-name
- *
  * @internal
  */
-class DNSNameTest extends TestCase
+final class DNSNameTest extends TestCase
 {
     public function testCreate()
     {

@@ -10,13 +10,9 @@ use Sop\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- * @group access-description
- *
  * @internal
  */
-class AuthorityAccessDescriptionTest extends TestCase
+final class AuthorityAccessDescriptionTest extends TestCase
 {
     public const URI = 'urn:test';
 
@@ -56,10 +52,8 @@ class AuthorityAccessDescriptionTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(
-        AuthorityAccessDescription $ref,
-        AuthorityAccessDescription $new
-    ) {
+    public function testRecoded(AuthorityAccessDescription $ref, AuthorityAccessDescription $new)
+    {
         $this->assertEquals($ref, $new);
     }
 
@@ -84,10 +78,7 @@ class AuthorityAccessDescriptionTest extends TestCase
      */
     public function testAccessMethod(AuthorityAccessDescription $desc)
     {
-        $this->assertEquals(
-            AuthorityAccessDescription::OID_METHOD_OSCP,
-            $desc->accessMethod()
-        );
+        $this->assertEquals(AuthorityAccessDescription::OID_METHOD_OSCP, $desc->accessMethod());
     }
 
     /**
@@ -95,7 +86,6 @@ class AuthorityAccessDescriptionTest extends TestCase
      */
     public function testLocation(AuthorityAccessDescription $desc)
     {
-        $this->assertEquals(self::URI, $desc->accessLocation()
-            ->string());
+        $this->assertEquals(self::URI, $desc->accessLocation() ->string());
     }
 }

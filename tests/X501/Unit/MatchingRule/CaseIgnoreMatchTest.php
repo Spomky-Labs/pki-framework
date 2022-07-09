@@ -9,11 +9,9 @@ use Sop\ASN1\Element;
 use Sop\X501\MatchingRule\CaseIgnoreMatch;
 
 /**
- * @group matching-rule
- *
  * @internal
  */
-class CaseIgnoreMatchTest extends TestCase
+final class CaseIgnoreMatchTest extends TestCase
 {
     /**
      * @dataProvider provideMatch

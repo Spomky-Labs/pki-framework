@@ -10,12 +10,9 @@ use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group decode
- * @group string
- *
  * @internal
  */
-class StringTypeTest extends TestCase
+final class StringTypeTest extends TestCase
 {
     public function testWrapped()
     {

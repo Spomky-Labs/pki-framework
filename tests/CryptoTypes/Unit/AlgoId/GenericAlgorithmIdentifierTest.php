@@ -11,19 +11,13 @@ use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class GenericAlgorithmIdentifierTest extends TestCase
+final class GenericAlgorithmIdentifierTest extends TestCase
 {
     public function testCreate()
     {
-        $ai = new GenericAlgorithmIdentifier(
-            '1.3.6.1.3',
-            new UnspecifiedType(new Integer(42))
-        );
+        $ai = new GenericAlgorithmIdentifier('1.3.6.1.3', new UnspecifiedType(new Integer(42)));
         $this->assertInstanceOf(GenericAlgorithmIdentifier::class, $ai);
         return $ai;
     }

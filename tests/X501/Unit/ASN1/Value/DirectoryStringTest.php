@@ -12,12 +12,9 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
 
 /**
- * @group asn1
- * @group value
- *
  * @internal
  */
-class DirectoryStringTest extends TestCase
+final class DirectoryStringTest extends TestCase
 {
     public function testFromASN1InvalidType()
     {

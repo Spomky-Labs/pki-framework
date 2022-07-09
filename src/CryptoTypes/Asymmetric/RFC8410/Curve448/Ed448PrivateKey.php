@@ -25,14 +25,10 @@ class Ed448PrivateKey extends RFC8410PrivateKey
     public function __construct(string $private_key, ?string $public_key = null)
     {
         if (57 !== strlen($private_key)) {
-            throw new \UnexpectedValueException(
-                'Ed448 private key must be exactly 57 bytes.'
-            );
+            throw new \UnexpectedValueException('Ed448 private key must be exactly 57 bytes.');
         }
         if (isset($public_key) && 57 !== strlen($public_key)) {
-            throw new \UnexpectedValueException(
-                'Ed448 public key must be exactly 57 bytes.'
-            );
+            throw new \UnexpectedValueException('Ed448 public key must be exactly 57 bytes.');
         }
         parent::__construct($private_key, $public_key);
     }

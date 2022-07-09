@@ -12,12 +12,9 @@ use Sop\X509\AttributeCertificate\Attributes;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group ac
- * @group attribute
- *
  * @internal
  */
-class AuthenticationInfoTest extends TestCase
+final class AuthenticationInfoTest extends TestCase
 {
     final public const SERVICE_URI = 'urn:service';
 
@@ -53,9 +50,7 @@ class AuthenticationInfoTest extends TestCase
      */
     public function testDecode($der)
     {
-        $value = AuthenticationInfoAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified()
-        );
+        $value = AuthenticationInfoAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
         return $value;
     }
@@ -116,9 +111,6 @@ class AuthenticationInfoTest extends TestCase
      */
     public function testFromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(
-            AuthenticationInfoAttributeValue::class,
-            $attribs->authenticationInformation()
-        );
+        $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $attribs->authenticationInformation());
     }
 }

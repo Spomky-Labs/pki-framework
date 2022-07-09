@@ -81,8 +81,6 @@ class AAControlsExtension extends Extension
 
     /**
      * Get path length constraint.
-     *
-     * @throws \LogicException If not set
      */
     public function pathLen(): int
     {
@@ -102,8 +100,6 @@ class AAControlsExtension extends Extension
 
     /**
      * Get OID's of permitted attributes.
-     *
-     * @throws \LogicException If not set
      *
      * @return string[]
      */
@@ -126,8 +122,6 @@ class AAControlsExtension extends Extension
     /**
      * Get OID's of excluded attributes.
      *
-     * @throws \LogicException If not set
-     *
      * @return string[]
      */
     public function excludedAttrs(): array
@@ -139,8 +133,7 @@ class AAControlsExtension extends Extension
     }
 
     /**
-     * Whether to permit attributes that are not explicitly specified in
-     * neither permitted nor excluded list.
+     * Whether to permit attributes that are not explicitly specified in neither permitted nor excluded list.
      */
     public function permitUnspecified(): bool
     {
@@ -156,32 +149,40 @@ class AAControlsExtension extends Extension
         $permit_unspecified = true;
         $idx = 0;
         if ($seq->has($idx, Element::TYPE_INTEGER)) {
-            $path_len = $seq->at($idx++)->asInteger()->intNumber();
+            $path_len = $seq->at($idx++)
+                ->asInteger()
+                ->intNumber();
         }
         if ($seq->hasTagged(0)) {
-            $attr_seq = $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
+            $attr_seq = $seq->getTagged(0)
+                ->asImplicit(Element::TYPE_SEQUENCE)
                 ->asSequence();
             $permitted = array_map(
                 function (UnspecifiedType $el) {
-                    return $el->asObjectIdentifier()->oid();
+                    return $el->asObjectIdentifier()
+                        ->oid();
                 },
                 $attr_seq->elements()
             );
             ++$idx;
         }
         if ($seq->hasTagged(1)) {
-            $attr_seq = $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)
+            $attr_seq = $seq->getTagged(1)
+                ->asImplicit(Element::TYPE_SEQUENCE)
                 ->asSequence();
             $excluded = array_map(
                 function (UnspecifiedType $el) {
-                    return $el->asObjectIdentifier()->oid();
+                    return $el->asObjectIdentifier()
+                        ->oid();
                 },
                 $attr_seq->elements()
             );
             ++$idx;
         }
         if ($seq->has($idx, Element::TYPE_BOOLEAN)) {
-            $permit_unspecified = $seq->at($idx++)->asBoolean()->value();
+            $permit_unspecified = $seq->at($idx++)
+                ->asBoolean()
+                ->value();
         }
         return new self($critical, $path_len, $permitted, $excluded, $permit_unspecified);
     }
@@ -193,21 +194,15 @@ class AAControlsExtension extends Extension
             $elements[] = new Integer($this->_pathLenConstraint);
         }
         if (isset($this->_permittedAttrs)) {
-            $oids = array_map(
-                function ($oid) {
-                    return new ObjectIdentifier($oid);
-                },
-                $this->_permittedAttrs
-            );
+            $oids = array_map(function ($oid) {
+                return new ObjectIdentifier($oid);
+            }, $this->_permittedAttrs);
             $elements[] = new ImplicitlyTaggedType(0, new Sequence(...$oids));
         }
         if (isset($this->_excludedAttrs)) {
-            $oids = array_map(
-                function ($oid) {
-                    return new ObjectIdentifier($oid);
-                },
-                $this->_excludedAttrs
-            );
+            $oids = array_map(function ($oid) {
+                return new ObjectIdentifier($oid);
+            }, $this->_excludedAttrs);
             $elements[] = new ImplicitlyTaggedType(1, new Sequence(...$oids));
         }
         if (true !== $this->_permitUnSpecified) {

@@ -12,12 +12,9 @@ use Sop\ASN1\Type\Tagged\ExplicitTagging;
 use Sop\ASN1\Type\TaggedType;
 
 /**
- * @group tagging
- * @group explicit-tag
- *
  * @internal
  */
-class ExplicitlyTaggedTypeTest extends TestCase
+final class ExplicitlyTaggedTypeTest extends TestCase
 {
     public function testCreate()
     {
@@ -31,11 +28,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function testGetExplicit(ExplicitTagging $el)
     {
-        $this->assertEquals(
-            Element::TYPE_NULL,
-            $el->explicit()
-                ->tag()
-        );
+        $this->assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
     }
 
     /**
@@ -78,9 +71,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testExpectImplicitFail(TaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Element doesn\'t implement implicit tagging'
-        );
+        $this->expectExceptionMessage('Element doesn\'t implement implicit tagging');
         $el->expectImplicit();
     }
 
@@ -108,9 +99,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testExpectTypeFails(TaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'NULL expected, got CONTEXT SPECIFIC TAG 1'
-        );
+        $this->expectExceptionMessage('NULL expected, got CONTEXT SPECIFIC TAG 1');
         $el->expectType(Element::TYPE_NULL);
     }
 
@@ -119,11 +108,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function testAsExplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(
-            NullType::class,
-            $el->asExplicit(1)
-                ->asNull()
-        );
+        $this->assertInstanceOf(NullType::class, $el->asExplicit(1) ->asNull());
     }
 
     /**

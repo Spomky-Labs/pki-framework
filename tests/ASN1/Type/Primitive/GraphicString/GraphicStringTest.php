@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group graphic-string
- *
  * @internal
  */
-class GraphicStringTest extends TestCase
+final class GraphicStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,9 +72,7 @@ class GraphicStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'GraphicString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('GraphicString expected, got primitive NULL');
         $wrap->asGraphicString();
     }
 }

@@ -13,29 +13,20 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\HMACWithSHA256AlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class RFC4231HMACAITest extends TestCase
+final class RFC4231HMACAITest extends TestCase
 {
     public function testDecodeWithParams()
     {
-        $seq = new Sequence(
-            new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256),
-            new NullType()
-        );
+        $seq = new Sequence(new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256), new NullType());
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(HMACWithSHA256AlgorithmIdentifier::class, $ai);
     }
 
     public function testDecodeWithInvalidParamsFail()
     {
-        $seq = new Sequence(
-            new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256),
-            new Boolean(true)
-        );
+        $seq = new Sequence(new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256), new Boolean(true));
         $this->expectException(\UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }

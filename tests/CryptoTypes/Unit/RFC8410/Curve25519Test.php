@@ -16,11 +16,9 @@ use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PublicKey;
 
 /**
- * @group rfc8410
- *
  * @internal
  */
-class Curve25519Test extends TestCase
+final class Curve25519Test extends TestCase
 {
     public function testDecodeEd25519WithPub(): Ed25519PrivateKey
     {
@@ -64,10 +62,10 @@ class Curve25519Test extends TestCase
     public function testEd25519PrivateKeyData(Ed25519PrivateKey $pk)
     {
         /** @see https://datatracker.ietf.org/doc/html/rfc8410#section-10.3 */
-        $data = <<<'DATA'
+        $data = <<<'CODE_SAMPLE'
 D4 EE 72 DB F9 13 58 4A D5 B6 D8 F1 F7 69 F8 AD
 3A FE 7C 28 CB F1 D4 FB E0 97 A8 8F 44 75 58 42
-DATA;
+CODE_SAMPLE;
         $data = hex2bin(preg_replace('/[^\w]+/', '', $data));
         $this->assertEquals($data, $pk->privateKeyData());
     }

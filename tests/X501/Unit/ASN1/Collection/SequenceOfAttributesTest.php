@@ -11,18 +11,13 @@ use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class SequenceOfAttributesTest extends TestCase
+final class SequenceOfAttributesTest extends TestCase
 {
     public function testCreate()
     {
-        $c = SequenceOfAttributes::fromAttributeValues(
-            new NameValue('n'),
-            new DescriptionValue('d')
-        );
+        $c = SequenceOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
         $this->assertInstanceOf(SequenceOfAttributes::class, $c);
         return $c;
     }

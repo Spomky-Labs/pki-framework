@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\KeyUsageExtension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class KeyUsageTest extends TestCase
+final class KeyUsageTest extends TestCase
 {
     public function testCreate()
     {

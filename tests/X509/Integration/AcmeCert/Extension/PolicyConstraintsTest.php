@@ -8,13 +8,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\PolicyConstraintsExtension;
 
 /**
- * @group certificate
- * @group extension
- * @group decode
- *
  * @internal
  */
-class PolicyConstraintsTest extends RefExtTestHelper
+final class PolicyConstraintsTest extends RefExtTestHelper
 {
     /**
      * @return PolicyConstraintsExtension

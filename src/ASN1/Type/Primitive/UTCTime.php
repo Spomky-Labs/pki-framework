@@ -52,11 +52,8 @@ class UTCTime extends BaseTime
         return $dt->format('ymdHis\\Z');
     }
 
-    protected static function _decodeFromDER(
-        Identifier $identifier,
-        string $data,
-        int &$offset
-    ): ElementBase {
+    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = substr($data, $idx, $length);
@@ -67,14 +64,9 @@ class UTCTime extends BaseTime
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
         $time = $year . $month . $day . $hour . $minute . $second . self::TZ_UTC;
-        $dt = \DateTimeImmutable::createFromFormat(
-            '!ymdHisT',
-            $time,
-            self::_createTimeZone(self::TZ_UTC)
-        );
+        $dt = \DateTimeImmutable::createFromFormat('!ymdHisT', $time, self::_createTimeZone(self::TZ_UTC));
         if (! $dt) {
-            throw new DecodeException('Failed to decode UTCTime: ' .
-                self::_getLastDateTimeImmutableErrorsStr());
+            throw new DecodeException('Failed to decode UTCTime: ' . self::_getLastDateTimeImmutableErrorsStr());
         }
         $offset = $idx;
         return new self($dt);

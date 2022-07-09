@@ -15,7 +15,7 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * @internal
  */
-class UnspecifiedTypeTest extends TestCase
+final class UnspecifiedTypeTest extends TestCase
 {
     public function testAsElement()
     {
@@ -56,9 +56,7 @@ class UnspecifiedTypeTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Tagged element expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('Tagged element expected, got primitive NULL');
         $wrap->asTagged();
     }
 
@@ -66,9 +64,7 @@ class UnspecifiedTypeTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Any String expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('Any String expected, got primitive NULL');
         $wrap->asString();
     }
 
@@ -76,9 +72,7 @@ class UnspecifiedTypeTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'Any Time expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('Any Time expected, got primitive NULL');
         $wrap->asTime();
     }
 
@@ -87,9 +81,7 @@ class UnspecifiedTypeTest extends TestCase
         $el = new DERData("\xdf\x7f\x0");
         $wrap = new UnspecifiedType($el);
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'NULL expected, got primitive PRIVATE TAG 127'
-        );
+        $this->expectExceptionMessage('NULL expected, got primitive PRIVATE TAG 127');
         $wrap->asNull();
     }
 
@@ -132,10 +124,7 @@ class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            ElementBase::class,
-            $wrap->expectType(Element::TYPE_NULL)
-        );
+        $this->assertInstanceOf(ElementBase::class, $wrap->expectType(Element::TYPE_NULL));
     }
 
     public function testIsTagged()

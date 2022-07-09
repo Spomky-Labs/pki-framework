@@ -11,12 +11,9 @@ use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 
 /**
- * @group asn1
- * @group ec
- *
  * @internal
  */
-class ECPublicKeyTest extends TestCase
+final class ECPublicKeyTest extends TestCase
 {
     /**
      * @return ECPublicKey
@@ -104,10 +101,7 @@ class ECPublicKeyTest extends TestCase
      */
     public function testNamedCurve(ECPublicKey $pk)
     {
-        $this->assertEquals(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve()
-        );
+        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     public function testNoCurveFail()
@@ -130,11 +124,7 @@ class ECPublicKeyTest extends TestCase
     public function testFromCoordinates(array $points)
     {
         [$x, $y] = $points;
-        $pk = ECPublicKey::fromCoordinates(
-            $x,
-            $y,
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1
-        );
+        $pk = ECPublicKey::fromCoordinates($x, $y, ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
         $this->assertInstanceOf(ECPublicKey::class, $pk);
         return $pk;
     }

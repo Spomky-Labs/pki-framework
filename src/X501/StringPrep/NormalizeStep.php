@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Sop\X501\StringPrep;
 
 /**
- * Implements 'Normalize' step of the Internationalized String Preparation
- * as specified by RFC 4518.
+ * Implements 'Normalize' step of the Internationalized String Preparation as specified by RFC 4518.
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.3
  */

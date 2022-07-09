@@ -14,11 +14,9 @@ use Sop\X501\ASN1\AttributeValue\DescriptionValue;
 use Sop\X501\ASN1\AttributeValue\UnknownAttributeValue;
 
 /**
- * @group attribute
- *
  * @internal
  */
-class AttributeCastTest extends TestCase
+final class AttributeCastTest extends TestCase
 {
     private static $_attr;
 
@@ -26,10 +24,7 @@ class AttributeCastTest extends TestCase
     {
         self::$_attr = new Attribute(
             new AttributeType(AttributeType::OID_COMMON_NAME),
-            new UnknownAttributeValue(
-                AttributeType::OID_COMMON_NAME,
-                new UTF8String('name')
-            )
+            new UnknownAttributeValue(AttributeType::OID_COMMON_NAME, new UTF8String('name'))
         );
     }
 
@@ -47,9 +42,7 @@ class AttributeCastTest extends TestCase
     public function testInvalidClass()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage(
-            stdClass::class . ' must be derived from ' . AttributeValue::class
-        );
+        $this->expectExceptionMessage(stdClass::class . ' must be derived from ' . AttributeValue::class);
         self::$_attr->castValues(stdClass::class);
     }
 

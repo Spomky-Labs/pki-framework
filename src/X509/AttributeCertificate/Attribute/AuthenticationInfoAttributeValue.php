@@ -18,11 +18,8 @@ class AuthenticationInfoAttributeValue extends SvceAuthInfo
     /**
      * Constructor.
      */
-    public function __construct(
-        GeneralName $service,
-        GeneralName $ident,
-        ?string $auth_info = null
-    ) {
+    public function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
+    {
         parent::__construct($service, $ident, $auth_info);
         $this->_oid = self::OID;
     }

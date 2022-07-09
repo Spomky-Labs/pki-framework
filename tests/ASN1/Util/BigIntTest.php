@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Util\BigInt;
 
 /**
- * @group util
- *
  * @internal
  */
-class BigIntTest extends TestCase
+final class BigIntTest extends TestCase
 {
     public function testMaxInt()
     {

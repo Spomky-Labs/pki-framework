@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\PrintableString;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group printable-string
- *
  * @internal
  */
-class PrintableStringTest extends TestCase
+final class PrintableStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -68,19 +65,14 @@ class PrintableStringTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            PrintableString::class,
-            $wrap->asPrintableString()
-        );
+        $this->assertInstanceOf(PrintableString::class, $wrap->asPrintableString());
     }
 
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'PrintableString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('PrintableString expected, got primitive NULL');
         $wrap->asPrintableString();
     }
 }

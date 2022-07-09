@@ -11,12 +11,9 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 
 /**
- * @group certificate
- * @group extension
- *
  * @internal
  */
-class ExtendedKeyUsageTest extends TestCase
+final class ExtendedKeyUsageTest extends TestCase
 {
     public function testCreate()
     {
@@ -82,10 +79,7 @@ class ExtendedKeyUsageTest extends TestCase
     public function testHas(ExtendedKeyUsageExtension $ext)
     {
         $this->assertTrue(
-            $ext->has(
-                ExtendedKeyUsageExtension::OID_SERVER_AUTH,
-                ExtendedKeyUsageExtension::OID_CLIENT_AUTH
-            )
+            $ext->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH, ExtendedKeyUsageExtension::OID_CLIENT_AUTH)
         );
     }
 
@@ -94,9 +88,7 @@ class ExtendedKeyUsageTest extends TestCase
      */
     public function testHasNot(ExtendedKeyUsageExtension $ext)
     {
-        $this->assertFalse(
-            $ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING)
-        );
+        $this->assertFalse($ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
     }
 
     /**

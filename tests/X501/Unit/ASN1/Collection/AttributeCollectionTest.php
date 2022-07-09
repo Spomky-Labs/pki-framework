@@ -13,11 +13,9 @@ use Sop\X501\ASN1\Collection\AttributeCollection;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
 
 /**
- * @group asn1
- *
  * @internal
  */
-class AttributeCollectionTest extends TestCase
+final class AttributeCollectionTest extends TestCase
 {
     public function testCreate()
     {
@@ -95,9 +93,7 @@ class AttributeCollectionTest extends TestCase
      */
     public function testWithAdditional(AttributeCollection $c)
     {
-        $c = $c->withAdditional(
-            Attribute::fromAttributeValues(new CommonNameValue('cn'))
-        );
+        $c = $c->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('cn')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         $this->assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
     }
@@ -107,9 +103,7 @@ class AttributeCollectionTest extends TestCase
      */
     public function testWithUnique(AttributeCollection $c)
     {
-        $c = $c->withUnique(
-            Attribute::fromAttributeValues(new NameValue('uniq'))
-        );
+        $c = $c->withUnique(Attribute::fromAttributeValues(new NameValue('uniq')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         $this->assertEquals(['d', 'uniq'], $vals);
     }

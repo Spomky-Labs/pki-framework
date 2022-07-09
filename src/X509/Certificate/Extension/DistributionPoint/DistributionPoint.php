@@ -11,8 +11,7 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * Implements *DistributionPoint* ASN.1 type used by 'CRL Distribution Points'
- * certificate extension.
+ * Implements *DistributionPoint* ASN.1 type used by 'CRL Distribution Points' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
@@ -62,19 +61,19 @@ class DistributionPoint
         $issuer = null;
         if ($seq->hasTagged(0)) {
             // promoted to explicit tagging because underlying type is CHOICE
-            $name = DistributionPointName::fromTaggedType(
-                $seq->getTagged(0)->asExplicit()->asTagged()
-            );
+            $name = DistributionPointName::fromTaggedType($seq->getTagged(0) ->asExplicit() ->asTagged());
         }
         if ($seq->hasTagged(1)) {
             $reasons = ReasonFlags::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_BIT_STRING)
+                $seq->getTagged(1)
+                    ->asImplicit(Element::TYPE_BIT_STRING)
                     ->asBitString()
             );
         }
         if ($seq->hasTagged(2)) {
             $issuer = GeneralNames::fromASN1(
-                $seq->getTagged(2)->asImplicit(Element::TYPE_SEQUENCE)
+                $seq->getTagged(2)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
                     ->asSequence()
             );
         }
@@ -91,8 +90,6 @@ class DistributionPoint
 
     /**
      * Get distribution point name.
-     *
-     * @throws \LogicException If not set
      */
     public function distributionPointName(): DistributionPointName
     {
@@ -108,13 +105,12 @@ class DistributionPoint
     public function hasFullName(): bool
     {
         return DistributionPointName::TAG_FULL_NAME ===
-             $this->distributionPointName()->tag();
+             $this->distributionPointName()
+                 ->tag();
     }
 
     /**
      * Get full distribution point name.
-     *
-     * @throws \LogicException If not set
      */
     public function fullName(): FullName
     {
@@ -130,13 +126,12 @@ class DistributionPoint
     public function hasRelativeName(): bool
     {
         return DistributionPointName::TAG_RDN ===
-             $this->distributionPointName()->tag();
+             $this->distributionPointName()
+                 ->tag();
     }
 
     /**
      * Get relative distribution point name.
-     *
-     * @throws \LogicException If not set
      */
     public function relativeName(): RelativeName
     {
@@ -156,8 +151,6 @@ class DistributionPoint
 
     /**
      * Get revocation reason flags.
-     *
-     * @throws \LogicException If not set
      */
     public function reasons(): ReasonFlags
     {
@@ -177,8 +170,6 @@ class DistributionPoint
 
     /**
      * Get CRL issuer.
-     *
-     * @throws \LogicException If not set
      */
     public function crlIssuer(): GeneralNames
     {
@@ -195,10 +186,7 @@ class DistributionPoint
     {
         $elements = [];
         if (isset($this->_distributionPoint)) {
-            $elements[] = new ExplicitlyTaggedType(
-                0,
-                $this->_distributionPoint->toASN1()
-            );
+            $elements[] = new ExplicitlyTaggedType(0, $this->_distributionPoint->toASN1());
         }
         if (isset($this->_reasons)) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_reasons->toASN1());

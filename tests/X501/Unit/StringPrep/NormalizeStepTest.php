@@ -8,11 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\StringPrep\NormalizeStep;
 
 /**
- * @group string-prep
- *
  * @internal
  */
-class NormalizeStepTest extends TestCase
+final class NormalizeStepTest extends TestCase
 {
     public function testApply()
     {

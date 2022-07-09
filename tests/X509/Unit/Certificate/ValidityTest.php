@@ -9,12 +9,9 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Validity;
 
 /**
- * @group certificate
- * @group time
- *
  * @internal
  */
-class ValidityTest extends TestCase
+final class ValidityTest extends TestCase
 {
     final public const NB = '2016-04-06 12:00:00';
 
@@ -63,11 +60,7 @@ class ValidityTest extends TestCase
      */
     public function testNotBefore(Validity $validity)
     {
-        $this->assertEquals(
-            new \DateTimeImmutable(self::NB),
-            $validity->notBefore()
-                ->dateTime()
-        );
+        $this->assertEquals(new \DateTimeImmutable(self::NB), $validity->notBefore() ->dateTime());
     }
 
     /**
@@ -75,10 +68,6 @@ class ValidityTest extends TestCase
      */
     public function testNotAfter(Validity $validity)
     {
-        $this->assertEquals(
-            new \DateTimeImmutable(self::NA),
-            $validity->notAfter()
-                ->dateTime()
-        );
+        $this->assertEquals(new \DateTimeImmutable(self::NA), $validity->notAfter() ->dateTime());
     }
 }

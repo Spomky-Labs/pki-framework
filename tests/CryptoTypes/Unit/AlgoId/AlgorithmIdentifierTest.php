@@ -13,20 +13,15 @@ use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 /**
- * @group asn1
- * @group algo-id
- *
  * @internal
  */
-class AlgorithmIdentifierTest extends TestCase
+final class AlgorithmIdentifierTest extends TestCase
 {
     private static $_unknownASN1;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_unknownASN1 = new Sequence(
-            new ObjectIdentifier('1.3.6.1.3', new NullType())
-        );
+        self::$_unknownASN1 = new Sequence(new ObjectIdentifier('1.3.6.1.3', new NullType()));
     }
 
     public static function tearDownAfterClass(): void

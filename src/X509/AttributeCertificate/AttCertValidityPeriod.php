@@ -45,8 +45,12 @@ class AttCertValidityPeriod
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $nb = $seq->at(0)->asGeneralizedTime()->dateTime();
-        $na = $seq->at(1)->asGeneralizedTime()->dateTime();
+        $nb = $seq->at(0)
+            ->asGeneralizedTime()
+            ->dateTime();
+        $na = $seq->at(1)
+            ->asGeneralizedTime()
+            ->dateTime();
         return new self($nb, $na);
     }
 
@@ -57,11 +61,8 @@ class AttCertValidityPeriod
      * @param null|string $na_date Not after date
      * @param null|string $tz      Timezone string
      */
-    public static function fromStrings(
-        ?string $nb_date,
-        ?string $na_date,
-        ?string $tz = null
-    ): self {
+    public static function fromStrings(?string $nb_date, ?string $na_date, ?string $tz = null): self
+    {
         $nb = self::_createDateTime($nb_date, $tz);
         $na = self::_createDateTime($na_date, $tz);
         return new self($nb, $na);
@@ -88,9 +89,6 @@ class AttCertValidityPeriod
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
-            new GeneralizedTime($this->_notBeforeTime),
-            new GeneralizedTime($this->_notAfterTime)
-        );
+        return new Sequence(new GeneralizedTime($this->_notBeforeTime), new GeneralizedTime($this->_notAfterTime));
     }
 }

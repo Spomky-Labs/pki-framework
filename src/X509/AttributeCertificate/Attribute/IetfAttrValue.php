@@ -47,8 +47,6 @@ class IetfAttrValue
 
     /**
      * Initialize from ASN.1.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromASN1(UnspecifiedType $el): self
     {
@@ -59,9 +57,7 @@ class IetfAttrValue
             case Element::TYPE_OBJECT_IDENTIFIER:
                 return new self($el->asObjectIdentifier()->oid(), $el->tag());
         }
-        throw new \UnexpectedValueException(
-            'Type ' . Element::tagToName($el->tag()) . ' not supported.'
-        );
+        throw new \UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.');
     }
 
     /**
@@ -127,8 +123,6 @@ class IetfAttrValue
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @throws \LogicException
      */
     public function toASN1(): Element
     {
@@ -140,8 +134,6 @@ class IetfAttrValue
             case Element::TYPE_OBJECT_IDENTIFIER:
                 return new ObjectIdentifier($this->_value);
         }
-        throw new \LogicException(
-            'Type ' . Element::tagToName($this->_type) . ' not supported.'
-        );
+        throw new \LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.');
     }
 }

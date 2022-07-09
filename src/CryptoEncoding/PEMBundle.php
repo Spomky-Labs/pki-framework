@@ -33,8 +33,6 @@ class PEMBundle implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from a string.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromString(string $str): self
     {
@@ -46,9 +44,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
                 $payload = preg_replace('/\s+/', '', $match[2]);
                 $data = base64_decode($payload, true);
                 if (false === $data) {
-                    throw new \UnexpectedValueException(
-                        'Failed to decode PEM data.'
-                    );
+                    throw new \UnexpectedValueException('Failed to decode PEM data.');
                 }
                 return new PEM($match[1], $data);
             },
@@ -59,8 +55,6 @@ class PEMBundle implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from a file.
-     *
-     * @throws \RuntimeException If file reading fails
      */
     public static function fromFile(string $filename): self
     {
@@ -96,8 +90,6 @@ class PEMBundle implements \Countable, \IteratorAggregate
 
     /**
      * Get the first PEM in a bundle.
-     *
-     * @throws \LogicException If bundle contains no PEM objects
      */
     public function first(): PEM
     {
@@ -109,8 +101,6 @@ class PEMBundle implements \Countable, \IteratorAggregate
 
     /**
      * Get the last PEM in a bundle.
-     *
-     * @throws \LogicException If bundle contains no PEM objects
      */
     public function last(): PEM
     {
@@ -143,14 +133,8 @@ class PEMBundle implements \Countable, \IteratorAggregate
      */
     public function string(): string
     {
-        return implode(
-            "\n",
-            array_map(
-                function (PEM $pem) {
-                    return $pem->string();
-                },
-                $this->_pems
-            )
-        );
+        return implode("\n", array_map(function (PEM $pem) {
+            return $pem->string();
+        }, $this->_pems));
     }
 }

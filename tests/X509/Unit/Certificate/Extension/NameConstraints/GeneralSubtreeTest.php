@@ -12,13 +12,9 @@ use Sop\X509\GeneralName\RFC822Name;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
 /**
- * @group certificate
- * @group extension
- * @group name-constraint
- *
  * @internal
  */
-class GeneralSubtreeTest extends TestCase
+final class GeneralSubtreeTest extends TestCase
 {
     public const URI = '.example.com';
 
@@ -71,11 +67,7 @@ class GeneralSubtreeTest extends TestCase
 
     public function testCreateWithAll()
     {
-        $subtree = new GeneralSubtree(
-            new UniformResourceIdentifier(self::URI),
-            1,
-            3
-        );
+        $subtree = new GeneralSubtree(new UniformResourceIdentifier(self::URI), 1, 3);
         $this->assertInstanceOf(GeneralSubtree::class, $subtree);
         return $subtree;
     }

@@ -9,13 +9,9 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
 
 /**
- * @group certificate
- * @group extension
- * @group certificate-policy
- *
  * @internal
  */
-class CPSQualifierTest extends TestCase
+final class CPSQualifierTest extends TestCase
 {
     public const URI = 'urn:test';
 

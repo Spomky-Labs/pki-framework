@@ -11,12 +11,9 @@ use Sop\ASN1\Type\Primitive\UniversalString;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * @group type
- * @group universal-string
- *
  * @internal
  */
-class UniversalStringTest extends TestCase
+final class UniversalStringTest extends TestCase
 {
     public function testCreate()
     {
@@ -75,19 +72,14 @@ class UniversalStringTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(
-            UniversalString::class,
-            $wrap->asUniversalString()
-        );
+        $this->assertInstanceOf(UniversalString::class, $wrap->asUniversalString());
     }
 
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage(
-            'UniversalString expected, got primitive NULL'
-        );
+        $this->expectExceptionMessage('UniversalString expected, got primitive NULL');
         $wrap->asUniversalString();
     }
 }

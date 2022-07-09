@@ -60,7 +60,8 @@ class AttributeCertificate
      */
     public function __toString(): string
     {
-        return $this->toPEM()->string();
+        return $this->toPEM()
+            ->string();
     }
 
     /**
@@ -71,14 +72,9 @@ class AttributeCertificate
         $acinfo = AttributeCertificateInfo::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $algo->oid() . '.'
-            );
+            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData(
-            $seq->at(2)->asBitString()->string(),
-            $algo
-        );
+        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
         return new self($acinfo, $algo, $signature);
     }
 
@@ -92,8 +88,6 @@ class AttributeCertificate
 
     /**
      * Initialize from PEM.
-     *
-     * @throws \UnexpectedValueException
      */
     public static function fromPEM(PEM $pem): self
     {
@@ -144,7 +138,8 @@ class AttributeCertificate
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**
@@ -156,8 +151,7 @@ class AttributeCertificate
     }
 
     /**
-     * Check whether attribute certificate is issued to the subject identified
-     * by given public key certificate.
+     * Check whether attribute certificate is issued to the subject identified by given public key certificate.
      *
      * @param Certificate $cert Certificate
      */
@@ -170,8 +164,7 @@ class AttributeCertificate
     }
 
     /**
-     * Check whether attribute certificate is issued by given public key
-     * certificate.
+     * Check whether attribute certificate is issued by given public key certificate.
      *
      * @param Certificate $cert Certificate
      */
@@ -192,12 +185,8 @@ class AttributeCertificate
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {
         $crypto = $crypto ?? Crypto::getDefault();
-        $data = $this->_acinfo->toASN1()->toDER();
-        return $crypto->verify(
-            $data,
-            $this->_signatureValue,
-            $pubkey_info,
-            $this->_signatureAlgorithm
-        );
+        $data = $this->_acinfo->toASN1()
+            ->toDER();
+        return $crypto->verify($data, $this->_signatureValue, $pubkey_info, $this->_signatureAlgorithm);
     }
 }
