@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
+use function array_slice;
+use function count;
 use UnexpectedValueException;
 
 class IPv4Address extends IPAddress

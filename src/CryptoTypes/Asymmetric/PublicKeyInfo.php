@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
+use function chr;
+use function ord;
 use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;

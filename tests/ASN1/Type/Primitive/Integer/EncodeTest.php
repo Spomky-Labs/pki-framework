@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Integer;
 
+use function chr;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\Integer;

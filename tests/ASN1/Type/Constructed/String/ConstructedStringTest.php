@@ -28,6 +28,7 @@ use Sop\ASN1\Type\Primitive\VideotexString;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strval;
 use UnexpectedValueException;
 
 /**

@@ -9,6 +9,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PrivateKey;
+use function strlen;
 use UnexpectedValueException;
 
 /**

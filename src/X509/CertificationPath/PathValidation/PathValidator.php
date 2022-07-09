@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
+use function count;
+use function in_array;
 use LogicException;
 use RuntimeException;
 use Sop\CryptoBridge\Crypto;

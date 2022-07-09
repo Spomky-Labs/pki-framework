@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
 use Sop\X509\AttributeCertificate\Attribute\IetfAttrSyntax;
+use function strval;
 
 /**
  * @internal

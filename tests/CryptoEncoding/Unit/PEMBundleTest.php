@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoEncoding\PEMBundle;
+use function strval;
 use UnexpectedValueException;
 
 /**

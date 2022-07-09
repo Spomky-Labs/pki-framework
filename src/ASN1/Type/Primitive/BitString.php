@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use function chr;
+use function ord;
 use OutOfBoundsException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
@@ -12,6 +14,7 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\BaseString;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
+use function strlen;
 
 /**
  * Implements *BIT STRING* type.

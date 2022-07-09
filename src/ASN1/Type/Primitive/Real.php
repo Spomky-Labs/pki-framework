@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use function chr;
+use function count;
 use GMP;
+use function in_array;
 use LogicException;
+use function ord;
 use RangeException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
@@ -15,6 +19,7 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
+use function strlen;
 use UnexpectedValueException;
 
 /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\Policy;
 
+use function count;
+use function in_array;
 use LogicException;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;

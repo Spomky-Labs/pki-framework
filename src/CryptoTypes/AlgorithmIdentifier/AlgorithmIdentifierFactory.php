@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier;
 
+use function array_key_exists;
 use Sop\ASN1\Type\Constructed\Sequence;
 
 /**

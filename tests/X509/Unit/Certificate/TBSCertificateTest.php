@@ -20,6 +20,7 @@ use Sop\X509\Certificate\Extensions;
 use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\Certificate\Validity;
+use function strlen;
 use UnexpectedValueException;
 
 /**

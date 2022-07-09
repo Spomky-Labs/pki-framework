@@ -13,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentif
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use function strval;
 use UnexpectedValueException;
 
 /**

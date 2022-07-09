@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Util;
 
+use function assert;
+use function count;
+use function is_array;
+use function ord;
 use OutOfBoundsException;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;

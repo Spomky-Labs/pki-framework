@@ -26,6 +26,7 @@ use Sop\X509\Certificate\Certificate;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use function strval;
 use UnexpectedValueException;
 
 /**

@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strval;
 
 /**
  * @internal

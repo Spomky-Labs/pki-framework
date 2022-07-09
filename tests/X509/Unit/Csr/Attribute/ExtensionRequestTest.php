@@ -10,6 +10,7 @@ use Sop\X501\ASN1\AttributeValue\AttributeValue;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
+use function strval;
 
 /**
  * @internal

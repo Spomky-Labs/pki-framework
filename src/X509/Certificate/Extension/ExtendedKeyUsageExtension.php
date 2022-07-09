@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Sop\X509\Certificate\Extension;
 
 use ArrayIterator;
+use function count;
 use Countable;
+use function in_array;
 use IteratorAggregate;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;

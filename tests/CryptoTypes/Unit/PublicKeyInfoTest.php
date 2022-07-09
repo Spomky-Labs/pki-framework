@@ -16,6 +16,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use function strlen;
 use UnexpectedValueException;
 
 /**

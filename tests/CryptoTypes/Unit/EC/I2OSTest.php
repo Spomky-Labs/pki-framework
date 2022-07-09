@@ -10,6 +10,7 @@ use RangeException;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
+use function strlen;
 
 /**
  * @internal

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
 use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PublicKey;
+use function strlen;
 use UnexpectedValueException;
 
 /**

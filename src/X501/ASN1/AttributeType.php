@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
+use function array_key_exists;
 use LogicException;
 use OutOfBoundsException;
 use Sop\ASN1\Element;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X501\StringPrep;
 
+use function in_array;
 use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\T61String;

@@ -13,6 +13,7 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\X509\GeneralName\GeneralNames;
+use function strval;
 use UnexpectedValueException;
 
 /**

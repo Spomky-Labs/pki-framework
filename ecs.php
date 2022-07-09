@@ -66,6 +66,7 @@ return static function (ECSConfig $config) use ($header): void {
     $config->rule(PhpdocOrderFixer::class);
     $config->rule(SimplifiedNullReturnFixer::class);
     $config->rule(PhpUnitTestCaseStaticMethodCallsFixer::class);
+    */
     $config->ruleWithConfiguration(ArraySyntaxFixer::class, [
         'syntax' => 'short',
     ]);
@@ -74,7 +75,6 @@ return static function (ECSConfig $config) use ($header): void {
         'scope' => 'namespaced',
         'strict' => true,
     ]);
-    */
     $config->ruleWithConfiguration(HeaderCommentFixer::class, [
         'header' => $header,
     ]);

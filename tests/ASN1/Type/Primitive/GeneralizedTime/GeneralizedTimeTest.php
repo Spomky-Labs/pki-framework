@@ -12,6 +12,7 @@ use Sop\ASN1\Type\Primitive\GeneralizedTime;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strval;
 use UnexpectedValueException;
 
 /**

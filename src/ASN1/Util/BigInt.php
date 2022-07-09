@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Util;
 
+use function chr;
 use GMP;
 use InvalidArgumentException;
+use function ord;
 use RuntimeException;
+use function strlen;
 
 /**
  * Class to wrap an integer of arbirtary length.

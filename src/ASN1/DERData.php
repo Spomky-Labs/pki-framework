@@ -6,6 +6,7 @@ namespace Sop\ASN1;
 
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
+use function strlen;
 
 /**
  * Container for raw DER encoded data.

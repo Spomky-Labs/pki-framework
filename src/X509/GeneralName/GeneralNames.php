@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Sop\X509\GeneralName;
 
 use ArrayIterator;
+use function count;
 use Countable;
+use function get_class;
 use IteratorAggregate;
 use LogicException;
 use RuntimeException;

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use function gettype;
 use GMP;
 use InvalidArgumentException;
+use function is_int;
+use function is_scalar;
+use function is_string;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -13,6 +17,7 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
+use function strval;
 
 /**
  * Implements *INTEGER* type.

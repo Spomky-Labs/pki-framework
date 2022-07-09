@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
+use function in_array;
 use LogicException;
 use RuntimeException;
 use Sop\ASN1\Element;

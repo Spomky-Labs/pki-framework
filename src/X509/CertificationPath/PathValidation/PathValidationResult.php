@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
+use function count;
 use Sop\ASN1\Element;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;

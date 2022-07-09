@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
+use function array_key_exists;
+use function in_array;
 use InvalidArgumentException;
 use LogicException;
+use function ord;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -16,6 +19,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use function strlen;
 use UnexpectedValueException;
 
 /**

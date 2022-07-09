@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Component;
 
+use function count;
 use DomainException;
 use GMP;
 use LogicException;
+use function ord;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\Encodable;
 use Sop\ASN1\Util\BigInt;
+use function strlen;
 
 /**
  * Class to represent BER/DER length octets.

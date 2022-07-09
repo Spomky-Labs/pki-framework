@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Constructed\Set;
 use Sop\X501\ASN1\AttributeTypeAndValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\RDN;
+use function strval;
 use UnexpectedValueException;
 
 /**

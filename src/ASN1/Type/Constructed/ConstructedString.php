@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Constructed;
 
+use function count;
 use LogicException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;

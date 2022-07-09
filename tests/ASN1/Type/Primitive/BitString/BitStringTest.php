@@ -10,6 +10,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strval;
 use UnexpectedValueException;
 
 /**

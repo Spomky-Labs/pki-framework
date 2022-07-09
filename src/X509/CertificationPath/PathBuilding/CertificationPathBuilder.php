@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathBuilding;
 
+use function count;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\CertificateBundle;
 use Sop\X509\CertificationPath\CertificationPath;

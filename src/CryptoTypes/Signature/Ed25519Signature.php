@@ -6,6 +6,7 @@ namespace Sop\CryptoTypes\Signature;
 
 use InvalidArgumentException;
 use Sop\ASN1\Type\Primitive\BitString;
+use function strlen;
 
 /**
  * Implements Ed25519 signature value.

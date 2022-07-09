@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Util\BigInt;
+use function strval;
 use ValueError;
 
 /**

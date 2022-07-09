@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoBridge\Crypto;
 
+use function array_key_exists;
 use RuntimeException;
 use Sop\CryptoBridge\Crypto;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -14,6 +15,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Signature\Signature;
+use function strlen;
 use UnexpectedValueException;
 
 /**

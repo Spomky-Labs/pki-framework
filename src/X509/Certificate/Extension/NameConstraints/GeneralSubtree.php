@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\NameConstraints;
 
+use function count;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;

@@ -17,6 +17,7 @@ use Sop\X501\ASN1\Name;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\Validity;
+use function strval;
 use UnexpectedValueException;
 
 /**

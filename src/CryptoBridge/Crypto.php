@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoBridge;
 
+use function defined;
 use RuntimeException;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;

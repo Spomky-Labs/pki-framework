@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\X509\Certificate;
 
 use DateTimeImmutable;
+use function intval;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
 use Sop\ASN1\Type\Primitive\UTCTime;

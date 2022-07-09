@@ -9,6 +9,7 @@ use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\Name;
 use Sop\X501\ASN1\RDN;
+use function strval;
 
 /**
  * @internal

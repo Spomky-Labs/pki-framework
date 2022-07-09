@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use function chr;
+use function ord;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;

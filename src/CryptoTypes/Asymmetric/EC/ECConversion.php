@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
+use function assert;
 use GMP;
 use RangeException;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
+use function strlen;
 
 /**
  * Implements data type conversions from SEC 1: Elliptic Curve Cryptography.

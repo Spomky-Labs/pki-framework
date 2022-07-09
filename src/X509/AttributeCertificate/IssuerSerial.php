@@ -12,6 +12,7 @@ use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use function strval;
 
 /**
  * Implements *IssuerSerial* ASN.1 type.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use function count;
 use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -15,6 +16,7 @@ use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\Certificate\UniqueIdentifier;
+use function strval;
 use UnexpectedValueException;
 
 /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\CertificationPath;
 
+use function array_slice;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;

@@ -13,6 +13,7 @@ use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\DisplayText;
+use function strval;
 use UnexpectedValueException;
 
 /**

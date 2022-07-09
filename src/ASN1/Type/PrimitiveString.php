@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
+use function assert;
 use InvalidArgumentException;
+use function is_string;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;

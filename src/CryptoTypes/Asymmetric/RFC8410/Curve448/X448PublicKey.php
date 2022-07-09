@@ -7,6 +7,7 @@ namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve448;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X448AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PublicKey;
+use function strlen;
 use UnexpectedValueException;
 
 /**

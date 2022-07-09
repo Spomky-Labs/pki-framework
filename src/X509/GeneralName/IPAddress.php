@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strlen;
 use UnexpectedValueException;
 
 /**

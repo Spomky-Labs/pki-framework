@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Component;
 
+use function chr;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;

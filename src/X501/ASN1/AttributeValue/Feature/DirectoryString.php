@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1\AttributeValue\Feature;
 
+use function array_key_exists;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BMPString;
 use Sop\ASN1\Type\Primitive\PrintableString;

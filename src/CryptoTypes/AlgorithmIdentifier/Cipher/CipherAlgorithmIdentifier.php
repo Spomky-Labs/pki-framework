@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use function strlen;
 use UnexpectedValueException;
 
 /**

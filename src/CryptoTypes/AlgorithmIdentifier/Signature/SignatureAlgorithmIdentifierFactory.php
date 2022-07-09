@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
 
+use function array_key_exists;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;

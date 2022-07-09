@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\ASN1;
 
+use function array_key_exists;
 use BadMethodCallException;
+use function get_called_class;
+use function get_class;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Feature\ElementBase;
@@ -18,6 +21,7 @@ use Sop\ASN1\Type\Tagged\PrivateType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strlen;
 use UnexpectedValueException;
 
 /**

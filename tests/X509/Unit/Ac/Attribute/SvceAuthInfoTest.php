@@ -10,6 +10,7 @@ use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
 use Sop\X509\AttributeCertificate\Attribute\SvceAuthInfo;
 use Sop\X509\GeneralName\DirectoryName;
+use function strval;
 
 /**
  * @internal

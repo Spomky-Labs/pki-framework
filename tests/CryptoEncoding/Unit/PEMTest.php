@@ -7,6 +7,7 @@ namespace Sop\Test\CryptoEncoding\Unit;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\CryptoEncoding\PEM;
+use function strval;
 use UnexpectedValueException;
 
 /**

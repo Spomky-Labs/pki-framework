@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\CryptoTypes\Signature;
 
 use Sop\ASN1\Type\Primitive\BitString;
+use function strval;
 
 /**
  * Implements RSA signature value.

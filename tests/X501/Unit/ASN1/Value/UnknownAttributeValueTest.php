@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\AttributeValue\AttributeValue;
 use Sop\X501\ASN1\AttributeValue\UnknownAttributeValue;
+use function strval;
 
 /**
  * @internal

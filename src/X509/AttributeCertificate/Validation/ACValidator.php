@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Validation;
 
+use function count;
 use Sop\CryptoBridge\Crypto;
 use Sop\X509\AttributeCertificate\AttributeCertificate;
 use Sop\X509\AttributeCertificate\Validation\Exception\ACValidationException;

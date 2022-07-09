@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\X509\Certificate\Extension\NameConstraints;
 
 use ArrayIterator;
+use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;

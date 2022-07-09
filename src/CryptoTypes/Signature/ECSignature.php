@@ -8,6 +8,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\UnspecifiedType;
+use function strval;
 
 /**
  * Implements ECDSA signature value.
