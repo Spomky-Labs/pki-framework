@@ -569,9 +569,9 @@ final class Real extends Element implements Stringable
         // normalize so that mantsissa has no trailing zeroes
         $zero = gmp_init(0);
         $ten = gmp_init(10, 10);
-        while ($m !== 0 && gmp_cmp(gmp_mod($m, $ten), $zero) === 0) {
-            $m /= 10;
-            ++$e;
+        while (gmp_cmp($m, $zero) !== 0 && gmp_cmp(gmp_mod($m, $ten), $zero) === 0) {
+            $m = gmp_div($m, $ten);
+            $e = gmp_add($e, 1);
         }
         return [$m, $e];
     }

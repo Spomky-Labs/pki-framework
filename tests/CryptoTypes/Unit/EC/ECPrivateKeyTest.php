@@ -21,11 +21,9 @@ use UnexpectedValueException;
 final class ECPrivateKeyTest extends TestCase
 {
     /**
-     * @return ECPrivateKey
-     *
      * @test
      */
-    public function decode()
+    public function decode(): ECPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = ECPrivateKey::fromDER($pem->data());
@@ -34,11 +32,9 @@ final class ECPrivateKeyTest extends TestCase
     }
 
     /**
-     * @return ECPrivateKey
-     *
      * @test
      */
-    public function fromPEM()
+    public function fromPEM(): ECPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $pk = ECPrivateKey::fromPEM($pem);
@@ -51,7 +47,7 @@ final class ECPrivateKeyTest extends TestCase
      *
      * @test
      */
-    public function toPEM(ECPrivateKey $pk)
+    public function toPEM(ECPrivateKey $pk): PEM
     {
         $pem = $pk->toPEM();
         static::assertInstanceOf(PEM::class, $pem);
@@ -63,18 +59,16 @@ final class ECPrivateKeyTest extends TestCase
      *
      * @test
      */
-    public function recodedPEM(PEM $pem)
+    public function recodedPEM(PEM $pem): void
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         static::assertEquals($ref, $pem);
     }
 
     /**
-     * @return ECPrivateKey
-     *
      * @test
      */
-    public function fromPKIPEM()
+    public function fromPKIPEM(): ECPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
         $pk = ECPrivateKey::fromPEM($pem);
@@ -87,7 +81,7 @@ final class ECPrivateKeyTest extends TestCase
      *
      * @test
      */
-    public function privateKeyOctets(ECPrivateKey $pk)
+    public function privateKeyOctets(ECPrivateKey $pk): void
     {
         $octets = $pk->privateKeyOctets();
         static::assertIsString($octets);
@@ -98,7 +92,7 @@ final class ECPrivateKeyTest extends TestCase
      *
      * @test
      */
-    public function hasNamedCurveFromPKI(ECPrivateKey $pk)
+    public function hasNamedCurveFromPKI(ECPrivateKey $pk): void
     {
         static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
@@ -108,7 +102,7 @@ final class ECPrivateKeyTest extends TestCase
      *
      * @test
      */
-    public function getPublicKey(ECPrivateKey $pk)
+    public function getPublicKey(ECPrivateKey $pk): void
     {
         $pub = $pk->publicKey();
         $ref = ECPublicKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem'));
@@ -120,7 +114,7 @@ final class ECPrivateKeyTest extends TestCase
      *
      * @test
      */
-    public function getPrivateKeyInfo(ECPrivateKey $pk)
+    public function getPrivateKeyInfo(ECPrivateKey $pk): void
     {
         $pki = $pk->privateKeyInfo();
         static::assertInstanceOf(PrivateKeyInfo::class, $pki);
@@ -129,7 +123,7 @@ final class ECPrivateKeyTest extends TestCase
     /**
      * @test
      */
-    public function invalidVersion()
+    public function invalidVersion(): void
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $seq = Sequence::fromDER($pem->data());
@@ -141,7 +135,7 @@ final class ECPrivateKeyTest extends TestCase
     /**
      * @test
      */
-    public function invalidPEMType()
+    public function invalidPEMType(): void
     {
         $pem = new PEM('nope', '');
         $this->expectException(UnexpectedValueException::class);
@@ -151,7 +145,7 @@ final class ECPrivateKeyTest extends TestCase
     /**
      * @test
      */
-    public function rSAKeyFail()
+    public function rSAKeyFail(): void
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $this->expectException(UnexpectedValueException::class);
