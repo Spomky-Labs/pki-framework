@@ -144,7 +144,7 @@ class Real extends Element
      */
     public function __construct($mantissa, $exponent, int $base = 10)
     {
-        if (10 !== $base && 2 !== $base) {
+        if (10 != $base && 2 != $base) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
         $this->_typeTag = self::TYPE_REAL;
@@ -526,11 +526,11 @@ class Real extends Element
         // 52 bits of mantissa
         $man = gmp_and($n, '0xfffffffffffff');
         // zero, ASN.1 doesn't differentiate -0 from +0
-        if (self::EXP_BIAS == $exp && 0 == $man) {
+        if (self::EXP_BIAS === $exp && 0 == $man) {
             return [gmp_init(0, 10), gmp_init(0, 10)];
         }
         // denormalized value, shift binary point
-        if (self::EXP_BIAS == $exp) {
+        if (self::EXP_BIAS === $exp) {
             ++$exp;
         }
         // normalized value, insert implicit leading one before the binary point
