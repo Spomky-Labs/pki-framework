@@ -32,7 +32,7 @@ class NameConstraintsTest extends RefExtTestHelper
     /**
      * @depends testNameConstraintsExtension
      *
-     * @param NameConstraintsExtension $bc
+     * @param NameConstraintsExtension $nc
      *
      * @return GeneralSubtrees
      */

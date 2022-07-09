@@ -6,7 +6,6 @@ namespace Sop\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use RangeException;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;

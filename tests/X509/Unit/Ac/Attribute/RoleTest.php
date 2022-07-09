@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac\Attribute;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\AttributeType;

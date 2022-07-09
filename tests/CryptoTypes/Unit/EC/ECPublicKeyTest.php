@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
-use InvalidArgumentException;
-use LogicException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use UnexpectedValueException;
 
 /**
  * @group asn1

@@ -7,7 +7,6 @@ namespace Sop\Test\CryptoTypes\Unit\RSA;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
-use UnexpectedValueException;
 
 /**
  * @group asn1

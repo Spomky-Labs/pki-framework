@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\X509\Certificate\Extension\BasicConstraintsExtension;

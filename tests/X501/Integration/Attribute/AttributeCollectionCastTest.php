@@ -6,7 +6,6 @@ namespace Sop\Test\X501\Integration\Attribute;
 
 use PHPUnit\Framework\TestCase;
 use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
 

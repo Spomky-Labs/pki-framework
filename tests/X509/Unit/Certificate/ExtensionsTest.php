@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\DERData;
 use Sop\ASN1\Type\Constructed\Sequence;

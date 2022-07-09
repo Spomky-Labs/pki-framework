@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -14,7 +13,6 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
 use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
 use Sop\X509\Certificate\Extensions;
-use UnexpectedValueException;
 
 /**
  * @group certificate

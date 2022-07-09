@@ -34,8 +34,8 @@ $header = '';
 
 return static function (ECSConfig $config) use ($header): void {
     $config->import(SetList::PSR_12);
-    /*
     $config->import(SetList::CLEAN_CODE);
+    /*
     $config->import(SetList::DOCTRINE_ANNOTATIONS);
     $config->import(SetList::SPACES);
     $config->import(SetList::PHPUNIT);

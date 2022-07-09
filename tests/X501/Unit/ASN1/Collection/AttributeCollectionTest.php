@@ -11,7 +11,6 @@ use Sop\X501\ASN1\AttributeValue\DescriptionValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\Collection\AttributeCollection;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
-use UnexpectedValueException;
 
 /**
  * @group asn1

@@ -8,7 +8,6 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\X501\DN\DNParser;
-use UnexpectedValueException;
 
 /**
  * @group dn

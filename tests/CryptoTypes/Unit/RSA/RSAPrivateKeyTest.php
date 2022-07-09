@@ -11,7 +11,6 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
-use UnexpectedValueException;
 
 /**
  * @group asn1

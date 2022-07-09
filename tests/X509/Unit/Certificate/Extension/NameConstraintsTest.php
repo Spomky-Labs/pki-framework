@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\Extension;
@@ -133,7 +132,7 @@ class NameConstraintsTest extends TestCase
     /**
      * @depends testPermitted
      *
-     * @param GeneralSubtrees $substrees
+     * @param GeneralSubtrees $subtrees
      */
     public function testCount(GeneralSubtrees $subtrees)
     {
@@ -143,7 +142,7 @@ class NameConstraintsTest extends TestCase
     /**
      * @depends testPermitted
      *
-     * @param GeneralSubtrees $substrees
+     * @param GeneralSubtrees $subtrees
      */
     public function testIterator(GeneralSubtrees $subtrees)
     {
@@ -158,7 +157,7 @@ class NameConstraintsTest extends TestCase
     /**
      * @depends testPermitted
      *
-     * @param GeneralSubtrees $substrees
+     * @param GeneralSubtrees $subtrees
      */
     public function testPermittedURI(GeneralSubtrees $subtrees)
     {
@@ -172,7 +171,7 @@ class NameConstraintsTest extends TestCase
     /**
      * @depends testPermitted
      *
-     * @param GeneralSubtrees $substrees
+     * @param GeneralSubtrees $subtrees
      */
     public function testPermittedDN(GeneralSubtrees $subtrees)
     {
@@ -186,7 +185,7 @@ class NameConstraintsTest extends TestCase
     /**
      * @depends testExcluded
      *
-     * @param GeneralSubtrees $substrees
+     * @param GeneralSubtrees $subtrees
      */
     public function testExcludedURI(GeneralSubtrees $subtrees)
     {

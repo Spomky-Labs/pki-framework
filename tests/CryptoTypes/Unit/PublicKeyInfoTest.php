@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sop\Test\CryptoTypes\Unit;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -16,7 +15,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
-use UnexpectedValueException;
 
 /**
  * @group asn1

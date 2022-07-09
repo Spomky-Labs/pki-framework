@@ -15,7 +15,6 @@ use Sop\CryptoTypes\Signature\Signature;
 use Sop\X501\ASN1\Name;
 use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
-use UnexpectedValueException;
 
 /**
  * @group csr

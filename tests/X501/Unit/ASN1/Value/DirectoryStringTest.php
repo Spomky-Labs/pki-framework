@@ -10,7 +10,6 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
-use UnexpectedValueException;
 
 /**
  * @group asn1

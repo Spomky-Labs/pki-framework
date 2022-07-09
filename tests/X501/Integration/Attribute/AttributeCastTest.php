@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Integration\Attribute;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\X501\ASN1\Attribute;
