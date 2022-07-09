@@ -14,8 +14,6 @@ class NormalizeStep implements PrepareStep
 {
     /**
      * @param string $string UTF-8 encoded string
-     *
-     * @return string
      */
     public function apply(string $string): string
     {

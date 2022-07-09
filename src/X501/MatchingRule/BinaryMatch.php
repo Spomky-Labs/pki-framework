@@ -11,9 +11,6 @@ namespace Sop\X501\MatchingRule;
  */
 class BinaryMatch extends MatchingRule
 {
-    /**
-     * {@inheritdoc}
-     */
     public function compare($assertion, $value): ?bool
     {
         return 0 === strcmp($assertion, $value);

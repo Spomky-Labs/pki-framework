@@ -25,9 +25,6 @@ class UniversalString extends PrimitiveString
         parent::__construct($string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _validateString(string $string): bool
     {
         // UCS-4 has fixed with of 4 octets (32 bits)

@@ -101,8 +101,6 @@ abstract class DirectoryString extends AttributeValue
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
@@ -113,34 +111,22 @@ abstract class DirectoryString extends AttributeValue
         return new static($el->asString()->string(), $tag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Element
     {
         $cls = self::_tagToASN1Class($this->_stringTag);
         return new $cls($this->_string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stringValue(): string
     {
         return $this->_string;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equalityMatchingRule(): MatchingRule
     {
         return new CaseIgnoreMatch($this->_stringTag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rfc2253String(): string
     {
         // TeletexString is encoded as binary
@@ -150,9 +136,6 @@ abstract class DirectoryString extends AttributeValue
         return DNParser::escapeString($this->_transcodedString());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _transcodedString(): string
     {
         $step = new TranscodeStep($this->_stringTag);
@@ -162,11 +145,7 @@ abstract class DirectoryString extends AttributeValue
     /**
      * Get ASN.1 class name for given DirectoryString type tag.
      *
-     * @param int $tag
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private static function _tagToASN1Class(int $tag): string
     {

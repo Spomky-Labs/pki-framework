@@ -24,9 +24,6 @@ class IssuerAlternativeNameExtension extends Extension
 
     /**
      * Constructor.
-     *
-     * @param bool         $critical
-     * @param GeneralNames $names
      */
     public function __construct(bool $critical, GeneralNames $names)
     {
@@ -34,19 +31,11 @@ class IssuerAlternativeNameExtension extends Extension
         $this->_names = $names;
     }
 
-    /**
-     * Get names.
-     *
-     * @return GeneralNames
-     */
     public function names(): GeneralNames
     {
         return $this->_names;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         return new self(
@@ -57,9 +46,6 @@ class IssuerAlternativeNameExtension extends Extension
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         return $this->_names->toASN1();

@@ -34,7 +34,6 @@ class NameConstraintsExtension extends Extension
     /**
      * Constructor.
      *
-     * @param bool            $critical
      * @param GeneralSubtrees $permitted
      * @param GeneralSubtrees $excluded
      */
@@ -50,8 +49,6 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Whether permitted subtrees are present.
-     *
-     * @return bool
      */
     public function hasPermittedSubtrees(): bool
     {
@@ -62,8 +59,6 @@ class NameConstraintsExtension extends Extension
      * Get permitted subtrees.
      *
      * @throws \LogicException If not set
-     *
-     * @return GeneralSubtrees
      */
     public function permittedSubtrees(): GeneralSubtrees
     {
@@ -75,8 +70,6 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Whether excluded subtrees are present.
-     *
-     * @return bool
      */
     public function hasExcludedSubtrees(): bool
     {
@@ -87,8 +80,6 @@ class NameConstraintsExtension extends Extension
      * Get excluded subtrees.
      *
      * @throws \LogicException If not set
-     *
-     * @return GeneralSubtrees
      */
     public function excludedSubtrees(): GeneralSubtrees
     {
@@ -98,9 +89,6 @@ class NameConstraintsExtension extends Extension
         return $this->_excluded;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
@@ -119,9 +107,6 @@ class NameConstraintsExtension extends Extension
         return new self($critical, $permitted, $excluded);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         $elements = [];

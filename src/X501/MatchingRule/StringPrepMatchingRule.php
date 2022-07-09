@@ -20,17 +20,12 @@ abstract class StringPrepMatchingRule extends MatchingRule
 
     /**
      * Constructor.
-     *
-     * @param StringPreparer $preparer
      */
     public function __construct(StringPreparer $preparer)
     {
         $this->_prep = $preparer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function compare($assertion, $value): ?bool
     {
         $assertion = $this->_prep->prepare($assertion);

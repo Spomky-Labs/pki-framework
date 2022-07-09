@@ -426,10 +426,6 @@ class AttributeType
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param ObjectIdentifier $oi
-     *
-     * @return self
      */
     public static function fromASN1(ObjectIdentifier $oi): self
     {
@@ -438,10 +434,6 @@ class AttributeType
 
     /**
      * Initialize from attribute name.
-     *
-     * @param string $name
-     *
-     * @return self
      */
     public static function fromName(string $name): self
     {
@@ -461,8 +453,6 @@ class AttributeType
 
     /**
      * Get name of the attribute.
-     *
-     * @return string
      */
     public function typeName(): string
     {
@@ -474,8 +464,6 @@ class AttributeType
 
     /**
      * Generate ASN.1 element.
-     *
-     * @return ObjectIdentifier
      */
     public function toASN1(): ObjectIdentifier
     {
@@ -512,8 +500,6 @@ class AttributeType
      * @param string $str String
      *
      * @throws \LogicException
-     *
-     * @return StringType
      */
     public static function asn1StringForType(string $oid, string $str): StringType
     {
@@ -533,8 +519,6 @@ class AttributeType
 
     /**
      * Get name to OID lookup map.
-     *
-     * @return array
      */
     private static function _oidReverseMap(): array
     {

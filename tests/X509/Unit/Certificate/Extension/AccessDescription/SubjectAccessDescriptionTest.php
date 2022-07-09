@@ -32,8 +32,6 @@ class SubjectAccessDescriptionTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param SubjectAccessDescription $desc
      */
     public function testEncode(SubjectAccessDescription $desc)
     {
@@ -57,9 +55,6 @@ class SubjectAccessDescriptionTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param SubjectAccessDescription $ref
-     * @param SubjectAccessDescription $new
      */
     public function testRecoded(
         SubjectAccessDescription $ref,
@@ -70,8 +65,6 @@ class SubjectAccessDescriptionTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param SubjectAccessDescription $desc
      */
     public function testIsCARepository(SubjectAccessDescription $desc)
     {
@@ -80,8 +73,6 @@ class SubjectAccessDescriptionTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param SubjectAccessDescription $desc
      */
     public function testIsNotTimeStamping(SubjectAccessDescription $desc)
     {
@@ -90,8 +81,6 @@ class SubjectAccessDescriptionTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param SubjectAccessDescription $desc
      */
     public function testAccessMethod(SubjectAccessDescription $desc)
     {
@@ -103,8 +92,6 @@ class SubjectAccessDescriptionTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param SubjectAccessDescription $desc
      */
     public function testLocation(SubjectAccessDescription $desc)
     {

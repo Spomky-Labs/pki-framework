@@ -26,17 +26,11 @@ class Ed25519AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
         $this->_oid = self::OID_ED25519;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'id-Ed25519';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
     {
         return self::OID_ED25519 === $algo->oid();

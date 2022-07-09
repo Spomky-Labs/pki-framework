@@ -48,9 +48,6 @@ class RSASignature extends Signature
         return $obj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function bitString(): BitString
     {
         return new BitString($this->_signature);

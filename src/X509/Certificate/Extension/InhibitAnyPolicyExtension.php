@@ -22,9 +22,6 @@ class InhibitAnyPolicyExtension extends Extension
 
     /**
      * Constructor.
-     *
-     * @param bool $critical
-     * @param int  $skip_certs
      */
     public function __construct(bool $critical, int $skip_certs)
     {
@@ -32,19 +29,11 @@ class InhibitAnyPolicyExtension extends Extension
         $this->_skipCerts = $skip_certs;
     }
 
-    /**
-     * Get value.
-     *
-     * @return int
-     */
     public function skipCerts(): int
     {
         return $this->_skipCerts;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         return new self(
@@ -53,9 +42,6 @@ class InhibitAnyPolicyExtension extends Extension
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         return new Integer($this->_skipCerts);

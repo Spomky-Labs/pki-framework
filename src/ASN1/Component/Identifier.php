@@ -114,9 +114,6 @@ class Identifier implements Encodable
         return new self($class, $pc, $tag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         $bytes = [];
@@ -149,9 +146,6 @@ class Identifier implements Encodable
         return $this->_class;
     }
 
-    /**
-     * Get P/C.
-     */
     public function pc(): int
     {
         return $this->_pc;

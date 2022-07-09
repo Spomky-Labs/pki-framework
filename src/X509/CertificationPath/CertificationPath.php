@@ -44,10 +44,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from a certificate chain.
-     *
-     * @param CertificateChain $chain
-     *
-     * @return self
      */
     public static function fromCertificateChain(CertificateChain $chain): self
     {
@@ -60,8 +56,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * @param Certificate            $target        Target end-entity certificate
      * @param CertificateBundle      $trust_anchors List of trust anchors
      * @param null|CertificateBundle $intermediate  Optional intermediate certificates
-     *
-     * @return self
      */
     public static function toTarget(
         Certificate $target,
@@ -79,8 +73,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * @param Certificate            $trust_anchor Trust anchor certificate
      * @param Certificate            $target       Target end-entity certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
-     *
-     * @return self
      */
     public static function fromTrustAnchorToTarget(
         Certificate $trust_anchor,
@@ -108,8 +100,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * Get the trust anchor certificate from the path.
      *
      * @throws \LogicException If path is empty
-     *
-     * @return Certificate
      */
     public function trustAnchorCertificate(): Certificate
     {
@@ -123,8 +113,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * Get the end-entity certificate from the path.
      *
      * @throws \LogicException If path is empty
-     *
-     * @return Certificate
      */
     public function endEntityCertificate(): Certificate
     {
@@ -136,8 +124,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
 
     /**
      * Get certification path as a certificate chain.
-     *
-     * @return CertificateChain
      */
     public function certificateChain(): CertificateChain
     {
@@ -149,8 +135,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * certificates in parameter order.
      *
      * @param Certificate ...$certs Certificates
-     *
-     * @return bool
      */
     public function startsWith(Certificate ...$certs): bool
     {
@@ -169,12 +153,9 @@ class CertificationPath implements \Countable, \IteratorAggregate
     /**
      * Validate certification path.
      *
-     * @param PathValidationConfig $config
      * @param null|Crypto          $crypto Crypto engine, use default if not set
      *
      * @throws Exception\PathValidationException
-     *
-     * @return PathValidationResult
      */
     public function validate(
         PathValidationConfig $config,
@@ -187,8 +168,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -199,8 +178,6 @@ class CertificationPath implements \Countable, \IteratorAggregate
      * Get iterator for certificates.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {

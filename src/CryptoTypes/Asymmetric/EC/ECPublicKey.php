@@ -177,9 +177,6 @@ class ECPublicKey extends PublicKey
         return $this->_namedCurve;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new ECPublicKeyAlgorithmIdentifier($this->namedCurve());
@@ -193,17 +190,12 @@ class ECPublicKey extends PublicKey
         return new OctetString($this->_ecPoint);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->toASN1()->toDER();
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @see https://tools.ietf.org/html/rfc5480#section-2.2
      */
     public function subjectPublicKey(): BitString

@@ -83,25 +83,16 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         $this->_typeTag = $identifier->intTag();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function typeClass(): int
     {
         return $this->_identifier->typeClass();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isConstructed(): bool
     {
         return $this->_identifier->isConstructed();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         $identifier = $this->_identifier->withClass($class)->withTag($tag);
@@ -112,18 +103,12 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         return $element->asUnspecified();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function explicit(): UnspecifiedType
     {
         $idx = $this->_valueOffset;
         return Element::fromDER($this->_data, $idx)->asUnspecified();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,
@@ -153,9 +138,6 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         return $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         return substr($this->_data, $this->_valueOffset, $this->_valueLength);

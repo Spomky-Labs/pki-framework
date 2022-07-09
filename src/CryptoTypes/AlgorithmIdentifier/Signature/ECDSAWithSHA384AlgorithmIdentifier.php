@@ -19,9 +19,6 @@ class ECDSAWithSHA384AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
         $this->_oid = self::OID_ECDSA_WITH_SHA384;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'ecdsa-with-SHA384';

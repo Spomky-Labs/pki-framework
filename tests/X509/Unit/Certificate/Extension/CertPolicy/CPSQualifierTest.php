@@ -28,8 +28,6 @@ class CPSQualifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param CPSQualifier $qual
      */
     public function testEncode(CPSQualifier $qual)
     {
@@ -53,9 +51,6 @@ class CPSQualifierTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param CPSQualifier $ref
-     * @param CPSQualifier $new
      */
     public function testRecoded(CPSQualifier $ref, CPSQualifier $new)
     {
@@ -64,8 +59,6 @@ class CPSQualifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param CPSQualifier $qual
      */
     public function testURI(CPSQualifier $qual)
     {
@@ -74,8 +67,6 @@ class CPSQualifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param CPSQualifier $qual
      */
     public function testOID(CPSQualifier $qual)
     {

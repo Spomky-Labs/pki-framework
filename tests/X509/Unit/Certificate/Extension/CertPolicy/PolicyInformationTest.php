@@ -32,8 +32,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testEncodeWithCPS(PolicyInformation $pi)
     {
@@ -57,9 +55,6 @@ class PolicyInformationTest extends TestCase
     /**
      * @depends testCreateWithCPS
      * @depends testDecodeWithCPS
-     *
-     * @param PolicyInformation $ref
-     * @param PolicyInformation $new
      */
     public function testRecodedWithCPS(
         PolicyInformation $ref,
@@ -70,8 +65,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testOID(PolicyInformation $pi)
     {
@@ -80,8 +73,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testHas(PolicyInformation $pi)
     {
@@ -90,8 +81,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testHasNot(PolicyInformation $pi)
     {
@@ -100,8 +89,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testGet(PolicyInformation $pi)
     {
@@ -113,8 +100,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testGetFail(PolicyInformation $pi)
     {
@@ -124,8 +109,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testCPSQualifier(PolicyInformation $pi)
     {
@@ -134,8 +117,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithCPS
-     *
-     * @param PolicyInformation $pi
      */
     public function testUserNoticeQualifierFail(PolicyInformation $pi)
     {
@@ -155,8 +136,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithNotice
-     *
-     * @param PolicyInformation $pi
      */
     public function testCPSQualifierFail(PolicyInformation $pi)
     {
@@ -166,8 +145,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithNotice
-     *
-     * @param PolicyInformation $pi
      */
     public function testUserNoticeQualifier(PolicyInformation $pi)
     {
@@ -190,8 +167,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithMultiple
-     *
-     * @param PolicyInformation $pi
      */
     public function testEncodeWithMultiple(PolicyInformation $pi)
     {
@@ -215,9 +190,6 @@ class PolicyInformationTest extends TestCase
     /**
      * @depends testCreateWithMultiple
      * @depends testDecodeWithMultiple
-     *
-     * @param PolicyInformation $ref
-     * @param PolicyInformation $new
      */
     public function testRecodedMultiple(
         PolicyInformation $ref,
@@ -228,8 +200,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithMultiple
-     *
-     * @param PolicyInformation $pi
      */
     public function testCount(PolicyInformation $pi)
     {
@@ -238,8 +208,6 @@ class PolicyInformationTest extends TestCase
 
     /**
      * @depends testCreateWithMultiple
-     *
-     * @param PolicyInformation $pi
      */
     public function testIterator(PolicyInformation $pi)
     {

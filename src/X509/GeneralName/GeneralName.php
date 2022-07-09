@@ -43,8 +43,6 @@ abstract class GeneralName
 
     /**
      * Get general name as a string.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -53,15 +51,11 @@ abstract class GeneralName
 
     /**
      * Get string value of the type.
-     *
-     * @return string
      */
     abstract public function string(): string;
 
     /**
      * Initialize concrete object from the chosen ASN.1 element.
-     *
-     * @param UnspecifiedType $el
      *
      * @return self
      */
@@ -75,11 +69,7 @@ abstract class GeneralName
     /**
      * Initialize from ASN.1.
      *
-     * @param TaggedType $el
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return self
      */
     public static function fromASN1(TaggedType $el): self
     {
@@ -138,8 +128,6 @@ abstract class GeneralName
 
     /**
      * Get type tag.
-     *
-     * @return int
      */
     public function tag(): int
     {
@@ -148,8 +136,6 @@ abstract class GeneralName
 
     /**
      * Generate ASN.1 element.
-     *
-     * @return Element
      */
     public function toASN1(): Element
     {
@@ -176,8 +162,6 @@ abstract class GeneralName
 
     /**
      * Get ASN.1 value in GeneralName CHOICE context.
-     *
-     * @return TaggedType
      */
     abstract protected function _choiceASN1(): TaggedType;
 }

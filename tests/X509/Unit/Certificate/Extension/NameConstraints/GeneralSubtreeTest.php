@@ -31,8 +31,6 @@ class GeneralSubtreeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralSubtree $subtree
      */
     public function testEncode(GeneralSubtree $subtree)
     {
@@ -56,9 +54,6 @@ class GeneralSubtreeTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param GeneralSubtree $ref
-     * @param GeneralSubtree $new
      */
     public function testRecoded(GeneralSubtree $ref, GeneralSubtree $new)
     {
@@ -67,8 +62,6 @@ class GeneralSubtreeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralSubtree $subtree
      */
     public function testBase(GeneralSubtree $subtree)
     {
@@ -89,8 +82,6 @@ class GeneralSubtreeTest extends TestCase
 
     /**
      * @depends testCreateWithAll
-     *
-     * @param GeneralSubtree $subtree
      */
     public function testEncodeWithAll(GeneralSubtree $subtree)
     {
@@ -114,9 +105,6 @@ class GeneralSubtreeTest extends TestCase
     /**
      * @depends testCreateWithAll
      * @depends testDecodeWithAll
-     *
-     * @param GeneralSubtree $ref
-     * @param GeneralSubtree $new
      */
     public function testRecodedWithAll(GeneralSubtree $ref, GeneralSubtree $new)
     {

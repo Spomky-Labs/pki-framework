@@ -34,17 +34,12 @@ class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
         $this->_oid = self::OID_HMAC_WITH_SHA1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'hmacWithSHA1';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -56,9 +51,6 @@ class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
         return new self();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _paramsASN1(): ?Element
     {
         return null;

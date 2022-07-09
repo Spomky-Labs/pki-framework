@@ -20,8 +20,6 @@ trait TypedAttribute
 
     /**
      * Get attribute type.
-     *
-     * @return AttributeType
      */
     public function type(): AttributeType
     {
@@ -30,8 +28,6 @@ trait TypedAttribute
 
     /**
      * Get OID of the attribute.
-     *
-     * @return string
      */
     public function oid(): string
     {

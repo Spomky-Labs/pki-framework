@@ -41,8 +41,6 @@ class DecodeTest extends TestCase
     /**
      * @depends testCert
      *
-     * @param Certificate $cert
-     *
      * @return TBSCertificate
      */
     public function testTBSCertificate(Certificate $cert)
@@ -55,8 +53,6 @@ class DecodeTest extends TestCase
     /**
      * @depends testCert
      *
-     * @param Certificate $cert
-     *
      * @return AlgorithmIdentifier
      */
     public function testSignatureAlgorithm(Certificate $cert)
@@ -68,8 +64,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testSignatureAlgorithm
-     *
-     * @param AlgorithmIdentifier $algo
      */
     public function testSignatureAlgorithmValue(AlgorithmIdentifier $algo)
     {
@@ -82,8 +76,6 @@ class DecodeTest extends TestCase
     /**
      * @depends testCert
      *
-     * @param Certificate $cert
-     *
      * @return Signature
      */
     public function testSignature(Certificate $cert)
@@ -95,8 +87,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testSignature
-     *
-     * @param Signature $sig
      */
     public function testSignatureValue(Signature $sig)
     {
@@ -109,8 +99,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testTBSCertificate
-     *
-     * @param TBSCertificate $tbsCert
      */
     public function testVersion(TBSCertificate $tbsCert)
     {
@@ -119,8 +107,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testTBSCertificate
-     *
-     * @param TBSCertificate $tbsCert
      */
     public function testSerial(TBSCertificate $tbsCert)
     {
@@ -129,8 +115,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testTBSCertificate
-     *
-     * @param TBSCertificate $tbsCert
      */
     public function testSignatureAlgo(TBSCertificate $tbsCert)
     {
@@ -144,8 +128,6 @@ class DecodeTest extends TestCase
     /**
      * @depends testTBSCertificate
      *
-     * @param TBSCertificate $tbsCert
-     *
      * @return Name
      */
     public function testIssuer(TBSCertificate $tbsCert)
@@ -157,8 +139,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testIssuer
-     *
-     * @param Name $name
      */
     public function testIssuerDN(Name $name)
     {
@@ -171,8 +151,6 @@ class DecodeTest extends TestCase
     /**
      * @depends testTBSCertificate
      *
-     * @param TBSCertificate $tbsCert
-     *
      * @return Validity
      */
     public function testValidity(TBSCertificate $tbsCert)
@@ -184,8 +162,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testValidity
-     *
-     * @param Validity $validity
      */
     public function testNotBefore(Validity $validity)
     {
@@ -198,8 +174,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testValidity
-     *
-     * @param Validity $validity
      */
     public function testNotAfter(Validity $validity)
     {
@@ -213,8 +187,6 @@ class DecodeTest extends TestCase
     /**
      * @depends testTBSCertificate
      *
-     * @param TBSCertificate $tbsCert
-     *
      * @return Name
      */
     public function testSubject(TBSCertificate $tbsCert)
@@ -226,8 +198,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testSubject
-     *
-     * @param Name $name
      */
     public function testSubjectDN(Name $name)
     {
@@ -236,8 +206,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testTBSCertificate
-     *
-     * @param TBSCertificate $tbsCert
      *
      * @return PublicKeyInfo
      */
@@ -250,8 +218,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testSubjectPublicKeyInfo
-     *
-     * @param PublicKeyInfo $pki
      */
     public function testPublicKeyAlgo(PublicKeyInfo $pki)
     {
@@ -264,8 +230,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testSubjectPublicKeyInfo
-     *
-     * @param PublicKeyInfo $pki
      */
     public function testPublicKey(PublicKeyInfo $pki)
     {
@@ -277,8 +241,6 @@ class DecodeTest extends TestCase
 
     /**
      * @depends testTBSCertificate
-     *
-     * @param TBSCertificate $tbsCert
      *
      * @return Extensions
      */

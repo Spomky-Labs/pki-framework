@@ -141,8 +141,6 @@ class ACValidator
      *
      * @see https://tools.ietf.org/html/rfc5755#section-4.5
      *
-     * @param Certificate $cert
-     *
      * @throws ACValidationException
      */
     private function _validateIssuerProfile(Certificate $cert): void
@@ -201,8 +199,6 @@ class ACValidator
      * Check whether validation configuration has matching targets.
      *
      * @param Targets $targets Set of eligible targets
-     *
-     * @return bool
      */
     private function _hasMatchingTarget(Targets $targets): bool
     {

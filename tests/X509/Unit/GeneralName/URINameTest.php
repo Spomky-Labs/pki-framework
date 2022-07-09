@@ -29,8 +29,6 @@ class URINameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param UniformResourceIdentifier $uri
      */
     public function testEncode(UniformResourceIdentifier $uri)
     {
@@ -65,9 +63,6 @@ class URINameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param UniformResourceIdentifier $ref
-     * @param UniformResourceIdentifier $new
      */
     public function testRecoded(
         UniformResourceIdentifier $ref,
@@ -78,8 +73,6 @@ class URINameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param UniformResourceIdentifier $uri
      */
     public function testString(UniformResourceIdentifier $uri)
     {
@@ -88,8 +81,6 @@ class URINameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param UniformResourceIdentifier $uri
      */
     public function testURI(UniformResourceIdentifier $uri)
     {

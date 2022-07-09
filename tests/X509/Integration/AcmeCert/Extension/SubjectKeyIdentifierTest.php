@@ -19,8 +19,6 @@ use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 class SubjectKeyIdentifierTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return SubjectKeyIdentifierExtension
      */
     public function testSubjectKeyIdentifier()
@@ -32,8 +30,6 @@ class SubjectKeyIdentifierTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectKeyIdentifier
-     *
-     * @param SubjectKeyIdentifierExtension $ski
      */
     public function testSubjectKeyIdentifierKey(
         SubjectKeyIdentifierExtension $ski

@@ -62,9 +62,6 @@ class GeneralizedTime extends BaseTime
         $this->_formatted = null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         if (! isset($this->_formatted)) {
@@ -84,9 +81,6 @@ class GeneralizedTime extends BaseTime
         return $this->_formatted;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

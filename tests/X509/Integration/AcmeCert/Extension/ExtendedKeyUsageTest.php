@@ -17,8 +17,6 @@ use Sop\X509\Certificate\Extension\Extension;
 class ExtendedKeyUsageTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return ExtendedKeyUsageExtension
      */
     public function testExtendedKeyUsageExtension()
@@ -30,8 +28,6 @@ class ExtendedKeyUsageTest extends RefExtTestHelper
 
     /**
      * @depends testExtendedKeyUsageExtension
-     *
-     * @param ExtendedKeyUsageExtension $eku
      */
     public function testUsage(ExtendedKeyUsageExtension $eku)
     {

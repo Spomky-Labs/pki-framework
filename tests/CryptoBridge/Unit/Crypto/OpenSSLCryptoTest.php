@@ -80,8 +80,6 @@ class OpenSSLCryptoTest extends TestCase
 
     /**
      * @dataProvider provideSignAndVerifyRSA
-     *
-     * @param SignatureAlgorithmIdentifier $algo
      */
     public function testSignAndVerifyRSA(SignatureAlgorithmIdentifier $algo)
     {
@@ -119,8 +117,6 @@ class OpenSSLCryptoTest extends TestCase
 
     /**
      * @dataProvider provideSignAndVerifyEC
-     *
-     * @param SignatureAlgorithmIdentifier $algo
      */
     public function testSignAndVerifyEC(SignatureAlgorithmIdentifier $algo)
     {
@@ -197,7 +193,6 @@ class OpenSSLCryptoTest extends TestCase
      * @dataProvider provideEncryptAndDecrypt
      *
      * @param string $data
-     * @param CipherAlgorithmIdentifier $algo
      * @param string $key
      */
     public function testEncryptAndDecrypt(
@@ -296,9 +291,6 @@ class OpenSSLCryptoTest extends TestCase
 
     /**
      * @dataProvider provideSignatureMethod
-     *
-     * @param PrivateKeyInfo $pki
-     * @param SignatureAlgorithmIdentifier $algo
      */
     public function testSignatureMethod(
         PrivateKeyInfo $pki,

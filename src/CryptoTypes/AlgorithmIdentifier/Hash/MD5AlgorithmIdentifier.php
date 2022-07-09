@@ -49,17 +49,12 @@ class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Hash
         $this->_params = new NullType();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'md5';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -74,8 +69,6 @@ class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Hash
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null|NullType
      */
     protected function _paramsASN1(): ?Element

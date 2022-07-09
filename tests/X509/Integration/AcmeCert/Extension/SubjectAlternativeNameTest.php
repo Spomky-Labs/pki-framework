@@ -18,8 +18,6 @@ use Sop\X509\GeneralName\GeneralName;
 class SubjectAlternativeNameTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return SubjectAlternativeNameExtension
      */
     public function testSubjectAlternativeName()
@@ -31,8 +29,6 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectAlternativeName
-     *
-     * @param SubjectAlternativeNameExtension $san
      */
     public function testSANEmail(SubjectAlternativeNameExtension $san)
     {
@@ -44,8 +40,6 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectAlternativeName
-     *
-     * @param SubjectAlternativeNameExtension $san
      */
     public function testSANURI(SubjectAlternativeNameExtension $san)
     {
@@ -57,8 +51,6 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectAlternativeName
-     *
-     * @param SubjectAlternativeNameExtension $san
      */
     public function testSANDNS(SubjectAlternativeNameExtension $san)
     {
@@ -70,8 +62,6 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectAlternativeName
-     *
-     * @param SubjectAlternativeNameExtension $san
      */
     public function testSANRegisteredID(SubjectAlternativeNameExtension $san)
     {
@@ -83,8 +73,6 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectAlternativeName
-     *
-     * @param SubjectAlternativeNameExtension $san
      */
     public function testSANIPAddresses(SubjectAlternativeNameExtension $san)
     {
@@ -103,8 +91,6 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectAlternativeName
-     *
-     * @param SubjectAlternativeNameExtension $san
      */
     public function testSANDirectoryName(SubjectAlternativeNameExtension $san)
     {

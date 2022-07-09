@@ -23,9 +23,6 @@ class SHA224AlgorithmIdentifier extends SHA2AlgorithmIdentifier
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'sha224';

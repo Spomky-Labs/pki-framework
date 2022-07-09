@@ -49,10 +49,6 @@ class DNParser
 
     /**
      * Parse distinguished name string to name-components.
-     *
-     * @param string $dn
-     *
-     * @return array
      */
     public static function parseString(string $dn): array
     {
@@ -64,10 +60,6 @@ class DNParser
      * Escape a AttributeValue string conforming to RFC 2253.
      *
      * @see https://tools.ietf.org/html/rfc2253#section-2.4
-     *
-     * @param string $str
-     *
-     * @return string
      */
     public static function escapeString(string $str): string
     {
@@ -101,8 +93,6 @@ class DNParser
      * Parse DN to name-components.
      *
      * @throws \RuntimeException
-     *
-     * @return array
      */
     protected function parse(): array
     {
@@ -122,8 +112,6 @@ class DNParser
      * Parse 'name'.
      *
      * name-component *("," name-component)
-     *
-     * @param int $offset
      *
      * @return array Array of name-components
      */
@@ -152,8 +140,6 @@ class DNParser
      *
      * attributeTypeAndValue *("+" attributeTypeAndValue)
      *
-     * @param int $offset
-     *
      * @return array Array of [type, value] tuples
      */
     private function _parseNameComponent(int &$offset): array
@@ -177,8 +163,6 @@ class DNParser
      * Parse 'attributeTypeAndValue'.
      *
      * attributeType "=" attributeValue
-     *
-     * @param int $offset
      *
      * @throws \UnexpectedValueException
      *
@@ -219,11 +203,7 @@ class DNParser
      *
      * (ALPHA 1*keychar) / oid
      *
-     * @param int $offset
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private function _parseAttrType(int &$offset): string
     {
@@ -244,11 +224,7 @@ class DNParser
     /**
      * Parse 'attributeValue' of string type.
      *
-     * @param int $offset
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private function _parseAttrStringValue(int &$offset): string
     {
@@ -268,11 +244,7 @@ class DNParser
     /**
      * Parse plain 'attributeValue' string.
      *
-     * @param int $offset
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private function _parseAttrString(int &$offset): string
     {
@@ -320,8 +292,6 @@ class DNParser
      * @param int $offset Offset to starting quote
      *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private function _parseQuotedAttrString(int &$offset): string
     {
@@ -348,11 +318,7 @@ class DNParser
     /**
      * Parse 'attributeValue' of binary type.
      *
-     * @param int $offset
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private function _parseAttrHexValue(int &$offset): string
     {
@@ -369,11 +335,7 @@ class DNParser
     /**
      * Parse 'pair' after leading slash.
      *
-     * @param int $offset
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return string
      */
     private function _parsePairAfterSlash(int &$offset): string
     {
@@ -405,9 +367,6 @@ class DNParser
      *
      * Updates offset to fully matched pattern.
      *
-     * @param string $pattern
-     * @param int    $offset
-     *
      * @return null|string Null if pattern doesn't match
      */
     private function _regexMatch(string $pattern, int &$offset): ?string
@@ -423,8 +382,6 @@ class DNParser
 
     /**
      * Skip consecutive spaces.
-     *
-     * @param int $offset
      */
     private function _skipWs(int &$offset): void
     {

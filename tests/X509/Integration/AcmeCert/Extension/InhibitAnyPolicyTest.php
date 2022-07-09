@@ -17,8 +17,6 @@ use Sop\X509\Certificate\Extension\InhibitAnyPolicyExtension;
 class InhibitAnyPolicyTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return InhibitAnyPolicyExtension
      */
     public function testInhibitAnyPolicyExtension()
@@ -30,8 +28,6 @@ class InhibitAnyPolicyTest extends RefExtTestHelper
 
     /**
      * @depends testInhibitAnyPolicyExtension
-     *
-     * @param InhibitAnyPolicyExtension $ext
      */
     public function testSkipCerts(InhibitAnyPolicyExtension $ext)
     {

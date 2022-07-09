@@ -56,9 +56,6 @@ class OpenSSLCrypto extends Crypto
         AlgorithmIdentifier::OID_AES_256_CBC => 'aes-256-cbc',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function sign(
         string $data,
         PrivateKeyInfo $privkey_info,
@@ -78,9 +75,6 @@ class OpenSSLCrypto extends Crypto
         return Signature::fromSignatureData($signature, $algo);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function verify(
         string $data,
         Signature $signature,
@@ -101,9 +95,6 @@ class OpenSSLCrypto extends Crypto
         return 1 == $result ? true : false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encrypt(
         string $data,
         string $key,
@@ -125,9 +116,6 @@ class OpenSSLCrypto extends Crypto
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function decrypt(
         string $data,
         string $key,
@@ -152,9 +140,6 @@ class OpenSSLCrypto extends Crypto
     /**
      * Validate cipher algorithm key size.
      *
-     * @param CipherAlgorithmIdentifier $algo
-     * @param string                    $key
-     *
      * @throws \UnexpectedValueException
      */
     protected function _checkCipherKeySize(CipherAlgorithmIdentifier $algo, string $key): void
@@ -175,8 +160,6 @@ class OpenSSLCrypto extends Crypto
 
     /**
      * Get last OpenSSL error message.
-     *
-     * @return null|string
      */
     protected function _getLastError(): ?string
     {
@@ -214,11 +197,7 @@ class OpenSSLCrypto extends Crypto
     /**
      * Get OpenSSL digest method for given signature algorithm identifier.
      *
-     * @param SignatureAlgorithmIdentifier $algo
-     *
      * @throws \UnexpectedValueException If digest method is not supported
-     *
-     * @return int
      */
     protected function _algoToDigest(SignatureAlgorithmIdentifier $algo): int
     {
@@ -234,11 +213,7 @@ class OpenSSLCrypto extends Crypto
     /**
      * Get OpenSSL cipher method for given cipher algorithm identifier.
      *
-     * @param CipherAlgorithmIdentifier $algo
-     *
      * @throws \UnexpectedValueException If cipher method is not supported
-     *
-     * @return string
      */
     protected function _algoToCipher(CipherAlgorithmIdentifier $algo): string
     {
@@ -260,11 +235,7 @@ class OpenSSLCrypto extends Crypto
     /**
      * Get OpenSSL cipher method for given RC2 algorithm identifier.
      *
-     * @param RC2CBCAlgorithmIdentifier $algo
-     *
      * @throws \UnexpectedValueException If cipher's key size is not supported
-     *
-     * @return string
      */
     protected function _rc2AlgoToCipher(RC2CBCAlgorithmIdentifier $algo): string
     {

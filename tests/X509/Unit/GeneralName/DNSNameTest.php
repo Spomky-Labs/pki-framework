@@ -27,8 +27,6 @@ class DNSNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DNSName $name
      */
     public function testEncode(DNSName $name)
     {
@@ -63,9 +61,6 @@ class DNSNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param DNSName $ref
-     * @param DNSName $new
      */
     public function testRecoded(DNSName $ref, DNSName $new)
     {
@@ -74,8 +69,6 @@ class DNSNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DNSName $name
      */
     public function testDNS(DNSName $name)
     {

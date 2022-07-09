@@ -51,33 +51,21 @@ class DERData extends Element
         $this->_typeTag = $this->_identifier->intTag();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function typeClass(): int
     {
         return $this->_identifier->typeClass();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isConstructed(): bool
     {
         return $this->_identifier->isConstructed();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->_der;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         // if there's no content payload

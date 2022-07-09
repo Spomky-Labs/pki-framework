@@ -36,17 +36,12 @@ class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         $this->_initializationVector = $iv;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'desCBC';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -59,33 +54,22 @@ class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         return new self($iv);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function blockSize(): int
     {
         return 8;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function keySize(): int
     {
         return 8;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function ivSize(): int
     {
         return 8;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return OctetString
      */
     protected function _paramsASN1(): ?Element

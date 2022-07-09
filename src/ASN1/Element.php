@@ -203,14 +203,8 @@ abstract class Element implements ElementBase
      */
     protected $_indefiniteLength = false;
 
-    /**
-     * {@inheritdoc}
-     */
     abstract public function typeClass(): int;
 
-    /**
-     * {@inheritdoc}
-     */
     abstract public function isConstructed(): bool;
 
     /**
@@ -252,9 +246,6 @@ abstract class Element implements ElementBase
         return $element;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         $identifier = new Identifier(
@@ -272,17 +263,11 @@ abstract class Element implements ElementBase
         return $identifier->toDER() . $length->toDER() . $content;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function tag(): int
     {
         return $this->_typeTag;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isType(int $tag): bool
     {
         // if element is context specific
@@ -296,9 +281,6 @@ abstract class Element implements ElementBase
         return $this->_isConcreteType($tag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function expectType(int $tag): ElementBase
     {
         if (! $this->isType($tag)) {
@@ -313,17 +295,11 @@ abstract class Element implements ElementBase
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isTagged(): bool
     {
         return $this instanceof TaggedType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function expectTagged(?int $tag = null): TaggedType
     {
         if (! $this->isTagged()) {
@@ -362,9 +338,6 @@ abstract class Element implements ElementBase
         return $obj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final public function asElement(): Element
     {
         return $this;

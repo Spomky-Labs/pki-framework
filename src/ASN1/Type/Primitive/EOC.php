@@ -28,17 +28,11 @@ class EOC extends Element
         $this->_typeTag = self::TYPE_EOC;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

@@ -46,10 +46,6 @@ class Attribute implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -69,8 +65,6 @@ class Attribute implements \Countable, \IteratorAggregate
      * @param AttributeValue ...$values One or more values
      *
      * @throws \LogicException
-     *
-     * @return self
      */
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
@@ -86,8 +80,6 @@ class Attribute implements \Countable, \IteratorAggregate
      * Get first value of the attribute.
      *
      * @throws \LogicException
-     *
-     * @return AttributeValue
      */
     public function first(): AttributeValue
     {
@@ -109,8 +101,6 @@ class Attribute implements \Countable, \IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -136,8 +126,6 @@ class Attribute implements \Countable, \IteratorAggregate
      * @param string $cls AttributeValue class name
      *
      * @throws \LogicException
-     *
-     * @return self
      */
     public function castValues(string $cls): self
     {
@@ -165,8 +153,6 @@ class Attribute implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -175,8 +161,6 @@ class Attribute implements \Countable, \IteratorAggregate
 
     /**
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {

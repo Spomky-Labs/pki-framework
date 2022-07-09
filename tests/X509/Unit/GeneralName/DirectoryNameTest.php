@@ -28,8 +28,6 @@ class DirectoryNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DirectoryName $name
      */
     public function testEncode(DirectoryName $name)
     {
@@ -64,9 +62,6 @@ class DirectoryNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param DirectoryName $ref
-     * @param DirectoryName $new
      */
     public function testRecoded(DirectoryName $ref, DirectoryName $new)
     {
@@ -75,8 +70,6 @@ class DirectoryNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DirectoryName $name
      */
     public function testString(DirectoryName $name)
     {
@@ -85,8 +78,6 @@ class DirectoryNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DirectoryName $name
      */
     public function testDN(DirectoryName $name)
     {

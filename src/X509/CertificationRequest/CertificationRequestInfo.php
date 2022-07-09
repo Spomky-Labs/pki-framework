@@ -70,11 +70,7 @@ class CertificationRequestInfo
     /**
      * Initialize from ASN.1.
      *
-     * @param Sequence $seq
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -95,11 +91,6 @@ class CertificationRequestInfo
         return $obj;
     }
 
-    /**
-     * Get version.
-     *
-     * @return int
-     */
     public function version(): int
     {
         return $this->_version;
@@ -107,10 +98,6 @@ class CertificationRequestInfo
 
     /**
      * Get self with subject.
-     *
-     * @param Name $subject
-     *
-     * @return self
      */
     public function withSubject(Name $subject): self
     {
@@ -119,11 +106,6 @@ class CertificationRequestInfo
         return $obj;
     }
 
-    /**
-     * Get subject.
-     *
-     * @return Name
-     */
     public function subject(): Name
     {
         return $this->_subject;
@@ -131,8 +113,6 @@ class CertificationRequestInfo
 
     /**
      * Get subject public key info.
-     *
-     * @return PublicKeyInfo
      */
     public function subjectPKInfo(): PublicKeyInfo
     {
@@ -141,8 +121,6 @@ class CertificationRequestInfo
 
     /**
      * Whether certification request info has attributes.
-     *
-     * @return bool
      */
     public function hasAttributes(): bool
     {
@@ -153,8 +131,6 @@ class CertificationRequestInfo
      * Get attributes.
      *
      * @throws \LogicException If not set
-     *
-     * @return Attributes
      */
     public function attributes(): Attributes
     {
@@ -166,8 +142,6 @@ class CertificationRequestInfo
 
     /**
      * Get instance of self with attributes.
-     *
-     * @param Attributes $attribs
      */
     public function withAttributes(Attributes $attribs): self
     {
@@ -180,8 +154,6 @@ class CertificationRequestInfo
      * Get self with extension request attribute.
      *
      * @param Extensions $extensions Extensions to request
-     *
-     * @return self
      */
     public function withExtensionRequest(Extensions $extensions): self
     {
@@ -199,8 +171,6 @@ class CertificationRequestInfo
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -221,8 +191,6 @@ class CertificationRequestInfo
      * @param SignatureAlgorithmIdentifier $algo         Algorithm used for signing
      * @param PrivateKeyInfo               $privkey_info Private key used for signing
      * @param null|Crypto                  $crypto       Crypto engine, use default if not set
-     *
-     * @return CertificationRequest
      */
     public function sign(
         SignatureAlgorithmIdentifier $algo,

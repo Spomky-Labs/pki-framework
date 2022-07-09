@@ -17,8 +17,6 @@ use Sop\X509\Certificate\Extension\KeyUsageExtension;
 class KeyUsageTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return KeyUsageExtension
      */
     public function testKeyUsage()
@@ -30,8 +28,6 @@ class KeyUsageTest extends RefExtTestHelper
 
     /**
      * @depends testKeyUsage
-     *
-     * @param KeyUsageExtension $ku
      */
     public function testKeyUsageBits(KeyUsageExtension $ku)
     {

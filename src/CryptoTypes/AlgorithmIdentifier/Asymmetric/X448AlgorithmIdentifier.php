@@ -19,9 +19,6 @@ class X448AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
         $this->_oid = self::OID_X448;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'id-X448';

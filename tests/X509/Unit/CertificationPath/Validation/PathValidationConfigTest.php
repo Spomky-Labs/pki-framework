@@ -25,8 +25,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testMaxLength(PathValidationConfig $config)
     {
@@ -35,8 +33,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testDateTime(PathValidationConfig $config)
     {
@@ -45,8 +41,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testPolicySet(PathValidationConfig $config)
     {
@@ -55,8 +49,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testWithMaxLength(PathValidationConfig $config)
     {
@@ -66,8 +58,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testWithDateTime(PathValidationConfig $config)
     {
@@ -77,8 +67,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testWithTrustAnchor(PathValidationConfig $config)
     {
@@ -93,8 +81,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testWithPolicyMappingInhibit(PathValidationConfig $config)
     {
@@ -105,8 +91,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testWithExplicitPolicy(PathValidationConfig $config)
     {
@@ -117,8 +101,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testWithAnyPolicyInhibit(PathValidationConfig $config)
     {
@@ -129,8 +111,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testWithTrustAnchor
-     *
-     * @param PathValidationConfig $config
      */
     public function testTrustAnchor(PathValidationConfig $config)
     {
@@ -139,8 +119,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testTrustAnchorFail(PathValidationConfig $config)
     {
@@ -150,8 +128,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testPolicyMappingInhibit(PathValidationConfig $config)
     {
@@ -160,8 +136,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testExplicitPolicy(PathValidationConfig $config)
     {
@@ -170,8 +144,6 @@ class PathValidationConfigTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PathValidationConfig $config
      */
     public function testAnyPolicyInhibit(PathValidationConfig $config)
     {

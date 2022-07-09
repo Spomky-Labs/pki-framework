@@ -54,8 +54,6 @@ class Extensions implements \Countable, \IteratorAggregate
     /**
      * Initialize from ASN.1.
      *
-     * @param Sequence $seq
-     *
      * @return self
      */
     public static function fromASN1(Sequence $seq): Extensions
@@ -71,8 +69,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -107,8 +103,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Check whether extension is present.
      *
      * @param string $oid Extensions OID
-     *
-     * @return bool
      */
     public function has(string $oid): bool
     {
@@ -118,11 +112,7 @@ class Extensions implements \Countable, \IteratorAggregate
     /**
      * Get extension by OID.
      *
-     * @param string $oid
-     *
      * @throws \LogicException If extension is not present
-     *
-     * @return Extension
      */
     public function get(string $oid): Extension
     {
@@ -134,8 +124,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Authority Key Identifier' extension is present.
-     *
-     * @return bool
      */
     public function hasAuthorityKeyIdentifier(): bool
     {
@@ -146,8 +134,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Authority Key Identifier' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return AuthorityKeyIdentifierExtension
      */
     public function authorityKeyIdentifier(): AuthorityKeyIdentifierExtension
     {
@@ -156,8 +142,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Subject Key Identifier' extension is present.
-     *
-     * @return bool
      */
     public function hasSubjectKeyIdentifier(): bool
     {
@@ -168,8 +152,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Subject Key Identifier' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return SubjectKeyIdentifierExtension
      */
     public function subjectKeyIdentifier(): SubjectKeyIdentifierExtension
     {
@@ -178,8 +160,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Key Usage' extension is present.
-     *
-     * @return bool
      */
     public function hasKeyUsage(): bool
     {
@@ -190,8 +170,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Key Usage' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return KeyUsageExtension
      */
     public function keyUsage(): KeyUsageExtension
     {
@@ -200,8 +178,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Certificate Policies' extension is present.
-     *
-     * @return bool
      */
     public function hasCertificatePolicies(): bool
     {
@@ -212,8 +188,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Certificate Policies' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return CertificatePoliciesExtension
      */
     public function certificatePolicies(): CertificatePoliciesExtension
     {
@@ -222,8 +196,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Policy Mappings' extension is present.
-     *
-     * @return bool
      */
     public function hasPolicyMappings(): bool
     {
@@ -234,8 +206,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Policy Mappings' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return PolicyMappingsExtension
      */
     public function policyMappings(): PolicyMappingsExtension
     {
@@ -244,8 +214,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Subject Alternative Name' extension is present.
-     *
-     * @return bool
      */
     public function hasSubjectAlternativeName(): bool
     {
@@ -256,8 +224,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Subject Alternative Name' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return SubjectAlternativeNameExtension
      */
     public function subjectAlternativeName(): SubjectAlternativeNameExtension
     {
@@ -266,8 +232,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Issuer Alternative Name' extension is present.
-     *
-     * @return bool
      */
     public function hasIssuerAlternativeName(): bool
     {
@@ -276,8 +240,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Get 'Issuer Alternative Name' extension.
-     *
-     * @return IssuerAlternativeNameExtension
      */
     public function issuerAlternativeName(): IssuerAlternativeNameExtension
     {
@@ -286,8 +248,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Basic Constraints' extension is present.
-     *
-     * @return bool
      */
     public function hasBasicConstraints(): bool
     {
@@ -298,8 +258,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Basic Constraints' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return BasicConstraintsExtension
      */
     public function basicConstraints(): BasicConstraintsExtension
     {
@@ -308,8 +266,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Name Constraints' extension is present.
-     *
-     * @return bool
      */
     public function hasNameConstraints(): bool
     {
@@ -320,8 +276,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Name Constraints' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return NameConstraintsExtension
      */
     public function nameConstraints(): NameConstraintsExtension
     {
@@ -330,8 +284,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Policy Constraints' extension is present.
-     *
-     * @return bool
      */
     public function hasPolicyConstraints(): bool
     {
@@ -342,8 +294,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Policy Constraints' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return PolicyConstraintsExtension
      */
     public function policyConstraints(): PolicyConstraintsExtension
     {
@@ -352,8 +302,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Extended Key Usage' extension is present.
-     *
-     * @return bool
      */
     public function hasExtendedKeyUsage(): bool
     {
@@ -364,8 +312,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Extended Key Usage' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return ExtendedKeyUsageExtension
      */
     public function extendedKeyUsage(): ExtendedKeyUsageExtension
     {
@@ -374,8 +320,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'CRL Distribution Points' extension is present.
-     *
-     * @return bool
      */
     public function hasCRLDistributionPoints(): bool
     {
@@ -386,8 +330,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'CRL Distribution Points' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return CRLDistributionPointsExtension
      */
     public function crlDistributionPoints(): CRLDistributionPointsExtension
     {
@@ -396,8 +338,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * Check whether 'Inhibit anyPolicy' extension is present.
-     *
-     * @return bool
      */
     public function hasInhibitAnyPolicy(): bool
     {
@@ -408,8 +348,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get 'Inhibit anyPolicy' extension.
      *
      * @throws \LogicException If extension is not present
-     *
-     * @return InhibitAnyPolicyExtension
      */
     public function inhibitAnyPolicy(): InhibitAnyPolicyExtension
     {
@@ -418,8 +356,6 @@ class Extensions implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -430,8 +366,6 @@ class Extensions implements \Countable, \IteratorAggregate
      * Get iterator for extensions.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \Traversable
      */
     public function getIterator(): \Traversable
     {

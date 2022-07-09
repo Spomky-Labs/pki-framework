@@ -32,8 +32,6 @@ class GeneralSubtreesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testEncode(GeneralSubtrees $subtrees)
     {
@@ -57,9 +55,6 @@ class GeneralSubtreesTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param GeneralSubtrees $ref
-     * @param GeneralSubtrees $new
      */
     public function testRecoded(GeneralSubtrees $ref, GeneralSubtrees $new)
     {
@@ -68,8 +63,6 @@ class GeneralSubtreesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testAll(GeneralSubtrees $subtrees)
     {
@@ -81,8 +74,6 @@ class GeneralSubtreesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testCount(GeneralSubtrees $subtrees)
     {
@@ -91,8 +82,6 @@ class GeneralSubtreesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testIterator(GeneralSubtrees $subtrees)
     {

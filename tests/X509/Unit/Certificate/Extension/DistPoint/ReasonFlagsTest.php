@@ -32,8 +32,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testEncode(ReasonFlags $reasons)
     {
@@ -57,9 +55,6 @@ class ReasonFlagsTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param ReasonFlags $ref
-     * @param ReasonFlags $new
      */
     public function testRecoded(ReasonFlags $ref, ReasonFlags $new)
     {
@@ -68,8 +63,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testKeyCompromise(ReasonFlags $reasons)
     {
@@ -78,8 +71,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testCACompromise(ReasonFlags $reasons)
     {
@@ -88,8 +79,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testAffiliationChanged(ReasonFlags $reasons)
     {
@@ -98,8 +87,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testSuperseded(ReasonFlags $reasons)
     {
@@ -108,8 +95,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testCessationOfOperation(ReasonFlags $reasons)
     {
@@ -118,8 +103,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testCertificateHold(ReasonFlags $reasons)
     {
@@ -128,8 +111,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testPriviligeWhitdrawn(ReasonFlags $reasons)
     {
@@ -138,8 +119,6 @@ class ReasonFlagsTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ReasonFlags $reasons
      */
     public function testAACompromise(ReasonFlags $reasons)
     {

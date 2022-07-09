@@ -27,8 +27,6 @@ class RFC822NameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param RFC822Name $name
      */
     public function testEncode(RFC822Name $name)
     {
@@ -63,9 +61,6 @@ class RFC822NameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param RFC822Name $ref
-     * @param RFC822Name $new
      */
     public function testRecoded(RFC822Name $ref, RFC822Name $new)
     {
@@ -74,8 +69,6 @@ class RFC822NameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param RFC822Name $name
      */
     public function testString(RFC822Name $name)
     {
@@ -84,8 +77,6 @@ class RFC822NameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param RFC822Name $name
      */
     public function testEmail(RFC822Name $name)
     {

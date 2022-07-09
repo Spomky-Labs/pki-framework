@@ -63,9 +63,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
         $this->_unspecifiedTypes = null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isConstructed(): bool
     {
         return true;
@@ -297,9 +294,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
         return new \ArrayIterator($this->elements());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         $data = '';
@@ -310,8 +304,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     protected static function _decodeFromDER(

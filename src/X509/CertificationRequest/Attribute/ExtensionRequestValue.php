@@ -29,8 +29,6 @@ class ExtensionRequestValue extends AttributeValue
 
     /**
      * Constructor.
-     *
-     * @param Extensions $extensions
      */
     public function __construct(Extensions $extensions)
     {
@@ -39,8 +37,6 @@ class ExtensionRequestValue extends AttributeValue
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
@@ -50,49 +46,32 @@ class ExtensionRequestValue extends AttributeValue
 
     /**
      * Get requested extensions.
-     *
-     * @return Extensions
      */
     public function extensions(): Extensions
     {
         return $this->_extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Element
     {
         return $this->_extensions->toASN1();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stringValue(): string
     {
         return '#' . bin2hex($this->toASN1()->toDER());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equalityMatchingRule(): MatchingRule
     {
         return new BinaryMatch();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rfc2253String(): string
     {
         return $this->stringValue();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _transcodedString(): string
     {
         return $this->stringValue();

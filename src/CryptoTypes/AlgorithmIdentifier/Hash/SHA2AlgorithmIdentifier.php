@@ -44,8 +44,6 @@ abstract class SHA2AlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -60,8 +58,6 @@ abstract class SHA2AlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null|NullType
      */
     protected function _paramsASN1(): ?Element

@@ -23,8 +23,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Constructor.
-     *
-     * @param Target ...$targets
      */
     public function __construct(Target ...$targets)
     {
@@ -33,10 +31,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -81,10 +75,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Check whether given target is present.
-     *
-     * @param Target $target
-     *
-     * @return bool
      */
     public function hasTarget(Target $target): bool
     {
@@ -98,8 +88,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -114,8 +102,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -126,8 +112,6 @@ class Targets implements \Countable, \IteratorAggregate
      * Get iterator for targets.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {
@@ -136,8 +120,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Get all targets of given type.
-     *
-     * @param int $type
      *
      * @return Target[]
      */

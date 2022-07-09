@@ -13,9 +13,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
  */
 abstract class RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements SignatureAlgorithmIdentifier
 {
-    /**
-     * {@inheritdoc}
-     */
     public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
     {
         return self::OID_RSA_ENCRYPTION === $algo->oid();

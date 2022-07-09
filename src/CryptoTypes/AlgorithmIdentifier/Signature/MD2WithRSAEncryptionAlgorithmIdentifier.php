@@ -19,9 +19,6 @@ class MD2WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorit
         $this->_oid = self::OID_MD2_WITH_RSA_ENCRYPTION;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'md2WithRSAEncryption';

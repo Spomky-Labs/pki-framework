@@ -14,9 +14,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
  */
 class X25519PublicKey extends Curve25519PublicKey
 {
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new X25519AlgorithmIdentifier();

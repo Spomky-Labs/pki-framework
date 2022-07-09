@@ -60,17 +60,11 @@ class Integer extends Element
         return $this->_number->intVal();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         return $this->_number->signedOctets();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

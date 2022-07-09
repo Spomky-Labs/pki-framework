@@ -20,8 +20,6 @@ class AuthorityAccessDescription extends AccessDescription
 
     /**
      * Check whether access method is OSCP.
-     *
-     * @return bool
      */
     public function isOSCPMethod(): bool
     {
@@ -30,8 +28,6 @@ class AuthorityAccessDescription extends AccessDescription
 
     /**
      * Check whether access method is CA issuers.
-     *
-     * @return bool
      */
     public function isCAIssuersMethod(): bool
     {

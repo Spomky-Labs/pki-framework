@@ -46,9 +46,6 @@ class GenericSignature extends Signature
         return $this->_signatureAlgorithm;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function bitString(): BitString
     {
         return $this->_signature;

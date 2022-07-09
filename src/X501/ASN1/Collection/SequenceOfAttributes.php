@@ -19,10 +19,6 @@ class SequenceOfAttributes extends AttributeCollection
 {
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -31,8 +27,6 @@ class SequenceOfAttributes extends AttributeCollection
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {

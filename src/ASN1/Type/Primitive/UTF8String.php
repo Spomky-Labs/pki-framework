@@ -25,9 +25,6 @@ class UTF8String extends PrimitiveString
         parent::__construct($string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _validateString(string $string): bool
     {
         return mb_check_encoding($string, 'UTF-8');

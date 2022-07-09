@@ -18,8 +18,6 @@ use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
 class SubjectDirectoryAttributesTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return SubjectDirectoryAttributesExtension
      */
     public function testSubjectDirectoryAttributesExtension()
@@ -33,8 +31,6 @@ class SubjectDirectoryAttributesTest extends RefExtTestHelper
 
     /**
      * @depends testSubjectDirectoryAttributesExtension
-     *
-     * @param SubjectDirectoryAttributesExtension $sda
      */
     public function testSDADescription(SubjectDirectoryAttributesExtension $sda)
     {

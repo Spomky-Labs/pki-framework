@@ -33,17 +33,12 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
         $this->_oid = self::OID_RSA_ENCRYPTION;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'rsaEncryption';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -57,8 +52,6 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return NullType
      */
     protected function _paramsASN1(): ?Element

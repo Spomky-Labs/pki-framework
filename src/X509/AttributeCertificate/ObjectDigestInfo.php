@@ -56,10 +56,6 @@ class ObjectDigestInfo
 
     /**
      * Constructor.
-     *
-     * @param int                     $type
-     * @param AlgorithmIdentifierType $algo
-     * @param BitString               $digest
      */
     public function __construct(
         int $type,
@@ -74,8 +70,6 @@ class ObjectDigestInfo
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
      *
      * @return self
      */
@@ -96,8 +90,6 @@ class ObjectDigestInfo
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {

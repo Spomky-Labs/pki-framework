@@ -33,9 +33,6 @@ abstract class BaseTime extends Element implements TimeType
         $this->_dateTime = $dt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString(): string
     {
         return $this->string();

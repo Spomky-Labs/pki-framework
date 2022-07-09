@@ -60,8 +60,6 @@ class CertificationPathBuildingTest extends TestCase
 
     /**
      * @depends testBuildPath
-     *
-     * @param CertificationPath $path
      */
     public function testPathLength(CertificationPath $path)
     {
@@ -70,8 +68,6 @@ class CertificationPathBuildingTest extends TestCase
 
     /**
      * @depends testBuildPath
-     *
-     * @param CertificationPath $path
      */
     public function testPathAnchor(CertificationPath $path)
     {
@@ -80,8 +76,6 @@ class CertificationPathBuildingTest extends TestCase
 
     /**
      * @depends testBuildPath
-     *
-     * @param CertificationPath $path
      */
     public function testPathIntermediate(CertificationPath $path)
     {
@@ -90,8 +84,6 @@ class CertificationPathBuildingTest extends TestCase
 
     /**
      * @depends testBuildPath
-     *
-     * @param CertificationPath $path
      */
     public function testPathTarget(CertificationPath $path)
     {

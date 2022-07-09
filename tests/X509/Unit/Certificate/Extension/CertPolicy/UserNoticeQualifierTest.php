@@ -31,8 +31,6 @@ class UserNoticeQualifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param UserNoticeQualifier $qual
      */
     public function testEncode(UserNoticeQualifier $qual)
     {
@@ -56,9 +54,6 @@ class UserNoticeQualifierTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param UserNoticeQualifier $ref
-     * @param UserNoticeQualifier $new
      */
     public function testRecoded(
         UserNoticeQualifier $ref,
@@ -69,8 +64,6 @@ class UserNoticeQualifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param UserNoticeQualifier $qual
      */
     public function testExplicitText(UserNoticeQualifier $qual)
     {
@@ -79,8 +72,6 @@ class UserNoticeQualifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param UserNoticeQualifier $qual
      */
     public function testNoticeRef(UserNoticeQualifier $qual)
     {
@@ -96,8 +87,6 @@ class UserNoticeQualifierTest extends TestCase
 
     /**
      * @depends testCreateEmpty
-     *
-     * @param UserNoticeQualifier $qual
      */
     public function testExplicitTextFail(UserNoticeQualifier $qual)
     {
@@ -107,8 +96,6 @@ class UserNoticeQualifierTest extends TestCase
 
     /**
      * @depends testCreateEmpty
-     *
-     * @param UserNoticeQualifier $qual
      */
     public function testNoticeRefFail(UserNoticeQualifier $qual)
     {

@@ -142,9 +142,6 @@ class Real extends Element
         $this->_base = $base;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString(): string
     {
         return sprintf('%g', $this->floatVal());
@@ -253,9 +250,6 @@ class Real extends Element
         return sprintf('%s.E%s%s', gmp_strval($m), $es, gmp_strval(gmp_abs($e)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         if (self::INF_EXPONENT == $this->_exponent->gmpObj()) {
@@ -356,9 +350,6 @@ class Real extends Element
         throw new \LogicException('Invalid special value.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

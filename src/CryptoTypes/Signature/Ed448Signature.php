@@ -35,9 +35,6 @@ class Ed448Signature extends Signature
         $this->_signature = $signature;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function bitString(): BitString
     {
         return new BitString($this->_signature);

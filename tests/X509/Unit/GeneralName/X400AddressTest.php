@@ -34,8 +34,6 @@ class X400AddressTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param X400Address $name
      */
     public function testEncode(X400Address $name)
     {
@@ -70,9 +68,6 @@ class X400AddressTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param X400Address $ref
-     * @param X400Address $new
      */
     public function testRecoded(X400Address $ref, X400Address $new)
     {
@@ -81,8 +76,6 @@ class X400AddressTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param X400Address $name
      */
     public function testString(X400Address $name)
     {

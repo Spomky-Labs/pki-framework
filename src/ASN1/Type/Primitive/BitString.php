@@ -150,9 +150,6 @@ class BitString extends BaseString
         return new self($bits, $unused_bits);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         $der = chr($this->_unusedBits);
@@ -166,9 +163,6 @@ class BitString extends BaseString
         return $der;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

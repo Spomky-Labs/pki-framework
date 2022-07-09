@@ -592,65 +592,41 @@ class UnspecifiedType implements ElementBase
         return $this->_element;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function asElement(): Element
     {
         return $this->_element;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function asUnspecified(): UnspecifiedType
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->_element->toDER();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function typeClass(): int
     {
         return $this->_element->typeClass();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function tag(): int
     {
         return $this->_element->tag();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isConstructed(): bool
     {
         return $this->_element->isConstructed();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isType(int $tag): bool
     {
         return $this->_element->isType($tag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isTagged(): bool
     {
         return $this->_element->isTagged();

@@ -26,8 +26,6 @@ abstract class RFC4231HMACAlgorithmIdentifier extends SpecificAlgorithmIdentifie
     protected $_params;
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -45,8 +43,6 @@ abstract class RFC4231HMACAlgorithmIdentifier extends SpecificAlgorithmIdentifie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null|NullType
      */
     protected function _paramsASN1(): ?Element

@@ -31,11 +31,6 @@ class PolicyTree
      * Process policy information from the certificate.
      *
      * Certificate policies extension must be present.
-     *
-     * @param ValidatorState $state
-     * @param Certificate    $cert
-     *
-     * @return ValidatorState
      */
     public function processPolicies(
         ValidatorState $state,
@@ -60,11 +55,6 @@ class PolicyTree
 
     /**
      * Process policy mappings from the certificate.
-     *
-     * @param ValidatorState $state
-     * @param Certificate    $cert
-     *
-     * @return ValidatorState
      */
     public function processMappings(
         ValidatorState $state,
@@ -85,11 +75,6 @@ class PolicyTree
 
     /**
      * Calculate policy intersection as specified in Wrap-Up Procedure 6.1.5.g.
-     *
-     * @param ValidatorState $state
-     * @param array          $policies
-     *
-     * @return ValidatorState
      */
     public function calculateIntersection(
         ValidatorState $state,
@@ -179,9 +164,6 @@ class PolicyTree
 
     /**
      * Process single policy information.
-     *
-     * @param PolicyInformation $policy
-     * @param ValidatorState    $state
      */
     protected function _processPolicy(
         PolicyInformation $policy,
@@ -220,10 +202,6 @@ class PolicyTree
 
     /**
      * Process anyPolicy policy information.
-     *
-     * @param PolicyInformation $policy
-     * @param Certificate       $cert
-     * @param ValidatorState    $state
      */
     protected function _processAnyPolicy(
         PolicyInformation $policy,
@@ -255,9 +233,6 @@ class PolicyTree
 
     /**
      * Apply policy mappings to the policy tree.
-     *
-     * @param Certificate    $cert
-     * @param ValidatorState $state
      */
     protected function _applyMappings(Certificate $cert, ValidatorState $state): void
     {
@@ -286,8 +261,6 @@ class PolicyTree
     /**
      * Apply anyPolicy mapping to the policy tree as specified in 6.1.4 (b)(1).
      *
-     * @param Certificate    $cert
-     * @param ValidatorState $state
      * @param string         $idp   OID of the issuer domain policy
      * @param array          $sdps  Array of subject domain policy OIDs
      */
@@ -327,9 +300,6 @@ class PolicyTree
 
     /**
      * Delete nodes as specified in 6.1.4 (b)(2).
-     *
-     * @param Certificate    $cert
-     * @param ValidatorState $state
      */
     protected function _deleteMappings(
         Certificate $cert,
@@ -349,8 +319,6 @@ class PolicyTree
 
     /**
      * Prune tree starting from given depth.
-     *
-     * @param int $depth
      *
      * @return int The number of nodes left in a tree
      */
@@ -376,8 +344,6 @@ class PolicyTree
 
     /**
      * Get all nodes at given depth.
-     *
-     * @param int $i
      *
      * @return PolicyNode[]
      */
@@ -432,8 +398,6 @@ class PolicyTree
 
     /**
      * Gather all children of given nodes to a flattened array.
-     *
-     * @param PolicyNode ...$nodes
      *
      * @return PolicyNode[]
      */

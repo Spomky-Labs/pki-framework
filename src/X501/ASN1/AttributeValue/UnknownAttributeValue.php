@@ -24,9 +24,6 @@ class UnknownAttributeValue extends AttributeValue
 
     /**
      * Constructor.
-     *
-     * @param string  $oid
-     * @param Element $el
      */
     public function __construct(string $oid, Element $el)
     {
@@ -34,17 +31,11 @@ class UnknownAttributeValue extends AttributeValue
         $this->_element = $el;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Element
     {
         return $this->_element;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stringValue(): string
     {
         // if value is encoded as a string type
@@ -55,17 +46,11 @@ class UnknownAttributeValue extends AttributeValue
         return '#' . bin2hex($this->_element->toDER());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equalityMatchingRule(): MatchingRule
     {
         return new BinaryMatch();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rfc2253String(): string
     {
         $str = $this->_transcodedString();
@@ -76,9 +61,6 @@ class UnknownAttributeValue extends AttributeValue
         return $str;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _transcodedString(): string
     {
         // if transcoding is defined for the value type

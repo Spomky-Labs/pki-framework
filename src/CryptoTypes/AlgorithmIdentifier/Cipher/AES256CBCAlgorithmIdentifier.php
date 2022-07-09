@@ -24,17 +24,11 @@ class AES256CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
         parent::__construct($iv);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'aes256-CBC';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function keySize(): int
     {
         return 32;

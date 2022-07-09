@@ -30,8 +30,6 @@ class FullNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param FullName $name
      */
     public function testEncode(FullName $name)
     {
@@ -55,9 +53,6 @@ class FullNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param FullName $ref
-     * @param FullName $new
      */
     public function testRecoded(FullName $ref, FullName $new)
     {
@@ -66,8 +61,6 @@ class FullNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param FullName $name
      */
     public function testNames(FullName $name)
     {

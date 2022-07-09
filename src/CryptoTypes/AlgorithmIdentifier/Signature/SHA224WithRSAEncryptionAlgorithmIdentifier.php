@@ -20,9 +20,6 @@ class SHA224WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatureAlgo
         $this->_oid = self::OID_SHA224_WITH_RSA_ENCRYPTION;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'sha224WithRSAEncryption';

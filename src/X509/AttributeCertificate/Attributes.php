@@ -38,8 +38,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Check whether 'Access Identity' attribute is present.
-     *
-     * @return bool
      */
     public function hasAccessIdentity(): bool
     {
@@ -48,8 +46,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Get the first 'Access Identity' attribute value.
-     *
-     * @return AccessIdentityAttributeValue
      */
     public function accessIdentity(): AccessIdentityAttributeValue
     {
@@ -58,8 +54,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Check whether 'Service Authentication Information' attribute is present.
-     *
-     * @return bool
      */
     public function hasAuthenticationInformation(): bool
     {
@@ -68,8 +62,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Get the first 'Service Authentication Information' attribute value.
-     *
-     * @return AuthenticationInfoAttributeValue
      */
     public function authenticationInformation(): AuthenticationInfoAttributeValue
     {
@@ -78,8 +70,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Check whether 'Charging Identity' attribute is present.
-     *
-     * @return bool
      */
     public function hasChargingIdentity(): bool
     {
@@ -88,8 +78,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Get the first 'Charging Identity' attribute value.
-     *
-     * @return ChargingIdentityAttributeValue
      */
     public function chargingIdentity(): ChargingIdentityAttributeValue
     {
@@ -98,8 +86,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Check whether 'Group' attribute is present.
-     *
-     * @return bool
      */
     public function hasGroup(): bool
     {
@@ -108,8 +94,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Get the first 'Group' attribute value.
-     *
-     * @return GroupAttributeValue
      */
     public function group(): GroupAttributeValue
     {
@@ -118,8 +102,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Check whether 'Role' attribute is present.
-     *
-     * @return bool
      */
     public function hasRole(): bool
     {
@@ -128,8 +110,6 @@ class Attributes extends SequenceOfAttributes
 
     /**
      * Get the first 'Role' attribute value.
-     *
-     * @return RoleAttributeValue
      */
     public function role(): RoleAttributeValue
     {
@@ -154,9 +134,6 @@ class Attributes extends SequenceOfAttributes
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _castAttributeValues(Attribute $attribute): Attribute
     {
         $oid = $attribute->oid();

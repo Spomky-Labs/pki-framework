@@ -33,25 +33,16 @@ class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
         $this->_class = $class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isConstructed(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function explicit(): UnspecifiedType
     {
         return $this->_element->asUnspecified();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         // get the full encoding of the wrapped element

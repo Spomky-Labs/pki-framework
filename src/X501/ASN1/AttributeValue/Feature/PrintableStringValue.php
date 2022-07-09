@@ -35,8 +35,6 @@ abstract class PrintableStringValue extends AttributeValue
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
@@ -44,42 +42,27 @@ abstract class PrintableStringValue extends AttributeValue
         return new static($el->asPrintableString()->string());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Element
     {
         return new PrintableString($this->_string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stringValue(): string
     {
         return $this->_string;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equalityMatchingRule(): MatchingRule
     {
         // default to caseIgnoreMatch
         return new CaseIgnoreMatch(Element::TYPE_PRINTABLE_STRING);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rfc2253String(): string
     {
         return DNParser::escapeString($this->_transcodedString());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _transcodedString(): string
     {
         // PrintableString maps directly to UTF-8

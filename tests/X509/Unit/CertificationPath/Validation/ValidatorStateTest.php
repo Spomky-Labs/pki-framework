@@ -45,8 +45,6 @@ class ValidatorStateTest extends TestCase
 
     /**
      * @depends testInitialize
-     *
-     * @param ValidatorState $state
      */
     public function testValidPolicyTreeFail(ValidatorState $state)
     {
@@ -56,8 +54,6 @@ class ValidatorStateTest extends TestCase
 
     /**
      * @depends testInitialize
-     *
-     * @param ValidatorState $state
      */
     public function testWorkingPublicKeyParameters(ValidatorState $state)
     {

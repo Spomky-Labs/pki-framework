@@ -34,8 +34,6 @@ class EDIPartyNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param EDIPartyName $name
      */
     public function testEncode(EDIPartyName $name)
     {
@@ -70,9 +68,6 @@ class EDIPartyNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param EDIPartyName $ref
-     * @param EDIPartyName $new
      */
     public function testRecoded(EDIPartyName $ref, EDIPartyName $new)
     {
@@ -81,8 +76,6 @@ class EDIPartyNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param EDIPartyName $name
      */
     public function testString(EDIPartyName $name)
     {

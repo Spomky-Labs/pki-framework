@@ -20,17 +20,11 @@ abstract class PrimitiveString extends BaseString
 {
     use PrimitiveType;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         return $this->_string;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

@@ -26,9 +26,6 @@ class BMPString extends PrimitiveString
         parent::__construct($string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _validateString(string $string): bool
     {
         // UCS-2 has fixed with of 2 octets (16 bits)

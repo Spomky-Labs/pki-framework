@@ -22,9 +22,6 @@ class SHA384AlgorithmIdentifier extends SHA2AlgorithmIdentifier
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'sha384';

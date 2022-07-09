@@ -49,8 +49,6 @@ class TranscodeStep implements PrepareStep
      * Check whether transcoding from given ASN.1 type tag is supported.
      *
      * @param int $type ASN.1 type tag
-     *
-     * @return bool
      */
     public static function isTypeSupported(int $type): bool
     {

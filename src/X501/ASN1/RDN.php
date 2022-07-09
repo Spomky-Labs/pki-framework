@@ -49,8 +49,6 @@ class RDN implements \Countable, \IteratorAggregate
      * Convenience method to initialize RDN from AttributeValue objects.
      *
      * @param AttributeValue ...$values One or more attributes
-     *
-     * @return self
      */
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
@@ -68,10 +66,6 @@ class RDN implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Set $set
-     *
-     * @return self
      */
     public static function fromASN1(Set $set): self
     {
@@ -86,8 +80,6 @@ class RDN implements \Countable, \IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Set
      */
     public function toASN1(): Set
     {
@@ -105,8 +97,6 @@ class RDN implements \Countable, \IteratorAggregate
      * Get name-component string conforming to RFC 2253.
      *
      * @see https://tools.ietf.org/html/rfc2253#section-2.2
-     *
-     * @return string
      */
     public function toString(): string
     {
@@ -123,8 +113,6 @@ class RDN implements \Countable, \IteratorAggregate
      * Check whether RDN is semantically equal to other.
      *
      * @param RDN $other Object to compare to
-     *
-     * @return bool
      */
     public function equals(RDN $other): bool
     {
@@ -180,8 +168,6 @@ class RDN implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -190,8 +176,6 @@ class RDN implements \Countable, \IteratorAggregate
 
     /**
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {

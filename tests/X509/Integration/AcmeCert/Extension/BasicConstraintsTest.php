@@ -16,8 +16,6 @@ use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
 class BasicConstraintsTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return BasicConstraintsExtension
      */
     public function testBasicConstraintsExtension()
@@ -29,8 +27,6 @@ class BasicConstraintsTest extends RefExtTestHelper
 
     /**
      * @depends testBasicConstraintsExtension
-     *
-     * @param BasicConstraintsExtension $bc
      */
     public function testBasicConstraintsCA(BasicConstraintsExtension $bc)
     {
@@ -39,8 +35,6 @@ class BasicConstraintsTest extends RefExtTestHelper
 
     /**
      * @depends testBasicConstraintsExtension
-     *
-     * @param BasicConstraintsExtension $bc
      */
     public function testBasicConstraintsPathLen(BasicConstraintsExtension $bc)
     {

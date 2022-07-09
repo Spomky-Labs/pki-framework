@@ -33,9 +33,6 @@ class AttCertValidityPeriod
 
     /**
      * Constructor.
-     *
-     * @param \DateTimeImmutable $nb
-     * @param \DateTimeImmutable $na
      */
     public function __construct(\DateTimeImmutable $nb, \DateTimeImmutable $na)
     {
@@ -45,10 +42,6 @@ class AttCertValidityPeriod
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -63,8 +56,6 @@ class AttCertValidityPeriod
      * @param null|string $nb_date Not before date
      * @param null|string $na_date Not after date
      * @param null|string $tz      Timezone string
-     *
-     * @return self
      */
     public static function fromStrings(
         ?string $nb_date,
@@ -78,8 +69,6 @@ class AttCertValidityPeriod
 
     /**
      * Get not before time.
-     *
-     * @return \DateTimeImmutable
      */
     public function notBeforeTime(): \DateTimeImmutable
     {
@@ -88,8 +77,6 @@ class AttCertValidityPeriod
 
     /**
      * Get not after time.
-     *
-     * @return \DateTimeImmutable
      */
     public function notAfterTime(): \DateTimeImmutable
     {
@@ -98,8 +85,6 @@ class AttCertValidityPeriod
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {

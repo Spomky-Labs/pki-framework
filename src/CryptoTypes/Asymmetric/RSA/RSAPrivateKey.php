@@ -234,17 +234,12 @@ class RSAPrivateKey extends PrivateKey
         return $this->_coefficient;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new RSAEncryptionAlgorithmIdentifier();
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return RSAPublicKey
      */
     public function publicKey(): PublicKey
@@ -270,17 +265,11 @@ class RSAPrivateKey extends PrivateKey
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->toASN1()->toDER();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toPEM(): PEM
     {
         return new PEM(PEM::TYPE_RSA_PRIVATE_KEY, $this->toDER());

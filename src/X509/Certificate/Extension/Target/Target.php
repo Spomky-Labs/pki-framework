@@ -29,22 +29,16 @@ abstract class Target
 
     /**
      * Generate ASN.1 element.
-     *
-     * @return Element
      */
     abstract public function toASN1(): Element;
 
     /**
      * Get string value of the target.
-     *
-     * @return string
      */
     abstract public function string(): string;
 
     /**
      * Initialize concrete object from the chosen ASN.1 element.
-     *
-     * @param TaggedType $el
      *
      * @return self
      */
@@ -58,11 +52,7 @@ abstract class Target
     /**
      * Parse from ASN.1.
      *
-     * @param TaggedType $el
-     *
      * @throws \UnexpectedValueException
-     *
-     * @return self
      */
     public static function fromASN1(TaggedType $el): self
     {
@@ -81,8 +71,6 @@ abstract class Target
 
     /**
      * Get type tag.
-     *
-     * @return int
      */
     public function type(): int
     {
@@ -91,10 +79,6 @@ abstract class Target
 
     /**
      * Check whether target is equal to another.
-     *
-     * @param Target $other
-     *
-     * @return bool
      */
     public function equals(Target $other): bool
     {

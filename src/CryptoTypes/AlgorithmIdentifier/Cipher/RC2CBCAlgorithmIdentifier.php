@@ -110,17 +110,12 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         $this->_initializationVector = $iv;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'rc2-cbc';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -155,33 +150,22 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         return $this->_effectiveKeyBits;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function blockSize(): int
     {
         return 8;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function keySize(): int
     {
         return (int) round($this->_effectiveKeyBits / 8);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function ivSize(): int
     {
         return 8;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return Sequence
      */
     protected function _paramsASN1(): ?Element

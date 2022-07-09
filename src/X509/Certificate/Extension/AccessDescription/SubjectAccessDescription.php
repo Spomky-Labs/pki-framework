@@ -20,8 +20,6 @@ class SubjectAccessDescription extends AccessDescription
 
     /**
      * Check whether access method is time stamping.
-     *
-     * @return bool
      */
     public function isTimeStampingMethod(): bool
     {
@@ -30,8 +28,6 @@ class SubjectAccessDescription extends AccessDescription
 
     /**
      * Check whether access method is CA repository.
-     *
-     * @return bool
      */
     public function isCARepositoryMethod(): bool
     {

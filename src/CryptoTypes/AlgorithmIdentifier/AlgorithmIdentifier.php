@@ -113,17 +113,11 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
         return (new AlgorithmIdentifierFactory())->parse($seq);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function oid(): string
     {
         return $this->_oid;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Sequence
     {
         $elements = [new ObjectIdentifier($this->_oid)];

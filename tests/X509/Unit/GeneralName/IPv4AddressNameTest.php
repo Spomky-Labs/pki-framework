@@ -32,8 +32,6 @@ class IPv4AddressNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param IPAddress $ip
      */
     public function testEncode(IPAddress $ip)
     {
@@ -68,9 +66,6 @@ class IPv4AddressNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param IPAddress $ref
-     * @param IPAddress $new
      */
     public function testRecoded(IPAddress $ref, IPAddress $new)
     {
@@ -79,8 +74,6 @@ class IPv4AddressNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param IPAddress $ip
      */
     public function testAddress(IPAddress $ip)
     {
@@ -96,8 +89,6 @@ class IPv4AddressNameTest extends TestCase
 
     /**
      * @depends testCreateWithMask
-     *
-     * @param IPAddress $ip
      */
     public function testEncodeWithMask(IPAddress $ip)
     {
@@ -121,9 +112,6 @@ class IPv4AddressNameTest extends TestCase
     /**
      * @depends testCreateWithMask
      * @depends testDecodeWithMask
-     *
-     * @param IPAddress $ref
-     * @param IPAddress $new
      */
     public function testRecodedWithMask(IPAddress $ref, IPAddress $new)
     {
@@ -132,8 +120,6 @@ class IPv4AddressNameTest extends TestCase
 
     /**
      * @depends testCreateWithMask
-     *
-     * @param IPAddress $ip
      */
     public function testMask(IPAddress $ip)
     {
@@ -142,8 +128,6 @@ class IPv4AddressNameTest extends TestCase
 
     /**
      * @depends testCreateWithMask
-     *
-     * @param IPAddress $ip
      */
     public function testString(IPAddress $ip)
     {
@@ -158,8 +142,6 @@ class IPv4AddressNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param IPAddress $ip
      */
     public function testNoMaskFails(IPAddress $ip)
     {

@@ -58,8 +58,6 @@ class CertificationPathValidationTest extends TestCase
 
     /**
      * @depends testValidateDefault
-     *
-     * @param PathValidationResult $result
      */
     public function testResult(PathValidationResult $result)
     {

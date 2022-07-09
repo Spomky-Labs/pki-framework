@@ -34,17 +34,11 @@ abstract class RFC8410PublicKey extends PublicKey
         $this->_publicKey = $public_key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         throw new \LogicException("RFC 8410 public key doesn't have a DER encoding.");
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function subjectPublicKey(): BitString
     {
         return new BitString($this->_publicKey);

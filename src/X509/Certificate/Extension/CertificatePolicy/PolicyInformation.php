@@ -39,9 +39,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Constructor.
-     *
-     * @param string              $oid
-     * @param PolicyQualifierInfo ...$qualifiers
      */
     public function __construct(string $oid, PolicyQualifierInfo ...$qualifiers)
     {
@@ -54,10 +51,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -76,8 +69,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Get policy identifier.
-     *
-     * @return string
      */
     public function oid(): string
     {
@@ -86,8 +77,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Check whether this policy is anyPolicy.
-     *
-     * @return bool
      */
     public function isAnyPolicy(): bool
     {
@@ -106,10 +95,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Check whether qualifier is present.
-     *
-     * @param string $oid
-     *
-     * @return bool
      */
     public function has(string $oid): bool
     {
@@ -119,11 +104,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
     /**
      * Get qualifier by OID.
      *
-     * @param string $oid
-     *
      * @throws \LogicException IF not set
-     *
-     * @return PolicyQualifierInfo
      */
     public function get(string $oid): PolicyQualifierInfo
     {
@@ -135,8 +116,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Check whether CPS qualifier is present.
-     *
-     * @return bool
      */
     public function hasCPSQualifier(): bool
     {
@@ -147,8 +126,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      * Get CPS qualifier.
      *
      * @throws \LogicException If not set
-     *
-     * @return CPSQualifier
      */
     public function CPSQualifier(): CPSQualifier
     {
@@ -160,8 +137,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Check whether user notice qualifier is present.
-     *
-     * @return bool
      */
     public function hasUserNoticeQualifier(): bool
     {
@@ -172,8 +147,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      * Get user notice qualifier.
      *
      * @throws \LogicException If not set
-     *
-     * @return UserNoticeQualifier
      */
     public function userNoticeQualifier(): UserNoticeQualifier
     {
@@ -185,8 +158,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
 
     /**
      * Get ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -207,8 +178,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      * Get number of qualifiers.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -219,8 +188,6 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      * Get iterator for qualifiers.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {

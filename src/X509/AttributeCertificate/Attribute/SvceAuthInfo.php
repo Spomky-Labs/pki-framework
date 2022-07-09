@@ -44,10 +44,6 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Constructor.
-     *
-     * @param GeneralName $service
-     * @param GeneralName $ident
-     * @param null|string $auth_info
      */
     public function __construct(
         GeneralName $service,
@@ -60,8 +56,6 @@ abstract class SvceAuthInfo extends AttributeValue
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
@@ -78,19 +72,12 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Get service name.
-     *
-     * @return GeneralName
      */
     public function service(): GeneralName
     {
         return $this->_service;
     }
 
-    /**
-     * Get ident.
-     *
-     * @return GeneralName
-     */
     public function ident(): GeneralName
     {
         return $this->_ident;
@@ -98,8 +85,6 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Check whether authentication info is present.
-     *
-     * @return bool
      */
     public function hasAuthInfo(): bool
     {
@@ -110,8 +95,6 @@ abstract class SvceAuthInfo extends AttributeValue
      * Get authentication info.
      *
      * @throws \LogicException If not set
-     *
-     * @return string
      */
     public function authInfo(): string
     {
@@ -121,9 +104,6 @@ abstract class SvceAuthInfo extends AttributeValue
         return $this->_authInfo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Element
     {
         $elements = [$this->_service->toASN1(), $this->_ident->toASN1()];
@@ -133,33 +113,21 @@ abstract class SvceAuthInfo extends AttributeValue
         return new Sequence(...$elements);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stringValue(): string
     {
         return '#' . bin2hex($this->toASN1()->toDER());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equalityMatchingRule(): MatchingRule
     {
         return new BinaryMatch();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rfc2253String(): string
     {
         return $this->stringValue();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _transcodedString(): string
     {
         return $this->stringValue();

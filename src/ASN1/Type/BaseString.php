@@ -33,9 +33,6 @@ abstract class BaseString extends Element implements StringType
         $this->_string = $string;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString(): string
     {
         return $this->string();

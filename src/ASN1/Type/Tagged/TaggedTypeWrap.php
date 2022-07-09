@@ -25,9 +25,6 @@ abstract class TaggedTypeWrap extends TaggedType
      */
     protected $_class;
 
-    /**
-     * {@inheritdoc}
-     */
     public function typeClass(): int
     {
         return $this->_class;

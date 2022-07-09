@@ -40,8 +40,6 @@ abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -55,9 +53,6 @@ abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
         return $obj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _paramsASN1(): ?Element
     {
         return $this->_params;

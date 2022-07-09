@@ -19,8 +19,6 @@ use Sop\X509\GeneralName\GeneralName;
 class AuthorityKeyIdentifierTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return AuthorityKeyIdentifierExtension
      */
     public function testAuthorityKeyIdentifier()
@@ -32,8 +30,6 @@ class AuthorityKeyIdentifierTest extends RefExtTestHelper
 
     /**
      * @depends testAuthorityKeyIdentifier
-     *
-     * @param AuthorityKeyIdentifierExtension $aki
      */
     public function testAuthorityKeyIdentifierKey(
         AuthorityKeyIdentifierExtension $aki
@@ -49,8 +45,6 @@ class AuthorityKeyIdentifierTest extends RefExtTestHelper
 
     /**
      * @depends testAuthorityKeyIdentifier
-     *
-     * @param AuthorityKeyIdentifierExtension $aki
      */
     public function testAuthorityKeyIdentifierIssuer(
         AuthorityKeyIdentifierExtension $aki

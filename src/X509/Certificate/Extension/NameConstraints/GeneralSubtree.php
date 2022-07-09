@@ -41,10 +41,6 @@ class GeneralSubtree
 
     /**
      * Constructor.
-     *
-     * @param GeneralName $base
-     * @param int         $min
-     * @param null|int    $max
      */
     public function __construct(GeneralName $base, int $min = 0, ?int $max = null)
     {
@@ -55,10 +51,6 @@ class GeneralSubtree
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -85,11 +77,6 @@ class GeneralSubtree
         return new self($base, $min, $max);
     }
 
-    /**
-     * Get constraint.
-     *
-     * @return GeneralName
-     */
     public function base(): GeneralName
     {
         return $this->_base;
@@ -97,8 +84,6 @@ class GeneralSubtree
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {

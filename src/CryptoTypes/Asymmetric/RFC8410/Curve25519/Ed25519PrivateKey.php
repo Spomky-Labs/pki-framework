@@ -15,17 +15,11 @@ use Sop\CryptoTypes\Asymmetric\PublicKey;
  */
 class Ed25519PrivateKey extends Curve25519PrivateKey
 {
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new Ed25519AlgorithmIdentifier();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function publicKey(): PublicKey
     {
         if (! $this->hasPublicKey()) {

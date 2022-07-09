@@ -17,10 +17,6 @@ class AuthenticationInfoAttributeValue extends SvceAuthInfo
 
     /**
      * Constructor.
-     *
-     * @param GeneralName $service
-     * @param GeneralName $ident
-     * @param null|string $auth_info
      */
     public function __construct(
         GeneralName $service,

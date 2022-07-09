@@ -39,8 +39,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithFullName
-     *
-     * @param DistributionPoint $dp
      */
     public function testEncodeWithFullName(DistributionPoint $dp)
     {
@@ -64,9 +62,6 @@ class DistributionPointTest extends TestCase
     /**
      * @depends testCreateWithFullName
      * @depends testDecodeWithFullName
-     *
-     * @param DistributionPoint $ref
-     * @param DistributionPoint $new
      */
     public function testRecodedWithFullName(
         DistributionPoint $ref,
@@ -77,8 +72,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithFullName
-     *
-     * @param DistributionPoint $dp
      */
     public function testDistributionPointName(DistributionPoint $dp)
     {
@@ -90,8 +83,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithFullName
-     *
-     * @param DistributionPoint $dp
      */
     public function testFullName(DistributionPoint $dp)
     {
@@ -100,8 +91,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithFullName
-     *
-     * @param DistributionPoint $dp
      */
     public function testRelativeNameFail(DistributionPoint $dp)
     {
@@ -111,8 +100,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithFullName
-     *
-     * @param DistributionPoint $dp
      */
     public function testReasons(DistributionPoint $dp)
     {
@@ -121,8 +108,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithFullName
-     *
-     * @param DistributionPoint $dp
      */
     public function testCRLIssuer(DistributionPoint $dp)
     {
@@ -146,8 +131,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithRelativeName
-     *
-     * @param DistributionPoint $dp
      */
     public function testEncodeWithRelativeName(DistributionPoint $dp)
     {
@@ -171,9 +154,6 @@ class DistributionPointTest extends TestCase
     /**
      * @depends testCreateWithRelativeName
      * @depends testDecodeWithRelativeName
-     *
-     * @param DistributionPoint $ref
-     * @param DistributionPoint $new
      */
     public function testRecodedWithRelativeName(
         DistributionPoint $ref,
@@ -184,8 +164,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithRelativeName
-     *
-     * @param DistributionPoint $dp
      */
     public function testRelativeName(DistributionPoint $dp)
     {
@@ -194,8 +172,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateWithRelativeName
-     *
-     * @param DistributionPoint $dp
      */
     public function testFullNameFail(DistributionPoint $dp)
     {
@@ -212,8 +188,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateEmpty
-     *
-     * @param DistributionPoint $dp
      */
     public function testDistributionPointNameFail(DistributionPoint $dp)
     {
@@ -223,8 +197,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateEmpty
-     *
-     * @param DistributionPoint $dp
      */
     public function testReasonsFail(DistributionPoint $dp)
     {
@@ -234,8 +206,6 @@ class DistributionPointTest extends TestCase
 
     /**
      * @depends testCreateEmpty
-     *
-     * @param DistributionPoint $dp
      */
     public function testCRLIssuerFail(DistributionPoint $dp)
     {

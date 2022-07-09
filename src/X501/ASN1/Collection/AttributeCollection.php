@@ -57,8 +57,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Check whether attribute is present.
      *
      * @param string $name OID or attribute name
-     *
-     * @return bool
      */
     public function has(string $name): bool
     {
@@ -71,8 +69,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * @param string $name OID or attribute name
      *
      * @throws \UnexpectedValueException if attribute is not present
-     *
-     * @return Attribute
      */
     public function firstOf(string $name): Attribute
     {
@@ -117,8 +113,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Get self with additional attributes added.
      *
      * @param Attribute ...$attribs List of attributes to add
-     *
-     * @return self
      */
     public function withAdditional(Attribute ...$attribs): self
     {
@@ -135,8 +129,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * All previous attributes of the same type are removed.
      *
      * @param Attribute $attr Attribute to add
-     *
-     * @return self
      */
     public function withUnique(Attribute $attr): self
     {
@@ -158,8 +150,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Get number of attributes.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -182,8 +172,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Find first attribute of given name or OID.
      *
      * @param string $name OID or attribute name
-     *
-     * @return null|Attribute
      */
     protected function _findFirst(string $name): ?Attribute
     {
@@ -221,8 +209,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Overridden in derived classes.
      *
      * @param Attribute $attribute Attribute to cast
-     *
-     * @return Attribute
      */
     protected static function _castAttributeValues(Attribute $attribute): Attribute
     {

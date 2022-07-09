@@ -30,8 +30,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testEncode(GeneralNames $gns)
     {
@@ -55,9 +53,6 @@ class GeneralNamesTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param GeneralNames $ref
-     * @param GeneralNames $new
      */
     public function testRecoded(GeneralNames $ref, GeneralNames $new)
     {
@@ -66,8 +61,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testHas(GeneralNames $gns)
     {
@@ -76,8 +69,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testHasNot(GeneralNames $gns)
     {
@@ -86,8 +77,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testAllOf(GeneralNames $gns)
     {
@@ -96,8 +85,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testFirstOf(GeneralNames $gns)
     {
@@ -109,8 +96,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testFirstOfFail(GeneralNames $gns)
     {
@@ -120,8 +105,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testCount(GeneralNames $gns)
     {
@@ -130,8 +113,6 @@ class GeneralNamesTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param GeneralNames $gns
      */
     public function testIterator(GeneralNames $gns)
     {

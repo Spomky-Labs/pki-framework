@@ -19,10 +19,6 @@ class SetOfAttributes extends AttributeCollection
 {
     /**
      * Initialize from ASN.1.
-     *
-     * @param Set $set
-     *
-     * @return self
      */
     public static function fromASN1(Set $set): self
     {
@@ -31,8 +27,6 @@ class SetOfAttributes extends AttributeCollection
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Set
      */
     public function toASN1(): Set
     {

@@ -160,9 +160,6 @@ class ECPrivateKey extends PrivateKey
         return $obj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new ECPublicKeyAlgorithmIdentifier($this->namedCurve());
@@ -177,8 +174,6 @@ class ECPrivateKey extends PrivateKey
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return ECPublicKey
      */
     public function publicKey(): PublicKey
@@ -210,17 +205,11 @@ class ECPrivateKey extends PrivateKey
         return new Sequence(...$elements);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->toASN1()->toDER();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toPEM(): PEM
     {
         return new PEM(PEM::TYPE_EC_PRIVATE_KEY, $this->toDER());

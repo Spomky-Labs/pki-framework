@@ -18,8 +18,6 @@ use Sop\X509\Certificate\Extension\NameConstraintsExtension;
 class NameConstraintsTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return NameConstraintsExtension
      */
     public function testNameConstraintsExtension()
@@ -31,8 +29,6 @@ class NameConstraintsTest extends RefExtTestHelper
 
     /**
      * @depends testNameConstraintsExtension
-     *
-     * @param NameConstraintsExtension $nc
      *
      * @return GeneralSubtrees
      */
@@ -46,8 +42,6 @@ class NameConstraintsTest extends RefExtTestHelper
 
     /**
      * @depends testNameConstraintPermittedSubtrees
-     *
-     * @param GeneralSubtrees $gs
      */
     public function testNameConstraintPermittedDomain(GeneralSubtrees $gs)
     {

@@ -131,8 +131,6 @@ class NameConstraintsTest extends TestCase
 
     /**
      * @depends testPermitted
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testCount(GeneralSubtrees $subtrees)
     {
@@ -141,8 +139,6 @@ class NameConstraintsTest extends TestCase
 
     /**
      * @depends testPermitted
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testIterator(GeneralSubtrees $subtrees)
     {
@@ -156,8 +152,6 @@ class NameConstraintsTest extends TestCase
 
     /**
      * @depends testPermitted
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testPermittedURI(GeneralSubtrees $subtrees)
     {
@@ -170,8 +164,6 @@ class NameConstraintsTest extends TestCase
 
     /**
      * @depends testPermitted
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testPermittedDN(GeneralSubtrees $subtrees)
     {
@@ -184,8 +176,6 @@ class NameConstraintsTest extends TestCase
 
     /**
      * @depends testExcluded
-     *
-     * @param GeneralSubtrees $subtrees
      */
     public function testExcludedURI(GeneralSubtrees $subtrees)
     {

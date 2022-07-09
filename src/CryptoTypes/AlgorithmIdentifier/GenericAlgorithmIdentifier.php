@@ -31,25 +31,16 @@ class GenericAlgorithmIdentifier extends AlgorithmIdentifier
         $this->_params = $params;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return $this->_oid;
     }
 
-    /**
-     * Get parameters.
-     */
     public function parameters(): ?UnspecifiedType
     {
         return $this->_params;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _paramsASN1(): ?Element
     {
         return $this->_params ? $this->_params->asElement() : null;

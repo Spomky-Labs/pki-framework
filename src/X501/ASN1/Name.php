@@ -47,10 +47,6 @@ class Name implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -67,10 +63,6 @@ class Name implements \Countable, \IteratorAggregate
      * Initialize from distinguished name string.
      *
      * @see https://tools.ietf.org/html/rfc1779
-     *
-     * @param string $str
-     *
-     * @return self
      */
     public static function fromString(string $str): self
     {
@@ -98,8 +90,6 @@ class Name implements \Countable, \IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -116,8 +106,6 @@ class Name implements \Countable, \IteratorAggregate
      * Get distinguised name string conforming to RFC 2253.
      *
      * @see https://tools.ietf.org/html/rfc2253#section-2.1
-     *
-     * @return string
      */
     public function toString(): string
     {
@@ -138,8 +126,6 @@ class Name implements \Countable, \IteratorAggregate
      * @see https://tools.ietf.org/html/rfc4518
      *
      * @param Name $other Object to compare to
-     *
-     * @return bool
      */
     public function equals(Name $other): bool
     {
@@ -178,8 +164,6 @@ class Name implements \Countable, \IteratorAggregate
      * @param string $name Attribute OID or name
      *
      * @throws \RuntimeException If attribute cannot be resolved
-     *
-     * @return AttributeValue
      */
     public function firstValueOf(string $name): AttributeValue
     {
@@ -198,8 +182,6 @@ class Name implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -210,8 +192,6 @@ class Name implements \Countable, \IteratorAggregate
      * Get the number of attributes of given type.
      *
      * @param string $name Attribute OID or name
-     *
-     * @return int
      */
     public function countOfType(string $name): int
     {
@@ -228,8 +208,6 @@ class Name implements \Countable, \IteratorAggregate
 
     /**
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {

@@ -97,9 +97,6 @@ abstract class RFC8410PrivateKey extends PrivateKey
         return $obj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function privateKeyData(): string
     {
         return $this->_privateKeyData;
@@ -121,17 +118,11 @@ abstract class RFC8410PrivateKey extends PrivateKey
         return new OctetString($this->_privateKeyData);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->toASN1()->toDER();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toPEM(): PEM
     {
         $pub = $this->_publicKeyData ?

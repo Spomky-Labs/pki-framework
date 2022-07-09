@@ -46,18 +46,12 @@ class UTCTime extends BaseTime
         parent::__construct($dt);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         $dt = $this->_dateTime->setTimezone(self::_createTimeZone(self::TZ_UTC));
         return $dt->format('ymdHis\\Z');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

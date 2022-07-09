@@ -98,9 +98,6 @@ class ECSignature extends Signature
         return $this->toASN1()->toDER();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function bitString(): BitString
     {
         return new BitString($this->toDER());

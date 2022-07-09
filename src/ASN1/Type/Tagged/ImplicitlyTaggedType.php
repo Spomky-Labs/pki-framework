@@ -34,18 +34,12 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
         $this->_class = $class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isConstructed(): bool
     {
         // depends on the underlying type
         return $this->_element->isConstructed();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function implicit(
         int $tag,
         int $class = Identifier::CLASS_UNIVERSAL
@@ -63,9 +57,6 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
         return $this->_element->asUnspecified();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         // get only the content of the wrapped element.

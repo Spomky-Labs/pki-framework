@@ -45,17 +45,12 @@ class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Has
         $this->_params = null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'sha1';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -70,8 +65,6 @@ class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Has
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null|NullType
      */
     protected function _paramsASN1(): ?Element

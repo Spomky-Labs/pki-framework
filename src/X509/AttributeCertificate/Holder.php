@@ -42,9 +42,6 @@ class Holder
 
     /**
      * Constructor.
-     *
-     * @param null|IssuerSerial $issuer_serial
-     * @param null|GeneralNames $entity_name
      */
     public function __construct(
         ?IssuerSerial $issuer_serial = null,
@@ -56,10 +53,6 @@ class Holder
 
     /**
      * Initialize from a holder's public key certificate.
-     *
-     * @param Certificate $cert
-     *
-     * @return self
      */
     public static function fromPKC(Certificate $cert): self
     {
@@ -68,8 +61,6 @@ class Holder
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -101,10 +92,6 @@ class Holder
 
     /**
      * Get self with base certificate ID.
-     *
-     * @param IssuerSerial $issuer
-     *
-     * @return self
      */
     public function withBaseCertificateID(IssuerSerial $issuer): self
     {
@@ -115,10 +102,6 @@ class Holder
 
     /**
      * Get self with entity name.
-     *
-     * @param GeneralNames $names
-     *
-     * @return self
      */
     public function withEntityName(GeneralNames $names): self
     {
@@ -129,10 +112,6 @@ class Holder
 
     /**
      * Get self with object digest info.
-     *
-     * @param ObjectDigestInfo $odi
-     *
-     * @return self
      */
     public function withObjectDigestInfo(ObjectDigestInfo $odi): self
     {
@@ -143,8 +122,6 @@ class Holder
 
     /**
      * Check whether base certificate ID is present.
-     *
-     * @return bool
      */
     public function hasBaseCertificateID(): bool
     {
@@ -155,8 +132,6 @@ class Holder
      * Get base certificate ID.
      *
      * @throws \LogicException If not set
-     *
-     * @return IssuerSerial
      */
     public function baseCertificateID(): IssuerSerial
     {
@@ -168,8 +143,6 @@ class Holder
 
     /**
      * Check whether entity name is present.
-     *
-     * @return bool
      */
     public function hasEntityName(): bool
     {
@@ -180,8 +153,6 @@ class Holder
      * Get entity name.
      *
      * @throws \LogicException If not set
-     *
-     * @return GeneralNames
      */
     public function entityName(): GeneralNames
     {
@@ -193,8 +164,6 @@ class Holder
 
     /**
      * Check whether object digest info is present.
-     *
-     * @return bool
      */
     public function hasObjectDigestInfo(): bool
     {
@@ -205,8 +174,6 @@ class Holder
      * Get object digest info.
      *
      * @throws \LogicException If not set
-     *
-     * @return ObjectDigestInfo
      */
     public function objectDigestInfo(): ObjectDigestInfo
     {
@@ -218,8 +185,6 @@ class Holder
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -247,10 +212,6 @@ class Holder
 
     /**
      * Check whether Holder identifies given certificate.
-     *
-     * @param Certificate $cert
-     *
-     * @return bool
      */
     public function identifiesPKC(Certificate $cert): bool
     {
@@ -272,10 +233,6 @@ class Holder
 
     /**
      * Check whether entityName matches the given certificate.
-     *
-     * @param Certificate $cert
-     *
-     * @return bool
      */
     private function _checkEntityName(Certificate $cert): bool
     {
@@ -295,10 +252,6 @@ class Holder
 
     /**
      * Check whether any of the subject alternative names match entityName.
-     *
-     * @param GeneralNames $san
-     *
-     * @return bool
      */
     private function _checkEntityAlternativeNames(GeneralNames $san): bool
     {

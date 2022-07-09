@@ -37,17 +37,12 @@ class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         $this->_initializationVector = $iv;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'des-EDE3-CBC';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -60,33 +55,22 @@ class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         return new self($iv);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function blockSize(): int
     {
         return 8;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function keySize(): int
     {
         return 24;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function ivSize(): int
     {
         return 8;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return OctetString
      */
     protected function _paramsASN1(): ?Element

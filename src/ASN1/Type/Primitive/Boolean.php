@@ -44,17 +44,11 @@ class Boolean extends Element
         return $this->_bool;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         return $this->_bool ? chr(0xff) : chr(0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

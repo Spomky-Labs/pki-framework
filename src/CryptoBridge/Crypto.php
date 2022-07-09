@@ -21,8 +21,6 @@ abstract class Crypto
      * @param string                       $data         Data to sign
      * @param PrivateKeyInfo               $privkey_info Private key
      * @param SignatureAlgorithmIdentifier $algo         Signature algorithm
-     *
-     * @return Signature
      */
     abstract public function sign(
         string $data,
@@ -86,8 +84,6 @@ abstract class Crypto
 
     /**
      * Get default supported crypto implementation.
-     *
-     * @return self
      */
     public static function getDefault(): self
     {

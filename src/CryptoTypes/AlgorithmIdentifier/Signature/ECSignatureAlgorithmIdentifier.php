@@ -28,8 +28,6 @@ From RFC 5758 - 3.2.  ECDSA Signature Algorithm
 abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements SignatureAlgorithmIdentifier
 {
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -41,17 +39,11 @@ abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifie
         return new static();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
     {
         return self::OID_EC_PUBLIC_KEY === $algo->oid();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _paramsASN1(): ?Element
     {
         return null;

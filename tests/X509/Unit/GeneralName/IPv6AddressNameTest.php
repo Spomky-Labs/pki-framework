@@ -33,8 +33,6 @@ class IPv6AddressNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param IPAddress $ip
      */
     public function testEncode(IPAddress $ip)
     {
@@ -69,9 +67,6 @@ class IPv6AddressNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param IPAddress $ref
-     * @param IPAddress $new
      */
     public function testRecoded(IPAddress $ref, IPAddress $new)
     {
@@ -80,8 +75,6 @@ class IPv6AddressNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param IPAddress $ip
      */
     public function testIPv6(IPAddress $ip)
     {
@@ -97,8 +90,6 @@ class IPv6AddressNameTest extends TestCase
 
     /**
      * @depends testCreateWithMask
-     *
-     * @param IPAddress $ip
      */
     public function testEncodeWithMask(IPAddress $ip)
     {
@@ -122,9 +113,6 @@ class IPv6AddressNameTest extends TestCase
     /**
      * @depends testCreateWithMask
      * @depends testDecodeWithMask
-     *
-     * @param IPAddress $ref
-     * @param IPAddress $new
      */
     public function testRecodedWithMask(IPAddress $ref, IPAddress $new)
     {
@@ -133,8 +121,6 @@ class IPv6AddressNameTest extends TestCase
 
     /**
      * @depends testCreateWithMask
-     *
-     * @param IPAddress $ip
      */
     public function testMask(IPAddress $ip)
     {

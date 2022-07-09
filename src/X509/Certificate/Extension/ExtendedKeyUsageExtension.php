@@ -83,9 +83,6 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
 
     /**
      * Constructor.
-     *
-     * @param bool   $critical
-     * @param string ...$purposes
      */
     public function __construct(bool $critical, string ...$purposes)
     {
@@ -97,10 +94,6 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
      * Whether purposes are present.
      *
      * If multiple purposes are checked, all must be present.
-     *
-     * @param string ...$oids
-     *
-     * @return bool
      */
     public function has(string ...$oids): bool
     {
@@ -126,8 +119,6 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
      * Get the number of purposes.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -138,17 +129,12 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
      * Get iterator for usage purposes.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->_purposes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         $purposes = array_map(
@@ -160,9 +146,6 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
         return new self($critical, ...$purposes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         $elements = array_map(

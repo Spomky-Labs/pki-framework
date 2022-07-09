@@ -139,8 +139,6 @@ class Length implements Encodable
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \DomainException If length is too large to encode
      */
     public function toDER(): string

@@ -18,8 +18,6 @@ use Sop\X509\GeneralName\GeneralName;
 class IssuerAlternativeNameTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return IssuerAlternativeNameExtension
      */
     public function testIssuerAlternativeName()
@@ -31,8 +29,6 @@ class IssuerAlternativeNameTest extends RefExtTestHelper
 
     /**
      * @depends testIssuerAlternativeName
-     *
-     * @param IssuerAlternativeNameExtension $ian
      */
     public function testIANDirectoryName(IssuerAlternativeNameExtension $ian)
     {

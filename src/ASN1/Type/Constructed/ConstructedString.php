@@ -43,9 +43,6 @@ class ConstructedString extends Structure implements StringType
         parent::__construct(...$elements);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString(): string
     {
         return $this->string();
@@ -55,8 +52,6 @@ class ConstructedString extends Structure implements StringType
      * Create from a list of string type elements.
      *
      * All strings must have the same type.
-     *
-     * @param StringType ...$elements
      *
      * @throws \LogicException
      */
@@ -116,8 +111,6 @@ class ConstructedString extends Structure implements StringType
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     protected static function _decodeFromDER(

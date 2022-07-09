@@ -60,22 +60,16 @@ abstract class AttributeValue
 
     /**
      * Generate ASN.1 element.
-     *
-     * @return Element
      */
     abstract public function toASN1(): Element;
 
     /**
      * Get attribute value as a string.
-     *
-     * @return string
      */
     abstract public function stringValue(): string;
 
     /**
      * Get matching rule for equality comparison.
-     *
-     * @return MatchingRule
      */
     abstract public function equalityMatchingRule(): MatchingRule;
 
@@ -83,15 +77,11 @@ abstract class AttributeValue
      * Get attribute value as a string conforming to RFC 2253.
      *
      * @see https://tools.ietf.org/html/rfc2253#section-2.4
-     *
-     * @return string
      */
     abstract public function rfc2253String(): string;
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param UnspecifiedType $el
      *
      * @return self
      */
@@ -106,9 +96,6 @@ abstract class AttributeValue
      * Initialize from ASN.1 with given OID hint.
      *
      * @param string          $oid Attribute's OID
-     * @param UnspecifiedType $el
-     *
-     * @return self
      */
     public static function fromASN1ByOID(string $oid, UnspecifiedType $el): self
     {
@@ -126,8 +113,6 @@ abstract class AttributeValue
      * specific object when class is declared outside this package.
      *
      * @param self $obj Instance of AttributeValue
-     *
-     * @return self
      */
     public static function fromSelf(self $obj): self
     {
@@ -136,8 +121,6 @@ abstract class AttributeValue
 
     /**
      * Get attribute type's OID.
-     *
-     * @return string
      */
     public function oid(): string
     {
@@ -146,8 +129,6 @@ abstract class AttributeValue
 
     /**
      * Get Attribute object with this as a single value.
-     *
-     * @return Attribute
      */
     public function toAttribute(): Attribute
     {
@@ -156,8 +137,6 @@ abstract class AttributeValue
 
     /**
      * Get AttributeTypeAndValue object with this as a value.
-     *
-     * @return AttributeTypeAndValue
      */
     public function toAttributeTypeAndValue(): AttributeTypeAndValue
     {
@@ -168,8 +147,6 @@ abstract class AttributeValue
      * Get attribute value as an UTF-8 string conforming to RFC 4518.
      *
      * @see https://tools.ietf.org/html/rfc4518#section-2.1
-     *
-     * @return string
      */
     abstract protected function _transcodedString(): string;
 }

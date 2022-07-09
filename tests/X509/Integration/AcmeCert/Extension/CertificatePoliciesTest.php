@@ -22,8 +22,6 @@ use Sop\X509\Certificate\Extension\Extension;
 class CertificatePoliciesTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return CertificatePoliciesExtension
      */
     public function testCertificatePoliciesExtension()
@@ -35,8 +33,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
 
     /**
      * @depends testCertificatePoliciesExtension
-     *
-     * @param CertificatePoliciesExtension $cpe
      *
      * @return PolicyInformation
      */
@@ -50,8 +46,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
     /**
      * @depends testPolicyInformation
      *
-     * @param PolicyInformation $pi
-     *
      * @return CPSQualifier
      */
     public function testPolicyCPSQualifier(PolicyInformation $pi)
@@ -63,8 +57,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyCPSQualifier
-     *
-     * @param CPSQualifier $cps
      */
     public function testPolicyCPSQualifierURI(CPSQualifier $cps)
     {
@@ -73,8 +65,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyInformation
-     *
-     * @param PolicyInformation $pi
      *
      * @return UserNoticeQualifier
      */
@@ -87,8 +77,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyUserNoticeQualifier
-     *
-     * @param UserNoticeQualifier $un
      */
     public function testPolicyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
@@ -102,8 +90,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
     /**
      * @depends testPolicyUserNoticeQualifier
      *
-     * @param UserNoticeQualifier $un
-     *
      * @return NoticeReference
      */
     public function testPolicyUserNoticeQualifierRef(UserNoticeQualifier $un)
@@ -115,8 +101,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyUserNoticeQualifierRef
-     *
-     * @param NoticeReference $ref
      */
     public function testPolicyUserNoticeQualifierOrganization(
         NoticeReference $ref
@@ -130,8 +114,6 @@ class CertificatePoliciesTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyUserNoticeQualifierRef
-     *
-     * @param NoticeReference $ref
      */
     public function testPolicyUserNoticeQualifierNumbers(NoticeReference $ref)
     {

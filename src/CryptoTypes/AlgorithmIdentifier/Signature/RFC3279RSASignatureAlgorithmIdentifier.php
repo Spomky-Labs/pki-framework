@@ -25,8 +25,6 @@ From RFC 3279 - 2.2.1  RSA Signature Algorithm:
 abstract class RFC3279RSASignatureAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
 {
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -40,8 +38,6 @@ abstract class RFC3279RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return NullType
      */
     protected function _paramsASN1(): ?Element

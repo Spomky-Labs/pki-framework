@@ -23,9 +23,6 @@ class GraphicString extends PrimitiveString
         parent::__construct($string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _validateString(string $string): bool
     {
         // allow everything

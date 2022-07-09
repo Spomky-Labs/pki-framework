@@ -37,8 +37,6 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -51,25 +49,17 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         return new static($iv);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function blockSize(): int
     {
         return 16;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function ivSize(): int
     {
         return 16;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return OctetString
      */
     protected function _paramsASN1(): ?Element

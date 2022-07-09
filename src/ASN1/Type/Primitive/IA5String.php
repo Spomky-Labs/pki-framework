@@ -23,9 +23,6 @@ class IA5String extends PrimitiveString
         parent::__construct($string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _validateString(string $string): bool
     {
         return 0 == preg_match('/[^\x00-\x7f]/', $string);

@@ -36,8 +36,6 @@ From RFC 8410:
 abstract class RFC8410EdAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier, SignatureAlgorithmIdentifier
 {
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -49,9 +47,6 @@ abstract class RFC8410EdAlgorithmIdentifier extends SpecificAlgorithmIdentifier 
         return new static();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _paramsASN1(): ?Element
     {
         return null;

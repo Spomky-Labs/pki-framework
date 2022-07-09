@@ -37,17 +37,11 @@ class X448PrivateKey extends RFC8410PrivateKey
         parent::__construct($private_key, $public_key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new X448AlgorithmIdentifier();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function publicKey(): PublicKey
     {
         if (! $this->hasPublicKey()) {

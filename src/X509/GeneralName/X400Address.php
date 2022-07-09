@@ -33,8 +33,6 @@ class X400Address extends GeneralName
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
@@ -44,17 +42,11 @@ class X400Address extends GeneralName
         return $obj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function string(): string
     {
         return bin2hex($this->_element->toDER());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _choiceASN1(): TaggedType
     {
         return new ImplicitlyTaggedType($this->_tag, $this->_element);

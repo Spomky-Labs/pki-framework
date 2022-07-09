@@ -25,8 +25,6 @@ class RFC822Name extends GeneralName
 
     /**
      * Constructor.
-     *
-     * @param string $email
      */
     public function __construct(string $email)
     {
@@ -35,8 +33,6 @@ class RFC822Name extends GeneralName
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
@@ -44,27 +40,16 @@ class RFC822Name extends GeneralName
         return new self($el->asIA5String()->string());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function string(): string
     {
         return $this->_email;
     }
 
-    /**
-     * Get email.
-     *
-     * @return string
-     */
     public function email(): string
     {
         return $this->_email;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _choiceASN1(): TaggedType
     {
         return new ImplicitlyTaggedType($this->_tag, new IA5String($this->_email));

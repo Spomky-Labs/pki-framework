@@ -260,17 +260,12 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
         $this->_namedCurve = $named_curve;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'ecPublicKey';
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1Params(
@@ -292,8 +287,6 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return ObjectIdentifier
      */
     protected function _paramsASN1(): ?Element

@@ -58,8 +58,6 @@ class RoleAttributeValue extends AttributeValue
      *
      * @param string            $role_name Role name in URI format
      * @param null|GeneralNames $authority Issuing authority
-     *
-     * @return self
      */
     public static function fromString(
         string $role_name,
@@ -69,8 +67,6 @@ class RoleAttributeValue extends AttributeValue
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return self
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
@@ -90,8 +86,6 @@ class RoleAttributeValue extends AttributeValue
 
     /**
      * Check whether issuing authority is present.
-     *
-     * @return bool
      */
     public function hasRoleAuthority(): bool
     {
@@ -102,8 +96,6 @@ class RoleAttributeValue extends AttributeValue
      * Get issuing authority.
      *
      * @throws \LogicException If not set
-     *
-     * @return GeneralNames
      */
     public function roleAuthority(): GeneralNames
     {
@@ -115,17 +107,12 @@ class RoleAttributeValue extends AttributeValue
 
     /**
      * Get role name.
-     *
-     * @return GeneralName
      */
     public function roleName(): GeneralName
     {
         return $this->_roleName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toASN1(): Element
     {
         $elements = [];
@@ -142,33 +129,21 @@ class RoleAttributeValue extends AttributeValue
         return new Sequence(...$elements);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stringValue(): string
     {
         return '#' . bin2hex($this->toASN1()->toDER());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equalityMatchingRule(): MatchingRule
     {
         return new BinaryMatch();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rfc2253String(): string
     {
         return $this->stringValue();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _transcodedString(): string
     {
         return $this->stringValue();

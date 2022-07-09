@@ -16,8 +16,6 @@ class ProhibitStep implements PrepareStep
      * @param string $string UTF-8 encoded string
      *
      * @throws \UnexpectedValueException If string contains prohibited characters
-     *
-     * @return string
      */
     public function apply(string $string): string
     {

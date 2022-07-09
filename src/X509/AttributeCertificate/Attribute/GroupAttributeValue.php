@@ -15,8 +15,6 @@ class GroupAttributeValue extends IetfAttrSyntax
 
     /**
      * Constructor.
-     *
-     * @param IetfAttrValue ...$values
      */
     public function __construct(IetfAttrValue ...$values)
     {

@@ -42,9 +42,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Constructor.
-     *
-     * @param bool $critical
-     * @param int  $keyUsage
      */
     public function __construct(bool $critical, int $keyUsage)
     {
@@ -54,8 +51,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether digitalSignature flag is set.
-     *
-     * @return bool
      */
     public function isDigitalSignature(): bool
     {
@@ -64,8 +59,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether nonRepudiation/contentCommitment flag is set.
-     *
-     * @return bool
      */
     public function isNonRepudiation(): bool
     {
@@ -74,8 +67,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether keyEncipherment flag is set.
-     *
-     * @return bool
      */
     public function isKeyEncipherment(): bool
     {
@@ -84,8 +75,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether dataEncipherment flag is set.
-     *
-     * @return bool
      */
     public function isDataEncipherment(): bool
     {
@@ -94,8 +83,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether keyAgreement flag is set.
-     *
-     * @return bool
      */
     public function isKeyAgreement(): bool
     {
@@ -104,8 +91,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether keyCertSign flag is set.
-     *
-     * @return bool
      */
     public function isKeyCertSign(): bool
     {
@@ -114,8 +99,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether cRLSign flag is set.
-     *
-     * @return bool
      */
     public function isCRLSign(): bool
     {
@@ -124,8 +107,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether encipherOnly flag is set.
-     *
-     * @return bool
      */
     public function isEncipherOnly(): bool
     {
@@ -134,8 +115,6 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether decipherOnly flag is set.
-     *
-     * @return bool
      */
     public function isDecipherOnly(): bool
     {
@@ -144,19 +123,12 @@ class KeyUsageExtension extends Extension
 
     /**
      * Check whether given flag is set.
-     *
-     * @param int $flag
-     *
-     * @return bool
      */
     protected function _flagSet(int $flag): bool
     {
         return (bool) ($this->_keyUsage & $flag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         return new self(
@@ -168,9 +140,6 @@ class KeyUsageExtension extends Extension
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         $flags = new Flags($this->_keyUsage, 9);

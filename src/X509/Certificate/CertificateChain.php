@@ -32,10 +32,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from a list of PEMs.
-     *
-     * @param PEM ...$pems
-     *
-     * @return self
      */
     public static function fromPEMs(PEM ...$pems): self
     {
@@ -50,10 +46,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from a string containing multiple PEM blocks.
-     *
-     * @param string $str
-     *
-     * @return self
      */
     public static function fromPEMString(string $str): self
     {
@@ -76,8 +68,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
      * Get the end-entity certificate.
      *
      * @throws \LogicException
-     *
-     * @return Certificate
      */
     public function endEntityCertificate(): Certificate
     {
@@ -91,8 +81,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
      * Get the trust anchor certificate.
      *
      * @throws \LogicException
-     *
-     * @return Certificate
      */
     public function trustAnchorCertificate(): Certificate
     {
@@ -104,8 +92,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * Convert certificate chain to certification path.
-     *
-     * @return CertificationPath
      */
     public function certificationPath(): CertificationPath
     {
@@ -114,8 +100,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * Convert certificate chain to string of PEM blocks.
-     *
-     * @return string
      */
     public function toPEMString(): string
     {
@@ -132,8 +116,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -144,8 +126,6 @@ class CertificateChain implements \Countable, \IteratorAggregate
      * Get iterator for certificates.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {

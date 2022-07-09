@@ -30,9 +30,6 @@ class Ed448PublicKey extends RFC8410PublicKey
         parent::__construct($public_key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new Ed448AlgorithmIdentifier();

@@ -25,8 +25,6 @@ class FullName extends DistributionPointName
 
     /**
      * Constructor.
-     *
-     * @param GeneralNames $names
      */
     public function __construct(GeneralNames $names)
     {
@@ -36,29 +34,17 @@ class FullName extends DistributionPointName
 
     /**
      * Initialize with a single URI.
-     *
-     * @param string $uri
-     *
-     * @return self
      */
     public static function fromURI(string $uri): self
     {
         return new self(new GeneralNames(new UniformResourceIdentifier($uri)));
     }
 
-    /**
-     * Get names.
-     *
-     * @return GeneralNames
-     */
     public function names(): GeneralNames
     {
         return $this->_names;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         return $this->_names->toASN1();

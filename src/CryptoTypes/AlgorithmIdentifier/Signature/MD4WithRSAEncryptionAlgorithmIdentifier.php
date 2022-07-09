@@ -19,9 +19,6 @@ class MD4WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorit
         $this->_oid = self::OID_MD4_WITH_RSA_ENCRYPTION;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'md4withRSAEncryption';

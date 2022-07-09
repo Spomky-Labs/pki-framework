@@ -23,8 +23,6 @@ use Sop\X509\GeneralName\GeneralNames;
 class FreshestCRLTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return FreshestCRLExtension
      */
     public function testFreshestCRLExtension()
@@ -36,8 +34,6 @@ class FreshestCRLTest extends RefExtTestHelper
 
     /**
      * @depends testFreshestCRLExtension
-     *
-     * @param FreshestCRLExtension $ext
      *
      * @return DistributionPoint
      */
@@ -51,8 +47,6 @@ class FreshestCRLTest extends RefExtTestHelper
     /**
      * @depends testDistributionPoint
      *
-     * @param DistributionPoint $dp
-     *
      * @return RelativeName
      */
     public function testRelativeName(DistributionPoint $dp)
@@ -64,8 +58,6 @@ class FreshestCRLTest extends RefExtTestHelper
 
     /**
      * @depends testRelativeName
-     *
-     * @param RelativeName $name
      */
     public function testRDN(RelativeName $name)
     {
@@ -79,8 +71,6 @@ class FreshestCRLTest extends RefExtTestHelper
     /**
      * @depends testDistributionPoint
      *
-     * @param DistributionPoint $dp
-     *
      * @return ReasonFlags
      */
     public function testReasons(DistributionPoint $dp)
@@ -92,8 +82,6 @@ class FreshestCRLTest extends RefExtTestHelper
 
     /**
      * @depends testReasons
-     *
-     * @param ReasonFlags $reasons
      */
     public function testReasonFlags(ReasonFlags $reasons)
     {
@@ -110,8 +98,6 @@ class FreshestCRLTest extends RefExtTestHelper
     /**
      * @depends testDistributionPoint
      *
-     * @param DistributionPoint $dp
-     *
      * @return GeneralNames
      */
     public function testIssuer(DistributionPoint $dp)
@@ -123,8 +109,6 @@ class FreshestCRLTest extends RefExtTestHelper
 
     /**
      * @depends testIssuer
-     *
-     * @param GeneralNames $gn
      */
     public function testIssuerDirName(GeneralNames $gn)
     {

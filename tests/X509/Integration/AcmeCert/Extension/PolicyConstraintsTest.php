@@ -17,8 +17,6 @@ use Sop\X509\Certificate\Extension\PolicyConstraintsExtension;
 class PolicyConstraintsTest extends RefExtTestHelper
 {
     /**
-     * @param Extensions $extensions
-     *
      * @return PolicyConstraintsExtension
      */
     public function testPolicyConstraintsExtension()
@@ -30,8 +28,6 @@ class PolicyConstraintsTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyConstraintsExtension
-     *
-     * @param PolicyConstraintsExtension $pc
      */
     public function testRequireExplicitPolicy(PolicyConstraintsExtension $pc)
     {
@@ -40,8 +36,6 @@ class PolicyConstraintsTest extends RefExtTestHelper
 
     /**
      * @depends testPolicyConstraintsExtension
-     *
-     * @param PolicyConstraintsExtension $pc
      */
     public function testInhibitPolicyMapping(PolicyConstraintsExtension $pc)
     {

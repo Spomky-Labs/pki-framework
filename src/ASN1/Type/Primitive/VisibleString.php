@@ -23,9 +23,6 @@ class VisibleString extends PrimitiveString
         parent::__construct($string);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _validateString(string $string): bool
     {
         return 0 == preg_match('/[^\x20-\x7e]/', $string);

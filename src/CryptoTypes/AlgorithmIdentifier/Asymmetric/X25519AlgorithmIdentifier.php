@@ -19,9 +19,6 @@ class X25519AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
         $this->_oid = self::OID_X25519;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'id-X25519';

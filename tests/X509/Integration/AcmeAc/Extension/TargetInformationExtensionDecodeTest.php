@@ -28,8 +28,6 @@ class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
 
     /**
      * @depends testExtension
-     *
-     * @param TargetInformationExtension $ti
      */
     public function testCount(TargetInformationExtension $ti)
     {
@@ -39,8 +37,6 @@ class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
 
     /**
      * @depends testExtension
-     *
-     * @param TargetInformationExtension $ti
      */
     public function testValues(TargetInformationExtension $ti)
     {

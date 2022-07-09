@@ -112,9 +112,6 @@ class RSAPublicKey extends PublicKey
         return $this->_publicExponent;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return new RSAEncryptionAlgorithmIdentifier();
@@ -131,9 +128,6 @@ class RSAPublicKey extends PublicKey
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDER(): string
     {
         return $this->toASN1()->toDER();

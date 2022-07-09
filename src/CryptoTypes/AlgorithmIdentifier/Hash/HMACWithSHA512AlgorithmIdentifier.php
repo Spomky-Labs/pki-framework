@@ -19,9 +19,6 @@ class HMACWithSHA512AlgorithmIdentifier extends RFC4231HMACAlgorithmIdentifier
         $this->_oid = self::OID_HMAC_WITH_SHA512;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'hmacWithSHA512';

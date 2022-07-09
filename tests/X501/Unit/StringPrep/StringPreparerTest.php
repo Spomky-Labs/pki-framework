@@ -24,8 +24,6 @@ class StringPreparerTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param StringPreparer $preparer
      */
     public function testWithCaseFolding(StringPreparer $preparer)
     {
@@ -36,8 +34,6 @@ class StringPreparerTest extends TestCase
 
     /**
      * @depends testWithCaseFolding
-     *
-     * @param StringPreparer $preparer
      */
     public function testPrepare(StringPreparer $preparer)
     {

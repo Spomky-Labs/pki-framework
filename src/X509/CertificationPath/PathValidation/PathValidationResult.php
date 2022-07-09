@@ -78,8 +78,6 @@ class PathValidationResult
 
     /**
      * Get end-entity certificate.
-     *
-     * @return Certificate
      */
     public function certificate(): Certificate
     {

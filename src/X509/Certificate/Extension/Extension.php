@@ -248,9 +248,6 @@ abstract class Extension
         $this->_critical = $critical;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->extensionName();
@@ -258,8 +255,6 @@ abstract class Extension
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
      *
      * @return self
      */
@@ -281,8 +276,6 @@ abstract class Extension
 
     /**
      * Get extension OID.
-     *
-     * @return string
      */
     public function oid(): string
     {
@@ -291,8 +284,6 @@ abstract class Extension
 
     /**
      * Check whether extension is critical.
-     *
-     * @return bool
      */
     public function isCritical(): bool
     {
@@ -301,8 +292,6 @@ abstract class Extension
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -316,8 +305,6 @@ abstract class Extension
 
     /**
      * Get short name of the extension.
-     *
-     * @return string
      */
     public function extensionName(): string
     {
@@ -329,8 +316,6 @@ abstract class Extension
 
     /**
      * Get ASN.1 structure of the extension value.
-     *
-     * @return Element
      */
     abstract protected function _valueASN1(): Element;
 
@@ -353,8 +338,6 @@ abstract class Extension
 
     /**
      * Get the extnValue element.
-     *
-     * @return OctetString
      */
     protected function _extnValue(): OctetString
     {

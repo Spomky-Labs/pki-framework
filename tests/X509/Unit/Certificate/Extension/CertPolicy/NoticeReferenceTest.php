@@ -27,8 +27,6 @@ class NoticeReferenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param NoticeReference $ref
      */
     public function testEncode(NoticeReference $ref)
     {
@@ -52,9 +50,6 @@ class NoticeReferenceTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param NoticeReference $ref
-     * @param NoticeReference $new
      */
     public function testRecoded(NoticeReference $ref, NoticeReference $new)
     {
@@ -63,8 +58,6 @@ class NoticeReferenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param NoticeReference $ref
      */
     public function testOrganization(NoticeReference $ref)
     {
@@ -74,8 +67,6 @@ class NoticeReferenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param NoticeReference $ref
      */
     public function testNumbers(NoticeReference $ref)
     {

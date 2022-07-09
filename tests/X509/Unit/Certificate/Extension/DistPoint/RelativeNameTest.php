@@ -36,8 +36,6 @@ class RelativeNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param RelativeName $name
      */
     public function testEncode(RelativeName $name)
     {
@@ -61,9 +59,6 @@ class RelativeNameTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param RelativeName $ref
-     * @param RelativeName $new
      */
     public function testRecoded(RelativeName $ref, RelativeName $new)
     {
@@ -72,8 +67,6 @@ class RelativeNameTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param RelativeName $name
      */
     public function testRDN(RelativeName $name)
     {

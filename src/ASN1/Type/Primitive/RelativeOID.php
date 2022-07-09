@@ -25,17 +25,11 @@ class RelativeOID extends ObjectIdentifier
         $this->_typeTag = self::TYPE_RELATIVE_OID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _encodedContentDER(): string
     {
         return self::_encodeSubIDs(...$this->_subids);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _decodeFromDER(
         Identifier $identifier,
         string $data,

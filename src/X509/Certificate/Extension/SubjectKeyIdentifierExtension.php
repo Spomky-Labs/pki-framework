@@ -24,9 +24,6 @@ class SubjectKeyIdentifierExtension extends Extension
 
     /**
      * Constructor.
-     *
-     * @param bool   $critical
-     * @param string $keyIdentifier
      */
     public function __construct(bool $critical, string $keyIdentifier)
     {
@@ -36,17 +33,12 @@ class SubjectKeyIdentifierExtension extends Extension
 
     /**
      * Get key identifier.
-     *
-     * @return string
      */
     public function keyIdentifier(): string
     {
         return $this->_keyIdentifier;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
         return new self(
@@ -55,9 +47,6 @@ class SubjectKeyIdentifierExtension extends Extension
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         return new OctetString($this->_keyIdentifier);

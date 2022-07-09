@@ -74,9 +74,6 @@ class PEM
         $this->_data = $data;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->string();
@@ -85,11 +82,7 @@ class PEM
     /**
      * Initialize from a PEM-formatted string.
      *
-     * @param string $str
-     *
      * @throws \UnexpectedValueException If string is not valid PEM
-     *
-     * @return self
      */
     public static function fromString(string $str): self
     {
@@ -110,8 +103,6 @@ class PEM
      * @param string $filename Path to file
      *
      * @throws \RuntimeException If file reading fails
-     *
-     * @return self
      */
     public static function fromFile(string $filename): self
     {
@@ -127,19 +118,12 @@ class PEM
 
     /**
      * Get content type.
-     *
-     * @return string
      */
     public function type(): string
     {
         return $this->_type;
     }
 
-    /**
-     * Get payload.
-     *
-     * @return string
-     */
     public function data(): string
     {
         return $this->_data;
@@ -147,8 +131,6 @@ class PEM
 
     /**
      * Encode to PEM string.
-     *
-     * @return string
      */
     public function string(): string
     {

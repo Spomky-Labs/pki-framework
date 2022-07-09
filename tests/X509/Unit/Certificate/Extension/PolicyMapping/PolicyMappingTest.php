@@ -30,8 +30,6 @@ class PolicyMappingTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PolicyMapping $mapping
      */
     public function testEncode(PolicyMapping $mapping)
     {
@@ -55,9 +53,6 @@ class PolicyMappingTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param PolicyMapping $ref
-     * @param PolicyMapping $new
      */
     public function testRecoded(PolicyMapping $ref, PolicyMapping $new)
     {
@@ -66,8 +61,6 @@ class PolicyMappingTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PolicyMapping $mapping
      */
     public function testIssuerDomainPolicy(PolicyMapping $mapping)
     {
@@ -76,8 +69,6 @@ class PolicyMappingTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param PolicyMapping $mapping
      */
     public function testSubjectDomainPolicy(PolicyMapping $mapping)
     {

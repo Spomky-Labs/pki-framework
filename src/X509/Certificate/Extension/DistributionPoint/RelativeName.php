@@ -24,8 +24,6 @@ class RelativeName extends DistributionPointName
 
     /**
      * Constructor.
-     *
-     * @param RDN $rdn
      */
     public function __construct(RDN $rdn)
     {
@@ -33,19 +31,11 @@ class RelativeName extends DistributionPointName
         $this->_rdn = $rdn;
     }
 
-    /**
-     * Get RDN.
-     *
-     * @return RDN
-     */
     public function rdn(): RDN
     {
         return $this->_rdn;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function _valueASN1(): Element
     {
         return $this->_rdn->toASN1();
