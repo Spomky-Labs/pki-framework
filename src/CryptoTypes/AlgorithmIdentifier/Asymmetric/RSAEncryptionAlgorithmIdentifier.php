@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
@@ -9,13 +9,14 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 From RFC 3447:
 
     When rsaEncryption is used in an AlgorithmIdentifier the
     parameters MUST be present and MUST be NULL.
-*/
+ */
 
 /**
  * Algorithm identifier for RSA encryption.
@@ -46,11 +47,10 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
      *
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
-        if (!isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+        if (! isset($params)) {
+            throw new UnexpectedValueException('No parameters.');
         }
         $params->asNull();
         return new self();

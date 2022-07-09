@@ -1,9 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 
@@ -12,7 +16,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
-class Targets implements \Countable, \IteratorAggregate
+class Targets implements Countable, IteratorAggregate
 {
     /**
      * Target elements.
@@ -23,8 +27,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Constructor.
-     *
-     * @param Target ...$targets
      */
     public function __construct(Target ...$targets)
     {
@@ -33,17 +35,15 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
         $targets = array_map(
             function (UnspecifiedType $el) {
                 return Target::fromASN1($el->asTagged());
-            }, $seq->elements());
+            },
+            $seq->elements()
+        );
         return new self(...$targets);
     }
 
@@ -79,10 +79,6 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Check whether given target is present.
-     *
-     * @param Target $target
-     *
-     * @return bool
      */
     public function hasTarget(Target $target): bool
     {
@@ -96,22 +92,17 @@ class Targets implements \Countable, \IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(
-            function (Target $target) {
-                return $target->toASN1();
-            }, $this->_targets);
+        $elements = array_map(function (Target $target) {
+            return $target->toASN1();
+        }, $this->_targets);
         return new Sequence(...$elements);
     }
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -122,27 +113,26 @@ class Targets implements \Countable, \IteratorAggregate
      * Get iterator for targets.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_targets);
+        return new ArrayIterator($this->_targets);
     }
 
     /**
      * Get all targets of given type.
-     *
-     * @param int $type
      *
      * @return Target[]
      */
     protected function _allOfType(int $type): array
     {
         return array_values(
-            array_filter($this->_targets,
+            array_filter(
+                $this->_targets,
                 function (Target $target) use ($type) {
                     return $target->type() === $type;
-                }));
+                }
+            )
+        );
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Exception;
 
-class X509ValidationException extends \RuntimeException
+use RuntimeException;
+
+class X509ValidationException extends RuntimeException
 {
 }

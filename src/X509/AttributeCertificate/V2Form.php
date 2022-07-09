@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -41,8 +42,6 @@ class V2Form extends AttCertIssuer
 
     /**
      * Constructor.
-     *
-     * @param null|GeneralNames $names
      */
     public function __construct(?GeneralNames $names = null)
     {
@@ -53,10 +52,6 @@ class V2Form extends AttCertIssuer
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromV2ASN1(Sequence $seq): self
     {
@@ -68,13 +63,17 @@ class V2Form extends AttCertIssuer
         }
         if ($seq->hasTagged(0)) {
             $cert_id = IssuerSerial::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
+                    ->asSequence()
+            );
         }
         if ($seq->hasTagged(1)) {
             $digest_info = ObjectDigestInfo::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                $seq->getTagged(1)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
+                    ->asSequence()
+            );
         }
         $obj = new self($issuer);
         $obj->_baseCertificateID = $cert_id;
@@ -84,8 +83,6 @@ class V2Form extends AttCertIssuer
 
     /**
      * Check whether issuer name is set.
-     *
-     * @return bool
      */
     public function hasIssuerName(): bool
     {
@@ -94,15 +91,11 @@ class V2Form extends AttCertIssuer
 
     /**
      * Get issuer name.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return GeneralNames
      */
     public function issuerName(): GeneralNames
     {
-        if (!$this->hasIssuerName()) {
-            throw new \LogicException('issuerName not set.');
+        if (! $this->hasIssuerName()) {
+            throw new LogicException('issuerName not set.');
         }
         return $this->_issuerName;
     }
@@ -110,14 +103,13 @@ class V2Form extends AttCertIssuer
     /**
      * Get DN of the issuer.
      *
-     * This is a convenience method conforming to RFC 5755, which states
-     * that Issuer must contain only one non-empty distinguished name.
-     *
-     * @return Name
+     * This is a convenience method conforming to RFC 5755, which states that Issuer must contain only one non-empty
+     * distinguished name.
      */
     public function name(): Name
     {
-        return $this->issuerName()->firstDN();
+        return $this->issuerName()
+            ->firstDN();
     }
 
     /**
@@ -130,12 +122,10 @@ class V2Form extends AttCertIssuer
             $elements[] = $this->_issuerName->toASN1();
         }
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(0,
-                $this->_baseCertificateID->toASN1());
+            $elements[] = new ImplicitlyTaggedType(0, $this->_baseCertificateID->toASN1());
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(1,
-                $this->_objectDigestInfo->toASN1());
+            $elements[] = new ImplicitlyTaggedType(1, $this->_objectDigestInfo->toASN1());
         }
         return new ImplicitlyTaggedType(0, new Sequence(...$elements));
     }
@@ -146,7 +136,7 @@ class V2Form extends AttCertIssuer
     public function identifiesPKC(Certificate $cert): bool
     {
         $name = $this->_issuerName->firstDN();
-        if (!$cert->tbsCertificate()->subject()->equals($name)) {
+        if (! $cert->tbsCertificate()->subject()->equals($name)) {
             return false;
         }
         return true;

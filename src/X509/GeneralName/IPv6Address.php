@@ -1,19 +1,17 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
+
+use function array_slice;
+use function count;
+use UnexpectedValueException;
 
 class IPv6Address extends IPAddress
 {
     /**
      * Initialize from octets.
-     *
-     * @param string $octets
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return self
      */
     public static function fromOctets(string $octets): self
     {
@@ -28,7 +26,7 @@ class IPv6Address extends IPAddress
                 $mask = self::_wordsToIPv6String(array_slice($words, 8, 8));
                 break;
             default:
-                throw new \UnexpectedValueException('Invalid IPv6 octet length.');
+                throw new UnexpectedValueException('Invalid IPv6 octet length.');
         }
         return new self($ip, $mask);
     }
@@ -37,15 +35,12 @@ class IPv6Address extends IPAddress
      * Convert an array of 16 bit words to an IPv6 string representation.
      *
      * @param int[] $words
-     *
-     * @return string
      */
     protected static function _wordsToIPv6String(array $words): string
     {
-        $groups = array_map(
-            function ($word) {
-                return sprintf('%04x', $word);
-            }, $words);
+        $groups = array_map(function ($word) {
+            return sprintf('%04x', $word);
+        }, $words);
         return implode(':', $groups);
     }
 
@@ -56,8 +51,7 @@ class IPv6Address extends IPAddress
     {
         $words = array_map('hexdec', explode(':', $this->_ip));
         if (isset($this->_mask)) {
-            $words = array_merge($words,
-                array_map('hexdec', explode(':', $this->_mask)));
+            $words = array_merge($words, array_map('hexdec', explode(':', $this->_mask)));
         }
         return pack('n*', ...$words);
     }

@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
+use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -16,6 +17,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
+use UnexpectedValueException;
 
 /**
  * Implements elliptic curve private key type as specified by RFC 5915.
@@ -52,9 +54,7 @@ class ECPrivateKey extends PrivateKey
      * @param null|string $named_curve OID of the named curve
      * @param null|string $public_key  ECPoint value
      */
-    public function __construct(string $private_key,
-        ?string $named_curve = null,
-        ?string $public_key = null)
+    public function __construct(string $private_key, ?string $named_curve = null, ?string $public_key = null)
     {
         $this->_privateKey = $private_key;
         $this->_namedCurve = $named_curve;
@@ -63,53 +63,51 @@ class ECPrivateKey extends PrivateKey
 
     /**
      * Initialize from ASN.1.
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @return self
      */
-    public static function fromASN1(Sequence $seq): ECPrivateKey
+    public static function fromASN1(Sequence $seq): self
     {
-        $version = $seq->at(0)->asInteger()->intNumber();
-        if (1 !== $version) {
-            throw new \UnexpectedValueException('Version must be 1.');
+        $version = $seq->at(0)
+            ->asInteger()
+            ->intNumber();
+        if ($version !== 1) {
+            throw new UnexpectedValueException('Version must be 1.');
         }
-        $private_key = $seq->at(1)->asOctetString()->string();
+        $private_key = $seq->at(1)
+            ->asOctetString()
+            ->string();
         $named_curve = null;
         if ($seq->hasTagged(0)) {
-            $params = $seq->getTagged(0)->asExplicit();
-            $named_curve = $params->asObjectIdentifier()->oid();
+            $params = $seq->getTagged(0)
+                ->asExplicit();
+            $named_curve = $params->asObjectIdentifier()
+                ->oid();
         }
         $public_key = null;
         if ($seq->hasTagged(1)) {
-            $public_key = $seq->getTagged(1)->asExplicit()
-                ->asBitString()->string();
+            $public_key = $seq->getTagged(1)
+                ->asExplicit()
+                ->asBitString()
+                ->string();
         }
         return new self($private_key, $named_curve, $public_key);
     }
 
     /**
      * Initialize from DER data.
-     *
-     * @return self
      */
-    public static function fromDER(string $data): ECPrivateKey
+    public static function fromDER(string $data): self
     {
         return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
 
     /**
      * @see PrivateKey::fromPEM()
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @return self
      */
-    public static function fromPEM(PEM $pem): ECPrivateKey
+    public static function fromPEM(PEM $pem): self
     {
         $pk = parent::fromPEM($pem);
-        if (!($pk instanceof self)) {
-            throw new \UnexpectedValueException('Not an EC private key.');
+        if (! ($pk instanceof self)) {
+            throw new UnexpectedValueException('Not an EC private key.');
         }
         return $pk;
     }
@@ -134,13 +132,11 @@ class ECPrivateKey extends PrivateKey
 
     /**
      * Get named curve OID.
-     *
-     * @throws \LogicException
      */
     public function namedCurve(): string
     {
-        if (!$this->hasNamedCurve()) {
-            throw new \LogicException('namedCurve not set.');
+        if (! $this->hasNamedCurve()) {
+            throw new LogicException('namedCurve not set.');
         }
         return $this->_namedCurve;
     }
@@ -149,10 +145,8 @@ class ECPrivateKey extends PrivateKey
      * Get self with named curve.
      *
      * @param null|string $named_curve Named curve OID
-     *
-     * @return self
      */
-    public function withNamedCurve(?string $named_curve): ECPrivateKey
+    public function withNamedCurve(?string $named_curve): self
     {
         $obj = clone $this;
         $obj->_namedCurve = $named_curve;
@@ -182,8 +176,8 @@ class ECPrivateKey extends PrivateKey
      */
     public function publicKey(): PublicKey
     {
-        if (!$this->hasPublicKey()) {
-            throw new \LogicException('publicKey not set.');
+        if (! $this->hasPublicKey()) {
+            throw new LogicException('publicKey not set.');
         }
         return new ECPublicKey($this->_publicKey, $this->namedCurve());
     }
@@ -195,12 +189,10 @@ class ECPrivateKey extends PrivateKey
     {
         $elements = [new Integer(1), new OctetString($this->_privateKey)];
         if (isset($this->_namedCurve)) {
-            $elements[] = new ExplicitlyTaggedType(0,
-                new ObjectIdentifier($this->_namedCurve));
+            $elements[] = new ExplicitlyTaggedType(0, new ObjectIdentifier($this->_namedCurve));
         }
         if (isset($this->_publicKey)) {
-            $elements[] = new ExplicitlyTaggedType(1,
-                new BitString($this->_publicKey));
+            $elements[] = new ExplicitlyTaggedType(1, new BitString($this->_publicKey));
         }
         return new Sequence(...$elements);
     }
@@ -210,7 +202,8 @@ class ECPrivateKey extends PrivateKey
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**

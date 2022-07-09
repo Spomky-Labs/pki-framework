@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
@@ -46,10 +46,6 @@ class AttributeTypeAndValue
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -62,8 +58,6 @@ class AttributeTypeAndValue
      * Convenience method to initialize from attribute value.
      *
      * @param AttributeValue $value Attribute value
-     *
-     * @return self
      */
     public static function fromAttributeValue(AttributeValue $value): self
     {
@@ -72,8 +66,6 @@ class AttributeTypeAndValue
 
     /**
      * Get attribute value.
-     *
-     * @return AttributeValue
      */
     public function value(): AttributeValue
     {
@@ -82,8 +74,6 @@ class AttributeTypeAndValue
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
@@ -94,8 +84,6 @@ class AttributeTypeAndValue
      * Get attributeTypeAndValue string conforming to RFC 2253.
      *
      * @see https://tools.ietf.org/html/rfc2253#section-2.3
-     *
-     * @return string
      */
     public function toString(): string
     {
@@ -106,18 +94,15 @@ class AttributeTypeAndValue
      * Check whether attribute is semantically equal to other.
      *
      * @param AttributeTypeAndValue $other Object to compare to
-     *
-     * @return bool
      */
-    public function equals(AttributeTypeAndValue $other): bool
+    public function equals(self $other): bool
     {
         // check that attribute types match
         if ($this->oid() !== $other->oid()) {
             return false;
         }
         $matcher = $this->_value->equalityMatchingRule();
-        $result = $matcher->compare($this->_value->stringValue(),
-            $other->_value->stringValue());
+        $result = $matcher->compare($this->_value->stringValue(), $other->_value->stringValue());
         // match
         if ($result) {
             return true;

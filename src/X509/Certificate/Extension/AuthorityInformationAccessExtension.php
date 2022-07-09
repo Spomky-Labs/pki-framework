@@ -1,9 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -15,7 +19,7 @@ use Sop\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.1
  */
-class AuthorityInformationAccessExtension extends Extension implements \Countable, \IteratorAggregate
+class AuthorityInformationAccessExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Access descriptions.
@@ -26,9 +30,6 @@ class AuthorityInformationAccessExtension extends Extension implements \Countabl
 
     /**
      * Constructor.
-     *
-     * @param bool                       $critical
-     * @param AuthorityAccessDescription ...$access
      */
     public function __construct(bool $critical, AuthorityAccessDescription ...$access)
     {
@@ -50,8 +51,6 @@ class AuthorityInformationAccessExtension extends Extension implements \Countabl
      * Get the number of access descriptions.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -63,11 +62,11 @@ class AuthorityInformationAccessExtension extends Extension implements \Countabl
      *
      * @see \IteratorAggregate::getIterator()
      *
-     * @return \ArrayIterator List of AuthorityAccessDescription objects
+     * @return ArrayIterator List of AuthorityAccessDescription objects
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_accessDescriptions);
+        return new ArrayIterator($this->_accessDescriptions);
     }
 
     /**
@@ -78,7 +77,9 @@ class AuthorityInformationAccessExtension extends Extension implements \Countabl
         $access = array_map(
             function (UnspecifiedType $el) {
                 return AuthorityAccessDescription::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
         return new self($critical, ...$access);
     }
 
@@ -90,7 +91,9 @@ class AuthorityInformationAccessExtension extends Extension implements \Countabl
         $elements = array_map(
             function (AccessDescription $access) {
                 return $access->toASN1();
-            }, $this->_accessDescriptions);
+            },
+            $this->_accessDescriptions
+        );
         return new Sequence(...$elements);
     }
 }

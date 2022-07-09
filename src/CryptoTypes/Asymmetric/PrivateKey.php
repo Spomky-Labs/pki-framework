@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use UnexpectedValueException;
 
 /**
  * Base class for private keys.
@@ -54,8 +55,6 @@ abstract class PrivateKey
     /**
      * Initialize private key from PEM.
      *
-     * @throws \UnexpectedValueException
-     *
      * @return PrivateKey
      */
     public static function fromPEM(PEM $pem)
@@ -68,7 +67,6 @@ abstract class PrivateKey
             case PEM::TYPE_PRIVATE_KEY:
                 return PrivateKeyInfo::fromDER($pem->data())->privateKey();
         }
-        throw new \UnexpectedValueException(
-            'PEM type ' . $pem->type() . ' is not a valid private key.');
+        throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid private key.');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
 
@@ -22,7 +22,7 @@ From RFC 3370 - 2.2 MD5
     parameters field MUST contain NULL.  Implementations MAY accept the
     MD5 AlgorithmIdentifiers with absent parameters as well as NULL
     parameters.
-*/
+ */
 
 /**
  * MD5 algorithm identifier.
@@ -62,8 +62,7 @@ class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Hash
      *
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         $obj = new static();
         // if parameters field is present, it must be null type

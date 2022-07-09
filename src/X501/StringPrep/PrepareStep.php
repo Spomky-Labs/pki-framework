@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\StringPrep;
 
 /**
- * Interface for string preparation steps of Internationalized String
- * Preparation algorithm specified by RFC 4518.
+ * Interface for string preparation steps of Internationalized String Preparation algorithm specified by RFC 4518.
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2
  */

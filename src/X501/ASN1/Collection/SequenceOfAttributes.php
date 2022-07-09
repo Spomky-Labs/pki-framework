@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\Collection;
 
@@ -19,10 +19,6 @@ class SequenceOfAttributes extends AttributeCollection
 {
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -31,14 +27,14 @@ class SequenceOfAttributes extends AttributeCollection
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
         return new Sequence(...array_map(
             function (Attribute $attr) {
                 return $attr->toASN1();
-            }, $this->_attributes));
+            },
+            $this->_attributes
+        ));
     }
 }

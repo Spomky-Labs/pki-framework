@@ -1,9 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use function count;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -14,6 +16,8 @@ use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\Certificate\UniqueIdentifier;
+use function strval;
+use UnexpectedValueException;
 
 /**
  * Implements *AttributeCertificateInfo* ASN.1 type.
@@ -22,7 +26,7 @@ use Sop\X509\Certificate\UniqueIdentifier;
  */
 class AttributeCertificateInfo
 {
-    const VERSION_2 = 1;
+    public const VERSION_2 = 1;
 
     /**
      * AC version.
@@ -95,9 +99,12 @@ class AttributeCertificateInfo
      * @param AttCertValidityPeriod $validity Validity
      * @param Attributes            $attribs  Attributes
      */
-    public function __construct(Holder $holder, AttCertIssuer $issuer,
-        AttCertValidityPeriod $validity, Attributes $attribs)
-    {
+    public function __construct(
+        Holder $holder,
+        AttCertIssuer $issuer,
+        AttCertValidityPeriod $validity,
+        Attributes $attribs
+    ) {
         $this->_version = self::VERSION_2;
         $this->_holder = $holder;
         $this->_issuer = $issuer;
@@ -108,50 +115,41 @@ class AttributeCertificateInfo
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
         $idx = 0;
-        $version = $seq->at($idx++)->asInteger()->intNumber();
-        if (self::VERSION_2 !== $version) {
-            throw new \UnexpectedValueException('Version must be 2.');
+        $version = $seq->at($idx++)
+            ->asInteger()
+            ->intNumber();
+        if ($version !== self::VERSION_2) {
+            throw new UnexpectedValueException('Version must be 2.');
         }
         $holder = Holder::fromASN1($seq->at($idx++)->asSequence());
         $issuer = AttCertIssuer::fromASN1($seq->at($idx++));
         $signature = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
-        if (!$signature instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $signature->oid() . '.');
+        if (! $signature instanceof SignatureAlgorithmIdentifier) {
+            throw new UnexpectedValueException('Unsupported signature algorithm ' . $signature->oid() . '.');
         }
-        $serial = $seq->at($idx++)->asInteger()->number();
+        $serial = $seq->at($idx++)
+            ->asInteger()
+            ->number();
         $validity = AttCertValidityPeriod::fromASN1($seq->at($idx++)->asSequence());
         $attribs = Attributes::fromASN1($seq->at($idx++)->asSequence());
         $obj = new self($holder, $issuer, $validity, $attribs);
         $obj->_signature = $signature;
         $obj->_serialNumber = $serial;
         if ($seq->has($idx, Element::TYPE_BIT_STRING)) {
-            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1(
-                $seq->at($idx++)->asBitString());
+            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++) ->asBitString());
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
-            $obj->_extensions = Extensions::fromASN1(
-                $seq->at($idx++)->asSequence());
+            $obj->_extensions = Extensions::fromASN1($seq->at($idx++) ->asSequence());
         }
         return $obj;
     }
 
     /**
      * Get self with holder.
-     *
-     * @param Holder $holder
-     *
-     * @return self
      */
     public function withHolder(Holder $holder): self
     {
@@ -162,10 +160,6 @@ class AttributeCertificateInfo
 
     /**
      * Get self with issuer.
-     *
-     * @param AttCertIssuer $issuer
-     *
-     * @return self
      */
     public function withIssuer(AttCertIssuer $issuer): self
     {
@@ -176,10 +170,6 @@ class AttributeCertificateInfo
 
     /**
      * Get self with signature algorithm identifier.
-     *
-     * @param SignatureAlgorithmIdentifier $algo
-     *
-     * @return self
      */
     public function withSignature(SignatureAlgorithmIdentifier $algo): self
     {
@@ -192,8 +182,6 @@ class AttributeCertificateInfo
      * Get self with serial number.
      *
      * @param int|string $serial Base 10 serial number
-     *
-     * @return self
      */
     public function withSerialNumber($serial): self
     {
@@ -206,8 +194,6 @@ class AttributeCertificateInfo
      * Get self with random positive serial number.
      *
      * @param int $size Number of random bytes
-     *
-     * @return self
      */
     public function withRandomSerialNumber(int $size = 16): self
     {
@@ -222,10 +208,6 @@ class AttributeCertificateInfo
 
     /**
      * Get self with validity period.
-     *
-     * @param AttCertValidityPeriod $validity
-     *
-     * @return self
      */
     public function withValidity(AttCertValidityPeriod $validity): self
     {
@@ -236,10 +218,6 @@ class AttributeCertificateInfo
 
     /**
      * Get self with attributes.
-     *
-     * @param Attributes $attribs
-     *
-     * @return self
      */
     public function withAttributes(Attributes $attribs): self
     {
@@ -250,10 +228,6 @@ class AttributeCertificateInfo
 
     /**
      * Get self with issuer unique identifier.
-     *
-     * @param UniqueIdentifier $uid
-     *
-     * @return self
      */
     public function withIssuerUniqueID(UniqueIdentifier $uid): self
     {
@@ -264,10 +238,6 @@ class AttributeCertificateInfo
 
     /**
      * Get self with extensions.
-     *
-     * @param Extensions $extensions
-     *
-     * @return self
      */
     public function withExtensions(Extensions $extensions): self
     {
@@ -280,8 +250,6 @@ class AttributeCertificateInfo
      * Get self with extensions added.
      *
      * @param Extension ...$exts One or more Extension objects
-     *
-     * @return self
      */
     public function withAdditionalExtensions(Extension ...$exts): self
     {
@@ -290,11 +258,6 @@ class AttributeCertificateInfo
         return $obj;
     }
 
-    /**
-     * Get version.
-     *
-     * @return int
-     */
     public function version(): int
     {
         return $this->_version;
@@ -302,8 +265,6 @@ class AttributeCertificateInfo
 
     /**
      * Get AC holder.
-     *
-     * @return Holder
      */
     public function holder(): Holder
     {
@@ -312,8 +273,6 @@ class AttributeCertificateInfo
 
     /**
      * Get AC issuer.
-     *
-     * @return AttCertIssuer
      */
     public function issuer(): AttCertIssuer
     {
@@ -322,8 +281,6 @@ class AttributeCertificateInfo
 
     /**
      * Check whether signature is set.
-     *
-     * @return bool
      */
     public function hasSignature(): bool
     {
@@ -332,23 +289,17 @@ class AttributeCertificateInfo
 
     /**
      * Get signature algorithm identifier.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return SignatureAlgorithmIdentifier
      */
     public function signature(): SignatureAlgorithmIdentifier
     {
-        if (!$this->hasSignature()) {
-            throw new \LogicException('signature not set.');
+        if (! $this->hasSignature()) {
+            throw new LogicException('signature not set.');
         }
         return $this->_signature;
     }
 
     /**
      * Check whether serial number is present.
-     *
-     * @return bool
      */
     public function hasSerialNumber(): bool
     {
@@ -357,34 +308,23 @@ class AttributeCertificateInfo
 
     /**
      * Get AC serial number as a base 10 integer.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return string
      */
     public function serialNumber(): string
     {
-        if (!$this->hasSerialNumber()) {
-            throw new \LogicException('serialNumber not set.');
+        if (! $this->hasSerialNumber()) {
+            throw new LogicException('serialNumber not set.');
         }
         return $this->_serialNumber;
     }
 
     /**
      * Get validity period.
-     *
-     * @return AttCertValidityPeriod
      */
     public function validityPeriod(): AttCertValidityPeriod
     {
         return $this->_attrCertValidityPeriod;
     }
 
-    /**
-     * Get attributes.
-     *
-     * @return Attributes
-     */
     public function attributes(): Attributes
     {
         return $this->_attributes;
@@ -392,8 +332,6 @@ class AttributeCertificateInfo
 
     /**
      * Check whether issuer unique identifier is present.
-     *
-     * @return bool
      */
     public function hasIssuerUniqueID(): bool
     {
@@ -402,24 +340,15 @@ class AttributeCertificateInfo
 
     /**
      * Get issuer unique identifier.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return UniqueIdentifier
      */
     public function issuerUniqueID(): UniqueIdentifier
     {
-        if (!$this->hasIssuerUniqueID()) {
-            throw new \LogicException('issuerUniqueID not set.');
+        if (! $this->hasIssuerUniqueID()) {
+            throw new LogicException('issuerUniqueID not set.');
         }
         return $this->_issuerUniqueID;
     }
 
-    /**
-     * Get extensions.
-     *
-     * @return Extensions
-     */
     public function extensions(): Extensions
     {
         return $this->_extensions;
@@ -427,13 +356,12 @@ class AttributeCertificateInfo
 
     /**
      * Get ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
         $elements = [new Integer($this->_version), $this->_holder->toASN1(),
-            $this->_issuer->toASN1(), $this->signature()->toASN1(),
+            $this->_issuer->toASN1(), $this->signature()
+                ->toASN1(),
             new Integer($this->serialNumber()),
             $this->_attrCertValidityPeriod->toASN1(),
             $this->_attributes->toASN1(), ];
@@ -452,19 +380,20 @@ class AttributeCertificateInfo
      * @param SignatureAlgorithmIdentifier $algo         Signature algorithm
      * @param PrivateKeyInfo               $privkey_info Private key
      * @param null|Crypto                  $crypto       Crypto engine, use default if not set
-     *
-     * @return AttributeCertificate
      */
-    public function sign(SignatureAlgorithmIdentifier $algo,
-        PrivateKeyInfo $privkey_info, ?Crypto $crypto = null): AttributeCertificate
-    {
+    public function sign(
+        SignatureAlgorithmIdentifier $algo,
+        PrivateKeyInfo $privkey_info,
+        ?Crypto $crypto = null
+    ): AttributeCertificate {
         $crypto = $crypto ?? Crypto::getDefault();
         $aci = clone $this;
-        if (!isset($aci->_serialNumber)) {
+        if (! isset($aci->_serialNumber)) {
             $aci->_serialNumber = '0';
         }
         $aci->_signature = $algo;
-        $data = $aci->toASN1()->toDER();
+        $data = $aci->toASN1()
+            ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
         return new AttributeCertificate($aci, $algo, $signature);
     }

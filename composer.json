@@ -29,7 +29,12 @@
         "encrypt",
         "decrypt",
         "sign",
-        "verify"
+        "verify",
+        "asn1",
+        "asn.1",
+        "x690",
+        "x.690",
+        "der"
     ],
     "authors": [
         {

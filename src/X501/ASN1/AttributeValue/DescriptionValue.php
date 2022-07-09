@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\AttributeValue;
 
@@ -20,8 +20,7 @@ class DescriptionValue extends DirectoryString
      * @param string $value      String value
      * @param int    $string_tag Syntax choice
      */
-    public function __construct(string $value,
-        int $string_tag = DirectoryString::UTF8)
+    public function __construct(string $value, int $string_tag = DirectoryString::UTF8)
     {
         $this->_oid = AttributeType::OID_DESCRIPTION;
         parent::__construct($value, $string_tag);

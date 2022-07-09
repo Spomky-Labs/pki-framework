@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -16,8 +16,6 @@ class NoRevocationAvailableExtension extends Extension
 {
     /**
      * Constructor.
-     *
-     * @param bool $critical
      */
     public function __construct(bool $critical)
     {

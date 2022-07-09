@@ -1,20 +1,26 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
+use UnexpectedValueException;
 
 /**
  * Implements 'CRL Distribution Points' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
-class CRLDistributionPointsExtension extends Extension implements \Countable, \IteratorAggregate
+class CRLDistributionPointsExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Distribution points.
@@ -25,12 +31,8 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
 
     /**
      * Constructor.
-     *
-     * @param bool              $critical
-     * @param DistributionPoint ...$distribution_points
      */
-    public function __construct(bool $critical,
-        DistributionPoint ...$distribution_points)
+    public function __construct(bool $critical, DistributionPoint ...$distribution_points)
     {
         parent::__construct(self::OID_CRL_DISTRIBUTION_POINTS, $critical);
         $this->_distributionPoints = $distribution_points;
@@ -50,8 +52,6 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
      * Get the number of distribution points.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -62,12 +62,10 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
      * Get iterator for distribution points.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_distributionPoints);
+        return new ArrayIterator($this->_distributionPoints);
     }
 
     /**
@@ -78,10 +76,11 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
         $dps = array_map(
             function (UnspecifiedType $el) {
                 return DistributionPoint::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
-        if (!count($dps)) {
-            throw new \UnexpectedValueException(
-                'CRLDistributionPoints must have at least one DistributionPoint.');
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
+        if (! count($dps)) {
+            throw new UnexpectedValueException('CRLDistributionPoints must have at least one DistributionPoint.');
         }
         // late static bound, extended by Freshest CRL extension
         return new static($critical, ...$dps);
@@ -92,13 +91,15 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_distributionPoints)) {
-            throw new \LogicException('No distribution points.');
+        if (! count($this->_distributionPoints)) {
+            throw new LogicException('No distribution points.');
         }
         $elements = array_map(
             function (DistributionPoint $dp) {
                 return $dp->toASN1();
-            }, $this->_distributionPoints);
+            },
+            $this->_distributionPoints
+        );
         return new Sequence(...$elements);
     }
 }

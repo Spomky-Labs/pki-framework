@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\AttributeValue;
 
@@ -24,9 +24,6 @@ class UnknownAttributeValue extends AttributeValue
 
     /**
      * Constructor.
-     *
-     * @param string  $oid
-     * @param Element $el
      */
     public function __construct(string $oid, Element $el)
     {
@@ -49,7 +46,9 @@ class UnknownAttributeValue extends AttributeValue
     {
         // if value is encoded as a string type
         if ($this->_element->isType(Element::TYPE_STRING)) {
-            return $this->_element->asUnspecified()->asString()->string();
+            return $this->_element->asUnspecified()
+                ->asString()
+                ->string();
         }
         // return DER encoding as a hexstring (see RFC2253 section 2.4)
         return '#' . bin2hex($this->_element->toDER());

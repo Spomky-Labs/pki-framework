@@ -1,21 +1,27 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
+use UnexpectedValueException;
 
 /**
  * Implements 'Policy Mappings' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.5
  */
-class PolicyMappingsExtension extends Extension implements \Countable, \IteratorAggregate
+class PolicyMappingsExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Policy mappings.
@@ -27,7 +33,6 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     /**
      * Constructor.
      *
-     * @param bool          $critical
      * @param PolicyMapping ...$mappings One or more PolicyMapping objects
      */
     public function __construct(bool $critical, PolicyMapping ...$mappings)
@@ -47,12 +52,10 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     }
 
     /**
-     * Get mappings flattened into a single array of arrays of subject domains
-     * keyed by issuer domain.
+     * Get mappings flattened into a single array of arrays of subject domains keyed by issuer domain.
      *
-     * Eg. if policy mappings contains multiple mappings with the same issuer
-     * domain policy, their corresponding subject domain policies are placed
-     * under the same key.
+     * Eg. if policy mappings contains multiple mappings with the same issuer domain policy, their corresponding subject
+     * domain policies are placed under the same key.
      *
      * @return (string[])[]
      */
@@ -61,7 +64,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $mappings = [];
         foreach ($this->_mappings as $mapping) {
             $idp = $mapping->issuerDomainPolicy();
-            if (!isset($mappings[$idp])) {
+            if (! isset($mappings[$idp])) {
                 $mappings[$idp] = [];
             }
             array_push($mappings[$idp], $mapping->subjectDomainPolicy());
@@ -70,8 +73,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     }
 
     /**
-     * Get all subject domain policy OIDs that are mapped to given issuer
-     * domain policy OID.
+     * Get all subject domain policy OIDs that are mapped to given issuer domain policy OID.
      *
      * @param string $oid Issuer domain policy
      *
@@ -98,25 +100,24 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $idps = array_map(
             function (PolicyMapping $mapping) {
                 return $mapping->issuerDomainPolicy();
-            }, $this->_mappings);
+            },
+            $this->_mappings
+        );
         return array_values(array_unique($idps));
     }
 
     /**
      * Check whether policy mappings have anyPolicy mapped.
      *
-     * RFC 5280 section 4.2.1.5 states that "Policies MUST NOT be mapped either
-     * to or from the special value anyPolicy".
-     *
-     * @return bool
+     * RFC 5280 section 4.2.1.5 states that "Policies MUST NOT be mapped either to or from the special value anyPolicy".
      */
     public function hasAnyPolicyMapping(): bool
     {
         foreach ($this->_mappings as $mapping) {
-            if (PolicyInformation::OID_ANY_POLICY === $mapping->issuerDomainPolicy()) {
+            if ($mapping->issuerDomainPolicy() === PolicyInformation::OID_ANY_POLICY) {
                 return true;
             }
-            if (PolicyInformation::OID_ANY_POLICY === $mapping->subjectDomainPolicy()) {
+            if ($mapping->subjectDomainPolicy() === PolicyInformation::OID_ANY_POLICY) {
                 return true;
             }
         }
@@ -127,8 +128,6 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
      * Get the number of mappings.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -139,12 +138,10 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
      * Get iterator for policy mappings.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_mappings);
+        return new ArrayIterator($this->_mappings);
     }
 
     /**
@@ -155,10 +152,11 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $mappings = array_map(
             function (UnspecifiedType $el) {
                 return PolicyMapping::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
-        if (!count($mappings)) {
-            throw new \UnexpectedValueException(
-                'PolicyMappings must have at least one mapping.');
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
+        if (! count($mappings)) {
+            throw new UnexpectedValueException('PolicyMappings must have at least one mapping.');
         }
         return new self($critical, ...$mappings);
     }
@@ -168,13 +166,12 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_mappings)) {
-            throw new \LogicException('No mappings.');
+        if (! count($this->_mappings)) {
+            throw new LogicException('No mappings.');
         }
-        $elements = array_map(
-            function (PolicyMapping $mapping) {
-                return $mapping->toASN1();
-            }, $this->_mappings);
+        $elements = array_map(function (PolicyMapping $mapping) {
+            return $mapping->toASN1();
+        }, $this->_mappings);
         return new Sequence(...$elements);
     }
 }

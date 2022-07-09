@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RSA;
 
@@ -13,6 +13,8 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentif
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use function strval;
+use UnexpectedValueException;
 
 /**
  * Implements PKCS #1 RSAPublicKey ASN.1 type.
@@ -49,47 +51,44 @@ class RSAPublicKey extends PublicKey
 
     /**
      * Initialize from ASN.1.
-     *
-     * @return self
      */
-    public static function fromASN1(Sequence $seq): RSAPublicKey
+    public static function fromASN1(Sequence $seq): self
     {
-        $n = $seq->at(0)->asInteger()->number();
-        $e = $seq->at(1)->asInteger()->number();
+        $n = $seq->at(0)
+            ->asInteger()
+            ->number();
+        $e = $seq->at(1)
+            ->asInteger()
+            ->number();
         return new self($n, $e);
     }
 
     /**
      * Initialize from DER data.
-     *
-     * @return self
      */
-    public static function fromDER(string $data): RSAPublicKey
+    public static function fromDER(string $data): self
     {
         return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
 
     /**
      * @see PublicKey::fromPEM()
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @return self
      */
-    public static function fromPEM(PEM $pem): RSAPublicKey
+    public static function fromPEM(PEM $pem): self
     {
         switch ($pem->type()) {
             case PEM::TYPE_RSA_PUBLIC_KEY:
                 return self::fromDER($pem->data());
             case PEM::TYPE_PUBLIC_KEY:
                 $pki = PublicKeyInfo::fromDER($pem->data());
-                if (AlgorithmIdentifier::OID_RSA_ENCRYPTION !==
-                    $pki->algorithmIdentifier()->oid()) {
-                    throw new \UnexpectedValueException('Not an RSA public key.');
+                if ($pki->algorithmIdentifier()
+                    ->oid() !==
+                    AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
+                    throw new UnexpectedValueException('Not an RSA public key.');
                 }
                 return self::fromDER($pki->publicKeyData()->string());
         }
-        throw new \UnexpectedValueException('Invalid PEM type ' . $pem->type());
+        throw new UnexpectedValueException('Invalid PEM type ' . $pem->type());
     }
 
     /**
@@ -125,8 +124,7 @@ class RSAPublicKey extends PublicKey
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new Integer($this->_modulus),
-            new Integer($this->_publicExponent));
+        return new Sequence(new Integer($this->_modulus), new Integer($this->_publicExponent));
     }
 
     /**
@@ -134,7 +132,8 @@ class RSAPublicKey extends PublicKey
      */
     public function toDER(): string
     {
-        return $this->toASN1()->toDER();
+        return $this->toASN1()
+            ->toDER();
     }
 
     /**

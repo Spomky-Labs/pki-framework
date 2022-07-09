@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Signature;
 
@@ -26,11 +26,8 @@ abstract class Signature
      *
      * @param string                  $data Signature value
      * @param AlgorithmIdentifierType $algo Algorithm identifier
-     *
-     * @return self
      */
-    public static function fromSignatureData(string $data,
-        AlgorithmIdentifierType $algo): Signature
+    public static function fromSignatureData(string $data, AlgorithmIdentifierType $algo): self
     {
         if ($algo instanceof RSASignatureAlgorithmIdentifier) {
             return RSASignature::fromSignatureString($data);

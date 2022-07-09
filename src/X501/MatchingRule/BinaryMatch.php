@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\MatchingRule;
 
@@ -16,6 +16,6 @@ class BinaryMatch extends MatchingRule
      */
     public function compare($assertion, $value): ?bool
     {
-        return 0 === strcmp($assertion, $value);
+        return strcmp($assertion, $value) === 0;
     }
 }

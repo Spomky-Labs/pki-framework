@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 From RFC 5480 - 2.1.1.  Unrestricted Algorithm Identifier and Parameters:
@@ -21,7 +22,7 @@ present:
     -- implicitCurve   NULL
     -- specifiedCurve  SpecifiedECDomain
   }
-*/
+ */
 
 /**
  * Algorithm identifier for the elliptic curve public key.
@@ -193,8 +194,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
     public const CURVE_SECP256K1 = '1.3.132.0.10';
 
     /**
-     * National Institute of Standards and Technology (NIST) 384-bit elliptic
-     * curve.
+     * National Institute of Standards and Technology (NIST) 384-bit elliptic curve.
      *
      * @see http://oid-info.com/get/1.3.132.0.34
      *
@@ -203,8 +203,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
     public const CURVE_SECP384R1 = '1.3.132.0.34';
 
     /**
-     * National Institute of Standards and Technology (NIST) 512-bit elliptic
-     * curve.
+     * National Institute of Standards and Technology (NIST) 512-bit elliptic curve.
      *
      * @see http://oid-info.com/get/1.3.132.0.35
      *
@@ -273,13 +272,13 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
      *
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
-        if (!isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+        if (! isset($params)) {
+            throw new UnexpectedValueException('No parameters.');
         }
-        $named_curve = $params->asObjectIdentifier()->oid();
+        $named_curve = $params->asObjectIdentifier()
+            ->oid();
         return new self($named_curve);
     }
 

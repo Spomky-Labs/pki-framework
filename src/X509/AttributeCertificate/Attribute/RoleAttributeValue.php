@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
@@ -44,8 +45,7 @@ class RoleAttributeValue extends AttributeValue
      * @param GeneralName       $name      Role name
      * @param null|GeneralNames $authority Issuing authority
      */
-    public function __construct(GeneralName $name,
-        ?GeneralNames $authority = null)
+    public function __construct(GeneralName $name, ?GeneralNames $authority = null)
     {
         $this->_roleAuthority = $authority;
         $this->_roleName = $name;
@@ -57,11 +57,8 @@ class RoleAttributeValue extends AttributeValue
      *
      * @param string            $role_name Role name in URI format
      * @param null|GeneralNames $authority Issuing authority
-     *
-     * @return self
      */
-    public static function fromString(string $role_name,
-        ?GeneralNames $authority = null): self
+    public static function fromString(string $role_name, ?GeneralNames $authority = null): self
     {
         return new self(new UniformResourceIdentifier($role_name), $authority);
     }
@@ -77,18 +74,17 @@ class RoleAttributeValue extends AttributeValue
         $authority = null;
         if ($seq->hasTagged(0)) {
             $authority = GeneralNames::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
+                    ->asSequence()
+            );
         }
-        $name = GeneralName::fromASN1($seq->getTagged(1)
-            ->asExplicit()->asTagged());
+        $name = GeneralName::fromASN1($seq->getTagged(1) ->asExplicit() ->asTagged());
         return new self($name, $authority);
     }
 
     /**
      * Check whether issuing authority is present.
-     *
-     * @return bool
      */
     public function hasRoleAuthority(): bool
     {
@@ -97,23 +93,17 @@ class RoleAttributeValue extends AttributeValue
 
     /**
      * Get issuing authority.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return GeneralNames
      */
     public function roleAuthority(): GeneralNames
     {
-        if (!$this->hasRoleAuthority()) {
-            throw new \LogicException('roleAuthority not set.');
+        if (! $this->hasRoleAuthority()) {
+            throw new LogicException('roleAuthority not set.');
         }
         return $this->_roleAuthority;
     }
 
     /**
      * Get role name.
-     *
-     * @return GeneralName
      */
     public function roleName(): GeneralName
     {
@@ -127,11 +117,9 @@ class RoleAttributeValue extends AttributeValue
     {
         $elements = [];
         if (isset($this->_roleAuthority)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0, $this->_roleAuthority->toASN1());
+            $elements[] = new ImplicitlyTaggedType(0, $this->_roleAuthority->toASN1());
         }
-        $elements[] = new ExplicitlyTaggedType(
-            1, $this->_roleName->toASN1());
+        $elements[] = new ExplicitlyTaggedType(1, $this->_roleName->toASN1());
         return new Sequence(...$elements);
     }
 

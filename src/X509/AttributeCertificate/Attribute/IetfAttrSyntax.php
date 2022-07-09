@@ -1,9 +1,14 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -14,12 +19,11 @@ use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\GeneralName\GeneralNames;
 
 /**
- * Base class implementing *IetfAttrSyntax* ASN.1 type used by
- * attribute certificate attribute values.
+ * Base class implementing *IetfAttrSyntax* ASN.1 type used by attribute certificate attribute values.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4
  */
-abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \IteratorAggregate
+abstract class IetfAttrSyntax extends AttributeValue implements Countable, IteratorAggregate
 {
     /**
      * Policy authority.
@@ -37,8 +41,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Constructor.
-     *
-     * @param IetfAttrValue ...$values
      */
     public function __construct(IetfAttrValue ...$values)
     {
@@ -58,14 +60,20 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
         $idx = 0;
         if ($seq->hasTagged(0)) {
             $authority = GeneralNames::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)
+                    ->asSequence()
+            );
             ++$idx;
         }
         $values = array_map(
             function (UnspecifiedType $el) {
                 return IetfAttrValue::fromASN1($el);
-            }, $seq->at($idx)->asSequence()->elements());
+            },
+            $seq->at($idx)
+                ->asSequence()
+                ->elements()
+        );
         $obj = new static(...$values);
         $obj->_policyAuthority = $authority;
         return $obj;
@@ -73,10 +81,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Get self with policy authority.
-     *
-     * @param GeneralNames $names
-     *
-     * @return self
      */
     public function withPolicyAuthority(GeneralNames $names): self
     {
@@ -87,8 +91,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Check whether policy authority is present.
-     *
-     * @return bool
      */
     public function hasPolicyAuthority(): bool
     {
@@ -97,15 +99,11 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Get policy authority.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return GeneralNames
      */
     public function policyAuthority(): GeneralNames
     {
-        if (!$this->hasPolicyAuthority()) {
-            throw new \LogicException('policyAuthority not set.');
+        if (! $this->hasPolicyAuthority()) {
+            throw new LogicException('policyAuthority not set.');
         }
         return $this->_policyAuthority;
     }
@@ -122,15 +120,11 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
 
     /**
      * Get first value.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return IetfAttrValue
      */
     public function first(): IetfAttrValue
     {
-        if (!count($this->_values)) {
-            throw new \LogicException('No values.');
+        if (! count($this->_values)) {
+            throw new LogicException('No values.');
         }
         return $this->_values[0];
     }
@@ -142,13 +136,11 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
     {
         $elements = [];
         if (isset($this->_policyAuthority)) {
-            $elements[] = new ImplicitlyTaggedType(
-                0, $this->_policyAuthority->toASN1());
+            $elements[] = new ImplicitlyTaggedType(0, $this->_policyAuthority->toASN1());
         }
-        $values = array_map(
-            function (IetfAttrValue $val) {
-                return $val->toASN1();
-            }, $this->_values);
+        $values = array_map(function (IetfAttrValue $val) {
+            return $val->toASN1();
+        }, $this->_values);
         $elements[] = new Sequence(...$values);
         return new Sequence(...$elements);
     }
@@ -181,8 +173,6 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
      * Get number of values.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -193,12 +183,10 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
      * Get iterator for values.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_values);
+        return new ArrayIterator($this->_values);
     }
 
     /**

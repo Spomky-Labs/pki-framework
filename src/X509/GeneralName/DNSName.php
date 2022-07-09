@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -54,8 +54,6 @@ class DNSName extends GeneralName
 
     /**
      * Get DNS name.
-     *
-     * @return string
      */
     public function name(): string
     {

@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -34,13 +35,14 @@ class NameConstraintsExtension extends Extension
     /**
      * Constructor.
      *
-     * @param bool            $critical
      * @param GeneralSubtrees $permitted
      * @param GeneralSubtrees $excluded
      */
-    public function __construct(bool $critical, ?GeneralSubtrees $permitted = null,
-        ?GeneralSubtrees $excluded = null)
-    {
+    public function __construct(
+        bool $critical,
+        ?GeneralSubtrees $permitted = null,
+        ?GeneralSubtrees $excluded = null
+    ) {
         parent::__construct(self::OID_NAME_CONSTRAINTS, $critical);
         $this->_permitted = $permitted;
         $this->_excluded = $excluded;
@@ -48,8 +50,6 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Whether permitted subtrees are present.
-     *
-     * @return bool
      */
     public function hasPermittedSubtrees(): bool
     {
@@ -58,23 +58,17 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Get permitted subtrees.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return GeneralSubtrees
      */
     public function permittedSubtrees(): GeneralSubtrees
     {
-        if (!$this->hasPermittedSubtrees()) {
-            throw new \LogicException('No permitted subtrees.');
+        if (! $this->hasPermittedSubtrees()) {
+            throw new LogicException('No permitted subtrees.');
         }
         return $this->_permitted;
     }
 
     /**
      * Whether excluded subtrees are present.
-     *
-     * @return bool
      */
     public function hasExcludedSubtrees(): bool
     {
@@ -83,15 +77,11 @@ class NameConstraintsExtension extends Extension
 
     /**
      * Get excluded subtrees.
-     *
-     * @throws \LogicException If not set
-     *
-     * @return GeneralSubtrees
      */
     public function excludedSubtrees(): GeneralSubtrees
     {
-        if (!$this->hasExcludedSubtrees()) {
-            throw new \LogicException('No excluded subtrees.');
+        if (! $this->hasExcludedSubtrees()) {
+            throw new LogicException('No excluded subtrees.');
         }
         return $this->_excluded;
     }
@@ -106,11 +96,15 @@ class NameConstraintsExtension extends Extension
         $excluded = null;
         if ($seq->hasTagged(0)) {
             $permitted = GeneralSubtrees::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+                $seq->getTagged(0)
+                    ->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+            );
         }
         if ($seq->hasTagged(1)) {
             $excluded = GeneralSubtrees::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+                $seq->getTagged(1)
+                    ->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+            );
         }
         return new self($critical, $permitted, $excluded);
     }

@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\OctetString;
 
@@ -28,10 +29,6 @@ class UnknownExtension extends Extension
 
     /**
      * Constructor.
-     *
-     * @param string  $oid
-     * @param bool    $critical
-     * @param Element $element
      */
     public function __construct(string $oid, bool $critical, Element $element)
     {
@@ -42,15 +39,8 @@ class UnknownExtension extends Extension
 
     /**
      * Create instance from a raw encoded extension value.
-     *
-     * @param string $oid
-     * @param bool   $critical
-     * @param string $data
-     *
-     * @return self
      */
-    public static function fromRawString(string $oid, bool $critical,
-        string $data): self
+    public static function fromRawString(string $oid, bool $critical, string $data): self
     {
         $obj = new self($oid, $critical, new OctetString(''));
         $obj->_element = null;
@@ -60,8 +50,6 @@ class UnknownExtension extends Extension
 
     /**
      * Get the encoded extension value.
-     *
-     * @return string
      */
     public function extensionValue(): string
     {
@@ -81,8 +69,8 @@ class UnknownExtension extends Extension
      */
     protected function _valueASN1(): Element
     {
-        if (!isset($this->_element)) {
-            throw new \RuntimeException('Extension value is not DER encoded.');
+        if (! isset($this->_element)) {
+            throw new RuntimeException('Extension value is not DER encoded.');
         }
         return $this->_element;
     }

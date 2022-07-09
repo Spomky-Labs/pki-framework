@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -25,8 +25,6 @@ class DirectoryName extends GeneralName
 
     /**
      * Constructor.
-     *
-     * @param Name $dn
      */
     public function __construct(Name $dn)
     {
@@ -46,10 +44,6 @@ class DirectoryName extends GeneralName
 
     /**
      * Initialize from distinguished name string.
-     *
-     * @param string $str
-     *
-     * @return self
      */
     public static function fromDNString(string $str): self
     {
@@ -66,8 +60,6 @@ class DirectoryName extends GeneralName
 
     /**
      * Get directory name.
-     *
-     * @return Name
      */
     public function dn(): Name
     {

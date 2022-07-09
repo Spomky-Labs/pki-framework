@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
 
@@ -19,7 +19,7 @@ From RFC 3370 - 2.1 SHA-1
     Implementations MUST accept SHA-1 AlgorithmIdentifiers with NULL
     parameters.  Implementations SHOULD generate SHA-1
     AlgorithmIdentifiers with absent parameters.
-*/
+ */
 
 /**
  * SHA-1 algorithm identifier.
@@ -58,8 +58,7 @@ class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Has
      *
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         $obj = new static();
         // if parameters field is present, it must be null type

@@ -1,21 +1,26 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\Collection;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\AttributeType;
 use Sop\X501\ASN1\AttributeValue\AttributeValue;
+use UnexpectedValueException;
 
 /**
  * Base class for X.501 attribute containers.
  *
  * Implements methods for Countable and IteratorAggregate interfaces.
  */
-abstract class AttributeCollection implements \Countable, \IteratorAggregate
+abstract class AttributeCollection implements Countable, IteratorAggregate
 {
     /**
      * Array of attributes.
@@ -48,35 +53,31 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
         return new static(...array_map(
             function (AttributeValue $value) {
                 return $value->toAttribute();
-            }, $values));
+            },
+            $values
+        ));
     }
 
     /**
      * Check whether attribute is present.
      *
      * @param string $name OID or attribute name
-     *
-     * @return bool
      */
     public function has(string $name): bool
     {
-        return null !== $this->_findFirst($name);
+        return $this->_findFirst($name) !== null;
     }
 
     /**
      * Get first attribute by OID or attribute name.
      *
      * @param string $name OID or attribute name
-     *
-     * @throws \UnexpectedValueException if attribute is not present
-     *
-     * @return Attribute
      */
     public function firstOf(string $name): Attribute
     {
         $attr = $this->_findFirst($name);
-        if (!$attr) {
-            throw new \UnexpectedValueException("No {$name} attribute.");
+        if (! $attr) {
+            throw new UnexpectedValueException("No {$name} attribute.");
         }
         return $attr;
     }
@@ -92,10 +93,13 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
     {
         $oid = AttributeType::attrNameToOID($name);
         return array_values(
-            array_filter($this->_attributes,
+            array_filter(
+                $this->_attributes,
                 function (Attribute $attr) use ($oid) {
                     return $attr->oid() === $oid;
-                }));
+                }
+            )
+        );
     }
 
     /**
@@ -112,8 +116,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Get self with additional attributes added.
      *
      * @param Attribute ...$attribs List of attributes to add
-     *
-     * @return self
      */
     public function withAdditional(Attribute ...$attribs): self
     {
@@ -130,16 +132,17 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * All previous attributes of the same type are removed.
      *
      * @param Attribute $attr Attribute to add
-     *
-     * @return self
      */
     public function withUnique(Attribute $attr): self
     {
         $attribs = array_values(
-            array_filter($this->_attributes,
+            array_filter(
+                $this->_attributes,
                 function (Attribute $a) use ($attr) {
                     return $a->oid() !== $attr->oid();
-                }));
+                }
+            )
+        );
         $attribs[] = $attr;
         $obj = clone $this;
         $obj->_attributes = $attribs;
@@ -150,8 +153,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Get number of attributes.
      *
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -163,19 +164,17 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      *
-     * @return \ArrayIterator|Attribute[]
+     * @return ArrayIterator|Attribute[]
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_attributes);
+        return new ArrayIterator($this->_attributes);
     }
 
     /**
      * Find first attribute of given name or OID.
      *
      * @param string $name OID or attribute name
-     *
-     * @return null|Attribute
      */
     protected function _findFirst(string $name): ?Attribute
     {
@@ -200,8 +199,11 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
         return new static(...array_map(
             function (UnspecifiedType $el) {
                 return static::_castAttributeValues(
-                    Attribute::fromASN1($el->asSequence()));
-            }, $struct->elements()));
+                    Attribute::fromASN1($el->asSequence())
+                );
+            },
+            $struct->elements()
+        ));
     }
 
     /**
@@ -210,8 +212,6 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      * Overridden in derived classes.
      *
      * @param Attribute $attribute Attribute to cast
-     *
-     * @return Attribute
      */
     protected static function _castAttributeValues(Attribute $attribute): Attribute
     {

@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\NameConstraints;
 
+use function count;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -11,8 +12,7 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * Implements *GeneralSubtree* ASN.1 type used by 'Name Constraints'
- * certificate extension.
+ * Implements *GeneralSubtree* ASN.1 type used by 'Name Constraints' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.10
  */
@@ -41,10 +41,6 @@ class GeneralSubtree
 
     /**
      * Constructor.
-     *
-     * @param GeneralName $base
-     * @param int         $min
-     * @param null|int    $max
      */
     public function __construct(GeneralName $base, int $min = 0, ?int $max = null)
     {
@@ -55,10 +51,6 @@ class GeneralSubtree
 
     /**
      * Initialize from ASN.1.
-     *
-     * @param Sequence $seq
-     *
-     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -70,26 +62,24 @@ class GeneralSubtree
         // we have to iterate the remaining elements instead of just checking
         // for tagged types.
         for ($i = 1; $i < count($seq); ++$i) {
-            $el = $seq->at($i)->expectTagged();
+            $el = $seq->at($i)
+                ->expectTagged();
             switch ($el->tag()) {
                 case 0:
                     $min = $el->asImplicit(Element::TYPE_INTEGER)
-                        ->asInteger()->intNumber();
+                        ->asInteger()
+                        ->intNumber();
                     break;
                 case 1:
                     $max = $el->asImplicit(Element::TYPE_INTEGER)
-                        ->asInteger()->intNumber();
+                        ->asInteger()
+                        ->intNumber();
                     break;
             }
         }
         return new self($base, $min, $max);
     }
 
-    /**
-     * Get constraint.
-     *
-     * @return GeneralName
-     */
     public function base(): GeneralName
     {
         return $this->_base;
@@ -97,13 +87,11 @@ class GeneralSubtree
 
     /**
      * Generate ASN.1 structure.
-     *
-     * @return Sequence
      */
     public function toASN1(): Sequence
     {
         $elements = [$this->_base->toASN1()];
-        if (isset($this->_min) && 0 !== $this->_min) {
+        if (isset($this->_min) && $this->_min !== 0) {
             $elements[] = new ImplicitlyTaggedType(0, new Integer($this->_min));
         }
         if (isset($this->_max)) {

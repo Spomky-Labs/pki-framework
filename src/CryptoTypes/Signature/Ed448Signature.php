@@ -1,9 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Signature;
 
+use InvalidArgumentException;
+use function mb_strlen;
 use Sop\ASN1\Type\Primitive\BitString;
 
 /**
@@ -27,9 +29,8 @@ class Ed448Signature extends Signature
      */
     public function __construct(string $signature)
     {
-        if (114 !== strlen($signature)) {
-            throw new \InvalidArgumentException(
-                'Ed448 signature must be 114 octets.');
+        if (mb_strlen($signature) !== 114) {
+            throw new InvalidArgumentException('Ed448 signature must be 114 octets.');
         }
         $this->_signature = $signature;
     }

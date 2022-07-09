@@ -1,12 +1,14 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve448;
 
+use function mb_strlen;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X448AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PublicKey;
+use UnexpectedValueException;
 
 /**
  * Implements an intermediary class to store X448 public key.
@@ -22,9 +24,8 @@ class X448PublicKey extends RFC8410PublicKey
      */
     public function __construct(string $public_key)
     {
-        if (56 !== strlen($public_key)) {
-            throw new \UnexpectedValueException(
-                'X448 public key must be exactly 56 bytes.');
+        if (mb_strlen($public_key) !== 56) {
+            throw new UnexpectedValueException('X448 public key must be exactly 56 bytes.');
         }
         parent::__construct($public_key);
     }

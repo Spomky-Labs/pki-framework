@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
 
@@ -30,8 +30,7 @@ abstract class RFC4231HMACAlgorithmIdentifier extends SpecificAlgorithmIdentifie
      *
      * @return self
      */
-    public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         /*
          * RFC 4231 states that the "parameter" component SHOULD be present

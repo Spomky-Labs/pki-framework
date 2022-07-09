@@ -1,20 +1,26 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use function count;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
+use UnexpectedValueException;
 
 /**
  * Implements 'Subject Directory Attributes' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.8
  */
-class SubjectDirectoryAttributesExtension extends Extension implements \Countable, \IteratorAggregate
+class SubjectDirectoryAttributesExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Attributes.
@@ -26,7 +32,6 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
     /**
      * Constructor.
      *
-     * @param bool      $critical
      * @param Attribute ...$attribs One or more Attribute objects
      */
     public function __construct(bool $critical, Attribute ...$attribs)
@@ -39,8 +44,6 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
      * Check whether attribute is present.
      *
      * @param string $name OID or attribute name
-     *
-     * @return bool
      */
     public function has(string $name): bool
     {
@@ -51,10 +54,6 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
      * Get first attribute by OID or attribute name.
      *
      * @param string $name OID or attribute name
-     *
-     * @throws \UnexpectedValueException if attribute is not present
-     *
-     * @return Attribute
      */
     public function firstOf(string $name): Attribute
     {
@@ -85,8 +84,6 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
 
     /**
      * Get number of attributes.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -96,9 +93,9 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
     /**
      * Get iterator for attributes.
      *
-     * @return \ArrayIterator|Attribute[]
+     * @return ArrayIterator|Attribute[]
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return $this->_attributes->getIterator();
     }
@@ -108,11 +105,9 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        $attribs = SequenceOfAttributes::fromASN1(
-            UnspecifiedType::fromDER($data)->asSequence());
-        if (!count($attribs)) {
-            throw new \UnexpectedValueException(
-                'SubjectDirectoryAttributes must have at least one Attribute.');
+        $attribs = SequenceOfAttributes::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
+        if (! count($attribs)) {
+            throw new UnexpectedValueException('SubjectDirectoryAttributes must have at least one Attribute.');
         }
         return new self($critical, ...$attribs->all());
     }
@@ -122,8 +117,8 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_attributes)) {
-            throw new \LogicException('No attributes');
+        if (! count($this->_attributes)) {
+            throw new LogicException('No attributes');
         }
         return $this->_attributes->toASN1();
     }

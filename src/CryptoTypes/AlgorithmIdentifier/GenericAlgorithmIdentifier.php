@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier;
 
@@ -39,9 +39,6 @@ class GenericAlgorithmIdentifier extends AlgorithmIdentifier
         return $this->_oid;
     }
 
-    /**
-     * Get parameters.
-     */
     public function parameters(): ?UnspecifiedType
     {
         return $this->_params;
