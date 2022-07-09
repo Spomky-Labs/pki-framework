@@ -361,7 +361,7 @@ class DNParser
     {
         $idx = $offset;
         while ($idx < $this->_len) {
-            if (' ' != $this->_dn[$idx]) {
+            if (' ' !== $this->_dn[$idx]) {
                 break;
             }
             ++$idx;

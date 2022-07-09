@@ -10,7 +10,7 @@ class AIFactoryTestProvider implements AlgorithmIdentifierProvider
 {
     public function supportsOID(string $oid): bool
     {
-        return '1.3.6.1.3' == $oid;
+        return '1.3.6.1.3' === $oid;
     }
 
     public function getClassByOID(string $oid): string
