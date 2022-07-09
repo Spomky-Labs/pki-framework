@@ -1,0 +1,79 @@
+{
+    "name": "spomky-labs/pki-framework",
+    "description": "A PHP framework for managing Public Key Infrastructures. It comprises X.509 public key certificates, attribute certificates, certification requests and certification path validation.",
+    "homepage": "https://github.com/spomky-labs/pki-framework",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "x509",
+        "x.509",
+        "certificate",
+        "attribute certificate",
+        "ac",
+        "certification request",
+        "csr",
+        "pem",
+        "public key",
+        "private key",
+        "certificate",
+        "cryptography",
+        "asn1",
+        "algorithm identifier",
+        "rsa",
+        "ec",
+        "public key",
+        "private key",
+        "signature",
+        "pkcs",
+        "cryptography",
+        "encrypt",
+        "decrypt",
+        "sign",
+        "verify"
+    ],
+    "authors": [
+        {
+            "name": "Joni Eskelinen",
+            "email": "jonieske@gmail.com",
+            "role": "Original developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-gmp": "*",
+        "ext-intl": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "ekino/phpstan-banned-code": "^1.0",
+        "infection/infection": "^0.26",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-beberlei-assert": "^1.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.0",
+        "phpunit/phpunit": "^9.0",
+        "qossmic/deptrac-shim": "^0.19",
+        "rector/rector": "^0.12",
+        "roave/security-advisories": "dev-latest",
+        "symfony/phpunit-bridge": "^6.0",
+        "symfony/var-dumper": "^6.0",
+        "symplify/easy-coding-standard": "^10.0",
+        "thecodingmachine/phpstan-safe-rule": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sop\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    }
+}
