@@ -21,7 +21,7 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class TargetNameTest extends TestCase
 {
-    final const URI = 'urn:test';
+    final public const URI = 'urn:test';
 
     public function testCreate()
     {

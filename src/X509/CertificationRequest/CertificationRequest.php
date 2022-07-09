@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationRequest;
 
@@ -47,9 +47,11 @@ class CertificationRequest
      * @param SignatureAlgorithmIdentifier $algo
      * @param Signature                    $signature
      */
-    public function __construct(CertificationRequestInfo $info,
-        SignatureAlgorithmIdentifier $algo, Signature $signature)
-    {
+    public function __construct(
+        CertificationRequestInfo $info,
+        SignatureAlgorithmIdentifier $algo,
+        Signature $signature
+    ) {
         $this->_certificationRequestInfo = $info;
         $this->_signatureAlgorithm = $algo;
         $this->_signature = $signature;
@@ -78,10 +80,13 @@ class CertificationRequest
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (!$algo instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $algo->oid() . '.');
+                'Unsupported signature algorithm ' . $algo->oid() . '.'
+            );
         }
         $signature = Signature::fromSignatureData(
-            $seq->at(2)->asBitString()->string(), $algo);
+            $seq->at(2)->asBitString()->string(),
+            $algo
+        );
         return new self($info, $algo, $signature);
     }
 
@@ -151,8 +156,11 @@ class CertificationRequest
      */
     public function toASN1(): Sequence
     {
-        return new Sequence($this->_certificationRequestInfo->toASN1(),
-            $this->_signatureAlgorithm->toASN1(), $this->_signature->bitString());
+        return new Sequence(
+            $this->_certificationRequestInfo->toASN1(),
+            $this->_signatureAlgorithm->toASN1(),
+            $this->_signature->bitString()
+        );
     }
 
     /**
@@ -187,7 +195,11 @@ class CertificationRequest
         $crypto = $crypto ?? Crypto::getDefault();
         $data = $this->_certificationRequestInfo->toASN1()->toDER();
         $pk_info = $this->_certificationRequestInfo->subjectPKInfo();
-        return $crypto->verify($data, $this->_signature, $pk_info,
-            $this->_signatureAlgorithm);
+        return $crypto->verify(
+            $data,
+            $this->_signature,
+            $pk_info,
+            $this->_signatureAlgorithm
+        );
     }
 }

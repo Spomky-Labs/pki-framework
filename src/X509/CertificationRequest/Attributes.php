@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationRequest;
 
@@ -22,7 +22,7 @@ class Attributes extends SetOfAttributes
      *
      * @var array
      */
-    const MAP_OID_TO_CLASS = [
+    public const MAP_OID_TO_CLASS = [
         ExtensionRequestValue::OID => ExtensionRequestValue::class,
     ];
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
 
@@ -45,8 +45,8 @@ abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         $obj = new static();
         // store parameters so re-encoding doesn't change
         if (isset($params)) {

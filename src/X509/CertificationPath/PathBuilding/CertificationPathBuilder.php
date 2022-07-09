@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathBuilding;
 
@@ -42,15 +42,18 @@ class CertificationPathBuilder
      *
      * @return CertificationPath[]
      */
-    public function allPathsToTarget(Certificate $target,
-        ?CertificateBundle $intermediate = null): array
-    {
+    public function allPathsToTarget(
+        Certificate $target,
+        ?CertificateBundle $intermediate = null
+    ): array {
         $paths = $this->_resolvePathsToTarget($target, $intermediate);
         // map paths to CertificationPath objects
         return array_map(
             function ($certs) {
                 return new CertificationPath(...$certs);
-            }, $paths);
+            },
+            $paths
+        );
     }
 
     /**
@@ -63,17 +66,20 @@ class CertificationPathBuilder
      *
      * @return CertificationPath
      */
-    public function shortestPathToTarget(Certificate $target,
-        ?CertificateBundle $intermediate = null): CertificationPath
-    {
+    public function shortestPathToTarget(
+        Certificate $target,
+        ?CertificateBundle $intermediate = null
+    ): CertificationPath {
         $paths = $this->allPathsToTarget($target, $intermediate);
         if (!count($paths)) {
             throw new PathBuildingException('No certification paths.');
         }
-        usort($paths,
+        usort(
+            $paths,
             function ($a, $b) {
                 return count($a) < count($b) ? -1 : 1;
-            });
+            }
+        );
         return reset($paths);
     }
 
@@ -85,9 +91,10 @@ class CertificationPathBuilder
      *
      * @return Certificate[]
      */
-    protected function _findIssuers(Certificate $target,
-        CertificateBundle $bundle): array
-    {
+    protected function _findIssuers(
+        Certificate $target,
+        CertificateBundle $bundle
+    ): array {
         $issuers = [];
         $issuer_name = $target->tbsCertificate()->issuer();
         $extensions = $target->tbsCertificate()->extensions();
@@ -96,7 +103,8 @@ class CertificationPathBuilder
             $ext = $extensions->authorityKeyIdentifier();
             if ($ext->hasKeyIdentifier()) {
                 foreach ($bundle->allBySubjectKeyIdentifier(
-                    $ext->keyIdentifier()) as $issuer) {
+                    $ext->keyIdentifier()
+                ) as $issuer) {
                     // check that issuer name matches
                     if ($issuer->tbsCertificate()->subject()->equals($issuer_name)) {
                         $issuers[] = $issuer;
@@ -120,9 +128,10 @@ class CertificationPathBuilder
      *
      * @return array[] Array of arrays containing path certificates
      */
-    private function _resolvePathsToTarget(Certificate $target,
-        ?CertificateBundle $intermediate = null): array
-    {
+    private function _resolvePathsToTarget(
+        Certificate $target,
+        ?CertificateBundle $intermediate = null
+    ): array {
         // array of possible paths
         $paths = [];
         // signed by certificate in the trust list

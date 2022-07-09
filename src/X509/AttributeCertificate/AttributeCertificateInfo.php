@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -22,7 +22,7 @@ use Sop\X509\Certificate\UniqueIdentifier;
  */
 class AttributeCertificateInfo
 {
-    const VERSION_2 = 1;
+    public const VERSION_2 = 1;
 
     /**
      * AC version.
@@ -95,9 +95,12 @@ class AttributeCertificateInfo
      * @param AttCertValidityPeriod $validity Validity
      * @param Attributes            $attribs  Attributes
      */
-    public function __construct(Holder $holder, AttCertIssuer $issuer,
-        AttCertValidityPeriod $validity, Attributes $attribs)
-    {
+    public function __construct(
+        Holder $holder,
+        AttCertIssuer $issuer,
+        AttCertValidityPeriod $validity,
+        Attributes $attribs
+    ) {
         $this->_version = self::VERSION_2;
         $this->_holder = $holder;
         $this->_issuer = $issuer;
@@ -127,7 +130,8 @@ class AttributeCertificateInfo
         $signature = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
         if (!$signature instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $signature->oid() . '.');
+                'Unsupported signature algorithm ' . $signature->oid() . '.'
+            );
         }
         $serial = $seq->at($idx++)->asInteger()->number();
         $validity = AttCertValidityPeriod::fromASN1($seq->at($idx++)->asSequence());
@@ -137,11 +141,13 @@ class AttributeCertificateInfo
         $obj->_serialNumber = $serial;
         if ($seq->has($idx, Element::TYPE_BIT_STRING)) {
             $obj->_issuerUniqueID = UniqueIdentifier::fromASN1(
-                $seq->at($idx++)->asBitString());
+                $seq->at($idx++)->asBitString()
+            );
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
             $obj->_extensions = Extensions::fromASN1(
-                $seq->at($idx++)->asSequence());
+                $seq->at($idx++)->asSequence()
+            );
         }
         return $obj;
     }
@@ -455,9 +461,11 @@ class AttributeCertificateInfo
      *
      * @return AttributeCertificate
      */
-    public function sign(SignatureAlgorithmIdentifier $algo,
-        PrivateKeyInfo $privkey_info, ?Crypto $crypto = null): AttributeCertificate
-    {
+    public function sign(
+        SignatureAlgorithmIdentifier $algo,
+        PrivateKeyInfo $privkey_info,
+        ?Crypto $crypto = null
+    ): AttributeCertificate {
         $crypto = $crypto ?? Crypto::getDefault();
         $aci = clone $this;
         if (!isset($aci->_serialNumber)) {

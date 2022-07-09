@@ -19,9 +19,9 @@ use Sop\X509\GeneralName\IPv4Address;
  */
 class IPv4AddressNameTest extends TestCase
 {
-    const ADDR = '127.0.0.1';
+    public const ADDR = '127.0.0.1';
 
-    const MASK = '255.255.255.0';
+    public const MASK = '255.255.255.0';
 
     public function testCreate()
     {

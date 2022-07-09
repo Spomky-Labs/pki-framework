@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -38,9 +38,11 @@ class NameConstraintsExtension extends Extension
      * @param GeneralSubtrees $permitted
      * @param GeneralSubtrees $excluded
      */
-    public function __construct(bool $critical, ?GeneralSubtrees $permitted = null,
-        ?GeneralSubtrees $excluded = null)
-    {
+    public function __construct(
+        bool $critical,
+        ?GeneralSubtrees $permitted = null,
+        ?GeneralSubtrees $excluded = null
+    ) {
         parent::__construct(self::OID_NAME_CONSTRAINTS, $critical);
         $this->_permitted = $permitted;
         $this->_excluded = $excluded;
@@ -106,11 +108,13 @@ class NameConstraintsExtension extends Extension
         $excluded = null;
         if ($seq->hasTagged(0)) {
             $permitted = GeneralSubtrees::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+                $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+            );
         }
         if ($seq->hasTagged(1)) {
             $excluded = GeneralSubtrees::fromASN1(
-                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+                $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+            );
         }
         return new self($critical, $permitted, $excluded);
     }

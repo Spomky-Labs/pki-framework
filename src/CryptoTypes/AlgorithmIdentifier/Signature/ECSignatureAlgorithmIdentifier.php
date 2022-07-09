@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
 
@@ -33,8 +33,8 @@ abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifie
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         if (isset($params)) {
             throw new \UnexpectedValueException('Parameters must be omitted.');
         }

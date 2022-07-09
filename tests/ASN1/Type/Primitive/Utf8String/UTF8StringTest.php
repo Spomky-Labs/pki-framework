@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Utf8String;
 
@@ -85,7 +85,8 @@ class UTF8StringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'UTF8String expected, got primitive NULL');
+            'UTF8String expected, got primitive NULL'
+        );
         $wrap->asUTF8String();
     }
 }

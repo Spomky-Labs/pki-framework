@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -31,8 +31,11 @@ class PrivateTypeTest extends TestCase
 
     public function testCreateImplicit()
     {
-        $el = new ImplicitlyTaggedType(1, new Integer(42),
-            Identifier::CLASS_PRIVATE);
+        $el = new ImplicitlyTaggedType(
+            1,
+            new Integer(42),
+            Identifier::CLASS_PRIVATE
+        );
         $this->assertEquals("\xc1\x01\x2a", $el->toDER());
     }
 
@@ -66,8 +69,11 @@ class PrivateTypeTest extends TestCase
 
     public function testCreateExplicit()
     {
-        $el = new ExplicitlyTaggedType(1, new Integer(42),
-            Identifier::CLASS_PRIVATE);
+        $el = new ExplicitlyTaggedType(
+            1,
+            new Integer(42),
+            Identifier::CLASS_PRIVATE
+        );
         $this->assertEquals("\xe1\x03\x02\x01\x2a", $el->toDER());
     }
 
@@ -111,7 +117,8 @@ class PrivateTypeTest extends TestCase
         $el = UnspecifiedType::fromDER("\x5\0");
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Private type expected, got primitive NULL');
+            'Private type expected, got primitive NULL'
+        );
         $el->asPrivate();
     }
 }

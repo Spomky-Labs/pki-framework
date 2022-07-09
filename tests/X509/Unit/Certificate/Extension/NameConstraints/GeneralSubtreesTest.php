@@ -24,7 +24,8 @@ class GeneralSubtreesTest extends TestCase
     {
         $subtrees = new GeneralSubtrees(
             new GeneralSubtree(new UniformResourceIdentifier('.example.com')),
-            new GeneralSubtree(DirectoryName::fromDNString('cn=Test')));
+            new GeneralSubtree(DirectoryName::fromDNString('cn=Test'))
+        );
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
@@ -72,8 +73,10 @@ class GeneralSubtreesTest extends TestCase
      */
     public function testAll(GeneralSubtrees $subtrees)
     {
-        $this->assertContainsOnlyInstancesOf(GeneralSubtree::class,
-            $subtrees->all());
+        $this->assertContainsOnlyInstancesOf(
+            GeneralSubtree::class,
+            $subtrees->all()
+        );
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\PolicyMappings;
 
@@ -82,7 +82,9 @@ class PolicyMapping
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new ObjectIdentifier($this->_issuerDomainPolicy),
-            new ObjectIdentifier($this->_subjectDomainPolicy));
+        return new Sequence(
+            new ObjectIdentifier($this->_issuerDomainPolicy),
+            new ObjectIdentifier($this->_subjectDomainPolicy)
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -46,9 +46,10 @@ class Holder
      * @param null|IssuerSerial $issuer_serial
      * @param null|GeneralNames $entity_name
      */
-    public function __construct(?IssuerSerial $issuer_serial = null,
-        ?GeneralNames $entity_name = null)
-    {
+    public function __construct(
+        ?IssuerSerial $issuer_serial = null,
+        ?GeneralNames $entity_name = null
+    ) {
         $this->_baseCertificateID = $issuer_serial;
         $this->_entityName = $entity_name;
     }
@@ -78,17 +79,20 @@ class Holder
         if ($seq->hasTagged(0)) {
             $cert_id = IssuerSerial::fromASN1(
                 $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
         }
         if ($seq->hasTagged(1)) {
             $entity_name = GeneralNames::fromASN1(
                 $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
         }
         if ($seq->hasTagged(2)) {
             $digest_info = ObjectDigestInfo::fromASN1(
                 $seq->getTagged(2)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
         }
         $obj = new self($cert_id, $entity_name);
         $obj->_objectDigestInfo = $digest_info;
@@ -221,16 +225,22 @@ class Holder
     {
         $elements = [];
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(0,
-                $this->_baseCertificateID->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                0,
+                $this->_baseCertificateID->toASN1()
+            );
         }
         if (isset($this->_entityName)) {
-            $elements[] = new ImplicitlyTaggedType(1,
-                $this->_entityName->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                1,
+                $this->_entityName->toASN1()
+            );
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(2,
-                $this->_objectDigestInfo->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                2,
+                $this->_objectDigestInfo->toASN1()
+            );
         }
         return new Sequence(...$elements);
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type;
 
@@ -17,7 +17,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class TimeTypeTest extends TestCase
 {
-    final const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
+    final public const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
 
     public function testFromString()
     {

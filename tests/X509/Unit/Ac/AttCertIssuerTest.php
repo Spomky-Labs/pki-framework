@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\X509\AttributeCertificate\AttCertIssuer;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * @group ac

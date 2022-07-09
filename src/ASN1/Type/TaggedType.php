@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
@@ -26,7 +26,8 @@ abstract class TaggedType extends Element
         $el = $this;
         if (!$el instanceof ExplicitTagging) {
             throw new \UnexpectedValueException(
-                "Element doesn't implement explicit tagging.");
+                "Element doesn't implement explicit tagging."
+            );
         }
         if (isset($expectedTag)) {
             $el->expectTagged($expectedTag);
@@ -58,7 +59,8 @@ abstract class TaggedType extends Element
         $el = $this;
         if (!$el instanceof ImplicitTagging) {
             throw new \UnexpectedValueException(
-                "Element doesn't implement implicit tagging.");
+                "Element doesn't implement implicit tagging."
+            );
         }
         if (isset($expectedTag)) {
             $el->expectTagged($expectedTag);
@@ -75,10 +77,14 @@ abstract class TaggedType extends Element
      *
      * @throws \UnexpectedValueException If expectation fails
      */
-    public function asImplicit(int $tag, ?int $expectedTag = null,
-        int $expectedClass = Identifier::CLASS_UNIVERSAL): UnspecifiedType
-    {
-        return $this->expectImplicit($expectedTag)->implicit($tag,
-            $expectedClass);
+    public function asImplicit(
+        int $tag,
+        ?int $expectedTag = null,
+        int $expectedClass = Identifier::CLASS_UNIVERSAL
+    ): UnspecifiedType {
+        return $this->expectImplicit($expectedTag)->implicit(
+            $tag,
+            $expectedClass
+        );
     }
 }

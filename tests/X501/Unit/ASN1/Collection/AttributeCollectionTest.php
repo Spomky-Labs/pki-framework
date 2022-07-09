@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1\Collection;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
@@ -12,6 +11,7 @@ use Sop\X501\ASN1\AttributeValue\DescriptionValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\Collection\AttributeCollection;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -70,7 +70,7 @@ class AttributeCollectionTest extends TestCase
      */
     public function testAllOf(AttributeCollection $c)
     {
-        $vals = array_map(fn(Attribute $attr) => $attr->first()->stringValue(), $c->allOf('name'));
+        $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->allOf('name'));
         $this->assertEquals(['n1', 'n2'], $vals);
     }
 
@@ -87,7 +87,7 @@ class AttributeCollectionTest extends TestCase
      */
     public function testAll(AttributeCollection $c)
     {
-        $vals = array_map(fn(Attribute $attr) => $attr->first()->stringValue(), $c->all());
+        $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         $this->assertEquals(['n1', 'n2', 'd'], $vals);
     }
 
@@ -99,7 +99,7 @@ class AttributeCollectionTest extends TestCase
         $c = $c->withAdditional(
             Attribute::fromAttributeValues(new CommonNameValue('cn'))
         );
-        $vals = array_map(fn(Attribute $attr) => $attr->first()->stringValue(), $c->all());
+        $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         $this->assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
     }
 
@@ -111,7 +111,7 @@ class AttributeCollectionTest extends TestCase
         $c = $c->withUnique(
             Attribute::fromAttributeValues(new NameValue('uniq'))
         );
-        $vals = array_map(fn(Attribute $attr) => $attr->first()->stringValue(), $c->all());
+        $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         $this->assertEquals(['d', 'uniq'], $vals);
     }
 

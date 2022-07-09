@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Component;
 
@@ -56,7 +56,8 @@ class Length implements Encodable
         $datalen = strlen($data);
         if ($idx >= $datalen) {
             throw new DecodeException(
-                'Unexpected end of data while decoding length.');
+                'Unexpected end of data while decoding length.'
+            );
         }
         $indefinite = false;
         $byte = ord($data[$idx++]);
@@ -69,7 +70,8 @@ class Length implements Encodable
             } else {
                 if ($idx + $length > $datalen) {
                     throw new DecodeException(
-                        'Unexpected end of data while decoding long form length.');
+                        'Unexpected end of data while decoding long form length.'
+                    );
                 }
                 $length = self::_decodeLongFormLength($length, $data, $idx);
             }
@@ -97,29 +99,40 @@ class Length implements Encodable
      *
      * @throws DecodeException If decoding or expectation fails
      */
-    public static function expectFromDER(string $data, int &$offset,
-        int $expected = null): self
-    {
+    public static function expectFromDER(
+        string $data,
+        int &$offset,
+        int $expected = null
+    ): self {
         $idx = $offset;
         $length = self::fromDER($data, $idx);
         // if certain length was expected
         if (isset($expected)) {
             if ($length->isIndefinite()) {
                 throw new DecodeException(
-                    sprintf('Expected length %d, got indefinite.', $expected));
+                    sprintf('Expected length %d, got indefinite.', $expected)
+                );
             }
             if ($expected !== $length->intLength()) {
                 throw new DecodeException(
-                    sprintf('Expected length %d, got %d.', $expected,
-                        $length->intLength()));
+                    sprintf(
+                        'Expected length %d, got %d.',
+                        $expected,
+                        $length->intLength()
+                    )
+                );
             }
         }
         // check that enough data is available
         if (!$length->isIndefinite()
             && strlen($data) < $idx + $length->intLength()) {
             throw new DecodeException(
-                sprintf('Length %d overflows data, %d bytes left.',
-                    $length->intLength(), strlen($data) - $idx));
+                sprintf(
+                    'Length %d overflows data, %d bytes left.',
+                    $length->intLength(),
+                    strlen($data) - $idx
+                )
+            );
         }
         $offset = $idx;
         return $length;
@@ -207,9 +220,11 @@ class Length implements Encodable
      *
      * @throws DecodeException If decoding fails
      */
-    private static function _decodeLongFormLength(int $length, string $data,
-        int &$offset): \GMP
-    {
+    private static function _decodeLongFormLength(
+        int $length,
+        string $data,
+        int &$offset
+    ): \GMP {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if (127 === $length) {
             throw new DecodeException('Invalid number of length octets.');

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -66,9 +66,11 @@ class AttCertValidityPeriod
      *
      * @return self
      */
-    public static function fromStrings(?string $nb_date, ?string $na_date,
-        ?string $tz = null): self
-    {
+    public static function fromStrings(
+        ?string $nb_date,
+        ?string $na_date,
+        ?string $tz = null
+    ): self {
         $nb = self::_createDateTime($nb_date, $tz);
         $na = self::_createDateTime($na_date, $tz);
         return new self($nb, $na);
@@ -101,7 +103,9 @@ class AttCertValidityPeriod
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new GeneralizedTime($this->_notBeforeTime),
-            new GeneralizedTime($this->_notAfterTime));
+        return new Sequence(
+            new GeneralizedTime($this->_notBeforeTime),
+            new GeneralizedTime($this->_notAfterTime)
+        );
     }
 }

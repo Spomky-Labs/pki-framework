@@ -92,9 +92,13 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
         $ips = array_map(
             function ($name) {
                 return $name->address();
-            }, $names);
+            },
+            $names
+        );
         $this->assertEqualsCanonicalizing(
-            ['127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'], $ips);
+            ['127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'],
+            $ips
+        );
     }
 
     /**
@@ -108,7 +112,9 @@ class SubjectAlternativeNameTest extends RefExtTestHelper
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()
             ->toString();
-        $this->assertEquals('o=ACME Alternative Ltd.,c=FI,cn=alt.example.com',
-            $dn);
+        $this->assertEquals(
+            'o=ACME Alternative Ltd.,c=FI,cn=alt.example.com',
+            $dn
+        );
     }
 }

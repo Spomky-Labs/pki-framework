@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -92,8 +92,12 @@ class OtherName extends GeneralName
      */
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag,
-            new Sequence(new ObjectIdentifier($this->_type),
-                new ExplicitlyTaggedType(0, $this->_element)));
+        return new ImplicitlyTaggedType(
+            $this->_tag,
+            new Sequence(
+                new ObjectIdentifier($this->_type),
+                new ExplicitlyTaggedType(0, $this->_element)
+            )
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -47,9 +47,11 @@ class IssuerSerial
      * @param int|string            $serial
      * @param null|UniqueIdentifier $uid
      */
-    public function __construct(GeneralNames $issuer, $serial,
-        ?UniqueIdentifier $uid = null)
-    {
+    public function __construct(
+        GeneralNames $issuer,
+        $serial,
+        ?UniqueIdentifier $uid = null
+    ) {
         $this->_issuer = $issuer;
         $this->_serial = strval($serial);
         $this->_issuerUID = $uid;

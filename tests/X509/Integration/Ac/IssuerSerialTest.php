@@ -31,9 +31,11 @@ class IssuerSerialTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
+        );
         self::$_privKey = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -56,8 +58,10 @@ class IssuerSerialTest extends TestCase
     {
         $this->assertEquals(
             self::$_cert->tbsCertificate()
-                ->issuer(), $is->issuer()
-            ->firstDN());
+                ->issuer(),
+            $is->issuer()
+            ->firstDN()
+        );
     }
 
     /**
@@ -67,25 +71,35 @@ class IssuerSerialTest extends TestCase
     {
         $this->assertEquals(
             self::$_cert->tbsCertificate()
-                ->serialNumber(), $is->serial());
+                ->serialNumber(),
+            $is->serial()
+        );
     }
 
     public function testIdentifiesPKCSerialMismatch()
     {
         $is = new IssuerSerial(
             new GeneralNames(
-                new DirectoryName(self::$_cert->tbsCertificate()->issuer())), 1);
+                new DirectoryName(self::$_cert->tbsCertificate()->issuer())
+            ),
+            1
+        );
         $this->assertFalse($is->identifiesPKC(self::$_cert));
     }
 
     public function testIdentifiesPKCWithIssuerUID()
     {
-        $tbs = new TBSCertificate(Name::fromString('cn=Sub'),
-            self::$_privKey->publicKeyInfo(), Name::fromString('cn=Iss'),
-            Validity::fromStrings('now', 'now + 1 hour'));
+        $tbs = new TBSCertificate(
+            Name::fromString('cn=Sub'),
+            self::$_privKey->publicKeyInfo(),
+            Name::fromString('cn=Iss'),
+            Validity::fromStrings('now', 'now + 1 hour')
+        );
         $tbs = $tbs->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
-        $cert = $tbs->sign(new SHA256WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privKey);
+        $cert = $tbs->sign(
+            new SHA256WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privKey
+        );
         $is = IssuerSerial::fromPKC($cert);
         $this->assertTrue($is->identifiesPKC($cert));
     }
@@ -93,15 +107,22 @@ class IssuerSerialTest extends TestCase
     public function testIdentifiesPKCIssuerUIDMismatch()
     {
         $issuer = Name::fromString('cn=Iss');
-        $tbs = new TBSCertificate(Name::fromString('cn=Sub'),
-            self::$_privKey->publicKeyInfo(), $issuer,
-            Validity::fromStrings('now', 'now + 1 hour'));
+        $tbs = new TBSCertificate(
+            Name::fromString('cn=Sub'),
+            self::$_privKey->publicKeyInfo(),
+            $issuer,
+            Validity::fromStrings('now', 'now + 1 hour')
+        );
         $tbs = $tbs->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
-        $cert = $tbs->sign(new SHA256WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privKey);
-        $is = new IssuerSerial(new GeneralNames(new DirectoryName($issuer)),
+        $cert = $tbs->sign(
+            new SHA256WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privKey
+        );
+        $is = new IssuerSerial(
+            new GeneralNames(new DirectoryName($issuer)),
             $cert->tbsCertificate()->serialNumber(),
-            UniqueIdentifier::fromString('fail'));
+            UniqueIdentifier::fromString('fail')
+        );
         $this->assertFalse($is->identifiesPKC($cert));
     }
 
@@ -109,9 +130,11 @@ class IssuerSerialTest extends TestCase
     {
         $is = new IssuerSerial(
             new GeneralNames(
-                new DirectoryName(self::$_cert->tbsCertificate()->issuer())),
+                new DirectoryName(self::$_cert->tbsCertificate()->issuer())
+            ),
             self::$_cert->tbsCertificate()->serialNumber(),
-            UniqueIdentifier::fromString('uid'));
+            UniqueIdentifier::fromString('uid')
+        );
         $this->assertFalse($is->identifiesPKC(self::$_cert));
     }
 }

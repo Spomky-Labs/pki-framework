@@ -44,7 +44,8 @@ class ExtensionRequestTest extends TestCase
     public function testDecode($der)
     {
         $value = ExtensionRequestValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified());
+            Sequence::fromDER($der)->asUnspecified()
+        );
         $this->assertInstanceOf(ExtensionRequestValue::class, $value);
         return $value;
     }
@@ -87,8 +88,10 @@ class ExtensionRequestTest extends TestCase
      */
     public function testEqualityMatchingRule(ExtensionRequestValue $value)
     {
-        $this->assertInstanceOf(MatchingRule::class,
-            $value->equalityMatchingRule());
+        $this->assertInstanceOf(
+            MatchingRule::class,
+            $value->equalityMatchingRule()
+        );
     }
 
     /**

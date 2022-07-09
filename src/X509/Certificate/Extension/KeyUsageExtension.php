@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -15,15 +15,15 @@ use Sop\ASN1\Util\Flags;
  */
 class KeyUsageExtension extends Extension
 {
-    const DIGITAL_SIGNATURE = 0x100;
-    const NON_REPUDIATION = 0x080;
-    const KEY_ENCIPHERMENT = 0x040;
-    const DATA_ENCIPHERMENT = 0x020;
-    const KEY_AGREEMENT = 0x010;
-    const KEY_CERT_SIGN = 0x008;
-    const CRL_SIGN = 0x004;
-    const ENCIPHER_ONLY = 0x002;
-    const DECIPHER_ONLY = 0x001;
+    public const DIGITAL_SIGNATURE = 0x100;
+    public const NON_REPUDIATION = 0x080;
+    public const KEY_ENCIPHERMENT = 0x040;
+    public const DATA_ENCIPHERMENT = 0x020;
+    public const KEY_AGREEMENT = 0x010;
+    public const KEY_CERT_SIGN = 0x008;
+    public const CRL_SIGN = 0x004;
+    public const ENCIPHER_ONLY = 0x002;
+    public const DECIPHER_ONLY = 0x001;
 
     /**
      * Key usage flags.
@@ -151,9 +151,13 @@ class KeyUsageExtension extends Extension
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self($critical,
+        return new self(
+            $critical,
             Flags::fromBitString(
-                UnspecifiedType::fromDER($data)->asBitString(), 9)->intNumber());
+                UnspecifiedType::fromDER($data)->asBitString(),
+                9
+            )->intNumber()
+        );
     }
 
     /**

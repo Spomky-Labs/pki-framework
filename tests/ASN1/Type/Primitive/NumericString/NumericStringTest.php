@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\NumericString;
 
@@ -78,7 +78,8 @@ class NumericStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'NumericString expected, got primitive NULL');
+            'NumericString expected, got primitive NULL'
+        );
         $wrap->asNumericString();
     }
 }

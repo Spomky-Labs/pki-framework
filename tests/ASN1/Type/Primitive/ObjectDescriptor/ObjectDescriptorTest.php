@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\ObjectDescriptor;
 
@@ -18,7 +18,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class ObjectDescriptorTest extends TestCase
 {
-    final const DESCRIPTOR = 'test';
+    final public const DESCRIPTOR = 'test';
 
     public function testCreate()
     {
@@ -80,8 +80,10 @@ class ObjectDescriptorTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ObjectDescriptor::class,
-            $wrap->asObjectDescriptor());
+        $this->assertInstanceOf(
+            ObjectDescriptor::class,
+            $wrap->asObjectDescriptor()
+        );
     }
 
     public function testWrappedFail()
@@ -89,7 +91,8 @@ class ObjectDescriptorTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'ObjectDescriptor expected, got primitive NULL');
+            'ObjectDescriptor expected, got primitive NULL'
+        );
         $wrap->asObjectDescriptor();
     }
 }

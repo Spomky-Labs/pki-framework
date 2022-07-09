@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\DistributionPoint;
 
@@ -46,9 +46,11 @@ class DistributionPoint
      * @param null|ReasonFlags           $reasons
      * @param null|GeneralNames          $issuer
      */
-    public function __construct(?DistributionPointName $name = null,
-        ?ReasonFlags $reasons = null, ?GeneralNames $issuer = null)
-    {
+    public function __construct(
+        ?DistributionPointName $name = null,
+        ?ReasonFlags $reasons = null,
+        ?GeneralNames $issuer = null
+    ) {
         $this->_distributionPoint = $name;
         $this->_reasons = $reasons;
         $this->_issuer = $issuer;
@@ -69,17 +71,20 @@ class DistributionPoint
         if ($seq->hasTagged(0)) {
             // promoted to explicit tagging because underlying type is CHOICE
             $name = DistributionPointName::fromTaggedType(
-                $seq->getTagged(0)->asExplicit()->asTagged());
+                $seq->getTagged(0)->asExplicit()->asTagged()
+            );
         }
         if ($seq->hasTagged(1)) {
             $reasons = ReasonFlags::fromASN1(
                 $seq->getTagged(1)->asImplicit(Element::TYPE_BIT_STRING)
-                    ->asBitString());
+                    ->asBitString()
+            );
         }
         if ($seq->hasTagged(2)) {
             $issuer = GeneralNames::fromASN1(
                 $seq->getTagged(2)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
         }
         return new self($name, $reasons, $issuer);
     }
@@ -220,8 +225,10 @@ class DistributionPoint
     {
         $elements = [];
         if (isset($this->_distributionPoint)) {
-            $elements[] = new ExplicitlyTaggedType(0,
-                $this->_distributionPoint->toASN1());
+            $elements[] = new ExplicitlyTaggedType(
+                0,
+                $this->_distributionPoint->toASN1()
+            );
         }
         if (isset($this->_reasons)) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_reasons->toASN1());

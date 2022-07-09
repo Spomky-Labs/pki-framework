@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Component;
 
@@ -14,10 +14,10 @@ use Sop\ASN1\Util\BigInt;
 class Identifier implements Encodable
 {
     // Type class enumerations
-    const CLASS_UNIVERSAL = 0b00;
-    const CLASS_APPLICATION = 0b01;
-    const CLASS_CONTEXT_SPECIFIC = 0b10;
-    const CLASS_PRIVATE = 0b11;
+    public const CLASS_UNIVERSAL = 0b00;
+    public const CLASS_APPLICATION = 0b01;
+    public const CLASS_CONTEXT_SPECIFIC = 0b10;
+    public const CLASS_PRIVATE = 0b11;
 
     /**
      * Mapping from type class to human readable name.
@@ -26,7 +26,7 @@ class Identifier implements Encodable
      *
      * @var array
      */
-    const MAP_CLASS_TO_NAME = [
+    public const MAP_CLASS_TO_NAME = [
         self::CLASS_UNIVERSAL => 'UNIVERSAL',
         self::CLASS_APPLICATION => 'APPLICATION',
         self::CLASS_CONTEXT_SPECIFIC => 'CONTEXT SPECIFIC',
@@ -34,8 +34,8 @@ class Identifier implements Encodable
     ];
 
     // P/C enumerations
-    const PRIMITIVE = 0b0;
-    const CONSTRUCTED = 0b1;
+    public const PRIMITIVE = 0b0;
+    public const CONSTRUCTED = 0b1;
 
     /**
      * Type class.
@@ -275,7 +275,8 @@ class Identifier implements Encodable
         while (true) {
             if ($offset >= $datalen) {
                 throw new DecodeException(
-                    'Unexpected end of data while decoding long form identifier.');
+                    'Unexpected end of data while decoding long form identifier.'
+                );
             }
             $byte = ord($data[$offset++]);
             $tag <<= 7;

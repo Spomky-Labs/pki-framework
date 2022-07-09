@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410;
 
@@ -70,9 +70,10 @@ abstract class RFC8410PrivateKey extends PrivateKey
      * @param OctetString $str        Private key data wrapped into OctetString
      * @param null|string $public_key Optional public key data
      */
-    public static function fromOctetString(OctetString $str,
-        ?string $public_key = null): self
-    {
+    public static function fromOctetString(
+        OctetString $str,
+        ?string $public_key = null
+    ): self {
         return new static($str->string(), $public_key);
     }
 
@@ -135,8 +136,12 @@ abstract class RFC8410PrivateKey extends PrivateKey
     {
         $pub = $this->_publicKeyData ?
             new BitString($this->_publicKeyData) : null;
-        $pki = new OneAsymmetricKey($this->algorithmIdentifier(),
-            $this->toDER(), $this->_attributes, $pub);
+        $pki = new OneAsymmetricKey(
+            $this->algorithmIdentifier(),
+            $this->toDER(),
+            $this->_attributes,
+            $pub
+        );
         return $pki->withVersion($this->_version)->toPEM();
     }
 }

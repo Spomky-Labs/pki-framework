@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed\String;
 
@@ -42,7 +42,7 @@ class ConstructedStringTest extends TestCase
             Element::TYPE_OCTET_STRING,
             new OctetString('Hello'),
             new OctetString('World')
-            )->withIndefiniteLength();
+        )->withIndefiniteLength();
         $this->assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
@@ -123,14 +123,17 @@ class ConstructedStringTest extends TestCase
         $ut = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Constructed String expected, got primitive NULL');
+            'Constructed String expected, got primitive NULL'
+        );
         $ut->asConstructedString();
     }
 
     public function testCreateFromElements()
     {
-        $cs = ConstructedString::create(new OctetString('Hello'),
-            new OctetString('World'));
+        $cs = ConstructedString::create(
+            new OctetString('Hello'),
+            new OctetString('World')
+        );
         $this->assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
@@ -147,7 +150,8 @@ class ConstructedStringTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            'No elements, unable to determine type tag');
+            'No elements, unable to determine type tag'
+        );
         ConstructedString::create();
     }
 
@@ -155,9 +159,12 @@ class ConstructedStringTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            'All elements in constructed string must have the same type');
-        ConstructedString::create(new OctetString('Hello'),
-            new BitString('World'));
+            'All elements in constructed string must have the same type'
+        );
+        ConstructedString::create(
+            new OctetString('Hello'),
+            new BitString('World')
+        );
     }
 
     /**

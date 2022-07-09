@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
@@ -31,7 +31,8 @@ class RDN implements \Countable, \IteratorAggregate
     {
         if (!count($attribs)) {
             throw new \UnexpectedValueException(
-                'RDN must have at least one AttributeTypeAndValue.');
+                'RDN must have at least one AttributeTypeAndValue.'
+            );
         }
         $this->_attribs = $attribs;
     }
@@ -56,8 +57,12 @@ class RDN implements \Countable, \IteratorAggregate
         $attribs = array_map(
             function (AttributeValue $value) {
                 return new AttributeTypeAndValue(
-                    new AttributeType($value->oid()), $value);
-            }, $values);
+                    new AttributeType($value->oid()),
+                    $value
+                );
+            },
+            $values
+        );
         return new self(...$attribs);
     }
 
@@ -73,7 +78,9 @@ class RDN implements \Countable, \IteratorAggregate
         $attribs = array_map(
             function (UnspecifiedType $el) {
                 return AttributeTypeAndValue::fromASN1($el->asSequence());
-            }, $set->elements());
+            },
+            $set->elements()
+        );
         return new self(...$attribs);
     }
 
@@ -87,7 +94,9 @@ class RDN implements \Countable, \IteratorAggregate
         $elements = array_map(
             function (AttributeTypeAndValue $tv) {
                 return $tv->toASN1();
-            }, $this->_attribs);
+            },
+            $this->_attribs
+        );
         $set = new Set(...$elements);
         return $set->sortedSetOf();
     }
@@ -104,7 +113,9 @@ class RDN implements \Countable, \IteratorAggregate
         $parts = array_map(
             function (AttributeTypeAndValue $tv) {
                 return $tv->toString();
-            }, $this->_attribs);
+            },
+            $this->_attribs
+        );
         return implode('+', $parts);
     }
 
@@ -158,10 +169,12 @@ class RDN implements \Countable, \IteratorAggregate
     public function allOf(string $name): array
     {
         $oid = AttributeType::attrNameToOID($name);
-        $attribs = array_filter($this->_attribs,
+        $attribs = array_filter(
+            $this->_attribs,
             function (AttributeTypeAndValue $tv) use ($oid) {
                 return $tv->oid() === $oid;
-            });
+            }
+        );
         return array_values($attribs);
     }
 

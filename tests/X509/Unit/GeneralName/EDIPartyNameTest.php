@@ -23,8 +23,11 @@ class EDIPartyNameTest extends TestCase
     public function testCreate()
     {
         $name = EDIPartyName::fromASN1(
-            new ImplicitlyTaggedType(GeneralName::TAG_EDI_PARTY_NAME,
-                new Sequence()));
+            new ImplicitlyTaggedType(
+                GeneralName::TAG_EDI_PARTY_NAME,
+                new Sequence()
+            )
+        );
         $this->assertInstanceOf(EDIPartyName::class, $name);
         return $name;
     }

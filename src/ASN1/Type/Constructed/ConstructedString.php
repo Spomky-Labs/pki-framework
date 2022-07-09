@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Constructed;
 
@@ -69,7 +69,8 @@ class ConstructedString extends Structure implements StringType
         foreach ($elements as $el) {
             if ($el->tag() !== $tag) {
                 throw new \LogicException(
-                    'All elements in constructed string must have the same type.');
+                    'All elements in constructed string must have the same type.'
+                );
             }
         }
         return self::createWithTag($tag, ...$elements);
@@ -119,12 +120,16 @@ class ConstructedString extends Structure implements StringType
      *
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         /** @var ConstructedString $type */
-        $type = forward_static_call_array([parent::class, __FUNCTION__],
-            [$identifier, $data, &$offset]);
+        $type = forward_static_call_array(
+            [parent::class, __FUNCTION__],
+            [$identifier, $data, &$offset]
+        );
         $type->_typeTag = $identifier->intTag();
         return $type;
     }

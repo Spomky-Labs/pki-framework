@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
@@ -49,9 +49,11 @@ abstract class SvceAuthInfo extends AttributeValue
      * @param GeneralName $ident
      * @param null|string $auth_info
      */
-    public function __construct(GeneralName $service, GeneralName $ident,
-        ?string $auth_info = null)
-    {
+    public function __construct(
+        GeneralName $service,
+        GeneralName $ident,
+        ?string $auth_info = null
+    ) {
         $this->_service = $service;
         $this->_ident = $ident;
         $this->_authInfo = $auth_info;

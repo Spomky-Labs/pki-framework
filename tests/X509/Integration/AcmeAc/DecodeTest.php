@@ -73,7 +73,9 @@ class DecodeTest extends TestCase
     {
         $algo = $ac->signatureAlgorithm();
         $this->assertInstanceOf(
-            SHA256WithRSAEncryptionAlgorithmIdentifier::class, $algo);
+            SHA256WithRSAEncryptionAlgorithmIdentifier::class,
+            $algo
+        );
         return $algo;
     }
 
@@ -85,7 +87,8 @@ class DecodeTest extends TestCase
     public function testVerifySignature(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
+        );
         $pubkey_info = $cert->tbsCertificate()->subjectPublicKeyInfo();
         $this->assertTrue($ac->verify($pubkey_info));
     }

@@ -37,6 +37,7 @@ class ExtendedKeyUsageTest extends RefExtTestHelper
     {
         $this->assertTrue($eku->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH));
         $this->assertTrue(
-            $eku->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
+            $eku->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING)
+        );
     }
 }

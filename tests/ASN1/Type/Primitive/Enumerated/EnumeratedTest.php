@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Enumerated;
 
@@ -76,7 +76,8 @@ class EnumeratedTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'ENUMERATED expected, got primitive NULL');
+            'ENUMERATED expected, got primitive NULL'
+        );
         $wrap->asEnumerated();
     }
 }

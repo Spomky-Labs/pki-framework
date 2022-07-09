@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -50,8 +50,10 @@ class PrivateKeyTest extends TestCase
      */
     public function testECPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve());
+        $this->assertEquals(
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
+            $pk->namedCurve()
+        );
     }
 
     /**
@@ -70,8 +72,10 @@ class PrivateKeyTest extends TestCase
      */
     public function testECPKIPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve());
+        $this->assertEquals(
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
+            $pk->namedCurve()
+        );
     }
 
     public function testInvalidPEMType()

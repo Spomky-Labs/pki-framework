@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath;
 
@@ -63,9 +63,11 @@ class CertificationPath implements \Countable, \IteratorAggregate
      *
      * @return self
      */
-    public static function toTarget(Certificate $target,
-        CertificateBundle $trust_anchors, ?CertificateBundle $intermediate = null): self
-    {
+    public static function toTarget(
+        Certificate $target,
+        CertificateBundle $trust_anchors,
+        ?CertificateBundle $intermediate = null
+    ): self {
         $builder = new CertificationPathBuilder($trust_anchors);
         return $builder->shortestPathToTarget($target, $intermediate);
     }
@@ -80,11 +82,16 @@ class CertificationPath implements \Countable, \IteratorAggregate
      *
      * @return self
      */
-    public static function fromTrustAnchorToTarget(Certificate $trust_anchor,
-        Certificate $target, ?CertificateBundle $intermediate = null): self
-    {
-        return self::toTarget($target, new CertificateBundle($trust_anchor),
-            $intermediate);
+    public static function fromTrustAnchorToTarget(
+        Certificate $trust_anchor,
+        Certificate $target,
+        ?CertificateBundle $intermediate = null
+    ): self {
+        return self::toTarget(
+            $target,
+            new CertificateBundle($trust_anchor),
+            $intermediate
+        );
     }
 
     /**
@@ -169,9 +176,10 @@ class CertificationPath implements \Countable, \IteratorAggregate
      *
      * @return PathValidationResult
      */
-    public function validate(PathValidationConfig $config,
-        ?Crypto $crypto = null): PathValidationResult
-    {
+    public function validate(
+        PathValidationConfig $config,
+        ?Crypto $crypto = null
+    ): PathValidationResult {
         $crypto = $crypto ?? Crypto::getDefault();
         $validator = new PathValidator($crypto, $config, ...$this->_certificates);
         return $validator->validate();

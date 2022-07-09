@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\UniversalString;
 
@@ -75,8 +75,10 @@ class UniversalStringTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(UniversalString::class,
-            $wrap->asUniversalString());
+        $this->assertInstanceOf(
+            UniversalString::class,
+            $wrap->asUniversalString()
+        );
     }
 
     public function testWrappedFail()
@@ -84,7 +86,8 @@ class UniversalStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'UniversalString expected, got primitive NULL');
+            'UniversalString expected, got primitive NULL'
+        );
         $wrap->asUniversalString();
     }
 }

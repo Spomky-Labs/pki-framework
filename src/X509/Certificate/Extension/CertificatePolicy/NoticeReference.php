@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
@@ -55,7 +55,9 @@ class NoticeReference
         $numbers = array_map(
             function (UnspecifiedType $el) {
                 return $el->asInteger()->intNumber();
-            }, $seq->at(1)->asSequence()->elements());
+            },
+            $seq->at(1)->asSequence()->elements()
+        );
         return new self($org, ...$numbers);
     }
 
@@ -90,7 +92,9 @@ class NoticeReference
         $nums = array_map(
             function ($number) {
                 return new Integer($number);
-            }, $this->_numbers);
+            },
+            $this->_numbers
+        );
         return new Sequence($org, new Sequence(...$nums));
     }
 }

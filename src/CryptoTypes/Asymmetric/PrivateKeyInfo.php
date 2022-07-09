@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
@@ -22,10 +22,12 @@ class PrivateKeyInfo extends OneAsymmetricKey
     /**
      * Constructor.
      */
-    public function __construct(AlgorithmIdentifierType $algo, string $key,
+    public function __construct(
+        AlgorithmIdentifierType $algo,
+        string $key,
         ?OneAsymmetricKeyAttributes $attributes = null,
-        ?BitString $public_key = null)
-    {
+        ?BitString $public_key = null
+    ) {
         parent::__construct($algo, $key, $attributes, $public_key);
         // PrivateKeyInfo has version 1 by default
         $this->_version = parent::VERSION_1;

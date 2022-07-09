@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
@@ -42,7 +42,9 @@ class CertificateChain implements \Countable, \IteratorAggregate
         $certs = array_map(
             function (PEM $pem) {
                 return Certificate::fromPEM($pem);
-            }, $pems);
+            },
+            $pems
+        );
         return new self(...$certs);
     }
 
@@ -117,11 +119,15 @@ class CertificateChain implements \Countable, \IteratorAggregate
      */
     public function toPEMString(): string
     {
-        return implode("\n",
+        return implode(
+            "\n",
             array_map(
                 function (Certificate $cert) {
                     return $cert->toPEM()->string();
-                }, $this->_certs));
+                },
+                $this->_certs
+            )
+        );
     }
 
     /**

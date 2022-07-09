@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type;
 
@@ -57,7 +57,8 @@ class UnspecifiedTypeTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Tagged element expected, got primitive NULL');
+            'Tagged element expected, got primitive NULL'
+        );
         $wrap->asTagged();
     }
 
@@ -66,7 +67,8 @@ class UnspecifiedTypeTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Any String expected, got primitive NULL');
+            'Any String expected, got primitive NULL'
+        );
         $wrap->asString();
     }
 
@@ -75,7 +77,8 @@ class UnspecifiedTypeTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Any Time expected, got primitive NULL');
+            'Any Time expected, got primitive NULL'
+        );
         $wrap->asTime();
     }
 
@@ -85,7 +88,8 @@ class UnspecifiedTypeTest extends TestCase
         $wrap = new UnspecifiedType($el);
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'NULL expected, got primitive PRIVATE TAG 127');
+            'NULL expected, got primitive PRIVATE TAG 127'
+        );
         $wrap->asNull();
     }
 
@@ -128,8 +132,10 @@ class UnspecifiedTypeTest extends TestCase
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ElementBase::class,
-            $wrap->expectType(Element::TYPE_NULL));
+        $this->assertInstanceOf(
+            ElementBase::class,
+            $wrap->expectType(Element::TYPE_NULL)
+        );
     }
 
     public function testIsTagged()

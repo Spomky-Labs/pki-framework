@@ -19,17 +19,19 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class AuthenticationInfoTest extends TestCase
 {
-    final const SERVICE_URI = 'urn:service';
+    final public const SERVICE_URI = 'urn:service';
 
-    final const IDENT_URI = 'urn:username';
+    final public const IDENT_URI = 'urn:username';
 
-    final const AUTH_INFO = 'password';
+    final public const AUTH_INFO = 'password';
 
     public function testCreate()
     {
         $value = new AuthenticationInfoAttributeValue(
             new UniformResourceIdentifier(self::SERVICE_URI),
-            new UniformResourceIdentifier(self::IDENT_URI), self::AUTH_INFO);
+            new UniformResourceIdentifier(self::IDENT_URI),
+            self::AUTH_INFO
+        );
         $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
         return $value;
     }
@@ -52,7 +54,8 @@ class AuthenticationInfoTest extends TestCase
     public function testDecode($der)
     {
         $value = AuthenticationInfoAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified());
+            Sequence::fromDER($der)->asUnspecified()
+        );
         $this->assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);
         return $value;
     }
@@ -113,7 +116,9 @@ class AuthenticationInfoTest extends TestCase
      */
     public function testFromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(AuthenticationInfoAttributeValue::class,
-            $attribs->authenticationInformation());
+        $this->assertInstanceOf(
+            AuthenticationInfoAttributeValue::class,
+            $attribs->authenticationInformation()
+        );
     }
 }

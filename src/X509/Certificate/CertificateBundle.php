@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
@@ -56,7 +56,9 @@ class CertificateBundle implements \Countable, \IteratorAggregate
         $certs = array_map(
             function ($pem) {
                 return Certificate::fromPEM($pem);
-            }, $pems);
+            },
+            $pems
+        );
         return new self(...$certs);
     }
 

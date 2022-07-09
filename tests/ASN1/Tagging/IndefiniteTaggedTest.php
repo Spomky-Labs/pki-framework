@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -37,7 +37,8 @@ class IndefiniteTaggedTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Primitive type with indefinite length is not supported');
+            'Primitive type with indefinite length is not supported'
+        );
         TaggedType::fromDER(hex2bin('80800201010000'));
     }
 }

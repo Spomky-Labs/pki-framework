@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -48,12 +48,15 @@ class GeneralNames implements \Countable, \IteratorAggregate
     {
         if (!count($seq)) {
             throw new \UnexpectedValueException(
-                'GeneralNames must have at least one GeneralName.');
+                'GeneralNames must have at least one GeneralName.'
+            );
         }
         $names = array_map(
             function (UnspecifiedType $el) {
                 return GeneralName::fromASN1($el->asTagged());
-            }, $seq->elements());
+            },
+            $seq->elements()
+        );
         return new self(...$names);
     }
 
@@ -96,10 +99,12 @@ class GeneralNames implements \Countable, \IteratorAggregate
      */
     public function allOf(int $tag): array
     {
-        $names = array_filter($this->_names,
+        $names = array_filter(
+            $this->_names,
             function (GeneralName $name) use ($tag) {
                 return $name->tag() === $tag;
-            });
+            }
+        );
         return array_values($names);
     }
 
@@ -113,7 +118,8 @@ class GeneralNames implements \Countable, \IteratorAggregate
         $gn = $this->firstOf(GeneralName::TAG_DNS_NAME);
         if (!$gn instanceof DNSName) {
             throw new \RuntimeException(
-                DNSName::class . ' expected, got ' . get_class($gn));
+                DNSName::class . ' expected, got ' . get_class($gn)
+            );
         }
         return $gn->name();
     }
@@ -128,7 +134,8 @@ class GeneralNames implements \Countable, \IteratorAggregate
         $gn = $this->firstOf(GeneralName::TAG_DIRECTORY_NAME);
         if (!$gn instanceof DirectoryName) {
             throw new \RuntimeException(
-                DirectoryName::class . ' expected, got ' . get_class($gn));
+                DirectoryName::class . ' expected, got ' . get_class($gn)
+            );
         }
         return $gn->dn();
     }
@@ -143,7 +150,8 @@ class GeneralNames implements \Countable, \IteratorAggregate
         $gn = $this->firstOf(GeneralName::TAG_URI);
         if (!$gn instanceof UniformResourceIdentifier) {
             throw new \RuntimeException(
-                UniformResourceIdentifier::class . ' expected, got ' . get_class($gn));
+                UniformResourceIdentifier::class . ' expected, got ' . get_class($gn)
+            );
         }
         return $gn->uri();
     }
@@ -157,12 +165,15 @@ class GeneralNames implements \Countable, \IteratorAggregate
     {
         if (!count($this->_names)) {
             throw new \LogicException(
-                'GeneralNames must have at least one GeneralName.');
+                'GeneralNames must have at least one GeneralName.'
+            );
         }
         $elements = array_map(
             function (GeneralName $name) {
                 return $name->toASN1();
-            }, $this->_names);
+            },
+            $this->_names
+        );
         return new Sequence(...$elements);
     }
 

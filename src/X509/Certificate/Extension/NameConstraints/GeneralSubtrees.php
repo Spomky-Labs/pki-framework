@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\NameConstraints;
 
@@ -44,10 +44,13 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
         $subtrees = array_map(
             function (UnspecifiedType $el) {
                 return GeneralSubtree::fromASN1($el->asSequence());
-            }, $seq->elements());
+            },
+            $seq->elements()
+        );
         if (!count($subtrees)) {
             throw new \UnexpectedValueException(
-                'GeneralSubtrees must contain at least one GeneralSubtree.');
+                'GeneralSubtrees must contain at least one GeneralSubtree.'
+            );
         }
         return new self(...$subtrees);
     }
@@ -75,7 +78,9 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
         $elements = array_map(
             function (GeneralSubtree $gs) {
                 return $gs->toASN1();
-            }, $this->_subtrees);
+            },
+            $this->_subtrees
+        );
         return new Sequence(...$elements);
     }
 

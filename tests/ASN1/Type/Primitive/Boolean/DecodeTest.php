@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Boolean;
 
@@ -38,7 +38,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'DER encoded boolean true must have all bits set to 1');
+            'DER encoded boolean true must have all bits set to 1'
+        );
         Boolean::fromDER("\x1\x1\x55");
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac\Attribute;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
@@ -23,7 +23,8 @@ class SvceAuthInfoTest extends TestCase
     {
         $val = new AccessIdentityAttributeValue(
             DirectoryName::fromDNString('cn=Svc'),
-            DirectoryName::fromDNString('cn=Ident'));
+            DirectoryName::fromDNString('cn=Ident')
+        );
         $this->assertInstanceOf(SvceAuthInfo::class, $val);
         return $val;
     }
@@ -50,8 +51,10 @@ class SvceAuthInfoTest extends TestCase
      */
     public function testEqualityMatchingRule(SvceAuthInfo $val)
     {
-        $this->assertInstanceOf(MatchingRule::class,
-            $val->equalityMatchingRule());
+        $this->assertInstanceOf(
+            MatchingRule::class,
+            $val->equalityMatchingRule()
+        );
     }
 
     /**

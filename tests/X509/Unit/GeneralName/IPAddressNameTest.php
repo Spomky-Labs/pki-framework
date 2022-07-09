@@ -19,8 +19,10 @@ class IPAddressNameTest extends TestCase
 {
     public function testInvalidASN1()
     {
-        $el = new ImplicitlyTaggedType(GeneralName::TAG_IP_ADDRESS,
-            new OctetString(''));
+        $el = new ImplicitlyTaggedType(
+            GeneralName::TAG_IP_ADDRESS,
+            new OctetString('')
+        );
         $this->expectException(\UnexpectedValueException::class);
         IPAddress::fromASN1($el);
     }

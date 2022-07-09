@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Sop\Test\X501\Unit\DN;
 
 use Iterator;
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\X501\DN\DNParser;
+use UnexpectedValueException;
 
 /**
  * @group dn
@@ -60,7 +60,7 @@ class DNParserTest extends TestCase
             // multiple name-components and attributes
             'cn=one+cn=two,cn=three+cn=four',
             [[['cn', 'three'], ['cn', 'four']],
-                [['cn', 'one'], ['cn', 'two']],],
+                [['cn', 'one'], ['cn', 'two']], ],
         ];
         yield [
             // empty attribute value

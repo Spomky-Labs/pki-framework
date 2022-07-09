@@ -21,16 +21,18 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class GroupTest extends TestCase
 {
-    final const AUTHORITY_DN = 'cn=Authority Name';
+    final public const AUTHORITY_DN = 'cn=Authority Name';
 
-    final const GROUP_NAME = 'administrators';
+    final public const GROUP_NAME = 'administrators';
 
     public function testCreate()
     {
         $value = new GroupAttributeValue(
-            IetfAttrValue::fromString(self::GROUP_NAME));
+            IetfAttrValue::fromString(self::GROUP_NAME)
+        );
         $value = $value->withPolicyAuthority(
-            new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
+            new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN))
+        );
         $this->assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;
     }
@@ -53,7 +55,8 @@ class GroupTest extends TestCase
     public function testDecode($der)
     {
         $value = GroupAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified());
+            Sequence::fromDER($der)->asUnspecified()
+        );
         $this->assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;
     }
@@ -80,9 +83,11 @@ class GroupTest extends TestCase
      */
     public function testAuthority(GroupAttributeValue $value)
     {
-        $this->assertEquals(self::AUTHORITY_DN,
+        $this->assertEquals(
+            self::AUTHORITY_DN,
             $value->policyAuthority()
-                ->firstDN());
+                ->firstDN()
+        );
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
@@ -82,10 +82,12 @@ class OneAsymmetricKey
      * @param null|OneAsymmetricKeyAttributes $attributes Optional attributes
      * @param null|BitString                  $public_key Optional public key
      */
-    public function __construct(AlgorithmIdentifierType $algo, string $key,
+    public function __construct(
+        AlgorithmIdentifierType $algo,
+        string $key,
         ?OneAsymmetricKeyAttributes $attributes = null,
-        ?BitString $public_key = null)
-    {
+        ?BitString $public_key = null
+    ) {
         $this->_version = self::VERSION_2;
         $this->_algo = $algo;
         $this->_privateKeyData = $key;
@@ -103,7 +105,8 @@ class OneAsymmetricKey
         $version = $seq->at(0)->asInteger()->intNumber();
         if (!in_array($version, [self::VERSION_1, self::VERSION_2])) {
             throw new \UnexpectedValueException(
-                "Version {$version} not supported.");
+                "Version {$version} not supported."
+            );
         }
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         $key = $seq->at(2)->asOctetString()->string();
@@ -158,10 +161,12 @@ class OneAsymmetricKey
                 return self::fromDER($pem->data());
             case PEM::TYPE_RSA_PRIVATE_KEY:
                 return self::fromPrivateKey(
-                    RSA\RSAPrivateKey::fromDER($pem->data()));
+                    RSA\RSAPrivateKey::fromDER($pem->data())
+                );
             case PEM::TYPE_EC_PRIVATE_KEY:
                 return self::fromPrivateKey(
-                    EC\ECPrivateKey::fromDER($pem->data()));
+                    EC\ECPrivateKey::fromDER($pem->data())
+                );
         }
         throw new \UnexpectedValueException('Invalid PEM type.');
     }
@@ -234,7 +239,9 @@ class OneAsymmetricKey
                 // is encoded into private key data. So Ed25519 private key
                 // is doubly wrapped into octet string encodings.
                 return RFC8410\Curve25519\Ed25519PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData), $pubkey)
+                    OctetString::fromDER($this->_privateKeyData),
+                    $pubkey
+                )
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
             // X25519
@@ -242,7 +249,9 @@ class OneAsymmetricKey
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return RFC8410\Curve25519\X25519PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData), $pubkey)
+                    OctetString::fromDER($this->_privateKeyData),
+                    $pubkey
+                )
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
             // Ed448
@@ -250,7 +259,9 @@ class OneAsymmetricKey
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return RFC8410\Curve448\Ed448PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData), $pubkey)
+                    OctetString::fromDER($this->_privateKeyData),
+                    $pubkey
+                )
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
             // X448
@@ -258,12 +269,15 @@ class OneAsymmetricKey
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return RFC8410\Curve448\X448PrivateKey::fromOctetString(
-                    OctetString::fromDER($this->_privateKeyData), $pubkey)
+                    OctetString::fromDER($this->_privateKeyData),
+                    $pubkey
+                )
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
         }
         throw new \RuntimeException(
-            'Private key ' . $algo->name() . ' not supported.');
+            'Private key ' . $algo->name() . ' not supported.'
+        );
     }
 
     /**
@@ -332,8 +346,10 @@ class OneAsymmetricKey
             new OctetString($this->_privateKeyData)
         ];
         if ($this->_attributes) {
-            $elements[] = new ImplicitlyTaggedType(0,
-                $this->_attributes->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                0,
+                $this->_attributes->toASN1()
+            );
         }
         if ($this->_publicKeyData) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_publicKeyData);

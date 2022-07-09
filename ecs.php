@@ -34,6 +34,7 @@ $header = '';
 
 return static function (ECSConfig $config) use ($header): void {
     $config->import(SetList::PSR_12);
+    /*
     $config->import(SetList::CLEAN_CODE);
     $config->import(SetList::DOCTRINE_ANNOTATIONS);
     $config->import(SetList::SPACES);
@@ -91,10 +92,11 @@ return static function (ECSConfig $config) use ($header): void {
     $config->services()
         ->remove(PhpUnitTestClassRequiresCoversFixer::class)
     ;
+    */
 
     $config->parallel();
     $config->paths([
         __DIR__.'/src',
-        // __DIR__.'/tests',
+         __DIR__.'/tests',
     ]);
 };

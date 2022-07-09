@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
@@ -69,6 +69,7 @@ abstract class PrivateKey
                 return PrivateKeyInfo::fromDER($pem->data())->privateKey();
         }
         throw new \UnexpectedValueException(
-            'PEM type ' . $pem->type() . ' is not a valid private key.');
+            'PEM type ' . $pem->type() . ' is not a valid private key.'
+        );
     }
 }

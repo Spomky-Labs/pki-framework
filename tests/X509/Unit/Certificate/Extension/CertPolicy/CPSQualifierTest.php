@@ -17,7 +17,7 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
  */
 class CPSQualifierTest extends TestCase
 {
-    const URI = 'urn:test';
+    public const URI = 'urn:test';
 
     public function testCreate()
     {

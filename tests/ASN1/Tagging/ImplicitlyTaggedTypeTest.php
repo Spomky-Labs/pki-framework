@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -32,9 +32,11 @@ class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testGetImplicit(ImplicitTagging $el)
     {
-        $this->assertEquals(Element::TYPE_NULL,
+        $this->assertEquals(
+            Element::TYPE_NULL,
             $el->implicit(Element::TYPE_NULL)
-                ->tag());
+                ->tag()
+        );
     }
 
     /**
@@ -44,7 +46,8 @@ class ImplicitlyTaggedTypeTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Type class PRIVATE expected, got UNIVERSAL');
+            'Type class PRIVATE expected, got UNIVERSAL'
+        );
         $el->implicit(Element::TYPE_NULL, Identifier::CLASS_PRIVATE);
     }
 
@@ -63,7 +66,8 @@ class ImplicitlyTaggedTypeTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Element doesn\'t implement explicit tagging');
+            'Element doesn\'t implement explicit tagging'
+        );
         $el->expectExplicit();
     }
 
@@ -92,7 +96,8 @@ class ImplicitlyTaggedTypeTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'NULL expected, got CONTEXT SPECIFIC TAG 1');
+            'NULL expected, got CONTEXT SPECIFIC TAG 1'
+        );
         $el->expectType(Element::TYPE_NULL);
     }
 
@@ -101,9 +106,11 @@ class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testAsImplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(NullType::class,
+        $this->assertInstanceOf(
+            NullType::class,
             $el->asImplicit(Element::TYPE_NULL, 1)
-                ->asNull());
+                ->asNull()
+        );
     }
 
     /**

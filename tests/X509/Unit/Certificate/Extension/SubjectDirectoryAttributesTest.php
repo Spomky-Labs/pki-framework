@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \LogicException;
-use \UnexpectedValueException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -16,6 +15,7 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X501\ASN1\AttributeValue\DescriptionValue;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -25,16 +25,19 @@ use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
  */
 class SubjectDirectoryAttributesTest extends TestCase
 {
-    final const CN = 'Test';
+    final public const CN = 'Test';
 
-    final const DESC = 'Description';
+    final public const DESC = 'Description';
 
     public function testCreate()
     {
         $cn = new CommonNameValue(self::CN);
         $desc = new DescriptionValue(self::DESC);
-        $ext = new SubjectDirectoryAttributesExtension(false, $cn->toAttribute(),
-            $desc->toAttribute());
+        $ext = new SubjectDirectoryAttributesExtension(
+            false,
+            $cn->toAttribute(),
+            $desc->toAttribute()
+        );
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
@@ -44,8 +47,10 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testOID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES,
-            $ext->oid());
+        $this->assertEquals(
+            Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES,
+            $ext->oid()
+        );
     }
 
     /**
@@ -74,7 +79,8 @@ class SubjectDirectoryAttributesTest extends TestCase
     public function testDecode($der)
     {
         $ext = SubjectDirectoryAttributesExtension::fromASN1(
-            Sequence::fromDER($der));
+            Sequence::fromDER($der)
+        );
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
@@ -93,10 +99,12 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testCN(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertEquals(self::CN,
+        $this->assertEquals(
+            self::CN,
             $ext->firstOf(AttributeType::OID_COMMON_NAME)
                 ->first()
-                ->stringValue());
+                ->stringValue()
+        );
     }
 
     /**
@@ -104,10 +112,12 @@ class SubjectDirectoryAttributesTest extends TestCase
      */
     public function testDesc(SubjectDirectoryAttributesExtension $ext)
     {
-        $this->assertEquals(self::DESC,
+        $this->assertEquals(
+            self::DESC,
             $ext->firstOf(AttributeType::OID_DESCRIPTION)
                 ->first()
-                ->stringValue());
+                ->stringValue()
+        );
     }
 
     /**
@@ -183,7 +193,8 @@ class SubjectDirectoryAttributesTest extends TestCase
         $seq = new Sequence();
         $ext_seq = new Sequence(
             new ObjectIdentifier(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES),
-            new OctetString($seq->toDER()));
+            new OctetString($seq->toDER())
+        );
         $this->expectException(\UnexpectedValueException::class);
         SubjectDirectoryAttributesExtension::fromASN1($ext_seq);
     }

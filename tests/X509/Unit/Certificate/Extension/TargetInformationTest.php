@@ -23,15 +23,16 @@ use Sop\X509\GeneralName\DNSName;
  */
 class TargetInformationTest extends TestCase
 {
-    final const NAME_DN = 'cn=Target';
+    final public const NAME_DN = 'cn=Target';
 
-    final const GROUP_DOMAIN = '.example.com';
+    final public const GROUP_DOMAIN = '.example.com';
 
     public function testCreateTargets()
     {
         $targets = new Targets(
             new TargetName(DirectoryName::fromDNString(self::NAME_DN)),
-            new TargetGroup(new DNSName(self::GROUP_DOMAIN)));
+            new TargetGroup(new DNSName(self::GROUP_DOMAIN))
+        );
         $this->assertInstanceOf(Targets::class, $targets);
         return $targets;
     }
@@ -143,7 +144,8 @@ class TargetInformationTest extends TestCase
     public function testFromTargets()
     {
         $ext = TargetInformationExtension::fromTargets(
-            new TargetName(DirectoryName::fromDNString(self::NAME_DN)));
+            new TargetName(DirectoryName::fromDNString(self::NAME_DN))
+        );
         $this->assertInstanceOf(TargetInformationExtension::class, $ext);
     }
 }

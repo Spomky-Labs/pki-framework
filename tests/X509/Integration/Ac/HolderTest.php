@@ -24,7 +24,8 @@ class HolderTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_pkc = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -41,7 +42,8 @@ class HolderTest extends TestCase
     public function testIdentifiesPKCByEntityName()
     {
         $gn = new GeneralNames(
-            new DirectoryName(self::$_pkc->tbsCertificate()->subject()));
+            new DirectoryName(self::$_pkc->tbsCertificate()->subject())
+        );
         $holder = new Holder(null, $gn);
         $this->assertTrue($holder->identifiesPKC(self::$_pkc));
     }
@@ -50,7 +52,9 @@ class HolderTest extends TestCase
     {
         $gn = new GeneralNames(
             DirectoryName::fromDNString(
-                'o=ACME Alternative Ltd., c=FI, cn=alt.example.com'));
+                'o=ACME Alternative Ltd., c=FI, cn=alt.example.com'
+            )
+        );
         $holder = new Holder(null, $gn);
         $this->assertTrue($holder->identifiesPKC(self::$_pkc));
     }
@@ -64,7 +68,9 @@ class HolderTest extends TestCase
     public function testIdentifiesPKCNoCertIdMatch()
     {
         $is = new IssuerSerial(
-            new GeneralNames(DirectoryName::fromDNString('cn=Fail')), 1);
+            new GeneralNames(DirectoryName::fromDNString('cn=Fail')),
+            1
+        );
         $holder = new Holder($is);
         $this->assertFalse($holder->identifiesPKC(self::$_pkc));
     }

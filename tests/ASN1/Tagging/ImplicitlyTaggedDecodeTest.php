@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -41,17 +41,21 @@ class ImplicitlyTaggedDecodeTest extends TestCase
     public function testInnerType()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertEquals(Element::TYPE_NULL,
+        $this->assertEquals(
+            Element::TYPE_NULL,
             $el->implicit(Element::TYPE_NULL)
-                ->tag());
+                ->tag()
+        );
     }
 
     public function testInnerClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        $this->assertEquals(Identifier::CLASS_UNIVERSAL,
+        $this->assertEquals(
+            Identifier::CLASS_UNIVERSAL,
             $el->implicit(Element::TYPE_NULL)
-                ->typeClass());
+                ->typeClass()
+        );
     }
 
     public function testInnerPrimitive()
@@ -59,7 +63,8 @@ class ImplicitlyTaggedDecodeTest extends TestCase
         $el = TaggedType::fromDER("\x80\x0");
         $this->assertFalse(
             $el->implicit(Element::TYPE_NULL)
-                ->isConstructed());
+                ->isConstructed()
+        );
     }
 
     public function testInnerConstructed()
@@ -67,7 +72,8 @@ class ImplicitlyTaggedDecodeTest extends TestCase
         $el = TaggedType::fromDER("\xa0\x0");
         $this->assertTrue(
             $el->implicit(Element::TYPE_SEQUENCE)
-                ->isConstructed());
+                ->isConstructed()
+        );
     }
 
     /**
@@ -78,7 +84,8 @@ class ImplicitlyTaggedDecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Structured element must have constructed bit set');
+            'Structured element must have constructed bit set'
+        );
         TaggedType::fromDER("\x80\x0")->implicit(Element::TYPE_SEQUENCE);
     }
 

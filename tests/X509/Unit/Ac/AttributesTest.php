@@ -29,9 +29,11 @@ class AttributesTest extends TestCase
         $attribs = Attributes::fromAttributeValues(
             new AccessIdentityAttributeValue(
                 new UniformResourceIdentifier('urn:service'),
-                new UniformResourceIdentifier('urn:ident')),
+                new UniformResourceIdentifier('urn:ident')
+            ),
             new RoleAttributeValue(new UniformResourceIdentifier('urn:admin')),
-            new DescriptionValue('test'));
+            new DescriptionValue('test')
+        );
         $this->assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
@@ -101,8 +103,10 @@ class AttributesTest extends TestCase
      */
     public function testFirstOf(Attributes $attribs)
     {
-        $this->assertInstanceOf(Attribute::class,
-            $attribs->firstOf(AccessIdentityAttributeValue::OID));
+        $this->assertInstanceOf(
+            Attribute::class,
+            $attribs->firstOf(AccessIdentityAttributeValue::OID)
+        );
     }
 
     /**
@@ -111,7 +115,8 @@ class AttributesTest extends TestCase
     public function testAllOf(Attributes $attribs)
     {
         $this->assertCount(1, $attribs->allOf(
-            AccessIdentityAttributeValue::OID));
+            AccessIdentityAttributeValue::OID
+        ));
     }
 
     /**
@@ -121,7 +126,9 @@ class AttributesTest extends TestCase
     {
         $attribs = $attribs->withAdditional(
             Attribute::fromAttributeValues(
-                new GroupAttributeValue(IetfAttrValue::fromString('test'))));
+                new GroupAttributeValue(IetfAttrValue::fromString('test'))
+            )
+        );
         $this->assertInstanceOf(Attributes::class, $attribs);
     }
 
@@ -132,13 +139,17 @@ class AttributesTest extends TestCase
     {
         $attribs = $attribs->withUnique(
             Attribute::fromAttributeValues(
-                new RoleAttributeValue(new UniformResourceIdentifier('uri:new'))));
+                new RoleAttributeValue(new UniformResourceIdentifier('uri:new'))
+            )
+        );
         $this->assertInstanceOf(Attributes::class, $attribs);
         $this->assertCount(3, $attribs);
-        $this->assertEquals('uri:new',
+        $this->assertEquals(
+            'uri:new',
             $attribs->firstOf(AttributeType::OID_ROLE)
                 ->first()
-                ->roleName());
+                ->roleName()
+        );
     }
 
     /**
@@ -148,7 +159,9 @@ class AttributesTest extends TestCase
     {
         $attribs = $attribs->withUnique(
             Attribute::fromAttributeValues(
-                new GroupAttributeValue(IetfAttrValue::fromString('test'))));
+                new GroupAttributeValue(IetfAttrValue::fromString('test'))
+            )
+        );
         $this->assertCount(4, $attribs);
     }
 }

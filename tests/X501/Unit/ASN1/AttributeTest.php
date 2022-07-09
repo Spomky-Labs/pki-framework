@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\Attribute;
@@ -22,8 +22,10 @@ class AttributeTest extends TestCase
 {
     public function testCreate()
     {
-        $attr = Attribute::fromAttributeValues(new NameValue('one'),
-            new NameValue('two'));
+        $attr = Attribute::fromAttributeValues(
+            new NameValue('one'),
+            new NameValue('two')
+        );
         $this->assertInstanceOf(Attribute::class, $attr);
         return $attr;
     }
@@ -107,8 +109,10 @@ class AttributeTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
-        Attribute::fromAttributeValues(new NameValue('name'),
-            new CommonNameValue('cn'));
+        Attribute::fromAttributeValues(
+            new NameValue('name'),
+            new CommonNameValue('cn')
+        );
     }
 
     public function testEmptyFromValuesFail()

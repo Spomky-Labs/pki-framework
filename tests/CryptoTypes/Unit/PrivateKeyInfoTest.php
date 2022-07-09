@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit;
 
-use \UnexpectedValueException;
-use \RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -23,6 +22,7 @@ use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\X501\ASN1\AttributeType;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -59,8 +59,10 @@ class PrivateKeyInfoTest extends TestCase
      */
     public function testAlgoOID(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION,
-            $algo->oid());
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
+            $algo->oid()
+        );
     }
 
     /**
@@ -106,8 +108,10 @@ class PrivateKeyInfoTest extends TestCase
      */
     public function testECPrivateKeyHasNamedCurve(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve());
+        $this->assertEquals(
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
+            $pk->namedCurve()
+        );
     }
 
     /**
@@ -226,9 +230,13 @@ class PrivateKeyInfoTest extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $ref = PrivateKeyInfo::fromPEM($pem);
         $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(
-            new CommonNameValue('John Doe'));
+            new CommonNameValue('John Doe')
+        );
         $pki = new PrivateKeyInfo(
-            $ref->algorithmIdentifier(), $ref->privateKeyData(), $attribs);
+            $ref->algorithmIdentifier(),
+            $ref->privateKeyData(),
+            $attribs
+        );
         $pem = $pki->toPEM();
         $this->assertInstanceOf(PEM::class, $pem);
         return $pem;

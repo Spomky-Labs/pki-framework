@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
@@ -62,10 +62,13 @@ class PathValidationResult
      * @param AlgorithmIdentifierType $algo         Public key algorithm of the end-entity certificate
      * @param null|Element            $params       Algorithm parameters
      */
-    public function __construct(array $certificates, ?PolicyTree $policy_tree,
-        PublicKeyInfo $pubkey_info, AlgorithmIdentifierType $algo,
-        ?Element $params = null)
-    {
+    public function __construct(
+        array $certificates,
+        ?PolicyTree $policy_tree,
+        PublicKeyInfo $pubkey_info,
+        AlgorithmIdentifierType $algo,
+        ?Element $params = null
+    ) {
         $this->_certificates = array_values($certificates);
         $this->_policyTree = $policy_tree;
         $this->_publicKeyInfo = $pubkey_info;

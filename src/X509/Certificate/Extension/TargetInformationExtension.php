@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -135,7 +135,9 @@ class TargetInformationExtension extends Extension implements \Countable, \Itera
         $targets = array_map(
             function (UnspecifiedType $el) {
                 return Targets::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
         return new self($critical, ...$targets);
     }
 
@@ -147,7 +149,9 @@ class TargetInformationExtension extends Extension implements \Countable, \Itera
         $elements = array_map(
             function (Targets $targets) {
                 return $targets->toASN1();
-            }, $this->_targets);
+            },
+            $this->_targets
+        );
         return new Sequence(...$elements);
     }
 }

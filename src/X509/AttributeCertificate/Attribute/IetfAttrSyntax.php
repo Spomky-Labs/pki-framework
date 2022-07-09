@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
@@ -59,13 +59,16 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
         if ($seq->hasTagged(0)) {
             $authority = GeneralNames::fromASN1(
                 $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
             ++$idx;
         }
         $values = array_map(
             function (UnspecifiedType $el) {
                 return IetfAttrValue::fromASN1($el);
-            }, $seq->at($idx)->asSequence()->elements());
+            },
+            $seq->at($idx)->asSequence()->elements()
+        );
         $obj = new static(...$values);
         $obj->_policyAuthority = $authority;
         return $obj;
@@ -143,12 +146,16 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
         $elements = [];
         if (isset($this->_policyAuthority)) {
             $elements[] = new ImplicitlyTaggedType(
-                0, $this->_policyAuthority->toASN1());
+                0,
+                $this->_policyAuthority->toASN1()
+            );
         }
         $values = array_map(
             function (IetfAttrValue $val) {
                 return $val->toASN1();
-            }, $this->_values);
+            },
+            $this->_values
+        );
         $elements[] = new Sequence(...$values);
         return new Sequence(...$elements);
     }

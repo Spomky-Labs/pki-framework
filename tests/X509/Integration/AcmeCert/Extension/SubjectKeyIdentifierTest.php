@@ -36,8 +36,8 @@ class SubjectKeyIdentifierTest extends RefExtTestHelper
      * @param SubjectKeyIdentifierExtension $ski
      */
     public function testSubjectKeyIdentifierKey(
-        SubjectKeyIdentifierExtension $ski)
-    {
+        SubjectKeyIdentifierExtension $ski
+    ) {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem');
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()

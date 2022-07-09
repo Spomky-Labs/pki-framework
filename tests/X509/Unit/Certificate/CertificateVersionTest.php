@@ -29,7 +29,8 @@ class CertificateVersionTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
         $subject = Name::fromString('cn=Test Subject');
         $issuer = Name::fromString('cn=Test Issuer');
         $pki = self::$_privateKeyInfo->publicKeyInfo();
@@ -47,7 +48,8 @@ class CertificateVersionTest extends TestCase
     {
         $cert = self::$_tbsCert->sign(
             new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privateKeyInfo);
+            self::$_privateKeyInfo
+        );
         $this->assertEquals($cert->tbsCertificate()
             ->version(), TBSCertificate::VERSION_1);
     }
@@ -55,9 +57,12 @@ class CertificateVersionTest extends TestCase
     public function testVersion2SubjectUID()
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(
-            UniqueIdentifier::fromString('subject'));
-        $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privateKeyInfo);
+            UniqueIdentifier::fromString('subject')
+        );
+        $cert = $tbsCert->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privateKeyInfo
+        );
         $this->assertEquals($cert->tbsCertificate()
             ->version(), TBSCertificate::VERSION_2);
     }
@@ -65,9 +70,12 @@ class CertificateVersionTest extends TestCase
     public function testVersion2IssuerUID()
     {
         $tbsCert = self::$_tbsCert->withIssuerUniqueID(
-            UniqueIdentifier::fromString('issuer'));
-        $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privateKeyInfo);
+            UniqueIdentifier::fromString('issuer')
+        );
+        $cert = $tbsCert->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privateKeyInfo
+        );
         $this->assertEquals($cert->tbsCertificate()
             ->version(), TBSCertificate::VERSION_2);
     }
@@ -75,10 +83,14 @@ class CertificateVersionTest extends TestCase
     public function testVersion2BothUID()
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(
-            UniqueIdentifier::fromString('subject'))->withIssuerUniqueID(
-            UniqueIdentifier::fromString('issuer'));
-        $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privateKeyInfo);
+            UniqueIdentifier::fromString('subject')
+        )->withIssuerUniqueID(
+            UniqueIdentifier::fromString('issuer')
+        );
+        $cert = $tbsCert->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privateKeyInfo
+        );
         $this->assertEquals($cert->tbsCertificate()
             ->version(), TBSCertificate::VERSION_2);
     }
@@ -87,9 +99,13 @@ class CertificateVersionTest extends TestCase
     {
         $tbsCert = self::$_tbsCert->withExtensions(
             new Extensions(
-                new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE)));
-        $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privateKeyInfo);
+                new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE)
+            )
+        );
+        $cert = $tbsCert->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privateKeyInfo
+        );
         $this->assertEquals($cert->tbsCertificate()
             ->version(), TBSCertificate::VERSION_3);
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
@@ -121,27 +121,34 @@ class PublicKeyInfo
                     throw new \UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data
-                return new EC\ECPublicKey($this->_publicKey->string(),
-                    $algo->namedCurve());
+                return new EC\ECPublicKey(
+                    $this->_publicKey->string(),
+                    $algo->namedCurve()
+                );
             // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
                 return new RFC8410\Curve25519\Ed25519PublicKey(
-                    $this->_publicKey->string());
+                    $this->_publicKey->string()
+                );
             // X25519
             case AlgorithmIdentifier::OID_X25519:
                 return new RFC8410\Curve25519\X25519PublicKey(
-                    $this->_publicKey->string());
+                    $this->_publicKey->string()
+                );
             // Ed448
             case AlgorithmIdentifier::OID_ED448:
                 return new RFC8410\Curve448\Ed448PublicKey(
-                    $this->_publicKey->string());
+                    $this->_publicKey->string()
+                );
             // X448
             case AlgorithmIdentifier::OID_X448:
                 return new RFC8410\Curve448\X448PublicKey(
-                    $this->_publicKey->string());
+                    $this->_publicKey->string()
+                );
         }
         throw new \RuntimeException(
-            'Public key ' . $algo->name() . ' not supported.');
+            'Public key ' . $algo->name() . ' not supported.'
+        );
     }
 
     /**

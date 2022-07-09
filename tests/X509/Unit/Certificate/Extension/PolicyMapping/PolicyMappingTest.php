@@ -17,9 +17,9 @@ use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
  */
 class PolicyMappingTest extends TestCase
 {
-    const ISSUER_POLICY = '1.3.6.1.3.1';
+    public const ISSUER_POLICY = '1.3.6.1.3.1';
 
-    const SUBJECT_POLICY = '1.3.6.1.3.2';
+    public const SUBJECT_POLICY = '1.3.6.1.3.2';
 
     public function testCreate()
     {
@@ -81,7 +81,9 @@ class PolicyMappingTest extends TestCase
      */
     public function testSubjectDomainPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::SUBJECT_POLICY,
-            $mapping->subjectDomainPolicy());
+        $this->assertEquals(
+            self::SUBJECT_POLICY,
+            $mapping->subjectDomainPolicy()
+        );
     }
 }

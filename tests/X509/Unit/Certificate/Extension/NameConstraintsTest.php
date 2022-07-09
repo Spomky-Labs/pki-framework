@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\Extension;
@@ -23,18 +23,20 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class NameConstraintsTest extends TestCase
 {
-    final const PERMITTED_URI = '.example.com';
+    final public const PERMITTED_URI = '.example.com';
 
-    final const PERMITTED_DN = 'cn=Test';
+    final public const PERMITTED_DN = 'cn=Test';
 
-    final const EXCLUDED_URI = 'nope.example.com';
+    final public const EXCLUDED_URI = 'nope.example.com';
 
     public function testCreatePermitted()
     {
         $subtrees = new GeneralSubtrees(
             new GeneralSubtree(
-                new UniformResourceIdentifier(self::PERMITTED_URI)),
-            new GeneralSubtree(DirectoryName::fromDNString(self::PERMITTED_DN)));
+                new UniformResourceIdentifier(self::PERMITTED_URI)
+            ),
+            new GeneralSubtree(DirectoryName::fromDNString(self::PERMITTED_DN))
+        );
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
@@ -42,7 +44,8 @@ class NameConstraintsTest extends TestCase
     public function testCreateExcluded()
     {
         $subtrees = new GeneralSubtrees(
-            new GeneralSubtree(new UniformResourceIdentifier(self::EXCLUDED_URI)));
+            new GeneralSubtree(new UniformResourceIdentifier(self::EXCLUDED_URI))
+        );
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
@@ -51,9 +54,10 @@ class NameConstraintsTest extends TestCase
      * @depends testCreatePermitted
      * @depends testCreateExcluded
      */
-    public function testCreate(GeneralSubtrees $permitted,
-                               GeneralSubtrees $excluded)
-    {
+    public function testCreate(
+        GeneralSubtrees $permitted,
+        GeneralSubtrees $excluded
+    ) {
         $ext = new NameConstraintsExtension(true, $permitted, $excluded);
         $this->assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
@@ -158,9 +162,11 @@ class NameConstraintsTest extends TestCase
      */
     public function testPermittedURI(GeneralSubtrees $subtrees)
     {
-        $this->assertEquals(self::PERMITTED_URI,
+        $this->assertEquals(
+            self::PERMITTED_URI,
             $subtrees->all()[0]->base()
-                ->string());
+                ->string()
+        );
     }
 
     /**
@@ -170,9 +176,11 @@ class NameConstraintsTest extends TestCase
      */
     public function testPermittedDN(GeneralSubtrees $subtrees)
     {
-        $this->assertEquals(self::PERMITTED_DN,
+        $this->assertEquals(
+            self::PERMITTED_DN,
             $subtrees->all()[1]->base()
-                ->string());
+                ->string()
+        );
     }
 
     /**
@@ -182,9 +190,11 @@ class NameConstraintsTest extends TestCase
      */
     public function testExcludedURI(GeneralSubtrees $subtrees)
     {
-        $this->assertEquals(self::EXCLUDED_URI,
+        $this->assertEquals(
+            self::EXCLUDED_URI,
             $subtrees->all()[0]->base()
-                ->string());
+                ->string()
+        );
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\Collection;
 
@@ -39,6 +39,8 @@ class SequenceOfAttributes extends AttributeCollection
         return new Sequence(...array_map(
             function (Attribute $attr) {
                 return $attr->toASN1();
-            }, $this->_attributes));
+            },
+            $this->_attributes
+        ));
     }
 }

@@ -21,9 +21,11 @@ class ObjectDigestInfoTest extends TestCase
 {
     public function testCreate()
     {
-        $odi = new ObjectDigestInfo(ObjectDigestInfo::TYPE_PUBLIC_KEY,
+        $odi = new ObjectDigestInfo(
+            ObjectDigestInfo::TYPE_PUBLIC_KEY,
             new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            new BitString(hex2bin('ff')));
+            new BitString(hex2bin('ff'))
+        );
         $this->assertInstanceOf(ObjectDigestInfo::class, $odi);
         return $odi;
     }
@@ -64,7 +66,10 @@ class ObjectDigestInfoTest extends TestCase
         $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $seq = new Sequence(
             new Enumerated(ObjectDigestInfo::TYPE_OTHER_OBJECT_TYPES),
-            new ObjectIdentifier('1.3.6.1.3'), $algo->toASN1(), new BitString(''));
+            new ObjectIdentifier('1.3.6.1.3'),
+            $algo->toASN1(),
+            new BitString('')
+        );
         $odi = ObjectDigestInfo::fromASN1($seq);
         $this->assertInstanceOf(ObjectDigestInfo::class, $odi);
         return $odi;

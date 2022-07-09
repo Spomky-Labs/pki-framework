@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -98,7 +98,9 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $idps = array_map(
             function (PolicyMapping $mapping) {
                 return $mapping->issuerDomainPolicy();
-            }, $this->_mappings);
+            },
+            $this->_mappings
+        );
         return array_values(array_unique($idps));
     }
 
@@ -155,10 +157,13 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $mappings = array_map(
             function (UnspecifiedType $el) {
                 return PolicyMapping::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
         if (!count($mappings)) {
             throw new \UnexpectedValueException(
-                'PolicyMappings must have at least one mapping.');
+                'PolicyMappings must have at least one mapping.'
+            );
         }
         return new self($critical, ...$mappings);
     }
@@ -174,7 +179,9 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $elements = array_map(
             function (PolicyMapping $mapping) {
                 return $mapping->toASN1();
-            }, $this->_mappings);
+            },
+            $this->_mappings
+        );
         return new Sequence(...$elements);
     }
 }

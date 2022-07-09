@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -16,15 +16,15 @@ use Sop\ASN1\Type\UnspecifiedType;
 abstract class GeneralName
 {
     // GeneralName CHOICE tags
-    const TAG_OTHER_NAME = 0;
-    const TAG_RFC822_NAME = 1;
-    const TAG_DNS_NAME = 2;
-    const TAG_X400_ADDRESS = 3;
-    const TAG_DIRECTORY_NAME = 4;
-    const TAG_EDI_PARTY_NAME = 5;
-    const TAG_URI = 6;
-    const TAG_IP_ADDRESS = 7;
-    const TAG_REGISTERED_ID = 8;
+    public const TAG_OTHER_NAME = 0;
+    public const TAG_RFC822_NAME = 1;
+    public const TAG_DNS_NAME = 2;
+    public const TAG_X400_ADDRESS = 3;
+    public const TAG_DIRECTORY_NAME = 4;
+    public const TAG_EDI_PARTY_NAME = 5;
+    public const TAG_URI = 6;
+    public const TAG_IP_ADDRESS = 7;
+    public const TAG_REGISTERED_ID = 8;
 
     /**
      * Chosen tag.
@@ -60,7 +60,8 @@ abstract class GeneralName
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
         throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in the derived class.');
+            __FUNCTION__ . ' must be implemented in the derived class.'
+        );
     }
 
     /**
@@ -78,19 +79,23 @@ abstract class GeneralName
             // otherName
             case self::TAG_OTHER_NAME:
                 return OtherName::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_SEQUENCE));
+                    $el->asImplicit(Element::TYPE_SEQUENCE)
+                );
             // rfc822Name
             case self::TAG_RFC822_NAME:
                 return RFC822Name::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_IA5_STRING));
+                    $el->asImplicit(Element::TYPE_IA5_STRING)
+                );
             // dNSName
             case self::TAG_DNS_NAME:
                 return DNSName::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_IA5_STRING));
+                    $el->asImplicit(Element::TYPE_IA5_STRING)
+                );
             // x400Address
             case self::TAG_X400_ADDRESS:
                 return X400Address::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_SEQUENCE));
+                    $el->asImplicit(Element::TYPE_SEQUENCE)
+                );
             // directoryName
             case self::TAG_DIRECTORY_NAME:
                 // because Name is a CHOICE, albeit having only one option,
@@ -100,22 +105,27 @@ abstract class GeneralName
             // ediPartyName
             case self::TAG_EDI_PARTY_NAME:
                 return EDIPartyName::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_SEQUENCE));
+                    $el->asImplicit(Element::TYPE_SEQUENCE)
+                );
             // uniformResourceIdentifier
             case self::TAG_URI:
                 return UniformResourceIdentifier::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_IA5_STRING));
+                    $el->asImplicit(Element::TYPE_IA5_STRING)
+                );
             // iPAddress
             case self::TAG_IP_ADDRESS:
                 return IPAddress::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_OCTET_STRING));
+                    $el->asImplicit(Element::TYPE_OCTET_STRING)
+                );
             // registeredID
             case self::TAG_REGISTERED_ID:
                 return RegisteredID::fromChosenASN1(
-                    $el->asImplicit(Element::TYPE_OBJECT_IDENTIFIER));
+                    $el->asImplicit(Element::TYPE_OBJECT_IDENTIFIER)
+                );
         }
         throw new \UnexpectedValueException(
-            'GeneralName type ' . $el->tag() . ' not supported.');
+            'GeneralName type ' . $el->tag() . ' not supported.'
+        );
     }
 
     /**

@@ -31,6 +31,7 @@ class PolicyQualifierInfoTest extends TestCase
     {
         $this->expectException(\BadMethodCallException::class);
         PolicyQualifierInfo::fromQualifierASN1(
-            new UnspecifiedType(new NullType()));
+            new UnspecifiedType(new NullType())
+        );
     }
 }

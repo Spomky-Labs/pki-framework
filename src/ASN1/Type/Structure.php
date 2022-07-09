@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
@@ -48,7 +48,9 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
         $this->_elements = array_map(
             function (ElementBase $el) {
                 return $el->asElement();
-            }, $elements);
+            },
+            $elements
+        );
     }
 
     /**
@@ -86,7 +88,8 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
         $length = Length::expectFromDER($data, $offset);
         if ($length->isIndefinite()) {
             throw new DecodeException(
-                'Explode not implemented for indefinite length encoding.');
+                'Explode not implemented for indefinite length encoding.'
+            );
         }
         $end = $offset + $length->intLength();
         $parts = [];
@@ -117,7 +120,8 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
-                "Structure doesn't have element at index {$idx}.");
+                "Structure doesn't have element at index {$idx}."
+            );
         }
         $obj = clone $this;
         $obj->_elements[$idx] = $el;
@@ -177,7 +181,8 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
-                "Structure doesn't have element at index {$idx}.");
+                "Structure doesn't have element at index {$idx}."
+            );
         }
         $obj = clone $this;
         array_splice($obj->_elements, $idx, 1);
@@ -195,7 +200,9 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
             $this->_unspecifiedTypes = array_map(
                 function (Element $el) {
                     return new UnspecifiedType($el);
-                }, $this->_elements);
+                },
+                $this->_elements
+            );
         }
         return $this->_unspecifiedTypes;
     }
@@ -233,7 +240,8 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
-                "Structure doesn't have an element at index {$idx}.");
+                "Structure doesn't have an element at index {$idx}."
+            );
         }
         return new UnspecifiedType($this->_elements[$idx]);
     }
@@ -306,20 +314,26 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      *
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         if (!$identifier->isConstructed()) {
             throw new DecodeException(
-                'Structured element must have constructed bit set.');
+                'Structured element must have constructed bit set.'
+            );
         }
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         if ($length->isIndefinite()) {
             $type = self::_decodeIndefiniteLength($data, $idx);
         } else {
-            $type = self::_decodeDefiniteLength($data, $idx,
-                $length->intLength());
+            $type = self::_decodeDefiniteLength(
+                $data,
+                $idx,
+                $length->intLength()
+            );
         }
         $offset = $idx;
         return $type;
@@ -334,9 +348,11 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      *
      * @throws DecodeException
      */
-    private static function _decodeDefiniteLength(string $data, int &$offset,
-        int $length): ElementBase
-    {
+    private static function _decodeDefiniteLength(
+        string $data,
+        int &$offset,
+        int $length
+    ): ElementBase {
         $idx = $offset;
         $end = $idx + $length;
         $elements = [];
@@ -368,7 +384,8 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
         while (true) {
             if ($idx >= $end) {
                 throw new DecodeException(
-                    'Unexpected end of data while decoding indefinite length structure.');
+                    'Unexpected end of data while decoding indefinite length structure.'
+                );
             }
             $el = Element::fromDER($data, $idx);
             if ($el->isType(self::TYPE_EOC)) {

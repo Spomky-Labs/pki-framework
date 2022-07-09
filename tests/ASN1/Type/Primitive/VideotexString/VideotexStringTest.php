@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\VideotexString;
 
@@ -76,7 +76,8 @@ class VideotexStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'VideotexString expected, got primitive NULL');
+            'VideotexString expected, got primitive NULL'
+        );
         $wrap->asVideotexString();
     }
 }

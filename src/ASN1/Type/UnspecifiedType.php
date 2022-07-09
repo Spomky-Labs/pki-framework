@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
@@ -63,7 +63,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof TaggedType) {
             throw new \UnexpectedValueException(
-                'Tagged element expected, got ' . $this->_typeDescriptorString());
+                'Tagged element expected, got ' . $this->_typeDescriptorString()
+            );
         }
         return $this->_element;
     }
@@ -79,7 +80,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Tagged\ApplicationType) {
             throw new \UnexpectedValueException(
-                'Application type expected, got ' . $this->_typeDescriptorString());
+                'Application type expected, got ' . $this->_typeDescriptorString()
+            );
         }
         return $this->_element;
     }
@@ -95,7 +97,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Tagged\PrivateType) {
             throw new \UnexpectedValueException(
-                'Private type expected, got ' . $this->_typeDescriptorString());
+                'Private type expected, got ' . $this->_typeDescriptorString()
+            );
         }
         return $this->_element;
     }
@@ -111,7 +114,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\Boolean) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_BOOLEAN));
+                $this->_generateExceptionMessage(Element::TYPE_BOOLEAN)
+            );
         }
         return $this->_element;
     }
@@ -127,7 +131,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\Integer) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_INTEGER));
+                $this->_generateExceptionMessage(Element::TYPE_INTEGER)
+            );
         }
         return $this->_element;
     }
@@ -143,7 +148,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\BitString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_BIT_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_BIT_STRING)
+            );
         }
         return $this->_element;
     }
@@ -159,7 +165,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\OctetString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_OCTET_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_OCTET_STRING)
+            );
         }
         return $this->_element;
     }
@@ -175,7 +182,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\NullType) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_NULL));
+                $this->_generateExceptionMessage(Element::TYPE_NULL)
+            );
         }
         return $this->_element;
     }
@@ -191,7 +199,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\ObjectIdentifier) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_OBJECT_IDENTIFIER));
+                $this->_generateExceptionMessage(Element::TYPE_OBJECT_IDENTIFIER)
+            );
         }
         return $this->_element;
     }
@@ -207,7 +216,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\ObjectDescriptor) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_OBJECT_DESCRIPTOR));
+                $this->_generateExceptionMessage(Element::TYPE_OBJECT_DESCRIPTOR)
+            );
         }
         return $this->_element;
     }
@@ -223,7 +233,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\Real) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_REAL));
+                $this->_generateExceptionMessage(Element::TYPE_REAL)
+            );
         }
         return $this->_element;
     }
@@ -239,7 +250,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\Enumerated) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_ENUMERATED));
+                $this->_generateExceptionMessage(Element::TYPE_ENUMERATED)
+            );
         }
         return $this->_element;
     }
@@ -255,7 +267,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\UTF8String) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_UTF8_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_UTF8_STRING)
+            );
         }
         return $this->_element;
     }
@@ -271,7 +284,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\RelativeOID) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_RELATIVE_OID));
+                $this->_generateExceptionMessage(Element::TYPE_RELATIVE_OID)
+            );
         }
         return $this->_element;
     }
@@ -287,7 +301,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Constructed\Sequence) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_SEQUENCE));
+                $this->_generateExceptionMessage(Element::TYPE_SEQUENCE)
+            );
         }
         return $this->_element;
     }
@@ -303,7 +318,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Constructed\Set) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_SET));
+                $this->_generateExceptionMessage(Element::TYPE_SET)
+            );
         }
         return $this->_element;
     }
@@ -319,7 +335,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\NumericString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_NUMERIC_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_NUMERIC_STRING)
+            );
         }
         return $this->_element;
     }
@@ -335,7 +352,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\PrintableString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_PRINTABLE_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_PRINTABLE_STRING)
+            );
         }
         return $this->_element;
     }
@@ -351,7 +369,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\T61String) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_T61_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_T61_STRING)
+            );
         }
         return $this->_element;
     }
@@ -367,7 +386,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\VideotexString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_VIDEOTEX_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_VIDEOTEX_STRING)
+            );
         }
         return $this->_element;
     }
@@ -383,7 +403,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\IA5String) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_IA5_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_IA5_STRING)
+            );
         }
         return $this->_element;
     }
@@ -399,7 +420,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\UTCTime) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_UTC_TIME));
+                $this->_generateExceptionMessage(Element::TYPE_UTC_TIME)
+            );
         }
         return $this->_element;
     }
@@ -415,7 +437,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\GeneralizedTime) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_GENERALIZED_TIME));
+                $this->_generateExceptionMessage(Element::TYPE_GENERALIZED_TIME)
+            );
         }
         return $this->_element;
     }
@@ -431,7 +454,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\GraphicString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_GRAPHIC_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_GRAPHIC_STRING)
+            );
         }
         return $this->_element;
     }
@@ -447,7 +471,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\VisibleString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_VISIBLE_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_VISIBLE_STRING)
+            );
         }
         return $this->_element;
     }
@@ -463,7 +488,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\GeneralString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_GENERAL_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_GENERAL_STRING)
+            );
         }
         return $this->_element;
     }
@@ -479,7 +505,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\UniversalString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_UNIVERSAL_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_UNIVERSAL_STRING)
+            );
         }
         return $this->_element;
     }
@@ -495,7 +522,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\CharacterString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_CHARACTER_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_CHARACTER_STRING)
+            );
         }
         return $this->_element;
     }
@@ -511,7 +539,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\BMPString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_BMP_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_BMP_STRING)
+            );
         }
         return $this->_element;
     }
@@ -527,7 +556,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Constructed\ConstructedString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_CONSTRUCTED_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_CONSTRUCTED_STRING)
+            );
         }
         return $this->_element;
     }
@@ -541,7 +571,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof StringType) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_STRING)
+            );
         }
         return $this->_element;
     }
@@ -555,7 +586,8 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof TimeType) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(Element::TYPE_TIME));
+                $this->_generateExceptionMessage(Element::TYPE_TIME)
+            );
         }
         return $this->_element;
     }
@@ -652,8 +684,11 @@ class UnspecifiedType implements ElementBase
      */
     private function _generateExceptionMessage(int $tag): string
     {
-        return sprintf('%s expected, got %s.', Element::tagToName($tag),
-            $this->_typeDescriptorString());
+        return sprintf(
+            '%s expected, got %s.',
+            Element::tagToName($tag),
+            $this->_typeDescriptorString()
+        );
     }
 
     /**

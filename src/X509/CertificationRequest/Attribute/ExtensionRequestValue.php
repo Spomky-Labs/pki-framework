@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationRequest\Attribute;
 
@@ -18,7 +18,7 @@ use Sop\X509\Certificate\Extensions;
  */
 class ExtensionRequestValue extends AttributeValue
 {
-    const OID = '1.2.840.113549.1.9.14';
+    public const OID = '1.2.840.113549.1.9.14';
 
     /**
      * Extensions.

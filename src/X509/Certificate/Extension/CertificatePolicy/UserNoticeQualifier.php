@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
@@ -36,9 +36,10 @@ class UserNoticeQualifier extends PolicyQualifierInfo
      * @param null|DisplayText     $text
      * @param null|NoticeReference $ref
      */
-    public function __construct(?DisplayText $text = null,
-        ?NoticeReference $ref = null)
-    {
+    public function __construct(
+        ?DisplayText $text = null,
+        ?NoticeReference $ref = null
+    ) {
         $this->_oid = self::OID_UNOTICE;
         $this->_text = $text;
         $this->_ref = $ref;

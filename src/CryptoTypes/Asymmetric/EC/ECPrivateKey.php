@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
@@ -52,10 +52,11 @@ class ECPrivateKey extends PrivateKey
      * @param null|string $named_curve OID of the named curve
      * @param null|string $public_key  ECPoint value
      */
-    public function __construct(string $private_key,
+    public function __construct(
+        string $private_key,
         ?string $named_curve = null,
-        ?string $public_key = null)
-    {
+        ?string $public_key = null
+    ) {
         $this->_privateKey = $private_key;
         $this->_namedCurve = $named_curve;
         $this->_publicKey = $public_key;
@@ -195,12 +196,16 @@ class ECPrivateKey extends PrivateKey
     {
         $elements = [new Integer(1), new OctetString($this->_privateKey)];
         if (isset($this->_namedCurve)) {
-            $elements[] = new ExplicitlyTaggedType(0,
-                new ObjectIdentifier($this->_namedCurve));
+            $elements[] = new ExplicitlyTaggedType(
+                0,
+                new ObjectIdentifier($this->_namedCurve)
+            );
         }
         if (isset($this->_publicKey)) {
-            $elements[] = new ExplicitlyTaggedType(1,
-                new BitString($this->_publicKey));
+            $elements[] = new ExplicitlyTaggedType(
+                1,
+                new BitString($this->_publicKey)
+            );
         }
         return new Sequence(...$elements);
     }

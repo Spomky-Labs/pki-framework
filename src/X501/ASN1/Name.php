@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
@@ -57,7 +57,9 @@ class Name implements \Countable, \IteratorAggregate
         $rdns = array_map(
             function (UnspecifiedType $el) {
                 return RDN::fromASN1($el->asSet());
-            }, $seq->elements());
+            },
+            $seq->elements()
+        );
         return new self(...$rdns);
     }
 
@@ -83,8 +85,10 @@ class Name implements \Countable, \IteratorAggregate
                 } else {
                     $el = AttributeType::asn1StringForType($type->oid(), $val);
                 }
-                $value = AttributeValue::fromASN1ByOID($type->oid(),
-                    $el->asUnspecified());
+                $value = AttributeValue::fromASN1ByOID(
+                    $type->oid(),
+                    $el->asUnspecified()
+                );
                 $attribs[] = new AttributeTypeAndValue($type, $value);
             }
             $rdns[] = new RDN(...$attribs);
@@ -102,7 +106,9 @@ class Name implements \Countable, \IteratorAggregate
         $elements = array_map(
             function (RDN $rdn) {
                 return $rdn->toASN1();
-            }, $this->_rdns);
+            },
+            $this->_rdns
+        );
         return new Sequence(...$elements);
     }
 
@@ -118,7 +124,9 @@ class Name implements \Countable, \IteratorAggregate
         $parts = array_map(
             function (RDN $rdn) {
                 return $rdn->toString();
-            }, array_reverse($this->_rdns));
+            },
+            array_reverse($this->_rdns)
+        );
         return implode(',', $parts);
     }
 
@@ -212,7 +220,10 @@ class Name implements \Countable, \IteratorAggregate
             array_map(
                 function (RDN $rdn) use ($oid): int {
                     return count($rdn->allOf($oid));
-                }, $this->_rdns));
+                },
+                $this->_rdns
+            )
+        );
     }
 
     /**

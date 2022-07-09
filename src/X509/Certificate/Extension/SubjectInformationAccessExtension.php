@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -78,7 +78,9 @@ class SubjectInformationAccessExtension extends Extension implements \Countable,
         $access = array_map(
             function (UnspecifiedType $el) {
                 return SubjectAccessDescription::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
         return new self($critical, ...$access);
     }
 
@@ -90,7 +92,9 @@ class SubjectInformationAccessExtension extends Extension implements \Countable,
         $elements = array_map(
             function (AccessDescription $access) {
                 return $access->toASN1();
-            }, $this->_accessDescriptions);
+            },
+            $this->_accessDescriptions
+        );
         return new Sequence(...$elements);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -46,9 +46,11 @@ class ExplicitlyTaggedDecodeTest extends TestCase
     public function testInnerType()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertEquals(Element::TYPE_NULL,
+        $this->assertEquals(
+            Element::TYPE_NULL,
             $el->explicit()
-                ->tag());
+                ->tag()
+        );
     }
 
     public function testNestedTagging()
@@ -57,10 +59,12 @@ class ExplicitlyTaggedDecodeTest extends TestCase
         $this->assertEquals(1, $el->tag());
         $this->assertEquals(2, $el->explicit()
             ->tag());
-        $this->assertEquals(Element::TYPE_NULL,
+        $this->assertEquals(
+            Element::TYPE_NULL,
             $el->explicit()
                 ->asTagged()
                 ->explicit()
-                ->tag());
+                ->tag()
+        );
     }
 }

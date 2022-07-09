@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
@@ -43,7 +43,9 @@ class Targets implements \Countable, \IteratorAggregate
         $targets = array_map(
             function (UnspecifiedType $el) {
                 return Target::fromASN1($el->asTagged());
-            }, $seq->elements());
+            },
+            $seq->elements()
+        );
         return new self(...$targets);
     }
 
@@ -104,7 +106,9 @@ class Targets implements \Countable, \IteratorAggregate
         $elements = array_map(
             function (Target $target) {
                 return $target->toASN1();
-            }, $this->_targets);
+            },
+            $this->_targets
+        );
         return new Sequence(...$elements);
     }
 
@@ -140,9 +144,12 @@ class Targets implements \Countable, \IteratorAggregate
     protected function _allOfType(int $type): array
     {
         return array_values(
-            array_filter($this->_targets,
+            array_filter(
+                $this->_targets,
                 function (Target $target) use ($type) {
                     return $target->type() === $type;
-                }));
+                }
+            )
+        );
     }
 }

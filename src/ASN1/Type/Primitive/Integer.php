@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -71,9 +71,11 @@ class Integer extends Element
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         $bytes = substr($data, $idx, $length);

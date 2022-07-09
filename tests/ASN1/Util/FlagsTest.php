@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Util;
 
@@ -99,9 +99,12 @@ class FlagsTest extends TestCase
      *
      * @param string $result
      */
-    public function testToBitString(int $num, int $width, $result,
-        int $unused_bits)
-    {
+    public function testToBitString(
+        int $num,
+        int $width,
+        $result,
+        int $unused_bits
+    ) {
         $flags = new Flags($num, $width);
         $bs = $flags->bitString();
         $this->assertEquals($result, $bs->string());
@@ -126,9 +129,12 @@ class FlagsTest extends TestCase
     /**
      * @dataProvider fromBitStringProvider
      */
-    public function testFromBitString(string $str, int $unused_bits, int $width,
-        string $result)
-    {
+    public function testFromBitString(
+        string $str,
+        int $unused_bits,
+        int $width,
+        string $result
+    ) {
         $flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
         $this->assertEquals($result, $flags->string());
     }
@@ -185,9 +191,12 @@ class FlagsTest extends TestCase
      * @param string $str
      * @param number $number
      */
-    public function testBitStringToNumber($str, int $unused_bits, int $width,
-        $number)
-    {
+    public function testBitStringToNumber(
+        $str,
+        int $unused_bits,
+        int $width,
+        $number
+    ) {
         $bs = new BitString($str, $unused_bits);
         $flags = Flags::fromBitString($bs, $width);
         $this->assertEquals($number, $flags->number());

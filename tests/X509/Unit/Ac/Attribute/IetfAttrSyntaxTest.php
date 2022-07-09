@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac\Attribute;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
@@ -56,8 +56,10 @@ class IetfAttrSyntaxTest extends TestCase
      */
     public function testEqualityMatchingRule(IetfAttrSyntax $val)
     {
-        $this->assertInstanceOf(MatchingRule::class,
-            $val->equalityMatchingRule());
+        $this->assertInstanceOf(
+            MatchingRule::class,
+            $val->equalityMatchingRule()
+        );
     }
 
     /**

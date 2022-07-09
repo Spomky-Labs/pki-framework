@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\StringPrep;
 
@@ -20,7 +20,7 @@ class TranscodeStep implements PrepareStep
      *
      * @var array
      */
-    const SUPPORTED_TYPES = [
+    public const SUPPORTED_TYPES = [
         Element::TYPE_UTF8_STRING,
         Element::TYPE_PRINTABLE_STRING,
         Element::TYPE_BMP_STRING,
@@ -85,7 +85,9 @@ class TranscodeStep implements PrepareStep
                 $el = new T61String($string);
                 return '#' . bin2hex($el->toDER());
         }
-        throw new \LogicException(sprintf('Unsupported string type %s.',
-            Element::tagToName($this->_type)));
+        throw new \LogicException(sprintf(
+            'Unsupported string type %s.',
+            Element::tagToName($this->_type)
+        ));
     }
 }

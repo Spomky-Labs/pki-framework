@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\VisibleString;
 
@@ -78,7 +78,8 @@ class VisibleStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'VisibleString expected, got primitive NULL');
+            'VisibleString expected, got primitive NULL'
+        );
         $wrap->asVisibleString();
     }
 }

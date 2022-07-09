@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed\Sequence;
 
@@ -39,8 +39,10 @@ class DecodeTest extends TestCase
     {
         $el = Sequence::fromDER("\x30\x2\x30\x0");
         $this->assertCount(1, $el);
-        $this->assertEquals(Element::TYPE_SEQUENCE,
+        $this->assertEquals(
+            Element::TYPE_SEQUENCE,
             $el->at(0)
-                ->tag());
+                ->tag()
+        );
     }
 }

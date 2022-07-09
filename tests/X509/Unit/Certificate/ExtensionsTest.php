@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\DERData;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -24,7 +24,8 @@ class ExtensionsTest extends TestCase
     {
         $exts = new Extensions(
             new UnknownExtension('1.3.6.1.3.1', true, new DERData("\x05\x00")),
-            new UnknownExtension('1.3.6.1.3.2', true, new DERData("\x05\x00")));
+            new UnknownExtension('1.3.6.1.3.2', true, new DERData("\x05\x00"))
+        );
         $this->assertInstanceOf(Extensions::class, $exts);
         return $exts;
     }
@@ -121,7 +122,8 @@ class ExtensionsTest extends TestCase
     {
         static $oid = '1.3.6.1.3.3';
         $exts = $exts->withExtensions(
-            new UnknownExtension($oid, true, new DERData("\x05\x00")));
+            new UnknownExtension($oid, true, new DERData("\x05\x00"))
+        );
         $this->assertTrue($exts->has($oid));
     }
 }

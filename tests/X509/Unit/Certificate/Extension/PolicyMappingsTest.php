@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \LogicException;
-use \UnexpectedValueException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -15,6 +14,7 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
 use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
 use Sop\X509\Certificate\Extensions;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -24,15 +24,15 @@ use Sop\X509\Certificate\Extensions;
  */
 class PolicyMappingsTest extends TestCase
 {
-    final const ISSUER_POLICY_OID = '1.3.6.1.3.1';
+    final public const ISSUER_POLICY_OID = '1.3.6.1.3.1';
 
-    final const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
+    final public const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
 
     public function testCreateMappings()
     {
         $mappings = [
             new PolicyMapping(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
-            new PolicyMapping('1.3.6.1.3.3', '1.3.6.1.3.4'),];
+            new PolicyMapping('1.3.6.1.3.3', '1.3.6.1.3.4'), ];
         $this->assertInstanceOf(PolicyMapping::class, $mappings[0]);
         return $mappings;
     }
@@ -99,8 +99,10 @@ class PolicyMappingsTest extends TestCase
      */
     public function testMappings(PolicyMappingsExtension $ext)
     {
-        $this->assertContainsOnlyInstancesOf(PolicyMapping::class,
-            $ext->mappings());
+        $this->assertContainsOnlyInstancesOf(
+            PolicyMapping::class,
+            $ext->mappings()
+        );
     }
 
     /**
@@ -108,8 +110,10 @@ class PolicyMappingsTest extends TestCase
      */
     public function testIssuerMappings(PolicyMappingsExtension $ext)
     {
-        $this->assertContainsOnly('string',
-            $ext->issuerMappings(self::ISSUER_POLICY_OID));
+        $this->assertContainsOnly(
+            'string',
+            $ext->issuerMappings(self::ISSUER_POLICY_OID)
+        );
     }
 
     /**
@@ -148,8 +152,10 @@ class PolicyMappingsTest extends TestCase
      */
     public function testIssuerPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::ISSUER_POLICY_OID,
-            $mapping->issuerDomainPolicy());
+        $this->assertEquals(
+            self::ISSUER_POLICY_OID,
+            $mapping->issuerDomainPolicy()
+        );
     }
 
     /**
@@ -157,8 +163,10 @@ class PolicyMappingsTest extends TestCase
      */
     public function testSubjectPolicy(PolicyMapping $mapping)
     {
-        $this->assertEquals(self::SUBJECT_POLICY_OID,
-            $mapping->subjectDomainPolicy());
+        $this->assertEquals(
+            self::SUBJECT_POLICY_OID,
+            $mapping->subjectDomainPolicy()
+        );
     }
 
     /**
@@ -171,17 +179,25 @@ class PolicyMappingsTest extends TestCase
 
     public function testHasAnyPolicyIssuer()
     {
-        $ext = new PolicyMappingsExtension(false,
-            new PolicyMapping(PolicyInformation::OID_ANY_POLICY,
-                self::SUBJECT_POLICY_OID));
+        $ext = new PolicyMappingsExtension(
+            false,
+            new PolicyMapping(
+                PolicyInformation::OID_ANY_POLICY,
+                self::SUBJECT_POLICY_OID
+            )
+        );
         $this->assertTrue($ext->hasAnyPolicyMapping());
     }
 
     public function testHasAnyPolicySubject()
     {
-        $ext = new PolicyMappingsExtension(false,
-            new PolicyMapping(self::ISSUER_POLICY_OID,
-                PolicyInformation::OID_ANY_POLICY));
+        $ext = new PolicyMappingsExtension(
+            false,
+            new PolicyMapping(
+                self::ISSUER_POLICY_OID,
+                PolicyInformation::OID_ANY_POLICY
+            )
+        );
         $this->assertTrue($ext->hasAnyPolicyMapping());
     }
 
@@ -216,7 +232,8 @@ class PolicyMappingsTest extends TestCase
         $seq = new Sequence();
         $ext_seq = new Sequence(
             new ObjectIdentifier(Extension::OID_POLICY_MAPPINGS),
-            new OctetString($seq->toDER()));
+            new OctetString($seq->toDER())
+        );
         $this->expectException(\UnexpectedValueException::class);
         PolicyMappingsExtension::fromASN1($ext_seq);
     }

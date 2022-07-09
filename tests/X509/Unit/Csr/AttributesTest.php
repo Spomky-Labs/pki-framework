@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Csr;
 
-use \UnexpectedValueException;
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\X501\ASN1\Attribute;
@@ -14,6 +13,7 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 use Sop\X509\CertificationRequest\Attributes;
+use UnexpectedValueException;
 
 /**
  * @group csr
@@ -26,7 +26,8 @@ class AttributesTest extends TestCase
     public function testCreate()
     {
         $attribs = Attributes::fromAttributeValues(
-            new ExtensionRequestValue(new Extensions()));
+            new ExtensionRequestValue(new Extensions())
+        );
         $this->assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
@@ -67,8 +68,10 @@ class AttributesTest extends TestCase
      */
     public function testExtensionRequest(Attributes $attribs)
     {
-        $this->assertInstanceOf(ExtensionRequestValue::class,
-            $attribs->extensionRequest());
+        $this->assertInstanceOf(
+            ExtensionRequestValue::class,
+            $attribs->extensionRequest()
+        );
     }
 
     /**
@@ -121,7 +124,8 @@ class AttributesTest extends TestCase
     public function testWithAdditional(Attributes $attribs)
     {
         $attribs = $attribs->withAdditional(
-            Attribute::fromAttributeValues(new CommonNameValue('Test')));
+            Attribute::fromAttributeValues(new CommonNameValue('Test'))
+        );
         $this->assertCount(2, $attribs);
         return $attribs;
     }
@@ -152,10 +156,12 @@ class AttributesTest extends TestCase
      * @depends testDecodeWithAdditional
      */
     public function testDecodedWithAdditionalHasCustomAttribute(
-        Attributes $attribs)
-    {
-        $this->assertInstanceOf(CommonNameValue::class,
+        Attributes $attribs
+    ) {
+        $this->assertInstanceOf(
+            CommonNameValue::class,
             $attribs->firstOf(AttributeType::OID_COMMON_NAME)
-                ->first());
+                ->first()
+        );
     }
 }

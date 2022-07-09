@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
@@ -161,9 +161,11 @@ class ValidatorState
      *
      * @return self
      */
-    public static function initialize(PathValidationConfig $config,
-        Certificate $trust_anchor, int $n): self
-    {
+    public static function initialize(
+        PathValidationConfig $config,
+        Certificate $trust_anchor,
+        int $n
+    ): self {
         $state = new self();
         $state->_pathLength = $n;
         $state->_index = 1;
@@ -177,7 +179,8 @@ class ValidatorState
         $tbsCert = $trust_anchor->tbsCertificate();
         $state->_workingPublicKey = $tbsCert->subjectPublicKeyInfo();
         $state->_workingPublicKeyParameters = self::getAlgorithmParameters(
-            $state->_workingPublicKey->algorithmIdentifier());
+            $state->_workingPublicKey->algorithmIdentifier()
+        );
         $state->_workingIssuerName = $tbsCert->issuer();
         $state->_maxPathLength = $config->maxLength();
         return $state;
@@ -499,9 +502,13 @@ class ValidatorState
      */
     public function getResult(array $certificates): PathValidationResult
     {
-        return new PathValidationResult($certificates, $this->_validPolicyTree,
-            $this->_workingPublicKey, $this->_workingPublicKeyAlgorithm,
-            $this->_workingPublicKeyParameters);
+        return new PathValidationResult(
+            $certificates,
+            $this->_validPolicyTree,
+            $this->_workingPublicKey,
+            $this->_workingPublicKeyAlgorithm,
+            $this->_workingPublicKeyParameters
+        );
     }
 
     /**

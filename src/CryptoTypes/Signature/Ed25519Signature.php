@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Signature;
 
@@ -29,7 +29,8 @@ class Ed25519Signature extends Signature
     {
         if (64 !== strlen($signature)) {
             throw new \InvalidArgumentException(
-                'Ed25519 signature must be 64 octets.');
+                'Ed25519 signature must be 64 octets.'
+            );
         }
         $this->_signature = $signature;
     }

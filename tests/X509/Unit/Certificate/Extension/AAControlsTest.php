@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\AAControlsExtension;
@@ -20,8 +20,13 @@ class AAControlsTest extends TestCase
 {
     public function testCreate()
     {
-        $ext = new AAControlsExtension(true, 3, ['1.2.3.4'],
-            ['1.2.3.5', '1.2.3.6'], false);
+        $ext = new AAControlsExtension(
+            true,
+            3,
+            ['1.2.3.4'],
+            ['1.2.3.5', '1.2.3.6'],
+            false
+        );
         $this->assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }

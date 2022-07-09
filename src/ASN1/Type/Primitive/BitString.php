@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -169,9 +169,11 @@ class BitString extends BaseString
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         if ($length->intLength() < 1) {
@@ -180,7 +182,8 @@ class BitString extends BaseString
         $unused_bits = ord($data[$idx++]);
         if ($unused_bits > 7) {
             throw new DecodeException(
-                'Unused bits in a bit string must be less than 8.');
+                'Unused bits in a bit string must be less than 8.'
+            );
         }
         $str_len = $length->intLength() - 1;
         if ($str_len) {
@@ -189,7 +192,8 @@ class BitString extends BaseString
                 $mask = (1 << $unused_bits) - 1;
                 if (ord($str[strlen($str) - 1]) & $mask) {
                     throw new DecodeException(
-                        'DER encoded bit string must have zero padding.');
+                        'DER encoded bit string must have zero padding.'
+                    );
                 }
             }
         } else {

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -28,7 +28,7 @@ class Attributes extends SequenceOfAttributes
      *
      * @var array
      */
-    const MAP_OID_TO_CLASS = [
+    public const MAP_OID_TO_CLASS = [
         AccessIdentityAttributeValue::OID => AccessIdentityAttributeValue::class,
         AuthenticationInfoAttributeValue::OID => AuthenticationInfoAttributeValue::class,
         ChargingIdentityAttributeValue::OID => ChargingIdentityAttributeValue::class,
@@ -143,11 +143,15 @@ class Attributes extends SequenceOfAttributes
      */
     public function roles(): array
     {
-        return array_merge([],
+        return array_merge(
+            [],
             ...array_map(
                 function (Attribute $attr) {
                     return $attr->values();
-                }, $this->allOf(AttributeType::OID_ROLE)));
+                },
+                $this->allOf(AttributeType::OID_ROLE)
+            )
+        );
     }
 
     /**

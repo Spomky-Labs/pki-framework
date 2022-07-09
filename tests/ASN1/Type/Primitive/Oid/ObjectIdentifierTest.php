@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Oid;
 
@@ -68,8 +68,10 @@ class ObjectIdentifierTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(ObjectIdentifier::class,
-            $wrap->asObjectIdentifier());
+        $this->assertInstanceOf(
+            ObjectIdentifier::class,
+            $wrap->asObjectIdentifier()
+        );
     }
 
     public function testWrappedFail()
@@ -77,7 +79,8 @@ class ObjectIdentifierTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'OBJECT IDENTIFIER expected, got primitive NULL');
+            'OBJECT IDENTIFIER expected, got primitive NULL'
+        );
         $wrap->asObjectIdentifier();
     }
 
@@ -99,7 +102,8 @@ class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Second node must be in 0..39 range for root arcs 0 and 1');
+            'Second node must be in 0..39 range for root arcs 0 and 1'
+        );
         new ObjectIdentifier('0.40');
     }
 
@@ -107,7 +111,8 @@ class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Second node must be in 0..39 range for root arcs 0 and 1');
+            'Second node must be in 0..39 range for root arcs 0 and 1'
+        );
         new ObjectIdentifier('1.40');
     }
 
@@ -140,9 +145,11 @@ class ObjectIdentifierTest extends TestCase
     {
         $x = new ObjectIdentifier($oid);
         $der = $x->toDER();
-        $this->assertEquals($oid,
+        $this->assertEquals(
+            $oid,
             UnspecifiedType::fromDER($der)->asObjectIdentifier()
-                ->oid());
+                ->oid()
+        );
     }
 
     /**
@@ -150,8 +157,10 @@ class ObjectIdentifierTest extends TestCase
      */
     public function oidProvider()
     {
-        return array_map(fn($x) => [$x],
+        return array_map(
+            fn ($x) => [$x],
             ['0.0', '0.1', '1.0', '0.0.0', '0.39', '1.39', '2.39', '2.40',
-                '2.999999', '2.99999.1', ]);
+                '2.999999', '2.99999.1', ]
+        );
     }
 }

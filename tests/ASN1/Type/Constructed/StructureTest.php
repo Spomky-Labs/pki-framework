@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed;
 
@@ -100,7 +100,8 @@ class StructureTest extends TestCase
         $seq = new Sequence(new NullType(), new NullType());
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage(
-            'Structure doesn\'t have element at index 2');
+            'Structure doesn\'t have element at index 2'
+        );
         $seq->withReplaced(2, new Boolean(true));
     }
 
@@ -108,8 +109,11 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(0, new Boolean(true));
-        $expected = new Sequence(new Boolean(true), new NullType(),
-            new NullType());
+        $expected = new Sequence(
+            new Boolean(true),
+            new NullType(),
+            new NullType()
+        );
         $this->assertEquals($expected, $seq);
     }
 
@@ -117,8 +121,11 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(1, new Boolean(true));
-        $expected = new Sequence(new NullType(), new Boolean(true),
-            new NullType());
+        $expected = new Sequence(
+            new NullType(),
+            new Boolean(true),
+            new NullType()
+        );
         $this->assertEquals($expected, $seq);
     }
 
@@ -126,8 +133,11 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $seq = $seq->withInserted(2, new Boolean(true));
-        $expected = new Sequence(new NullType(), new NullType(),
-            new Boolean(true));
+        $expected = new Sequence(
+            new NullType(),
+            new NullType(),
+            new Boolean(true)
+        );
         $this->assertEquals($expected, $seq);
     }
 
@@ -184,7 +194,8 @@ class StructureTest extends TestCase
         $seq = new Sequence(new NullType());
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage(
-            'Structure doesn\'t have element at index 1');
+            'Structure doesn\'t have element at index 1'
+        );
         $seq->withoutElement(1);
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\RSA;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -12,6 +11,7 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -76,7 +76,8 @@ class RSAPrivateKeyTest extends TestCase
     {
         $pub = $pk->publicKey();
         $ref = RSAPublicKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem')
+        );
         $this->assertEquals($ref, $pub);
     }
 

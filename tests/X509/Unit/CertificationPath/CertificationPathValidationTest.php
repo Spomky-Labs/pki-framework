@@ -30,11 +30,14 @@ class CertificationPathValidationTest extends TestCase
     {
         $certs = [
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')),
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
+            ),
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-ecdsa.pem')),
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-ecdsa.pem')
+            ),
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')),];
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')
+            ), ];
         self::$_path = new CertificationPath(...$certs);
     }
 
@@ -61,14 +64,16 @@ class CertificationPathValidationTest extends TestCase
     public function testResult(PathValidationResult $result)
     {
         $expected_cert = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')
+        );
         $this->assertEquals($expected_cert, $result->certificate());
     }
 
     public function testValidateExpired()
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(
-            new \DateTimeImmutable('2026-01-03'));
+            new \DateTimeImmutable('2026-01-03')
+        );
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
@@ -76,7 +81,8 @@ class CertificationPathValidationTest extends TestCase
     public function testValidateNotBeforeFail()
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(
-            new \DateTimeImmutable('2015-12-31'));
+            new \DateTimeImmutable('2015-12-31')
+        );
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
@@ -91,26 +97,36 @@ class CertificationPathValidationTest extends TestCase
     public function testNoCertsFail()
     {
         $this->expectException(\LogicException::class);
-        new PathValidator(Crypto::getDefault(),
-            PathValidationConfig::defaultConfig());
+        new PathValidator(
+            Crypto::getDefault(),
+            PathValidationConfig::defaultConfig()
+        );
     }
 
     public function testExplicitTrustAnchor()
     {
         $config = PathValidationConfig::defaultConfig()->withTrustAnchor(
-            self::$_path->certificates()[0]);
-        $validator = new PathValidator(Crypto::getDefault(), $config,
-            ...self::$_path->certificates());
-        $this->assertInstanceOf(PathValidationResult::class,
-            $validator->validate());
+            self::$_path->certificates()[0]
+        );
+        $validator = new PathValidator(
+            Crypto::getDefault(),
+            $config,
+            ...self::$_path->certificates()
+        );
+        $this->assertInstanceOf(
+            PathValidationResult::class,
+            $validator->validate()
+        );
     }
 
     public function testValidateFailNoCerts()
     {
-        $validator = new PathValidator(Crypto::getDefault(),
+        $validator = new PathValidator(
+            Crypto::getDefault(),
             PathValidationConfig::defaultConfig(),
-            ...self::$_path->certificates());
-        $cls =  new \ReflectionClass($validator);
+            ...self::$_path->certificates()
+        );
+        $cls = new \ReflectionClass($validator);
         $prop = $cls->getProperty('_certificates');
         $prop->setAccessible(true);
         $prop->setValue($validator, []);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
@@ -22,7 +22,8 @@ abstract class Curve25519PublicKey extends RFC8410PublicKey
     {
         if (32 !== strlen($public_key)) {
             throw new \UnexpectedValueException(
-                'Curve25519 public key must be exactly 32 bytes.');
+                'Curve25519 public key must be exactly 32 bytes.'
+            );
         }
         parent::__construct($public_key);
     }

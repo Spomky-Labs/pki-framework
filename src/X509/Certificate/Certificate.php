@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
@@ -48,9 +48,11 @@ class Certificate
      * @param SignatureAlgorithmIdentifier $algo
      * @param Signature                    $signature
      */
-    public function __construct(TBSCertificate $tbsCert,
-        SignatureAlgorithmIdentifier $algo, Signature $signature)
-    {
+    public function __construct(
+        TBSCertificate $tbsCert,
+        SignatureAlgorithmIdentifier $algo,
+        Signature $signature
+    ) {
         $this->_tbsCertificate = $tbsCert;
         $this->_signatureAlgorithm = $algo;
         $this->_signatureValue = $signature;
@@ -79,10 +81,13 @@ class Certificate
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (!$algo instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $algo->oid() . '.');
+                'Unsupported signature algorithm ' . $algo->oid() . '.'
+            );
         }
         $signature = Signature::fromSignatureData(
-            $seq->at(2)->asBitString()->string(), $algo);
+            $seq->at(2)->asBitString()->string(),
+            $algo
+        );
         return new self($tbsCert, $algo, $signature);
     }
 
@@ -153,7 +158,8 @@ class Certificate
     public function isSelfIssued(): bool
     {
         return $this->_tbsCertificate->subject()->equals(
-            $this->_tbsCertificate->issuer());
+            $this->_tbsCertificate->issuer()
+        );
     }
 
     /**
@@ -176,9 +182,11 @@ class Certificate
      */
     public function toASN1(): Sequence
     {
-        return new Sequence($this->_tbsCertificate->toASN1(),
+        return new Sequence(
+            $this->_tbsCertificate->toASN1(),
             $this->_signatureAlgorithm->toASN1(),
-            $this->_signatureValue->bitString());
+            $this->_signatureValue->bitString()
+        );
     }
 
     /**
@@ -213,8 +221,12 @@ class Certificate
     {
         $crypto = $crypto ?? Crypto::getDefault();
         $data = $this->_tbsCertificate->toASN1()->toDER();
-        return $crypto->verify($data, $this->_signatureValue, $pubkey_info,
-            $this->_signatureAlgorithm);
+        return $crypto->verify(
+            $data,
+            $this->_signatureValue,
+            $pubkey_info,
+            $this->_signatureAlgorithm
+        );
     }
 
     /**

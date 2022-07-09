@@ -17,14 +17,15 @@ use Sop\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
  */
 class ReasonFlagsTest extends TestCase
 {
-    const URI = 'urn:test';
+    public const URI = 'urn:test';
 
     public function testCreate()
     {
         $reasons = new ReasonFlags(
             ReasonFlags::KEY_COMPROMISE | ReasonFlags::AFFILIATION_CHANGED |
             ReasonFlags::CESSATION_OF_OPERATION |
-            ReasonFlags::PRIVILEGE_WITHDRAWN);
+            ReasonFlags::PRIVILEGE_WITHDRAWN
+        );
         $this->assertInstanceOf(ReasonFlags::class, $reasons);
         return $reasons;
     }

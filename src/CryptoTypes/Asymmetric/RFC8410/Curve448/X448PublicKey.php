@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve448;
 
@@ -24,7 +24,8 @@ class X448PublicKey extends RFC8410PublicKey
     {
         if (56 !== strlen($public_key)) {
             throw new \UnexpectedValueException(
-                'X448 public key must be exactly 56 bytes.');
+                'X448 public key must be exactly 56 bytes.'
+            );
         }
         parent::__construct($public_key);
     }

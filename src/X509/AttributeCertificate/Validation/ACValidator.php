@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Validation;
 
@@ -49,9 +49,11 @@ class ACValidator
      * @param ACValidationConfig   $config Validation configuration
      * @param null|Crypto          $crypto Crypto engine, use default if not set
      */
-    public function __construct(AttributeCertificate $ac,
-        ACValidationConfig $config, ?Crypto $crypto = null)
-    {
+    public function __construct(
+        AttributeCertificate $ac,
+        ACValidationConfig $config,
+        ?Crypto $crypto = null
+    ) {
         $this->_ac = $ac;
         $this->_config = $config;
         $this->_crypto = $crypto ?? Crypto::getDefault();
@@ -91,7 +93,10 @@ class ACValidator
             $holder = $path->validate($config, $this->_crypto)->certificate();
         } catch (PathValidationException $e) {
             throw new ACValidationException(
-                "Failed to validate holder PKC's certification path.", 0, $e);
+                "Failed to validate holder PKC's certification path.",
+                0,
+                $e
+            );
         }
         if (!$this->_ac->isHeldBy($holder)) {
             throw new ACValidationException("Name mismatch of AC's holder PKC.");
@@ -116,7 +121,10 @@ class ACValidator
             $issuer = $path->validate($config, $this->_crypto)->certificate();
         } catch (PathValidationException $e) {
             throw new ACValidationException(
-                "Failed to validate issuer PKC's certification path.", 0, $e);
+                "Failed to validate issuer PKC's certification path.",
+                0,
+                $e
+            );
         }
         if (!$this->_ac->isIssuedBy($issuer)) {
             throw new ACValidationException("Name mismatch of AC's issuer PKC.");
@@ -143,7 +151,8 @@ class ACValidator
         if ($exts->hasKeyUsage() && !$exts->keyUsage()->isDigitalSignature()) {
             throw new ACValidationException(
                 "Issuer PKC's Key Usage extension doesn't permit" .
-                     ' verification of digital signatures.');
+                     ' verification of digital signatures.'
+            );
         }
         if ($exts->hasBasicConstraints() && $exts->basicConstraints()->isCA()) {
             throw new ACValidationException('Issuer PKC must not be a CA.');
@@ -183,7 +192,8 @@ class ACValidator
         if ($ext instanceof TargetInformationExtension &&
             !$this->_hasMatchingTarget($ext->targets())) {
             throw new ACValidationException(
-                "Attribute certificate doesn't have a matching target.");
+                "Attribute certificate doesn't have a matching target."
+            );
         }
     }
 

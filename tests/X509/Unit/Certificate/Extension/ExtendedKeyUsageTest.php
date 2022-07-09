@@ -20,9 +20,11 @@ class ExtendedKeyUsageTest extends TestCase
 {
     public function testCreate()
     {
-        $ext = new ExtendedKeyUsageExtension(true,
+        $ext = new ExtendedKeyUsageExtension(
+            true,
             ExtendedKeyUsageExtension::OID_SERVER_AUTH,
-            ExtendedKeyUsageExtension::OID_CLIENT_AUTH);
+            ExtendedKeyUsageExtension::OID_CLIENT_AUTH
+        );
         $this->assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);
         return $ext;
     }
@@ -80,8 +82,11 @@ class ExtendedKeyUsageTest extends TestCase
     public function testHas(ExtendedKeyUsageExtension $ext)
     {
         $this->assertTrue(
-            $ext->has(ExtendedKeyUsageExtension::OID_SERVER_AUTH,
-                ExtendedKeyUsageExtension::OID_CLIENT_AUTH));
+            $ext->has(
+                ExtendedKeyUsageExtension::OID_SERVER_AUTH,
+                ExtendedKeyUsageExtension::OID_CLIENT_AUTH
+            )
+        );
     }
 
     /**
@@ -90,7 +95,8 @@ class ExtendedKeyUsageTest extends TestCase
     public function testHasNot(ExtendedKeyUsageExtension $ext)
     {
         $this->assertFalse(
-            $ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
+            $ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING)
+        );
     }
 
     /**

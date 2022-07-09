@@ -21,7 +21,7 @@ class PolicyTreeTest extends TestCase
     public function testNodesAtDepthNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
-        $obj =  new \ReflectionClass($tree);
+        $obj = new \ReflectionClass($tree);
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
@@ -34,7 +34,7 @@ class PolicyTreeTest extends TestCase
     public function testValidPolicyNodeSetNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
-        $obj =  new \ReflectionClass($tree);
+        $obj = new \ReflectionClass($tree);
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
@@ -49,7 +49,7 @@ class PolicyTreeTest extends TestCase
     public function testPruneNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
-        $obj =  new \ReflectionClass($tree);
+        $obj = new \ReflectionClass($tree);
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);

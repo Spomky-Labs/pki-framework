@@ -36,10 +36,11 @@ class AuthorityKeyIdentifierTest extends RefExtTestHelper
      * @param AuthorityKeyIdentifierExtension $aki
      */
     public function testAuthorityKeyIdentifierKey(
-        AuthorityKeyIdentifierExtension $aki)
-    {
+        AuthorityKeyIdentifierExtension $aki
+    ) {
         $pem = PEM::fromFile(
-            TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem');
+            TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem'
+        );
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()
             ->keyIdentifier();
@@ -52,8 +53,8 @@ class AuthorityKeyIdentifierTest extends RefExtTestHelper
      * @param AuthorityKeyIdentifierExtension $aki
      */
     public function testAuthorityKeyIdentifierIssuer(
-        AuthorityKeyIdentifierExtension $aki)
-    {
+        AuthorityKeyIdentifierExtension $aki
+    ) {
         $issuer_dn = $aki->issuer()
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()

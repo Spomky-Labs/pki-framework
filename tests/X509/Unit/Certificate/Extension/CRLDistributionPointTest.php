@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \LogicException;
-use \UnexpectedValueException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -19,6 +18,7 @@ use Sop\X509\Certificate\Extensions;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -28,14 +28,15 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class CRLDistributionPointTest extends TestCase
 {
-    final const DP_URI = 'urn:test';
+    final public const DP_URI = 'urn:test';
 
-    final const ISSUER_DN = 'cn=Issuer';
+    final public const ISSUER_DN = 'cn=Issuer';
 
     public function testCreateDistributionPoint()
     {
         $name = new FullName(
-            new GeneralNames(new UniformResourceIdentifier(self::DP_URI)));
+            new GeneralNames(new UniformResourceIdentifier(self::DP_URI))
+        );
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
         $issuer = new GeneralNames(DirectoryName::fromDNString(self::ISSUER_DN));
         $dp = new DistributionPoint($name, $reasons, $issuer);
@@ -48,8 +49,11 @@ class CRLDistributionPointTest extends TestCase
      */
     public function testCreate(DistributionPoint $dp)
     {
-        $ext = new CRLDistributionPointsExtension(true, $dp,
-            new DistributionPoint());
+        $ext = new CRLDistributionPointsExtension(
+            true,
+            $dp,
+            new DistributionPoint()
+        );
         $this->assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }
@@ -157,9 +161,11 @@ class CRLDistributionPointTest extends TestCase
      */
     public function testDPIssuer(DistributionPoint $dp)
     {
-        $this->assertEquals(self::ISSUER_DN,
+        $this->assertEquals(
+            self::ISSUER_DN,
             $dp->crlIssuer()
-                ->firstDN());
+                ->firstDN()
+        );
     }
 
     /**
@@ -193,7 +199,8 @@ class CRLDistributionPointTest extends TestCase
         $seq = new Sequence();
         $ext_seq = new Sequence(
             new ObjectIdentifier(Extension::OID_CRL_DISTRIBUTION_POINTS),
-            new OctetString($seq->toDER()));
+            new OctetString($seq->toDER())
+        );
         $this->expectException(\UnexpectedValueException::class);
         CRLDistributionPointsExtension::fromASN1($ext_seq);
     }

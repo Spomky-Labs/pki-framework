@@ -20,9 +20,11 @@ class KeyUsageTest extends TestCase
 {
     public function testCreate()
     {
-        $ext = new KeyUsageExtension(true,
+        $ext = new KeyUsageExtension(
+            true,
             KeyUsageExtension::DIGITAL_SIGNATURE |
-            KeyUsageExtension::KEY_ENCIPHERMENT);
+            KeyUsageExtension::KEY_ENCIPHERMENT
+        );
         $this->assertInstanceOf(KeyUsageExtension::class, $ext);
         return $ext;
     }

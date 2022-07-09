@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit;
 
-use \UnexpectedValueException;
-use \RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -17,6 +16,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -53,8 +53,10 @@ class PublicKeyInfoTest extends TestCase
      */
     public function testAlgoOID(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION,
-            $algo->oid());
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
+            $algo->oid()
+        );
     }
 
     /**
@@ -164,7 +166,9 @@ class PublicKeyInfoTest extends TestCase
     public function testInvalidECAlgoFail()
     {
         $pki = new PublicKeyInfo(
-            new PubliceKeyInfoTest_InvalidECAlgo(), new BitString(''));
+            new PubliceKeyInfoTest_InvalidECAlgo(),
+            new BitString('')
+        );
         $this->expectException(\UnexpectedValueException::class);
         $pki->publicKey();
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoBridge;
 
@@ -24,8 +24,11 @@ abstract class Crypto
      *
      * @return Signature
      */
-    abstract public function sign(string $data, PrivateKeyInfo $privkey_info,
-        SignatureAlgorithmIdentifier $algo): Signature;
+    abstract public function sign(
+        string $data,
+        PrivateKeyInfo $privkey_info,
+        SignatureAlgorithmIdentifier $algo
+    ): Signature;
 
     /**
      * Verify signature with given algorithm using given public key.
@@ -37,8 +40,12 @@ abstract class Crypto
      *
      * @return bool True if signature matches
      */
-    abstract public function verify(string $data, Signature $signature,
-        PublicKeyInfo $pubkey_info, SignatureAlgorithmIdentifier $algo): bool;
+    abstract public function verify(
+        string $data,
+        Signature $signature,
+        PublicKeyInfo $pubkey_info,
+        SignatureAlgorithmIdentifier $algo
+    ): bool;
 
     /**
      * Encrypt data with given algorithm using given key.
@@ -52,8 +59,11 @@ abstract class Crypto
      *
      * @return string Ciphertext
      */
-    abstract public function encrypt(string $data, string $key,
-        CipherAlgorithmIdentifier $algo): string;
+    abstract public function encrypt(
+        string $data,
+        string $key,
+        CipherAlgorithmIdentifier $algo
+    ): string;
 
     /**
      * Decrypt data with given algorithm using given key.
@@ -68,8 +78,11 @@ abstract class Crypto
      *
      * @return string Plaintext
      */
-    abstract public function decrypt(string $data, string $key,
-        CipherAlgorithmIdentifier $algo): string;
+    abstract public function decrypt(
+        string $data,
+        string $key,
+        CipherAlgorithmIdentifier $algo
+    ): string;
 
     /**
      * Get default supported crypto implementation.

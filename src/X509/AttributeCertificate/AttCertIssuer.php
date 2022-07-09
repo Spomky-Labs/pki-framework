@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -82,7 +82,8 @@ abstract class AttCertIssuer
         switch ($tagged->tag()) {
             case 0:
                 return V2Form::fromV2ASN1(
-                    $tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+                    $tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+                );
         }
         throw new \UnexpectedValueException('Unsupported issuer type.');
     }

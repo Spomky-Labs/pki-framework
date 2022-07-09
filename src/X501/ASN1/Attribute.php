@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
@@ -57,7 +57,9 @@ class Attribute implements \Countable, \IteratorAggregate
         $values = array_map(
             function (UnspecifiedType $el) use ($type) {
                 return AttributeValue::fromASN1ByOID($type->oid(), $el);
-            }, $seq->at(1)->asSet()->elements());
+            },
+            $seq->at(1)->asSet()->elements()
+        );
         return new self($type, ...$values);
     }
 
@@ -115,7 +117,9 @@ class Attribute implements \Countable, \IteratorAggregate
         $values = array_map(
             function (AttributeValue $value) {
                 return $value->toASN1();
-            }, $this->_values);
+            },
+            $this->_values
+        );
         $valueset = new Set(...$values);
         return new Sequence($this->_type->toASN1(), $valueset->sortedSetOf());
     }
@@ -140,7 +144,10 @@ class Attribute implements \Countable, \IteratorAggregate
         // check that target class derives from AttributeValue
         if (!is_subclass_of($cls, AttributeValue::class)) {
             throw new \LogicException(sprintf(
-                '%s must be derived from %s.', $cls, AttributeValue::class));
+                '%s must be derived from %s.',
+                $cls,
+                AttributeValue::class
+            ));
         }
         $values = array_map(
             function (AttributeValue $value) use ($cls) {
@@ -150,7 +157,9 @@ class Attribute implements \Countable, \IteratorAggregate
                     throw new \LogicException('Attribute OID mismatch.');
                 }
                 return $value;
-            }, $this->_values);
+            },
+            $this->_values
+        );
         return self::fromAttributeValues(...$values);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Constructed;
 
@@ -31,7 +31,8 @@ class Set extends Structure
     public function sortedSet(): self
     {
         $obj = clone $this;
-        usort($obj->_elements,
+        usort(
+            $obj->_elements,
             function (Element $a, Element $b) {
                 if ($a->typeClass() !== $b->typeClass()) {
                     return $a->typeClass() < $b->typeClass() ? -1 : 1;
@@ -40,7 +41,8 @@ class Set extends Structure
                     return 0;
                 }
                 return $a->tag() < $b->tag() ? -1 : 1;
-            });
+            }
+        );
         return $obj;
     }
 
@@ -52,12 +54,14 @@ class Set extends Structure
     public function sortedSetOf(): self
     {
         $obj = clone $this;
-        usort($obj->_elements,
+        usort(
+            $obj->_elements,
             function (Element $a, Element $b) {
                 $a_der = $a->toDER();
                 $b_der = $b->toDER();
                 return strcmp($a_der, $b_der);
-            });
+            }
+        );
         return $obj;
     }
 }

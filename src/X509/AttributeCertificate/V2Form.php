@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -69,12 +69,14 @@ class V2Form extends AttCertIssuer
         if ($seq->hasTagged(0)) {
             $cert_id = IssuerSerial::fromASN1(
                 $seq->getTagged(0)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
         }
         if ($seq->hasTagged(1)) {
             $digest_info = ObjectDigestInfo::fromASN1(
                 $seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)
-                    ->asSequence());
+                    ->asSequence()
+            );
         }
         $obj = new self($issuer);
         $obj->_baseCertificateID = $cert_id;
@@ -130,12 +132,16 @@ class V2Form extends AttCertIssuer
             $elements[] = $this->_issuerName->toASN1();
         }
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(0,
-                $this->_baseCertificateID->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                0,
+                $this->_baseCertificateID->toASN1()
+            );
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(1,
-                $this->_objectDigestInfo->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                1,
+                $this->_objectDigestInfo->toASN1()
+            );
         }
         return new ImplicitlyTaggedType(0, new Sequence(...$elements));
     }

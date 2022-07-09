@@ -18,7 +18,7 @@ use Sop\X509\Certificate\Extensions;
  */
 class SubjectKeyIdentifierTest extends TestCase
 {
-    final const KEY_ID = 'test-id';
+    final public const KEY_ID = 'test-id';
 
     public function testCreate()
     {

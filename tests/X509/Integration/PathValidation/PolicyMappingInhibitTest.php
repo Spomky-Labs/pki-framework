@@ -30,11 +30,11 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
  */
 class PolicyMappingInhibitTest extends TestCase
 {
-    const CA_NAME = 'cn=CA';
+    public const CA_NAME = 'cn=CA';
 
-    const INTERM_NAME = 'cn=Interm';
+    public const INTERM_NAME = 'cn=Interm';
 
-    const CERT_NAME = 'cn=EE';
+    public const CERT_NAME = 'cn=EE';
 
     private static $_caKey;
 
@@ -51,46 +51,74 @@ class PolicyMappingInhibitTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_caKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ca-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ca-rsa.pem')
+        )->privateKeyInfo();
         self::$_intermKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem')
+        )->privateKeyInfo();
         self::$_certKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
+        )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(Name::fromString(self::CA_NAME),
-            self::$_caKey->publicKeyInfo(), Name::fromString(self::CA_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
+        $tbs = new TBSCertificate(
+            Name::fromString(self::CA_NAME),
+            self::$_caKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(false,
-                new PolicyInformation('1.3.6.1.3.1')),
-            new PolicyConstraintsExtension(true, 0, 0));
-        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey);
+            new CertificatePoliciesExtension(
+                false,
+                new PolicyInformation('1.3.6.1.3.1')
+            ),
+            new PolicyConstraintsExtension(true, 0, 0)
+        );
+        self::$_ca = $tbs->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_caKey
+        );
         // create intermediate certificate
-        $tbs = new TBSCertificate(Name::fromString(self::INTERM_NAME),
-            self::$_intermKey->publicKeyInfo(), Name::fromString(self::CA_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
+        $tbs = new TBSCertificate(
+            Name::fromString(self::INTERM_NAME),
+            self::$_intermKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(false,
-                new PolicyInformation('1.3.6.1.3.1')),
-            new PolicyMappingsExtension(true,
-                new PolicyMapping('1.3.6.1.3.1', '1.3.6.1.3.2')));
+            new CertificatePoliciesExtension(
+                false,
+                new PolicyInformation('1.3.6.1.3.1')
+            ),
+            new PolicyMappingsExtension(
+                true,
+                new PolicyMapping('1.3.6.1.3.1', '1.3.6.1.3.2')
+            )
+        );
         self::$_interm = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_caKey
+        );
         // create end-entity certificate
-        $tbs = new TBSCertificate(Name::fromString(self::CERT_NAME),
+        $tbs = new TBSCertificate(
+            Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::INTERM_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
         $tbs = $tbs->withIssuerCertificate(self::$_interm);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(false,
-                new PolicyInformation('1.3.6.1.3.2')));
+            new CertificatePoliciesExtension(
+                false,
+                new PolicyInformation('1.3.6.1.3.2')
+            )
+        );
         self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_intermKey);
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_intermKey
+        );
     }
 
     public static function tearDownAfterClass(): void

@@ -20,12 +20,14 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class IssuerAlternativeNameTest extends TestCase
 {
-    final const DN = 'cn=Alt name';
+    final public const DN = 'cn=Alt name';
 
     public function testCreate()
     {
-        $ext = new IssuerAlternativeNameExtension(true,
-            new GeneralNames(DirectoryName::fromDNString(self::DN)));
+        $ext = new IssuerAlternativeNameExtension(
+            true,
+            new GeneralNames(DirectoryName::fromDNString(self::DN))
+        );
         $this->assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);
         return $ext;
     }

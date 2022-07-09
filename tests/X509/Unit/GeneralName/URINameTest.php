@@ -18,7 +18,7 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class URINameTest extends TestCase
 {
-    const URI = 'urn:test';
+    public const URI = 'urn:test';
 
     public function testCreate()
     {
@@ -69,9 +69,10 @@ class URINameTest extends TestCase
      * @param UniformResourceIdentifier $ref
      * @param UniformResourceIdentifier $new
      */
-    public function testRecoded(UniformResourceIdentifier $ref,
-                                UniformResourceIdentifier $new)
-    {
+    public function testRecoded(
+        UniformResourceIdentifier $ref,
+        UniformResourceIdentifier $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 

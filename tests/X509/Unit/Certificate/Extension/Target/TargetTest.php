@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension\Target;
 
-use \BadMethodCallException;
-use \RuntimeException;
-use \UnexpectedValueException;
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\X509\Certificate\Extension\Target\Target;
@@ -15,6 +14,7 @@ use Sop\X509\Certificate\Extension\Target\TargetGroup;
 use Sop\X509\Certificate\Extension\Target\TargetName;
 use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\RFC822Name;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -35,7 +35,8 @@ class TargetTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
         Target::fromASN1(
-            new ImplicitlyTaggedType(Target::TYPE_CERT, new NullType()));
+            new ImplicitlyTaggedType(Target::TYPE_CERT, new NullType())
+        );
     }
 
     public function testDecodeUnsupportedTagFail()

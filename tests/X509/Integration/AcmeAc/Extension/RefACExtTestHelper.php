@@ -15,7 +15,8 @@ abstract class RefACExtTestHelper extends TestCase
     public static function setUpBeforeClass(): void
     {
         $ac = AttributeCertificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem')
+        );
         self::$_extensions = $ac->acinfo()->extensions();
     }
 

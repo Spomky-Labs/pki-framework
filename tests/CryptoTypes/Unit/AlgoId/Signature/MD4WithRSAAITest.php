@@ -34,8 +34,10 @@ class MD4WithRSAAITest extends TestCase
     public function testDecode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(MD4WithRSAEncryptionAlgorithmIdentifier::class,
-            $ai);
+        $this->assertInstanceOf(
+            MD4WithRSAEncryptionAlgorithmIdentifier::class,
+            $ai
+        );
         return $ai;
     }
 

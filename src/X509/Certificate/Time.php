@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
@@ -104,7 +104,8 @@ class Time
                 return new GeneralizedTime($dt);
         }
         throw new \UnexpectedValueException(
-            'Time type ' . Element::tagToName($this->_type) . ' not supported.');
+            'Time type ' . Element::tagToName($this->_type) . ' not supported.'
+        );
     }
 
     /**

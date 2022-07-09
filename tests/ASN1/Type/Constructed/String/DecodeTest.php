@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed\String;
 
@@ -35,7 +35,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            NullType::class . ' expected, got ' . ConstructedString::class);
+            NullType::class . ' expected, got ' . ConstructedString::class
+        );
         NullType::fromDER(hex2bin('2400'));
     }
 

@@ -46,7 +46,8 @@ class RC2CBCAITest extends TestCase
     {
         $seq = new Sequence(
             new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC),
-            new OctetString(self::IV));
+            new OctetString(self::IV)
+        );
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
     }

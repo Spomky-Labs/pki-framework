@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
-use \DateTimeImmutable;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Validity;
@@ -17,9 +17,9 @@ use Sop\X509\Certificate\Validity;
  */
 class ValidityTest extends TestCase
 {
-    final const NB = '2016-04-06 12:00:00';
+    final public const NB = '2016-04-06 12:00:00';
 
-    final const NA = '2016-04-06 13:00:00';
+    final public const NA = '2016-04-06 13:00:00';
 
     public function testCreate()
     {
@@ -64,9 +64,11 @@ class ValidityTest extends TestCase
      */
     public function testNotBefore(Validity $validity)
     {
-        $this->assertEquals(new \DateTimeImmutable(self::NB),
+        $this->assertEquals(
+            new \DateTimeImmutable(self::NB),
             $validity->notBefore()
-                ->dateTime());
+                ->dateTime()
+        );
     }
 
     /**
@@ -74,8 +76,10 @@ class ValidityTest extends TestCase
      */
     public function testNotAfter(Validity $validity)
     {
-        $this->assertEquals(new \DateTimeImmutable(self::NA),
+        $this->assertEquals(
+            new \DateTimeImmutable(self::NA),
             $validity->notAfter()
-                ->dateTime());
+                ->dateTime()
+        );
     }
 }

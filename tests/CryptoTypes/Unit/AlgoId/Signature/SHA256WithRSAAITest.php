@@ -35,7 +35,9 @@ class SHA256WithRSAAITest extends TestCase
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(
-            SHA256WithRSAEncryptionAlgorithmIdentifier::class, $ai);
+            SHA256WithRSAEncryptionAlgorithmIdentifier::class,
+            $ai
+        );
         return $ai;
     }
 

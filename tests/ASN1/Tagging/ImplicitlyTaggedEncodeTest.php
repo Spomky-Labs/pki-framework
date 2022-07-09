@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -34,8 +34,10 @@ class ImplicitlyTaggedEncodeTest extends TestCase
     public function testRecode()
     {
         $el = new ImplicitlyTaggedType(0, new Boolean(true));
-        $this->assertInstanceOf(Boolean::class,
+        $this->assertInstanceOf(
+            Boolean::class,
             $el->implicit(Element::TYPE_BOOLEAN)
-                ->asBoolean());
+                ->asBoolean()
+        );
     }
 }

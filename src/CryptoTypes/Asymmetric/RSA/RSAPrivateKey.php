@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RSA;
 
@@ -257,7 +257,8 @@ class RSAPrivateKey extends PrivateKey
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new Integer(0),
+        return new Sequence(
+            new Integer(0),
             new Integer($this->_modulus),
             new Integer($this->_publicExponent),
             new Integer($this->_privateExponent),
@@ -265,7 +266,8 @@ class RSAPrivateKey extends PrivateKey
             new Integer($this->_prime2),
             new Integer($this->_exponent1),
             new Integer($this->_exponent2),
-            new Integer($this->_coefficient));
+            new Integer($this->_coefficient)
+        );
     }
 
     /**

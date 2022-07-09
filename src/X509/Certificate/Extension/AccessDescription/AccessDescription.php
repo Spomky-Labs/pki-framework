@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\AccessDescription;
 
@@ -83,7 +83,9 @@ abstract class AccessDescription
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new ObjectIdentifier($this->_accessMethod),
-            $this->_accessLocation->toASN1());
+        return new Sequence(
+            new ObjectIdentifier($this->_accessMethod),
+            $this->_accessLocation->toASN1()
+        );
     }
 }

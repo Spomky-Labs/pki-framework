@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
 
@@ -48,8 +48,8 @@ class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         if (isset($params)) {
             throw new \UnexpectedValueException('Parameters must be omitted.');
         }

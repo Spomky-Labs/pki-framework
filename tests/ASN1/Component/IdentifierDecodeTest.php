@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Component;
 
@@ -116,7 +116,8 @@ class IdentifierDecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unexpected end of data while decoding long form identifier');
+            'Unexpected end of data while decoding long form identifier'
+        );
         Identifier::fromDER("\x1f\xff");
     }
 }

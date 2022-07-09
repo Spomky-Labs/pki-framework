@@ -21,13 +21,17 @@ class SubjectInformationAccessTest extends TestCase
 {
     public function testCreate()
     {
-        $ext = new SubjectInformationAccessExtension(false,
+        $ext = new SubjectInformationAccessExtension(
+            false,
             new SubjectAccessDescription(
                 SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
-                new UniformResourceIdentifier('urn:test')),
+                new UniformResourceIdentifier('urn:test')
+            ),
             new SubjectAccessDescription(
                 SubjectAccessDescription::OID_METHOD_TIME_STAMPING,
-                new UniformResourceIdentifier('https://ts.example.com/')));
+                new UniformResourceIdentifier('https://ts.example.com/')
+            )
+        );
         $this->assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
         return $ext;
     }
@@ -37,8 +41,10 @@ class SubjectInformationAccessTest extends TestCase
      */
     public function testOID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_SUBJECT_INFORMATION_ACCESS,
-            $ext->oid());
+        $this->assertEquals(
+            Extension::OID_SUBJECT_INFORMATION_ACCESS,
+            $ext->oid()
+        );
     }
 
     /**
@@ -67,7 +73,8 @@ class SubjectInformationAccessTest extends TestCase
     public function testDecode($der)
     {
         $ext = SubjectInformationAccessExtension::fromASN1(
-            Sequence::fromDER($der));
+            Sequence::fromDER($der)
+        );
         $this->assertInstanceOf(SubjectInformationAccessExtension::class, $ext);
         return $ext;
     }
@@ -85,10 +92,12 @@ class SubjectInformationAccessTest extends TestCase
      * @depends testCreate
      */
     public function testAccessDescriptions(
-        SubjectInformationAccessExtension $ext)
-    {
-        $this->assertContainsOnlyInstancesOf(SubjectAccessDescription::class,
-            $ext->accessDescriptions());
+        SubjectInformationAccessExtension $ext
+    ) {
+        $this->assertContainsOnlyInstancesOf(
+            SubjectAccessDescription::class,
+            $ext->accessDescriptions()
+        );
     }
 
     /**
@@ -109,7 +118,9 @@ class SubjectInformationAccessTest extends TestCase
             $values[] = $desc;
         }
         $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(SubjectAccessDescription::class,
-            $values);
+        $this->assertContainsOnlyInstancesOf(
+            SubjectAccessDescription::class,
+            $values
+        );
     }
 }

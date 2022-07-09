@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationRequest;
 
@@ -24,7 +24,7 @@ use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
  */
 class CertificationRequestInfo
 {
-    const VERSION_1 = 0;
+    public const VERSION_1 = 0;
 
     /**
      * Version.
@@ -81,14 +81,16 @@ class CertificationRequestInfo
         $version = $seq->at(0)->asInteger()->intNumber();
         if (self::VERSION_1 !== $version) {
             throw new \UnexpectedValueException(
-                "Version {$version} not supported.");
+                "Version {$version} not supported."
+            );
         }
         $subject = Name::fromASN1($seq->at(1)->asSequence());
         $pkinfo = PublicKeyInfo::fromASN1($seq->at(2)->asSequence());
         $obj = new self($subject, $pkinfo);
         if ($seq->hasTagged(0)) {
             $obj->_attributes = Attributes::fromASN1(
-                $seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet());
+                $seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet()
+            );
         }
         return $obj;
     }
@@ -189,7 +191,9 @@ class CertificationRequestInfo
         }
         $obj->_attributes = $obj->_attributes->withUnique(
             Attribute::fromAttributeValues(
-                new ExtensionRequestValue($extensions)));
+                new ExtensionRequestValue($extensions)
+            )
+        );
         return $obj;
     }
 
@@ -203,8 +207,10 @@ class CertificationRequestInfo
         $elements = [new Integer($this->_version),
             $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1(), ];
         if (isset($this->_attributes)) {
-            $elements[] = new ImplicitlyTaggedType(0,
-                $this->_attributes->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                0,
+                $this->_attributes->toASN1()
+            );
         }
         return new Sequence(...$elements);
     }
@@ -218,9 +224,11 @@ class CertificationRequestInfo
      *
      * @return CertificationRequest
      */
-    public function sign(SignatureAlgorithmIdentifier $algo,
-        PrivateKeyInfo $privkey_info, ?Crypto $crypto = null): CertificationRequest
-    {
+    public function sign(
+        SignatureAlgorithmIdentifier $algo,
+        PrivateKeyInfo $privkey_info,
+        ?Crypto $crypto = null
+    ): CertificationRequest {
         $crypto = $crypto ?? Crypto::getDefault();
         $data = $this->toASN1()->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);

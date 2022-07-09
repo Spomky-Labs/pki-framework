@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
-use \RuntimeException;
 use Iterator;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
@@ -52,6 +52,6 @@ class BS2OSTest extends TestCase
         yield [new OctetString(''), new BitString('')];
         yield [new OctetString("\0"), new BitString("\0")];
         yield [new OctetString(str_repeat("\1\2\3\4", 256)),
-            new BitString(str_repeat("\1\2\3\4", 256)),];
+            new BitString(str_repeat("\1\2\3\4", 256)), ];
     }
 }

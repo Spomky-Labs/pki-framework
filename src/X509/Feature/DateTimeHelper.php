@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Feature;
 
@@ -20,8 +20,9 @@ trait DateTimeHelper
      * @return \DateTimeImmutable
      */
     private static function _createDateTime(
-        ?string $time = null, ?string $tz = null): \DateTimeImmutable
-    {
+        ?string $time = null,
+        ?string $tz = null
+    ): \DateTimeImmutable {
         if (!isset($time)) {
             $time = 'now';
         }
@@ -34,7 +35,10 @@ trait DateTimeHelper
         } catch (\Exception $e) {
             throw new \RuntimeException(
                 'Failed to create DateTime: ' .
-                     self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
+                     self::_getLastDateTimeImmutableErrorsStr(),
+                0,
+                $e
+            );
         }
     }
 
@@ -47,10 +51,13 @@ trait DateTimeHelper
      * @return \DateTimeImmutable
      */
     private static function _roundDownFractionalSeconds(
-        \DateTimeImmutable $dt): \DateTimeImmutable
-    {
-        return \DateTimeImmutable::createFromFormat('Y-m-d H:i:s',
-            $dt->format('Y-m-d H:i:s'), $dt->getTimezone());
+        \DateTimeImmutable $dt
+    ): \DateTimeImmutable {
+        return \DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $dt->format('Y-m-d H:i:s'),
+            $dt->getTimezone()
+        );
     }
 
     /**

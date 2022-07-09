@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -29,9 +29,10 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
      * @param bool              $critical
      * @param DistributionPoint ...$distribution_points
      */
-    public function __construct(bool $critical,
-        DistributionPoint ...$distribution_points)
-    {
+    public function __construct(
+        bool $critical,
+        DistributionPoint ...$distribution_points
+    ) {
         parent::__construct(self::OID_CRL_DISTRIBUTION_POINTS, $critical);
         $this->_distributionPoints = $distribution_points;
     }
@@ -78,10 +79,13 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
         $dps = array_map(
             function (UnspecifiedType $el) {
                 return DistributionPoint::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
         if (!count($dps)) {
             throw new \UnexpectedValueException(
-                'CRLDistributionPoints must have at least one DistributionPoint.');
+                'CRLDistributionPoints must have at least one DistributionPoint.'
+            );
         }
         // late static bound, extended by Freshest CRL extension
         return new static($critical, ...$dps);
@@ -98,7 +102,9 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
         $elements = array_map(
             function (DistributionPoint $dp) {
                 return $dp->toASN1();
-            }, $this->_distributionPoints);
+            },
+            $this->_distributionPoints
+        );
         return new Sequence(...$elements);
     }
 }

@@ -23,7 +23,8 @@ class PolicyNodeTest extends TestCase
     public function testHasChildWithPolicyMatch()
     {
         $node = PolicyNode::anyPolicyNode()->addChild(
-            new PolicyNode('1.3.6.1.3', [], []));
+            new PolicyNode('1.3.6.1.3', [], [])
+        );
         $this->assertTrue($node->hasChildWithValidPolicy('1.3.6.1.3'));
     }
 
@@ -38,7 +39,8 @@ class PolicyNodeTest extends TestCase
     public function testIterator()
     {
         $node = PolicyNode::anyPolicyNode()->addChild(
-            PolicyNode::anyPolicyNode())->addChild(PolicyNode::anyPolicyNode());
+            PolicyNode::anyPolicyNode()
+        )->addChild(PolicyNode::anyPolicyNode());
         $nodes = [];
         foreach ($node as $child) {
             $nodes[] = $child;

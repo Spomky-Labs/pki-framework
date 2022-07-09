@@ -21,7 +21,8 @@ class ECDSAAITest extends TestCase
     {
         $sig_algo = new ECDSAWithSHA1AlgorithmIdentifier();
         $key_algo = new ECPublicKeyAlgorithmIdentifier(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1);
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1
+        );
         $this->assertTrue($sig_algo->supportsKeyAlgorithm($key_algo));
     }
 

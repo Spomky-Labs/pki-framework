@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type;
 
@@ -35,8 +35,10 @@ class StringTypeDecodeTest extends TestCase
     public function testExpectation()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
-        $this->assertInstanceOf(StringType::class,
-            $el->expectType(Element::TYPE_STRING));
+        $this->assertInstanceOf(
+            StringType::class,
+            $el->expectType(Element::TYPE_STRING)
+        );
     }
 
     /**
@@ -44,11 +46,14 @@ class StringTypeDecodeTest extends TestCase
      */
     public function testConstructedFail()
     {
-        $cls =  new \ReflectionClass(PrimitiveString::class);
+        $cls = new \ReflectionClass(PrimitiveString::class);
         $mtd = $cls->getMethod('_decodeFromDER');
         $mtd->setAccessible(true);
-        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL,
-            Identifier::CONSTRUCTED, Element::TYPE_OCTET_STRING);
+        $identifier = new Identifier(
+            Identifier::CLASS_UNIVERSAL,
+            Identifier::CONSTRUCTED,
+            Element::TYPE_OCTET_STRING
+        );
         $offset = 0;
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('must be primitive');

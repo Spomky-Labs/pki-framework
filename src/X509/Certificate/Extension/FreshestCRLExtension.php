@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -19,9 +19,10 @@ class FreshestCRLExtension extends CRLDistributionPointsExtension
      * @param bool              $critical
      * @param DistributionPoint ...$distribution_points
      */
-    public function __construct(bool $critical,
-        DistributionPoint ...$distribution_points)
-    {
+    public function __construct(
+        bool $critical,
+        DistributionPoint ...$distribution_points
+    ) {
         Extension::__construct(self::OID_FRESHEST_CRL, $critical);
         $this->_distributionPoints = $distribution_points;
     }

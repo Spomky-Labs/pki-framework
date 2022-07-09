@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoEncoding;
 
@@ -12,25 +12,25 @@ namespace Sop\CryptoEncoding;
 class PEM
 {
     // well-known PEM types
-    const TYPE_CERTIFICATE = 'CERTIFICATE';
-    const TYPE_CRL = 'X509 CRL';
-    const TYPE_CERTIFICATE_REQUEST = 'CERTIFICATE REQUEST';
-    const TYPE_ATTRIBUTE_CERTIFICATE = 'ATTRIBUTE CERTIFICATE';
-    const TYPE_PRIVATE_KEY = 'PRIVATE KEY';
-    const TYPE_PUBLIC_KEY = 'PUBLIC KEY';
-    const TYPE_ENCRYPTED_PRIVATE_KEY = 'ENCRYPTED PRIVATE KEY';
-    const TYPE_RSA_PRIVATE_KEY = 'RSA PRIVATE KEY';
-    const TYPE_RSA_PUBLIC_KEY = 'RSA PUBLIC KEY';
-    const TYPE_EC_PRIVATE_KEY = 'EC PRIVATE KEY';
-    const TYPE_PKCS7 = 'PKCS7';
-    const TYPE_CMS = 'CMS';
+    public const TYPE_CERTIFICATE = 'CERTIFICATE';
+    public const TYPE_CRL = 'X509 CRL';
+    public const TYPE_CERTIFICATE_REQUEST = 'CERTIFICATE REQUEST';
+    public const TYPE_ATTRIBUTE_CERTIFICATE = 'ATTRIBUTE CERTIFICATE';
+    public const TYPE_PRIVATE_KEY = 'PRIVATE KEY';
+    public const TYPE_PUBLIC_KEY = 'PUBLIC KEY';
+    public const TYPE_ENCRYPTED_PRIVATE_KEY = 'ENCRYPTED PRIVATE KEY';
+    public const TYPE_RSA_PRIVATE_KEY = 'RSA PRIVATE KEY';
+    public const TYPE_RSA_PUBLIC_KEY = 'RSA PUBLIC KEY';
+    public const TYPE_EC_PRIVATE_KEY = 'EC PRIVATE KEY';
+    public const TYPE_PKCS7 = 'PKCS7';
+    public const TYPE_CMS = 'CMS';
 
     /**
      * Regular expression to match PEM block.
      *
      * @var string
      */
-    const PEM_REGEX = '/' .
+    public const PEM_REGEX = '/' .
         /* line start */ '(?:^|[\r\n])' .
         /* header */     '-----BEGIN (.+?)-----[\r\n]+' .
         /* payload */    '(.+?)' .

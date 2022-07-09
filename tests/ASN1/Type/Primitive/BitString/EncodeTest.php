@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\BitString;
 
@@ -21,9 +21,11 @@ class EncodeTest extends TestCase
     public function testWithoutTrailingZeroes(string $bits, string $expected)
     {
         $bs = new BitString($bits);
-        $this->assertEquals($expected,
+        $this->assertEquals(
+            $expected,
             $bs->withoutTrailingZeroes()
-                ->toDER());
+                ->toDER()
+        );
     }
 
     public function withoutTrailingZeroesProvider(): array

@@ -21,13 +21,17 @@ class AuthorityInformationAccessTest extends TestCase
 {
     public function testCreate()
     {
-        $ext = new AuthorityInformationAccessExtension(false,
+        $ext = new AuthorityInformationAccessExtension(
+            false,
             new AuthorityAccessDescription(
                 AuthorityAccessDescription::OID_METHOD_CA_ISSUERS,
-                new UniformResourceIdentifier('urn:test')),
+                new UniformResourceIdentifier('urn:test')
+            ),
             new AuthorityAccessDescription(
                 AuthorityAccessDescription::OID_METHOD_OSCP,
-                new UniformResourceIdentifier('https://oscp.example.com/')));
+                new UniformResourceIdentifier('https://oscp.example.com/')
+            )
+        );
         $this->assertInstanceOf(AuthorityInformationAccessExtension::class, $ext);
         return $ext;
     }
@@ -37,8 +41,10 @@ class AuthorityInformationAccessTest extends TestCase
      */
     public function testOID(Extension $ext)
     {
-        $this->assertEquals(Extension::OID_AUTHORITY_INFORMATION_ACCESS,
-            $ext->oid());
+        $this->assertEquals(
+            Extension::OID_AUTHORITY_INFORMATION_ACCESS,
+            $ext->oid()
+        );
     }
 
     /**
@@ -67,7 +73,8 @@ class AuthorityInformationAccessTest extends TestCase
     public function testDecode($der)
     {
         $ext = AuthorityInformationAccessExtension::fromASN1(
-            Sequence::fromDER($der));
+            Sequence::fromDER($der)
+        );
         $this->assertInstanceOf(AuthorityInformationAccessExtension::class, $ext);
         return $ext;
     }
@@ -85,10 +92,12 @@ class AuthorityInformationAccessTest extends TestCase
      * @depends testCreate
      */
     public function testAccessDescriptions(
-        AuthorityInformationAccessExtension $ext)
-    {
-        $this->assertContainsOnlyInstancesOf(AuthorityAccessDescription::class,
-            $ext->accessDescriptions());
+        AuthorityInformationAccessExtension $ext
+    ) {
+        $this->assertContainsOnlyInstancesOf(
+            AuthorityAccessDescription::class,
+            $ext->accessDescriptions()
+        );
     }
 
     /**
@@ -109,7 +118,9 @@ class AuthorityInformationAccessTest extends TestCase
             $values[] = $desc;
         }
         $this->assertCount(2, $values);
-        $this->assertContainsOnlyInstancesOf(AuthorityAccessDescription::class,
-            $values);
+        $this->assertContainsOnlyInstancesOf(
+            AuthorityAccessDescription::class,
+            $values
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
@@ -21,7 +21,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      *
      * @var string
      */
-    const OID_ANY_POLICY = '2.5.29.32.0';
+    public const OID_ANY_POLICY = '2.5.29.32.0';
 
     /**
      * Policy identifier.
@@ -67,7 +67,9 @@ class PolicyInformation implements \Countable, \IteratorAggregate
             $qualifiers = array_map(
                 function (UnspecifiedType $el) {
                     return PolicyQualifierInfo::fromASN1($el->asSequence());
-                }, $seq->at(1)->asSequence()->elements());
+                },
+                $seq->at(1)->asSequence()->elements()
+            );
         }
         return new self($oid, ...$qualifiers);
     }
@@ -193,7 +195,9 @@ class PolicyInformation implements \Countable, \IteratorAggregate
             $qualifiers = array_map(
                 function (PolicyQualifierInfo $pqi) {
                     return $pqi->toASN1();
-                }, array_values($this->_qualifiers));
+                },
+                array_values($this->_qualifiers)
+            );
             $elements[] = new Sequence(...$qualifiers);
         }
         return new Sequence(...$elements);

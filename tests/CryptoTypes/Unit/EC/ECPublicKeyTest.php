@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
-use \LogicException;
-use \InvalidArgumentException;
-use \UnexpectedValueException;
-use \RuntimeException;
+use InvalidArgumentException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -108,8 +108,10 @@ class ECPublicKeyTest extends TestCase
      */
     public function testNamedCurve(ECPublicKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve());
+        $this->assertEquals(
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
+            $pk->namedCurve()
+        );
     }
 
     public function testNoCurveFail()
@@ -132,8 +134,11 @@ class ECPublicKeyTest extends TestCase
     public function testFromCoordinates(array $points)
     {
         [$x, $y] = $points;
-        $pk = ECPublicKey::fromCoordinates($x, $y,
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
+        $pk = ECPublicKey::fromCoordinates(
+            $x,
+            $y,
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1
+        );
         $this->assertInstanceOf(ECPublicKey::class, $pk);
         return $pk;
     }

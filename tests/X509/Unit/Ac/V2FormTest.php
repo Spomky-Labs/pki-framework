@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -30,7 +30,8 @@ class V2FormTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_issuerName = new GeneralNames(
-            DirectoryName::fromDNString('cn=Test'));
+            DirectoryName::fromDNString('cn=Test')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -102,12 +103,19 @@ class V2FormTest extends TestCase
     public function testDecodeWithAll()
     {
         $iss_ser = new IssuerSerial(self::$_issuerName, 1);
-        $odi = new ObjectDigestInfo(ObjectDigestInfo::TYPE_PUBLIC_KEY,
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(), new BitString(''));
-        $el = new ImplicitlyTaggedType(0,
-            new Sequence(self::$_issuerName->toASN1(),
+        $odi = new ObjectDigestInfo(
+            ObjectDigestInfo::TYPE_PUBLIC_KEY,
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            new BitString('')
+        );
+        $el = new ImplicitlyTaggedType(
+            0,
+            new Sequence(
+                self::$_issuerName->toASN1(),
                 new ImplicitlyTaggedType(0, $iss_ser->toASN1()),
-                new ImplicitlyTaggedType(1, $odi->toASN1())));
+                new ImplicitlyTaggedType(1, $odi->toASN1())
+            )
+        );
         $issuer = V2Form::fromASN1($el->asUnspecified());
         $this->assertInstanceOf(V2Form::class, $issuer);
         return $issuer;

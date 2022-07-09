@@ -49,9 +49,10 @@ class AttributeTypeAndValueTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(AttributeTypeAndValue $ref,
-                                AttributeTypeAndValue $new)
-    {
+    public function testRecoded(
+        AttributeTypeAndValue $ref,
+        AttributeTypeAndValue $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 

@@ -45,11 +45,15 @@ class SignatureFactoryTest extends TestCase
      * @param HashAlgorithmIdentifier $hash_algo
      * @param string $expected_class
      */
-    public function testAlgoForAsymmetricCrypto($crypto_algo, $hash_algo,
-                                                $expected_class)
-    {
+    public function testAlgoForAsymmetricCrypto(
+        $crypto_algo,
+        $hash_algo,
+        $expected_class
+    ) {
         $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
-            $crypto_algo, $hash_algo);
+            $crypto_algo,
+            $hash_algo
+        );
         $this->assertInstanceOf($expected_class, $algo);
     }
 
@@ -60,7 +64,8 @@ class SignatureFactoryTest extends TestCase
     {
         $rsa = new RSAEncryptionAlgorithmIdentifier();
         $ec = new ECPublicKeyAlgorithmIdentifier(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1
+        );
         $md5 = new MD5AlgorithmIdentifier();
         $sha1 = new SHA1AlgorithmIdentifier();
         $sha224 = new SHA224AlgorithmIdentifier();
@@ -88,7 +93,9 @@ class SignatureFactoryTest extends TestCase
         $hash_algo = new MD5AlgorithmIdentifier();
         $this->expectException(\UnexpectedValueException::class);
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
-            $crypto_algo, $hash_algo);
+            $crypto_algo,
+            $hash_algo
+        );
     }
 
     public function testInvalidRSAHashAlgo()
@@ -97,17 +104,22 @@ class SignatureFactoryTest extends TestCase
         $hash_algo = new SignatureFactoryTest_InvalidHashAlgo();
         $this->expectException(\UnexpectedValueException::class);
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
-            $crypto_algo, $hash_algo);
+            $crypto_algo,
+            $hash_algo
+        );
     }
 
     public function testInvalidECHashAlgo()
     {
         $crypto_algo = new ECPublicKeyAlgorithmIdentifier(
-            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1
+        );
         $hash_algo = new SignatureFactoryTest_InvalidHashAlgo();
         $this->expectException(\UnexpectedValueException::class);
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
-            $crypto_algo, $hash_algo);
+            $crypto_algo,
+            $hash_algo
+        );
     }
 }
 

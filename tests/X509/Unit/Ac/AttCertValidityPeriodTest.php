@@ -63,9 +63,10 @@ class AttCertValidityPeriodTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(AttCertValidityPeriod $ref,
-                                AttCertValidityPeriod $new)
-    {
+    public function testRecoded(
+        AttCertValidityPeriod $ref,
+        AttCertValidityPeriod $new
+    ) {
         $this->assertEquals($ref->notBeforeTime()
             ->getTimestamp(), $new->notBeforeTime()
             ->getTimestamp());
@@ -92,8 +93,11 @@ class AttCertValidityPeriodTest extends TestCase
 
     public function testFromStrings()
     {
-        $validity = AttCertValidityPeriod::fromStrings('now', 'now + 1 day',
-            'UTC');
+        $validity = AttCertValidityPeriod::fromStrings(
+            'now',
+            'now + 1 day',
+            'UTC'
+        );
         $this->assertInstanceOf(AttCertValidityPeriod::class, $validity);
     }
 }

@@ -29,9 +29,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
  */
 class PolicyProcessPruneTest extends TestCase
 {
-    const CA_NAME = 'cn=CA';
+    public const CA_NAME = 'cn=CA';
 
-    const CERT_NAME = 'cn=EE';
+    public const CERT_NAME = 'cn=EE';
 
     private static $_caKey;
 
@@ -44,30 +44,48 @@ class PolicyProcessPruneTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_caKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ca-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ca-rsa.pem')
+        )->privateKeyInfo();
         self::$_certKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
+        )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(Name::fromString(self::CA_NAME),
-            self::$_caKey->publicKeyInfo(), Name::fromString(self::CA_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
+        $tbs = new TBSCertificate(
+            Name::fromString(self::CA_NAME),
+            self::$_caKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
             new InhibitAnyPolicyExtension(true, 0),
-            new CertificatePoliciesExtension(true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)));
-        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey);
+            new CertificatePoliciesExtension(
+                true,
+                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
+            )
+        );
+        self::$_ca = $tbs->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_caKey
+        );
         // create end-entity certificate
-        $tbs = new TBSCertificate(Name::fromString(self::CERT_NAME),
-            self::$_certKey->publicKeyInfo(), Name::fromString(self::CA_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
+        $tbs = new TBSCertificate(
+            Name::fromString(self::CERT_NAME),
+            self::$_certKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(true,
-                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)));
+            new CertificatePoliciesExtension(
+                true,
+                new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
+            )
+        );
         self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_caKey
+        );
     }
 
     public static function tearDownAfterClass(): void

@@ -15,7 +15,7 @@ use Sop\X509\Certificate\UniqueIdentifier;
  */
 class UniqueIdentifierTest extends TestCase
 {
-    final const UID = 'urn:test';
+    final public const UID = 'urn:test';
 
     public function testCreate()
     {

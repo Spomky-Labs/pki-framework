@@ -20,12 +20,14 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class SubjectAlternativeNameTest extends TestCase
 {
-    final const DN = 'cn=Alt name';
+    final public const DN = 'cn=Alt name';
 
     public function testCreate()
     {
-        $ext = new SubjectAlternativeNameExtension(true,
-            new GeneralNames(DirectoryName::fromDNString(self::DN)));
+        $ext = new SubjectAlternativeNameExtension(
+            true,
+            new GeneralNames(DirectoryName::fromDNString(self::DN))
+        );
         $this->assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
         return $ext;
     }
@@ -64,7 +66,8 @@ class SubjectAlternativeNameTest extends TestCase
     public function testDecode($der)
     {
         $ext = SubjectAlternativeNameExtension::fromASN1(
-            Sequence::fromDER($der));
+            Sequence::fromDER($der)
+        );
         $this->assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
         return $ext;
     }

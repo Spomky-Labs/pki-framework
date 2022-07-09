@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\DN;
 
@@ -20,7 +20,7 @@ class DNParser
      *
      * @var string
      */
-    const SPECIAL_CHARS = ',=+<>#;';
+    public const SPECIAL_CHARS = ',=+<>#;';
 
     /**
      * DN string.
@@ -78,15 +78,22 @@ class DNParser
         // a space or "#" character occurring at the beginning of the string
         $str = preg_replace('/^([ #])/u', '\\\\$1', $str);
         // implementation specific special characters
-        $str = preg_replace_callback('/([\pC])/u',
+        $str = preg_replace_callback(
+            '/([\pC])/u',
             function ($m) {
                 $octets = str_split(bin2hex($m[1]), 2);
-                return implode('',
+                return implode(
+                    '',
                     array_map(
                         function ($octet) {
                             return '\\' . strtoupper($octet);
-                        }, $octets));
-            }, $str);
+                        },
+                        $octets
+                    )
+                );
+            },
+            $str
+        );
         return $str;
     }
 
@@ -105,7 +112,8 @@ class DNParser
             $remains = substr($this->_dn, $offset);
             throw new \UnexpectedValueException(sprintf(
                 'Parser finished before the end of string, remaining: %s',
-                $remains));
+                $remains
+            ));
         }
         return $name;
     }
@@ -194,7 +202,10 @@ class DNParser
                 $value = Element::fromDER($data);
             } catch (DecodeException $e) {
                 throw new \UnexpectedValueException(
-                    'Invalid DER encoding from hexstring.', 0, $e);
+                    'Invalid DER encoding from hexstring.',
+                    0,
+                    $e
+                );
             }
         } else {
             $value = $this->_parseAttrStringValue($idx);
@@ -369,7 +380,8 @@ class DNParser
         $idx = $offset;
         if ($idx >= $this->_len) {
             throw new \UnexpectedValueException(
-                'Unexpected end of escape sequence.');
+                'Unexpected end of escape sequence.'
+            );
         }
         $c = $this->_dn[$idx++];
         // special | \ | " | SPACE

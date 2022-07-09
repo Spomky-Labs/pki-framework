@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -31,9 +31,11 @@ class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function testGetExplicit(ExplicitTagging $el)
     {
-        $this->assertEquals(Element::TYPE_NULL,
+        $this->assertEquals(
+            Element::TYPE_NULL,
             $el->explicit()
-                ->tag());
+                ->tag()
+        );
     }
 
     /**
@@ -77,7 +79,8 @@ class ExplicitlyTaggedTypeTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'Element doesn\'t implement implicit tagging');
+            'Element doesn\'t implement implicit tagging'
+        );
         $el->expectImplicit();
     }
 
@@ -106,7 +109,8 @@ class ExplicitlyTaggedTypeTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'NULL expected, got CONTEXT SPECIFIC TAG 1');
+            'NULL expected, got CONTEXT SPECIFIC TAG 1'
+        );
         $el->expectType(Element::TYPE_NULL);
     }
 
@@ -115,9 +119,11 @@ class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function testAsExplicit(TaggedType $el)
     {
-        $this->assertInstanceOf(NullType::class,
+        $this->assertInstanceOf(
+            NullType::class,
             $el->asExplicit(1)
-                ->asNull());
+                ->asNull()
+        );
     }
 
     /**

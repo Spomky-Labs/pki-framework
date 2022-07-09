@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
@@ -31,9 +31,11 @@ abstract class PrimitiveString extends BaseString
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         $idx = $offset;
         if (!$identifier->isPrimitive()) {
             throw new DecodeException('DER encoded string must be primitive.');

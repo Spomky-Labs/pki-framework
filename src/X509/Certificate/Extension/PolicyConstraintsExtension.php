@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -34,9 +34,11 @@ class PolicyConstraintsExtension extends Extension
      * @param null|int $require_explicit_policy
      * @param null|int $inhibit_policy_mapping
      */
-    public function __construct(bool $critical,
-        ?int $require_explicit_policy = null, ?int $inhibit_policy_mapping = null)
-    {
+    public function __construct(
+        bool $critical,
+        ?int $require_explicit_policy = null,
+        ?int $inhibit_policy_mapping = null
+    ) {
         parent::__construct(self::OID_POLICY_CONSTRAINTS, $critical);
         $this->_requireExplicitPolicy = $require_explicit_policy;
         $this->_inhibitPolicyMapping = $inhibit_policy_mapping;
@@ -118,12 +120,16 @@ class PolicyConstraintsExtension extends Extension
     {
         $elements = [];
         if (isset($this->_requireExplicitPolicy)) {
-            $elements[] = new ImplicitlyTaggedType(0,
-                new Integer($this->_requireExplicitPolicy));
+            $elements[] = new ImplicitlyTaggedType(
+                0,
+                new Integer($this->_requireExplicitPolicy)
+            );
         }
         if (isset($this->_inhibitPolicyMapping)) {
-            $elements[] = new ImplicitlyTaggedType(1,
-                new Integer($this->_inhibitPolicyMapping));
+            $elements[] = new ImplicitlyTaggedType(
+                1,
+                new Integer($this->_inhibitPolicyMapping)
+            );
         }
         return new Sequence(...$elements);
     }

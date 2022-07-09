@@ -26,9 +26,9 @@ use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
  */
 class DifferentAlgoParamsTest extends TestCase
 {
-    const CA_NAME = 'cn=CA';
+    public const CA_NAME = 'cn=CA';
 
-    const CERT_NAME = 'cn=EE';
+    public const CERT_NAME = 'cn=EE';
 
     private static $_caKey;
 
@@ -41,29 +41,43 @@ class DifferentAlgoParamsTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_caKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ca-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ca-rsa.pem')
+        )->privateKeyInfo();
         self::$_certKey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->privateKeyInfo();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
+        )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(Name::fromString(self::CA_NAME),
-            self::$_caKey->publicKeyInfo(), Name::fromString(self::CA_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
-        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_caKey);
+        $tbs = new TBSCertificate(
+            Name::fromString(self::CA_NAME),
+            self::$_caKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
+        self::$_ca = $tbs->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_caKey
+        );
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();
         // hack modified algorithm identifier into PublicKeyInfo
-        $cls =  new \ReflectionClass($pubkey);
+        $cls = new \ReflectionClass($pubkey);
         $prop = $cls->getProperty('_algo');
         $prop->setAccessible(true);
-        $prop->setValue($pubkey,
-            new DifferentAlgoParamsValidationIntegrationTest_RSAAlgo());
-        $tbs = new TBSCertificate(Name::fromString(self::CERT_NAME), $pubkey,
+        $prop->setValue(
+            $pubkey,
+            new DifferentAlgoParamsValidationIntegrationTest_RSAAlgo()
+        );
+        $tbs = new TBSCertificate(
+            Name::fromString(self::CERT_NAME),
+            $pubkey,
             Name::fromString(self::CA_NAME),
-            Validity::fromStrings(null, 'now + 1 hour'));
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         self::$_cert = $tbs->sign(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_caKey
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -78,7 +92,8 @@ class DifferentAlgoParamsTest extends TestCase
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
         $result = $path->validate(
-            new PathValidationConfig(new \DateTimeImmutable(), 3));
+            new PathValidationConfig(new \DateTimeImmutable(), 3)
+        );
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

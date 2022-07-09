@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoEncoding;
 
@@ -56,10 +56,13 @@ class PEMBundle implements \Countable, \IteratorAggregate
                 $data = base64_decode($payload, true);
                 if (false === $data) {
                     throw new \UnexpectedValueException(
-                        'Failed to decode PEM data.');
+                        'Failed to decode PEM data.'
+                    );
                 }
                 return new PEM($match[1], $data);
-            }, $matches);
+            },
+            $matches
+        );
         return new self(...$pems);
     }
 
@@ -164,10 +167,14 @@ class PEMBundle implements \Countable, \IteratorAggregate
      */
     public function string(): string
     {
-        return implode("\n",
+        return implode(
+            "\n",
             array_map(
                 function (PEM $pem) {
                     return $pem->string();
-                }, $this->_pems));
+                },
+                $this->_pems
+            )
+        );
     }
 }

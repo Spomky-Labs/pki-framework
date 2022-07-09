@@ -26,7 +26,10 @@ class RelativeNameTest extends TestCase
         $name = new RelativeName(
             new RDN(
                 AttributeTypeAndValue::fromAttributeValue(
-                    new CommonNameValue('Test'))));
+                    new CommonNameValue('Test')
+                )
+            )
+        );
         $this->assertInstanceOf(RelativeName::class, $name);
         return $name;
     }

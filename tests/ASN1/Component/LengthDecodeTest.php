@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Component;
 
@@ -83,7 +83,8 @@ class LengthDecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unexpected end of data while decoding long form length');
+            'Unexpected end of data while decoding long form length'
+        );
         Length::fromDER("\x82\xff");
     }
 
@@ -110,7 +111,8 @@ class LengthDecodeTest extends TestCase
         $offset = 1;
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unexpected end of data while decoding length');
+            'Unexpected end of data while decoding length'
+        );
         Length::fromDER("\x0", $offset);
     }
 

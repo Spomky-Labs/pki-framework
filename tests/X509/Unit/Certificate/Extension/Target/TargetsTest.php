@@ -29,9 +29,11 @@ class TargetsTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_name = new TargetName(
-            new UniformResourceIdentifier('urn:target'));
+            new UniformResourceIdentifier('urn:target')
+        );
         self::$_group = new TargetGroup(
-            new UniformResourceIdentifier('urn:group'));
+            new UniformResourceIdentifier('urn:group')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -120,6 +122,7 @@ class TargetsTest extends TestCase
     public function testHasNoTarget(Targets $targets)
     {
         $this->assertFalse(
-            $targets->hasTarget(new TargetName(new DNSName('nope'))));
+            $targets->hasTarget(new TargetName(new DNSName('nope')))
+        );
     }
 }

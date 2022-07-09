@@ -23,7 +23,8 @@ class ValidatorStateTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_ca = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -34,7 +35,10 @@ class ValidatorStateTest extends TestCase
     public function testInitialize()
     {
         $state = ValidatorState::initialize(
-            PathValidationConfig::defaultConfig(), self::$_ca, 3);
+            PathValidationConfig::defaultConfig(),
+            self::$_ca,
+            3
+        );
         $this->assertInstanceOf(ValidatorState::class, $state);
         return $state;
     }
@@ -57,7 +61,9 @@ class ValidatorStateTest extends TestCase
      */
     public function testWorkingPublicKeyParameters(ValidatorState $state)
     {
-        $this->assertInstanceOf(NullType::class,
-            $state->workingPublicKeyParameters());
+        $this->assertInstanceOf(
+            NullType::class,
+            $state->workingPublicKeyParameters()
+        );
     }
 }

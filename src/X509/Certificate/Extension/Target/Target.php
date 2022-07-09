@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
@@ -14,9 +14,9 @@ use Sop\ASN1\Type\TaggedType;
  */
 abstract class Target
 {
-    const TYPE_NAME = 0;
-    const TYPE_GROUP = 1;
-    const TYPE_CERT = 2;
+    public const TYPE_NAME = 0;
+    public const TYPE_GROUP = 1;
+    public const TYPE_CERT = 2;
 
     /**
      * Type tag.
@@ -49,7 +49,8 @@ abstract class Target
     public static function fromChosenASN1(TaggedType $el): Target
     {
         throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in the derived class.');
+            __FUNCTION__ . ' must be implemented in the derived class.'
+        );
     }
 
     /**
@@ -72,7 +73,8 @@ abstract class Target
                 throw new \RuntimeException('targetCert not supported.');
         }
         throw new \UnexpectedValueException(
-            'Target type ' . $el->tag() . ' not supported.');
+            'Target type ' . $el->tag() . ' not supported.'
+        );
     }
 
     /**

@@ -22,7 +22,8 @@ class IssuerTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_pkc = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void

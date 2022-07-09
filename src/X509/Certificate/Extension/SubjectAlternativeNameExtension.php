@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -49,9 +49,12 @@ class SubjectAlternativeNameExtension extends Extension
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self($critical,
+        return new self(
+            $critical,
             GeneralNames::fromASN1(
-                UnspecifiedType::fromDER($data)->asSequence()));
+                UnspecifiedType::fromDER($data)->asSequence()
+            )
+        );
     }
 
     /**

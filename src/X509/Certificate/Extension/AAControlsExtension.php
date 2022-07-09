@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -60,9 +60,13 @@ class AAControlsExtension extends Extension
      * @param null|string[] $excluded
      * @param bool          $permit_unspecified
      */
-    public function __construct(bool $critical, ?int $path_len = null,
-        ?array $permitted = null, ?array $excluded = null, bool $permit_unspecified = true)
-    {
+    public function __construct(
+        bool $critical,
+        ?int $path_len = null,
+        ?array $permitted = null,
+        ?array $excluded = null,
+        bool $permit_unspecified = true
+    ) {
         parent::__construct(self::OID_AA_CONTROLS, $critical);
         $this->_pathLenConstraint = $path_len;
         $this->_permittedAttrs = $permitted;
@@ -176,7 +180,9 @@ class AAControlsExtension extends Extension
             $permitted = array_map(
                 function (UnspecifiedType $el) {
                     return $el->asObjectIdentifier()->oid();
-                }, $attr_seq->elements());
+                },
+                $attr_seq->elements()
+            );
             ++$idx;
         }
         if ($seq->hasTagged(1)) {
@@ -185,7 +191,9 @@ class AAControlsExtension extends Extension
             $excluded = array_map(
                 function (UnspecifiedType $el) {
                     return $el->asObjectIdentifier()->oid();
-                }, $attr_seq->elements());
+                },
+                $attr_seq->elements()
+            );
             ++$idx;
         }
         if ($seq->has($idx, Element::TYPE_BOOLEAN)) {
@@ -207,14 +215,18 @@ class AAControlsExtension extends Extension
             $oids = array_map(
                 function ($oid) {
                     return new ObjectIdentifier($oid);
-                }, $this->_permittedAttrs);
+                },
+                $this->_permittedAttrs
+            );
             $elements[] = new ImplicitlyTaggedType(0, new Sequence(...$oids));
         }
         if (isset($this->_excludedAttrs)) {
             $oids = array_map(
                 function ($oid) {
                     return new ObjectIdentifier($oid);
-                }, $this->_excludedAttrs);
+                },
+                $this->_excludedAttrs
+            );
             $elements[] = new ImplicitlyTaggedType(1, new Sequence(...$oids));
         }
         if (true !== $this->_permitUnSpecified) {

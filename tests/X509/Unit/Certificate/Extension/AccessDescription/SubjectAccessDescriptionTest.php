@@ -18,13 +18,14 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class SubjectAccessDescriptionTest extends TestCase
 {
-    const URI = 'urn:test';
+    public const URI = 'urn:test';
 
     public function testCreate()
     {
         $desc = new SubjectAccessDescription(
             SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
-            new UniformResourceIdentifier(self::URI));
+            new UniformResourceIdentifier(self::URI)
+        );
         $this->assertInstanceOf(SubjectAccessDescription::class, $desc);
         return $desc;
     }
@@ -60,9 +61,10 @@ class SubjectAccessDescriptionTest extends TestCase
      * @param SubjectAccessDescription $ref
      * @param SubjectAccessDescription $new
      */
-    public function testRecoded(SubjectAccessDescription $ref,
-                                SubjectAccessDescription $new)
-    {
+    public function testRecoded(
+        SubjectAccessDescription $ref,
+        SubjectAccessDescription $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 
@@ -93,8 +95,10 @@ class SubjectAccessDescriptionTest extends TestCase
      */
     public function testAccessMethod(SubjectAccessDescription $desc)
     {
-        $this->assertEquals(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
-            $desc->accessMethod());
+        $this->assertEquals(
+            SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
+            $desc->accessMethod()
+        );
     }
 
     /**

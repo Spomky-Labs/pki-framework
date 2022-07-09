@@ -34,8 +34,10 @@ class SHA1WithRSAAITest extends TestCase
     public function testDecode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(SHA1WithRSAEncryptionAlgorithmIdentifier::class,
-            $ai);
+        $this->assertInstanceOf(
+            SHA1WithRSAEncryptionAlgorithmIdentifier::class,
+            $ai
+        );
         return $ai;
     }
 

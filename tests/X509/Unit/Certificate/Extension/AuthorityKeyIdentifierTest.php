@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \UnexpectedValueException;
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -20,6 +19,7 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -29,16 +29,17 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class AuthorityKeyIdentifierTest extends TestCase
 {
-    final const KEY_ID = 'test-id';
+    final public const KEY_ID = 'test-id';
 
-    final const SERIAL = 42;
+    final public const SERIAL = 42;
 
     private static $_issuer;
 
     public static function setUpBeforeClass(): void
     {
         self::$_issuer = new GeneralNames(
-            new DirectoryName(Name::fromString('cn=Issuer')));
+            new DirectoryName(Name::fromString('cn=Issuer'))
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -48,8 +49,12 @@ class AuthorityKeyIdentifierTest extends TestCase
 
     public function testCreate()
     {
-        $ext = new AuthorityKeyIdentifierExtension(true, self::KEY_ID,
-            self::$_issuer, self::SERIAL);
+        $ext = new AuthorityKeyIdentifierExtension(
+            true,
+            self::KEY_ID,
+            self::$_issuer,
+            self::SERIAL
+        );
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
         return $ext;
     }
@@ -57,7 +62,8 @@ class AuthorityKeyIdentifierTest extends TestCase
     public function testFromPKI()
     {
         $pki = PublicKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem')
+        );
         $ext = AuthorityKeyIdentifierExtension::fromPublicKeyInfo($pki);
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
     }
@@ -96,7 +102,8 @@ class AuthorityKeyIdentifierTest extends TestCase
     public function testDecode($der)
     {
         $ext = AuthorityKeyIdentifierExtension::fromASN1(
-            Sequence::fromDER($der));
+            Sequence::fromDER($der)
+        );
         $this->assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
         return $ext;
     }
@@ -155,11 +162,14 @@ class AuthorityKeyIdentifierTest extends TestCase
 
     public function testDecodeIssuerXorSerialFail()
     {
-        $seq = new Sequence(new ImplicitlyTaggedType(0, new OctetString('')),
-            new ImplicitlyTaggedType(2, new Integer(1)));
+        $seq = new Sequence(
+            new ImplicitlyTaggedType(0, new OctetString('')),
+            new ImplicitlyTaggedType(2, new Integer(1))
+        );
         $ext_seq = new Sequence(
             new ObjectIdentifier(Extension::OID_AUTHORITY_KEY_IDENTIFIER),
-            new OctetString($seq->toDER()));
+            new OctetString($seq->toDER())
+        );
         $this->expectException(\UnexpectedValueException::class);
         AuthorityKeyIdentifierExtension::fromASN1($ext_seq);
     }

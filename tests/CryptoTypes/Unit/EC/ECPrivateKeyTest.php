@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
-use \UnexpectedValueException;
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -14,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -89,8 +89,10 @@ class ECPrivateKeyTest extends TestCase
      */
     public function testHasNamedCurveFromPKI(ECPrivateKey $pk)
     {
-        $this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
-            $pk->namedCurve());
+        $this->assertEquals(
+            ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1,
+            $pk->namedCurve()
+        );
     }
 
     /**
@@ -100,7 +102,8 @@ class ECPrivateKeyTest extends TestCase
     {
         $pub = $pk->publicKey();
         $ref = ECPublicKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem')
+        );
         $this->assertEquals($ref, $pub);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Tagged;
 
@@ -23,9 +23,11 @@ class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
      * @param Element $element Wrapped element
      * @param int     $class   Type class
      */
-    public function __construct(int $tag, Element $element,
-        int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
-    {
+    public function __construct(
+        int $tag,
+        Element $element,
+        int $class = Identifier::CLASS_CONTEXT_SPECIFIC
+    ) {
         $this->_typeTag = $tag;
         $this->_element = $element;
         $this->_class = $class;

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -45,7 +45,9 @@ class IPv6Address extends IPAddress
         $groups = array_map(
             function ($word) {
                 return sprintf('%04x', $word);
-            }, $words);
+            },
+            $words
+        );
         return implode(':', $groups);
     }
 
@@ -56,8 +58,10 @@ class IPv6Address extends IPAddress
     {
         $words = array_map('hexdec', explode(':', $this->_ip));
         if (isset($this->_mask)) {
-            $words = array_merge($words,
-                array_map('hexdec', explode(':', $this->_mask)));
+            $words = array_merge(
+                $words,
+                array_map('hexdec', explode(':', $this->_mask))
+            );
         }
         return pack('n*', ...$words);
     }

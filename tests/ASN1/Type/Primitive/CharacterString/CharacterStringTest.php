@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\CharacterString;
 
@@ -74,8 +74,10 @@ class CharacterStringTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(CharacterString::class,
-            $wrap->asCharacterString());
+        $this->assertInstanceOf(
+            CharacterString::class,
+            $wrap->asCharacterString()
+        );
     }
 
     public function testWrappedFail()
@@ -83,7 +85,8 @@ class CharacterStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'CHARACTER STRING expected, got primitive NULL');
+            'CHARACTER STRING expected, got primitive NULL'
+        );
         $wrap->asCharacterString();
     }
 }

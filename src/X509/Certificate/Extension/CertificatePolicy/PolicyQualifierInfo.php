@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
@@ -22,14 +22,14 @@ abstract class PolicyQualifierInfo
      *
      * @var string
      */
-    const OID_CPS = '1.3.6.1.5.5.7.2.1';
+    public const OID_CPS = '1.3.6.1.5.5.7.2.1';
 
     /**
      * OID for the user notice qualifier.
      *
      * @var string
      */
-    const OID_UNOTICE = '1.3.6.1.5.5.7.2.2';
+    public const OID_UNOTICE = '1.3.6.1.5.5.7.2.2';
 
     /**
      * Qualifier identifier.
@@ -48,7 +48,8 @@ abstract class PolicyQualifierInfo
     public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo
     {
         throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in the derived class.');
+            __FUNCTION__ . ' must be implemented in the derived class.'
+        );
     }
 
     /**
@@ -89,8 +90,10 @@ abstract class PolicyQualifierInfo
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new ObjectIdentifier($this->_oid),
-            $this->_qualifierASN1());
+        return new Sequence(
+            new ObjectIdentifier($this->_oid),
+            $this->_qualifierASN1()
+        );
     }
 
     /**

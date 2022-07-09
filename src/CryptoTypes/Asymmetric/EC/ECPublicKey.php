@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
@@ -67,9 +67,12 @@ class ECPublicKey extends PublicKey
      *
      * @return self
      */
-    public static function fromCoordinates($x, $y,
-        ?string $named_curve = null, ?int $bits = null): ECPublicKey
-    {
+    public static function fromCoordinates(
+        $x,
+        $y,
+        ?string $named_curve = null,
+        ?int $bits = null
+    ): ECPublicKey {
         // if bitsize is not explicitly set, check from supported curves
         if (!isset($bits) && isset($named_curve)) {
             $bits = self::_curveSize($named_curve);
@@ -124,7 +127,9 @@ class ECPublicKey extends PublicKey
         return array_map(
             function ($str) {
                 return ECConversion::octetsToNumber($str);
-            }, $this->curvePointOctets());
+            },
+            $this->curvePointOctets()
+        );
     }
 
     /**

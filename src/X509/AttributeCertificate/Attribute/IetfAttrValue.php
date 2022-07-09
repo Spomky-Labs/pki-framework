@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
@@ -70,7 +70,8 @@ class IetfAttrValue
                 return new self($el->asObjectIdentifier()->oid(), $el->tag());
         }
         throw new \UnexpectedValueException(
-            'Type ' . Element::tagToName($el->tag()) . ' not supported.');
+            'Type ' . Element::tagToName($el->tag()) . ' not supported.'
+        );
     }
 
     /**
@@ -177,6 +178,7 @@ class IetfAttrValue
                 return new ObjectIdentifier($this->_value);
         }
         throw new \LogicException(
-            'Type ' . Element::tagToName($this->_type) . ' not supported.');
+            'Type ' . Element::tagToName($this->_type) . ' not supported.'
+        );
     }
 }

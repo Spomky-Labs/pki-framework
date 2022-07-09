@@ -37,8 +37,8 @@ class NameConstraintsTest extends RefExtTestHelper
      * @return GeneralSubtrees
      */
     public function testNameConstraintPermittedSubtrees(
-        NameConstraintsExtension $nc)
-    {
+        NameConstraintsExtension $nc
+    ) {
         $subtrees = $nc->permittedSubtrees();
         $this->assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
@@ -51,8 +51,10 @@ class NameConstraintsTest extends RefExtTestHelper
      */
     public function testNameConstraintPermittedDomain(GeneralSubtrees $gs)
     {
-        $this->assertEquals('.example.com',
+        $this->assertEquals(
+            '.example.com',
             $gs->all()[0]->base()
-                ->name());
+                ->name()
+        );
     }
 }

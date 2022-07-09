@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
@@ -31,11 +31,17 @@ class HolderTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_issuerSerial = new IssuerSerial(
-            new GeneralNames(DirectoryName::fromDNString('cn=Test')), 1);
+            new GeneralNames(DirectoryName::fromDNString('cn=Test')),
+            1
+        );
         self::$_subject = new GeneralNames(
-            DirectoryName::fromDNString('cn=Subject'));
-        self::$_odi = new ObjectDigestInfo(ObjectDigestInfo::TYPE_PUBLIC_KEY,
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(), new BitString(''));
+            DirectoryName::fromDNString('cn=Subject')
+        );
+        self::$_odi = new ObjectDigestInfo(
+            ObjectDigestInfo::TYPE_PUBLIC_KEY,
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            new BitString('')
+        );
     }
 
     public static function tearDownAfterClass(): void

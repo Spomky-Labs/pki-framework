@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\RSA;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @group asn1

@@ -25,7 +25,8 @@ class SubjectDirectoryAttributesTest extends RefExtTestHelper
     public function testSubjectDirectoryAttributesExtension()
     {
         $ext = self::$_extensions->get(
-            Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES);
+            Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES
+        );
         $this->assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }

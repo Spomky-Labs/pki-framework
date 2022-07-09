@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
@@ -63,7 +63,8 @@ abstract class IPAddress extends GeneralName
                 return IPv6Address::fromOctets($octets);
             default:
                 throw new \UnexpectedValueException(
-                    'Invalid octet length for IP address.');
+                    'Invalid octet length for IP address.'
+                );
         }
     }
 
@@ -122,7 +123,9 @@ abstract class IPAddress extends GeneralName
      */
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag,
-            new OctetString($this->_octets()));
+        return new ImplicitlyTaggedType(
+            $this->_tag,
+            new OctetString($this->_octets())
+        );
     }
 }

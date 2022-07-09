@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Signature;
 
@@ -29,7 +29,8 @@ class Ed448Signature extends Signature
     {
         if (114 !== strlen($signature)) {
             throw new \InvalidArgumentException(
-                'Ed448 signature must be 114 octets.');
+                'Ed448 signature must be 114 octets.'
+            );
         }
         $this->_signature = $signature;
     }

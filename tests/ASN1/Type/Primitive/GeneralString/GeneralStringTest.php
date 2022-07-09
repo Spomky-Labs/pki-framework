@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\GeneralString;
 
@@ -76,7 +76,8 @@ class GeneralStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'GeneralString expected, got primitive NULL');
+            'GeneralString expected, got primitive NULL'
+        );
         $wrap->asGeneralString();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Util;
 
@@ -46,7 +46,8 @@ class BigInt
             $gmp = @gmp_init($num, 10);
             if (false === $gmp) {
                 throw new \InvalidArgumentException(
-                    "Unable to convert '{$num}' to integer.");
+                    "Unable to convert '{$num}' to integer."
+                );
             }
             $num = $gmp;
         }

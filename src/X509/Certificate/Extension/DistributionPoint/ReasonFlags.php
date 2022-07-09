@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\DistributionPoint;
 
@@ -16,14 +16,14 @@ use Sop\ASN1\Util\Flags;
 class ReasonFlags
 {
     // const UNUSED = 0x100;
-    const KEY_COMPROMISE = 0x080;
-    const CA_COMPROMISE = 0x040;
-    const AFFILIATION_CHANGED = 0x020;
-    const SUPERSEDED = 0x010;
-    const CESSATION_OF_OPERATION = 0x008;
-    const CERTIFICATE_HOLD = 0x004;
-    const PRIVILEGE_WITHDRAWN = 0x002;
-    const AA_COMPROMISE = 0x001;
+    public const KEY_COMPROMISE = 0x080;
+    public const CA_COMPROMISE = 0x040;
+    public const AFFILIATION_CHANGED = 0x020;
+    public const SUPERSEDED = 0x010;
+    public const CESSATION_OF_OPERATION = 0x008;
+    public const CERTIFICATE_HOLD = 0x004;
+    public const PRIVILEGE_WITHDRAWN = 0x002;
+    public const AA_COMPROMISE = 0x001;
 
     /**
      * Flags.

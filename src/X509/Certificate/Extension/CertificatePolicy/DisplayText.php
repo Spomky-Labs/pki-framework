@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
@@ -107,7 +107,8 @@ class DisplayText
                 return new UTF8String($this->_text);
             default:
                 throw new \UnexpectedValueException(
-                    'Type ' . Element::tagToName($this->_tag) . ' not supported.');
+                    'Type ' . Element::tagToName($this->_tag) . ' not supported.'
+                );
         }
     }
 }

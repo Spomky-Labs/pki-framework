@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
@@ -63,7 +63,9 @@ class Extensions implements \Countable, \IteratorAggregate
         $extensions = array_map(
             function (UnspecifiedType $el) {
                 return Extension::fromASN1($el->asSequence());
-            }, $seq->elements());
+            },
+            $seq->elements()
+        );
         return new self(...$extensions);
     }
 
@@ -78,7 +80,10 @@ class Extensions implements \Countable, \IteratorAggregate
             array_map(
                 function ($ext) {
                     return $ext->toASN1();
-                }, $this->_extensions));
+                },
+                $this->_extensions
+            )
+        );
         return new Sequence(...$elements);
     }
 

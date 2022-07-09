@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type;
 
@@ -35,8 +35,10 @@ class TimeTypeDecodeTest extends TestCase
     public function testExpectation()
     {
         $el = BaseTime::fromDER("\x17\x0d" . '060102220405Z');
-        $this->assertInstanceOf(TimeType::class,
-            $el->expectType(Element::TYPE_TIME));
+        $this->assertInstanceOf(
+            TimeType::class,
+            $el->expectType(Element::TYPE_TIME)
+        );
     }
 
     public function testExpectationFails()

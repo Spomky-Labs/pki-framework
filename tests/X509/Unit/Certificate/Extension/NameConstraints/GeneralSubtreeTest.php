@@ -20,7 +20,7 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class GeneralSubtreeTest extends TestCase
 {
-    const URI = '.example.com';
+    public const URI = '.example.com';
 
     public function testCreate()
     {
@@ -78,8 +78,11 @@ class GeneralSubtreeTest extends TestCase
 
     public function testCreateWithAll()
     {
-        $subtree = new GeneralSubtree(new UniformResourceIdentifier(self::URI), 1,
-            3);
+        $subtree = new GeneralSubtree(
+            new UniformResourceIdentifier(self::URI),
+            1,
+            3
+        );
         $this->assertInstanceOf(GeneralSubtree::class, $subtree);
         return $subtree;
     }

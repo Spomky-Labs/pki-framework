@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Real;
 
@@ -20,7 +20,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Reserved REAL binary encoding base not supported');
+            'Reserved REAL binary encoding base not supported'
+        );
         Real::fromDER(hex2bin('0902B000'));
     }
 
@@ -28,7 +29,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unexpected end of data while decoding REAL exponent length');
+            'Unexpected end of data while decoding REAL exponent length'
+        );
         Real::fromDER(hex2bin('090183'));
     }
 
@@ -36,7 +38,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unexpected end of data while decoding REAL exponent');
+            'Unexpected end of data while decoding REAL exponent'
+        );
         Real::fromDER(hex2bin('090180'));
     }
 
@@ -44,7 +47,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unexpected end of data while decoding REAL mantissa');
+            'Unexpected end of data while decoding REAL mantissa'
+        );
         Real::fromDER(hex2bin('09028000'));
     }
 
@@ -59,7 +63,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'SpecialRealValue must have one content octet');
+            'SpecialRealValue must have one content octet'
+        );
         Real::fromDER(hex2bin('09024000'));
     }
 

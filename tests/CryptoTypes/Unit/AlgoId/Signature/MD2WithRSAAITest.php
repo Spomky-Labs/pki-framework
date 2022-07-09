@@ -34,8 +34,10 @@ class MD2WithRSAAITest extends TestCase
     public function testDecode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
-        $this->assertInstanceOf(MD2WithRSAEncryptionAlgorithmIdentifier::class,
-            $ai);
+        $this->assertInstanceOf(
+            MD2WithRSAEncryptionAlgorithmIdentifier::class,
+            $ai
+        );
         return $ai;
     }
 

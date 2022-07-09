@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\PrintableString;
 
@@ -68,8 +68,10 @@ class PrintableStringTest extends TestCase
     public function testWrapped(Element $el)
     {
         $wrap = new UnspecifiedType($el);
-        $this->assertInstanceOf(PrintableString::class,
-            $wrap->asPrintableString());
+        $this->assertInstanceOf(
+            PrintableString::class,
+            $wrap->asPrintableString()
+        );
     }
 
     public function testWrappedFail()
@@ -77,7 +79,8 @@ class PrintableStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'PrintableString expected, got primitive NULL');
+            'PrintableString expected, got primitive NULL'
+        );
         $wrap->asPrintableString();
     }
 }

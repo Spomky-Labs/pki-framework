@@ -21,8 +21,10 @@ class UserNoticeQualifierTest extends TestCase
 {
     public function testCreate()
     {
-        $qual = new UserNoticeQualifier(DisplayText::fromString('test'),
-            new NoticeReference(DisplayText::fromString('org'), 1, 2, 3));
+        $qual = new UserNoticeQualifier(
+            DisplayText::fromString('test'),
+            new NoticeReference(DisplayText::fromString('org'), 1, 2, 3)
+        );
         $this->assertInstanceOf(UserNoticeQualifier::class, $qual);
         return $qual;
     }
@@ -58,9 +60,10 @@ class UserNoticeQualifierTest extends TestCase
      * @param UserNoticeQualifier $ref
      * @param UserNoticeQualifier $new
      */
-    public function testRecoded(UserNoticeQualifier $ref,
-                                UserNoticeQualifier $new)
-    {
+    public function testRecoded(
+        UserNoticeQualifier $ref,
+        UserNoticeQualifier $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 

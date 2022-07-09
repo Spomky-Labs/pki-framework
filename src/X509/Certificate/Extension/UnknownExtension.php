@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -49,9 +49,11 @@ class UnknownExtension extends Extension
      *
      * @return self
      */
-    public static function fromRawString(string $oid, bool $critical,
-        string $data): self
-    {
+    public static function fromRawString(
+        string $oid,
+        bool $critical,
+        string $data
+    ): self {
         $obj = new self($oid, $critical, new OctetString(''));
         $obj->_element = null;
         $obj->_data = $data;

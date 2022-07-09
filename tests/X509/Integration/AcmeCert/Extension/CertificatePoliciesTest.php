@@ -92,9 +92,11 @@ class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function testPolicyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
-        $this->assertEquals('All your base are belong to us!',
+        $this->assertEquals(
+            'All your base are belong to us!',
             $un->explicitText()
-                ->string());
+                ->string()
+        );
     }
 
     /**
@@ -117,11 +119,13 @@ class CertificatePoliciesTest extends RefExtTestHelper
      * @param NoticeReference $ref
      */
     public function testPolicyUserNoticeQualifierOrganization(
-        NoticeReference $ref)
-    {
-        $this->assertEquals('Toaplan Co., Ltd.',
+        NoticeReference $ref
+    ) {
+        $this->assertEquals(
+            'Toaplan Co., Ltd.',
             $ref->organization()
-                ->string());
+                ->string()
+        );
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1;
 
@@ -67,7 +67,7 @@ class DERDataTest extends TestCase
     public function testEncodedContentEmpty()
     {
         $el = new DERData("\x5\x0");
-        $cls =  new \ReflectionClass($el);
+        $cls = new \ReflectionClass($el);
         $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
@@ -77,7 +77,7 @@ class DERDataTest extends TestCase
     public function testEncodedContentValue()
     {
         $el = new DERData((new OctetString('test'))->toDER());
-        $cls =  new \ReflectionClass($el);
+        $cls = new \ReflectionClass($el);
         $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
-use \LogicException;
-use \UnexpectedValueException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -19,6 +18,7 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -28,13 +28,13 @@ use Sop\X509\Certificate\Extensions;
  */
 class CertificatePoliciesTest extends TestCase
 {
-    final const INFO_OID = '1.3.6.1.3';
+    final public const INFO_OID = '1.3.6.1.3';
 
-    final const CPS_URI = 'urn:test';
+    final public const CPS_URI = 'urn:test';
 
-    final const NOTICE_TXT = 'Notice';
+    final public const NOTICE_TXT = 'Notice';
 
-    final const REF_ORG = 'ACME Ltd.';
+    final public const REF_ORG = 'ACME Ltd.';
 
     public function testCreateCPS()
     {
@@ -45,8 +45,10 @@ class CertificatePoliciesTest extends TestCase
 
     public function testCreateNotice()
     {
-        $qual = new UserNoticeQualifier(DisplayText::fromString('Notice'),
-            new NoticeReference(DisplayText::fromString(self::REF_ORG), 1, 2, 3));
+        $qual = new UserNoticeQualifier(
+            DisplayText::fromString('Notice'),
+            new NoticeReference(DisplayText::fromString(self::REF_ORG), 1, 2, 3)
+        );
         $this->assertInstanceOf(PolicyQualifierInfo::class, $qual);
         return $qual;
     }
@@ -55,9 +57,10 @@ class CertificatePoliciesTest extends TestCase
      * @depends testCreateCPS
      * @depends testCreateNotice
      */
-    public function testCreatePolicyInfo(PolicyQualifierInfo $q1,
-                                         PolicyQualifierInfo $q2)
-    {
+    public function testCreatePolicyInfo(
+        PolicyQualifierInfo $q1,
+        PolicyQualifierInfo $q2
+    ) {
         $info = new PolicyInformation(self::INFO_OID, $q1, $q2);
         $this->assertInstanceOf(PolicyInformation::class, $info);
         return $info;
@@ -68,8 +71,11 @@ class CertificatePoliciesTest extends TestCase
      */
     public function testCreate(PolicyInformation $info)
     {
-        $ext = new CertificatePoliciesExtension(true, $info,
-            new PolicyInformation('1.3.6.1.3.10'));
+        $ext = new CertificatePoliciesExtension(
+            true,
+            $info,
+            new PolicyInformation('1.3.6.1.3.10')
+        );
         $this->assertInstanceOf(CertificatePoliciesExtension::class, $ext);
         return $ext;
     }
@@ -153,15 +159,19 @@ class CertificatePoliciesTest extends TestCase
 
     public function testHasAnyPolicy()
     {
-        $ext = new CertificatePoliciesExtension(true,
-            new PolicyInformation(PolicyInformation::OID_ANY_POLICY));
+        $ext = new CertificatePoliciesExtension(
+            true,
+            new PolicyInformation(PolicyInformation::OID_ANY_POLICY)
+        );
         $this->assertTrue($ext->hasAnyPolicy());
     }
 
     public function testAnyPolicyFail()
     {
-        $ext = new CertificatePoliciesExtension(true,
-            new PolicyInformation('1.3.6.1.3'));
+        $ext = new CertificatePoliciesExtension(
+            true,
+            new PolicyInformation('1.3.6.1.3')
+        );
         $this->expectException(\LogicException::class);
         $ext->anyPolicy();
     }
@@ -290,7 +300,8 @@ class CertificatePoliciesTest extends TestCase
         $seq = new Sequence();
         $ext_seq = new Sequence(
             new ObjectIdentifier(Extension::OID_CERTIFICATE_POLICIES),
-            new OctetString($seq->toDER()));
+            new OctetString($seq->toDER())
+        );
         $this->expectException(\UnexpectedValueException::class);
         CertificatePoliciesExtension::fromASN1($ext_seq);
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier;
 
@@ -22,9 +22,10 @@ abstract class SpecificAlgorithmIdentifier extends AlgorithmIdentifier
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         throw new \BadMethodCallException(
-            __FUNCTION__ . ' must be implemented in derived class.');
+            __FUNCTION__ . ' must be implemented in derived class.'
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\AttributeValue;
 
@@ -25,7 +25,7 @@ abstract class AttributeValue
      *
      * @var array
      */
-    const MAP_OID_TO_CLASS = [
+    public const MAP_OID_TO_CLASS = [
         AttributeType::OID_COMMON_NAME => CommonNameValue::class,
         AttributeType::OID_SURNAME => SurnameValue::class,
         AttributeType::OID_SERIAL_NUMBER => SerialNumberValue::class,
@@ -98,7 +98,8 @@ abstract class AttributeValue
     public static function fromASN1(UnspecifiedType $el): AttributeValue
     {
         throw new \BadMethodCallException(
-            'ASN.1 parsing must be implemented in a concrete class.');
+            'ASN.1 parsing must be implemented in a concrete class.'
+        );
     }
 
     /**

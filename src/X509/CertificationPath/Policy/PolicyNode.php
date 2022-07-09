@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\Policy;
 
@@ -58,9 +58,11 @@ class PolicyNode implements \IteratorAggregate, \Countable
      * @param PolicyQualifierInfo[] $qualifiers
      * @param string[]              $expected_policies
      */
-    public function __construct(string $valid_policy, array $qualifiers,
-        array $expected_policies)
-    {
+    public function __construct(
+        string $valid_policy,
+        array $qualifiers,
+        array $expected_policies
+    ) {
         $this->_validPolicy = $valid_policy;
         $this->_qualifiers = $qualifiers;
         $this->_expectedPolicies = $expected_policies;
@@ -74,8 +76,11 @@ class PolicyNode implements \IteratorAggregate, \Countable
      */
     public static function anyPolicyNode(): self
     {
-        return new self(PolicyInformation::OID_ANY_POLICY, [],
-            [PolicyInformation::OID_ANY_POLICY]);
+        return new self(
+            PolicyInformation::OID_ANY_POLICY,
+            [],
+            [PolicyInformation::OID_ANY_POLICY]
+        );
     }
 
     /**

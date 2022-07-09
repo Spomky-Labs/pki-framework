@@ -69,9 +69,11 @@ class FreshestCRLTest extends RefExtTestHelper
      */
     public function testRDN(RelativeName $name)
     {
-        $this->assertEquals('cn=Delta Distribution Point',
+        $this->assertEquals(
+            'cn=Delta Distribution Point',
             $name->rdn()
-                ->toString());
+                ->toString()
+        );
     }
 
     /**

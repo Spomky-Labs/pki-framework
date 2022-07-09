@@ -24,7 +24,8 @@ class AttributeCollectionCastTest extends TestCase
     {
         $in = SequenceOfAttributes::fromAttributeValues(
             new AttributeCollectionCastTestAttrValue('test'),
-            new NameValue('name'));
+            new NameValue('name')
+        );
         $asn1 = $in->toASN1();
         $out = AttributeCollectionCastTestCollection::fromASN1($asn1);
         $value = $out->firstOf('1.3.6.1.3')->first();
@@ -32,4 +33,3 @@ class AttributeCollectionCastTest extends TestCase
         $this->assertEquals('test', $value->stringValue());
     }
 }
-

@@ -19,9 +19,9 @@ use Sop\X509\GeneralName\IPv6Address;
  */
 class IPv6AddressNameTest extends TestCase
 {
-    const ADDR = '0000:0000:0000:0000:0000:0000:0000:0001';
+    public const ADDR = '0000:0000:0000:0000:0000:0000:0000:0001';
 
-    const MASK = 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:0000';
+    public const MASK = 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:0000';
 
     public function testCreate()
     {

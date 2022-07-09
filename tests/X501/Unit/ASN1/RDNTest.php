@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\X501\ASN1\AttributeTypeAndValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\RDN;
+use UnexpectedValueException;
 
 /**
  * @group asn1
@@ -20,8 +20,10 @@ class RDNTest extends TestCase
 {
     public function testCreate()
     {
-        $rdn = RDN::fromAttributeValues(new NameValue('one'),
-            new NameValue('two'));
+        $rdn = RDN::fromAttributeValues(
+            new NameValue('one'),
+            new NameValue('two')
+        );
         $this->assertInstanceOf(RDN::class, $rdn);
         return $rdn;
     }
@@ -62,8 +64,10 @@ class RDNTest extends TestCase
      */
     public function testAll(RDN $rdn)
     {
-        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class,
-            $rdn->all());
+        $this->assertContainsOnlyInstancesOf(
+            AttributeTypeAndValue::class,
+            $rdn->all()
+        );
     }
 
     /**
@@ -71,8 +75,10 @@ class RDNTest extends TestCase
      */
     public function testAllOf(RDN $rdn)
     {
-        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class,
-            $rdn->allOf('name'));
+        $this->assertContainsOnlyInstancesOf(
+            AttributeTypeAndValue::class,
+            $rdn->allOf('name')
+        );
     }
 
     /**
@@ -108,8 +114,10 @@ class RDNTest extends TestCase
         foreach ($rdn as $tv) {
             $values[] = $tv;
         }
-        $this->assertContainsOnlyInstancesOf(AttributeTypeAndValue::class,
-            $values);
+        $this->assertContainsOnlyInstancesOf(
+            AttributeTypeAndValue::class,
+            $values
+        );
     }
 
     /**
@@ -132,7 +140,8 @@ class RDNTest extends TestCase
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'RDN must have at least one AttributeTypeAndValue');
+            'RDN must have at least one AttributeTypeAndValue'
+        );
         new RDN();
     }
 }

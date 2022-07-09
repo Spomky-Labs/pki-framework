@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\BitString;
 
@@ -41,7 +41,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'DER encoded bit string must have zero padding');
+            'DER encoded bit string must have zero padding'
+        );
         BitString::fromDER("\x3\x3\x4\xff\xf8");
     }
 
@@ -90,7 +91,8 @@ class DecodeTest extends TestCase
     {
         $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
-            'Unused bits in a bit string must be less than 8');
+            'Unused bits in a bit string must be less than 8'
+        );
         BitString::fromDER("\x3\x3\x8\xff\x00");
     }
 }

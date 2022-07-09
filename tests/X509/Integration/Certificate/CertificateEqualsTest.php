@@ -26,17 +26,24 @@ class CertificateEqualsTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_cert1 = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
+        );
         $pubkey = PublicKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem')
+        );
         $tbs = self::$_cert1->tbsCertificate()->withSubjectPublicKeyInfo(
-            $pubkey);
+            $pubkey
+        );
         $privkey = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->privateKeyInfo();
-        self::$_cert1DifKey = $tbs->sign(self::$_cert1->signatureAlgorithm(),
-            $privkey);
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
+        )->privateKeyInfo();
+        self::$_cert1DifKey = $tbs->sign(
+            self::$_cert1->signatureAlgorithm(),
+            $privkey
+        );
         self::$_cert2 = Certificate::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void

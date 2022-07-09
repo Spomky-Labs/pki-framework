@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
-use \UnexpectedValueException;
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -29,6 +28,7 @@ use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @group ac
@@ -37,7 +37,7 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class AttributeCertificateInfoTest extends TestCase
 {
-    final const ISSUER_DN = 'cn=Issuer';
+    final public const ISSUER_DN = 'cn=Issuer';
 
     private static $_holder;
 
@@ -56,17 +56,25 @@ class AttributeCertificateInfoTest extends TestCase
         self::$_holder = new Holder(
             new IssuerSerial(
                 new GeneralNames(DirectoryName::fromDNString(self::ISSUER_DN)),
-                42));
+                42
+            )
+        );
         self::$_issuer = AttCertIssuer::fromName(
-            Name::fromString(self::ISSUER_DN));
+            Name::fromString(self::ISSUER_DN)
+        );
         self::$_validity = AttCertValidityPeriod::fromStrings(
-            '2016-04-29 12:00:00', '2016-04-29 13:00:00');
+            '2016-04-29 12:00:00',
+            '2016-04-29 13:00:00'
+        );
         self::$_attribs = Attributes::fromAttributeValues(
-            new RoleAttributeValue(new UniformResourceIdentifier('urn:admin')));
+            new RoleAttributeValue(new UniformResourceIdentifier('urn:admin'))
+        );
         self::$_extensions = new Extensions(
-            new AuthorityKeyIdentifierExtension(true, 'test'));
+            new AuthorityKeyIdentifierExtension(true, 'test')
+        );
         self::$_privKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -81,18 +89,27 @@ class AttributeCertificateInfoTest extends TestCase
 
     public function testCreate()
     {
-        $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer,
-            self::$_validity, self::$_attribs);
+        $aci = new AttributeCertificateInfo(
+            self::$_holder,
+            self::$_issuer,
+            self::$_validity,
+            self::$_attribs
+        );
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
 
     public function testCreateWithAll()
     {
-        $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer,
-            self::$_validity, self::$_attribs);
+        $aci = new AttributeCertificateInfo(
+            self::$_holder,
+            self::$_issuer,
+            self::$_validity,
+            self::$_attribs
+        );
         $aci = $aci->withSignature(
-            new SHA256WithRSAEncryptionAlgorithmIdentifier())
+            new SHA256WithRSAEncryptionAlgorithmIdentifier()
+        )
             ->withSerialNumber(1)
             ->withExtensions(self::$_extensions)
             ->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
@@ -126,9 +143,10 @@ class AttributeCertificateInfoTest extends TestCase
      * @depends testCreateWithAll
      * @depends testDecode
      */
-    public function testRecoded(AttributeCertificateInfo $ref,
-                                AttributeCertificateInfo $new)
-    {
+    public function testRecoded(
+        AttributeCertificateInfo $ref,
+        AttributeCertificateInfo $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 
@@ -161,8 +179,10 @@ class AttributeCertificateInfoTest extends TestCase
      */
     public function testSignature(AttributeCertificateInfo $aci)
     {
-        $this->assertEquals(new SHA256WithRSAEncryptionAlgorithmIdentifier(),
-            $aci->signature());
+        $this->assertEquals(
+            new SHA256WithRSAEncryptionAlgorithmIdentifier(),
+            $aci->signature()
+        );
     }
 
     /**
@@ -230,7 +250,8 @@ class AttributeCertificateInfoTest extends TestCase
     public function testWithSignature(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSignature(
-            new SHA1WithRSAEncryptionAlgorithmIdentifier());
+            new SHA1WithRSAEncryptionAlgorithmIdentifier()
+        );
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
@@ -297,7 +318,8 @@ class AttributeCertificateInfoTest extends TestCase
     public function testWithAdditionalExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAdditionalExtensions(
-            new AuthorityKeyIdentifierExtension(true, 'test'));
+            new AuthorityKeyIdentifierExtension(true, 'test')
+        );
         $this->assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
@@ -345,8 +367,10 @@ class AttributeCertificateInfoTest extends TestCase
      */
     public function testSign(AttributeCertificateInfo $aci)
     {
-        $ac = $aci->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privKeyInfo);
+        $ac = $aci->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privKeyInfo
+        );
         $this->assertInstanceOf(AttributeCertificate::class, $ac);
     }
 

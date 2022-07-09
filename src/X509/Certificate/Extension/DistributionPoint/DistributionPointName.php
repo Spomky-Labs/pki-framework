@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\DistributionPoint;
 
@@ -18,8 +18,8 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 abstract class DistributionPointName
 {
-    const TAG_FULL_NAME = 0;
-    const TAG_RDN = 1;
+    public const TAG_FULL_NAME = 0;
+    public const TAG_RDN = 1;
 
     /**
      * Type.
@@ -43,13 +43,17 @@ abstract class DistributionPointName
             case self::TAG_FULL_NAME:
                 return new FullName(
                     GeneralNames::fromASN1(
-                        $el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()));
+                        $el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
+                    )
+                );
             case self::TAG_RDN:
                 return new RelativeName(
-                    RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet()));
+                    RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet())
+                );
             default:
                 throw new \UnexpectedValueException(
-                    'DistributionPointName tag ' . $el->tag() . ' not supported.');
+                    'DistributionPointName tag ' . $el->tag() . ' not supported.'
+                );
         }
     }
 

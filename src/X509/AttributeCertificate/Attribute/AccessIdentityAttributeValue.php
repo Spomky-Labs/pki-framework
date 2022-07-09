@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
@@ -13,7 +13,7 @@ use Sop\X509\GeneralName\GeneralName;
  */
 class AccessIdentityAttributeValue extends SvceAuthInfo
 {
-    const OID = '1.3.6.1.5.5.7.10.2';
+    public const OID = '1.3.6.1.5.5.7.10.2';
 
     /**
      * Constructor.

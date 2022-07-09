@@ -74,8 +74,10 @@ class DecodeTest extends TestCase
      */
     public function testAlgoType(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
-            $algo->oid());
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
+            $algo->oid()
+        );
     }
 
     /**
@@ -100,10 +102,13 @@ class DecodeTest extends TestCase
     public function testSignatureValue(Signature $signature)
     {
         $expected = hex2bin(
-            trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig')));
-        $this->assertEquals($expected,
+            trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig'))
+        );
+        $this->assertEquals(
+            $expected,
             $signature->bitString()
-                ->string());
+                ->string()
+        );
     }
 
     /**
@@ -161,9 +166,11 @@ class DecodeTest extends TestCase
      */
     public function testPublicKeyAlgo(PublicKeyInfo $info)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION,
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
             $info->algorithmIdentifier()
-                ->oid());
+                ->oid()
+        );
     }
 
     /**
@@ -174,7 +181,8 @@ class DecodeTest extends TestCase
     public function testPublicKey(PublicKeyInfo $info)
     {
         $pk = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
+        )->publicKey();
         $this->assertEquals($pk, $info->publicKey());
     }
 
@@ -203,7 +211,8 @@ class DecodeTest extends TestCase
     public function testExtensionRequestAttribute(Attributes $attribs)
     {
         $attr = ExtensionRequestValue::fromSelf(
-            $attribs->firstOf(ExtensionRequestValue::OID)->first());
+            $attribs->firstOf(ExtensionRequestValue::OID)->first()
+        );
         $this->assertInstanceOf(ExtensionRequestValue::class, $attr);
         return $attr;
     }

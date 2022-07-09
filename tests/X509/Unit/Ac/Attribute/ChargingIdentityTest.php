@@ -21,22 +21,24 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class ChargingIdentityTest extends TestCase
 {
-    final const AUTHORITY_DN = 'cn=Authority Name';
+    final public const AUTHORITY_DN = 'cn=Authority Name';
 
-    final const OCTETS_VAL = 'octet string';
+    final public const OCTETS_VAL = 'octet string';
 
-    final const OID_VAL = '1.3.6.1.3.1';
+    final public const OID_VAL = '1.3.6.1.3.1';
 
-    final const UTF8_VAL = 'UTF-8 string';
+    final public const UTF8_VAL = 'UTF-8 string';
 
     public function testCreate()
     {
         $value = new ChargingIdentityAttributeValue(
             IetfAttrValue::fromOctets(self::OCTETS_VAL),
             IetfAttrValue::fromOID(self::OID_VAL),
-            IetfAttrValue::fromString(self::UTF8_VAL));
+            IetfAttrValue::fromString(self::UTF8_VAL)
+        );
         $value = $value->withPolicyAuthority(
-            new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
+            new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN))
+        );
         $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $value);
         return $value;
     }
@@ -59,7 +61,8 @@ class ChargingIdentityTest extends TestCase
     public function testDecode($der)
     {
         $value = ChargingIdentityAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified());
+            Sequence::fromDER($der)->asUnspecified()
+        );
         $this->assertInstanceOf(ChargingIdentityAttributeValue::class, $value);
         return $value;
     }
@@ -86,9 +89,11 @@ class ChargingIdentityTest extends TestCase
      */
     public function testAuthority(ChargingIdentityAttributeValue $value)
     {
-        $this->assertEquals(self::AUTHORITY_DN,
+        $this->assertEquals(
+            self::AUTHORITY_DN,
             $value->policyAuthority()
-                ->firstDN());
+                ->firstDN()
+        );
     }
 
     /**
@@ -151,7 +156,9 @@ class ChargingIdentityTest extends TestCase
      */
     public function testFromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(ChargingIdentityAttributeValue::class,
-            $attribs->chargingIdentity());
+        $this->assertInstanceOf(
+            ChargingIdentityAttributeValue::class,
+            $attribs->chargingIdentity()
+        );
     }
 }

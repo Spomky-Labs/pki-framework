@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed\Sequence;
 
@@ -119,7 +119,8 @@ class SequenceTest extends TestCase
     {
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage(
-            'Structure doesn\'t have an element at index 2');
+            'Structure doesn\'t have an element at index 2'
+        );
         $seq->at(2);
     }
 

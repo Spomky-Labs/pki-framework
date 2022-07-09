@@ -39,7 +39,8 @@ class CertificateBundleTest extends TestCase
         self::$_pem1 = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem');
         self::$_cert1 = Certificate::fromPEM(self::$_pem1);
         self::$_pem2 = PEM::fromFile(
-            TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem');
+            TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem'
+        );
         self::$_cert2 = Certificate::fromPEM(self::$_pem2);
         self::$_pem3 = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem');
         self::$_cert3 = Certificate::fromPEM(self::$_pem3);
@@ -108,15 +109,23 @@ class CertificateBundleTest extends TestCase
     public function testContainsSubjectMismatch()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
-        $tc = new TBSCertificate(Name::fromString('cn=Subject'),
-            $priv_key_info->publicKeyInfo(), Name::fromString('cn=Issuer 1'),
-            Validity::fromStrings(null, null));
-        $cert1 = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            $priv_key_info);
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
+        $tc = new TBSCertificate(
+            Name::fromString('cn=Subject'),
+            $priv_key_info->publicKeyInfo(),
+            Name::fromString('cn=Issuer 1'),
+            Validity::fromStrings(null, null)
+        );
+        $cert1 = $tc->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            $priv_key_info
+        );
         $tc = $tc->withSubject(Name::fromString('cn=Issuer 2'));
-        $cert2 = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            $priv_key_info);
+        $cert2 = $tc->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            $priv_key_info
+        );
         $bundle = new CertificateBundle($cert1);
         $this->assertFalse($bundle->contains($cert2));
     }
@@ -164,7 +173,8 @@ class CertificateBundleTest extends TestCase
     public function testFromPEMBundle()
     {
         $bundle = CertificateBundle::fromPEMBundle(
-            new PEMBundle(self::$_pem1, self::$_pem2));
+            new PEMBundle(self::$_pem1, self::$_pem2)
+        );
         $this->assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
@@ -177,12 +187,18 @@ class CertificateBundleTest extends TestCase
     public function testSearchBySubjectKeyHavingNoID()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
-        $tc = new TBSCertificate(Name::fromString('cn=Subject'),
-            $priv_key_info->publicKeyInfo(), Name::fromString('cn=Issuer'),
-            Validity::fromStrings(null, null));
-        $cert = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            $priv_key_info);
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
+        $tc = new TBSCertificate(
+            Name::fromString('cn=Subject'),
+            $priv_key_info->publicKeyInfo(),
+            Name::fromString('cn=Issuer'),
+            Validity::fromStrings(null, null)
+        );
+        $cert = $tc->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            $priv_key_info
+        );
         $bundle = new CertificateBundle($cert);
         $this->assertEmpty($bundle->allBySubjectKeyIdentifier('nope'));
     }

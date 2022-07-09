@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
-use \LogicException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\X509\Certificate\Certificate;
@@ -27,9 +27,11 @@ class CertificateChainTest extends TestCase
         self::$_pems = [
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'),
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem'),
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'),];
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'), ];
         self::$_certs = array_map(
-            fn(PEM $pem) => Certificate::fromPEM($pem), self::$_pems);
+            fn (PEM $pem) => Certificate::fromPEM($pem),
+            self::$_pems
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -115,9 +117,10 @@ class CertificateChainTest extends TestCase
      * @depends testCreateChain
      * @depends testFromPEMs
      */
-    public function testFromPEMEquals(CertificateChain $ref,
-                                      CertificateChain $chain)
-    {
+    public function testFromPEMEquals(
+        CertificateChain $ref,
+        CertificateChain $chain
+    ) {
         $this->assertEquals($ref, $chain);
     }
 
@@ -126,8 +129,12 @@ class CertificateChainTest extends TestCase
      */
     public function testToPEMString(CertificateChain $chain)
     {
-        $expected = sprintf("%s\n%s\n%s", self::$_pems[0], self::$_pems[1],
-            self::$_pems[2]);
+        $expected = sprintf(
+            "%s\n%s\n%s",
+            self::$_pems[0],
+            self::$_pems[1],
+            self::$_pems[2]
+        );
         $str = $chain->toPEMString();
         $this->assertEquals($expected, $str);
         return $str;
@@ -149,9 +156,10 @@ class CertificateChainTest extends TestCase
      * @depends testCreateChain
      * @depends testFromPEMString
      */
-    public function testFromPEMStringEquals(CertificateChain $ref,
-                                            CertificateChain $chain)
-    {
+    public function testFromPEMStringEquals(
+        CertificateChain $ref,
+        CertificateChain $chain
+    ) {
         $this->assertEquals($ref, $chain);
     }
 

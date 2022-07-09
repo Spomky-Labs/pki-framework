@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
 
@@ -63,8 +63,8 @@ class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements Hash
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         $obj = new static();
         // if parameters field is present, it must be null type
         if (isset($params)) {

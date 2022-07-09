@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Util;
 
@@ -46,8 +46,11 @@ class Flags
             $mask = gmp_sub(gmp_init(1) << $width, 1);
             $num &= $mask;
             // shift towards MSB if needed
-            $data = gmp_export($num << $unused_bits, 1,
-                GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+            $data = gmp_export(
+                $num << $unused_bits,
+                1,
+                GMP_MSW_FIRST | GMP_BIG_ENDIAN
+            );
             $octets = unpack('C*', $data);
             assert(is_array($octets), new \RuntimeException('unpack() failed'));
             $bits = count($octets) * 8;

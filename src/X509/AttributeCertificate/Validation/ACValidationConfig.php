@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Validation;
 
@@ -46,9 +46,10 @@ class ACValidationConfig
      * @param CertificationPath $holder_path Certification path of the AC holder
      * @param CertificationPath $issuer_path Certification path of the AC issuer
      */
-    public function __construct(CertificationPath $holder_path,
-        CertificationPath $issuer_path)
-    {
+    public function __construct(
+        CertificationPath $holder_path,
+        CertificationPath $issuer_path
+    ) {
         $this->_holderPath = $holder_path;
         $this->_issuerPath = $issuer_path;
         $this->_evalTime = new \DateTimeImmutable();

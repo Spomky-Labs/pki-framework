@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\Collection;
 
@@ -48,7 +48,9 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
         return new static(...array_map(
             function (AttributeValue $value) {
                 return $value->toAttribute();
-            }, $values));
+            },
+            $values
+        ));
     }
 
     /**
@@ -92,10 +94,13 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
     {
         $oid = AttributeType::attrNameToOID($name);
         return array_values(
-            array_filter($this->_attributes,
+            array_filter(
+                $this->_attributes,
                 function (Attribute $attr) use ($oid) {
                     return $attr->oid() === $oid;
-                }));
+                }
+            )
+        );
     }
 
     /**
@@ -136,10 +141,13 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
     public function withUnique(Attribute $attr): self
     {
         $attribs = array_values(
-            array_filter($this->_attributes,
+            array_filter(
+                $this->_attributes,
                 function (Attribute $a) use ($attr) {
                     return $a->oid() !== $attr->oid();
-                }));
+                }
+            )
+        );
         $attribs[] = $attr;
         $obj = clone $this;
         $obj->_attributes = $attribs;
@@ -200,8 +208,11 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
         return new static(...array_map(
             function (UnspecifiedType $el) {
                 return static::_castAttributeValues(
-                    Attribute::fromASN1($el->asSequence()));
-            }, $struct->elements()));
+                    Attribute::fromASN1($el->asSequence())
+                );
+            },
+            $struct->elements()
+        ));
     }
 
     /**

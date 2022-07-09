@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\OctetString;
 
@@ -76,7 +76,8 @@ class OctetStringTest extends TestCase
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage(
-            'OCTET STRING expected, got primitive NULL');
+            'OCTET STRING expected, got primitive NULL'
+        );
         $wrap->asOctetString();
     }
 }

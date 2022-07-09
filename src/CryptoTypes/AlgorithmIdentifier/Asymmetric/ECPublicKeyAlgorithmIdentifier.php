@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
@@ -274,8 +274,8 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         if (!isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }

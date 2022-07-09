@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -27,7 +27,7 @@ class GeneralizedTime extends BaseTime
      *
      * @var string
      */
-    const REGEX = '#^' .
+    public const REGEX = '#^' .
         '(\d\d\d\d)' . // YYYY
         '(\d\d)' . // MM
         '(\d\d)' . // DD
@@ -69,7 +69,8 @@ class GeneralizedTime extends BaseTime
     {
         if (!isset($this->_formatted)) {
             $dt = $this->_dateTime->setTimezone(
-                self::_createTimeZone(self::TZ_UTC));
+                self::_createTimeZone(self::TZ_UTC)
+            );
             $this->_formatted = $dt->format('YmdHis');
             // if fractions were used
             $frac = $dt->format('u');
@@ -86,9 +87,11 @@ class GeneralizedTime extends BaseTime
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = substr($data, $idx, $length);
@@ -104,7 +107,8 @@ class GeneralizedTime extends BaseTime
             // DER restricts trailing zeroes in fractional seconds component
             if ('0' === $frac[strlen($frac) - 1]) {
                 throw new DecodeException(
-                    'Fractional seconds must omit trailing zeroes.');
+                    'Fractional seconds must omit trailing zeroes.'
+                );
             }
             $frac = $frac;
         } else {
@@ -112,12 +116,16 @@ class GeneralizedTime extends BaseTime
         }
         $time = $year . $month . $day . $hour . $minute . $second . '.' . $frac .
             self::TZ_UTC;
-        $dt = \DateTimeImmutable::createFromFormat('!YmdHis.uT', $time,
-            self::_createTimeZone(self::TZ_UTC));
+        $dt = \DateTimeImmutable::createFromFormat(
+            '!YmdHis.uT',
+            $time,
+            self::_createTimeZone(self::TZ_UTC)
+        );
         if (!$dt) {
             throw new DecodeException(
                 'Failed to decode GeneralizedTime: ' .
-                self::_getLastDateTimeImmutableErrorsStr());
+                self::_getLastDateTimeImmutableErrorsStr()
+            );
         }
         $offset = $idx;
         return new self($dt);

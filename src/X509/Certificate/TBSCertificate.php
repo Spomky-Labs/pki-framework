@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
@@ -28,9 +28,9 @@ use Sop\X509\CertificationRequest\CertificationRequest;
 class TBSCertificate
 {
     // Certificate version enumerations
-    const VERSION_1 = 0;
-    const VERSION_2 = 1;
-    const VERSION_3 = 2;
+    public const VERSION_1 = 0;
+    public const VERSION_2 = 1;
+    public const VERSION_3 = 2;
 
     /**
      * Certificate version.
@@ -110,9 +110,12 @@ class TBSCertificate
      * @param Name          $issuer   Certificate issuer
      * @param Validity      $validity Validity period
      */
-    public function __construct(Name $subject, PublicKeyInfo $pki, Name $issuer,
-        Validity $validity)
-    {
+    public function __construct(
+        Name $subject,
+        PublicKeyInfo $pki,
+        Name $issuer,
+        Validity $validity
+    ) {
         $this->_subject = $subject;
         $this->_subjectPublicKeyInfo = $pki;
         $this->_issuer = $issuer;
@@ -140,7 +143,8 @@ class TBSCertificate
         $algo = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
         if (!$algo instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
-                'Unsupported signature algorithm ' . $algo->name() . '.');
+                'Unsupported signature algorithm ' . $algo->name() . '.'
+            );
         }
         $issuer = Name::fromASN1($seq->at($idx++)->asSequence());
         $validity = Validity::fromASN1($seq->at($idx++)->asSequence());
@@ -153,16 +157,19 @@ class TBSCertificate
         if ($seq->hasTagged(1)) {
             $tbs_cert->_issuerUniqueID = UniqueIdentifier::fromASN1(
                 $seq->getTagged(1)->asImplicit(Element::TYPE_BIT_STRING)
-                    ->asBitString());
+                    ->asBitString()
+            );
         }
         if ($seq->hasTagged(2)) {
             $tbs_cert->_subjectUniqueID = UniqueIdentifier::fromASN1(
                 $seq->getTagged(2)->asImplicit(Element::TYPE_BIT_STRING)
-                    ->asBitString());
+                    ->asBitString()
+            );
         }
         if ($seq->hasTagged(3)) {
             $tbs_cert->_extensions = Extensions::fromASN1(
-                $seq->getTagged(3)->asExplicit()->asSequence());
+                $seq->getTagged(3)->asExplicit()->asSequence()
+            );
         }
         return $tbs_cert;
     }
@@ -179,20 +186,28 @@ class TBSCertificate
     public static function fromCSR(CertificationRequest $cr): self
     {
         $cri = $cr->certificationRequestInfo();
-        $tbs_cert = new self($cri->subject(), $cri->subjectPKInfo(), new Name(),
-            Validity::fromStrings(null, null));
+        $tbs_cert = new self(
+            $cri->subject(),
+            $cri->subjectPKInfo(),
+            new Name(),
+            Validity::fromStrings(null, null)
+        );
         // if CSR has Extension Request attribute
         if ($cri->hasAttributes()) {
             $attribs = $cri->attributes();
             if ($attribs->hasExtensionRequest()) {
                 $tbs_cert = $tbs_cert->withExtensions(
-                    $attribs->extensionRequest()->extensions());
+                    $attribs->extensionRequest()->extensions()
+                );
             }
         }
         // add Subject Key Identifier extension
         return $tbs_cert->withAdditionalExtensions(
-            new SubjectKeyIdentifierExtension(false,
-                $cri->subjectPKInfo()->keyIdentifier()));
+            new SubjectKeyIdentifierExtension(
+                false,
+                $cri->subjectPKInfo()->keyIdentifier()
+            )
+        );
     }
 
     /**
@@ -214,7 +229,8 @@ class TBSCertificate
         // add authority key identifier extension
         $key_id = $cert->tbsCertificate()->subjectPublicKeyInfo()->keyIdentifier();
         $obj->_extensions = $obj->_extensions->withExtensions(
-            new AuthorityKeyIdentifierExtension(false, $key_id));
+            new AuthorityKeyIdentifierExtension(false, $key_id)
+        );
         return $obj;
     }
 
@@ -584,20 +600,32 @@ class TBSCertificate
         $serial = $this->serialNumber();
         $signature = $this->signature();
         // add required elements
-        array_push($elements, new Integer($serial), $signature->toASN1(),
-            $this->_issuer->toASN1(), $this->_validity->toASN1(),
-            $this->_subject->toASN1(), $this->_subjectPublicKeyInfo->toASN1());
+        array_push(
+            $elements,
+            new Integer($serial),
+            $signature->toASN1(),
+            $this->_issuer->toASN1(),
+            $this->_validity->toASN1(),
+            $this->_subject->toASN1(),
+            $this->_subjectPublicKeyInfo->toASN1()
+        );
         if (isset($this->_issuerUniqueID)) {
-            $elements[] = new ImplicitlyTaggedType(1,
-                $this->_issuerUniqueID->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                1,
+                $this->_issuerUniqueID->toASN1()
+            );
         }
         if (isset($this->_subjectUniqueID)) {
-            $elements[] = new ImplicitlyTaggedType(2,
-                $this->_subjectUniqueID->toASN1());
+            $elements[] = new ImplicitlyTaggedType(
+                2,
+                $this->_subjectUniqueID->toASN1()
+            );
         }
         if (count($this->_extensions)) {
-            $elements[] = new ExplicitlyTaggedType(3,
-                $this->_extensions->toASN1());
+            $elements[] = new ExplicitlyTaggedType(
+                3,
+                $this->_extensions->toASN1()
+            );
         }
         return new Sequence(...$elements);
     }
@@ -611,9 +639,11 @@ class TBSCertificate
      *
      * @return Certificate
      */
-    public function sign(SignatureAlgorithmIdentifier $algo,
-        PrivateKeyInfo $privkey_info, ?Crypto $crypto = null): Certificate
-    {
+    public function sign(
+        SignatureAlgorithmIdentifier $algo,
+        PrivateKeyInfo $privkey_info,
+        ?Crypto $crypto = null
+    ): Certificate {
         $crypto = $crypto ?? Crypto::getDefault();
         $tbs_cert = clone $this;
         if (!isset($tbs_cert->_version)) {

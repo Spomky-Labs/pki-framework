@@ -84,7 +84,9 @@ class PathValidationConfigTest extends TestCase
     {
         $config = $config->withTrustAnchor(
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')));
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
+            )
+        );
         $this->assertInstanceOf(PathValidationConfig::class, $config);
         return $config;
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -55,16 +55,19 @@ class Boolean extends Element
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         $idx = $offset;
         Length::expectFromDER($data, $idx, 1);
         $byte = ord($data[$idx++]);
         if (0 !== $byte) {
             if (0xff !== $byte) {
                 throw new DecodeException(
-                    'DER encoded boolean true must have all bits set to 1.');
+                    'DER encoded boolean true must have all bits set to 1.'
+                );
             }
         }
         $offset = $idx;

@@ -38,9 +38,11 @@ class RequestToCertTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_issuerKey = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
         self::$_subjectKey = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -52,16 +54,23 @@ class RequestToCertTest extends TestCase
     public function testCreateCA()
     {
         $name = Name::fromString('cn=Issuer');
-        $validity = Validity::fromStrings('2016-05-02 12:00:00',
-            '2016-05-03 12:00:00');
+        $validity = Validity::fromStrings(
+            '2016-05-02 12:00:00',
+            '2016-05-03 12:00:00'
+        );
         $pki = self::$_issuerKey->publicKeyInfo();
         $tbs_cert = new TBSCertificate($name, $pki, $name, $validity);
         $tbs_cert = $tbs_cert->withExtensions(
-            new Extensions(new BasicConstraintsExtension(true, true),
+            new Extensions(
+                new BasicConstraintsExtension(true, true),
                 new SubjectKeyIdentifierExtension(false, $pki->keyIdentifier()),
-                new KeyUsageExtension(true,
+                new KeyUsageExtension(
+                    true,
                     KeyUsageExtension::DIGITAL_SIGNATURE |
-                    KeyUsageExtension::KEY_CERT_SIGN)));
+                    KeyUsageExtension::KEY_CERT_SIGN
+                )
+            )
+        );
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);
         $this->assertInstanceOf(Certificate::class, $cert);
@@ -74,7 +83,8 @@ class RequestToCertTest extends TestCase
         $pkinfo = self::$_subjectKey->publicKeyInfo();
         $cri = new CertificationRequestInfo($subject, $pkinfo);
         $cri = $cri->withExtensionRequest(
-            new Extensions(new BasicConstraintsExtension(true, false)));
+            new Extensions(new BasicConstraintsExtension(true, false))
+        );
         $algo = new ECDSAWithSHA1AlgorithmIdentifier();
         $csr = $cri->sign($algo, self::$_subjectKey);
         $this->assertInstanceOf(CertificationRequest::class, $csr);
@@ -85,19 +95,26 @@ class RequestToCertTest extends TestCase
      * @depends testCreateRequest
      * @depends testCreateCA
      */
-    public function testIssueCertificate(CertificationRequest $csr,
-                                         Certificate          $ca_cert)
-    {
+    public function testIssueCertificate(
+        CertificationRequest $csr,
+        Certificate          $ca_cert
+    ) {
         $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate(
-            $ca_cert);
-        $validity = Validity::fromStrings('2016-05-02 12:00:00',
-            '2016-05-02 13:00:00');
+            $ca_cert
+        );
+        $validity = Validity::fromStrings(
+            '2016-05-02 12:00:00',
+            '2016-05-02 13:00:00'
+        );
         $tbs_cert = $tbs_cert->withValidity($validity);
         $tbs_cert = $tbs_cert->withAdditionalExtensions(
-            new KeyUsageExtension(true,
+            new KeyUsageExtension(
+                true,
                 KeyUsageExtension::DIGITAL_SIGNATURE |
-                KeyUsageExtension::KEY_ENCIPHERMENT),
-            new BasicConstraintsExtension(true, false));
+                KeyUsageExtension::KEY_ENCIPHERMENT
+            ),
+            new BasicConstraintsExtension(true, false)
+        );
         $algo = new SHA512WithRSAEncryptionAlgorithmIdentifier();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);
         $this->assertInstanceOf(Certificate::class, $cert);
@@ -121,7 +138,8 @@ class RequestToCertTest extends TestCase
     public function testValidatePath(CertificationPath $path)
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(
-            new \DateTimeImmutable('2016-05-02 12:30:00'));
+            new \DateTimeImmutable('2016-05-02 12:30:00')
+        );
         $result = $path->validate($config);
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }

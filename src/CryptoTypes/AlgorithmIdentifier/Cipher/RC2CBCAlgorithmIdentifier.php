@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
@@ -124,8 +124,8 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      * @return self
      */
     public static function fromASN1Params(
-        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
+        ?UnspecifiedType $params = null
+    ): SpecificAlgorithmIdentifier {
         if (!isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }
@@ -194,8 +194,10 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if (!isset($this->_initializationVector)) {
             throw new \LogicException('IV not set.');
         }
-        return new Sequence(new Integer($version),
-            new OctetString($this->_initializationVector));
+        return new Sequence(
+            new Integer($version),
+            new OctetString($this->_initializationVector)
+        );
     }
 
     /**

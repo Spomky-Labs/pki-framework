@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\AccessDescription;
 
@@ -14,8 +14,8 @@ class AuthorityAccessDescription extends AccessDescription
      *
      * @var string
      */
-    const OID_METHOD_OSCP = '1.3.6.1.5.5.7.48.1';
-    const OID_METHOD_CA_ISSUERS = '1.3.6.1.5.5.7.48.2';
+    public const OID_METHOD_OSCP = '1.3.6.1.5.5.7.48.1';
+    public const OID_METHOD_CA_ISSUERS = '1.3.6.1.5.5.7.48.2';
 
     /**
      * Check whether access method is OSCP.

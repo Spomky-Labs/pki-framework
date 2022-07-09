@@ -23,8 +23,11 @@ class X400AddressTest extends TestCase
     public function testCreate()
     {
         $name = X400Address::fromASN1(
-            new ImplicitlyTaggedType(GeneralName::TAG_X400_ADDRESS,
-                new Sequence()));
+            new ImplicitlyTaggedType(
+                GeneralName::TAG_X400_ADDRESS,
+                new Sequence()
+            )
+        );
         $this->assertInstanceOf(X400Address::class, $name);
         return $name;
     }

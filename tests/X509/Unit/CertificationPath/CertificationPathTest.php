@@ -26,11 +26,14 @@ class CertificationPathTest extends TestCase
     {
         self::$_certs = [
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')),
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')
+            ),
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem')),
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem')
+            ),
             Certificate::fromPEM(
-                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')),];
+                PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem')
+            ), ];
     }
 
     public static function tearDownAfterClass(): void
@@ -83,8 +86,11 @@ class CertificationPathTest extends TestCase
 
     public function testFromTrustAnchorToTarget()
     {
-        $path = CertificationPath::fromTrustAnchorToTarget(self::$_certs[0],
-            self::$_certs[2], new CertificateBundle(...self::$_certs));
+        $path = CertificationPath::fromTrustAnchorToTarget(
+            self::$_certs[0],
+            self::$_certs[2],
+            new CertificateBundle(...self::$_certs)
+        );
         $this->assertInstanceOf(CertificationPath::class, $path);
     }
 
@@ -103,9 +109,10 @@ class CertificationPathTest extends TestCase
      * @param CertificationPath $ref
      * @param CertificationPath $path
      */
-    public function testFromChainEquals(CertificationPath $ref,
-                                        CertificationPath $path)
-    {
+    public function testFromChainEquals(
+        CertificationPath $ref,
+        CertificationPath $path
+    ) {
         $this->assertEquals($ref, $path);
     }
 
@@ -174,7 +181,8 @@ class CertificationPathTest extends TestCase
     public function testStartWithMulti(CertificationPath $path)
     {
         $this->assertTrue(
-            $path->startsWith(...array_slice(self::$_certs, 0, 2, false)));
+            $path->startsWith(...array_slice(self::$_certs, 0, 2, false))
+        );
     }
 
     /**
@@ -196,7 +204,9 @@ class CertificationPathTest extends TestCase
     {
         $this->assertFalse(
             $path->startsWith(
-                ...array_merge(self::$_certs, [self::$_certs[0]])));
+                ...array_merge(self::$_certs, [self::$_certs[0]])
+            )
+        );
     }
 
     /**

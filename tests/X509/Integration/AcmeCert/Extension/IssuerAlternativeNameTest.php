@@ -41,6 +41,8 @@ class IssuerAlternativeNameTest extends RefExtTestHelper
             ->dn()
             ->toString();
         $this->assertEquals(
-            'o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate', $dn);
+            'o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate',
+            $dn
+        );
     }
 }

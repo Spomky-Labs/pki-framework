@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -124,10 +124,13 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
         $policies = array_map(
             function (UnspecifiedType $el) {
                 return PolicyInformation::fromASN1($el->asSequence());
-            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+            },
+            UnspecifiedType::fromDER($data)->asSequence()->elements()
+        );
         if (!count($policies)) {
             throw new \UnexpectedValueException(
-                'certificatePolicies must contain at least one PolicyInformation.');
+                'certificatePolicies must contain at least one PolicyInformation.'
+            );
         }
         return new self($critical, ...$policies);
     }
@@ -143,7 +146,9 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
         $elements = array_map(
             function (PolicyInformation $pi) {
                 return $pi->toASN1();
-            }, array_values($this->_policies));
+            },
+            array_values($this->_policies)
+        );
         return new Sequence(...$elements);
     }
 }

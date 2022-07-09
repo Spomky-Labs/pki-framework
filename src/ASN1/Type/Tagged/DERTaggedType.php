@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Tagged;
 
@@ -66,10 +66,14 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
      * @param int        $value_offset Offset to content
      * @param int        $value_length Content length
      */
-    public function __construct(Identifier $identifier, string $data,
-        int $offset, int $value_offset, int $value_length,
-        bool $indefinite_length)
-    {
+    public function __construct(
+        Identifier $identifier,
+        string $data,
+        int $offset,
+        int $value_offset,
+        int $value_length,
+        bool $indefinite_length
+    ) {
         $this->_identifier = $identifier;
         $this->_data = $data;
         $this->_offset = $offset;
@@ -120,9 +124,11 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
+    protected static function _decodeFromDER(
+        Identifier $identifier,
+        string $data,
+        int &$offset
+    ): ElementBase {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         // offset to inner value
@@ -130,7 +136,8 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         if ($length->isIndefinite()) {
             if ($identifier->isPrimitive()) {
                 throw new DecodeException(
-                    'Primitive type with indefinite length is not supported.');
+                    'Primitive type with indefinite length is not supported.'
+                );
             }
             while (!Element::fromDER($data, $idx)->isType(self::TYPE_EOC));
             // EOC consists of two octets.

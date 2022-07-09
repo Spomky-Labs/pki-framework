@@ -73,8 +73,10 @@ class DecodeTest extends TestCase
      */
     public function testSignatureAlgorithmValue(AlgorithmIdentifier $algo)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
-            $algo->oid());
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
+            $algo->oid()
+        );
     }
 
     /**
@@ -99,7 +101,8 @@ class DecodeTest extends TestCase
     public function testSignatureValue(Signature $sig)
     {
         $expected = hex2bin(
-            trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.pem.sig')));
+            trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.pem.sig'))
+        );
         $this->assertEquals($expected, $sig->bitString()
             ->string());
     }
@@ -131,9 +134,11 @@ class DecodeTest extends TestCase
      */
     public function testSignatureAlgo(TBSCertificate $tbsCert)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
             $tbsCert->signature()
-                ->oid());
+                ->oid()
+        );
     }
 
     /**
@@ -157,8 +162,10 @@ class DecodeTest extends TestCase
      */
     public function testIssuerDN(Name $name)
     {
-        $this->assertEquals('o=ACME Ltd.,c=FI,cn=ACME Intermediate CA',
-            $name->toString());
+        $this->assertEquals(
+            'o=ACME Ltd.,c=FI,cn=ACME Intermediate CA',
+            $name->toString()
+        );
     }
 
     /**
@@ -248,9 +255,11 @@ class DecodeTest extends TestCase
      */
     public function testPublicKeyAlgo(PublicKeyInfo $pki)
     {
-        $this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION,
+        $this->assertEquals(
+            AlgorithmIdentifier::OID_RSA_ENCRYPTION,
             $pki->algorithmIdentifier()
-                ->oid());
+                ->oid()
+        );
     }
 
     /**
@@ -261,7 +270,8 @@ class DecodeTest extends TestCase
     public function testPublicKey(PublicKeyInfo $pki)
     {
         $pk = PrivateKey::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
+            PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
+        )->publicKey();
         $this->assertEquals($pk, $pki->publicKey());
     }
 

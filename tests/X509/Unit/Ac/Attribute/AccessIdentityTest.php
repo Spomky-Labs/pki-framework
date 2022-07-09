@@ -19,15 +19,16 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class AccessIdentityTest extends TestCase
 {
-    final const SERVICE_URI = 'urn:service';
+    final public const SERVICE_URI = 'urn:service';
 
-    final const IDENT_URI = 'urn:username';
+    final public const IDENT_URI = 'urn:username';
 
     public function testCreate()
     {
         $value = new AccessIdentityAttributeValue(
             new UniformResourceIdentifier(self::SERVICE_URI),
-            new UniformResourceIdentifier(self::IDENT_URI));
+            new UniformResourceIdentifier(self::IDENT_URI)
+        );
         $this->assertInstanceOf(AccessIdentityAttributeValue::class, $value);
         return $value;
     }
@@ -50,7 +51,8 @@ class AccessIdentityTest extends TestCase
     public function testDecode($der)
     {
         $value = AccessIdentityAttributeValue::fromASN1(
-            Sequence::fromDER($der)->asUnspecified());
+            Sequence::fromDER($der)->asUnspecified()
+        );
         $this->assertInstanceOf(AccessIdentityAttributeValue::class, $value);
         return $value;
     }
@@ -103,7 +105,9 @@ class AccessIdentityTest extends TestCase
      */
     public function testFromAttributes(Attributes $attribs)
     {
-        $this->assertInstanceOf(AccessIdentityAttributeValue::class,
-            $attribs->accessIdentity());
+        $this->assertInstanceOf(
+            AccessIdentityAttributeValue::class,
+            $attribs->accessIdentity()
+        );
     }
 }

@@ -24,7 +24,8 @@ class RFC4231HMACAITest extends TestCase
     {
         $seq = new Sequence(
             new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256),
-            new NullType());
+            new NullType()
+        );
         $ai = AlgorithmIdentifier::fromASN1($seq);
         $this->assertInstanceOf(HMACWithSHA256AlgorithmIdentifier::class, $ai);
     }
@@ -33,7 +34,8 @@ class RFC4231HMACAITest extends TestCase
     {
         $seq = new Sequence(
             new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256),
-            new Boolean(true));
+            new Boolean(true)
+        );
         $this->expectException(\UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\X501\ASN1\Collection;
 
@@ -39,7 +39,9 @@ class SetOfAttributes extends AttributeCollection
         $set = new Set(...array_map(
             function (Attribute $attr) {
                 return $attr->toASN1();
-            }, $this->_attributes));
+            },
+            $this->_attributes
+        ));
         return $set->sortedSetOf();
     }
 }

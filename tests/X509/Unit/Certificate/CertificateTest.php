@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
-use \UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\CryptoBridge\Crypto;
@@ -18,6 +17,7 @@ use Sop\X501\ASN1\Name;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\Validity;
+use UnexpectedValueException;
 
 /**
  * @group certificate
@@ -31,7 +31,8 @@ class CertificateTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -42,14 +43,21 @@ class CertificateTest extends TestCase
     public function testCreate()
     {
         $pki = self::$_privateKeyInfo->publicKeyInfo();
-        $tc = new TBSCertificate(Name::fromString('cn=Subject'), $pki,
-            Name::fromString('cn=Issuer'), Validity::fromStrings(null, null));
+        $tc = new TBSCertificate(
+            Name::fromString('cn=Subject'),
+            $pki,
+            Name::fromString('cn=Issuer'),
+            Validity::fromStrings(null, null)
+        );
         $tc = $tc->withVersion(TBSCertificate::VERSION_1)
             ->withSerialNumber(0)
             ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
         $signature = Crypto::getDefault()->sign(
             $tc->toASN1()
-                ->toDER(), self::$_privateKeyInfo, $tc->signature());
+                ->toDER(),
+            self::$_privateKeyInfo,
+            $tc->signature()
+        );
         $cert = new Certificate($tc, $tc->signature(), $signature);
         $this->assertInstanceOf(Certificate::class, $cert);
         return $cert;
@@ -99,8 +107,10 @@ class CertificateTest extends TestCase
      */
     public function testSignatureAlgorithm(Certificate $cert)
     {
-        $this->assertInstanceOf(AlgorithmIdentifier::class,
-            $cert->signatureAlgorithm());
+        $this->assertInstanceOf(
+            AlgorithmIdentifier::class,
+            $cert->signatureAlgorithm()
+        );
     }
 
     /**

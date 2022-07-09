@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RSA;
 
@@ -125,8 +125,10 @@ class RSAPublicKey extends PublicKey
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new Integer($this->_modulus),
-            new Integer($this->_publicExponent));
+        return new Sequence(
+            new Integer($this->_modulus),
+            new Integer($this->_publicExponent)
+        );
     }
 
     /**

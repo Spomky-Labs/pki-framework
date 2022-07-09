@@ -18,13 +18,14 @@ use Sop\X509\GeneralName\UniformResourceIdentifier;
  */
 class AuthorityAccessDescriptionTest extends TestCase
 {
-    const URI = 'urn:test';
+    public const URI = 'urn:test';
 
     public function testCreate()
     {
         $desc = new AuthorityAccessDescription(
             AuthorityAccessDescription::OID_METHOD_OSCP,
-            new UniformResourceIdentifier(self::URI));
+            new UniformResourceIdentifier(self::URI)
+        );
         $this->assertInstanceOf(AuthorityAccessDescription::class, $desc);
         return $desc;
     }
@@ -60,9 +61,10 @@ class AuthorityAccessDescriptionTest extends TestCase
      * @param AuthorityAccessDescription $ref
      * @param AuthorityAccessDescription $new
      */
-    public function testRecoded(AuthorityAccessDescription $ref,
-                                AuthorityAccessDescription $new)
-    {
+    public function testRecoded(
+        AuthorityAccessDescription $ref,
+        AuthorityAccessDescription $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 
@@ -93,8 +95,10 @@ class AuthorityAccessDescriptionTest extends TestCase
      */
     public function testAccessMethod(AuthorityAccessDescription $desc)
     {
-        $this->assertEquals(AuthorityAccessDescription::OID_METHOD_OSCP,
-            $desc->accessMethod());
+        $this->assertEquals(
+            AuthorityAccessDescription::OID_METHOD_OSCP,
+            $desc->accessMethod()
+        );
     }
 
     /**

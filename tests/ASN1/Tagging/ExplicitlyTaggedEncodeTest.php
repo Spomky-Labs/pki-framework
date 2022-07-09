@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Tagging;
 
@@ -26,8 +26,10 @@ class ExplicitlyTaggedEncodeTest extends TestCase
 
     public function testNested()
     {
-        $el = new ExplicitlyTaggedType(1,
-            new ExplicitlyTaggedType(2, new NullType()));
+        $el = new ExplicitlyTaggedType(
+            1,
+            new ExplicitlyTaggedType(2, new NullType())
+        );
         $this->assertEquals("\xa1\x4\xa2\x2\x5\x0", $el->toDER());
     }
 
@@ -40,8 +42,10 @@ class ExplicitlyTaggedEncodeTest extends TestCase
     public function testRecode()
     {
         $el = new ExplicitlyTaggedType(0, new Boolean(true));
-        $this->assertInstanceOf(Boolean::class,
+        $this->assertInstanceOf(
+            Boolean::class,
             $el->explicit()
-                ->asBoolean());
+                ->asBoolean()
+        );
     }
 }

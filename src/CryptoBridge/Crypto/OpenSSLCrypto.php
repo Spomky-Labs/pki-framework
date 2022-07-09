@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\CryptoBridge\Crypto;
 
@@ -26,7 +26,7 @@ class OpenSSLCrypto extends Crypto
      *
      * @var array
      */
-    const MAP_DIGEST_OID = [
+    public const MAP_DIGEST_OID = [
         AlgorithmIdentifier::OID_MD4_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_MD4,
         AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_MD5,
         AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_SHA1,
@@ -48,7 +48,7 @@ class OpenSSLCrypto extends Crypto
      *
      * @var array
      */
-    const MAP_CIPHER_OID = [
+    public const MAP_CIPHER_OID = [
         AlgorithmIdentifier::OID_DES_CBC => 'des-cbc',
         AlgorithmIdentifier::OID_DES_EDE3_CBC => 'des-ede3-cbc',
         AlgorithmIdentifier::OID_AES_128_CBC => 'aes-128-cbc',
@@ -59,12 +59,18 @@ class OpenSSLCrypto extends Crypto
     /**
      * {@inheritdoc}
      */
-    public function sign(string $data, PrivateKeyInfo $privkey_info,
-        SignatureAlgorithmIdentifier $algo): Signature
-    {
+    public function sign(
+        string $data,
+        PrivateKeyInfo $privkey_info,
+        SignatureAlgorithmIdentifier $algo
+    ): Signature {
         $this->_checkSignatureAlgoAndKey($algo, $privkey_info->algorithmIdentifier());
-        $result = openssl_sign($data, $signature, $privkey_info->toPEM(),
-            $this->_algoToDigest($algo));
+        $result = openssl_sign(
+            $data,
+            $signature,
+            $privkey_info->toPEM(),
+            $this->_algoToDigest($algo)
+        );
         if (false === $result) {
             throw new \RuntimeException('openssl_sign() failed: ' .
                 $this->_getLastError());
@@ -75,12 +81,19 @@ class OpenSSLCrypto extends Crypto
     /**
      * {@inheritdoc}
      */
-    public function verify(string $data, Signature $signature,
-        PublicKeyInfo $pubkey_info, SignatureAlgorithmIdentifier $algo): bool
-    {
+    public function verify(
+        string $data,
+        Signature $signature,
+        PublicKeyInfo $pubkey_info,
+        SignatureAlgorithmIdentifier $algo
+    ): bool {
         $this->_checkSignatureAlgoAndKey($algo, $pubkey_info->algorithmIdentifier());
-        $result = openssl_verify($data, $signature->bitString()->string(),
-            $pubkey_info->toPEM(), $this->_algoToDigest($algo));
+        $result = openssl_verify(
+            $data,
+            $signature->bitString()->string(),
+            $pubkey_info->toPEM(),
+            $this->_algoToDigest($algo)
+        );
         if (-1 == $result) {
             throw new \RuntimeException('openssl_verify() failed: ' .
                 $this->_getLastError());
@@ -91,13 +104,20 @@ class OpenSSLCrypto extends Crypto
     /**
      * {@inheritdoc}
      */
-    public function encrypt(string $data, string $key,
-        CipherAlgorithmIdentifier $algo): string
-    {
+    public function encrypt(
+        string $data,
+        string $key,
+        CipherAlgorithmIdentifier $algo
+    ): string {
         $this->_checkCipherKeySize($algo, $key);
         $iv = $algo->initializationVector();
-        $result = openssl_encrypt($data, $this->_algoToCipher($algo), $key,
-            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
+        $result = openssl_encrypt(
+            $data,
+            $this->_algoToCipher($algo),
+            $key,
+            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
+            $iv
+        );
         if (false === $result) {
             throw new \RuntimeException('openssl_encrypt() failed: ' .
                 $this->_getLastError());
@@ -108,13 +128,20 @@ class OpenSSLCrypto extends Crypto
     /**
      * {@inheritdoc}
      */
-    public function decrypt(string $data, string $key,
-        CipherAlgorithmIdentifier $algo): string
-    {
+    public function decrypt(
+        string $data,
+        string $key,
+        CipherAlgorithmIdentifier $algo
+    ): string {
         $this->_checkCipherKeySize($algo, $key);
         $iv = $algo->initializationVector();
-        $result = openssl_decrypt($data, $this->_algoToCipher($algo), $key,
-            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
+        $result = openssl_decrypt(
+            $data,
+            $this->_algoToCipher($algo),
+            $key,
+            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
+            $iv
+        );
         if (false === $result) {
             throw new \RuntimeException('openssl_decrypt() failed: ' .
                 $this->_getLastError());
@@ -135,8 +162,13 @@ class OpenSSLCrypto extends Crypto
         if ($algo instanceof BlockCipherAlgorithmIdentifier) {
             if (strlen($key) !== $algo->keySize()) {
                 throw new \UnexpectedValueException(
-                    sprintf('Key length for %s must be %d, %d given.',
-                        $algo->name(), $algo->keySize(), strlen($key)));
+                    sprintf(
+                        'Key length for %s must be %d, %d given.',
+                        $algo->name(),
+                        $algo->keySize(),
+                        strlen($key)
+                    )
+                );
             }
         }
     }
@@ -166,12 +198,16 @@ class OpenSSLCrypto extends Crypto
      */
     protected function _checkSignatureAlgoAndKey(
         SignatureAlgorithmIdentifier $sig_algo,
-        AlgorithmIdentifier $key_algo): void
-    {
+        AlgorithmIdentifier $key_algo
+    ): void {
         if (!$sig_algo->supportsKeyAlgorithm($key_algo)) {
             throw new \UnexpectedValueException(
-                sprintf('Signature algorithm %s does not support key algorithm %s.',
-                    $sig_algo->name(), $key_algo->name()));
+                sprintf(
+                    'Signature algorithm %s does not support key algorithm %s.',
+                    $sig_algo->name(),
+                    $key_algo->name()
+                )
+            );
         }
     }
 
@@ -189,7 +225,8 @@ class OpenSSLCrypto extends Crypto
         $oid = $algo->oid();
         if (!array_key_exists($oid, self::MAP_DIGEST_OID)) {
             throw new \UnexpectedValueException(
-                sprintf('Digest method %s not supported.', $algo->name()));
+                sprintf('Digest method %s not supported.', $algo->name())
+            );
         }
         return self::MAP_DIGEST_OID[$oid];
     }
@@ -216,7 +253,8 @@ class OpenSSLCrypto extends Crypto
             return $this->_rc2AlgoToCipher($algo);
         }
         throw new \UnexpectedValueException(
-            sprintf('Cipher method %s not supported.', $algo->name()));
+            sprintf('Cipher method %s not supported.', $algo->name())
+        );
     }
 
     /**
@@ -239,6 +277,7 @@ class OpenSSLCrypto extends Crypto
                 return 'rc2-40-cbc';
         }
         throw new \UnexpectedValueException(
-            $algo->effectiveKeyBits() . ' bit RC2 not supported.');
+            $algo->effectiveKeyBits() . ' bit RC2 not supported.'
+        );
     }
 }

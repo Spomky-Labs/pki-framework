@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
@@ -16,7 +16,7 @@ abstract class BaseTime extends Element implements TimeType
      *
      * @var string
      */
-    const TZ_UTC = 'UTC';
+    public const TZ_UTC = 'UTC';
 
     /**
      * Date and time.
@@ -62,7 +62,10 @@ abstract class BaseTime extends Element implements TimeType
         } catch (\Exception $e) {
             throw new \RuntimeException(
                 'Failed to create DateTime: ' .
-                self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
+                self::_getLastDateTimeImmutableErrorsStr(),
+                0,
+                $e
+            );
         }
     }
 

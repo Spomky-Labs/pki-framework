@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Csr;
 
-use \LogicException;
-use \UnexpectedValueException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -21,6 +20,7 @@ use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * @group csr
@@ -29,7 +29,7 @@ use Sop\X509\GeneralName\GeneralNames;
  */
 class CertificationRequestInfoTest extends TestCase
 {
-    final const SAN_DN = 'cn=Alt Name';
+    final public const SAN_DN = 'cn=Alt Name';
 
     private static $_subject;
 
@@ -41,12 +41,17 @@ class CertificationRequestInfoTest extends TestCase
     {
         self::$_subject = Name::fromString('cn=Subject');
         self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(
-            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
+            PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem')
+        );
         $extensions = new Extensions(
-            new SubjectAlternativeNameExtension(true,
-                new GeneralNames(DirectoryName::fromDNString(self::SAN_DN))));
+            new SubjectAlternativeNameExtension(
+                true,
+                new GeneralNames(DirectoryName::fromDNString(self::SAN_DN))
+            )
+        );
         self::$_attribs = Attributes::fromAttributeValues(
-            new ExtensionRequestValue($extensions));
+            new ExtensionRequestValue($extensions)
+        );
     }
 
     public static function tearDownAfterClass(): void
@@ -91,9 +96,10 @@ class CertificationRequestInfoTest extends TestCase
      * @depends testCreate
      * @depends testDecode
      */
-    public function testRecoded(CertificationRequestInfo $ref,
-                                CertificationRequestInfo $new)
-    {
+    public function testRecoded(
+        CertificationRequestInfo $ref,
+        CertificationRequestInfo $new
+    ) {
         $this->assertEquals($ref, $new);
     }
 
@@ -131,17 +137,21 @@ class CertificationRequestInfoTest extends TestCase
         $cri = $cri->withExtensionRequest(new Extensions());
         $this->assertTrue(
             $cri->attributes()
-                ->hasExtensionRequest());
+                ->hasExtensionRequest()
+        );
     }
 
     public function testWithExtensionRequestWithoutAttributes()
     {
-        $cri = new CertificationRequestInfo(self::$_subject,
-            self::$_privateKeyInfo->publicKeyInfo());
+        $cri = new CertificationRequestInfo(
+            self::$_subject,
+            self::$_privateKeyInfo->publicKeyInfo()
+        );
         $cri = $cri->withExtensionRequest(new Extensions());
         $this->assertTrue(
             $cri->attributes()
-                ->hasExtensionRequest());
+                ->hasExtensionRequest()
+        );
     }
 
     /**
@@ -165,8 +175,10 @@ class CertificationRequestInfoTest extends TestCase
 
     public function testNoAttributesFail()
     {
-        $cri = new CertificationRequestInfo(self::$_subject,
-            self::$_privateKeyInfo->publicKeyInfo());
+        $cri = new CertificationRequestInfo(
+            self::$_subject,
+            self::$_privateKeyInfo->publicKeyInfo()
+        );
         $this->expectException(\LogicException::class);
         $cri->attributes();
     }
@@ -187,8 +199,11 @@ class CertificationRequestInfoTest extends TestCase
 
     public function testInvalidVersionFail()
     {
-        $seq = new Sequence(new Integer(1), self::$_subject->toASN1(),
-            self::$_privateKeyInfo->publicKeyInfo()->toASN1());
+        $seq = new Sequence(
+            new Integer(1),
+            self::$_subject->toASN1(),
+            self::$_privateKeyInfo->publicKeyInfo()->toASN1()
+        );
         $this->expectException(\UnexpectedValueException::class);
         CertificationRequestInfo::fromASN1($seq);
     }
@@ -198,8 +213,10 @@ class CertificationRequestInfoTest extends TestCase
      */
     public function testSign(CertificationRequestInfo $cri)
     {
-        $csr = $cri->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(),
-            self::$_privateKeyInfo);
+        $csr = $cri->sign(
+            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            self::$_privateKeyInfo
+        );
         $this->assertInstanceOf(CertificationRequest::class, $csr);
     }
 }
