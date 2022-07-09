@@ -119,7 +119,7 @@ class DNParser
                 break;
             }
             $this->_skipWs($idx);
-            if (',' != $this->_dn[$idx] && ';' != $this->_dn[$idx]) {
+            if (',' !== $this->_dn[$idx] && ';' !== $this->_dn[$idx]) {
                 break;
             }
             ++$idx;
@@ -143,7 +143,7 @@ class DNParser
         while ($idx < $this->_len) {
             $tvpairs[] = $this->_parseAttrTypeAndValue($idx);
             $this->_skipWs($idx);
-            if ($idx >= $this->_len || '+' != $this->_dn[$idx]) {
+            if ($idx >= $this->_len || '+' !== $this->_dn[$idx]) {
                 break;
             }
             ++$idx;
@@ -166,12 +166,12 @@ class DNParser
         $idx = $offset;
         $type = $this->_parseAttrType($idx);
         $this->_skipWs($idx);
-        if ($idx >= $this->_len || '=' != $this->_dn[$idx++]) {
+        if ($idx >= $this->_len || '=' !== $this->_dn[$idx++]) {
             throw new UnexpectedValueException('Invalid type and value pair.');
         }
         $this->_skipWs($idx);
         // hexstring
-        if ($idx < $this->_len && '#' == $this->_dn[$idx]) {
+        if ($idx < $this->_len && '#' === $this->_dn[$idx]) {
             ++$idx;
             $data = $this->_parseAttrHexValue($idx);
             try {
@@ -216,7 +216,7 @@ class DNParser
         if ($idx >= $this->_len) {
             return '';
         }
-        if ('"' == $this->_dn[$idx]) { // quoted string
+        if ('"' === $this->_dn[$idx]) { // quoted string
             $val = $this->_parseQuotedAttrString($idx);
         } else { // string
             $val = $this->_parseAttrString($idx);
@@ -236,20 +236,20 @@ class DNParser
         while ($idx < $this->_len) {
             $c = $this->_dn[$idx];
             // pair (escape sequence)
-            if ('\\' == $c) {
+            if ('\\' === $c) {
                 ++$idx;
                 $val .= $this->_parsePairAfterSlash($idx);
                 $wsidx = null;
                 continue;
             }
-            if ('"' == $c) {
+            if ('"' === $c) {
                 throw new UnexpectedValueException('Unexpected quotation.');
             }
             if (false !== strpos(self::SPECIAL_CHARS, $c)) {
                 break;
             }
             // keep track of the first consecutive whitespace
-            if (' ' == $c) {
+            if (' ' === $c) {
                 if (null === $wsidx) {
                     $wsidx = $idx;
                 }
@@ -279,12 +279,12 @@ class DNParser
         $val = '';
         while ($idx < $this->_len) {
             $c = $this->_dn[$idx];
-            if ('\\' == $c) { // pair
+            if ('\\' === $c) { // pair
                 ++$idx;
                 $val .= $this->_parsePairAfterSlash($idx);
                 continue;
             }
-            if ('"' == $c) {
+            if ('"' === $c) {
                 ++$idx;
                 break;
             }

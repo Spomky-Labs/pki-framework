@@ -96,10 +96,10 @@ class OpenSSLCrypto extends Crypto
             $pubkey_info->toPEM(),
             $this->_algoToDigest($algo)
         );
-        if (-1 == $result) {
+        if (-1 === $result) {
             throw new RuntimeException('openssl_verify() failed: ' . $this->_getLastError());
         }
-        return 1 == $result ? true : false;
+        return 1 === $result;
     }
 
     public function encrypt(string $data, string $key, CipherAlgorithmIdentifier $algo): string

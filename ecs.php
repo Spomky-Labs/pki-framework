@@ -50,8 +50,8 @@ return static function (ECSConfig $config) use ($header): void {
 
     $config->rule(MbStrFunctionsFixer::class);
     $config->rule(StrictParamFixer::class);
-    $config->rule(StrictComparisonFixer::class);
     */
+    $config->rule(StrictComparisonFixer::class);
     $config->rule(ArrayIndentationFixer::class);
     $config->rule(OrderedImportsFixer::class);
     $config->rule(ProtectedToPrivateFixer::class);
