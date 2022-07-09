@@ -26,8 +26,9 @@ final class MapStepTest extends TestCase
         static::assertEquals($expected, $step->apply($string));
     }
 
-    public function provideApplyCaseFold()
+    public function provideApplyCaseFold(): iterable
     {
-        return [['abc', 'abc'], ['ABC', 'abc']];
+        yield ['abc', 'abc'];
+        yield ['ABC', 'abc'];
     }
 }

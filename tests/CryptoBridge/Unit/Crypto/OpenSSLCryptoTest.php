@@ -46,10 +46,7 @@ final class OpenSSLCryptoTest extends TestCase
 {
     public const DATA = 'PAYLOAD';
 
-    /**
-     * @var OpenSSLCrypto
-     */
-    private static $_crypto;
+    private static ?OpenSSLCrypto $_crypto;
 
     /**
      * @var PrivateKeyInfo
@@ -89,20 +86,15 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertTrue($result);
     }
 
-    /**
-     * @return SignatureAlgorithmIdentifier[]
-     */
-    public function provideSignAndVerifyRSA()
+    public function provideSignAndVerifyRSA(): iterable
     {
-        return [
-            [new MD4WithRSAEncryptionAlgorithmIdentifier()],
-            [new MD5WithRSAEncryptionAlgorithmIdentifier()],
-            [new SHA1WithRSAEncryptionAlgorithmIdentifier()],
-            [new SHA224WithRSAEncryptionAlgorithmIdentifier()],
-            [new SHA256WithRSAEncryptionAlgorithmIdentifier()],
-            [new SHA384WithRSAEncryptionAlgorithmIdentifier()],
-            [new SHA512WithRSAEncryptionAlgorithmIdentifier()],
-        ];
+        yield [new MD4WithRSAEncryptionAlgorithmIdentifier()];
+        yield [new MD5WithRSAEncryptionAlgorithmIdentifier()];
+        yield [new SHA1WithRSAEncryptionAlgorithmIdentifier()];
+        yield [new SHA224WithRSAEncryptionAlgorithmIdentifier()];
+        yield [new SHA256WithRSAEncryptionAlgorithmIdentifier()];
+        yield [new SHA384WithRSAEncryptionAlgorithmIdentifier()];
+        yield [new SHA512WithRSAEncryptionAlgorithmIdentifier()];
     }
 
     /**
@@ -119,12 +111,9 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertTrue($result);
     }
 
-    /**
-     * @return SignatureAlgorithmIdentifier[][]
-     */
-    public function provideSignAndVerifyEC()
+    public function provideSignAndVerifyEC(): iterable
     {
-        return [[new ECDSAWithSHA1AlgorithmIdentifier()]];
+        yield [new ECDSAWithSHA1AlgorithmIdentifier()];
     }
 
     /**
@@ -188,10 +177,7 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertEquals($data, $plaintext);
     }
 
-    /**
-     * @return CipherAlgorithmIdentifier[]
-     */
-    public function provideEncryptAndDecrypt()
+    public function provideEncryptAndDecrypt(): iterable
     {
         $data8 = '12345678';
         $data16 = str_repeat($data8, 2);
@@ -202,16 +188,14 @@ final class OpenSSLCryptoTest extends TestCase
         $key16 = str_repeat($key8, 2);
         $key24 = str_repeat($key8, 3);
         $key32 = str_repeat($key16, 2);
-        return [
-            [$data8, new DESCBCAlgorithmIdentifier($iv8), $key8],
-            [$data8, new DESEDE3CBCAlgorithmIdentifier($iv8), $key24],
-            [$data8, new RC2CBCAlgorithmIdentifier(40, $iv8), $key5],
-            [$data8, new RC2CBCAlgorithmIdentifier(64, $iv8), $key8],
-            [$data8, new RC2CBCAlgorithmIdentifier(128, $iv8), $key16],
-            [$data16, new AES128CBCAlgorithmIdentifier($iv16), $key16],
-            [$data16, new AES192CBCAlgorithmIdentifier($iv16), $key24],
-            [$data16, new AES256CBCAlgorithmIdentifier($iv16), $key32],
-        ];
+        yield [$data8, new DESCBCAlgorithmIdentifier($iv8), $key8];
+        yield [$data8, new DESEDE3CBCAlgorithmIdentifier($iv8), $key24];
+        yield [$data8, new RC2CBCAlgorithmIdentifier(40, $iv8), $key5];
+        yield [$data8, new RC2CBCAlgorithmIdentifier(64, $iv8), $key8];
+        yield [$data8, new RC2CBCAlgorithmIdentifier(128, $iv8), $key16];
+        yield [$data16, new AES128CBCAlgorithmIdentifier($iv16), $key16];
+        yield [$data16, new AES192CBCAlgorithmIdentifier($iv16), $key24];
+        yield [$data16, new AES256CBCAlgorithmIdentifier($iv16), $key32];
     }
 
     /**
@@ -289,27 +273,22 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertTrue($result);
     }
 
-    /**
-     * @return SignatureAlgorithmIdentifier[]
-     */
-    public function provideSignatureMethod()
+    public function provideSignatureMethod(): iterable
     {
         $rsa_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
         $ec_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));
-        return [
-            [$rsa_key, new MD4WithRSAEncryptionAlgorithmIdentifier()],
-            [$rsa_key, new MD5WithRSAEncryptionAlgorithmIdentifier()],
-            [$rsa_key, new SHA1WithRSAEncryptionAlgorithmIdentifier()],
-            [$rsa_key, new SHA224WithRSAEncryptionAlgorithmIdentifier()],
-            [$rsa_key, new SHA256WithRSAEncryptionAlgorithmIdentifier()],
-            [$rsa_key, new SHA384WithRSAEncryptionAlgorithmIdentifier()],
-            [$rsa_key, new SHA512WithRSAEncryptionAlgorithmIdentifier()],
-            [$ec_key, new ECDSAWithSHA1AlgorithmIdentifier()],
-            [$ec_key, new ECDSAWithSHA224AlgorithmIdentifier()],
-            [$ec_key, new ECDSAWithSHA256AlgorithmIdentifier()],
-            [$ec_key, new ECDSAWithSHA384AlgorithmIdentifier()],
-            [$ec_key, new ECDSAWithSHA512AlgorithmIdentifier()],
-        ];
+        yield [$rsa_key, new MD4WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$rsa_key, new MD5WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$rsa_key, new SHA1WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$rsa_key, new SHA224WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$rsa_key, new SHA256WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$rsa_key, new SHA384WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$rsa_key, new SHA512WithRSAEncryptionAlgorithmIdentifier()];
+        yield [$ec_key, new ECDSAWithSHA1AlgorithmIdentifier()];
+        yield [$ec_key, new ECDSAWithSHA224AlgorithmIdentifier()];
+        yield [$ec_key, new ECDSAWithSHA256AlgorithmIdentifier()];
+        yield [$ec_key, new ECDSAWithSHA384AlgorithmIdentifier()];
+        yield [$ec_key, new ECDSAWithSHA512AlgorithmIdentifier()];
     }
 }
 

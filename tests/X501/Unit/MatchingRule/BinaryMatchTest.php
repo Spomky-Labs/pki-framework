@@ -27,17 +27,15 @@ final class BinaryMatchTest extends TestCase
         static::assertEquals($expected, $rule->compare($assertion, $value));
     }
 
-    public function provideMatch()
+    public function provideMatch(): iterable
     {
-        return [
-            ['abc', 'abc', true],
-            ['ABC', 'abc', false],
-            [' abc ', 'abc', false],
-            ['abc', ' abc ', false],
-            ['a b c', 'a  b  c', false],
-            ['abc', 'abcd', false],
-            ['', '', true],
-            ['', ' ', false],
-        ];
+        yield ['abc', 'abc', true];
+        yield ['ABC', 'abc', false];
+        yield [' abc ', 'abc', false];
+        yield ['abc', ' abc ', false];
+        yield ['a b c', 'a  b  c', false];
+        yield ['abc', 'abcd', false];
+        yield ['', '', true];
+        yield ['', ' ', false];
     }
 }

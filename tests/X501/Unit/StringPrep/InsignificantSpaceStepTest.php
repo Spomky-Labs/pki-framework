@@ -26,19 +26,17 @@ final class InsignificantSpaceStepTest extends TestCase
         static::assertEquals($expected, $step->apply($string));
     }
 
-    public function provideApplyNonSubstring()
+    public function provideApplyNonSubstring(): iterable
     {
         static $nb_space = "\xc2\xa0";
         static $en_space = "\xe2\x80\x82";
         static $em_space = "\xe2\x80\x83";
-        return [
-            ['', '  '],
-            [' ', '  '],
-            ["{$nb_space}{$en_space}{$em_space}", '  '],
-            ['abc', ' abc '],
-            ['  abc   ', ' abc '],
-            ['a bc', ' a  bc '],
-            ["a{$nb_space}{$en_space}{$em_space}bc", ' a  bc '],
-        ];
+        yield ['', '  '];
+        yield [' ', '  '];
+        yield ["{$nb_space}{$en_space}{$em_space}", '  '];
+        yield ['abc', ' abc '];
+        yield ['  abc   ', ' abc '];
+        yield ['a bc', ' a  bc '];
+        yield ["a{$nb_space}{$en_space}{$em_space}bc", ' a  bc '];
     }
 }

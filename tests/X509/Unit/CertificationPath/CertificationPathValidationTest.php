@@ -22,10 +22,7 @@ use Sop\X509\CertificationPath\PathValidation\PathValidator;
  */
 final class CertificationPathValidationTest extends TestCase
 {
-    /**
-     * @var CertificationPath
-     */
-    private static $_path;
+    private static ?CertificationPath $_path;
 
     public static function setUpBeforeClass(): void
     {

@@ -28,17 +28,15 @@ final class CaseIgnoreMatchTest extends TestCase
         static::assertEquals($expected, $rule->compare($assertion, $value));
     }
 
-    public function provideMatch()
+    public function provideMatch(): iterable
     {
-        return [
-            ['abc', 'abc', true],
-            ['ABC', 'abc', true],
-            [' abc ', 'abc', true],
-            ['abc', ' abc ', true],
-            ['a b c', 'a  b  c', true],
-            ['abc', 'abcd', false],
-            ['', '', true],
-            ['', ' ', true],
-        ];
+        yield ['abc', 'abc', true];
+        yield ['ABC', 'abc', true];
+        yield [' abc ', 'abc', true];
+        yield ['abc', ' abc ', true];
+        yield ['a b c', 'a  b  c', true];
+        yield ['abc', 'abcd', false];
+        yield ['', '', true];
+        yield ['', ' ', true];
     }
 }

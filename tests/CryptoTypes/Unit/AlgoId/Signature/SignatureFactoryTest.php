@@ -51,10 +51,7 @@ final class SignatureFactoryTest extends TestCase
         static::assertInstanceOf($expected_class, $algo);
     }
 
-    /**
-     * @return array
-     */
-    public function provideAlgoForAsymmetricCrypto()
+    public function provideAlgoForAsymmetricCrypto(): iterable
     {
         $rsa = new RSAEncryptionAlgorithmIdentifier();
         $ec = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
@@ -64,19 +61,17 @@ final class SignatureFactoryTest extends TestCase
         $sha256 = new SHA256AlgorithmIdentifier();
         $sha384 = new SHA384AlgorithmIdentifier();
         $sha512 = new SHA512AlgorithmIdentifier();
-        return [
-            [$rsa, $md5, MD5WithRSAEncryptionAlgorithmIdentifier::class],
-            [$rsa, $sha1, SHA1WithRSAEncryptionAlgorithmIdentifier::class],
-            [$rsa, $sha224, SHA224WithRSAEncryptionAlgorithmIdentifier::class],
-            [$rsa, $sha256, SHA256WithRSAEncryptionAlgorithmIdentifier::class],
-            [$rsa, $sha384, SHA384WithRSAEncryptionAlgorithmIdentifier::class],
-            [$rsa, $sha512, SHA512WithRSAEncryptionAlgorithmIdentifier::class],
-            [$ec, $sha1, ECDSAWithSHA1AlgorithmIdentifier::class],
-            [$ec, $sha224, ECDSAWithSHA224AlgorithmIdentifier::class],
-            [$ec, $sha256, ECDSAWithSHA256AlgorithmIdentifier::class],
-            [$ec, $sha384, ECDSAWithSHA384AlgorithmIdentifier::class],
-            [$ec, $sha512, ECDSAWithSHA512AlgorithmIdentifier::class],
-        ];
+        yield [$rsa, $md5, MD5WithRSAEncryptionAlgorithmIdentifier::class];
+        yield [$rsa, $sha1, SHA1WithRSAEncryptionAlgorithmIdentifier::class];
+        yield [$rsa, $sha224, SHA224WithRSAEncryptionAlgorithmIdentifier::class];
+        yield [$rsa, $sha256, SHA256WithRSAEncryptionAlgorithmIdentifier::class];
+        yield [$rsa, $sha384, SHA384WithRSAEncryptionAlgorithmIdentifier::class];
+        yield [$rsa, $sha512, SHA512WithRSAEncryptionAlgorithmIdentifier::class];
+        yield [$ec, $sha1, ECDSAWithSHA1AlgorithmIdentifier::class];
+        yield [$ec, $sha224, ECDSAWithSHA224AlgorithmIdentifier::class];
+        yield [$ec, $sha256, ECDSAWithSHA256AlgorithmIdentifier::class];
+        yield [$ec, $sha384, ECDSAWithSHA384AlgorithmIdentifier::class];
+        yield [$ec, $sha512, ECDSAWithSHA512AlgorithmIdentifier::class];
     }
 
     /**
