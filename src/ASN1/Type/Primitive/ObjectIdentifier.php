@@ -8,6 +8,7 @@ use function chr;
 use function count;
 use GMP;
 use function intval;
+use function mb_strlen;
 use function ord;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
@@ -16,7 +17,6 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -91,7 +91,7 @@ class ObjectIdentifier extends Element
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
-        $subids = self::_decodeSubIDs(substr($data, $idx, $len));
+        $subids = self::_decodeSubIDs(mb_substr($data, $idx, $len, '8bit'));
         $idx += $len;
         // decode first subidentifier according to spec section 8.19.4
         if (isset($subids[0])) {
@@ -117,7 +117,7 @@ class ObjectIdentifier extends Element
     protected static function _explodeDottedOID(string $oid): array
     {
         $subids = [];
-        if (strlen($oid)) {
+        if (mb_strlen($oid, '8bit')) {
             foreach (explode('.', $oid) as $subid) {
                 $n = @gmp_init($subid, 10);
                 if (false === $n) {
@@ -174,7 +174,7 @@ class ObjectIdentifier extends Element
     {
         $subids = [];
         $idx = 0;
-        $end = strlen($data);
+        $end = mb_strlen($data, '8bit');
         while ($idx < $end) {
             $num = gmp_init('0', 10);
             while (true) {

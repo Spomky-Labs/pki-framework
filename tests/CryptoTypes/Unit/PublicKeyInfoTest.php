@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit;
 
+use function mb_strlen;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Element;
@@ -16,7 +17,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -149,7 +149,7 @@ final class PublicKeyInfoTest extends TestCase
     public function keyIdentifier(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier();
-        static::assertEquals(160, strlen($id) * 8);
+        static::assertEquals(160, mb_strlen($id, '8bit') * 8);
     }
 
     /**
@@ -160,7 +160,7 @@ final class PublicKeyInfoTest extends TestCase
     public function keyIdentifier64(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier64();
-        static::assertEquals(64, strlen($id) * 8);
+        static::assertEquals(64, mb_strlen($id, '8bit') * 8);
     }
 
     /**

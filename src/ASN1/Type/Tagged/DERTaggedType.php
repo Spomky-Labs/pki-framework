@@ -135,6 +135,6 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
 
     protected function _encodedContentDER(): string
     {
-        return substr($this->_data, $this->_valueOffset, $this->_valueLength);
+        return mb_substr($this->_data, $this->_valueOffset, $this->_valueLength, '8bit');
     }
 }

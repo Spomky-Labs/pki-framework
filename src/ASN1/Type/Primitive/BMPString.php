@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use function mb_strlen;
 use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
-use function strlen;
 
 /**
  * Implements *BMPString* type.
@@ -29,7 +29,7 @@ class BMPString extends PrimitiveString
     protected function _validateString(string $string): bool
     {
         // UCS-2 has fixed with of 2 octets (16 bits)
-        if (0 !== strlen($string) % 2) {
+        if (0 !== mb_strlen($string, '8bit') % 2) {
             return false;
         }
         return true;

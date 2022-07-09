@@ -48,9 +48,9 @@ return static function (ECSConfig $config) use ($header): void {
     $config->import(SetList::CONTROL_STRUCTURES);
     $config->import(SetList::STRICT);
 
-    $config->rule(MbStrFunctionsFixer::class);
     $config->rule(StrictComparisonFixer::class);
     */
+    $config->rule(MbStrFunctionsFixer::class);
     $config->rule(StrictParamFixer::class);
     $config->rule(ArrayIndentationFixer::class);
     $config->rule(OrderedImportsFixer::class);

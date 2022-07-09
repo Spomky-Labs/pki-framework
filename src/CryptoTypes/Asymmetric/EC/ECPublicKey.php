@@ -8,6 +8,7 @@ use function array_key_exists;
 use function in_array;
 use InvalidArgumentException;
 use LogicException;
+use function mb_strlen;
 use function ord;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
@@ -19,7 +20,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -55,7 +55,7 @@ class ECPublicKey extends PublicKey
     {
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
-        if (! strlen($ec_point) || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
+        if (! mb_strlen($ec_point, '8bit') || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
             throw new InvalidArgumentException('Invalid ECPoint.');
         }
         $this->_ecPoint = $ec_point;
@@ -138,8 +138,8 @@ class ECPublicKey extends PublicKey
         if ($this->isCompressed()) {
             throw new RuntimeException('EC point compression not supported.');
         }
-        $str = substr($this->_ecPoint, 1);
-        [$x, $y] = str_split($str, (int) floor(strlen($str) / 2));
+        $str = mb_substr($this->_ecPoint, 1, null, '8bit');
+        [$x, $y] = mb_str_split($str, (int) floor(mb_strlen($str, '8bit') / 2), '8bit');
         return [$x, $y];
     }
 

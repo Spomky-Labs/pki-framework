@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
+use function mb_strlen;
 use PHPUnit\Framework\TestCase;
 use RangeException;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
-use function strlen;
 
 /**
  * @internal
@@ -41,7 +41,7 @@ final class I2OSTest extends TestCase
     public function length()
     {
         $os = ECConversion::integerToOctetString(new Integer(256), 2);
-        static::assertEquals(2, strlen($os->string()));
+        static::assertEquals(2, mb_strlen($os->string(), '8bit'));
     }
 
     /**
@@ -50,7 +50,7 @@ final class I2OSTest extends TestCase
     public function pad()
     {
         $os = ECConversion::integerToOctetString(new Integer(256), 3);
-        static::assertEquals(3, strlen($os->string()));
+        static::assertEquals(3, mb_strlen($os->string(), '8bit'));
     }
 
     /**

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
+use function mb_strlen;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -56,7 +56,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
      */
     protected function _checkIVSize(?string $iv): void
     {
-        if (null !== $iv && strlen($iv) !== $this->ivSize()) {
+        if (null !== $iv && mb_strlen($iv, '8bit') !== $this->ivSize()) {
             throw new UnexpectedValueException('Invalid IV size.');
         }
     }

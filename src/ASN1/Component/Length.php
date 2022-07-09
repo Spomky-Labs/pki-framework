@@ -8,11 +8,11 @@ use function count;
 use DomainException;
 use GMP;
 use LogicException;
+use function mb_strlen;
 use function ord;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\Encodable;
 use Sop\ASN1\Util\BigInt;
-use function strlen;
 
 /**
  * Class to represent BER/DER length octets.
@@ -57,7 +57,7 @@ class Length implements Encodable
     public static function fromDER(string $data, int &$offset = null): self
     {
         $idx = $offset ?? 0;
-        $datalen = strlen($data);
+        $datalen = mb_strlen($data, '8bit');
         if ($idx >= $datalen) {
             throw new DecodeException('Unexpected end of data while decoding length.');
         }
@@ -110,9 +110,13 @@ class Length implements Encodable
         }
         // check that enough data is available
         if (! $length->isIndefinite()
-            && strlen($data) < $idx + $length->intLength()) {
+            && mb_strlen($data, '8bit') < $idx + $length->intLength()) {
             throw new DecodeException(
-                sprintf('Length %d overflows data, %d bytes left.', $length->intLength(), strlen($data) - $idx)
+                sprintf(
+                    'Length %d overflows data, %d bytes left.',
+                    $length->intLength(),
+                    mb_strlen($data, '8bit') - $idx
+                )
             );
         }
         $offset = $idx;

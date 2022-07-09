@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Sop\X509\GeneralName;
 
 use LogicException;
+use function mb_strlen;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -52,7 +52,7 @@ abstract class IPAddress extends GeneralName
     {
         $octets = $el->asOctetString()
             ->string();
-        switch (strlen($octets)) {
+        switch (mb_strlen($octets, '8bit')) {
             case 4:
             case 8:
                 return IPv4Address::fromOctets($octets);

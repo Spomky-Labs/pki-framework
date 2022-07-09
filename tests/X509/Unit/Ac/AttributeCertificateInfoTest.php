@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\X509\Unit\Ac;
 
 use LogicException;
+use function mb_strlen;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -28,7 +29,6 @@ use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -278,7 +278,7 @@ final class AttributeCertificateInfoTest extends TestCase
     {
         $aci = $aci->withRandomSerialNumber(16);
         $bin = gmp_export(gmp_init($aci->serialNumber(), 10), 1);
-        static::assertEquals(16, strlen($bin));
+        static::assertEquals(16, mb_strlen($bin, '8bit'));
     }
 
     /**

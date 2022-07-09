@@ -76,7 +76,7 @@ class Integer extends Element
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
-        $bytes = substr($data, $idx, $length);
+        $bytes = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
         $num = BigInt::fromSignedOctets($bytes)->gmpObj();
         $offset = $idx;

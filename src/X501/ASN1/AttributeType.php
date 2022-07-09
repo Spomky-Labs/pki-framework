@@ -486,7 +486,7 @@ class AttributeType
             return $name;
         }
         $map = self::_oidReverseMap();
-        $k = strtolower($name);
+        $k = mb_strtolower($name, '8bit');
         if (! isset($map[$k])) {
             throw new OutOfBoundsException("No OID for {$name}.");
         }
@@ -527,7 +527,7 @@ class AttributeType
             foreach (self::MAP_OID_TO_NAME as $oid => $names) {
                 // for primary name and aliases
                 foreach ($names as $name) {
-                    $map[strtolower($name)] = $oid;
+                    $map[mb_strtolower($name, '8bit')] = $oid;
                 }
             }
         }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use function mb_strlen;
 use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
-use function strlen;
 
 /**
  * Implements *UniversalString* type.
@@ -29,7 +29,7 @@ class UniversalString extends PrimitiveString
     protected function _validateString(string $string): bool
     {
         // UCS-4 has fixed with of 4 octets (32 bits)
-        if (0 !== strlen($string) % 4) {
+        if (0 !== mb_strlen($string, '8bit') % 4) {
             return false;
         }
         return true;

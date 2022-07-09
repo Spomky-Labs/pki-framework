@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\ASN1\Type\Primitive;
 
 use function chr;
+use function mb_strlen;
 use function ord;
 use OutOfBoundsException;
 use Sop\ASN1\Component\Identifier;
@@ -14,7 +15,6 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\BaseString;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
-use function strlen;
 
 /**
  * Implements *BIT STRING* type.
@@ -49,7 +49,7 @@ class BitString extends BaseString
      */
     public function numBits(): int
     {
-        return strlen($this->_string) * 8 - $this->_unusedBits;
+        return mb_strlen($this->_string, '8bit') * 8 - $this->_unusedBits;
     }
 
     /**
@@ -70,13 +70,13 @@ class BitString extends BaseString
         // octet index
         $oi = (int) floor($idx / 8);
         // if octet is outside range
-        if ($oi < 0 || $oi >= strlen($this->_string)) {
+        if ($oi < 0 || $oi >= mb_strlen($this->_string, '8bit')) {
             throw new OutOfBoundsException('Index is out of bounds.');
         }
         // bit index
         $bi = $idx % 8;
         // if tested bit is last octet's unused bit
-        if ($oi === strlen($this->_string) - 1) {
+        if ($oi === mb_strlen($this->_string, '8bit') - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
                 throw new OutOfBoundsException('Index refers to an unused bit.');
             }
@@ -123,28 +123,28 @@ class BitString extends BaseString
     public function withoutTrailingZeroes(): self
     {
         // if bit string was empty
-        if (! strlen($this->_string)) {
+        if (! mb_strlen($this->_string, '8bit')) {
             return new self('');
         }
         $bits = $this->_string;
         // count number of empty trailing octets
         $unused_octets = 0;
-        for ($idx = strlen($bits) - 1; $idx >= 0; --$idx, ++$unused_octets) {
+        for ($idx = mb_strlen($bits, '8bit') - 1; $idx >= 0; --$idx, ++$unused_octets) {
             if ("\x0" !== $bits[$idx]) {
                 break;
             }
         }
         // strip trailing octets
         if ($unused_octets) {
-            $bits = substr($bits, 0, -$unused_octets);
+            $bits = mb_substr($bits, 0, -$unused_octets, '8bit');
         }
         // if bit string was full of zeroes
-        if (! strlen($bits)) {
+        if (! mb_strlen($bits, '8bit')) {
             return new self('');
         }
         // count number of trailing zeroes in the last octet
         $unused_bits = 0;
-        $byte = ord($bits[strlen($bits) - 1]);
+        $byte = ord($bits[mb_strlen($bits, '8bit') - 1]);
         while (! ($byte & 0x01)) {
             ++$unused_bits;
             $byte >>= 1;
@@ -157,10 +157,10 @@ class BitString extends BaseString
         $der = chr($this->_unusedBits);
         $der .= $this->_string;
         if ($this->_unusedBits) {
-            $octet = $der[strlen($der) - 1];
+            $octet = $der[mb_strlen($der, '8bit') - 1];
             // set unused bits to zero
             $octet &= chr(0xff & ~((1 << $this->_unusedBits) - 1));
-            $der[strlen($der) - 1] = $octet;
+            $der[mb_strlen($der, '8bit') - 1] = $octet;
         }
         return $der;
     }
@@ -178,10 +178,10 @@ class BitString extends BaseString
         }
         $str_len = $length->intLength() - 1;
         if ($str_len) {
-            $str = substr($data, $idx, $str_len);
+            $str = mb_substr($data, $idx, $str_len, '8bit');
             if ($unused_bits) {
                 $mask = (1 << $unused_bits) - 1;
-                if (ord($str[strlen($str) - 1]) & $mask) {
+                if (ord($str[mb_strlen($str, '8bit') - 1]) & $mask) {
                     throw new DecodeException('DER encoded bit string must have zero padding.');
                 }
             }

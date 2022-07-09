@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\X501\DN;
 
+use function mb_strlen;
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -46,7 +46,7 @@ class DNParser
     protected function __construct(string $dn)
     {
         $this->_dn = $dn;
-        $this->_len = strlen($dn);
+        $this->_len = mb_strlen($dn, '8bit');
     }
 
     /**
@@ -75,9 +75,9 @@ class DNParser
         $str = preg_replace_callback(
             '/([\pC])/u',
             function ($m) {
-                $octets = str_split(bin2hex($m[1]), 2);
+                $octets = mb_str_split(bin2hex($m[1]), 2, '8bit');
                 return implode('', array_map(function ($octet) {
-                    return '\\' . strtoupper($octet);
+                    return '\\' . mb_strtoupper($octet, '8bit');
                 }, $octets));
             },
             $str
@@ -93,7 +93,7 @@ class DNParser
         $offset = 0;
         $name = $this->_parseName($offset);
         if ($offset < $this->_len) {
-            $remains = substr($this->_dn, $offset);
+            $remains = mb_substr($this->_dn, $offset, null, '8bit');
             throw new UnexpectedValueException(sprintf(
                 'Parser finished before the end of string, remaining: %s',
                 $remains
@@ -245,7 +245,7 @@ class DNParser
             if ('"' === $c) {
                 throw new UnexpectedValueException('Unexpected quotation.');
             }
-            if (false !== strpos(self::SPECIAL_CHARS, $c)) {
+            if (false !== mb_strpos(self::SPECIAL_CHARS, $c, 0, '8bit')) {
                 break;
             }
             // keep track of the first consecutive whitespace
@@ -262,7 +262,7 @@ class DNParser
         }
         // if there was non-escaped whitespace in the end of the value
         if (null !== $wsidx) {
-            $val = substr($val, 0, -($idx - $wsidx));
+            $val = mb_substr($val, 0, -($idx - $wsidx), '8bit');
         }
         $offset = $idx;
         return $val;
@@ -321,7 +321,7 @@ class DNParser
         }
         $c = $this->_dn[$idx++];
         // special | \ | " | SPACE
-        if (false !== strpos(self::SPECIAL_CHARS . '\\" ', $c)) {
+        if (false !== mb_strpos(self::SPECIAL_CHARS . '\\" ', $c, 0, '8bit')) {
             $val = $c;
         } else { // hexpair
             if ($idx >= $this->_len) {
@@ -346,10 +346,10 @@ class DNParser
     private function _regexMatch(string $pattern, int &$offset): ?string
     {
         $idx = $offset;
-        if (! preg_match($pattern, substr($this->_dn, $idx), $match)) {
+        if (! preg_match($pattern, mb_substr($this->_dn, $idx, null, '8bit'), $match)) {
             return null;
         }
-        $idx += strlen($match[0]);
+        $idx += mb_strlen($match[0], '8bit');
         $offset = $idx;
         return end($match);
     }

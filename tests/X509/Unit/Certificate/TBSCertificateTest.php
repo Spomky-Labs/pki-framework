@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\X509\Unit\Certificate;
 
 use LogicException;
+use function mb_strlen;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
@@ -20,7 +21,6 @@ use Sop\X509\Certificate\Extensions;
 use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\Certificate\Validity;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -256,7 +256,7 @@ final class TBSCertificateTest extends TestCase
     {
         $tc = $tc->withRandomSerialNumber(16);
         $bin = gmp_export(gmp_init($tc->serialNumber(), 10), 1);
-        static::assertEquals(16, strlen($bin));
+        static::assertEquals(16, mb_strlen($bin, '8bit'));
     }
 
     /**

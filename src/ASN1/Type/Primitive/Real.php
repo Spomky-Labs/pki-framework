@@ -12,6 +12,7 @@ use const GMP_MSW_FIRST;
 use function in_array;
 use const INF;
 use LogicException;
+use function mb_strlen;
 use function ord;
 use RangeException;
 use Sop\ASN1\Component\Identifier;
@@ -22,7 +23,6 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -320,7 +320,7 @@ class Real extends Element
         $byte |= ($scale & 0x03) << 2;
         // encode exponent
         $exp_bytes = (new BigInt($e))->signedOctets();
-        $exp_len = strlen($exp_bytes);
+        $exp_len = mb_strlen($exp_bytes, '8bit');
         if ($exp_len > 0xff) {
             throw new RangeException('Exponent encoding is too long.');
         }
@@ -370,7 +370,7 @@ class Real extends Element
         if (! $length) {
             $obj = new self(0, 0, 10);
         } else {
-            $bytes = substr($data, $idx, $length);
+            $bytes = mb_substr($data, $idx, $length, '8bit');
             $byte = ord($bytes[0]);
             if (0x80 & $byte) { // bit 8 = 1
                 $obj = self::_decodeBinaryEncoding($bytes);
@@ -413,28 +413,28 @@ class Real extends Element
         $len = ($byte & 0x03) + 1;
         // if both bits are set, the next octet encodes the length
         if ($len > 3) {
-            if (strlen($data) < 2) {
+            if (mb_strlen($data, '8bit') < 2) {
                 throw new DecodeException('Unexpected end of data while decoding REAL exponent length.');
             }
             $len = ord($data[1]);
             $idx = 2;
         }
-        if (strlen($data) < $idx + $len) {
+        if (mb_strlen($data, '8bit') < $idx + $len) {
             throw new DecodeException('Unexpected end of data while decoding REAL exponent.');
         }
         // decode exponent
-        $octets = substr($data, $idx, $len);
+        $octets = mb_substr($data, $idx, $len, '8bit');
         $exp = BigInt::fromSignedOctets($octets)->gmpObj();
         if (8 === $base) {
             $exp *= 3;
         } elseif (16 === $base) {
             $exp *= 4;
         }
-        if (strlen($data) <= $idx + $len) {
+        if (mb_strlen($data, '8bit') <= $idx + $len) {
             throw new DecodeException('Unexpected end of data while decoding REAL mantissa.');
         }
         // decode mantissa
-        $octets = substr($data, $idx + $len);
+        $octets = mb_substr($data, $idx + $len, null, '8bit');
         $n = BigInt::fromUnsignedOctets($octets)->gmpObj();
         $n *= 2 ** $scale;
         if ($neg) {
@@ -452,7 +452,7 @@ class Real extends Element
         if (! in_array($nr, [1, 2, 3], true)) {
             throw new DecodeException('Unsupported decimal encoding form.');
         }
-        $str = substr($data, 1);
+        $str = mb_substr($data, 1, null, '8bit');
         return self::fromString($str);
     }
 
@@ -461,7 +461,7 @@ class Real extends Element
      */
     protected static function _decodeSpecialRealValue(string $data): self
     {
-        if (1 !== strlen($data)) {
+        if (1 !== mb_strlen($data, '8bit')) {
             throw new DecodeException('SpecialRealValue must have one content octet.');
         }
         $byte = ord($data[0]);
@@ -608,7 +608,7 @@ class Real extends Element
         // if mantissa had fractional part
         if (2 === count($m_parts)) {
             $frac = rtrim($m_parts[1], '0');
-            $e -= strlen($frac);
+            $e -= mb_strlen($frac, '8bit');
             $int .= $frac;
         }
         $m = gmp_init($int, 10) * $ms;
@@ -635,7 +635,7 @@ class Real extends Element
         // signed exponent
         $e = gmp_init($match['e'], 10) * $es;
         // shift exponent by the number of base 10 fractions
-        $e -= strlen($frac);
+        $e -= mb_strlen($frac, '8bit');
         // insert fractions to integer part and produce signed mantissa
         $int .= $frac;
         if ('' === $int) {
@@ -661,7 +661,7 @@ class Real extends Element
         $frac = rtrim($frac, '0');
         // shift exponent by the number of base 10 fractions
         $e = gmp_init(0, 10);
-        $e -= strlen($frac);
+        $e -= mb_strlen($frac, '8bit');
         // insert fractions to integer part and produce signed mantissa
         $int .= $frac;
         if ('' === $int) {

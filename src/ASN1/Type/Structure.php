@@ -9,13 +9,13 @@ use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
+use function mb_strlen;
 use OutOfBoundsException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
-use function strlen;
 
 /**
  * Base class for the constructed types.
@@ -98,7 +98,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
             // decode element length
             $length = Length::expectFromDER($data, $offset)->intLength();
             // extract der encoding of the element
-            $parts[] = substr($data, $idx, $offset - $idx + $length);
+            $parts[] = mb_substr($data, $idx, $offset - $idx + $length, '8bit');
             // update offset over content
             $offset += $length;
         }
@@ -340,7 +340,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     {
         $idx = $offset;
         $elements = [];
-        $end = strlen($data);
+        $end = mb_strlen($data, '8bit');
         while (true) {
             if ($idx >= $end) {
                 throw new DecodeException('Unexpected end of data while decoding indefinite length structure.');

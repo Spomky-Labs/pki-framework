@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Sop\CryptoTypes\Signature;
 
 use InvalidArgumentException;
+use function mb_strlen;
 use Sop\ASN1\Type\Primitive\BitString;
-use function strlen;
 
 /**
  * Implements Ed25519 signature value.
@@ -29,7 +29,7 @@ class Ed25519Signature extends Signature
      */
     public function __construct(string $signature)
     {
-        if (64 !== strlen($signature)) {
+        if (64 !== mb_strlen($signature, '8bit')) {
             throw new InvalidArgumentException('Ed25519 signature must be 64 octets.');
         }
         $this->_signature = $signature;

@@ -6,6 +6,7 @@ namespace Sop\ASN1\Type\Primitive;
 
 use DateTimeImmutable;
 use function intval;
+use function mb_strlen;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
@@ -13,7 +14,6 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\BaseTime;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
-use function strlen;
 
 /**
  * Implements *GeneralizedTime* type.
@@ -86,7 +86,7 @@ class GeneralizedTime extends BaseTime
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
-        $str = substr($data, $idx, $length);
+        $str = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
         /** @var string[] $match */
         if (! preg_match(self::REGEX, $str, $match)) {
@@ -97,7 +97,7 @@ class GeneralizedTime extends BaseTime
         if (isset($match[7])) {
             $frac = $match[7];
             // DER restricts trailing zeroes in fractional seconds component
-            if ('0' === $frac[strlen($frac) - 1]) {
+            if ('0' === $frac[mb_strlen($frac, '8bit') - 1]) {
                 throw new DecodeException('Fractional seconds must omit trailing zeroes.');
             }
             $frac = $frac;

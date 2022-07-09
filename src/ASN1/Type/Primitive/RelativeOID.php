@@ -34,7 +34,7 @@ class RelativeOID extends ObjectIdentifier
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
-        $subids = self::_decodeSubIDs(substr($data, $idx, $len));
+        $subids = self::_decodeSubIDs(mb_substr($data, $idx, $len, '8bit'));
         $offset = $idx + $len;
         return new self(self::_implodeSubIDs(...$subids));
     }

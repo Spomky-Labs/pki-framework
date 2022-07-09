@@ -35,7 +35,7 @@ abstract class PrimitiveString extends BaseString
             throw new DecodeException('DER encoded string must be primitive.');
         }
         $length = Length::expectFromDER($data, $idx)->intLength();
-        $str = $length ? substr($data, $idx, $length) : '';
+        $str = $length ? mb_substr($data, $idx, $length, '8bit') : '';
         // substr should never return false, since length is
         // checked by Length::expectFromDER.
         assert(is_string($str), new DecodeException('substr'));

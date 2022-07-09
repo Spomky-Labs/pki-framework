@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\ASN1;
 
+use function mb_strlen;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
-use function strlen;
 
 /**
  * Container for raw DER encoded data.
@@ -68,9 +68,9 @@ class DERData extends Element
     protected function _encodedContentDER(): string
     {
         // if there's no content payload
-        if (strlen($this->_der) === $this->_contentOffset) {
+        if (mb_strlen($this->_der, '8bit') === $this->_contentOffset) {
             return '';
         }
-        return substr($this->_der, $this->_contentOffset);
+        return mb_substr($this->_der, $this->_contentOffset, null, '8bit');
     }
 }

@@ -8,12 +8,12 @@ use function assert;
 use GMP;
 use const GMP_BIG_ENDIAN;
 use const GMP_MSW_FIRST;
+use function mb_strlen;
 use RangeException;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
-use function strlen;
 
 /**
  * Implements data type conversions from SEC 1: Elliptic Curve Cryptography.
@@ -60,7 +60,7 @@ class ECConversion
         $gmp = gmp_init($num->number(), 10);
         $str = gmp_export($gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
         if (null !== $mlen) {
-            $len = strlen($str);
+            $len = mb_strlen($str, '8bit');
             if ($len > $mlen) {
                 throw new RangeException('Number is too large.');
             }

@@ -6,11 +6,11 @@ namespace Sop\ASN1\Component;
 
 use function array_key_exists;
 use GMP;
+use function mb_strlen;
 use function ord;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\Encodable;
 use Sop\ASN1\Util\BigInt;
-use function strlen;
 
 /**
  * Class to represent BER/DER identifier octets.
@@ -94,7 +94,7 @@ class Identifier implements Encodable
     public static function fromDER(string $data, int &$offset = null): Identifier
     {
         $idx = $offset ?? 0;
-        $datalen = strlen($data);
+        $datalen = mb_strlen($data, '8bit');
         if ($idx >= $datalen) {
             throw new DecodeException('Invalid offset.');
         }
@@ -268,7 +268,7 @@ class Identifier implements Encodable
      */
     private static function _decodeLongFormTag(string $data, int &$offset): GMP
     {
-        $datalen = strlen($data);
+        $datalen = mb_strlen($data, '8bit');
         $tag = gmp_init(0, 10);
         while (true) {
             if ($offset >= $datalen) {

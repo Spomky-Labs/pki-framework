@@ -9,11 +9,11 @@ use GMP;
 use const GMP_BIG_ENDIAN;
 use const GMP_MSW_FIRST;
 use InvalidArgumentException;
+use function mb_strlen;
 use function ord;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 use RuntimeException;
-use function strlen;
 
 /**
  * Class to wrap an integer of arbirtary length.
@@ -73,7 +73,7 @@ class BigInt
      */
     public static function fromUnsignedOctets(string $octets): self
     {
-        if (! strlen($octets)) {
+        if (! mb_strlen($octets, '8bit')) {
             throw new InvalidArgumentException('Empty octets.');
         }
         return new self(gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN));
@@ -84,7 +84,7 @@ class BigInt
      */
     public static function fromSignedOctets(string $octets): self
     {
-        if (! strlen($octets)) {
+        if (! mb_strlen($octets, '8bit')) {
             throw new InvalidArgumentException('Empty octets.');
         }
         $neg = ord($octets[0]) & 0x80;

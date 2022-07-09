@@ -57,7 +57,7 @@ class UTCTime extends BaseTime
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
-        $str = substr($data, $idx, $length);
+        $str = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
         /** @var string[] $match */
         if (! preg_match(self::REGEX, $str, $match)) {

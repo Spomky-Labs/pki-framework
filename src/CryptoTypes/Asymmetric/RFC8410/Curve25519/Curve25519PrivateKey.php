@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
+use function mb_strlen;
 use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PrivateKey;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -23,10 +23,10 @@ abstract class Curve25519PrivateKey extends RFC8410PrivateKey
      */
     public function __construct(string $private_key, ?string $public_key = null)
     {
-        if (32 !== strlen($private_key)) {
+        if (32 !== mb_strlen($private_key, '8bit')) {
             throw new UnexpectedValueException('Curve25519 private key must be exactly 32 bytes.');
         }
-        if (isset($public_key) && 32 !== strlen($public_key)) {
+        if (isset($public_key) && 32 !== mb_strlen($public_key, '8bit')) {
             throw new UnexpectedValueException('Curve25519 public key must be exactly 32 bytes.');
         }
         parent::__construct($private_key, $public_key);

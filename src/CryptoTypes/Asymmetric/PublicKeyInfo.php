@@ -160,7 +160,7 @@ class PublicKeyInfo
      */
     public function keyIdentifier64(): string
     {
-        $id = substr($this->keyIdentifier(), -8);
+        $id = mb_substr($this->keyIdentifier(), -8, null, '8bit');
         $c = (ord($id[0]) & 0x0f) | 0x40;
         $id[0] = chr($c);
         return $id;

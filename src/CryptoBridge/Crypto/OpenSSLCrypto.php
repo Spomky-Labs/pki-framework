@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\CryptoBridge\Crypto;
 
 use function array_key_exists;
+use function mb_strlen;
 use const OPENSSL_ALGO_MD4;
 use const OPENSSL_ALGO_MD5;
 use const OPENSSL_ALGO_SHA1;
@@ -24,7 +25,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Signature\Signature;
-use function strlen;
 use UnexpectedValueException;
 
 /**
@@ -142,13 +142,13 @@ class OpenSSLCrypto extends Crypto
     protected function _checkCipherKeySize(CipherAlgorithmIdentifier $algo, string $key): void
     {
         if ($algo instanceof BlockCipherAlgorithmIdentifier) {
-            if (strlen($key) !== $algo->keySize()) {
+            if (mb_strlen($key, '8bit') !== $algo->keySize()) {
                 throw new UnexpectedValueException(
                     sprintf(
                         'Key length for %s must be %d, %d given.',
                         $algo->name(),
                         $algo->keySize(),
-                        strlen($key)
+                        mb_strlen($key, '8bit')
                     )
                 );
             }
