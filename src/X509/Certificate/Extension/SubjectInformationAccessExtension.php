@@ -1,13 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
-use ArrayIterator;
-use function count;
-use Countable;
-use IteratorAggregate;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -19,7 +15,7 @@ use Sop\X509\Certificate\Extension\AccessDescription\SubjectAccessDescription;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.2
  */
-class SubjectInformationAccessExtension extends Extension implements Countable, IteratorAggregate
+class SubjectInformationAccessExtension extends Extension implements \Countable, \IteratorAggregate
 {
     /**
      * Access descriptions.
@@ -30,6 +26,9 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
 
     /**
      * Constructor.
+     *
+     * @param bool                     $critical
+     * @param SubjectAccessDescription ...$access
      */
     public function __construct(bool $critical, SubjectAccessDescription ...$access)
     {
@@ -51,6 +50,8 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
      * Get the number of access descriptions.
      *
      * @see \Countable::count()
+     *
+     * @return int
      */
     public function count(): int
     {
@@ -62,11 +63,11 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
      *
      * @see \IteratorAggregate::getIterator()
      *
-     * @return ArrayIterator List of SubjectAccessDescription objects
+     * @return \ArrayIterator List of SubjectAccessDescription objects
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->_accessDescriptions);
+        return new \ArrayIterator($this->_accessDescriptions);
     }
 
     /**
@@ -77,9 +78,7 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
         $access = array_map(
             function (UnspecifiedType $el) {
                 return SubjectAccessDescription::fromASN1($el->asSequence());
-            },
-            UnspecifiedType::fromDER($data)->asSequence()->elements()
-        );
+            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
         return new self($critical, ...$access);
     }
 
@@ -91,9 +90,7 @@ class SubjectInformationAccessExtension extends Extension implements Countable, 
         $elements = array_map(
             function (AccessDescription $access) {
                 return $access->toASN1();
-            },
-            $this->_accessDescriptions
-        );
+            }, $this->_accessDescriptions);
         return new Sequence(...$elements);
     }
 }

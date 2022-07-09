@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type\Primitive;
 
-use function chr;
-use function ord;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -57,17 +55,19 @@ class Boolean extends Element
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         Length::expectFromDER($data, $idx, 1);
         $byte = ord($data[$idx++]);
-        if ($byte !== 0) {
-            if ($byte !== 0xff) {
-                throw new DecodeException('DER encoded boolean true must have all bits set to 1.');
+        if (0 !== $byte) {
+            if (0xff !== $byte) {
+                throw new DecodeException(
+                    'DER encoded boolean true must have all bits set to 1.');
             }
         }
         $offset = $idx;
-        return new self($byte !== 0);
+        return new self(0 !== $byte);
     }
 }

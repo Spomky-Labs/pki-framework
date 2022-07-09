@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\CertificationPath\Policy;
 
-use function count;
-use function in_array;
-use LogicException;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\CertificationPath\PathValidation\ValidatorState;
@@ -34,12 +31,16 @@ class PolicyTree
      * Process policy information from the certificate.
      *
      * Certificate policies extension must be present.
+     *
+     * @param ValidatorState $state
+     * @param Certificate    $cert
+     *
+     * @return ValidatorState
      */
-    public function processPolicies(ValidatorState $state, Certificate $cert): ValidatorState
+    public function processPolicies(ValidatorState $state,
+        Certificate $cert): ValidatorState
     {
-        $policies = $cert->tbsCertificate()
-            ->extensions()
-            ->certificatePolicies();
+        $policies = $cert->tbsCertificate()->extensions()->certificatePolicies();
         $tree = clone $this;
         // (d.1) for each policy P not equal to anyPolicy
         foreach ($policies as $policy) {
@@ -50,7 +51,7 @@ class PolicyTree
             }
         }
         // if whole tree is pruned
-        if (! $tree->_pruneTree($state->index() - 1)) {
+        if (!$tree->_pruneTree($state->index() - 1)) {
             return $state->withoutValidPolicyTree();
         }
         return $state->withValidPolicyTree($tree);
@@ -58,17 +59,23 @@ class PolicyTree
 
     /**
      * Process policy mappings from the certificate.
+     *
+     * @param ValidatorState $state
+     * @param Certificate    $cert
+     *
+     * @return ValidatorState
      */
-    public function processMappings(ValidatorState $state, Certificate $cert): ValidatorState
+    public function processMappings(ValidatorState $state,
+        Certificate $cert): ValidatorState
     {
         $tree = clone $this;
         if ($state->policyMapping() > 0) {
             $tree->_applyMappings($cert, $state);
-        } elseif ($state->policyMapping() === 0) {
+        } elseif (0 === $state->policyMapping()) {
             $tree->_deleteMappings($cert, $state);
         }
         // if whole tree is pruned
-        if (! $tree->_root) {
+        if (!$tree->_root) {
             return $state->withoutValidPolicyTree();
         }
         return $state->withValidPolicyTree($tree);
@@ -76,34 +83,36 @@ class PolicyTree
 
     /**
      * Calculate policy intersection as specified in Wrap-Up Procedure 6.1.5.g.
+     *
+     * @param ValidatorState $state
+     * @param array          $policies
+     *
+     * @return ValidatorState
      */
-    public function calculateIntersection(ValidatorState $state, array $policies): ValidatorState
+    public function calculateIntersection(ValidatorState $state,
+        array $policies): ValidatorState
     {
         $tree = clone $this;
         $valid_policy_node_set = $tree->_validPolicyNodeSet();
         // 2. If the valid_policy of any node in the valid_policy_node_set
         // is not in the user-initial-policy-set and is not anyPolicy,
         // delete this node and all its children.
-        $valid_policy_node_set = array_filter(
-            $valid_policy_node_set,
+        $valid_policy_node_set = array_filter($valid_policy_node_set,
             function (PolicyNode $node) use ($policies) {
                 if ($node->isAnyPolicy()) {
                     return true;
                 }
-                if (in_array($node->validPolicy(), $policies, true)) {
+                if (in_array($node->validPolicy(), $policies)) {
                     return true;
                 }
                 $node->remove();
                 return false;
-            }
-        );
+            });
         // array of valid policy OIDs
         $valid_policy_set = array_map(
             function (PolicyNode $node) {
                 return $node->validPolicy();
-            },
-            $valid_policy_node_set
-        );
+            }, $valid_policy_node_set);
         // 3. If the valid_policy_tree includes a node of depth n with
         // the valid_policy anyPolicy and the user-initial-policy-set
         // is not any-policy
@@ -136,7 +145,7 @@ class PolicyTree
         // 4. If there is a node in the valid_policy_tree of depth n-1 or less
         // without any child nodes, delete that node. Repeat this step until
         // there are no nodes of depth n-1 or less without children.
-        if (! $tree->_pruneTree($state->index() - 1)) {
+        if (!$tree->_pruneTree($state->index() - 1)) {
             return $state->withoutValidPolicyTree();
         }
         return $state->withValidPolicyTree($tree);
@@ -153,15 +162,20 @@ class PolicyTree
     {
         $policies = [];
         foreach ($this->_nodesAtDepth($i) as $node) {
-            $policies[] = new PolicyInformation($node->validPolicy(), ...$node->qualifiers());
+            $policies[] = new PolicyInformation(
+                $node->validPolicy(), ...$node->qualifiers());
         }
         return $policies;
     }
 
     /**
      * Process single policy information.
+     *
+     * @param PolicyInformation $policy
+     * @param ValidatorState    $state
      */
-    protected function _processPolicy(PolicyInformation $policy, ValidatorState $state): void
+    protected function _processPolicy(PolicyInformation $policy,
+        ValidatorState $state): void
     {
         $p_oid = $policy->oid();
         $i = $state->index();
@@ -170,17 +184,19 @@ class PolicyTree
         foreach ($this->_nodesAtDepth($i - 1) as $node) {
             // ...where P-OID is in the expected_policy_set
             if ($node->hasExpectedPolicy($p_oid)) {
-                $node->addChild(new PolicyNode($p_oid, $policy->qualifiers(), [$p_oid]));
+                $node->addChild(new PolicyNode(
+                    $p_oid, $policy->qualifiers(), [$p_oid]));
                 ++$match_count;
             }
         }
         // (d.1.ii) if there was no match in step (i)...
-        if (! $match_count) {
+        if (!$match_count) {
             // ...and the valid_policy_tree includes a node of depth i-1 with
             // the valid_policy anyPolicy
             foreach ($this->_nodesAtDepth($i - 1) as $node) {
                 if ($node->isAnyPolicy()) {
-                    $node->addChild(new PolicyNode($p_oid, $policy->qualifiers(), [$p_oid]));
+                    $node->addChild(new PolicyNode(
+                        $p_oid, $policy->qualifiers(), [$p_oid]));
                 }
             }
         }
@@ -188,13 +204,18 @@ class PolicyTree
 
     /**
      * Process anyPolicy policy information.
+     *
+     * @param PolicyInformation $policy
+     * @param Certificate       $cert
+     * @param ValidatorState    $state
      */
-    protected function _processAnyPolicy(PolicyInformation $policy, Certificate $cert, ValidatorState $state): void
+    protected function _processAnyPolicy(PolicyInformation $policy,
+        Certificate $cert, ValidatorState $state): void
     {
         $i = $state->index();
         // if (a) inhibit_anyPolicy is greater than 0 or
         // (b) i<n and the certificate is self-issued
-        if (! ($state->inhibitAnyPolicy() > 0 ||
+        if (!($state->inhibitAnyPolicy() > 0 ||
             ($i < $state->pathLength() && $cert->isSelfIssued()))) {
             return;
         }
@@ -203,8 +224,9 @@ class PolicyTree
             // for each value in the expected_policy_set
             foreach ($node->expectedPolicies() as $p_oid) {
                 // that does not appear in a child node
-                if (! $node->hasChildWithValidPolicy($p_oid)) {
-                    $node->addChild(new PolicyNode($p_oid, $policy->qualifiers(), [$p_oid]));
+                if (!$node->hasChildWithValidPolicy($p_oid)) {
+                    $node->addChild(new PolicyNode(
+                        $p_oid, $policy->qualifiers(), [$p_oid]));
                 }
             }
         }
@@ -212,12 +234,13 @@ class PolicyTree
 
     /**
      * Apply policy mappings to the policy tree.
+     *
+     * @param Certificate    $cert
+     * @param ValidatorState $state
      */
     protected function _applyMappings(Certificate $cert, ValidatorState $state): void
     {
-        $policy_mappings = $cert->tbsCertificate()
-            ->extensions()
-            ->policyMappings();
+        $policy_mappings = $cert->tbsCertificate()->extensions()->policyMappings();
         // (6.1.4. b.1.) for each node in the valid_policy_tree of depth i...
         foreach ($policy_mappings->flattenedMappings() as $idp => $sdps) {
             $match_count = 0;
@@ -233,7 +256,7 @@ class PolicyTree
             }
             // if no node of depth i in the valid_policy_tree has
             // a valid_policy of ID-P...
-            if (! $match_count) {
+            if (!$match_count) {
                 $this->_applyAnyPolicyMapping($cert, $state, $idp, $sdps);
             }
         }
@@ -242,15 +265,14 @@ class PolicyTree
     /**
      * Apply anyPolicy mapping to the policy tree as specified in 6.1.4 (b)(1).
      *
+     * @param Certificate    $cert
+     * @param ValidatorState $state
      * @param string         $idp   OID of the issuer domain policy
      * @param array          $sdps  Array of subject domain policy OIDs
      */
-    protected function _applyAnyPolicyMapping(
-        Certificate $cert,
-        ValidatorState $state,
-        string $idp,
-        array $sdps
-    ): void {
+    protected function _applyAnyPolicyMapping(Certificate $cert,
+        ValidatorState $state, string $idp, array $sdps): void
+    {
         // (6.1.4. b.1.) ...but there is a node of depth i with
         // a valid_policy of anyPolicy
         foreach ($this->_nodesAtDepth($state->index()) as $node) {
@@ -262,11 +284,9 @@ class PolicyTree
                         // try to fetch qualifiers of anyPolicy certificate policy
                         try {
                             $qualifiers = $cert->tbsCertificate()
-                                ->extensions()
-                                ->certificatePolicies()
-                                ->anyPolicy()
-                                ->qualifiers();
-                        } catch (LogicException $e) {
+                                ->extensions()->certificatePolicies()
+                                ->anyPolicy()->qualifiers();
+                        } catch (\LogicException $e) {
                             // if there's no policies or no qualifiers
                             $qualifiers = [];
                         }
@@ -283,17 +303,19 @@ class PolicyTree
 
     /**
      * Delete nodes as specified in 6.1.4 (b)(2).
+     *
+     * @param Certificate    $cert
+     * @param ValidatorState $state
      */
-    protected function _deleteMappings(Certificate $cert, ValidatorState $state): void
+    protected function _deleteMappings(Certificate $cert,
+        ValidatorState $state): void
     {
-        $idps = $cert->tbsCertificate()
-            ->extensions()
-            ->policyMappings()
-            ->issuerDomainPolicies();
+        $idps = $cert->tbsCertificate()->extensions()
+            ->policyMappings()->issuerDomainPolicies();
         // delete each node of depth i in the valid_policy_tree
         // where ID-P is the valid_policy
         foreach ($this->_nodesAtDepth($state->index()) as $node) {
-            if (in_array($node->validPolicy(), $idps, true)) {
+            if (in_array($node->validPolicy(), $idps)) {
                 $node->remove();
             }
         }
@@ -303,22 +325,24 @@ class PolicyTree
     /**
      * Prune tree starting from given depth.
      *
+     * @param int $depth
+     *
      * @return int The number of nodes left in a tree
      */
     protected function _pruneTree(int $depth): int
     {
-        if (! $this->_root) {
+        if (!$this->_root) {
             return 0;
         }
         for ($i = $depth; $i > 0; --$i) {
             foreach ($this->_nodesAtDepth($i) as $node) {
-                if (! count($node)) {
+                if (!count($node)) {
                     $node->remove();
                 }
             }
         }
         // if root has no children left
-        if (! count($this->_root)) {
+        if (!count($this->_root)) {
             $this->_root = null;
             return 0;
         }
@@ -328,18 +352,20 @@ class PolicyTree
     /**
      * Get all nodes at given depth.
      *
+     * @param int $i
+     *
      * @return PolicyNode[]
      */
     protected function _nodesAtDepth(int $i): array
     {
-        if (! $this->_root) {
+        if (!$this->_root) {
             return [];
         }
         $depth = 0;
         $nodes = [$this->_root];
         while ($depth < $i) {
             $nodes = self::_gatherChildren(...$nodes);
-            if (! count($nodes)) {
+            if (!count($nodes)) {
                 break;
             }
             ++$depth;
@@ -357,7 +383,7 @@ class PolicyTree
         // 1. Determine the set of policy nodes whose parent nodes have
         // a valid_policy of anyPolicy. This is the valid_policy_node_set.
         $set = [];
-        if (! $this->_root) {
+        if (!$this->_root) {
             return $set;
         }
         // for each node in a tree
@@ -368,19 +394,20 @@ class PolicyTree
                 if (count($parents)) {
                     // check that each ancestor is an anyPolicy node
                     foreach ($parents as $ancestor) {
-                        if (! $ancestor->isAnyPolicy()) {
+                        if (!$ancestor->isAnyPolicy()) {
                             return;
                         }
                     }
                     $set[] = $node;
                 }
-            }
-        );
+            });
         return $set;
     }
 
     /**
      * Gather all children of given nodes to a flattened array.
+     *
+     * @param PolicyNode ...$nodes
      *
      * @return PolicyNode[]
      */

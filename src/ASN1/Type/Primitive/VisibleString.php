@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -28,6 +28,6 @@ class VisibleString extends PrimitiveString
      */
     protected function _validateString(string $string): bool
     {
-        return preg_match('/[^\x20-\x7e]/', $string) === 0;
+        return 0 == preg_match('/[^\x20-\x7e]/', $string);
     }
 }

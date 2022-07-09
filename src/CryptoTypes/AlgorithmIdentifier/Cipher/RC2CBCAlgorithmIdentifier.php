@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use UnexpectedValueException;
 
 /*
 Parameters may be seen in various forms. This implementation attemts
@@ -36,7 +34,7 @@ RC2-CBC-Parameter ::= SEQUENCE {
 RC2CBCParameter ::= SEQUENCE {
   rc2ParameterVersion INTEGER,
   iv OCTET STRING  }  -- exactly 8 octets
- */
+*/
 
 /**
  * Algorithm identifier for RC2 cipher in CBC mode.
@@ -88,7 +86,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         0x64, 0x6d, 0x7a, 0xd4, 0x10, 0x81, 0x44, 0xef,
         0x49, 0xd6, 0xae, 0x2e, 0xdd, 0x76, 0x5c, 0x2f,
         0xa7, 0x1c, 0xc9, 0x09, 0x69, 0x9a, 0x83, 0xcf,
-        0x29, 0x39, 0xb9, 0xe9, 0x4c, 0xff, 0x43, 0xab,
+        0x29, 0x39, 0xb9, 0xe9, 0x4c, 0xff, 0x43, 0xab
     ];
 
     /**
@@ -125,30 +123,26 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      *
      * @return self
      */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(
+        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
-        if (! isset($params)) {
-            throw new UnexpectedValueException('No parameters.');
+        if (!isset($params)) {
+            throw new \UnexpectedValueException('No parameters.');
         }
         $key_bits = 32;
         // rfc2268 a choice containing only IV
         if ($params->isType(Element::TYPE_OCTET_STRING)) {
-            $iv = $params->asOctetString()
-                ->string();
+            $iv = $params->asOctetString()->string();
         } else {
             $seq = $params->asSequence();
             $idx = 0;
             // version is optional in rfc2898
             if ($seq->has($idx, Element::TYPE_INTEGER)) {
-                $version = $seq->at($idx++)
-                    ->asInteger()
-                    ->intNumber();
+                $version = $seq->at($idx++)->asInteger()->intNumber();
                 $key_bits = self::_versionToEKB($version);
             }
             // IV is present in all variants
-            $iv = $seq->at($idx)
-                ->asOctetString()
-                ->string();
+            $iv = $seq->at($idx)->asOctetString()->string();
         }
         return new self($key_bits, $iv);
     }
@@ -197,10 +191,11 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         } else {
             $version = self::EKB_TABLE[$this->_effectiveKeyBits];
         }
-        if (! isset($this->_initializationVector)) {
-            throw new LogicException('IV not set.');
+        if (!isset($this->_initializationVector)) {
+            throw new \LogicException('IV not set.');
         }
-        return new Sequence(new Integer($version), new OctetString($this->_initializationVector));
+        return new Sequence(new Integer($version),
+            new OctetString($this->_initializationVector));
     }
 
     /**
@@ -212,7 +207,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if ($version > 255) {
             return $version;
         }
-        if (! isset($lut)) {
+        if (!isset($lut)) {
             $lut = array_flip(self::EKB_TABLE);
         }
         return $lut[$version];

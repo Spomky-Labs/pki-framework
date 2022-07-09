@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\GeneralName;
 
@@ -25,6 +25,8 @@ class UniformResourceIdentifier extends GeneralName
 
     /**
      * Constructor.
+     *
+     * @param string $uri
      */
     public function __construct(string $uri)
     {
@@ -50,6 +52,11 @@ class UniformResourceIdentifier extends GeneralName
         return $this->_uri;
     }
 
+    /**
+     * Get URI.
+     *
+     * @return string
+     */
     public function uri(): string
     {
         return $this->_uri;

@@ -1,13 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
-use ArrayIterator;
-use function count;
-use Countable;
-use IteratorAggregate;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -17,12 +13,12 @@ use Sop\X509\Certificate\Extension\Target\Targets;
 /**
  * Implements 'AC Targeting' certificate extension.
  *
- * NOTE**: Syntax is *SEQUENCE OF Targets*, but only one *Targets* element must be used. Multiple *Targets* elements
- * shall be merged into single *Targets*.
+ * **NOTE**: Syntax is *SEQUENCE OF Targets*, but only one *Targets* element
+ * must be used. Multiple *Targets* elements shall be merged into single *Targets*.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
-class TargetInformationExtension extends Extension implements Countable, IteratorAggregate
+class TargetInformationExtension extends Extension implements \Countable, \IteratorAggregate
 {
     /**
      * Targets elements.
@@ -40,6 +36,9 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
 
     /**
      * Constructor.
+     *
+     * @param bool    $critical
+     * @param Targets ...$targets
      */
     public function __construct(bool $critical, Targets ...$targets)
     {
@@ -60,6 +59,8 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
      *
      * Extension criticality shall be set to true as specified by RFC 5755.
      *
+     * @param Target ...$target
+     *
      * @return TargetInformationExtension
      */
     public static function fromTargets(Target ...$target): self
@@ -69,10 +70,12 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
 
     /**
      * Get all targets.
+     *
+     * @return Targets
      */
     public function targets(): Targets
     {
-        if (! isset($this->_merged)) {
+        if (!isset($this->_merged)) {
             $a = [];
             foreach ($this->_targets as $targets) {
                 $a = array_merge($a, $targets->all());
@@ -89,8 +92,7 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
      */
     public function names(): array
     {
-        return $this->targets()
-            ->nameTargets();
+        return $this->targets()->nameTargets();
     }
 
     /**
@@ -100,12 +102,13 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
      */
     public function groups(): array
     {
-        return $this->targets()
-            ->groupTargets();
+        return $this->targets()->groupTargets();
     }
 
     /**
      * @see \Countable::count()
+     *
+     * @return int
      */
     public function count(): int
     {
@@ -116,10 +119,12 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
      * Get iterator for targets.
      *
      * @see \IteratorAggregate::getIterator()
+     *
+     * @return \ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->targets()->all());
+        return new \ArrayIterator($this->targets()->all());
     }
 
     /**
@@ -130,9 +135,7 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
         $targets = array_map(
             function (UnspecifiedType $el) {
                 return Targets::fromASN1($el->asSequence());
-            },
-            UnspecifiedType::fromDER($data)->asSequence()->elements()
-        );
+            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
         return new self($critical, ...$targets);
     }
 
@@ -141,9 +144,10 @@ class TargetInformationExtension extends Extension implements Countable, Iterato
      */
     protected function _valueASN1(): Element
     {
-        $elements = array_map(function (Targets $targets) {
-            return $targets->toASN1();
-        }, $this->_targets);
+        $elements = array_map(
+            function (Targets $targets) {
+                return $targets->toASN1();
+            }, $this->_targets);
         return new Sequence(...$elements);
     }
 }

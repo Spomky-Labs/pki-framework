@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\AttributeCertificate\Validation;
 
-use DateTimeImmutable;
 use Sop\X509\Certificate\Extension\Target\Target;
 use Sop\X509\CertificationPath\CertificationPath;
 
@@ -30,7 +29,7 @@ class ACValidationConfig
     /**
      * Evaluation reference time.
      *
-     * @var DateTimeImmutable
+     * @var \DateTimeImmutable
      */
     protected $_evalTime;
 
@@ -47,16 +46,19 @@ class ACValidationConfig
      * @param CertificationPath $holder_path Certification path of the AC holder
      * @param CertificationPath $issuer_path Certification path of the AC issuer
      */
-    public function __construct(CertificationPath $holder_path, CertificationPath $issuer_path)
+    public function __construct(CertificationPath $holder_path,
+        CertificationPath $issuer_path)
     {
         $this->_holderPath = $holder_path;
         $this->_issuerPath = $issuer_path;
-        $this->_evalTime = new DateTimeImmutable();
+        $this->_evalTime = new \DateTimeImmutable();
         $this->_targets = [];
     }
 
     /**
      * Get certification path of the AC's holder.
+     *
+     * @return CertificationPath
      */
     public function holderPath(): CertificationPath
     {
@@ -65,6 +67,8 @@ class ACValidationConfig
 
     /**
      * Get certification path of the AC's issuer.
+     *
+     * @return CertificationPath
      */
     public function issuerPath(): CertificationPath
     {
@@ -73,8 +77,12 @@ class ACValidationConfig
 
     /**
      * Get self with given evaluation reference time.
+     *
+     * @param \DateTimeImmutable $dt
+     *
+     * @return self
      */
-    public function withEvaluationTime(DateTimeImmutable $dt): self
+    public function withEvaluationTime(\DateTimeImmutable $dt): self
     {
         $obj = clone $this;
         $obj->_evalTime = $dt;
@@ -83,14 +91,20 @@ class ACValidationConfig
 
     /**
      * Get the evaluation reference time.
+     *
+     * @return \DateTimeImmutable
      */
-    public function evaluationTime(): DateTimeImmutable
+    public function evaluationTime(): \DateTimeImmutable
     {
         return $this->_evalTime;
     }
 
     /**
      * Get self with permitted targets.
+     *
+     * @param Target ...$targets
+     *
+     * @return self
      */
     public function withTargets(Target ...$targets): self
     {

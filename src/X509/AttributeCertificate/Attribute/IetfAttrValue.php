@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\UnspecifiedType;
-use UnexpectedValueException;
 
 /**
  * Implements *IetfAttrSyntax.values* ASN.1 CHOICE type.
@@ -35,6 +33,9 @@ class IetfAttrValue
 
     /**
      * Constructor.
+     *
+     * @param string $value
+     * @param int    $type
      */
     public function __construct(string $value, int $type)
     {
@@ -42,6 +43,9 @@ class IetfAttrValue
         $this->_value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->_value;
@@ -49,6 +53,12 @@ class IetfAttrValue
 
     /**
      * Initialize from ASN.1.
+     *
+     * @param UnspecifiedType $el
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
     public static function fromASN1(UnspecifiedType $el): self
     {
@@ -59,11 +69,16 @@ class IetfAttrValue
             case Element::TYPE_OBJECT_IDENTIFIER:
                 return new self($el->asObjectIdentifier()->oid(), $el->tag());
         }
-        throw new UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.');
+        throw new \UnexpectedValueException(
+            'Type ' . Element::tagToName($el->tag()) . ' not supported.');
     }
 
     /**
      * Initialize from octet string.
+     *
+     * @param string $octets
+     *
+     * @return self
      */
     public static function fromOctets(string $octets): self
     {
@@ -72,6 +87,10 @@ class IetfAttrValue
 
     /**
      * Initialize from UTF-8 string.
+     *
+     * @param string $str
+     *
+     * @return self
      */
     public static function fromString(string $str): self
     {
@@ -80,6 +99,10 @@ class IetfAttrValue
 
     /**
      * Initialize from OID.
+     *
+     * @param string $oid
+     *
+     * @return self
      */
     public static function fromOID(string $oid): self
     {
@@ -88,6 +111,8 @@ class IetfAttrValue
 
     /**
      * Get type tag.
+     *
+     * @return int
      */
     public function type(): int
     {
@@ -96,28 +121,39 @@ class IetfAttrValue
 
     /**
      * Whether value type is octets.
+     *
+     * @return bool
      */
     public function isOctets(): bool
     {
-        return $this->_type === Element::TYPE_OCTET_STRING;
+        return Element::TYPE_OCTET_STRING === $this->_type;
     }
 
     /**
      * Whether value type is OID.
+     *
+     * @return bool
      */
     public function isOID(): bool
     {
-        return $this->_type === Element::TYPE_OBJECT_IDENTIFIER;
+        return Element::TYPE_OBJECT_IDENTIFIER === $this->_type;
     }
 
     /**
      * Whether value type is string.
+     *
+     * @return bool
      */
     public function isString(): bool
     {
-        return $this->_type === Element::TYPE_UTF8_STRING;
+        return Element::TYPE_UTF8_STRING === $this->_type;
     }
 
+    /**
+     * Get value.
+     *
+     * @return string
+     */
     public function value(): string
     {
         return $this->_value;
@@ -125,6 +161,10 @@ class IetfAttrValue
 
     /**
      * Generate ASN.1 structure.
+     *
+     * @throws \LogicException
+     *
+     * @return Element
      */
     public function toASN1(): Element
     {
@@ -136,6 +176,7 @@ class IetfAttrValue
             case Element::TYPE_OBJECT_IDENTIFIER:
                 return new ObjectIdentifier($this->_value);
         }
-        throw new LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.');
+        throw new \LogicException(
+            'Type ' . Element::tagToName($this->_type) . ' not supported.');
     }
 }

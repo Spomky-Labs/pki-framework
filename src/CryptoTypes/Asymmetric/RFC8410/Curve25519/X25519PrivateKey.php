@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
-use LogicException;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X25519AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
@@ -29,8 +28,8 @@ class X25519PrivateKey extends Curve25519PrivateKey
      */
     public function publicKey(): PublicKey
     {
-        if (! $this->hasPublicKey()) {
-            throw new LogicException('Public key not set.');
+        if (!$this->hasPublicKey()) {
+            throw new \LogicException('Public key not set.');
         }
         return new X25519PublicKey($this->_publicKeyData);
     }

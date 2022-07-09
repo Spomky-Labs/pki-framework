@@ -1,13 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type\Primitive;
 
-use function chr;
-use function mb_strlen;
-use function ord;
-use OutOfBoundsException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
@@ -49,7 +45,7 @@ class BitString extends BaseString
      */
     public function numBits(): int
     {
-        return mb_strlen($this->_string) * 8 - $this->_unusedBits;
+        return strlen($this->_string) * 8 - $this->_unusedBits;
     }
 
     /**
@@ -70,15 +66,15 @@ class BitString extends BaseString
         // octet index
         $oi = (int) floor($idx / 8);
         // if octet is outside range
-        if ($oi < 0 || $oi >= mb_strlen($this->_string)) {
-            throw new OutOfBoundsException('Index is out of bounds.');
+        if ($oi < 0 || $oi >= strlen($this->_string)) {
+            throw new \OutOfBoundsException('Index is out of bounds.');
         }
         // bit index
         $bi = $idx % 8;
         // if tested bit is last octet's unused bit
-        if ($oi === mb_strlen($this->_string) - 1) {
+        if ($oi === strlen($this->_string) - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
-                throw new OutOfBoundsException('Index refers to an unused bit.');
+                throw new \OutOfBoundsException('Index refers to an unused bit.');
             }
         }
         $byte = $this->_string[$oi];
@@ -93,15 +89,17 @@ class BitString extends BaseString
      * @param int $start  Index of first bit
      * @param int $length Number of bits in range
      *
+     * @throws \OutOfBoundsException
+     *
      * @return string Integer of $length bits
      */
     public function range(int $start, int $length): string
     {
-        if (! $length) {
+        if (!$length) {
             return '0';
         }
         if ($start + $length > $this->numBits()) {
-            throw new OutOfBoundsException('Not enough bits.');
+            throw new \OutOfBoundsException('Not enough bits.');
         }
         $bits = gmp_init(0);
         $idx = $start;
@@ -123,29 +121,29 @@ class BitString extends BaseString
     public function withoutTrailingZeroes(): self
     {
         // if bit string was empty
-        if (! mb_strlen($this->_string)) {
+        if (!strlen($this->_string)) {
             return new self('');
         }
         $bits = $this->_string;
         // count number of empty trailing octets
         $unused_octets = 0;
-        for ($idx = mb_strlen($bits) - 1; $idx >= 0; --$idx, ++$unused_octets) {
-            if ($bits[$idx] !== "\x0") {
+        for ($idx = strlen($bits) - 1; $idx >= 0; --$idx, ++$unused_octets) {
+            if ("\x0" !== $bits[$idx]) {
                 break;
             }
         }
         // strip trailing octets
         if ($unused_octets) {
-            $bits = mb_substr($bits, 0, -$unused_octets);
+            $bits = substr($bits, 0, -$unused_octets);
         }
         // if bit string was full of zeroes
-        if (! mb_strlen($bits)) {
+        if (!strlen($bits)) {
             return new self('');
         }
         // count number of trailing zeroes in the last octet
         $unused_bits = 0;
-        $byte = ord($bits[mb_strlen($bits) - 1]);
-        while (! ($byte & 0x01)) {
+        $byte = ord($bits[strlen($bits) - 1]);
+        while (!($byte & 0x01)) {
             ++$unused_bits;
             $byte >>= 1;
         }
@@ -160,10 +158,10 @@ class BitString extends BaseString
         $der = chr($this->_unusedBits);
         $der .= $this->_string;
         if ($this->_unusedBits) {
-            $octet = $der[mb_strlen($der) - 1];
+            $octet = $der[strlen($der) - 1];
             // set unused bits to zero
             $octet &= chr(0xff & ~((1 << $this->_unusedBits) - 1));
-            $der[mb_strlen($der) - 1] = $octet;
+            $der[strlen($der) - 1] = $octet;
         }
         return $der;
     }
@@ -171,7 +169,8 @@ class BitString extends BaseString
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
@@ -180,15 +179,17 @@ class BitString extends BaseString
         }
         $unused_bits = ord($data[$idx++]);
         if ($unused_bits > 7) {
-            throw new DecodeException('Unused bits in a bit string must be less than 8.');
+            throw new DecodeException(
+                'Unused bits in a bit string must be less than 8.');
         }
         $str_len = $length->intLength() - 1;
         if ($str_len) {
-            $str = mb_substr($data, $idx, $str_len);
+            $str = substr($data, $idx, $str_len);
             if ($unused_bits) {
                 $mask = (1 << $unused_bits) - 1;
-                if (ord($str[mb_strlen($str) - 1]) & $mask) {
-                    throw new DecodeException('DER encoded bit string must have zero padding.');
+                if (ord($str[strlen($str) - 1]) & $mask) {
+                    throw new DecodeException(
+                        'DER encoded bit string must have zero padding.');
                 }
             }
         } else {

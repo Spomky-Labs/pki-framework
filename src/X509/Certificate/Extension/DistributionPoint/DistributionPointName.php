@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension\DistributionPoint;
 
@@ -9,18 +9,17 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\X501\ASN1\RDN;
 use Sop\X509\GeneralName\GeneralNames;
-use UnexpectedValueException;
 
 /**
- * Base class for *DistributionPointName* ASN.1 CHOICE type used by 'CRL Distribution Points' certificate extension.
+ * Base class for *DistributionPointName* ASN.1 CHOICE type used by
+ * 'CRL Distribution Points' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
 abstract class DistributionPointName
 {
-    public const TAG_FULL_NAME = 0;
-
-    public const TAG_RDN = 1;
+    const TAG_FULL_NAME = 0;
+    const TAG_RDN = 1;
 
     /**
      * Type.
@@ -31,21 +30,33 @@ abstract class DistributionPointName
 
     /**
      * Initialize from TaggedType.
+     *
+     * @param TaggedType $el
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
     public static function fromTaggedType(TaggedType $el): self
     {
         switch ($el->tag()) {
             case self::TAG_FULL_NAME:
-                return new FullName(GeneralNames::fromASN1($el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()));
+                return new FullName(
+                    GeneralNames::fromASN1(
+                        $el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()));
             case self::TAG_RDN:
-                return new RelativeName(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet()));
+                return new RelativeName(
+                    RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet()));
             default:
-                throw new UnexpectedValueException('DistributionPointName tag ' . $el->tag() . ' not supported.');
+                throw new \UnexpectedValueException(
+                    'DistributionPointName tag ' . $el->tag() . ' not supported.');
         }
     }
 
     /**
      * Get type tag.
+     *
+     * @return int
      */
     public function tag(): int
     {
@@ -54,6 +65,8 @@ abstract class DistributionPointName
 
     /**
      * Generate ASN.1 structure.
+     *
+     * @return ImplicitlyTaggedType
      */
     public function toASN1(): ImplicitlyTaggedType
     {
@@ -62,6 +75,8 @@ abstract class DistributionPointName
 
     /**
      * Generate ASN.1 element.
+     *
+     * @return Element
      */
     abstract protected function _valueASN1(): Element;
 }

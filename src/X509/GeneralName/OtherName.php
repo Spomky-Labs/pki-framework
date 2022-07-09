@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\GeneralName;
 
@@ -37,6 +37,7 @@ class OtherName extends GeneralName
      * Constructor.
      *
      * @param string  $type_id OID
+     * @param Element $el
      */
     public function __construct(string $type_id, Element $el)
     {
@@ -53,12 +54,8 @@ class OtherName extends GeneralName
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
         $seq = $el->asSequence();
-        $type_id = $seq->at(0)
-            ->asObjectIdentifier()
-            ->oid();
-        $value = $seq->getTagged(0)
-            ->asExplicit()
-            ->asElement();
+        $type_id = $seq->at(0)->asObjectIdentifier()->oid();
+        $value = $seq->getTagged(0)->asExplicit()->asElement();
         return new self($type_id, $value);
     }
 
@@ -72,6 +69,8 @@ class OtherName extends GeneralName
 
     /**
      * Get type OID.
+     *
+     * @return string
      */
     public function type(): string
     {
@@ -80,6 +79,8 @@ class OtherName extends GeneralName
 
     /**
      * Get value element.
+     *
+     * @return Element
      */
     public function value(): Element
     {
@@ -91,9 +92,8 @@ class OtherName extends GeneralName
      */
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType(
-            $this->_tag,
-            new Sequence(new ObjectIdentifier($this->_type), new ExplicitlyTaggedType(0, $this->_element))
-        );
+        return new ImplicitlyTaggedType($this->_tag,
+            new Sequence(new ObjectIdentifier($this->_type),
+                new ExplicitlyTaggedType(0, $this->_element)));
     }
 }

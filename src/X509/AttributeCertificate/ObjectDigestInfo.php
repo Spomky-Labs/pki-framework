@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\AttributeCertificate;
 
@@ -20,11 +20,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
  */
 class ObjectDigestInfo
 {
-    public const TYPE_PUBLIC_KEY = 0;
-
-    public const TYPE_PUBLIC_KEY_CERT = 1;
-
-    public const TYPE_OTHER_OBJECT_TYPES = 2;
+    const TYPE_PUBLIC_KEY = 0;
+    const TYPE_PUBLIC_KEY_CERT = 1;
+    const TYPE_OTHER_OBJECT_TYPES = 2;
 
     /**
      * Object type.
@@ -56,8 +54,13 @@ class ObjectDigestInfo
 
     /**
      * Constructor.
+     *
+     * @param int                     $type
+     * @param AlgorithmIdentifierType $algo
+     * @param BitString               $digest
      */
-    public function __construct(int $type, AlgorithmIdentifierType $algo, BitString $digest)
+    public function __construct(int $type, AlgorithmIdentifierType $algo,
+        BitString $digest)
     {
         $this->_digestedObjectType = $type;
         $this->_otherObjectTypeID = null;
@@ -67,22 +70,21 @@ class ObjectDigestInfo
 
     /**
      * Initialize from ASN.1.
+     *
+     * @param Sequence $seq
+     *
+     * @return self
      */
-    public static function fromASN1(Sequence $seq): self
+    public static function fromASN1(Sequence $seq): ObjectDigestInfo
     {
         $idx = 0;
         $oid = null;
-        $type = $seq->at($idx++)
-            ->asEnumerated()
-            ->intNumber();
+        $type = $seq->at($idx++)->asEnumerated()->intNumber();
         if ($seq->has($idx, Element::TYPE_OBJECT_IDENTIFIER)) {
-            $oid = $seq->at($idx++)
-                ->asObjectIdentifier()
-                ->oid();
+            $oid = $seq->at($idx++)->asObjectIdentifier()->oid();
         }
         $algo = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
-        $digest = $seq->at($idx)
-            ->asBitString();
+        $digest = $seq->at($idx)->asBitString();
         $obj = new self($type, $algo, $digest);
         $obj->_otherObjectTypeID = $oid;
         return $obj;
@@ -90,6 +92,8 @@ class ObjectDigestInfo
 
     /**
      * Generate ASN.1 structure.
+     *
+     * @return Sequence
      */
     public function toASN1(): Sequence
     {

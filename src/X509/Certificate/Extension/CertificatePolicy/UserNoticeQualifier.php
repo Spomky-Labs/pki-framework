@@ -1,16 +1,16 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * Implements *UserNotice* ASN.1 type used by 'Certificate Policies' certificate extension.
+ * Implements *UserNotice* ASN.1 type used by 'Certificate Policies'
+ * certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -32,8 +32,12 @@ class UserNoticeQualifier extends PolicyQualifierInfo
 
     /**
      * Constructor.
+     *
+     * @param null|DisplayText     $text
+     * @param null|NoticeReference $ref
      */
-    public function __construct(?DisplayText $text = null, ?NoticeReference $ref = null)
+    public function __construct(?DisplayText $text = null,
+        ?NoticeReference $ref = null)
     {
         $this->_oid = self::OID_UNOTICE;
         $this->_text = $text;
@@ -62,6 +66,8 @@ class UserNoticeQualifier extends PolicyQualifierInfo
 
     /**
      * Whether explicit text is present.
+     *
+     * @return bool
      */
     public function hasExplicitText(): bool
     {
@@ -70,17 +76,23 @@ class UserNoticeQualifier extends PolicyQualifierInfo
 
     /**
      * Get explicit text.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return DisplayText
      */
     public function explicitText(): DisplayText
     {
-        if (! $this->hasExplicitText()) {
-            throw new LogicException('explicitText not set.');
+        if (!$this->hasExplicitText()) {
+            throw new \LogicException('explicitText not set.');
         }
         return $this->_text;
     }
 
     /**
      * Whether notice reference is present.
+     *
+     * @return bool
      */
     public function hasNoticeRef(): bool
     {
@@ -89,11 +101,15 @@ class UserNoticeQualifier extends PolicyQualifierInfo
 
     /**
      * Get notice reference.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return NoticeReference
      */
     public function noticeRef(): NoticeReference
     {
-        if (! $this->hasNoticeRef()) {
-            throw new LogicException('noticeRef not set.');
+        if (!$this->hasNoticeRef()) {
+            throw new \LogicException('noticeRef not set.');
         }
         return $this->_ref;
     }

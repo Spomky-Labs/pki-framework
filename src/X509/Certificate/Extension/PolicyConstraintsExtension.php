@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -30,12 +29,14 @@ class PolicyConstraintsExtension extends Extension
 
     /**
      * Constructor.
+     *
+     * @param bool     $critical
+     * @param null|int $require_explicit_policy
+     * @param null|int $inhibit_policy_mapping
      */
-    public function __construct(
-        bool $critical,
-        ?int $require_explicit_policy = null,
-        ?int $inhibit_policy_mapping = null
-    ) {
+    public function __construct(bool $critical,
+        ?int $require_explicit_policy = null, ?int $inhibit_policy_mapping = null)
+    {
         parent::__construct(self::OID_POLICY_CONSTRAINTS, $critical);
         $this->_requireExplicitPolicy = $require_explicit_policy;
         $this->_inhibitPolicyMapping = $inhibit_policy_mapping;
@@ -43,32 +44,50 @@ class PolicyConstraintsExtension extends Extension
 
     /**
      * Whether requireExplicitPolicy is present.
+     *
+     * @return bool
      */
     public function hasRequireExplicitPolicy(): bool
     {
         return isset($this->_requireExplicitPolicy);
     }
 
+    /**
+     * Get requireExplicitPolicy.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return int
+     */
     public function requireExplicitPolicy(): int
     {
-        if (! $this->hasRequireExplicitPolicy()) {
-            throw new LogicException('requireExplicitPolicy not set.');
+        if (!$this->hasRequireExplicitPolicy()) {
+            throw new \LogicException('requireExplicitPolicy not set.');
         }
         return $this->_requireExplicitPolicy;
     }
 
     /**
      * Whether inhibitPolicyMapping is present.
+     *
+     * @return bool
      */
     public function hasInhibitPolicyMapping(): bool
     {
         return isset($this->_inhibitPolicyMapping);
     }
 
+    /**
+     * Get inhibitPolicyMapping.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return int
+     */
     public function inhibitPolicyMapping(): int
     {
-        if (! $this->hasInhibitPolicyMapping()) {
-            throw new LogicException('inhibitPolicyMapping not set.');
+        if (!$this->hasInhibitPolicyMapping()) {
+            throw new \LogicException('inhibitPolicyMapping not set.');
         }
         return $this->_inhibitPolicyMapping;
     }
@@ -99,10 +118,12 @@ class PolicyConstraintsExtension extends Extension
     {
         $elements = [];
         if (isset($this->_requireExplicitPolicy)) {
-            $elements[] = new ImplicitlyTaggedType(0, new Integer($this->_requireExplicitPolicy));
+            $elements[] = new ImplicitlyTaggedType(0,
+                new Integer($this->_requireExplicitPolicy));
         }
         if (isset($this->_inhibitPolicyMapping)) {
-            $elements[] = new ImplicitlyTaggedType(1, new Integer($this->_inhibitPolicyMapping));
+            $elements[] = new ImplicitlyTaggedType(1,
+                new Integer($this->_inhibitPolicyMapping));
         }
         return new Sequence(...$elements);
     }

@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\ASN1;
 
-use function array_key_exists;
-use LogicException;
-use OutOfBoundsException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\Primitive\PrintableString;
@@ -21,204 +18,107 @@ use Sop\ASN1\Type\StringType;
 class AttributeType
 {
     // OID's from 2.5.4 arc
-    public const OID_OBJECT_CLASS = '2.5.4.0';
-
-    public const OID_ALIASED_ENTRY_NAME = '2.5.4.1';
-
-    public const OID_KNOWLEDGE_INFORMATION = '2.5.4.2';
-
-    public const OID_COMMON_NAME = '2.5.4.3';
-
-    public const OID_SURNAME = '2.5.4.4';
-
-    public const OID_SERIAL_NUMBER = '2.5.4.5';
-
-    public const OID_COUNTRY_NAME = '2.5.4.6';
-
-    public const OID_LOCALITY_NAME = '2.5.4.7';
-
-    public const OID_STATE_OR_PROVINCE_NAME = '2.5.4.8';
-
-    public const OID_STREET_ADDRESS = '2.5.4.9';
-
-    public const OID_ORGANIZATION_NAME = '2.5.4.10';
-
-    public const OID_ORGANIZATIONAL_UNIT_NAME = '2.5.4.11';
-
-    public const OID_TITLE = '2.5.4.12';
-
-    public const OID_DESCRIPTION = '2.5.4.13';
-
-    public const OID_SEARCH_GUIDE = '2.5.4.14';
-
-    public const OID_BUSINESS_CATEGORY = '2.5.4.15';
-
-    public const OID_POSTAL_ADDRESS = '2.5.4.16';
-
-    public const OID_POSTAL_CODE = '2.5.4.17';
-
-    public const OID_POST_OFFICE_BOX = '2.5.4.18';
-
-    public const OID_PHYSICAL_DELIVERY_OFFICE_NAME = '2.5.4.19';
-
-    public const OID_TELEPHONE_NUMBER = '2.5.4.20';
-
-    public const OID_TELEX_NUMBER = '2.5.4.21';
-
-    public const OID_TELETEX_TERMINAL_IDENTIFIER = '2.5.4.22';
-
-    public const OID_FACSIMILE_TELEPHONE_NUMBER = '2.5.4.23';
-
-    public const OID_X121_ADDRESS = '2.5.4.24';
-
-    public const OID_INTERNATIONAL_ISDN_NUMBER = '2.5.4.25';
-
-    public const OID_REGISTERED_ADDRESS = '2.5.4.26';
-
-    public const OID_DESTINATION_INDICATOR = '2.5.4.27';
-
-    public const OID_PREFERRED_DELIVERY_METHOD = '2.5.4.28';
-
-    public const OID_PRESENTATION_ADDRESS = '2.5.4.29';
-
-    public const OID_SUPPORTED_APPLICATION_CONTEXT = '2.5.4.30';
-
-    public const OID_MEMBER = '2.5.4.31';
-
-    public const OID_OWNER = '2.5.4.32';
-
-    public const OID_ROLE_OCCUPANT = '2.5.4.33';
-
-    public const OID_SEE_ALSO = '2.5.4.34';
-
-    public const OID_USER_PASSWORD = '2.5.4.35';
-
-    public const OID_USER_CERTIFICATE = '2.5.4.36';
-
-    public const OID_CA_CERTIFICATE = '2.5.4.37';
-
-    public const OID_AUTHORITY_REVOCATION_LIST = '2.5.4.38';
-
-    public const OID_CERTIFICATE_REVOCATION_LIST = '2.5.4.39';
-
-    public const OID_CROSS_CERTIFICATE_PAIR = '2.5.4.40';
-
-    public const OID_NAME = '2.5.4.41';
-
-    public const OID_GIVEN_NAME = '2.5.4.42';
-
-    public const OID_INITIALS = '2.5.4.43';
-
-    public const OID_GENERATION_QUALIFIER = '2.5.4.44';
-
-    public const OID_UNIQUE_IDENTIFIER = '2.5.4.45';
-
-    public const OID_DN_QUALIFIER = '2.5.4.46';
-
-    public const OID_ENHANCED_SEARCH_GUIDE = '2.5.4.47';
-
-    public const OID_PROTOCOL_INFORMATION = '2.5.4.48';
-
-    public const OID_DISTINGUISHED_NAME = '2.5.4.49';
-
-    public const OID_UNIQUE_MEMBER = '2.5.4.50';
-
-    public const OID_HOUSE_IDENTIFIER = '2.5.4.51';
-
-    public const OID_SUPPORTED_ALGORITHMS = '2.5.4.52';
-
-    public const OID_DELTA_REVOCATION_LIST = '2.5.4.53';
-
-    public const OID_DMD_NAME = '2.5.4.54';
-
-    public const OID_CLEARANCE = '2.5.4.55';
-
-    public const OID_DEFAULT_DIR_QOP = '2.5.4.56';
-
-    public const OID_ATTRIBUTE_INTEGRITY_INFO = '2.5.4.57';
-
-    public const OID_ATTRIBUTE_CERTIFICATE = '2.5.4.58';
-
-    public const OID_ATTRIBUTE_CERTIFICATE_REVOCATION_LIST = '2.5.4.59';
-
-    public const OID_CONF_KEY_INFO = '2.5.4.60';
-
-    public const OID_AA_CERTIFICATE = '2.5.4.61';
-
-    public const OID_ATTRIBUTE_DESCRIPTOR_CERTIFICATE = '2.5.4.62';
-
-    public const OID_ATTRIBUTE_AUTHORITY_REVOCATION_LIST = '2.5.4.63';
-
-    public const OID_FAMILY_INFORMATION = '2.5.4.64';
-
-    public const OID_PSEUDONYM = '2.5.4.65';
-
-    public const OID_COMMUNICATIONS_SERVICE = '2.5.4.66';
-
-    public const OID_COMMUNICATIONS_NETWORK = '2.5.4.67';
-
-    public const OID_CERTIFICATION_PRACTICE_STMT = '2.5.4.68';
-
-    public const OID_CERTIFICATE_POLICY = '2.5.4.69';
-
-    public const OID_PKI_PATH = '2.5.4.70';
-
-    public const OID_PRIV_POLICY = '2.5.4.71';
-
-    public const OID_ROLE = '2.5.4.72';
-
-    public const OID_DELEGATION_PATH = '2.5.4.73';
-
-    public const OID_PROT_PRIV_POLICY = '2.5.4.74';
-
-    public const OID_XML_PRIVILEGE_INFO = '2.5.4.75';
-
-    public const OID_XML_PRIV_POLICY = '2.5.4.76';
-
-    public const OID_UUID_PAIR = '2.5.4.77';
-
-    public const OID_TAG_OID = '2.5.4.78';
-
-    public const OID_UII_FORMAT = '2.5.4.79';
-
-    public const OID_UII_IN_URH = '2.5.4.80';
-
-    public const OID_CONTENT_URL = '2.5.4.81';
-
-    public const OID_PERMISSION = '2.5.4.82';
-
-    public const OID_URI = '2.5.4.83';
-
-    public const OID_PWD_ATTRIBUTE = '2.5.4.84';
-
-    public const OID_USER_PWD = '2.5.4.85';
-
-    public const OID_URN = '2.5.4.86';
-
-    public const OID_URL = '2.5.4.87';
-
-    public const OID_UTM_COORDINATES = '2.5.4.88';
-
-    public const OID_URNC = '2.5.4.89';
-
-    public const OID_UII = '2.5.4.90';
-
-    public const OID_EPC = '2.5.4.91';
-
-    public const OID_TAG_AFI = '2.5.4.92';
-
-    public const OID_EPC_FORMAT = '2.5.4.93';
-
-    public const OID_EPC_IN_URN = '2.5.4.94';
-
-    public const OID_LDAP_URL = '2.5.4.95';
-
-    public const OID_TAG_LOCATION = '2.5.4.96';
-
-    public const OID_ORGANIZATION_IDENTIFIER = '2.5.4.97';
+    const OID_OBJECT_CLASS = '2.5.4.0';
+    const OID_ALIASED_ENTRY_NAME = '2.5.4.1';
+    const OID_KNOWLEDGE_INFORMATION = '2.5.4.2';
+    const OID_COMMON_NAME = '2.5.4.3';
+    const OID_SURNAME = '2.5.4.4';
+    const OID_SERIAL_NUMBER = '2.5.4.5';
+    const OID_COUNTRY_NAME = '2.5.4.6';
+    const OID_LOCALITY_NAME = '2.5.4.7';
+    const OID_STATE_OR_PROVINCE_NAME = '2.5.4.8';
+    const OID_STREET_ADDRESS = '2.5.4.9';
+    const OID_ORGANIZATION_NAME = '2.5.4.10';
+    const OID_ORGANIZATIONAL_UNIT_NAME = '2.5.4.11';
+    const OID_TITLE = '2.5.4.12';
+    const OID_DESCRIPTION = '2.5.4.13';
+    const OID_SEARCH_GUIDE = '2.5.4.14';
+    const OID_BUSINESS_CATEGORY = '2.5.4.15';
+    const OID_POSTAL_ADDRESS = '2.5.4.16';
+    const OID_POSTAL_CODE = '2.5.4.17';
+    const OID_POST_OFFICE_BOX = '2.5.4.18';
+    const OID_PHYSICAL_DELIVERY_OFFICE_NAME = '2.5.4.19';
+    const OID_TELEPHONE_NUMBER = '2.5.4.20';
+    const OID_TELEX_NUMBER = '2.5.4.21';
+    const OID_TELETEX_TERMINAL_IDENTIFIER = '2.5.4.22';
+    const OID_FACSIMILE_TELEPHONE_NUMBER = '2.5.4.23';
+    const OID_X121_ADDRESS = '2.5.4.24';
+    const OID_INTERNATIONAL_ISDN_NUMBER = '2.5.4.25';
+    const OID_REGISTERED_ADDRESS = '2.5.4.26';
+    const OID_DESTINATION_INDICATOR = '2.5.4.27';
+    const OID_PREFERRED_DELIVERY_METHOD = '2.5.4.28';
+    const OID_PRESENTATION_ADDRESS = '2.5.4.29';
+    const OID_SUPPORTED_APPLICATION_CONTEXT = '2.5.4.30';
+    const OID_MEMBER = '2.5.4.31';
+    const OID_OWNER = '2.5.4.32';
+    const OID_ROLE_OCCUPANT = '2.5.4.33';
+    const OID_SEE_ALSO = '2.5.4.34';
+    const OID_USER_PASSWORD = '2.5.4.35';
+    const OID_USER_CERTIFICATE = '2.5.4.36';
+    const OID_CA_CERTIFICATE = '2.5.4.37';
+    const OID_AUTHORITY_REVOCATION_LIST = '2.5.4.38';
+    const OID_CERTIFICATE_REVOCATION_LIST = '2.5.4.39';
+    const OID_CROSS_CERTIFICATE_PAIR = '2.5.4.40';
+    const OID_NAME = '2.5.4.41';
+    const OID_GIVEN_NAME = '2.5.4.42';
+    const OID_INITIALS = '2.5.4.43';
+    const OID_GENERATION_QUALIFIER = '2.5.4.44';
+    const OID_UNIQUE_IDENTIFIER = '2.5.4.45';
+    const OID_DN_QUALIFIER = '2.5.4.46';
+    const OID_ENHANCED_SEARCH_GUIDE = '2.5.4.47';
+    const OID_PROTOCOL_INFORMATION = '2.5.4.48';
+    const OID_DISTINGUISHED_NAME = '2.5.4.49';
+    const OID_UNIQUE_MEMBER = '2.5.4.50';
+    const OID_HOUSE_IDENTIFIER = '2.5.4.51';
+    const OID_SUPPORTED_ALGORITHMS = '2.5.4.52';
+    const OID_DELTA_REVOCATION_LIST = '2.5.4.53';
+    const OID_DMD_NAME = '2.5.4.54';
+    const OID_CLEARANCE = '2.5.4.55';
+    const OID_DEFAULT_DIR_QOP = '2.5.4.56';
+    const OID_ATTRIBUTE_INTEGRITY_INFO = '2.5.4.57';
+    const OID_ATTRIBUTE_CERTIFICATE = '2.5.4.58';
+    const OID_ATTRIBUTE_CERTIFICATE_REVOCATION_LIST = '2.5.4.59';
+    const OID_CONF_KEY_INFO = '2.5.4.60';
+    const OID_AA_CERTIFICATE = '2.5.4.61';
+    const OID_ATTRIBUTE_DESCRIPTOR_CERTIFICATE = '2.5.4.62';
+    const OID_ATTRIBUTE_AUTHORITY_REVOCATION_LIST = '2.5.4.63';
+    const OID_FAMILY_INFORMATION = '2.5.4.64';
+    const OID_PSEUDONYM = '2.5.4.65';
+    const OID_COMMUNICATIONS_SERVICE = '2.5.4.66';
+    const OID_COMMUNICATIONS_NETWORK = '2.5.4.67';
+    const OID_CERTIFICATION_PRACTICE_STMT = '2.5.4.68';
+    const OID_CERTIFICATE_POLICY = '2.5.4.69';
+    const OID_PKI_PATH = '2.5.4.70';
+    const OID_PRIV_POLICY = '2.5.4.71';
+    const OID_ROLE = '2.5.4.72';
+    const OID_DELEGATION_PATH = '2.5.4.73';
+    const OID_PROT_PRIV_POLICY = '2.5.4.74';
+    const OID_XML_PRIVILEGE_INFO = '2.5.4.75';
+    const OID_XML_PRIV_POLICY = '2.5.4.76';
+    const OID_UUID_PAIR = '2.5.4.77';
+    const OID_TAG_OID = '2.5.4.78';
+    const OID_UII_FORMAT = '2.5.4.79';
+    const OID_UII_IN_URH = '2.5.4.80';
+    const OID_CONTENT_URL = '2.5.4.81';
+    const OID_PERMISSION = '2.5.4.82';
+    const OID_URI = '2.5.4.83';
+    const OID_PWD_ATTRIBUTE = '2.5.4.84';
+    const OID_USER_PWD = '2.5.4.85';
+    const OID_URN = '2.5.4.86';
+    const OID_URL = '2.5.4.87';
+    const OID_UTM_COORDINATES = '2.5.4.88';
+    const OID_URNC = '2.5.4.89';
+    const OID_UII = '2.5.4.90';
+    const OID_EPC = '2.5.4.91';
+    const OID_TAG_AFI = '2.5.4.92';
+    const OID_EPC_FORMAT = '2.5.4.93';
+    const OID_EPC_IN_URN = '2.5.4.94';
+    const OID_LDAP_URL = '2.5.4.95';
+    const OID_TAG_LOCATION = '2.5.4.96';
+    const OID_ORGANIZATION_IDENTIFIER = '2.5.4.97';
 
     // Miscellany attribute OID's
-    public const OID_CLEARANCE_X501 = '2.5.1.5.55';
+    const OID_CLEARANCE_X501 = '2.5.1.5.55';
 
     /**
      * Default ASN.1 string types for attributes.
@@ -229,7 +129,7 @@ class AttributeType
      *
      * @var array
      */
-    public const MAP_ATTR_TO_STR_TYPE = [
+    const MAP_ATTR_TO_STR_TYPE = [
         self::OID_DN_QUALIFIER => Element::TYPE_PRINTABLE_STRING,
         self::OID_COUNTRY_NAME => Element::TYPE_PRINTABLE_STRING,
         self::OID_SERIAL_NUMBER => Element::TYPE_PRINTABLE_STRING,
@@ -238,7 +138,8 @@ class AttributeType
     /**
      * OID to attribute names mapping.
      *
-     * First name is the primary name. If there's more than one name, others may be used as an alias.
+     * First name is the primary name. If there's more than one name, others may
+     * be used as an alias.
      *
      * Generated using ldap-attribs.py.
      *
@@ -246,7 +147,7 @@ class AttributeType
      *
      * @var array
      */
-    public const MAP_OID_TO_NAME = [
+    const MAP_OID_TO_NAME = [
         '0.9.2342.19200300.100.1.1' => ['uid', 'userid'],
         '0.9.2342.19200300.100.1.2' => ['textEncodedORAddress'],
         '0.9.2342.19200300.100.1.3' => ['mail', 'rfc822Mailbox'],
@@ -428,6 +329,10 @@ class AttributeType
 
     /**
      * Initialize from ASN.1.
+     *
+     * @param ObjectIdentifier $oi
+     *
+     * @return self
      */
     public static function fromASN1(ObjectIdentifier $oi): self
     {
@@ -436,6 +341,10 @@ class AttributeType
 
     /**
      * Initialize from attribute name.
+     *
+     * @param string $name
+     *
+     * @return self
      */
     public static function fromName(string $name): self
     {
@@ -455,6 +364,8 @@ class AttributeType
 
     /**
      * Get name of the attribute.
+     *
+     * @return string
      */
     public function typeName(): string
     {
@@ -466,6 +377,8 @@ class AttributeType
 
     /**
      * Generate ASN.1 element.
+     *
+     * @return ObjectIdentifier
      */
     public function toASN1(): ObjectIdentifier
     {
@@ -477,6 +390,8 @@ class AttributeType
      *
      * @param string $name Primary attribute name or an alias
      *
+     * @throws \OutOfBoundsException
+     *
      * @return string OID in dotted format
      */
     public static function attrNameToOID(string $name): string
@@ -486,9 +401,9 @@ class AttributeType
             return $name;
         }
         $map = self::_oidReverseMap();
-        $k = mb_strtolower($name);
-        if (! isset($map[$k])) {
-            throw new OutOfBoundsException("No OID for {$name}.");
+        $k = strtolower($name);
+        if (!isset($map[$k])) {
+            throw new \OutOfBoundsException("No OID for {$name}.");
         }
         return $map[$k];
     }
@@ -498,10 +413,14 @@ class AttributeType
      *
      * @param string $oid Attribute OID
      * @param string $str String
+     *
+     * @throws \LogicException
+     *
+     * @return StringType
      */
     public static function asn1StringForType(string $oid, string $str): StringType
     {
-        if (! array_key_exists($oid, self::MAP_ATTR_TO_STR_TYPE)) {
+        if (!array_key_exists($oid, self::MAP_ATTR_TO_STR_TYPE)) {
             return new UTF8String($str);
         }
         switch (self::MAP_ATTR_TO_STR_TYPE[$oid]) {
@@ -510,24 +429,26 @@ class AttributeType
             // @codeCoverageIgnoreStart
             default:
                 // only reachable during development
-                throw new LogicException();
+                throw new \LogicException();
         }
         // @codeCoverageIgnoreEnd
     }
 
     /**
      * Get name to OID lookup map.
+     *
+     * @return array
      */
     private static function _oidReverseMap(): array
     {
         static $map;
-        if (! isset($map)) {
+        if (!isset($map)) {
             $map = [];
             // for each attribute type
             foreach (self::MAP_OID_TO_NAME as $oid => $names) {
                 // for primary name and aliases
                 foreach ($names as $name) {
-                    $map[mb_strtolower($name)] = $oid;
+                    $map[strtolower($name)] = $oid;
                 }
             }
         }

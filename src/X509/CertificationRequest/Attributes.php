@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\CertificationRequest;
 
-use LogicException;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\Collection\SetOfAttributes;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
@@ -23,12 +22,14 @@ class Attributes extends SetOfAttributes
      *
      * @var array
      */
-    public const MAP_OID_TO_CLASS = [
+    const MAP_OID_TO_CLASS = [
         ExtensionRequestValue::OID => ExtensionRequestValue::class,
     ];
 
     /**
      * Check whether extension request attribute is present.
+     *
+     * @return bool
      */
     public function hasExtensionRequest(): bool
     {
@@ -37,11 +38,15 @@ class Attributes extends SetOfAttributes
 
     /**
      * Get extension request attribute value.
+     *
+     * @throws \LogicException
+     *
+     * @return ExtensionRequestValue
      */
     public function extensionRequest(): ExtensionRequestValue
     {
-        if (! $this->hasExtensionRequest()) {
-            throw new LogicException('No extension request attribute.');
+        if (!$this->hasExtensionRequest()) {
+            throw new \LogicException('No extension request attribute.');
         }
         return $this->firstOf(ExtensionRequestValue::OID)->first();
     }

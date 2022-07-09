@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
@@ -11,10 +11,12 @@ namespace Sop\X509\AttributeCertificate\Attribute;
  */
 class ChargingIdentityAttributeValue extends IetfAttrSyntax
 {
-    public const OID = '1.3.6.1.5.5.7.10.3';
+    const OID = '1.3.6.1.5.5.7.10.3';
 
     /**
      * Constructor.
+     *
+     * @param IetfAttrValue ...$values
      */
     public function __construct(IetfAttrValue ...$values)
     {

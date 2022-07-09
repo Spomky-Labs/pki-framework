@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\MatchingRule;
 
@@ -21,7 +21,6 @@ class CaseIgnoreMatch extends StringPrepMatchingRule
     public function __construct(int $string_type)
     {
         parent::__construct(
-            StringPreparer::forStringType($string_type)->withCaseFolding(true)
-        );
+            StringPreparer::forStringType($string_type)->withCaseFolding(true));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
@@ -9,7 +9,8 @@ use Sop\ASN1\Type\Primitive\IA5String;
 use Sop\ASN1\Type\UnspecifiedType;
 
 /**
- * Implements *CPSuri* ASN.1 type used by 'Certificate Policies' certificate extension.
+ * Implements *CPSuri* ASN.1 type used by 'Certificate Policies'
+ * certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
@@ -24,6 +25,8 @@ class CPSQualifier extends PolicyQualifierInfo
 
     /**
      * Constructor.
+     *
+     * @param string $uri
      */
     public function __construct(string $uri)
     {
@@ -41,6 +44,11 @@ class CPSQualifier extends PolicyQualifierInfo
         return new self($el->asString()->string());
     }
 
+    /**
+     * Get URI.
+     *
+     * @return string
+     */
     public function uri(): string
     {
         return $this->_uri;

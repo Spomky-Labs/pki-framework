@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\CertificationRequest;
 
@@ -11,7 +11,6 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Signature\Signature;
-use UnexpectedValueException;
 
 /**
  * Implements *CertificationRequest* ASN.1 type.
@@ -43,12 +42,14 @@ class CertificationRequest
 
     /**
      * Constructor.
+     *
+     * @param CertificationRequestInfo     $info
+     * @param SignatureAlgorithmIdentifier $algo
+     * @param Signature                    $signature
      */
-    public function __construct(
-        CertificationRequestInfo $info,
-        SignatureAlgorithmIdentifier $algo,
-        Signature $signature
-    ) {
+    public function __construct(CertificationRequestInfo $info,
+        SignatureAlgorithmIdentifier $algo, Signature $signature)
+    {
         $this->_certificationRequestInfo = $info;
         $this->_signatureAlgorithm = $algo;
         $this->_signature = $signature;
@@ -56,29 +57,40 @@ class CertificationRequest
 
     /**
      * Get certification request as a PEM formatted string.
+     *
+     * @return string
      */
     public function __toString(): string
     {
-        return $this->toPEM()
-            ->string();
+        return $this->toPEM()->string();
     }
 
     /**
      * Initialize from ASN.1.
+     *
+     * @param Sequence $seq
+     *
+     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
         $info = CertificationRequestInfo::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
-        if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
+        if (!$algo instanceof SignatureAlgorithmIdentifier) {
+            throw new \UnexpectedValueException(
+                'Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
+        $signature = Signature::fromSignatureData(
+            $seq->at(2)->asBitString()->string(), $algo);
         return new self($info, $algo, $signature);
     }
 
     /**
      * Initialize from DER.
+     *
+     * @param string $data
+     *
+     * @return self
      */
     public static function fromDER(string $data): self
     {
@@ -87,17 +99,25 @@ class CertificationRequest
 
     /**
      * Initialize from PEM.
+     *
+     * @param PEM $pem
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
     public static function fromPEM(PEM $pem): self
     {
-        if ($pem->type() !== PEM::TYPE_CERTIFICATE_REQUEST) {
-            throw new UnexpectedValueException('Invalid PEM type.');
+        if (PEM::TYPE_CERTIFICATE_REQUEST !== $pem->type()) {
+            throw new \UnexpectedValueException('Invalid PEM type.');
         }
         return self::fromDER($pem->data());
     }
 
     /**
      * Get certification request info.
+     *
+     * @return CertificationRequestInfo
      */
     public function certificationRequestInfo(): CertificationRequestInfo
     {
@@ -106,12 +126,19 @@ class CertificationRequest
 
     /**
      * Get signature algorithm.
+     *
+     * @return SignatureAlgorithmIdentifier
      */
     public function signatureAlgorithm(): SignatureAlgorithmIdentifier
     {
         return $this->_signatureAlgorithm;
     }
 
+    /**
+     * Get signature.
+     *
+     * @return Signature
+     */
     public function signature(): Signature
     {
         return $this->_signature;
@@ -119,27 +146,29 @@ class CertificationRequest
 
     /**
      * Generate ASN.1 structure.
+     *
+     * @return Sequence
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
-            $this->_certificationRequestInfo->toASN1(),
-            $this->_signatureAlgorithm->toASN1(),
-            $this->_signature->bitString()
-        );
+        return new Sequence($this->_certificationRequestInfo->toASN1(),
+            $this->_signatureAlgorithm->toASN1(), $this->_signature->bitString());
     }
 
     /**
      * Get certification request as a DER.
+     *
+     * @return string
      */
     public function toDER(): string
     {
-        return $this->toASN1()
-            ->toDER();
+        return $this->toASN1()->toDER();
     }
 
     /**
      * Get certification request as a PEM.
+     *
+     * @return PEM
      */
     public function toPEM(): PEM
     {
@@ -156,9 +185,9 @@ class CertificationRequest
     public function verify(?Crypto $crypto = null): bool
     {
         $crypto = $crypto ?? Crypto::getDefault();
-        $data = $this->_certificationRequestInfo->toASN1()
-            ->toDER();
+        $data = $this->_certificationRequestInfo->toASN1()->toDER();
         $pk_info = $this->_certificationRequestInfo->subjectPKInfo();
-        return $crypto->verify($data, $this->_signature, $pk_info, $this->_signatureAlgorithm);
+        return $crypto->verify($data, $this->_signature, $pk_info,
+            $this->_signatureAlgorithm);
     }
 }

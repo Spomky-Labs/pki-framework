@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\StringPrep;
 
@@ -11,17 +11,12 @@ namespace Sop\X501\StringPrep;
  */
 class StringPreparer
 {
-    public const STEP_TRANSCODE = 1;
-
-    public const STEP_MAP = 2;
-
-    public const STEP_NORMALIZE = 3;
-
-    public const STEP_PROHIBIT = 4;
-
-    public const STEP_CHECK_BIDI = 5;
-
-    public const STEP_INSIGNIFICANT_CHARS = 6;
+    const STEP_TRANSCODE = 1;
+    const STEP_MAP = 2;
+    const STEP_NORMALIZE = 3;
+    const STEP_PROHIBIT = 4;
+    const STEP_CHECK_BIDI = 5;
+    const STEP_INSIGNIFICANT_CHARS = 6;
 
     /**
      * Preparation steps.
@@ -44,6 +39,8 @@ class StringPreparer
      * Get default instance for given string type.
      *
      * @param int $string_type ASN.1 string type tag.
+     *
+     * @return self
      */
     public static function forStringType(int $string_type): self
     {
@@ -63,6 +60,8 @@ class StringPreparer
      * Get self with case folding set.
      *
      * @param bool $fold True to apply case folding
+     *
+     * @return self
      */
     public function withCaseFolding(bool $fold): self
     {
@@ -73,6 +72,10 @@ class StringPreparer
 
     /**
      * Prepare string.
+     *
+     * @param string $string
+     *
+     * @return string
      */
     public function prepare(string $string): string
     {

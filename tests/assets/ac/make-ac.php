@@ -30,7 +30,7 @@ use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
+require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 // load issuer certificate
 $issuer_cert = Certificate::fromPEM(

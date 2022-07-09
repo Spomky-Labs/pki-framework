@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -36,11 +36,12 @@ class RelativeOID extends ObjectIdentifier
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
-        $subids = self::_decodeSubIDs(mb_substr($data, $idx, $len));
+        $subids = self::_decodeSubIDs(substr($data, $idx, $len));
         $offset = $idx + $len;
         return new self(self::_implodeSubIDs(...$subids));
     }

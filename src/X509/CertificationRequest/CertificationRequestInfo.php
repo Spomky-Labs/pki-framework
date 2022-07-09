@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\CertificationRequest;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -17,7 +16,6 @@ use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\Name;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
-use UnexpectedValueException;
 
 /**
  * Implements *CertificationRequestInfo* ASN.1 type.
@@ -26,7 +24,7 @@ use UnexpectedValueException;
  */
 class CertificationRequestInfo
 {
-    public const VERSION_1 = 0;
+    const VERSION_1 = 0;
 
     /**
      * Version.
@@ -71,24 +69,35 @@ class CertificationRequestInfo
 
     /**
      * Initialize from ASN.1.
+     *
+     * @param Sequence $seq
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $version = $seq->at(0)
-            ->asInteger()
-            ->intNumber();
-        if ($version !== self::VERSION_1) {
-            throw new UnexpectedValueException("Version {$version} not supported.");
+        $version = $seq->at(0)->asInteger()->intNumber();
+        if (self::VERSION_1 !== $version) {
+            throw new \UnexpectedValueException(
+                "Version {$version} not supported.");
         }
         $subject = Name::fromASN1($seq->at(1)->asSequence());
         $pkinfo = PublicKeyInfo::fromASN1($seq->at(2)->asSequence());
         $obj = new self($subject, $pkinfo);
         if ($seq->hasTagged(0)) {
-            $obj->_attributes = Attributes::fromASN1($seq->getTagged(0) ->asImplicit(Element::TYPE_SET)->asSet());
+            $obj->_attributes = Attributes::fromASN1(
+                $seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet());
         }
         return $obj;
     }
 
+    /**
+     * Get version.
+     *
+     * @return int
+     */
     public function version(): int
     {
         return $this->_version;
@@ -96,6 +105,10 @@ class CertificationRequestInfo
 
     /**
      * Get self with subject.
+     *
+     * @param Name $subject
+     *
+     * @return self
      */
     public function withSubject(Name $subject): self
     {
@@ -104,6 +117,11 @@ class CertificationRequestInfo
         return $obj;
     }
 
+    /**
+     * Get subject.
+     *
+     * @return Name
+     */
     public function subject(): Name
     {
         return $this->_subject;
@@ -111,6 +129,8 @@ class CertificationRequestInfo
 
     /**
      * Get subject public key info.
+     *
+     * @return PublicKeyInfo
      */
     public function subjectPKInfo(): PublicKeyInfo
     {
@@ -119,22 +139,33 @@ class CertificationRequestInfo
 
     /**
      * Whether certification request info has attributes.
+     *
+     * @return bool
      */
     public function hasAttributes(): bool
     {
         return isset($this->_attributes);
     }
 
+    /**
+     * Get attributes.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return Attributes
+     */
     public function attributes(): Attributes
     {
-        if (! $this->hasAttributes()) {
-            throw new LogicException('No attributes.');
+        if (!$this->hasAttributes()) {
+            throw new \LogicException('No attributes.');
         }
         return $this->_attributes;
     }
 
     /**
      * Get instance of self with attributes.
+     *
+     * @param Attributes $attribs
      */
     public function withAttributes(Attributes $attribs): self
     {
@@ -147,27 +178,33 @@ class CertificationRequestInfo
      * Get self with extension request attribute.
      *
      * @param Extensions $extensions Extensions to request
+     *
+     * @return self
      */
     public function withExtensionRequest(Extensions $extensions): self
     {
         $obj = clone $this;
-        if (! isset($obj->_attributes)) {
+        if (!isset($obj->_attributes)) {
             $obj->_attributes = new Attributes();
         }
         $obj->_attributes = $obj->_attributes->withUnique(
-            Attribute::fromAttributeValues(new ExtensionRequestValue($extensions))
-        );
+            Attribute::fromAttributeValues(
+                new ExtensionRequestValue($extensions)));
         return $obj;
     }
 
     /**
      * Generate ASN.1 structure.
+     *
+     * @return Sequence
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer($this->_version), $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1()];
+        $elements = [new Integer($this->_version),
+            $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1(), ];
         if (isset($this->_attributes)) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
+            $elements[] = new ImplicitlyTaggedType(0,
+                $this->_attributes->toASN1());
         }
         return new Sequence(...$elements);
     }
@@ -178,15 +215,14 @@ class CertificationRequestInfo
      * @param SignatureAlgorithmIdentifier $algo         Algorithm used for signing
      * @param PrivateKeyInfo               $privkey_info Private key used for signing
      * @param null|Crypto                  $crypto       Crypto engine, use default if not set
+     *
+     * @return CertificationRequest
      */
-    public function sign(
-        SignatureAlgorithmIdentifier $algo,
-        PrivateKeyInfo $privkey_info,
-        ?Crypto $crypto = null
-    ): CertificationRequest {
+    public function sign(SignatureAlgorithmIdentifier $algo,
+        PrivateKeyInfo $privkey_info, ?Crypto $crypto = null): CertificationRequest
+    {
         $crypto = $crypto ?? Crypto::getDefault();
-        $data = $this->toASN1()
-            ->toDER();
+        $data = $this->toASN1()->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
         return new CertificationRequest($this, $algo, $signature);
     }

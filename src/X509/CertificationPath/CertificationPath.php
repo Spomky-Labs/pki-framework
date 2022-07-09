@@ -1,14 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\CertificationPath;
 
-use ArrayIterator;
-use function count;
-use Countable;
-use IteratorAggregate;
-use LogicException;
 use Sop\CryptoBridge\Crypto;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\CertificateBundle;
@@ -21,12 +16,13 @@ use Sop\X509\CertificationPath\PathValidation\PathValidator;
 /**
  * Implements certification path structure.
  *
- * Certification path is a list of certificates from the trust anchor to the end entity certificate, possibly spanning
- * over multiple intermediate certificates.
+ * Certification path is a list of certificates from the trust anchor to
+ * the end entity certificate, possibly spanning over multiple intermediate
+ * certificates.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-3.2
  */
-class CertificationPath implements Countable, IteratorAggregate
+class CertificationPath implements \Countable, \IteratorAggregate
 {
     /**
      * Certification path.
@@ -39,7 +35,7 @@ class CertificationPath implements Countable, IteratorAggregate
      * Constructor.
      *
      * @param Certificate ...$certificates Certificates from the trust anchor
-     * to the target end-entity certificate
+     *                                     to the target end-entity certificate
      */
     public function __construct(Certificate ...$certificates)
     {
@@ -48,6 +44,10 @@ class CertificationPath implements Countable, IteratorAggregate
 
     /**
      * Initialize from a certificate chain.
+     *
+     * @param CertificateChain $chain
+     *
+     * @return self
      */
     public static function fromCertificateChain(CertificateChain $chain): self
     {
@@ -60,30 +60,31 @@ class CertificationPath implements Countable, IteratorAggregate
      * @param Certificate            $target        Target end-entity certificate
      * @param CertificateBundle      $trust_anchors List of trust anchors
      * @param null|CertificateBundle $intermediate  Optional intermediate certificates
+     *
+     * @return self
      */
-    public static function toTarget(
-        Certificate $target,
-        CertificateBundle $trust_anchors,
-        ?CertificateBundle $intermediate = null
-    ): self {
+    public static function toTarget(Certificate $target,
+        CertificateBundle $trust_anchors, ?CertificateBundle $intermediate = null): self
+    {
         $builder = new CertificationPathBuilder($trust_anchors);
         return $builder->shortestPathToTarget($target, $intermediate);
     }
 
     /**
-     * Build certification path from given trust anchor to target certificate, using intermediate certificates from
-     * given bundle.
+     * Build certification path from given trust anchor to target certificate,
+     * using intermediate certificates from given bundle.
      *
      * @param Certificate            $trust_anchor Trust anchor certificate
      * @param Certificate            $target       Target end-entity certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
+     *
+     * @return self
      */
-    public static function fromTrustAnchorToTarget(
-        Certificate $trust_anchor,
-        Certificate $target,
-        ?CertificateBundle $intermediate = null
-    ): self {
-        return self::toTarget($target, new CertificateBundle($trust_anchor), $intermediate);
+    public static function fromTrustAnchorToTarget(Certificate $trust_anchor,
+        Certificate $target, ?CertificateBundle $intermediate = null): self
+    {
+        return self::toTarget($target, new CertificateBundle($trust_anchor),
+            $intermediate);
     }
 
     /**
@@ -98,28 +99,38 @@ class CertificationPath implements Countable, IteratorAggregate
 
     /**
      * Get the trust anchor certificate from the path.
+     *
+     * @throws \LogicException If path is empty
+     *
+     * @return Certificate
      */
     public function trustAnchorCertificate(): Certificate
     {
-        if (! count($this->_certificates)) {
-            throw new LogicException('No certificates.');
+        if (!count($this->_certificates)) {
+            throw new \LogicException('No certificates.');
         }
         return $this->_certificates[0];
     }
 
     /**
      * Get the end-entity certificate from the path.
+     *
+     * @throws \LogicException If path is empty
+     *
+     * @return Certificate
      */
     public function endEntityCertificate(): Certificate
     {
-        if (! count($this->_certificates)) {
-            throw new LogicException('No certificates.');
+        if (!count($this->_certificates)) {
+            throw new \LogicException('No certificates.');
         }
         return $this->_certificates[count($this->_certificates) - 1];
     }
 
     /**
      * Get certification path as a certificate chain.
+     *
+     * @return CertificateChain
      */
     public function certificateChain(): CertificateChain
     {
@@ -127,9 +138,12 @@ class CertificationPath implements Countable, IteratorAggregate
     }
 
     /**
-     * Check whether certification path starts with one ore more given certificates in parameter order.
+     * Check whether certification path starts with one ore more given
+     * certificates in parameter order.
      *
      * @param Certificate ...$certs Certificates
+     *
+     * @return bool
      */
     public function startsWith(Certificate ...$certs): bool
     {
@@ -138,7 +152,7 @@ class CertificationPath implements Countable, IteratorAggregate
             return false;
         }
         for ($i = 0; $i < $n; ++$i) {
-            if (! $certs[$i]->equals($this->_certificates[$i])) {
+            if (!$certs[$i]->equals($this->_certificates[$i])) {
                 return false;
             }
         }
@@ -148,9 +162,15 @@ class CertificationPath implements Countable, IteratorAggregate
     /**
      * Validate certification path.
      *
+     * @param PathValidationConfig $config
      * @param null|Crypto          $crypto Crypto engine, use default if not set
+     *
+     * @throws Exception\PathValidationException
+     *
+     * @return PathValidationResult
      */
-    public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
+    public function validate(PathValidationConfig $config,
+        ?Crypto $crypto = null): PathValidationResult
     {
         $crypto = $crypto ?? Crypto::getDefault();
         $validator = new PathValidator($crypto, $config, ...$this->_certificates);
@@ -159,6 +179,8 @@ class CertificationPath implements Countable, IteratorAggregate
 
     /**
      * @see \Countable::count()
+     *
+     * @return int
      */
     public function count(): int
     {
@@ -169,9 +191,11 @@ class CertificationPath implements Countable, IteratorAggregate
      * Get iterator for certificates.
      *
      * @see \IteratorAggregate::getIterator()
+     *
+     * @return \ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->_certificates);
+        return new \ArrayIterator($this->_certificates);
     }
 }

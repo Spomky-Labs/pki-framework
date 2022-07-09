@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\StringPrep;
 
-use function in_array;
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\T61String;
 
 /**
- * Implements 'Transcode' step of the Internationalized String Preparation as specified by RFC 4518.
+ * Implements 'Transcode' step of the Internationalized String Preparation
+ * as specified by RFC 4518.
  *
  * @see https://tools.ietf.org/html/rfc4518#section-2.1
  */
@@ -21,7 +20,7 @@ class TranscodeStep implements PrepareStep
      *
      * @var array
      */
-    public const SUPPORTED_TYPES = [
+    const SUPPORTED_TYPES = [
         Element::TYPE_UTF8_STRING,
         Element::TYPE_PRINTABLE_STRING,
         Element::TYPE_BMP_STRING,
@@ -50,14 +49,18 @@ class TranscodeStep implements PrepareStep
      * Check whether transcoding from given ASN.1 type tag is supported.
      *
      * @param int $type ASN.1 type tag
+     *
+     * @return bool
      */
     public static function isTypeSupported(int $type): bool
     {
-        return in_array($type, self::SUPPORTED_TYPES, true);
+        return in_array($type, self::SUPPORTED_TYPES);
     }
 
     /**
      * @param string $string String to prepare
+     *
+     * @throws \LogicException If string type is not supported
      *
      * @return string UTF-8 encoded string
      */
@@ -82,6 +85,7 @@ class TranscodeStep implements PrepareStep
                 $el = new T61String($string);
                 return '#' . bin2hex($el->toDER());
         }
-        throw new LogicException(sprintf('Unsupported string type %s.', Element::tagToName($this->_type)));
+        throw new \LogicException(sprintf('Unsupported string type %s.',
+            Element::tagToName($this->_type)));
     }
 }

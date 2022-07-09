@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -24,6 +24,9 @@ class SubjectAlternativeNameExtension extends Extension
 
     /**
      * Constructor.
+     *
+     * @param bool         $critical
+     * @param GeneralNames $names
      */
     public function __construct(bool $critical, GeneralNames $names)
     {
@@ -31,6 +34,11 @@ class SubjectAlternativeNameExtension extends Extension
         $this->_names = $names;
     }
 
+    /**
+     * Get names.
+     *
+     * @return GeneralNames
+     */
     public function names(): GeneralNames
     {
         return $this->_names;
@@ -41,7 +49,9 @@ class SubjectAlternativeNameExtension extends Extension
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self($critical, GeneralNames::fromASN1(UnspecifiedType::fromDER($data)->asSequence()));
+        return new self($critical,
+            GeneralNames::fromASN1(
+                UnspecifiedType::fromDER($data)->asSequence()));
     }
 
     /**

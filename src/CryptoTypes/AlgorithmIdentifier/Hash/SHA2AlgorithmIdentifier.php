@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
 
@@ -18,7 +18,7 @@ From RFC 5754 - 2. Message Digest Algorithms
     parameters.  Implementations MUST accept SHA2 AlgorithmIdentifiers
     with NULL parameters.  Implementations MUST generate SHA2
     AlgorithmIdentifiers with absent parameters.
- */
+*/
 
 /**
  * Base class for SHA2 algorithm identifiers.
@@ -48,7 +48,8 @@ abstract class SHA2AlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
      *
      * @return self
      */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(
+        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         $obj = new static();
         // if parameters field is present, it must be null type

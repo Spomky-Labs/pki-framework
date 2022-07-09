@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use UnexpectedValueException;
 
 /**
  * Base class for public keys.
@@ -43,6 +42,8 @@ abstract class PublicKey
     /**
      * Initialize public key from PEM.
      *
+     * @throws \UnexpectedValueException
+     *
      * @return PublicKey
      */
     public static function fromPEM(PEM $pem)
@@ -53,6 +54,7 @@ abstract class PublicKey
             case PEM::TYPE_PUBLIC_KEY:
                 return PublicKeyInfo::fromPEM($pem)->publicKey();
         }
-        throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid public key.');
+        throw new \UnexpectedValueException(
+            'PEM type ' . $pem->type() . ' is not a valid public key.');
     }
 }

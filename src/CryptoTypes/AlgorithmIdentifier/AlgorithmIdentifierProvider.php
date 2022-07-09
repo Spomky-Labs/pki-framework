@@ -1,14 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier;
 
 /**
- * Interface to provide lookup from OID to class name of specific algorithm identifier type implementations.
+ * Interface to provide lookup from OID to class name of specific algorithm
+ * identifier type implementations.
  *
- * This allows AlgorithmIdentifier types to be implemented in external libraries and to use AlgorithmIdentifierFactory
- * to resolve them.
+ * This allows AlgorithmIdentifier types to be implemented in external
+ * libraries and to use AlgorithmIdentifierFactory to resolve them.
  */
 interface AlgorithmIdentifierProvider
 {
@@ -20,12 +21,15 @@ interface AlgorithmIdentifierProvider
     public function supportsOID(string $oid): bool;
 
     /**
-     * Get the name of a class that implements algorithm identifier for given OID.
+     * Get the name of a class that implements algorithm identifier for given
+     * OID.
      *
      * @param string $oid Object identifier in dotted format
      *
+     * @throws \UnexpectedValueException If OID is not supported
+     *
      * @return string Fully qualified name of a class that extends
-     * SpecificAlgorithmIdentifier
+     *                SpecificAlgorithmIdentifier
      */
     public function getClassByOID(string $oid): string;
 }

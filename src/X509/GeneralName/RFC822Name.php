@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\GeneralName;
 
@@ -25,6 +25,8 @@ class RFC822Name extends GeneralName
 
     /**
      * Constructor.
+     *
+     * @param string $email
      */
     public function __construct(string $email)
     {
@@ -50,6 +52,11 @@ class RFC822Name extends GeneralName
         return $this->_email;
     }
 
+    /**
+     * Get email.
+     *
+     * @return string
+     */
     public function email(): string
     {
         return $this->_email;

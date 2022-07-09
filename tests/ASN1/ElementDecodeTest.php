@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+namespace Sop\Test\ASN1;
+
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
@@ -53,7 +55,7 @@ class ElementDecodeTest extends TestCase
 
     public function testFromDERBadCall()
     {
-        $cls = new ReflectionClass(Element::class);
+        $cls =  new \ReflectionClass(Element::class);
         $mtd = $cls->getMethod('_decodeFromDER');
         $mtd->setAccessible(true);
         $identifier = new Identifier(Identifier::CLASS_UNIVERSAL,
@@ -66,7 +68,7 @@ class ElementDecodeTest extends TestCase
 
     public function testFromUnimplementedClass()
     {
-        $cls = new ReflectionClass(Element::class);
+        $cls =  new \ReflectionClass(Element::class);
         $mtd = $cls->getMethod('_determineImplClass');
         $mtd->setAccessible(true);
         $identifier = new ElementDecodeTest_IdentifierMockup(0, 0, 0);

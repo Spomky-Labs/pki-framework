@@ -1,16 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
-use function array_key_exists;
-use function in_array;
-use InvalidArgumentException;
-use LogicException;
-use function mb_strlen;
-use function ord;
-use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
@@ -20,7 +13,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use UnexpectedValueException;
 
 /**
  * Implements elliptic curve public key type as specified by RFC 5480.
@@ -39,7 +31,8 @@ class ECPublicKey extends PublicKey
     /**
      * Named curve OID.
      *
-     * Named curve is not a part of ECPublicKey, but it's stored as a hint for the purpose of PublicKeyInfo creation.
+     * Named curve is not a part of ECPublicKey, but it's stored as a hint
+     * for the purpose of PublicKeyInfo creation.
      *
      * @var null|string
      */
@@ -50,13 +43,15 @@ class ECPublicKey extends PublicKey
      *
      * @param string      $ec_point    ECPoint
      * @param null|string $named_curve Named curve OID
+     *
+     * @throws \InvalidArgumentException If ECPoint is invalid
      */
     public function __construct(string $ec_point, ?string $named_curve = null)
     {
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
-        if (! mb_strlen($ec_point) || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
-            throw new InvalidArgumentException('Invalid ECPoint.');
+        if (!strlen($ec_point) || !in_array(ord($ec_point[0]), [2, 3, 4])) {
+            throw new \InvalidArgumentException('Invalid ECPoint.');
         }
         $this->_ecPoint = $ec_point;
         $this->_namedCurve = $named_curve;
@@ -69,11 +64,14 @@ class ECPublicKey extends PublicKey
      * @param int|string  $y           Y coordinate as a base10 number
      * @param null|string $named_curve Named curve OID
      * @param null|int    $bits        Size of *p* in bits
+     *
+     * @return self
      */
-    public static function fromCoordinates($x, $y, ?string $named_curve = null, ?int $bits = null): self
+    public static function fromCoordinates($x, $y,
+        ?string $named_curve = null, ?int $bits = null): ECPublicKey
     {
         // if bitsize is not explicitly set, check from supported curves
-        if (! isset($bits) && isset($named_curve)) {
+        if (!isset($bits) && isset($named_curve)) {
             $bits = self::_curveSize($named_curve);
         }
         $mlen = null;
@@ -88,17 +86,21 @@ class ECPublicKey extends PublicKey
 
     /**
      * @see PublicKey::fromPEM()
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
-    public static function fromPEM(PEM $pem): self
+    public static function fromPEM(PEM $pem): ECPublicKey
     {
-        if ($pem->type() !== PEM::TYPE_PUBLIC_KEY) {
-            throw new UnexpectedValueException('Not a public key.');
+        if (PEM::TYPE_PUBLIC_KEY !== $pem->type()) {
+            throw new \UnexpectedValueException('Not a public key.');
         }
         $pki = PublicKeyInfo::fromDER($pem->data());
         $algo = $pki->algorithmIdentifier();
-        if ($algo->oid() !== AlgorithmIdentifier::OID_EC_PUBLIC_KEY
-            || ! ($algo instanceof ECPublicKeyAlgorithmIdentifier)) {
-            throw new UnexpectedValueException('Not an elliptic curve key.');
+        if (AlgorithmIdentifier::OID_EC_PUBLIC_KEY !== $algo->oid()
+            || !($algo instanceof ECPublicKeyAlgorithmIdentifier)) {
+            throw new \UnexpectedValueException('Not an elliptic curve key.');
         }
         // ECPoint is directly mapped into public key data
         return new self($pki->publicKeyData()->string(), $algo->namedCurve());
@@ -119,9 +121,10 @@ class ECPublicKey extends PublicKey
      */
     public function curvePoint(): array
     {
-        return array_map(function ($str) {
-            return ECConversion::octetsToNumber($str);
-        }, $this->curvePointOctets());
+        return array_map(
+            function ($str) {
+                return ECConversion::octetsToNumber($str);
+            }, $this->curvePointOctets());
     }
 
     /**
@@ -132,10 +135,10 @@ class ECPublicKey extends PublicKey
     public function curvePointOctets(): array
     {
         if ($this->isCompressed()) {
-            throw new RuntimeException('EC point compression not supported.');
+            throw new \RuntimeException('EC point compression not supported.');
         }
-        $str = mb_substr($this->_ecPoint, 1);
-        [$x, $y] = mb_str_split($str, (int) floor(mb_strlen($str) / 2));
+        $str = substr($this->_ecPoint, 1);
+        [$x, $y] = str_split($str, (int) floor(strlen($str) / 2));
         return [$x, $y];
     }
 
@@ -145,7 +148,7 @@ class ECPublicKey extends PublicKey
     public function isCompressed(): bool
     {
         $c = ord($this->_ecPoint[0]);
-        return $c !== 4;
+        return 4 !== $c;
     }
 
     /**
@@ -158,11 +161,13 @@ class ECPublicKey extends PublicKey
 
     /**
      * Get named curve OID.
+     *
+     * @throws \LogicException
      */
     public function namedCurve(): string
     {
-        if (! $this->hasNamedCurve()) {
-            throw new LogicException('namedCurve not set.');
+        if (!$this->hasNamedCurve()) {
+            throw new \LogicException('namedCurve not set.');
         }
         return $this->_namedCurve;
     }
@@ -188,8 +193,7 @@ class ECPublicKey extends PublicKey
      */
     public function toDER(): string
     {
-        return $this->toASN1()
-            ->toDER();
+        return $this->toASN1()->toDER();
     }
 
     /**
@@ -210,7 +214,7 @@ class ECPublicKey extends PublicKey
      */
     private static function _curveSize(string $oid): ?int
     {
-        if (! array_key_exists($oid, ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE)) {
+        if (!array_key_exists($oid, ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE)) {
             return null;
         }
         return ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE[$oid];

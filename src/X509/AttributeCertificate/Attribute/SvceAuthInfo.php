@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\OctetString;
@@ -15,7 +14,8 @@ use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\GeneralName\GeneralName;
 
 /**
- * Base class implementing *SvceAuthInfo* ASN.1 type used by attribute certificate attribute values.
+ * Base class implementing *SvceAuthInfo* ASN.1 type used by
+ * attribute certificate attribute values.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4.1
  */
@@ -44,8 +44,13 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Constructor.
+     *
+     * @param GeneralName $service
+     * @param GeneralName $ident
+     * @param null|string $auth_info
      */
-    public function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
+    public function __construct(GeneralName $service, GeneralName $ident,
+        ?string $auth_info = null)
     {
         $this->_service = $service;
         $this->_ident = $ident;
@@ -64,21 +69,26 @@ abstract class SvceAuthInfo extends AttributeValue
         $ident = GeneralName::fromASN1($seq->at(1)->asTagged());
         $auth_info = null;
         if ($seq->has(2, Element::TYPE_OCTET_STRING)) {
-            $auth_info = $seq->at(2)
-                ->asString()
-                ->string();
+            $auth_info = $seq->at(2)->asString()->string();
         }
         return new static($service, $ident, $auth_info);
     }
 
     /**
      * Get service name.
+     *
+     * @return GeneralName
      */
     public function service(): GeneralName
     {
         return $this->_service;
     }
 
+    /**
+     * Get ident.
+     *
+     * @return GeneralName
+     */
     public function ident(): GeneralName
     {
         return $this->_ident;
@@ -86,6 +96,8 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Check whether authentication info is present.
+     *
+     * @return bool
      */
     public function hasAuthInfo(): bool
     {
@@ -94,11 +106,15 @@ abstract class SvceAuthInfo extends AttributeValue
 
     /**
      * Get authentication info.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return string
      */
     public function authInfo(): string
     {
-        if (! $this->hasAuthInfo()) {
-            throw new LogicException('authInfo not set.');
+        if (!$this->hasAuthInfo()) {
+            throw new \LogicException('authInfo not set.');
         }
         return $this->_authInfo;
     }

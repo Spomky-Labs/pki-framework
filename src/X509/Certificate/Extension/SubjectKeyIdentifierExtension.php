@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -24,6 +24,9 @@ class SubjectKeyIdentifierExtension extends Extension
 
     /**
      * Constructor.
+     *
+     * @param bool   $critical
+     * @param string $keyIdentifier
      */
     public function __construct(bool $critical, string $keyIdentifier)
     {
@@ -33,6 +36,8 @@ class SubjectKeyIdentifierExtension extends Extension
 
     /**
      * Get key identifier.
+     *
+     * @return string
      */
     public function keyIdentifier(): string
     {
@@ -44,7 +49,8 @@ class SubjectKeyIdentifierExtension extends Extension
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self($critical, UnspecifiedType::fromDER($data)->asOctetString()->string());
+        return new self($critical,
+            UnspecifiedType::fromDER($data)->asOctetString()->string());
     }
 
     /**

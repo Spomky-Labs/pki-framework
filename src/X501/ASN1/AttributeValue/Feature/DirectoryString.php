@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\ASN1\AttributeValue\Feature;
 
-use function array_key_exists;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BMPString;
 use Sop\ASN1\Type\Primitive\PrintableString;
@@ -17,7 +16,6 @@ use Sop\X501\DN\DNParser;
 use Sop\X501\MatchingRule\CaseIgnoreMatch;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X501\StringPrep\TranscodeStep;
-use UnexpectedValueException;
 
 /**
  * Base class for attribute values having *(Unbounded)DirectoryString* as a syntax.
@@ -31,35 +29,35 @@ abstract class DirectoryString extends AttributeValue
      *
      * @var int
      */
-    public const TELETEX = Element::TYPE_T61_STRING;
+    const TELETEX = Element::TYPE_T61_STRING;
 
     /**
      * Printable string syntax.
      *
      * @var int
      */
-    public const PRINTABLE = Element::TYPE_PRINTABLE_STRING;
+    const PRINTABLE = Element::TYPE_PRINTABLE_STRING;
 
     /**
      * BMP string syntax.
      *
      * @var int
      */
-    public const BMP = Element::TYPE_BMP_STRING;
+    const BMP = Element::TYPE_BMP_STRING;
 
     /**
      * Universal string syntax.
      *
      * @var int
      */
-    public const UNIVERSAL = Element::TYPE_UNIVERSAL_STRING;
+    const UNIVERSAL = Element::TYPE_UNIVERSAL_STRING;
 
     /**
      * UTF-8 string syntax.
      *
      * @var int
      */
-    public const UTF8 = Element::TYPE_UTF8_STRING;
+    const UTF8 = Element::TYPE_UTF8_STRING;
 
     /**
      * Mapping from syntax enumeration to ASN.1 class name.
@@ -68,7 +66,7 @@ abstract class DirectoryString extends AttributeValue
      *
      * @var array
      */
-    public const MAP_TAG_TO_CLASS = [
+    const MAP_TAG_TO_CLASS = [
         self::TELETEX => T61String::class,
         self::PRINTABLE => PrintableString::class,
         self::UNIVERSAL => UniversalString::class,
@@ -146,7 +144,7 @@ abstract class DirectoryString extends AttributeValue
     public function rfc2253String(): string
     {
         // TeletexString is encoded as binary
-        if ($this->_stringTag === self::TELETEX) {
+        if (self::TELETEX === $this->_stringTag) {
             return $this->_transcodedString();
         }
         return DNParser::escapeString($this->_transcodedString());
@@ -163,13 +161,19 @@ abstract class DirectoryString extends AttributeValue
 
     /**
      * Get ASN.1 class name for given DirectoryString type tag.
+     *
+     * @param int $tag
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return string
      */
     private static function _tagToASN1Class(int $tag): string
     {
-        if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
-            throw new UnexpectedValueException(
-                sprintf('Type %s is not valid DirectoryString.', Element::tagToName($tag))
-            );
+        if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
+            throw new \UnexpectedValueException(
+                sprintf('Type %s is not valid DirectoryString.',
+                    Element::tagToName($tag)));
         }
         return self::MAP_TAG_TO_CLASS[$tag];
     }

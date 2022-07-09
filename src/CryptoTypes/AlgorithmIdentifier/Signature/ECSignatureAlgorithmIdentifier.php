@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
 
@@ -9,7 +9,6 @@ use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use UnexpectedValueException;
 
 /*
 From RFC 5758 - 3.2.  ECDSA Signature Algorithm
@@ -18,7 +17,7 @@ From RFC 5758 - 3.2.  ECDSA Signature Algorithm
    ecdsa-with-SHA512 algorithm identifier appears in the algorithm field
    as an AlgorithmIdentifier, the encoding MUST omit the parameters
    field.
- */
+*/
 
 /**
  * Base class for ECDSA signature algorithm identifiers.
@@ -33,10 +32,11 @@ abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifie
      *
      * @return self
      */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(
+        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (isset($params)) {
-            throw new UnexpectedValueException('Parameters must be omitted.');
+            throw new \UnexpectedValueException('Parameters must be omitted.');
         }
         return new static();
     }
@@ -46,7 +46,7 @@ abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifie
      */
     public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
     {
-        return $algo->oid() === self::OID_EC_PUBLIC_KEY;
+        return self::OID_EC_PUBLIC_KEY === $algo->oid();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
@@ -22,6 +22,9 @@ class InhibitAnyPolicyExtension extends Extension
 
     /**
      * Constructor.
+     *
+     * @param bool $critical
+     * @param int  $skip_certs
      */
     public function __construct(bool $critical, int $skip_certs)
     {
@@ -29,6 +32,11 @@ class InhibitAnyPolicyExtension extends Extension
         $this->_skipCerts = $skip_certs;
     }
 
+    /**
+     * Get value.
+     *
+     * @return int
+     */
     public function skipCerts(): int
     {
         return $this->_skipCerts;
@@ -39,7 +47,8 @@ class InhibitAnyPolicyExtension extends Extension
      */
     protected static function _fromDER(string $data, bool $critical): Extension
     {
-        return new self($critical, UnspecifiedType::fromDER($data)->asInteger()->intNumber());
+        return new self($critical,
+            UnspecifiedType::fromDER($data)->asInteger()->intNumber());
     }
 
     /**

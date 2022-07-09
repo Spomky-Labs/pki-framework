@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410;
 
-use LogicException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 
 /**
- * Implements an intermediary object to store a public key using Curve25519 or Curve448 as defined by RFC 8410.
+ * Implements an intermediary object to store a public key using
+ * Curve25519 or Curve448 as defined by RFC 8410.
  *
  * Public keys described in RFC 8410 may only be encoded as `SubjectPublicKeyInfo`.
  *
@@ -39,7 +39,7 @@ abstract class RFC8410PublicKey extends PublicKey
      */
     public function toDER(): string
     {
-        throw new LogicException("RFC 8410 public key doesn't have a DER encoding.");
+        throw new \LogicException("RFC 8410 public key doesn't have a DER encoding.");
     }
 
     /**

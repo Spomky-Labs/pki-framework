@@ -1,17 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Util;
 
-use function assert;
-use function count;
-use const GMP_BIG_ENDIAN;
-use const GMP_MSW_FIRST;
-use function is_array;
-use function ord;
-use OutOfBoundsException;
-use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 
 /**
@@ -38,12 +30,12 @@ class Flags
      *
      * @param int|string $flags Flags
      * @param int        $width The number of flags. If width is larger than
-     * number of bits in $flags, zeroes are prepended
-     * to flag field.
+     *                          number of bits in $flags, zeroes are prepended
+     *                          to flag field.
      */
     public function __construct($flags, int $width)
     {
-        if (! $width) {
+        if (!$width) {
             $this->_flags = '';
         } else {
             // calculate number of unused bits in last octet
@@ -54,9 +46,10 @@ class Flags
             $mask = gmp_sub(gmp_init(1) << $width, 1);
             $num &= $mask;
             // shift towards MSB if needed
-            $data = gmp_export($num << $unused_bits, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+            $data = gmp_export($num << $unused_bits, 1,
+                GMP_MSW_FIRST | GMP_BIG_ENDIAN);
             $octets = unpack('C*', $data);
-            assert(is_array($octets), new RuntimeException('unpack() failed'));
+            assert(is_array($octets), new \RuntimeException('unpack() failed'));
             $bits = count($octets) * 8;
             // pad with zeroes
             while ($bits < $width) {
@@ -86,11 +79,13 @@ class Flags
      * Check whether a bit at given index is set.
      *
      * Index 0 is the leftmost bit.
+     *
+     * @throws \OutOfBoundsException
      */
     public function test(int $idx): bool
     {
         if ($idx >= $this->_width) {
-            throw new OutOfBoundsException('Index is out of bounds.');
+            throw new \OutOfBoundsException('Index is out of bounds.');
         }
         // octet index
         $oi = (int) floor($idx / 8);

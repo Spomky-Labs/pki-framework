@@ -1,26 +1,20 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
-use ArrayIterator;
-use function count;
-use Countable;
-use IteratorAggregate;
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
-use UnexpectedValueException;
 
 /**
  * Implements 'Certificate Policies' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class CertificatePoliciesExtension extends Extension implements Countable, IteratorAggregate
+class CertificatePoliciesExtension extends Extension implements \Countable, \IteratorAggregate
 {
     /**
      * Policy information terms.
@@ -31,6 +25,9 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
 
     /**
      * Constructor.
+     *
+     * @param bool              $critical
+     * @param PolicyInformation ...$policies
      */
     public function __construct(bool $critical, PolicyInformation ...$policies)
     {
@@ -43,6 +40,10 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
 
     /**
      * Check whether policy information by OID is present.
+     *
+     * @param string $oid
+     *
+     * @return bool
      */
     public function has(string $oid): bool
     {
@@ -51,17 +52,25 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
 
     /**
      * Get policy information by OID.
+     *
+     * @param string $oid
+     *
+     * @throws \LogicException If not set
+     *
+     * @return PolicyInformation
      */
     public function get(string $oid): PolicyInformation
     {
-        if (! $this->has($oid)) {
-            throw new LogicException("Not certificate policy by OID {$oid}.");
+        if (!$this->has($oid)) {
+            throw new \LogicException("Not certificate policy by OID {$oid}.");
         }
         return $this->_policies[$oid];
     }
 
     /**
      * Check whether anyPolicy is present.
+     *
+     * @return bool
      */
     public function hasAnyPolicy(): bool
     {
@@ -70,11 +79,15 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
 
     /**
      * Get anyPolicy information.
+     *
+     * @throws \LogicException if anyPolicy is not present
+     *
+     * @return PolicyInformation
      */
     public function anyPolicy(): PolicyInformation
     {
-        if (! $this->hasAnyPolicy()) {
-            throw new LogicException('No anyPolicy.');
+        if (!$this->hasAnyPolicy()) {
+            throw new \LogicException('No anyPolicy.');
         }
         return $this->get(PolicyInformation::OID_ANY_POLICY);
     }
@@ -83,6 +96,8 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
      * Get the number of policies.
      *
      * @see \Countable::count()
+     *
+     * @return int
      */
     public function count(): int
     {
@@ -93,10 +108,12 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
      * Get iterator for policy information terms.
      *
      * @see \IteratorAggregate::getIterator()
+     *
+     * @return \ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->_policies);
+        return new \ArrayIterator($this->_policies);
     }
 
     /**
@@ -107,11 +124,10 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
         $policies = array_map(
             function (UnspecifiedType $el) {
                 return PolicyInformation::fromASN1($el->asSequence());
-            },
-            UnspecifiedType::fromDER($data)->asSequence()->elements()
-        );
-        if (! count($policies)) {
-            throw new UnexpectedValueException('certificatePolicies must contain at least one PolicyInformation.');
+            }, UnspecifiedType::fromDER($data)->asSequence()->elements());
+        if (!count($policies)) {
+            throw new \UnexpectedValueException(
+                'certificatePolicies must contain at least one PolicyInformation.');
         }
         return new self($critical, ...$policies);
     }
@@ -121,15 +137,13 @@ class CertificatePoliciesExtension extends Extension implements Countable, Itera
      */
     protected function _valueASN1(): Element
     {
-        if (! count($this->_policies)) {
-            throw new LogicException('No policies.');
+        if (!count($this->_policies)) {
+            throw new \LogicException('No policies.');
         }
         $elements = array_map(
             function (PolicyInformation $pi) {
                 return $pi->toASN1();
-            },
-            array_values($this->_policies)
-        );
+            }, array_values($this->_policies));
         return new Sequence(...$elements);
     }
 }

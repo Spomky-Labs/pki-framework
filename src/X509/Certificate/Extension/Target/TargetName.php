@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
@@ -25,6 +25,8 @@ class TargetName extends Target
 
     /**
      * Constructor.
+     *
+     * @param GeneralName $name
      */
     public function __construct(GeneralName $name)
     {
@@ -50,6 +52,11 @@ class TargetName extends Target
         return $this->_name->string();
     }
 
+    /**
+     * Get name.
+     *
+     * @return GeneralName
+     */
     public function name(): GeneralName
     {
         return $this->_name;

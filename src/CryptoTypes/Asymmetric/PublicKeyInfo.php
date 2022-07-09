@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
-use function chr;
-use function ord;
-use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -14,7 +11,6 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use UnexpectedValueException;
 
 /**
  * Implements X.509 SubjectPublicKeyInfo ASN.1 type.
@@ -55,8 +51,7 @@ class PublicKeyInfo
     public static function fromASN1(Sequence $seq): self
     {
         $algo = AlgorithmIdentifier::fromASN1($seq->at(0)->asSequence());
-        $key = $seq->at(1)
-            ->asBitString();
+        $key = $seq->at(1)->asBitString();
         return new self($algo, $key);
     }
 
@@ -70,6 +65,8 @@ class PublicKeyInfo
 
     /**
      * Initialize from PEM.
+     *
+     * @throws \UnexpectedValueException
      */
     public static function fromPEM(PEM $pem): self
     {
@@ -79,7 +76,7 @@ class PublicKeyInfo
             case PEM::TYPE_RSA_PUBLIC_KEY:
                 return RSA\RSAPublicKey::fromDER($pem->data())->publicKeyInfo();
         }
-        throw new UnexpectedValueException('Invalid PEM type.');
+        throw new \UnexpectedValueException('Invalid PEM type.');
     }
 
     /**
@@ -108,6 +105,8 @@ class PublicKeyInfo
 
     /**
      * Get public key.
+     *
+     * @throws \RuntimeException
      */
     public function publicKey(): PublicKey
     {
@@ -118,25 +117,31 @@ class PublicKeyInfo
                 return RSA\RSAPublicKey::fromDER($this->_publicKey->string());
             // Elliptic Curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
-                if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
-                    throw new UnexpectedValueException('Not an EC algorithm.');
+                if (!$algo instanceof ECPublicKeyAlgorithmIdentifier) {
+                    throw new \UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data
-                return new EC\ECPublicKey($this->_publicKey->string(), $algo->namedCurve());
+                return new EC\ECPublicKey($this->_publicKey->string(),
+                    $algo->namedCurve());
             // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
-                return new RFC8410\Curve25519\Ed25519PublicKey($this->_publicKey->string());
+                return new RFC8410\Curve25519\Ed25519PublicKey(
+                    $this->_publicKey->string());
             // X25519
             case AlgorithmIdentifier::OID_X25519:
-                return new RFC8410\Curve25519\X25519PublicKey($this->_publicKey->string());
+                return new RFC8410\Curve25519\X25519PublicKey(
+                    $this->_publicKey->string());
             // Ed448
             case AlgorithmIdentifier::OID_ED448:
-                return new RFC8410\Curve448\Ed448PublicKey($this->_publicKey->string());
+                return new RFC8410\Curve448\Ed448PublicKey(
+                    $this->_publicKey->string());
             // X448
             case AlgorithmIdentifier::OID_X448:
-                return new RFC8410\Curve448\X448PublicKey($this->_publicKey->string());
+                return new RFC8410\Curve448\X448PublicKey(
+                    $this->_publicKey->string());
         }
-        throw new RuntimeException('Public key ' . $algo->name() . ' not supported.');
+        throw new \RuntimeException(
+            'Public key ' . $algo->name() . ' not supported.');
     }
 
     /**
@@ -160,7 +165,7 @@ class PublicKeyInfo
      */
     public function keyIdentifier64(): string
     {
-        $id = mb_substr($this->keyIdentifier(), -8);
+        $id = substr($this->keyIdentifier(), -8);
         $c = (ord($id[0]) & 0x0f) | 0x40;
         $id[0] = chr($c);
         return $id;
@@ -179,8 +184,7 @@ class PublicKeyInfo
      */
     public function toDER(): string
     {
-        return $this->toASN1()
-            ->toDER();
+        return $this->toASN1()->toDER();
     }
 
     /**

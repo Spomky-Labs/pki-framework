@@ -1,14 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Feature;
-
-use DateTimeImmutable;
-use DateTimeZone;
-use Exception;
-use RuntimeException;
-use UnexpectedValueException;
 
 /**
  * Helper trait for classes employing date and time handling.
@@ -20,54 +14,71 @@ trait DateTimeHelper
      *
      * @param null|string $time Time string, default to 'now'
      * @param null|string $tz   Timezone, default if omitted
+     *
+     * @throws \RuntimeException
+     *
+     * @return \DateTimeImmutable
      */
-    private static function _createDateTime(?string $time = null, ?string $tz = null): DateTimeImmutable
+    private static function _createDateTime(
+        ?string $time = null, ?string $tz = null): \DateTimeImmutable
     {
-        if (! isset($time)) {
+        if (!isset($time)) {
             $time = 'now';
         }
-        if (! isset($tz)) {
+        if (!isset($tz)) {
             $tz = date_default_timezone_get();
         }
         try {
-            $dt = new DateTimeImmutable($time, self::_createTimeZone($tz));
+            $dt = new \DateTimeImmutable($time, self::_createTimeZone($tz));
             return self::_roundDownFractionalSeconds($dt);
-        } catch (Exception $e) {
-            throw new RuntimeException(
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
                 'Failed to create DateTime: ' .
-                     self::_getLastDateTimeImmutableErrorsStr(),
-                0,
-                $e
-            );
+                     self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
         }
     }
 
     /**
-     * Rounds a \DateTimeImmutable value such that fractional seconds are removed.
+     * Rounds a \DateTimeImmutable value such that fractional
+     * seconds are removed.
+     *
+     * @param \DateTimeImmutable $dt
+     *
+     * @return \DateTimeImmutable
      */
-    private static function _roundDownFractionalSeconds(DateTimeImmutable $dt): DateTimeImmutable
+    private static function _roundDownFractionalSeconds(
+        \DateTimeImmutable $dt): \DateTimeImmutable
     {
-        return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $dt->format('Y-m-d H:i:s'), $dt->getTimezone());
+        return \DateTimeImmutable::createFromFormat('Y-m-d H:i:s',
+            $dt->format('Y-m-d H:i:s'), $dt->getTimezone());
     }
 
     /**
      * Create DateTimeZone object from string.
+     *
+     * @param string $tz
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return \DateTimeZone
      */
-    private static function _createTimeZone(string $tz): DateTimeZone
+    private static function _createTimeZone(string $tz): \DateTimeZone
     {
         try {
-            return new DateTimeZone($tz);
-        } catch (Exception $e) {
-            throw new UnexpectedValueException('Invalid timezone.', 0, $e);
+            return new \DateTimeZone($tz);
+        } catch (\Exception $e) {
+            throw new \UnexpectedValueException('Invalid timezone.', 0, $e);
         }
     }
 
     /**
      * Get last error caused by DateTimeImmutable.
+     *
+     * @return string
      */
     private static function _getLastDateTimeImmutableErrorsStr(): string
     {
-        $errors = DateTimeImmutable::getLastErrors()['errors'];
+        $errors = \DateTimeImmutable::getLastErrors()['errors'];
         return implode(', ', $errors);
     }
 }

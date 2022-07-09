@@ -1,15 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type\Primitive;
 
-use function gettype;
-use GMP;
-use InvalidArgumentException;
-use function is_int;
-use function is_scalar;
-use function is_string;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -17,7 +11,6 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
-use function strval;
 
 /**
  * Implements *INTEGER* type.
@@ -37,14 +30,14 @@ class Integer extends Element
     /**
      * Constructor.
      *
-     * @param GMP|int|string $number Base 10 integer
+     * @param \GMP|int|string $number Base 10 integer
      */
     public function __construct($number)
     {
         $this->_typeTag = self::TYPE_INTEGER;
-        if (! self::_validateNumber($number)) {
+        if (!self::_validateNumber($number)) {
             $var = is_scalar($number) ? strval($number) : gettype($number);
-            throw new InvalidArgumentException("'{$var}' is not a valid number.");
+            throw new \InvalidArgumentException("'{$var}' is not a valid number.");
         }
         $this->_number = new BigInt($number);
     }
@@ -78,11 +71,12 @@ class Integer extends Element
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
-        $bytes = mb_substr($data, $idx, $length);
+        $bytes = substr($data, $idx, $length);
         $idx += $length;
         $num = BigInt::fromSignedOctets($bytes)->gmpObj();
         $offset = $idx;
@@ -92,6 +86,8 @@ class Integer extends Element
 
     /**
      * Test that number is valid for this context.
+     *
+     * @param mixed $num
      */
     private static function _validateNumber($num): bool
     {
@@ -101,7 +97,7 @@ class Integer extends Element
         if (is_string($num) && preg_match('/-?\d+/', $num)) {
             return true;
         }
-        if ($num instanceof GMP) {
+        if ($num instanceof \GMP) {
             return true;
         }
         return false;

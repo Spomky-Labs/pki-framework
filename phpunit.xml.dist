@@ -14,6 +14,7 @@
     <testsuite name="all">
       <directory>tests/</directory>
     </testsuite>
+  </testsuites>
 
   <!-- Run `composer require symfony/panther` before enabling this extension -->
   <!--

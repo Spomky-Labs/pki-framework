@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension;
 
-use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Boolean;
@@ -34,6 +33,10 @@ class BasicConstraintsExtension extends Extension
 
     /**
      * Constructor.
+     *
+     * @param bool     $critical
+     * @param bool     $ca
+     * @param null|int $path_len
      */
     public function __construct(bool $critical, bool $ca, ?int $path_len = null)
     {
@@ -44,6 +47,8 @@ class BasicConstraintsExtension extends Extension
 
     /**
      * Whether certificate is a CA.
+     *
+     * @return bool
      */
     public function isCA(): bool
     {
@@ -52,6 +57,8 @@ class BasicConstraintsExtension extends Extension
 
     /**
      * Whether path length is present.
+     *
+     * @return bool
      */
     public function hasPathLen(): bool
     {
@@ -60,11 +67,15 @@ class BasicConstraintsExtension extends Extension
 
     /**
      * Get path length.
+     *
+     * @throws \LogicException If not set
+     *
+     * @return int
      */
     public function pathLen(): int
     {
-        if (! $this->hasPathLen()) {
-            throw new LogicException('pathLenConstraint not set.');
+        if (!$this->hasPathLen()) {
+            throw new \LogicException('pathLenConstraint not set.');
         }
         return $this->_pathLen;
     }
@@ -79,14 +90,10 @@ class BasicConstraintsExtension extends Extension
         $path_len = null;
         $idx = 0;
         if ($seq->has($idx, Element::TYPE_BOOLEAN)) {
-            $ca = $seq->at($idx++)
-                ->asBoolean()
-                ->value();
+            $ca = $seq->at($idx++)->asBoolean()->value();
         }
         if ($seq->has($idx, Element::TYPE_INTEGER)) {
-            $path_len = $seq->at($idx)
-                ->asInteger()
-                ->intNumber();
+            $path_len = $seq->at($idx)->asInteger()->intNumber();
         }
         return new self($critical, $ca, $path_len);
     }

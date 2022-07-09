@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\StringPrep;
 
 /**
- * Implements 'Insignificant Space Handling' step of the Internationalized String Preparation as specified by RFC 4518.
+ * Implements 'Insignificant Space Handling' step of the Internationalized
+ * String Preparation as specified by RFC 4518.
  *
  * This variant handles input strings that are non-substring assertion values.
  *
@@ -15,6 +16,8 @@ class InsignificantNonSubstringSpaceStep implements PrepareStep
 {
     /**
      * @param string $string UTF-8 encoded string
+     *
+     * @return string
      */
     public function apply(string $string): string
     {

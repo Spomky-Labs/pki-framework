@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\Asymmetric\RSA;
 
@@ -12,8 +12,6 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentif
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
-use function strval;
-use UnexpectedValueException;
 
 /**
  * Implements PKCS #1 RSAPrivateKey ASN.1 type.
@@ -104,20 +102,20 @@ class RSAPrivateKey extends PrivateKey
 
     /**
      * Initialize from ASN.1.
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
-    public static function fromASN1(Sequence $seq): self
+    public static function fromASN1(Sequence $seq): RSAPrivateKey
     {
-        $version = $seq->at(0)
-            ->asInteger()
-            ->intNumber();
-        if ($version !== 0) {
-            throw new UnexpectedValueException('Version must be 0.');
+        $version = $seq->at(0)->asInteger()->intNumber();
+        if (0 !== $version) {
+            throw new \UnexpectedValueException('Version must be 0.');
         }
         // helper function get integer from given index
         $get_int = function ($idx) use ($seq) {
-            return $seq->at($idx)
-                ->asInteger()
-                ->number();
+            return $seq->at($idx)->asInteger()->number();
         };
         $n = $get_int(1);
         $e = $get_int(2);
@@ -132,20 +130,26 @@ class RSAPrivateKey extends PrivateKey
 
     /**
      * Initialize from DER data.
+     *
+     * @return self
      */
-    public static function fromDER(string $data): self
+    public static function fromDER(string $data): RSAPrivateKey
     {
         return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
 
     /**
      * @see PrivateKey::fromPEM()
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return self
      */
-    public static function fromPEM(PEM $pem): self
+    public static function fromPEM(PEM $pem): RSAPrivateKey
     {
         $pk = parent::fromPEM($pem);
-        if (! ($pk instanceof self)) {
-            throw new UnexpectedValueException('Not an RSA private key.');
+        if (!($pk instanceof self)) {
+            throw new \UnexpectedValueException('Not an RSA private key.');
         }
         return $pk;
     }
@@ -253,8 +257,7 @@ class RSAPrivateKey extends PrivateKey
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
-            new Integer(0),
+        return new Sequence(new Integer(0),
             new Integer($this->_modulus),
             new Integer($this->_publicExponent),
             new Integer($this->_privateExponent),
@@ -262,8 +265,7 @@ class RSAPrivateKey extends PrivateKey
             new Integer($this->_prime2),
             new Integer($this->_exponent1),
             new Integer($this->_exponent2),
-            new Integer($this->_coefficient)
-        );
+            new Integer($this->_coefficient));
     }
 
     /**
@@ -271,8 +273,7 @@ class RSAPrivateKey extends PrivateKey
      */
     public function toDER(): string
     {
-        return $this->toASN1()
-            ->toDER();
+        return $this->toASN1()->toDER();
     }
 
     /**

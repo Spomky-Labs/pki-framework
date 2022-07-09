@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1;
 
-use function mb_strlen;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 
@@ -40,6 +39,8 @@ class DERData extends Element
      * Constructor.
      *
      * @param string $data DER encoded data
+     *
+     * @throws \Sop\ASN1\Exception\DecodeException If data does not adhere to DER
      */
     public function __construct(string $data)
     {
@@ -80,9 +81,9 @@ class DERData extends Element
     protected function _encodedContentDER(): string
     {
         // if there's no content payload
-        if (mb_strlen($this->_der) === $this->_contentOffset) {
+        if (strlen($this->_der) === $this->_contentOffset) {
             return '';
         }
-        return mb_substr($this->_der, $this->_contentOffset);
+        return substr($this->_der, $this->_contentOffset);
     }
 }

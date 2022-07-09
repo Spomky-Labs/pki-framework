@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\ASN1\Feature;
 
@@ -20,6 +20,8 @@ trait TypedAttribute
 
     /**
      * Get attribute type.
+     *
+     * @return AttributeType
      */
     public function type(): AttributeType
     {
@@ -28,6 +30,8 @@ trait TypedAttribute
 
     /**
      * Get OID of the attribute.
+     *
+     * @return string
      */
     public function oid(): string
     {

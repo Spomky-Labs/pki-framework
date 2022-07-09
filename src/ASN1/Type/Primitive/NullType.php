@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type\Primitive;
 
@@ -39,10 +39,11 @@ class NullType extends Element
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        if (! $identifier->isPrimitive()) {
+        if (!$identifier->isPrimitive()) {
             throw new DecodeException('Null value must be primitive.');
         }
         // null type has always zero length

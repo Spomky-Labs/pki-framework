@@ -1,14 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\ASN1;
 
-use ArrayIterator;
-use function count;
-use Countable;
-use IteratorAggregate;
-use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -20,7 +15,7 @@ use Sop\X501\ASN1\Feature\TypedAttribute;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.Attribute
  */
-class Attribute implements Countable, IteratorAggregate
+class Attribute implements \Countable, \IteratorAggregate
 {
     use TypedAttribute;
 
@@ -42,7 +37,7 @@ class Attribute implements Countable, IteratorAggregate
         // check that attribute values have correct oid
         foreach ($values as $value) {
             if ($value->oid() !== $type->oid()) {
-                throw new LogicException('Attribute OID mismatch.');
+                throw new \LogicException('Attribute OID mismatch.');
             }
         }
         $this->_type = $type;
@@ -51,6 +46,10 @@ class Attribute implements Countable, IteratorAggregate
 
     /**
      * Initialize from ASN.1.
+     *
+     * @param Sequence $seq
+     *
+     * @return self
      */
     public static function fromASN1(Sequence $seq): self
     {
@@ -58,11 +57,7 @@ class Attribute implements Countable, IteratorAggregate
         $values = array_map(
             function (UnspecifiedType $el) use ($type) {
                 return AttributeValue::fromASN1ByOID($type->oid(), $el);
-            },
-            $seq->at(1)
-                ->asSet()
-                ->elements()
-        );
+            }, $seq->at(1)->asSet()->elements());
         return new self($type, ...$values);
     }
 
@@ -70,25 +65,32 @@ class Attribute implements Countable, IteratorAggregate
      * Convenience method to initialize from attribute values.
      *
      * @param AttributeValue ...$values One or more values
+     *
+     * @throws \LogicException
+     *
+     * @return self
      */
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         // we need at least one value to determine OID
-        if (! count($values)) {
-            throw new LogicException('No values.');
+        if (!count($values)) {
+            throw new \LogicException('No values.');
         }
-        $oid = reset($values)
-            ->oid();
+        $oid = reset($values)->oid();
         return new self(new AttributeType($oid), ...$values);
     }
 
     /**
      * Get first value of the attribute.
+     *
+     * @throws \LogicException
+     *
+     * @return AttributeValue
      */
     public function first(): AttributeValue
     {
-        if (! count($this->_values)) {
-            throw new LogicException('Attribute contains no values.');
+        if (!count($this->_values)) {
+            throw new \LogicException('Attribute contains no values.');
         }
         return $this->_values[0];
     }
@@ -105,12 +107,15 @@ class Attribute implements Countable, IteratorAggregate
 
     /**
      * Generate ASN.1 structure.
+     *
+     * @return Sequence
      */
     public function toASN1(): Sequence
     {
-        $values = array_map(function (AttributeValue $value) {
-            return $value->toASN1();
-        }, $this->_values);
+        $values = array_map(
+            function (AttributeValue $value) {
+                return $value->toASN1();
+            }, $this->_values);
         $valueset = new Set(...$values);
         return new Sequence($this->_type->toASN1(), $valueset->sortedSetOf());
     }
@@ -118,35 +123,41 @@ class Attribute implements Countable, IteratorAggregate
     /**
      * Cast attribute values to another AttributeValue class.
      *
-     * This method is generally used to cast UnknownAttributeValue values to specific objects when class is declared
-     * outside this package.
+     * This method is generally used to cast UnknownAttributeValue values
+     * to specific objects when class is declared outside this package.
      *
-     * The new class must be derived from AttributeValue and have the same OID as current attribute values.
+     * The new class must be derived from AttributeValue and have the same OID
+     * as current attribute values.
      *
      * @param string $cls AttributeValue class name
+     *
+     * @throws \LogicException
+     *
+     * @return self
      */
     public function castValues(string $cls): self
     {
         // check that target class derives from AttributeValue
-        if (! is_subclass_of($cls, AttributeValue::class)) {
-            throw new LogicException(sprintf('%s must be derived from %s.', $cls, AttributeValue::class));
+        if (!is_subclass_of($cls, AttributeValue::class)) {
+            throw new \LogicException(sprintf(
+                '%s must be derived from %s.', $cls, AttributeValue::class));
         }
         $values = array_map(
             function (AttributeValue $value) use ($cls) {
                 /** @var AttributeValue $cls Class name as a string */
                 $value = $cls::fromSelf($value);
                 if ($value->oid() !== $this->oid()) {
-                    throw new LogicException('Attribute OID mismatch.');
+                    throw new \LogicException('Attribute OID mismatch.');
                 }
                 return $value;
-            },
-            $this->_values
-        );
+            }, $this->_values);
         return self::fromAttributeValues(...$values);
     }
 
     /**
      * @see \Countable::count()
+     *
+     * @return int
      */
     public function count(): int
     {
@@ -155,9 +166,11 @@ class Attribute implements Countable, IteratorAggregate
 
     /**
      * @see \IteratorAggregate::getIterator()
+     *
+     * @return \ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->_values);
+        return new \ArrayIterator($this->_values);
     }
 }

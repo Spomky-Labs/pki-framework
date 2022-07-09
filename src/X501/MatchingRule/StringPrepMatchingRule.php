@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X501\MatchingRule;
 
@@ -20,6 +20,8 @@ abstract class StringPrepMatchingRule extends MatchingRule
 
     /**
      * Constructor.
+     *
+     * @param StringPreparer $preparer
      */
     public function __construct(StringPreparer $preparer)
     {
@@ -33,6 +35,6 @@ abstract class StringPrepMatchingRule extends MatchingRule
     {
         $assertion = $this->_prep->prepare($assertion);
         $value = $this->_prep->prepare($value);
-        return strcmp($assertion, $value) === 0;
+        return 0 === strcmp($assertion, $value);
     }
 }

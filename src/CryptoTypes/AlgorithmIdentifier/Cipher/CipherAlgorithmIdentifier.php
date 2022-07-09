@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
-use function mb_strlen;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use UnexpectedValueException;
 
 /**
  * Base class for cipher algorithm identifiers.
@@ -42,6 +40,8 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
      * Get copy of the object with given initialization vector.
      *
      * @param null|string $iv Initialization vector or null to remove
+     *
+     * @throws \UnexpectedValueException If initialization vector size is invalid
      */
     public function withInitializationVector(?string $iv): self
     {
@@ -53,11 +53,13 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 
     /**
      * Check that initialization vector size is valid for the cipher.
+     *
+     * @throws \UnexpectedValueException
      */
     protected function _checkIVSize(?string $iv): void
     {
-        if ($iv !== null && mb_strlen($iv) !== $this->ivSize()) {
-            throw new UnexpectedValueException('Invalid IV size.');
+        if (null !== $iv && strlen($iv) !== $this->ivSize()) {
+            throw new \UnexpectedValueException('Invalid IV size.');
         }
     }
 }

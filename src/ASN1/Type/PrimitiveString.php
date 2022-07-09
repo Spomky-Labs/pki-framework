@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Type;
 
-use function assert;
-use InvalidArgumentException;
-use function is_string;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
@@ -34,21 +31,22 @@ abstract class PrimitiveString extends BaseString
     /**
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        if (! $identifier->isPrimitive()) {
+        if (!$identifier->isPrimitive()) {
             throw new DecodeException('DER encoded string must be primitive.');
         }
         $length = Length::expectFromDER($data, $idx)->intLength();
-        $str = $length ? mb_substr($data, $idx, $length) : '';
+        $str = $length ? substr($data, $idx, $length) : '';
         // substr should never return false, since length is
         // checked by Length::expectFromDER.
         assert(is_string($str), new DecodeException('substr'));
         $offset = $idx + $length;
         try {
             return new static($str);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             throw new DecodeException($e->getMessage(), 0, $e);
         }
     }

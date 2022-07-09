@@ -1,19 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\ASN1\Util;
-
-use function chr;
-use GMP;
-use const GMP_BIG_ENDIAN;
-use const GMP_MSW_FIRST;
-use InvalidArgumentException;
-use function mb_strlen;
-use function ord;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
-use RuntimeException;
 
 /**
  * Class to wrap an integer of arbirtary length.
@@ -23,7 +12,7 @@ class BigInt
     /**
      * Number as a GMP object.
      *
-     * @var GMP
+     * @var \GMP
      */
     private $_gmp;
 
@@ -48,15 +37,16 @@ class BigInt
     /**
      * Constructor.
      *
-     * @param GMP|int|string $num Integer number in base 10
+     * @param \GMP|int|string $num Integer number in base 10
      */
     public function __construct($num)
     {
         // convert to GMP object
-        if (! ($num instanceof GMP)) {
+        if (!($num instanceof \GMP)) {
             $gmp = @gmp_init($num, 10);
-            if ($gmp === false) {
-                throw new InvalidArgumentException("Unable to convert '{$num}' to integer.");
+            if (false === $gmp) {
+                throw new \InvalidArgumentException(
+                    "Unable to convert '{$num}' to integer.");
             }
             $num = $gmp;
         }
@@ -73,19 +63,20 @@ class BigInt
      */
     public static function fromUnsignedOctets(string $octets): self
     {
-        if (! mb_strlen($octets)) {
-            throw new InvalidArgumentException('Empty octets.');
+        if (!strlen($octets)) {
+            throw new \InvalidArgumentException('Empty octets.');
         }
         return new self(gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN));
     }
 
     /**
-     * Initialize from an arbitrary length of octets as an signed integer having two's complement encoding.
+     * Initialize from an arbitrary length of octets as an signed integer
+     * having two's complement encoding.
      */
     public static function fromSignedOctets(string $octets): self
     {
-        if (! mb_strlen($octets)) {
-            throw new InvalidArgumentException('Empty octets.');
+        if (!strlen($octets)) {
+            throw new \InvalidArgumentException('Empty octets.');
         }
         $neg = ord($octets[0]) & 0x80;
         // negative, apply inversion of two's complement
@@ -105,7 +96,7 @@ class BigInt
      */
     public function base10(): string
     {
-        if (! isset($this->_num)) {
+        if (!isset($this->_num)) {
             $this->_num = gmp_strval($this->_gmp, 10);
         }
         return $this->_num;
@@ -113,15 +104,17 @@ class BigInt
 
     /**
      * Get the number as an integer.
+     *
+     * @throws \RuntimeException If number overflows integer size
      */
     public function intVal(): int
     {
-        if (! isset($this->_intNum)) {
+        if (!isset($this->_intNum)) {
             if (gmp_cmp($this->_gmp, $this->_intMaxGmp()) > 0) {
-                throw new RuntimeException('Integer overflow.');
+                throw new \RuntimeException('Integer overflow.');
             }
             if (gmp_cmp($this->_gmp, $this->_intMinGmp()) < 0) {
-                throw new RuntimeException('Integer underflow.');
+                throw new \RuntimeException('Integer underflow.');
             }
             $this->_intNum = gmp_intval($this->_gmp);
         }
@@ -130,8 +123,10 @@ class BigInt
 
     /**
      * Get the number as a `GMP` object.
+     *
+     * @throws \RuntimeException if number is not a valid integer
      */
-    public function gmpObj(): GMP
+    public function gmpObj(): \GMP
     {
         return clone $this->_gmp;
     }
@@ -191,7 +186,7 @@ class BigInt
         $num = gmp_pow('2', 8 * $width) - $num;
         $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
         // if first bit is 0, prepend full inverted byte to represent negative two's complement
-        if (! (ord($bin[0]) & 0x80)) {
+        if (!(ord($bin[0]) & 0x80)) {
             $bin = chr(0xff) . $bin;
         }
         return $bin;
@@ -200,10 +195,10 @@ class BigInt
     /**
      * Get the maximum integer value.
      */
-    private function _intMaxGmp(): GMP
+    private function _intMaxGmp(): \GMP
     {
         static $gmp;
-        if (! isset($gmp)) {
+        if (!isset($gmp)) {
             $gmp = gmp_init(PHP_INT_MAX, 10);
         }
         return $gmp;
@@ -212,10 +207,10 @@ class BigInt
     /**
      * Get the minimum integer value.
      */
-    private function _intMinGmp(): GMP
+    private function _intMinGmp(): \GMP
     {
         static $gmp;
-        if (! isset($gmp)) {
+        if (!isset($gmp)) {
             $gmp = gmp_init(PHP_INT_MIN, 10);
         }
         return $gmp;

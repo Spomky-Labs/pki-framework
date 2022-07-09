@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+namespace Sop\Test\ASN1;
+
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
@@ -22,7 +24,7 @@ class ElementTest extends TestCase
     public function testIsTypeUniversalInvalidClass()
     {
         $el = new NullType();
-        $cls = new ReflectionClass($el);
+        $cls =  new \ReflectionClass($el);
         $prop = $cls->getProperty('_typeTag');
         $prop->setAccessible(true);
         $prop->setValue($el, Element::TYPE_BOOLEAN);

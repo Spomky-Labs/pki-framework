@@ -1,14 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\CertificationPath\Policy;
 
-use ArrayIterator;
-use function count;
-use Countable;
-use function in_array;
-use IteratorAggregate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 
@@ -19,42 +14,42 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.2
  */
-final class PolicyNode implements IteratorAggregate, Countable
+class PolicyNode implements \IteratorAggregate, \Countable
 {
     /**
      * Policy OID.
      *
      * @var string
      */
-    private $_validPolicy;
+    protected $_validPolicy;
 
     /**
      * List of qualifiers.
      *
      * @var PolicyQualifierInfo[]
      */
-    private $_qualifiers;
+    protected $_qualifiers;
 
     /**
      * List of expected policy OIDs.
      *
      * @var string[]
      */
-    private $_expectedPolicies;
+    protected $_expectedPolicies;
 
     /**
      * List of child nodes.
      *
      * @var PolicyNode[]
      */
-    private $_children;
+    protected $_children;
 
     /**
      * Reference to the parent node.
      *
      * @var null|PolicyNode
      */
-    private $_parent;
+    protected $_parent;
 
     /**
      * Constructor.
@@ -63,7 +58,8 @@ final class PolicyNode implements IteratorAggregate, Countable
      * @param PolicyQualifierInfo[] $qualifiers
      * @param string[]              $expected_policies
      */
-    public function __construct(string $valid_policy, array $qualifiers, array $expected_policies)
+    public function __construct(string $valid_policy, array $qualifiers,
+        array $expected_policies)
     {
         $this->_validPolicy = $valid_policy;
         $this->_qualifiers = $qualifiers;
@@ -73,14 +69,19 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Create initial node for the policy tree.
+     *
+     * @return self
      */
     public static function anyPolicyNode(): self
     {
-        return new self(PolicyInformation::OID_ANY_POLICY, [], [PolicyInformation::OID_ANY_POLICY]);
+        return new self(PolicyInformation::OID_ANY_POLICY, [],
+            [PolicyInformation::OID_ANY_POLICY]);
     }
 
     /**
      * Get the valid policy OID.
+     *
+     * @return string
      */
     public function validPolicy(): string
     {
@@ -89,10 +90,12 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Check whether node has anyPolicy as a valid policy.
+     *
+     * @return bool
      */
     public function isAnyPolicy(): bool
     {
-        return $this->_validPolicy === PolicyInformation::OID_ANY_POLICY;
+        return PolicyInformation::OID_ANY_POLICY === $this->_validPolicy;
     }
 
     /**
@@ -107,10 +110,14 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Check whether node has OID as an expected policy.
+     *
+     * @param string $oid
+     *
+     * @return bool
      */
     public function hasExpectedPolicy(string $oid): bool
     {
-        return in_array($oid, $this->_expectedPolicies, true);
+        return in_array($oid, $this->_expectedPolicies);
     }
 
     /**
@@ -135,6 +142,10 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Check whether node has a child node with given valid policy OID.
+     *
+     * @param string $oid
+     *
+     * @return bool
      */
     public function hasChildWithValidPolicy(string $oid): bool
     {
@@ -148,8 +159,12 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Add child node.
+     *
+     * @param PolicyNode $node
+     *
+     * @return self
      */
-    public function addChild(self $node): self
+    public function addChild(PolicyNode $node): self
     {
         $id = spl_object_hash($node);
         $node->_parent = $this;
@@ -183,6 +198,8 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Check whether node has a parent.
+     *
+     * @return bool
      */
     public function hasParent(): bool
     {
@@ -191,8 +208,10 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Get the parent node.
+     *
+     * @return null|PolicyNode
      */
-    public function parent(): ?self
+    public function parent(): ?PolicyNode
     {
         return $this->_parent;
     }
@@ -204,7 +223,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function parents(): array
     {
-        if (! $this->_parent) {
+        if (!$this->_parent) {
             return [];
         }
         $nodes = $this->_parent->parents();
@@ -216,6 +235,8 @@ final class PolicyNode implements IteratorAggregate, Countable
      * Walk tree from this node, applying a callback for each node.
      *
      * Nodes are traversed depth-first and callback shall be applied post-order.
+     *
+     * @param callable $fn
      */
     public function walkNodes(callable $fn): void
     {
@@ -227,6 +248,8 @@ final class PolicyNode implements IteratorAggregate, Countable
 
     /**
      * Get the total number of nodes in a tree.
+     *
+     * @return int
      */
     public function nodeCount(): int
     {
@@ -252,8 +275,8 @@ final class PolicyNode implements IteratorAggregate, Countable
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->_children);
+        return new \ArrayIterator($this->_children);
     }
 }

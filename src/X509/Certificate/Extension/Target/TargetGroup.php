@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
@@ -25,6 +25,8 @@ class TargetGroup extends Target
 
     /**
      * Constructor.
+     *
+     * @param GeneralName $name
      */
     public function __construct(GeneralName $name)
     {
@@ -52,6 +54,8 @@ class TargetGroup extends Target
 
     /**
      * Get group name.
+     *
+     * @return GeneralName
      */
     public function name(): GeneralName
     {
