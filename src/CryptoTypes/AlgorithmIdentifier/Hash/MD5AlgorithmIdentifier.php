@@ -22,7 +22,7 @@ From RFC 3370 - 2.2 MD5
     parameters field MUST contain NULL.  Implementations MAY accept the
     MD5 AlgorithmIdentifiers with absent parameters as well as NULL
     parameters.
-*/
+ */
 
 /**
  * MD5 algorithm identifier.

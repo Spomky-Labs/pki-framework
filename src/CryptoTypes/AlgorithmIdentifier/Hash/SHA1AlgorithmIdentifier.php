@@ -19,7 +19,7 @@ From RFC 3370 - 2.1 SHA-1
     Implementations MUST accept SHA-1 AlgorithmIdentifiers with NULL
     parameters.  Implementations SHOULD generate SHA-1
     AlgorithmIdentifiers with absent parameters.
-*/
+ */
 
 /**
  * SHA-1 algorithm identifier.

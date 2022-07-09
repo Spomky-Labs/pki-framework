@@ -16,7 +16,7 @@ From RFC 3447:
 
     When rsaEncryption is used in an AlgorithmIdentifier the
     parameters MUST be present and MUST be NULL.
-*/
+ */
 
 /**
  * Algorithm identifier for RSA encryption.

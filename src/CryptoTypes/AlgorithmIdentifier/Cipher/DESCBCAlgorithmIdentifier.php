@@ -15,7 +15,7 @@ use UnexpectedValueException;
 RFC 2898 defines parameters as follows:
 
 {OCTET STRING (SIZE(8)) IDENTIFIED BY desCBC}
-*/
+ */
 
 /**
  * Algorithm identifier for DES cipher in CBC mode.

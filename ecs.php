@@ -74,13 +74,13 @@ return static function (ECSConfig $config) use ($header): void {
         'scope' => 'namespaced',
         'strict' => true,
     ]);
+    */
     $config->ruleWithConfiguration(HeaderCommentFixer::class, [
         'header' => $header,
     ]);
     $config->ruleWithConfiguration(AlignMultilineCommentFixer::class, [
         'comment_type' => 'all_multiline',
     ]);
-    */
     $config->ruleWithConfiguration(PhpUnitTestAnnotationFixer::class, [
         'style' => 'annotation',
     ]);

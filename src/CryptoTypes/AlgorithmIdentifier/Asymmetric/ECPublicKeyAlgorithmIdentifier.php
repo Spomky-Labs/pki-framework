@@ -22,7 +22,7 @@ present:
     -- implicitCurve   NULL
     -- specifiedCurve  SpecifiedECDomain
   }
-*/
+ */
 
 /**
  * Algorithm identifier for the elliptic curve public key.

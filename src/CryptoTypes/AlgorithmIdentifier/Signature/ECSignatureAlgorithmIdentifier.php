@@ -18,7 +18,7 @@ From RFC 5758 - 3.2.  ECDSA Signature Algorithm
    ecdsa-with-SHA512 algorithm identifier appears in the algorithm field
    as an AlgorithmIdentifier, the encoding MUST omit the parameters
    field.
-*/
+ */
 
 /**
  * Base class for ECDSA signature algorithm identifiers.

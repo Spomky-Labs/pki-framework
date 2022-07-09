@@ -22,7 +22,7 @@ From RFC 8410:
     this was not true.  The optimal solution is to fix these systems;
     where this is not possible, the problem needs to be restricted to
     that subsystem and not propagated to the Internet.
-*/
+ */
 
 /**
  * Algorithm identifier for the Edwards-curve Digital Signature Algorithm (EdDSA) identifiers specified by RFC 8410.

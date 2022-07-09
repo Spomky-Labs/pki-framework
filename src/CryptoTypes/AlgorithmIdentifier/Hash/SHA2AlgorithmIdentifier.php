@@ -18,7 +18,7 @@ From RFC 5754 - 2. Message Digest Algorithms
     parameters.  Implementations MUST accept SHA2 AlgorithmIdentifiers
     with NULL parameters.  Implementations MUST generate SHA2
     AlgorithmIdentifiers with absent parameters.
-*/
+ */
 
 /**
  * Base class for SHA2 algorithm identifiers.

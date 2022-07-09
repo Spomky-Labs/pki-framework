@@ -16,7 +16,7 @@ From RFC 3279 - 2.2.1  RSA Signature Algorithm:
    When any of these three OIDs appears within the ASN.1 type
    AlgorithmIdentifier, the parameters component of that type SHALL be
    the ASN.1 type NULL.
-*/
+ */
 
 /**
  * Base class for RSA signature algorithms specified in RFC 3279.
