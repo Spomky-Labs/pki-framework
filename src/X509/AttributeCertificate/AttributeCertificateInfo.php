@@ -128,7 +128,7 @@ class AttributeCertificateInfo
         $holder = Holder::fromASN1($seq->at($idx++)->asSequence());
         $issuer = AttCertIssuer::fromASN1($seq->at($idx++));
         $signature = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
-        if (!$signature instanceof SignatureAlgorithmIdentifier) {
+        if (! $signature instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
                 'Unsupported signature algorithm ' . $signature->oid() . '.'
             );
@@ -345,7 +345,7 @@ class AttributeCertificateInfo
      */
     public function signature(): SignatureAlgorithmIdentifier
     {
-        if (!$this->hasSignature()) {
+        if (! $this->hasSignature()) {
             throw new \LogicException('signature not set.');
         }
         return $this->_signature;
@@ -370,7 +370,7 @@ class AttributeCertificateInfo
      */
     public function serialNumber(): string
     {
-        if (!$this->hasSerialNumber()) {
+        if (! $this->hasSerialNumber()) {
             throw new \LogicException('serialNumber not set.');
         }
         return $this->_serialNumber;
@@ -415,7 +415,7 @@ class AttributeCertificateInfo
      */
     public function issuerUniqueID(): UniqueIdentifier
     {
-        if (!$this->hasIssuerUniqueID()) {
+        if (! $this->hasIssuerUniqueID()) {
             throw new \LogicException('issuerUniqueID not set.');
         }
         return $this->_issuerUniqueID;
@@ -468,7 +468,7 @@ class AttributeCertificateInfo
     ): AttributeCertificate {
         $crypto = $crypto ?? Crypto::getDefault();
         $aci = clone $this;
-        if (!isset($aci->_serialNumber)) {
+        if (! isset($aci->_serialNumber)) {
             $aci->_serialNumber = '0';
         }
         $aci->_signature = $algo;

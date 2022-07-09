@@ -47,7 +47,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
      */
     public static function fromString(string $str): self
     {
-        if (!preg_match_all(PEM::PEM_REGEX, $str, $matches, PREG_SET_ORDER)) {
+        if (! preg_match_all(PEM::PEM_REGEX, $str, $matches, PREG_SET_ORDER)) {
             throw new \UnexpectedValueException('No PEM blocks.');
         }
         $pems = array_map(
@@ -77,7 +77,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
      */
     public static function fromFile(string $filename): self
     {
-        if (!is_readable($filename) ||
+        if (! is_readable($filename) ||
             false === ($str = file_get_contents($filename))) {
             throw new \RuntimeException("Failed to read {$filename}.");
         }
@@ -117,7 +117,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
      */
     public function first(): PEM
     {
-        if (!count($this->_pems)) {
+        if (! count($this->_pems)) {
             throw new \LogicException('No PEMs.');
         }
         return $this->_pems[0];
@@ -132,7 +132,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
      */
     public function last(): PEM
     {
-        if (!count($this->_pems)) {
+        if (! count($this->_pems)) {
             throw new \LogicException('No PEMs.');
         }
         return $this->_pems[count($this->_pems) - 1];

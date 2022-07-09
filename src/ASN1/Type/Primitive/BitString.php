@@ -95,7 +95,7 @@ class BitString extends BaseString
      */
     public function range(int $start, int $length): string
     {
-        if (!$length) {
+        if (! $length) {
             return '0';
         }
         if ($start + $length > $this->numBits()) {
@@ -121,7 +121,7 @@ class BitString extends BaseString
     public function withoutTrailingZeroes(): self
     {
         // if bit string was empty
-        if (!strlen($this->_string)) {
+        if (! strlen($this->_string)) {
             return new self('');
         }
         $bits = $this->_string;
@@ -137,13 +137,13 @@ class BitString extends BaseString
             $bits = substr($bits, 0, -$unused_octets);
         }
         // if bit string was full of zeroes
-        if (!strlen($bits)) {
+        if (! strlen($bits)) {
             return new self('');
         }
         // count number of trailing zeroes in the last octet
         $unused_bits = 0;
         $byte = ord($bits[strlen($bits) - 1]);
-        while (!($byte & 0x01)) {
+        while (! ($byte & 0x01)) {
             ++$unused_bits;
             $byte >>= 1;
         }

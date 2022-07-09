@@ -61,7 +61,7 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
      */
     public function get(string $oid): PolicyInformation
     {
-        if (!$this->has($oid)) {
+        if (! $this->has($oid)) {
             throw new \LogicException("Not certificate policy by OID {$oid}.");
         }
         return $this->_policies[$oid];
@@ -86,7 +86,7 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
      */
     public function anyPolicy(): PolicyInformation
     {
-        if (!$this->hasAnyPolicy()) {
+        if (! $this->hasAnyPolicy()) {
             throw new \LogicException('No anyPolicy.');
         }
         return $this->get(PolicyInformation::OID_ANY_POLICY);
@@ -127,7 +127,7 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
             },
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        if (!count($policies)) {
+        if (! count($policies)) {
             throw new \UnexpectedValueException(
                 'certificatePolicies must contain at least one PolicyInformation.'
             );
@@ -140,7 +140,7 @@ class CertificatePoliciesExtension extends Extension implements \Countable, \Ite
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_policies)) {
+        if (! count($this->_policies)) {
             throw new \LogicException('No policies.');
         }
         $elements = array_map(

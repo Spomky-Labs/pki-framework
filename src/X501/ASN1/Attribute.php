@@ -75,7 +75,7 @@ class Attribute implements \Countable, \IteratorAggregate
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         // we need at least one value to determine OID
-        if (!count($values)) {
+        if (! count($values)) {
             throw new \LogicException('No values.');
         }
         $oid = reset($values)->oid();
@@ -91,7 +91,7 @@ class Attribute implements \Countable, \IteratorAggregate
      */
     public function first(): AttributeValue
     {
-        if (!count($this->_values)) {
+        if (! count($this->_values)) {
             throw new \LogicException('Attribute contains no values.');
         }
         return $this->_values[0];
@@ -142,7 +142,7 @@ class Attribute implements \Countable, \IteratorAggregate
     public function castValues(string $cls): self
     {
         // check that target class derives from AttributeValue
-        if (!is_subclass_of($cls, AttributeValue::class)) {
+        if (! is_subclass_of($cls, AttributeValue::class)) {
             throw new \LogicException(sprintf(
                 '%s must be derived from %s.',
                 $cls,

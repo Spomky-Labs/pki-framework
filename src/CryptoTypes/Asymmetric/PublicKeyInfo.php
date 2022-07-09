@@ -117,7 +117,7 @@ class PublicKeyInfo
                 return RSA\RSAPublicKey::fromDER($this->_publicKey->string());
             // Elliptic Curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
-                if (!$algo instanceof ECPublicKeyAlgorithmIdentifier) {
+                if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
                     throw new \UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data

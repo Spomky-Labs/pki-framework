@@ -37,7 +37,7 @@ abstract class PrimitiveString extends BaseString
         int &$offset
     ): ElementBase {
         $idx = $offset;
-        if (!$identifier->isPrimitive()) {
+        if (! $identifier->isPrimitive()) {
             throw new DecodeException('DER encoded string must be primitive.');
         }
         $length = Length::expectFromDER($data, $idx)->intLength();

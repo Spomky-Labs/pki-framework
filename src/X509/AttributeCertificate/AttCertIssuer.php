@@ -75,7 +75,7 @@ abstract class AttCertIssuer
      */
     public static function fromASN1(UnspecifiedType $el): self
     {
-        if (!$el->isTagged()) {
+        if (! $el->isTagged()) {
             throw new \UnexpectedValueException('v1Form issuer not supported.');
         }
         $tagged = $el->asTagged();

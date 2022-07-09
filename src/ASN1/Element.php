@@ -26,33 +26,61 @@ abstract class Element implements ElementBase
 {
     // Universal type tags
     public const TYPE_EOC = 0x00;
+
     public const TYPE_BOOLEAN = 0x01;
+
     public const TYPE_INTEGER = 0x02;
+
     public const TYPE_BIT_STRING = 0x03;
+
     public const TYPE_OCTET_STRING = 0x04;
+
     public const TYPE_NULL = 0x05;
+
     public const TYPE_OBJECT_IDENTIFIER = 0x06;
+
     public const TYPE_OBJECT_DESCRIPTOR = 0x07;
+
     public const TYPE_EXTERNAL = 0x08;
+
     public const TYPE_REAL = 0x09;
+
     public const TYPE_ENUMERATED = 0x0a;
+
     public const TYPE_EMBEDDED_PDV = 0x0b;
+
     public const TYPE_UTF8_STRING = 0x0c;
+
     public const TYPE_RELATIVE_OID = 0x0d;
+
     public const TYPE_SEQUENCE = 0x10;
+
     public const TYPE_SET = 0x11;
+
     public const TYPE_NUMERIC_STRING = 0x12;
+
     public const TYPE_PRINTABLE_STRING = 0x13;
+
     public const TYPE_T61_STRING = 0x14;
+
     public const TYPE_VIDEOTEX_STRING = 0x15;
+
     public const TYPE_IA5_STRING = 0x16;
+
     public const TYPE_UTC_TIME = 0x17;
+
     public const TYPE_GENERALIZED_TIME = 0x18;
+
     public const TYPE_GRAPHIC_STRING = 0x19;
+
     public const TYPE_VISIBLE_STRING = 0x1a;
+
     public const TYPE_GENERAL_STRING = 0x1b;
+
     public const TYPE_UNIVERSAL_STRING = 0x1c;
+
     public const TYPE_CHARACTER_STRING = 0x1d;
+
     public const TYPE_BMP_STRING = 0x1e;
 
     /**
@@ -211,7 +239,7 @@ abstract class Element implements ElementBase
         // that decoded type matches the type of a calling class
         $called_class = get_called_class();
         if (self::class !== $called_class) {
-            if (!$element instanceof $called_class) {
+            if (! $element instanceof $called_class) {
                 throw new \UnexpectedValueException(
                     sprintf('%s expected, got %s.', $called_class, get_class($element))
                 );
@@ -273,7 +301,7 @@ abstract class Element implements ElementBase
      */
     public function expectType(int $tag): ElementBase
     {
-        if (!$this->isType($tag)) {
+        if (! $this->isType($tag)) {
             throw new \UnexpectedValueException(
                 sprintf(
                     '%s expected, got %s.',
@@ -298,7 +326,7 @@ abstract class Element implements ElementBase
      */
     public function expectTagged(?int $tag = null): TaggedType
     {
-        if (!$this->isTagged()) {
+        if (! $this->isTagged()) {
             throw new \UnexpectedValueException(
                 sprintf(
                     'Context specific element expected, got %s.',
@@ -355,7 +383,7 @@ abstract class Element implements ElementBase
      */
     public static function tagToName(int $tag): string
     {
-        if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
+        if (! array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
             return "TAG {$tag}";
         }
         return self::MAP_TYPE_TO_NAME[$tag];
@@ -426,7 +454,7 @@ abstract class Element implements ElementBase
      */
     protected static function _determineUniversalImplClass(int $tag): string
     {
-        if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
+        if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
                 "Universal tag {$tag} not implemented."
             );
@@ -461,7 +489,7 @@ abstract class Element implements ElementBase
         // if type is universal check that instance is of a correct class
         if (Identifier::CLASS_UNIVERSAL === $this->typeClass()) {
             $cls = self::_determineUniversalImplClass($tag);
-            if (!$this instanceof $cls) {
+            if (! $this instanceof $cls) {
                 return false;
             }
         }

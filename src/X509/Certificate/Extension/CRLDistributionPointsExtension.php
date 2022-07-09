@@ -82,7 +82,7 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
             },
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        if (!count($dps)) {
+        if (! count($dps)) {
             throw new \UnexpectedValueException(
                 'CRLDistributionPoints must have at least one DistributionPoint.'
             );
@@ -96,7 +96,7 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_distributionPoints)) {
+        if (! count($this->_distributionPoints)) {
             throw new \LogicException('No distribution points.');
         }
         $elements = array_map(

@@ -301,7 +301,7 @@ class OpenSSLCryptoTest extends TestCase
      * @param SignatureAlgorithmIdentifier $algo
      */
     public function testSignatureMethod(
-        PrivateKeyInfo               $pki,
+        PrivateKeyInfo $pki,
         SignatureAlgorithmIdentifier $algo
     ) {
         $signature = self::$_crypto->sign(self::DATA, $pki, $algo);

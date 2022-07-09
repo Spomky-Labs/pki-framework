@@ -413,7 +413,7 @@ class DNParser
     private function _regexMatch(string $pattern, int &$offset): ?string
     {
         $idx = $offset;
-        if (!preg_match($pattern, substr($this->_dn, $idx), $match)) {
+        if (! preg_match($pattern, substr($this->_dn, $idx), $match)) {
             return null;
         }
         $idx += strlen($match[0]);

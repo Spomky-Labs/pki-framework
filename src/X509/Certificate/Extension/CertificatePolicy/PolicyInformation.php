@@ -127,7 +127,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      */
     public function get(string $oid): PolicyQualifierInfo
     {
-        if (!$this->has($oid)) {
+        if (! $this->has($oid)) {
             throw new \LogicException("No {$oid} qualifier.");
         }
         return $this->_qualifiers[$oid];
@@ -152,7 +152,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      */
     public function CPSQualifier(): CPSQualifier
     {
-        if (!$this->hasCPSQualifier()) {
+        if (! $this->hasCPSQualifier()) {
             throw new \LogicException('CPS qualifier not set.');
         }
         return $this->get(PolicyQualifierInfo::OID_CPS);
@@ -177,7 +177,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      */
     public function userNoticeQualifier(): UserNoticeQualifier
     {
-        if (!$this->hasUserNoticeQualifier()) {
+        if (! $this->hasUserNoticeQualifier()) {
             throw new \LogicException('User notice qualifier not set.');
         }
         return $this->get(PolicyQualifierInfo::OID_UNOTICE);

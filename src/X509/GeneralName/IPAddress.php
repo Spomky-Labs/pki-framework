@@ -105,7 +105,7 @@ abstract class IPAddress extends GeneralName
      */
     public function mask(): string
     {
-        if (!$this->hasMask()) {
+        if (! $this->hasMask()) {
             throw new \LogicException('mask is not set.');
         }
         return $this->_mask;

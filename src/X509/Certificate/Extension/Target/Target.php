@@ -15,7 +15,9 @@ use Sop\ASN1\Type\TaggedType;
 abstract class Target
 {
     public const TYPE_NAME = 0;
+
     public const TYPE_GROUP = 1;
+
     public const TYPE_CERT = 2;
 
     /**

@@ -109,7 +109,7 @@ class ECPrivateKey extends PrivateKey
     public static function fromPEM(PEM $pem): ECPrivateKey
     {
         $pk = parent::fromPEM($pem);
-        if (!($pk instanceof self)) {
+        if (! ($pk instanceof self)) {
             throw new \UnexpectedValueException('Not an EC private key.');
         }
         return $pk;
@@ -140,7 +140,7 @@ class ECPrivateKey extends PrivateKey
      */
     public function namedCurve(): string
     {
-        if (!$this->hasNamedCurve()) {
+        if (! $this->hasNamedCurve()) {
             throw new \LogicException('namedCurve not set.');
         }
         return $this->_namedCurve;
@@ -183,7 +183,7 @@ class ECPrivateKey extends PrivateKey
      */
     public function publicKey(): PublicKey
     {
-        if (!$this->hasPublicKey()) {
+        if (! $this->hasPublicKey()) {
             throw new \LogicException('publicKey not set.');
         }
         return new ECPublicKey($this->_publicKey, $this->namedCurve());

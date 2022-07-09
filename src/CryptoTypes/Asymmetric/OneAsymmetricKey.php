@@ -103,7 +103,7 @@ class OneAsymmetricKey
     public static function fromASN1(Sequence $seq): self
     {
         $version = $seq->at(0)->asInteger()->intNumber();
-        if (!in_array($version, [self::VERSION_1, self::VERSION_2])) {
+        if (! in_array($version, [self::VERSION_1, self::VERSION_2])) {
             throw new \UnexpectedValueException(
                 "Version {$version} not supported."
             );
@@ -224,8 +224,8 @@ class OneAsymmetricKey
                 // when serializing into PrivateKeyInfo. However RFC 5915 dictates
                 // that parameters (NamedCurve) must always be included.
                 // If private key doesn't encode named curve, assign from parameters.
-                if (!$pk->hasNamedCurve()) {
-                    if (!$algo instanceof ECPublicKeyAlgorithmIdentifier) {
+                if (! $pk->hasNamedCurve()) {
+                    if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
                         throw new \UnexpectedValueException('Not an EC algorithm.');
                     }
                     $pk = $pk->withNamedCurve($algo->namedCurve());
@@ -308,7 +308,7 @@ class OneAsymmetricKey
      */
     public function attributes(): OneAsymmetricKeyAttributes
     {
-        if (!$this->hasAttributes()) {
+        if (! $this->hasAttributes()) {
             throw new \LogicException('Attributes not set.');
         }
         return $this->_attributes;
@@ -329,7 +329,7 @@ class OneAsymmetricKey
      */
     public function publicKeyData(): BitString
     {
-        if (!$this->hasPublicKeyData()) {
+        if (! $this->hasPublicKeyData()) {
             throw new \LogicException('No explicit public key.');
         }
         return $this->_publicKeyData;

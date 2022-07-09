@@ -60,7 +60,7 @@ class IssuerSerialTest extends TestCase
             self::$_cert->tbsCertificate()
                 ->issuer(),
             $is->issuer()
-            ->firstDN()
+                ->firstDN()
         );
     }
 

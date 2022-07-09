@@ -200,7 +200,7 @@ class OpenSSLCrypto extends Crypto
         SignatureAlgorithmIdentifier $sig_algo,
         AlgorithmIdentifier $key_algo
     ): void {
-        if (!$sig_algo->supportsKeyAlgorithm($key_algo)) {
+        if (! $sig_algo->supportsKeyAlgorithm($key_algo)) {
             throw new \UnexpectedValueException(
                 sprintf(
                     'Signature algorithm %s does not support key algorithm %s.',
@@ -223,7 +223,7 @@ class OpenSSLCrypto extends Crypto
     protected function _algoToDigest(SignatureAlgorithmIdentifier $algo): int
     {
         $oid = $algo->oid();
-        if (!array_key_exists($oid, self::MAP_DIGEST_OID)) {
+        if (! array_key_exists($oid, self::MAP_DIGEST_OID)) {
             throw new \UnexpectedValueException(
                 sprintf('Digest method %s not supported.', $algo->name())
             );
@@ -247,7 +247,7 @@ class OpenSSLCrypto extends Crypto
             return self::MAP_CIPHER_OID[$oid];
         }
         if (AlgorithmIdentifier::OID_RC2_CBC === $oid) {
-            if (!$algo instanceof RC2CBCAlgorithmIdentifier) {
+            if (! $algo instanceof RC2CBCAlgorithmIdentifier) {
                 throw new \UnexpectedValueException('Not an RC2-CBC algorithm.');
             }
             return $this->_rc2AlgoToCipher($algo);

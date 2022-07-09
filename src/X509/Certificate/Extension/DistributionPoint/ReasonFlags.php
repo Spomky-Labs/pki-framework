@@ -17,12 +17,19 @@ class ReasonFlags
 {
     // const UNUSED = 0x100;
     public const KEY_COMPROMISE = 0x080;
+
     public const CA_COMPROMISE = 0x040;
+
     public const AFFILIATION_CHANGED = 0x020;
+
     public const SUPERSEDED = 0x010;
+
     public const CESSATION_OF_OPERATION = 0x008;
+
     public const CERTIFICATE_HOLD = 0x004;
+
     public const PRIVILEGE_WITHDRAWN = 0x002;
+
     public const AA_COMPROMISE = 0x001;
 
     /**

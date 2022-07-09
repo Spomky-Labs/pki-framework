@@ -19,6 +19,7 @@ use Sop\X509\GeneralName\GeneralNames;
 abstract class DistributionPointName
 {
     public const TAG_FULL_NAME = 0;
+
     public const TAG_RDN = 1;
 
     /**

@@ -52,7 +52,7 @@ class PolicyTree
             }
         }
         // if whole tree is pruned
-        if (!$tree->_pruneTree($state->index() - 1)) {
+        if (! $tree->_pruneTree($state->index() - 1)) {
             return $state->withoutValidPolicyTree();
         }
         return $state->withValidPolicyTree($tree);
@@ -77,7 +77,7 @@ class PolicyTree
             $tree->_deleteMappings($cert, $state);
         }
         // if whole tree is pruned
-        if (!$tree->_root) {
+        if (! $tree->_root) {
             return $state->withoutValidPolicyTree();
         }
         return $state->withValidPolicyTree($tree);
@@ -152,7 +152,7 @@ class PolicyTree
         // 4. If there is a node in the valid_policy_tree of depth n-1 or less
         // without any child nodes, delete that node. Repeat this step until
         // there are no nodes of depth n-1 or less without children.
-        if (!$tree->_pruneTree($state->index() - 1)) {
+        if (! $tree->_pruneTree($state->index() - 1)) {
             return $state->withoutValidPolicyTree();
         }
         return $state->withValidPolicyTree($tree);
@@ -203,7 +203,7 @@ class PolicyTree
             }
         }
         // (d.1.ii) if there was no match in step (i)...
-        if (!$match_count) {
+        if (! $match_count) {
             // ...and the valid_policy_tree includes a node of depth i-1 with
             // the valid_policy anyPolicy
             foreach ($this->_nodesAtDepth($i - 1) as $node) {
@@ -233,7 +233,7 @@ class PolicyTree
         $i = $state->index();
         // if (a) inhibit_anyPolicy is greater than 0 or
         // (b) i<n and the certificate is self-issued
-        if (!($state->inhibitAnyPolicy() > 0 ||
+        if (! ($state->inhibitAnyPolicy() > 0 ||
             ($i < $state->pathLength() && $cert->isSelfIssued()))) {
             return;
         }
@@ -242,7 +242,7 @@ class PolicyTree
             // for each value in the expected_policy_set
             foreach ($node->expectedPolicies() as $p_oid) {
                 // that does not appear in a child node
-                if (!$node->hasChildWithValidPolicy($p_oid)) {
+                if (! $node->hasChildWithValidPolicy($p_oid)) {
                     $node->addChild(new PolicyNode(
                         $p_oid,
                         $policy->qualifiers(),
@@ -277,7 +277,7 @@ class PolicyTree
             }
             // if no node of depth i in the valid_policy_tree has
             // a valid_policy of ID-P...
-            if (!$match_count) {
+            if (! $match_count) {
                 $this->_applyAnyPolicyMapping($cert, $state, $idp, $sdps);
             }
         }
@@ -356,18 +356,18 @@ class PolicyTree
      */
     protected function _pruneTree(int $depth): int
     {
-        if (!$this->_root) {
+        if (! $this->_root) {
             return 0;
         }
         for ($i = $depth; $i > 0; --$i) {
             foreach ($this->_nodesAtDepth($i) as $node) {
-                if (!count($node)) {
+                if (! count($node)) {
                     $node->remove();
                 }
             }
         }
         // if root has no children left
-        if (!count($this->_root)) {
+        if (! count($this->_root)) {
             $this->_root = null;
             return 0;
         }
@@ -383,14 +383,14 @@ class PolicyTree
      */
     protected function _nodesAtDepth(int $i): array
     {
-        if (!$this->_root) {
+        if (! $this->_root) {
             return [];
         }
         $depth = 0;
         $nodes = [$this->_root];
         while ($depth < $i) {
             $nodes = self::_gatherChildren(...$nodes);
-            if (!count($nodes)) {
+            if (! count($nodes)) {
                 break;
             }
             ++$depth;
@@ -408,7 +408,7 @@ class PolicyTree
         // 1. Determine the set of policy nodes whose parent nodes have
         // a valid_policy of anyPolicy. This is the valid_policy_node_set.
         $set = [];
-        if (!$this->_root) {
+        if (! $this->_root) {
             return $set;
         }
         // for each node in a tree
@@ -419,7 +419,7 @@ class PolicyTree
                 if (count($parents)) {
                     // check that each ancestor is an anyPolicy node
                     foreach ($parents as $ancestor) {
-                        if (!$ancestor->isAnyPolicy()) {
+                        if (! $ancestor->isAnyPolicy()) {
                             return;
                         }
                     }

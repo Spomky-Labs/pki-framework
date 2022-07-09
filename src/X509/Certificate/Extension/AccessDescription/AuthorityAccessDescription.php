@@ -15,6 +15,7 @@ class AuthorityAccessDescription extends AccessDescription
      * @var string
      */
     public const OID_METHOD_OSCP = '1.3.6.1.5.5.7.48.1';
+
     public const OID_METHOD_CA_ISSUERS = '1.3.6.1.5.5.7.48.2';
 
     /**

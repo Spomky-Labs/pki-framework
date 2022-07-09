@@ -130,7 +130,7 @@ class IssuerSerial
      */
     public function issuerUID(): UniqueIdentifier
     {
-        if (!$this->hasIssuerUID()) {
+        if (! $this->hasIssuerUID()) {
             throw new \LogicException('issuerUID not set.');
         }
         return $this->_issuerUID;
@@ -160,13 +160,13 @@ class IssuerSerial
     public function identifiesPKC(Certificate $cert): bool
     {
         $tbs = $cert->tbsCertificate();
-        if (!$tbs->issuer()->equals($this->_issuer->firstDN())) {
+        if (! $tbs->issuer()->equals($this->_issuer->firstDN())) {
             return false;
         }
         if ($tbs->serialNumber() !== $this->_serial) {
             return false;
         }
-        if ($this->_issuerUID && !$this->_checkUniqueID($cert)) {
+        if ($this->_issuerUID && ! $this->_checkUniqueID($cert)) {
             return false;
         }
         return true;
@@ -181,7 +181,7 @@ class IssuerSerial
      */
     private function _checkUniqueID(Certificate $cert): bool
     {
-        if (!$cert->tbsCertificate()->hasIssuerUniqueID()) {
+        if (! $cert->tbsCertificate()->hasIssuerUniqueID()) {
             return false;
         }
         $uid = $cert->tbsCertificate()->issuerUniqueID()->string();

@@ -75,7 +75,7 @@ class TargetInformationExtension extends Extension implements \Countable, \Itera
      */
     public function targets(): Targets
     {
-        if (!isset($this->_merged)) {
+        if (! isset($this->_merged)) {
             $a = [];
             foreach ($this->_targets as $targets) {
                 $a = array_merge($a, $targets->all());

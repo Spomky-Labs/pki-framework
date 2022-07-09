@@ -139,7 +139,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
                     'Primitive type with indefinite length is not supported.'
                 );
             }
-            while (!Element::fromDER($data, $idx)->isType(self::TYPE_EOC));
+            while (! Element::fromDER($data, $idx)->isType(self::TYPE_EOC));
             // EOC consists of two octets.
             $value_length = $idx - $value_offset - 2;
         } else {

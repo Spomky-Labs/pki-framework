@@ -115,7 +115,7 @@ abstract class SvceAuthInfo extends AttributeValue
      */
     public function authInfo(): string
     {
-        if (!$this->hasAuthInfo()) {
+        if (! $this->hasAuthInfo()) {
             throw new \LogicException('authInfo not set.');
         }
         return $this->_authInfo;

@@ -112,7 +112,7 @@ abstract class AttributeValue
      */
     public static function fromASN1ByOID(string $oid, UnspecifiedType $el): self
     {
-        if (!array_key_exists($oid, self::MAP_OID_TO_CLASS)) {
+        if (! array_key_exists($oid, self::MAP_OID_TO_CLASS)) {
             return new UnknownAttributeValue($oid, $el->asElement());
         }
         $cls = self::MAP_OID_TO_CLASS[$oid];

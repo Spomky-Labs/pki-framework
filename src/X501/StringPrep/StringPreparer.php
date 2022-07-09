@@ -12,10 +12,15 @@ namespace Sop\X501\StringPrep;
 class StringPreparer
 {
     public const STEP_TRANSCODE = 1;
+
     public const STEP_MAP = 2;
+
     public const STEP_NORMALIZE = 3;
+
     public const STEP_PROHIBIT = 4;
+
     public const STEP_CHECK_BIDI = 5;
+
     public const STEP_INSIGNIFICANT_CHARS = 6;
 
     /**

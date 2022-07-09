@@ -23,10 +23,10 @@ trait DateTimeHelper
         ?string $time = null,
         ?string $tz = null
     ): \DateTimeImmutable {
-        if (!isset($time)) {
+        if (! isset($time)) {
             $time = 'now';
         }
-        if (!isset($tz)) {
+        if (! isset($tz)) {
             $tz = date_default_timezone_get();
         }
         try {

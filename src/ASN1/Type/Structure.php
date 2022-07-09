@@ -82,7 +82,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         $offset = 0;
         $identifier = Identifier::fromDER($data, $offset);
-        if (!$identifier->isConstructed()) {
+        if (! $identifier->isConstructed()) {
             throw new DecodeException('Element is not constructed.');
         }
         $length = Length::expectFromDER($data, $offset);
@@ -118,7 +118,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      */
     public function withReplaced(int $idx, Element $el): self
     {
-        if (!isset($this->_elements[$idx])) {
+        if (! isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
                 "Structure doesn't have element at index {$idx}."
             );
@@ -179,7 +179,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      */
     public function withoutElement(int $idx): self
     {
-        if (!isset($this->_elements[$idx])) {
+        if (! isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
                 "Structure doesn't have element at index {$idx}."
             );
@@ -196,7 +196,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      */
     public function elements(): array
     {
-        if (!isset($this->_unspecifiedTypes)) {
+        if (! isset($this->_unspecifiedTypes)) {
             $this->_unspecifiedTypes = array_map(
                 function (Element $el) {
                     return new UnspecifiedType($el);
@@ -216,11 +216,11 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      */
     public function has(int $idx, ?int $expectedTag = null): bool
     {
-        if (!isset($this->_elements[$idx])) {
+        if (! isset($this->_elements[$idx])) {
             return false;
         }
         if (isset($expectedTag)) {
-            if (!$this->_elements[$idx]->isType($expectedTag)) {
+            if (! $this->_elements[$idx]->isType($expectedTag)) {
                 return false;
             }
         }
@@ -238,7 +238,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      */
     public function at(int $idx): UnspecifiedType
     {
-        if (!isset($this->_elements[$idx])) {
+        if (! isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
                 "Structure doesn't have an element at index {$idx}."
             );
@@ -255,7 +255,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function hasTagged(int $tag): bool
     {
         // lazily build lookup map
-        if (!isset($this->_taggedMap)) {
+        if (! isset($this->_taggedMap)) {
             $this->_taggedMap = [];
             foreach ($this->_elements as $element) {
                 if ($element->isTagged()) {
@@ -273,7 +273,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      */
     public function getTagged(int $tag): TaggedType
     {
-        if (!$this->hasTagged($tag)) {
+        if (! $this->hasTagged($tag)) {
             throw new \LogicException("No tagged element for tag {$tag}.");
         }
         return $this->_taggedMap[$tag];
@@ -319,7 +319,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
         string $data,
         int &$offset
     ): ElementBase {
-        if (!$identifier->isConstructed()) {
+        if (! $identifier->isConstructed()) {
             throw new DecodeException(
                 'Structured element must have constructed bit set.'
             );

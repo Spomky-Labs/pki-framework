@@ -49,7 +49,7 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
     public static function fromASN1Params(
         ?UnspecifiedType $params = null
     ): SpecificAlgorithmIdentifier {
-        if (!isset($params)) {
+        if (! isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }
         $params->asNull();

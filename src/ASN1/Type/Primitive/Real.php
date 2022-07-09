@@ -217,7 +217,7 @@ class Real extends Element
      */
     public function floatVal(): float
     {
-        if (!isset($this->_float)) {
+        if (! isset($this->_float)) {
             $m = $this->_mantissa->intVal();
             $e = $this->_exponent->intVal();
             $this->_float = (float) ($m * pow($this->_base, $e));
@@ -367,7 +367,7 @@ class Real extends Element
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         // if length is zero, value is zero (spec 8.5.2)
-        if (!$length) {
+        if (! $length) {
             $obj = new self(0, 0, 10);
         } else {
             $bytes = substr($data, $idx, $length);
@@ -459,7 +459,7 @@ class Real extends Element
     protected static function _decodeDecimalEncoding(string $data): self
     {
         $nr = ord($data[0]) & 0x3f;
-        if (!in_array($nr, [1, 2, 3])) {
+        if (! in_array($nr, [1, 2, 3])) {
             throw new DecodeException('Unsupported decimal encoding form.');
         }
         $str = substr($data, 1);
@@ -501,7 +501,7 @@ class Real extends Element
         $es = gmp_sign($e);
         $e = gmp_abs($e);
         // DER uses only base 2 binary encoding
-        if (!$this->_strictDer) {
+        if (! $this->_strictDer) {
             if (0 == $e % 4) {
                 $base = 16;
                 $e = gmp_div_q($e, 4);

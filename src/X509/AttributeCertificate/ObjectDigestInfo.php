@@ -21,7 +21,9 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 class ObjectDigestInfo
 {
     public const TYPE_PUBLIC_KEY = 0;
+
     public const TYPE_PUBLIC_KEY_CERT = 1;
+
     public const TYPE_OTHER_OBJECT_TYPES = 2;
 
     /**

@@ -150,7 +150,7 @@ class Name implements \Countable, \IteratorAggregate
         for ($i = count($this) - 1; $i >= 0; --$i) {
             $rdn1 = $this->_rdns[$i];
             $rdn2 = $other->_rdns[$i];
-            if (!$rdn1->equals($rdn2)) {
+            if (! $rdn1->equals($rdn2)) {
                 return false;
             }
         }

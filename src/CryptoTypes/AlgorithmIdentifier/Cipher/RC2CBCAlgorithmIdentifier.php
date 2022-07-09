@@ -126,7 +126,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     public static function fromASN1Params(
         ?UnspecifiedType $params = null
     ): SpecificAlgorithmIdentifier {
-        if (!isset($params)) {
+        if (! isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }
         $key_bits = 32;
@@ -191,7 +191,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         } else {
             $version = self::EKB_TABLE[$this->_effectiveKeyBits];
         }
-        if (!isset($this->_initializationVector)) {
+        if (! isset($this->_initializationVector)) {
             throw new \LogicException('IV not set.');
         }
         return new Sequence(
@@ -209,7 +209,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if ($version > 255) {
             return $version;
         }
-        if (!isset($lut)) {
+        if (! isset($lut)) {
             $lut = array_flip(self::EKB_TABLE);
         }
         return $lut[$version];

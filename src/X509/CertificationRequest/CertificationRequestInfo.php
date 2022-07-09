@@ -158,7 +158,7 @@ class CertificationRequestInfo
      */
     public function attributes(): Attributes
     {
-        if (!$this->hasAttributes()) {
+        if (! $this->hasAttributes()) {
             throw new \LogicException('No attributes.');
         }
         return $this->_attributes;
@@ -186,7 +186,7 @@ class CertificationRequestInfo
     public function withExtensionRequest(Extensions $extensions): self
     {
         $obj = clone $this;
-        if (!isset($obj->_attributes)) {
+        if (! isset($obj->_attributes)) {
             $obj->_attributes = new Attributes();
         }
         $obj->_attributes = $obj->_attributes->withUnique(

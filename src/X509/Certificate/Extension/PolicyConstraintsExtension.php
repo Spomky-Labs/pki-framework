@@ -63,7 +63,7 @@ class PolicyConstraintsExtension extends Extension
      */
     public function requireExplicitPolicy(): int
     {
-        if (!$this->hasRequireExplicitPolicy()) {
+        if (! $this->hasRequireExplicitPolicy()) {
             throw new \LogicException('requireExplicitPolicy not set.');
         }
         return $this->_requireExplicitPolicy;
@@ -88,7 +88,7 @@ class PolicyConstraintsExtension extends Extension
      */
     public function inhibitPolicyMapping(): int
     {
-        if (!$this->hasInhibitPolicyMapping()) {
+        if (! $this->hasInhibitPolicyMapping()) {
             throw new \LogicException('inhibitPolicyMapping not set.');
         }
         return $this->_inhibitPolicyMapping;

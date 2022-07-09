@@ -65,7 +65,7 @@ class Length implements Encodable
         $length = (0x7f & $byte);
         // long form
         if (0x80 & $byte) {
-            if (!$length) {
+            if (! $length) {
                 $indefinite = true;
             } else {
                 if ($idx + $length > $datalen) {
@@ -124,7 +124,7 @@ class Length implements Encodable
             }
         }
         // check that enough data is available
-        if (!$length->isIndefinite()
+        if (! $length->isIndefinite()
             && strlen($data) < $idx + $length->intLength()) {
             throw new DecodeException(
                 sprintf(

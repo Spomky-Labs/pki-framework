@@ -13,16 +13,27 @@ class PEM
 {
     // well-known PEM types
     public const TYPE_CERTIFICATE = 'CERTIFICATE';
+
     public const TYPE_CRL = 'X509 CRL';
+
     public const TYPE_CERTIFICATE_REQUEST = 'CERTIFICATE REQUEST';
+
     public const TYPE_ATTRIBUTE_CERTIFICATE = 'ATTRIBUTE CERTIFICATE';
+
     public const TYPE_PRIVATE_KEY = 'PRIVATE KEY';
+
     public const TYPE_PUBLIC_KEY = 'PUBLIC KEY';
+
     public const TYPE_ENCRYPTED_PRIVATE_KEY = 'ENCRYPTED PRIVATE KEY';
+
     public const TYPE_RSA_PRIVATE_KEY = 'RSA PRIVATE KEY';
+
     public const TYPE_RSA_PUBLIC_KEY = 'RSA PUBLIC KEY';
+
     public const TYPE_EC_PRIVATE_KEY = 'EC PRIVATE KEY';
+
     public const TYPE_PKCS7 = 'PKCS7';
+
     public const TYPE_CMS = 'CMS';
 
     /**
@@ -82,7 +93,7 @@ class PEM
      */
     public static function fromString(string $str): self
     {
-        if (!preg_match(self::PEM_REGEX, $str, $match)) {
+        if (! preg_match(self::PEM_REGEX, $str, $match)) {
             throw new \UnexpectedValueException('Not a PEM formatted string.');
         }
         $payload = preg_replace('/\s+/', '', $match[2]);
@@ -104,7 +115,7 @@ class PEM
      */
     public static function fromFile(string $filename): self
     {
-        if (!is_readable($filename) ||
+        if (! is_readable($filename) ||
             false === ($str = file_get_contents($filename))) {
             throw new \RuntimeException("Failed to read {$filename}.");
         }

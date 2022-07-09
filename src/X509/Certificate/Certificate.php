@@ -79,7 +79,7 @@ class Certificate
     {
         $tbsCert = TBSCertificate::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
-        if (!$algo instanceof SignatureAlgorithmIdentifier) {
+        if (! $algo instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
                 'Unsupported signature algorithm ' . $algo->oid() . '.'
             );

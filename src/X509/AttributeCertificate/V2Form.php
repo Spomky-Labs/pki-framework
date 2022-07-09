@@ -103,7 +103,7 @@ class V2Form extends AttCertIssuer
      */
     public function issuerName(): GeneralNames
     {
-        if (!$this->hasIssuerName()) {
+        if (! $this->hasIssuerName()) {
             throw new \LogicException('issuerName not set.');
         }
         return $this->_issuerName;
@@ -152,7 +152,7 @@ class V2Form extends AttCertIssuer
     public function identifiesPKC(Certificate $cert): bool
     {
         $name = $this->_issuerName->firstDN();
-        if (!$cert->tbsCertificate()->subject()->equals($name)) {
+        if (! $cert->tbsCertificate()->subject()->equals($name)) {
             return false;
         }
         return true;

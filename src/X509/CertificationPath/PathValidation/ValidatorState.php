@@ -377,7 +377,7 @@ class ValidatorState
      */
     public function validPolicyTree(): PolicyTree
     {
-        if (!$this->hasValidPolicyTree()) {
+        if (! $this->hasValidPolicyTree()) {
             throw new \LogicException('valid_policy_tree not set.');
         }
         return $this->_validPolicyTree;

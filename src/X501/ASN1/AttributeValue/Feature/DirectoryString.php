@@ -170,7 +170,7 @@ abstract class DirectoryString extends AttributeValue
      */
     private static function _tagToASN1Class(int $tag): string
     {
-        if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
+        if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
                 sprintf(
                     'Type %s is not valid DirectoryString.',

@@ -29,7 +29,9 @@ class TBSCertificate
 {
     // Certificate version enumerations
     public const VERSION_1 = 0;
+
     public const VERSION_2 = 1;
+
     public const VERSION_3 = 2;
 
     /**
@@ -141,7 +143,7 @@ class TBSCertificate
         }
         $serial = $seq->at($idx++)->asInteger()->number();
         $algo = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
-        if (!$algo instanceof SignatureAlgorithmIdentifier) {
+        if (! $algo instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
                 'Unsupported signature algorithm ' . $algo->name() . '.'
             );
@@ -428,7 +430,7 @@ class TBSCertificate
      */
     public function version(): int
     {
-        if (!$this->hasVersion()) {
+        if (! $this->hasVersion()) {
             throw new \LogicException('version not set.');
         }
         return $this->_version;
@@ -453,7 +455,7 @@ class TBSCertificate
      */
     public function serialNumber(): string
     {
-        if (!$this->hasSerialNumber()) {
+        if (! $this->hasSerialNumber()) {
             throw new \LogicException('serialNumber not set.');
         }
         return $this->_serialNumber;
@@ -478,7 +480,7 @@ class TBSCertificate
      */
     public function signature(): SignatureAlgorithmIdentifier
     {
-        if (!$this->hasSignature()) {
+        if (! $this->hasSignature()) {
             throw new \LogicException('signature not set.');
         }
         return $this->_signature;
@@ -543,7 +545,7 @@ class TBSCertificate
      */
     public function issuerUniqueID(): UniqueIdentifier
     {
-        if (!$this->hasIssuerUniqueID()) {
+        if (! $this->hasIssuerUniqueID()) {
             throw new \LogicException('issuerUniqueID not set.');
         }
         return $this->_issuerUniqueID;
@@ -568,7 +570,7 @@ class TBSCertificate
      */
     public function subjectUniqueID(): UniqueIdentifier
     {
-        if (!$this->hasSubjectUniqueID()) {
+        if (! $this->hasSubjectUniqueID()) {
             throw new \LogicException('subjectUniqueID not set.');
         }
         return $this->_subjectUniqueID;
@@ -646,10 +648,10 @@ class TBSCertificate
     ): Certificate {
         $crypto = $crypto ?? Crypto::getDefault();
         $tbs_cert = clone $this;
-        if (!isset($tbs_cert->_version)) {
+        if (! isset($tbs_cert->_version)) {
             $tbs_cert->_version = $tbs_cert->_determineVersion();
         }
-        if (!isset($tbs_cert->_serialNumber)) {
+        if (! isset($tbs_cert->_serialNumber)) {
             $tbs_cert->_serialNumber = strval(0);
         }
         $tbs_cert->_signature = $algo;

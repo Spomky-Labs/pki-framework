@@ -47,7 +47,7 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
             },
             $seq->elements()
         );
-        if (!count($subtrees)) {
+        if (! count($subtrees)) {
             throw new \UnexpectedValueException(
                 'GeneralSubtrees must contain at least one GeneralSubtree.'
             );
@@ -72,7 +72,7 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        if (!count($this->_subtrees)) {
+        if (! count($this->_subtrees)) {
             throw new \LogicException('No subtrees.');
         }
         $elements = array_map(

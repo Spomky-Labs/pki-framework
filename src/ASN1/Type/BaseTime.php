@@ -54,7 +54,7 @@ abstract class BaseTime extends Element implements TimeType
     public static function fromString(string $time, ?string $tz = null): self
     {
         try {
-            if (!isset($tz)) {
+            if (! isset($tz)) {
                 $tz = date_default_timezone_get();
             }
             return new static(

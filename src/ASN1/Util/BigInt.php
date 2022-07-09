@@ -42,7 +42,7 @@ class BigInt
     public function __construct($num)
     {
         // convert to GMP object
-        if (!($num instanceof \GMP)) {
+        if (! ($num instanceof \GMP)) {
             $gmp = @gmp_init($num, 10);
             if (false === $gmp) {
                 throw new \InvalidArgumentException(
@@ -64,7 +64,7 @@ class BigInt
      */
     public static function fromUnsignedOctets(string $octets): self
     {
-        if (!strlen($octets)) {
+        if (! strlen($octets)) {
             throw new \InvalidArgumentException('Empty octets.');
         }
         return new self(gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN));
@@ -76,7 +76,7 @@ class BigInt
      */
     public static function fromSignedOctets(string $octets): self
     {
-        if (!strlen($octets)) {
+        if (! strlen($octets)) {
             throw new \InvalidArgumentException('Empty octets.');
         }
         $neg = ord($octets[0]) & 0x80;
@@ -97,7 +97,7 @@ class BigInt
      */
     public function base10(): string
     {
-        if (!isset($this->_num)) {
+        if (! isset($this->_num)) {
             $this->_num = gmp_strval($this->_gmp, 10);
         }
         return $this->_num;
@@ -110,7 +110,7 @@ class BigInt
      */
     public function intVal(): int
     {
-        if (!isset($this->_intNum)) {
+        if (! isset($this->_intNum)) {
             if (gmp_cmp($this->_gmp, $this->_intMaxGmp()) > 0) {
                 throw new \RuntimeException('Integer overflow.');
             }
@@ -187,7 +187,7 @@ class BigInt
         $num = gmp_pow('2', 8 * $width) - $num;
         $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
         // if first bit is 0, prepend full inverted byte to represent negative two's complement
-        if (!(ord($bin[0]) & 0x80)) {
+        if (! (ord($bin[0]) & 0x80)) {
             $bin = chr(0xff) . $bin;
         }
         return $bin;
@@ -199,7 +199,7 @@ class BigInt
     private function _intMaxGmp(): \GMP
     {
         static $gmp;
-        if (!isset($gmp)) {
+        if (! isset($gmp)) {
             $gmp = gmp_init(PHP_INT_MAX, 10);
         }
         return $gmp;
@@ -211,7 +211,7 @@ class BigInt
     private function _intMinGmp(): \GMP
     {
         static $gmp;
-        if (!isset($gmp)) {
+        if (! isset($gmp)) {
             $gmp = gmp_init(PHP_INT_MIN, 10);
         }
         return $gmp;

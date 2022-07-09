@@ -148,7 +148,7 @@ class RSAPrivateKey extends PrivateKey
     public static function fromPEM(PEM $pem): RSAPrivateKey
     {
         $pk = parent::fromPEM($pem);
-        if (!($pk instanceof self)) {
+        if (! ($pk instanceof self)) {
             throw new \UnexpectedValueException('Not an RSA private key.');
         }
         return $pk;

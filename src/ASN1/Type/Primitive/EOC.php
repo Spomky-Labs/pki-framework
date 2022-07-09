@@ -45,7 +45,7 @@ class EOC extends Element
         int &$offset
     ): ElementBase {
         $idx = $offset;
-        if (!$identifier->isPrimitive()) {
+        if (! $identifier->isPrimitive()) {
             throw new DecodeException('EOC value must be primitive.');
         }
         // EOC type has always zero length

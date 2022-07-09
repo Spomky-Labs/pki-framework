@@ -81,7 +81,7 @@ class CertificateChain implements \Countable, \IteratorAggregate
      */
     public function endEntityCertificate(): Certificate
     {
-        if (!count($this->_certs)) {
+        if (! count($this->_certs)) {
             throw new \LogicException('No certificates.');
         }
         return $this->_certs[0];
@@ -96,7 +96,7 @@ class CertificateChain implements \Countable, \IteratorAggregate
      */
     public function trustAnchorCertificate(): Certificate
     {
-        if (!count($this->_certs)) {
+        if (! count($this->_certs)) {
             throw new \LogicException('No certificates.');
         }
         return $this->_certs[count($this->_certs) - 1];

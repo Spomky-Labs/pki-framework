@@ -92,7 +92,7 @@ class AuthorityKeyIdentifierExtension extends Extension
      */
     public function keyIdentifier(): string
     {
-        if (!$this->hasKeyIdentifier()) {
+        if (! $this->hasKeyIdentifier()) {
             throw new \LogicException('keyIdentifier not set.');
         }
         return $this->_keyIdentifier;
@@ -117,7 +117,7 @@ class AuthorityKeyIdentifierExtension extends Extension
      */
     public function issuer(): GeneralNames
     {
-        if (!$this->hasIssuer()) {
+        if (! $this->hasIssuer()) {
             throw new \LogicException('authorityCertIssuer not set.');
         }
         return $this->_authorityCertIssuer;
@@ -142,7 +142,7 @@ class AuthorityKeyIdentifierExtension extends Extension
      */
     public function serial(): string
     {
-        if (!$this->hasSerial()) {
+        if (! $this->hasSerial()) {
             throw new \LogicException('authorityCertSerialNumber not set.');
         }
         return $this->_authorityCertSerialNumber;
@@ -163,7 +163,7 @@ class AuthorityKeyIdentifierExtension extends Extension
                 ->asOctetString()->string();
         }
         if ($seq->hasTagged(1) || $seq->hasTagged(2)) {
-            if (!$seq->hasTagged(1) || !$seq->hasTagged(2)) {
+            if (! $seq->hasTagged(1) || ! $seq->hasTagged(2)) {
                 throw new \UnexpectedValueException(
                     'AuthorityKeyIdentifier must have both' .
                         ' authorityCertIssuer and authorityCertSerialNumber' .
@@ -193,7 +193,7 @@ class AuthorityKeyIdentifierExtension extends Extension
         // if either issuer or serial is set, both must be set
         if (isset($this->_authorityCertIssuer) ||
              isset($this->_authorityCertSerialNumber)) {
-            if (!isset($this->_authorityCertIssuer,
+            if (! isset($this->_authorityCertIssuer,
                 $this->_authorityCertSerialNumber)) {
                 throw new \LogicException(
                     'AuthorityKeyIdentifier must have both' .

@@ -53,7 +53,7 @@ class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     public static function fromASN1Params(
         ?UnspecifiedType $params = null
     ): SpecificAlgorithmIdentifier {
-        if (!isset($params)) {
+        if (! isset($params)) {
             throw new \UnexpectedValueException('No parameters.');
         }
         $iv = $params->asOctetString()->string();
@@ -91,7 +91,7 @@ class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      */
     protected function _paramsASN1(): ?Element
     {
-        if (!isset($this->_initializationVector)) {
+        if (! isset($this->_initializationVector)) {
             throw new \LogicException('IV not set.');
         }
         return new OctetString($this->_initializationVector);

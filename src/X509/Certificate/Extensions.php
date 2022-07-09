@@ -126,7 +126,7 @@ class Extensions implements \Countable, \IteratorAggregate
      */
     public function get(string $oid): Extension
     {
-        if (!$this->has($oid)) {
+        if (! $this->has($oid)) {
             throw new \LogicException("No extension by OID {$oid}.");
         }
         return $this->_extensions[$oid];

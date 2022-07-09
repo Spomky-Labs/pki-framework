@@ -113,7 +113,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
      */
     public function trustAnchorCertificate(): Certificate
     {
-        if (!count($this->_certificates)) {
+        if (! count($this->_certificates)) {
             throw new \LogicException('No certificates.');
         }
         return $this->_certificates[0];
@@ -128,7 +128,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
      */
     public function endEntityCertificate(): Certificate
     {
-        if (!count($this->_certificates)) {
+        if (! count($this->_certificates)) {
             throw new \LogicException('No certificates.');
         }
         return $this->_certificates[count($this->_certificates) - 1];
@@ -159,7 +159,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
             return false;
         }
         for ($i = 0; $i < $n; ++$i) {
-            if (!$certs[$i]->equals($this->_certificates[$i])) {
+            if (! $certs[$i]->equals($this->_certificates[$i])) {
                 return false;
             }
         }

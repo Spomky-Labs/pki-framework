@@ -45,7 +45,7 @@ class Attributes extends SetOfAttributes
      */
     public function extensionRequest(): ExtensionRequestValue
     {
-        if (!$this->hasExtensionRequest()) {
+        if (! $this->hasExtensionRequest()) {
             throw new \LogicException('No extension request attribute.');
         }
         return $this->firstOf(ExtensionRequestValue::OID)->first();

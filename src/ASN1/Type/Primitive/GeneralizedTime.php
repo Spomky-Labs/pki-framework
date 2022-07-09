@@ -67,7 +67,7 @@ class GeneralizedTime extends BaseTime
      */
     protected function _encodedContentDER(): string
     {
-        if (!isset($this->_formatted)) {
+        if (! isset($this->_formatted)) {
             $dt = $this->_dateTime->setTimezone(
                 self::_createTimeZone(self::TZ_UTC)
             );
@@ -97,7 +97,7 @@ class GeneralizedTime extends BaseTime
         $str = substr($data, $idx, $length);
         $idx += $length;
         /** @var string[] $match */
-        if (!preg_match(self::REGEX, $str, $match)) {
+        if (! preg_match(self::REGEX, $str, $match)) {
             throw new DecodeException('Invalid GeneralizedTime format.');
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
@@ -121,7 +121,7 @@ class GeneralizedTime extends BaseTime
             $time,
             self::_createTimeZone(self::TZ_UTC)
         );
-        if (!$dt) {
+        if (! $dt) {
             throw new DecodeException(
                 'Failed to decode GeneralizedTime: ' .
                 self::_getLastDateTimeImmutableErrorsStr()

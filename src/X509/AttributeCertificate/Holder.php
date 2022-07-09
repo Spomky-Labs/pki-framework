@@ -160,7 +160,7 @@ class Holder
      */
     public function baseCertificateID(): IssuerSerial
     {
-        if (!$this->hasBaseCertificateID()) {
+        if (! $this->hasBaseCertificateID()) {
             throw new \LogicException('baseCertificateID not set.');
         }
         return $this->_baseCertificateID;
@@ -185,7 +185,7 @@ class Holder
      */
     public function entityName(): GeneralNames
     {
-        if (!$this->hasEntityName()) {
+        if (! $this->hasEntityName()) {
             throw new \LogicException('entityName not set.');
         }
         return $this->_entityName;
@@ -210,7 +210,7 @@ class Holder
      */
     public function objectDigestInfo(): ObjectDigestInfo
     {
-        if (!$this->hasObjectDigestInfo()) {
+        if (! $this->hasObjectDigestInfo()) {
             throw new \LogicException('objectDigestInfo not set.');
         }
         return $this->_objectDigestInfo;
@@ -255,16 +255,16 @@ class Holder
     public function identifiesPKC(Certificate $cert): bool
     {
         // if neither baseCertificateID nor entityName are present
-        if (!$this->_baseCertificateID && !$this->_entityName) {
+        if (! $this->_baseCertificateID && ! $this->_entityName) {
             return false;
         }
         // if baseCertificateID is present, but doesn't match
         if ($this->_baseCertificateID &&
-            !$this->_baseCertificateID->identifiesPKC($cert)) {
+            ! $this->_baseCertificateID->identifiesPKC($cert)) {
             return false;
         }
         // if entityName is present, but doesn't match
-        if ($this->_entityName && !$this->_checkEntityName($cert)) {
+        if ($this->_entityName && ! $this->_checkEntityName($cert)) {
             return false;
         }
         return true;

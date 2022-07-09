@@ -29,7 +29,7 @@ class RDN implements \Countable, \IteratorAggregate
      */
     public function __construct(AttributeTypeAndValue ...$attribs)
     {
-        if (!count($attribs)) {
+        if (! count($attribs)) {
             throw new \UnexpectedValueException(
                 'RDN must have at least one AttributeTypeAndValue.'
             );
@@ -142,7 +142,7 @@ class RDN implements \Countable, \IteratorAggregate
         for ($i = count($attribs1) - 1; $i >= 0; --$i) {
             $tv1 = $attribs1[$i];
             $tv2 = $attribs2[$i];
-            if (!$tv1->equals($tv2)) {
+            if (! $tv1->equals($tv2)) {
                 return false;
             }
         }

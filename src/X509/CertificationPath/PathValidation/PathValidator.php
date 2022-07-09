@@ -58,7 +58,7 @@ class PathValidator
         PathValidationConfig $config,
         Certificate ...$certificates
     ) {
-        if (!count($certificates)) {
+        if (! count($certificates)) {
             throw new \LogicException('No certificates.');
         }
         $this->_crypto = $crypto;
@@ -92,12 +92,12 @@ class PathValidator
             $cert = $this->_certificates[$i];
             // process certificate (section 6.1.3.)
             $state = $this->_processCertificate($state, $cert);
-            if (!$state->isFinal()) {
+            if (! $state->isFinal()) {
                 // prepare next certificate (section 6.1.4.)
                 $state = $this->_prepareNext($state, $cert);
             }
         }
-        if (!isset($cert)) {
+        if (! isset($cert)) {
             throw new \LogicException('No certificates.');
         }
         // wrap-up (section 6.1.5.)
@@ -132,7 +132,7 @@ class PathValidator
         $this->_checkIssuer($state, $cert);
         // (b)(c) if certificate is self-issued and it is not
         // the final certificate in the path, skip this step
-        if (!($cert->isSelfIssued() && !$state->isFinal())) {
+        if (! ($cert->isSelfIssued() && ! $state->isFinal())) {
             // (b) check permitted subtrees
             $this->_checkPermittedSubtrees($state, $cert);
             // (c) check excluded subtrees
@@ -150,7 +150,7 @@ class PathValidator
             $state = $state->withoutValidPolicyTree();
         }
         // (f) check that explicit_policy > 0 or valid_policy_tree is set
-        if (!($state->explicitPolicy() > 0 || $state->hasValidPolicyTree())) {
+        if (! ($state->explicitPolicy() > 0 || $state->hasValidPolicyTree())) {
             throw new PathValidationException('No valid policies.');
         }
         return $state;
@@ -182,7 +182,7 @@ class PathValidator
         // (g) if name constraints extension is present
         $state = $this->_prepareNameConstraints($state, $cert);
         // (h) if certificate is not self-issued
-        if (!$cert->isSelfIssued()) {
+        if (! $cert->isSelfIssued()) {
             $state = $this->_prepareNonSelfIssued($state);
         }
         // (i) if policy constraints extension is present
@@ -238,7 +238,7 @@ class PathValidator
         // (g) intersection of valid_policy_tree and the initial-policy-set
         $state = $this->_calculatePolicyIntersection($state);
         // check that explicit_policy > 0 or valid_policy_tree is set
-        if (!($state->explicitPolicy() > 0 || $state->hasValidPolicyTree())) {
+        if (! ($state->explicitPolicy() > 0 || $state->hasValidPolicyTree())) {
             throw new PathValidationException('No valid policies.');
         }
         // path validation succeeded
@@ -301,7 +301,7 @@ class PathValidator
                 $e
             );
         }
-        if (!$valid) {
+        if (! $valid) {
             throw new PathValidationException(
                 "Certificate signature doesn't match."
             );
@@ -349,7 +349,7 @@ class PathValidator
      */
     private function _checkIssuer(ValidatorState $state, Certificate $cert): void
     {
-        if (!$cert->tbsCertificate()->issuer()->equals($state->workingIssuerName())) {
+        if (! $cert->tbsCertificate()->issuer()->equals($state->workingIssuerName())) {
             throw new PathValidationException('Certification issuer mismatch.');
         }
     }
@@ -458,7 +458,7 @@ class PathValidator
         Certificate $cert
     ): ValidatorState {
         $extensions = $cert->tbsCertificate()->extensions();
-        if (!$extensions->hasPolicyConstraints()) {
+        if (! $extensions->hasPolicyConstraints()) {
             return $state;
         }
         $ext = $extensions->policyConstraints();
@@ -511,7 +511,7 @@ class PathValidator
         ValidatorState $state,
         Certificate $cert
     ): ValidatorState {
-        if (!$cert->isSelfIssued()) {
+        if (! $cert->isSelfIssued()) {
             if ($state->maxPathLength() <= 0) {
                 throw new PathValidationException(
                     'Certification path length exceeded.'
@@ -534,7 +534,7 @@ class PathValidator
         $extensions = $cert->tbsCertificate()->extensions();
         if ($extensions->hasKeyUsage()) {
             $ext = $extensions->keyUsage();
-            if (!$ext->isKeyCertSign()) {
+            if (! $ext->isKeyCertSign()) {
                 throw new PathValidationException('keyCertSign usage not set.');
             }
         }
@@ -565,13 +565,13 @@ class PathValidator
     {
         if (TBSCertificate::VERSION_3 === $cert->tbsCertificate()->version()) {
             $extensions = $cert->tbsCertificate()->extensions();
-            if (!$extensions->hasBasicConstraints()) {
+            if (! $extensions->hasBasicConstraints()) {
                 throw new PathValidationException(
                     'v3 certificate must have basicConstraints extension.'
                 );
             }
             // verify that cA is set to TRUE
-            if (!$extensions->basicConstraints()->isCA()) {
+            if (! $extensions->basicConstraints()->isCA()) {
                 throw new PathValidationException(
                     'Certificate is not a CA certificate.'
                 );
@@ -625,7 +625,7 @@ class PathValidator
     private function _calculatePolicyIntersection(ValidatorState $state): ValidatorState
     {
         // (i) If the valid_policy_tree is NULL, the intersection is NULL
-        if (!$state->hasValidPolicyTree()) {
+        if (! $state->hasValidPolicyTree()) {
             return $state;
         }
         // (ii) If the valid_policy_tree is not NULL and

@@ -80,7 +80,7 @@ class AttributeCertificate
     {
         $acinfo = AttributeCertificateInfo::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
-        if (!$algo instanceof SignatureAlgorithmIdentifier) {
+        if (! $algo instanceof SignatureAlgorithmIdentifier) {
             throw new \UnexpectedValueException(
                 'Unsupported signature algorithm ' . $algo->oid() . '.'
             );
@@ -195,7 +195,7 @@ class AttributeCertificate
      */
     public function isHeldBy(Certificate $cert): bool
     {
-        if (!$this->_acinfo->holder()->identifiesPKC($cert)) {
+        if (! $this->_acinfo->holder()->identifiesPKC($cert)) {
             return false;
         }
         return true;
@@ -211,7 +211,7 @@ class AttributeCertificate
      */
     public function isIssuedBy(Certificate $cert): bool
     {
-        if (!$this->_acinfo->issuer()->identifiesPKC($cert)) {
+        if (! $this->_acinfo->issuer()->identifiesPKC($cert)) {
             return false;
         }
         return true;

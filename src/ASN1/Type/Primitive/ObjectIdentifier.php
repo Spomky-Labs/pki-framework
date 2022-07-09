@@ -203,7 +203,7 @@ class ObjectIdentifier extends Element
                 $byte = ord($data[$idx++]);
                 $num |= $byte & 0x7f;
                 // bit 8 of the last octet is zero
-                if (!($byte & 0x80)) {
+                if (! ($byte & 0x80)) {
                     break;
                 }
                 $num <<= 7;

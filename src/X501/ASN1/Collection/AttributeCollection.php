@@ -77,7 +77,7 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
     public function firstOf(string $name): Attribute
     {
         $attr = $this->_findFirst($name);
-        if (!$attr) {
+        if (! $attr) {
             throw new \UnexpectedValueException("No {$name} attribute.");
         }
         return $attr;

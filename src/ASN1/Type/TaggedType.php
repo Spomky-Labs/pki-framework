@@ -24,7 +24,7 @@ abstract class TaggedType extends Element
     public function expectExplicit(?int $expectedTag = null): ExplicitTagging
     {
         $el = $this;
-        if (!$el instanceof ExplicitTagging) {
+        if (! $el instanceof ExplicitTagging) {
             throw new \UnexpectedValueException(
                 "Element doesn't implement explicit tagging."
             );
@@ -57,7 +57,7 @@ abstract class TaggedType extends Element
     public function expectImplicit(?int $expectedTag = null): ImplicitTagging
     {
         $el = $this;
-        if (!$el instanceof ImplicitTagging) {
+        if (! $el instanceof ImplicitTagging) {
             throw new \UnexpectedValueException(
                 "Element doesn't implement implicit tagging."
             );

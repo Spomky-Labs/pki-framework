@@ -111,7 +111,7 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
         $attribs = SequenceOfAttributes::fromASN1(
             UnspecifiedType::fromDER($data)->asSequence()
         );
-        if (!count($attribs)) {
+        if (! count($attribs)) {
             throw new \UnexpectedValueException(
                 'SubjectDirectoryAttributes must have at least one Attribute.'
             );
@@ -124,7 +124,7 @@ class SubjectDirectoryAttributesExtension extends Extension implements \Countabl
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_attributes)) {
+        if (! count($this->_attributes)) {
             throw new \LogicException('No attributes');
         }
         return $this->_attributes->toASN1();

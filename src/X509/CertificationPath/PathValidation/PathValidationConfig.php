@@ -257,7 +257,7 @@ class PathValidationConfig
      */
     public function trustAnchor(): Certificate
     {
-        if (!$this->hasTrustAnchor()) {
+        if (! $this->hasTrustAnchor()) {
             throw new \LogicException('No trust anchor.');
         }
         return $this->_trustAnchor;

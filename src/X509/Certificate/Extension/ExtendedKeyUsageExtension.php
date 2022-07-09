@@ -17,33 +17,61 @@ use Sop\ASN1\Type\UnspecifiedType;
 class ExtendedKeyUsageExtension extends Extension implements \Countable, \IteratorAggregate
 {
     public const OID_SERVER_AUTH = '1.3.6.1.5.5.7.3.1';
+
     public const OID_CLIENT_AUTH = '1.3.6.1.5.5.7.3.2';
+
     public const OID_CODE_SIGNING = '1.3.6.1.5.5.7.3.3';
+
     public const OID_EMAIL_PROTECTION = '1.3.6.1.5.5.7.3.4';
+
     public const OID_IPSEC_END_SYSTEM = '1.3.6.1.5.5.7.3.5';
+
     public const OID_IPSEC_TUNNEL = '1.3.6.1.5.5.7.3.6';
+
     public const OID_IPSEC_USER = '1.3.6.1.5.5.7.3.7';
+
     public const OID_TIME_STAMPING = '1.3.6.1.5.5.7.3.8';
+
     public const OID_OCSP_SIGNING = '1.3.6.1.5.5.7.3.9';
+
     public const OID_DVCS = '1.3.6.1.5.5.7.3.10';
+
     public const OID_SBGP_CERT_AA_SERVER_AUTH = '1.3.6.1.5.5.7.3.11';
+
     public const OID_SCVP_RESPONDER = '1.3.6.1.5.5.7.3.12';
+
     public const OID_EAP_OVER_PPP = '1.3.6.1.5.5.7.3.13';
+
     public const OID_EAP_OVER_LAN = '1.3.6.1.5.5.7.3.14';
+
     public const OID_SCVP_SERVER = '1.3.6.1.5.5.7.3.15';
+
     public const OID_SCVP_CLIENT = '1.3.6.1.5.5.7.3.16';
+
     public const OID_IPSEC_IKE = '1.3.6.1.5.5.7.3.17';
+
     public const OID_CAPWAP_AC = '1.3.6.1.5.5.7.3.18';
+
     public const OID_CAPWAP_WTP = '1.3.6.1.5.5.7.3.19';
+
     public const OID_SIP_DOMAIN = '1.3.6.1.5.5.7.3.20';
+
     public const OID_SECURE_SHELL_CLIENT = '1.3.6.1.5.5.7.3.21';
+
     public const OID_SECURE_SHELL_SERVER = '1.3.6.1.5.5.7.3.22';
+
     public const OID_SEND_ROUTER = '1.3.6.1.5.5.7.3.23';
+
     public const OID_SEND_PROXY = '1.3.6.1.5.5.7.3.24';
+
     public const OID_SEND_OWNER = '1.3.6.1.5.5.7.3.25';
+
     public const OID_SEND_PROXIED_OWNER = '1.3.6.1.5.5.7.3.26';
+
     public const OID_CMC_CA = '1.3.6.1.5.5.7.3.27';
+
     public const OID_CMC_RA = '1.3.6.1.5.5.7.3.28';
+
     public const OID_CMC_ARCHIVE = '1.3.6.1.5.5.7.3.29';
 
     /**
@@ -77,7 +105,7 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
     public function has(string ...$oids): bool
     {
         foreach ($oids as $oid) {
-            if (!in_array($oid, $this->_purposes)) {
+            if (! in_array($oid, $this->_purposes)) {
                 return false;
             }
         }

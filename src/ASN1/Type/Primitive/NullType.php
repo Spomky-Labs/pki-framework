@@ -45,7 +45,7 @@ class NullType extends Element
         int &$offset
     ): ElementBase {
         $idx = $offset;
-        if (!$identifier->isPrimitive()) {
+        if (! $identifier->isPrimitive()) {
             throw new DecodeException('Null value must be primitive.');
         }
         // null type has always zero length

@@ -61,7 +61,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
         $mappings = [];
         foreach ($this->_mappings as $mapping) {
             $idp = $mapping->issuerDomainPolicy();
-            if (!isset($mappings[$idp])) {
+            if (! isset($mappings[$idp])) {
                 $mappings[$idp] = [];
             }
             array_push($mappings[$idp], $mapping->subjectDomainPolicy());
@@ -160,7 +160,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
             },
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        if (!count($mappings)) {
+        if (! count($mappings)) {
             throw new \UnexpectedValueException(
                 'PolicyMappings must have at least one mapping.'
             );
@@ -173,7 +173,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
      */
     protected function _valueASN1(): Element
     {
-        if (!count($this->_mappings)) {
+        if (! count($this->_mappings)) {
             throw new \LogicException('No mappings.');
         }
         $elements = array_map(

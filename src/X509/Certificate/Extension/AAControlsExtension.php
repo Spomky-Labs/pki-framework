@@ -93,7 +93,7 @@ class AAControlsExtension extends Extension
      */
     public function pathLen(): int
     {
-        if (!$this->hasPathLen()) {
+        if (! $this->hasPathLen()) {
             throw new \LogicException('pathLen not set.');
         }
         return $this->_pathLenConstraint;
@@ -118,7 +118,7 @@ class AAControlsExtension extends Extension
      */
     public function permittedAttrs(): array
     {
-        if (!$this->hasPermittedAttrs()) {
+        if (! $this->hasPermittedAttrs()) {
             throw new \LogicException('permittedAttrs not set.');
         }
         return $this->_permittedAttrs;
@@ -143,7 +143,7 @@ class AAControlsExtension extends Extension
      */
     public function excludedAttrs(): array
     {
-        if (!$this->hasExcludedAttrs()) {
+        if (! $this->hasExcludedAttrs()) {
             throw new \LogicException('excludedAttrs not set.');
         }
         return $this->_excludedAttrs;

@@ -107,7 +107,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
      */
     public function policyAuthority(): GeneralNames
     {
-        if (!$this->hasPolicyAuthority()) {
+        if (! $this->hasPolicyAuthority()) {
             throw new \LogicException('policyAuthority not set.');
         }
         return $this->_policyAuthority;
@@ -132,7 +132,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
      */
     public function first(): IetfAttrValue
     {
-        if (!count($this->_values)) {
+        if (! count($this->_values)) {
             throw new \LogicException('No values.');
         }
         return $this->_values[0];

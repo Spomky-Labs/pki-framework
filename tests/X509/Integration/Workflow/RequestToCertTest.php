@@ -97,7 +97,7 @@ class RequestToCertTest extends TestCase
      */
     public function testIssueCertificate(
         CertificationRequest $csr,
-        Certificate          $ca_cert
+        Certificate $ca_cert
     ) {
         $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate(
             $ca_cert

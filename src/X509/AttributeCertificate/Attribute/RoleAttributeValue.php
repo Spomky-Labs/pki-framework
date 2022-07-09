@@ -107,7 +107,7 @@ class RoleAttributeValue extends AttributeValue
      */
     public function roleAuthority(): GeneralNames
     {
-        if (!$this->hasRoleAuthority()) {
+        if (! $this->hasRoleAuthority()) {
             throw new \LogicException('roleAuthority not set.');
         }
         return $this->_roleAuthority;

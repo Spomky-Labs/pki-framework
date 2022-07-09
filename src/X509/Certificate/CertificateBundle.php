@@ -129,7 +129,7 @@ class CertificateBundle implements \Countable, \IteratorAggregate
     {
         $id = self::_getCertKeyId($cert);
         $map = $this->_getKeyIdMap();
-        if (!isset($map[$id])) {
+        if (! isset($map[$id])) {
             return false;
         }
         foreach ($map[$id] as $c) {
@@ -151,7 +151,7 @@ class CertificateBundle implements \Countable, \IteratorAggregate
     public function allBySubjectKeyIdentifier(string $id): array
     {
         $map = $this->_getKeyIdMap();
-        if (!isset($map[$id])) {
+        if (! isset($map[$id])) {
             return [];
         }
         return $map[$id];
@@ -197,11 +197,11 @@ class CertificateBundle implements \Countable, \IteratorAggregate
     private function _getKeyIdMap(): array
     {
         // lazily build mapping
-        if (!isset($this->_keyIdMap)) {
+        if (! isset($this->_keyIdMap)) {
             $this->_keyIdMap = [];
             foreach ($this->_certs as $cert) {
                 $id = self::_getCertKeyId($cert);
-                if (!isset($this->_keyIdMap[$id])) {
+                if (! isset($this->_keyIdMap[$id])) {
                     $this->_keyIdMap[$id] = [];
                 }
                 array_push($this->_keyIdMap[$id], $cert);

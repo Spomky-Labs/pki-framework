@@ -17,13 +17,21 @@ abstract class GeneralName
 {
     // GeneralName CHOICE tags
     public const TAG_OTHER_NAME = 0;
+
     public const TAG_RFC822_NAME = 1;
+
     public const TAG_DNS_NAME = 2;
+
     public const TAG_X400_ADDRESS = 3;
+
     public const TAG_DIRECTORY_NAME = 4;
+
     public const TAG_EDI_PARTY_NAME = 5;
+
     public const TAG_URI = 6;
+
     public const TAG_IP_ADDRESS = 7;
+
     public const TAG_REGISTERED_ID = 8;
 
     /**

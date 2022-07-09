@@ -83,7 +83,7 @@ class UnknownExtension extends Extension
      */
     protected function _valueASN1(): Element
     {
-        if (!isset($this->_element)) {
+        if (! isset($this->_element)) {
             throw new \RuntimeException('Extension value is not DER encoded.');
         }
         return $this->_element;

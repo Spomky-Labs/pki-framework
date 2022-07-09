@@ -15,8 +15,11 @@ class Identifier implements Encodable
 {
     // Type class enumerations
     public const CLASS_UNIVERSAL = 0b00;
+
     public const CLASS_APPLICATION = 0b01;
+
     public const CLASS_CONTEXT_SPECIFIC = 0b10;
+
     public const CLASS_PRIVATE = 0b11;
 
     /**
@@ -35,6 +38,7 @@ class Identifier implements Encodable
 
     // P/C enumerations
     public const PRIMITIVE = 0b0;
+
     public const CONSTRUCTED = 0b1;
 
     /**
@@ -252,7 +256,7 @@ class Identifier implements Encodable
      */
     public static function classToName(int $class): string
     {
-        if (!array_key_exists($class, self::MAP_CLASS_TO_NAME)) {
+        if (! array_key_exists($class, self::MAP_CLASS_TO_NAME)) {
             return "CLASS {$class}";
         }
         return self::MAP_CLASS_TO_NAME[$class];
@@ -282,7 +286,7 @@ class Identifier implements Encodable
             $tag <<= 7;
             $tag |= 0x7f & $byte;
             // last byte has bit 8 set to zero
-            if (!(0x80 & $byte)) {
+            if (! (0x80 & $byte)) {
                 break;
             }
         }

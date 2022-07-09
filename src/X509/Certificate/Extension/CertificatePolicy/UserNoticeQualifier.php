@@ -84,7 +84,7 @@ class UserNoticeQualifier extends PolicyQualifierInfo
      */
     public function explicitText(): DisplayText
     {
-        if (!$this->hasExplicitText()) {
+        if (! $this->hasExplicitText()) {
             throw new \LogicException('explicitText not set.');
         }
         return $this->_text;
@@ -109,7 +109,7 @@ class UserNoticeQualifier extends PolicyQualifierInfo
      */
     public function noticeRef(): NoticeReference
     {
-        if (!$this->hasNoticeRef()) {
+        if (! $this->hasNoticeRef()) {
             throw new \LogicException('noticeRef not set.');
         }
         return $this->_ref;

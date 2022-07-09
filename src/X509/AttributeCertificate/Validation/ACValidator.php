@@ -98,7 +98,7 @@ class ACValidator
                 $e
             );
         }
-        if (!$this->_ac->isHeldBy($holder)) {
+        if (! $this->_ac->isHeldBy($holder)) {
             throw new ACValidationException("Name mismatch of AC's holder PKC.");
         }
         return $holder;
@@ -126,11 +126,11 @@ class ACValidator
                 $e
             );
         }
-        if (!$this->_ac->isIssuedBy($issuer)) {
+        if (! $this->_ac->isIssuedBy($issuer)) {
             throw new ACValidationException("Name mismatch of AC's issuer PKC.");
         }
         $pubkey_info = $issuer->tbsCertificate()->subjectPublicKeyInfo();
-        if (!$this->_ac->verify($pubkey_info, $this->_crypto)) {
+        if (! $this->_ac->verify($pubkey_info, $this->_crypto)) {
             throw new ACValidationException('Failed to verify signature.');
         }
         return $issuer;
@@ -148,7 +148,7 @@ class ACValidator
     private function _validateIssuerProfile(Certificate $cert): void
     {
         $exts = $cert->tbsCertificate()->extensions();
-        if ($exts->hasKeyUsage() && !$exts->keyUsage()->isDigitalSignature()) {
+        if ($exts->hasKeyUsage() && ! $exts->keyUsage()->isDigitalSignature()) {
             throw new ACValidationException(
                 "Issuer PKC's Key Usage extension doesn't permit" .
                      ' verification of digital signatures.'
@@ -185,12 +185,12 @@ class ACValidator
     {
         $exts = $this->_ac->acinfo()->extensions();
         // if target information extension is not present
-        if (!$exts->has(Extension::OID_TARGET_INFORMATION)) {
+        if (! $exts->has(Extension::OID_TARGET_INFORMATION)) {
             return;
         }
         $ext = $exts->get(Extension::OID_TARGET_INFORMATION);
         if ($ext instanceof TargetInformationExtension &&
-            !$this->_hasMatchingTarget($ext->targets())) {
+            ! $this->_hasMatchingTarget($ext->targets())) {
             throw new ACValidationException(
                 "Attribute certificate doesn't have a matching target."
             );

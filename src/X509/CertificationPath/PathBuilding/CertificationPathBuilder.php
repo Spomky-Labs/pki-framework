@@ -71,7 +71,7 @@ class CertificationPathBuilder
         ?CertificateBundle $intermediate = null
     ): CertificationPath {
         $paths = $this->allPathsToTarget($target, $intermediate);
-        if (!count($paths)) {
+        if (! count($paths)) {
             throw new PathBuildingException('No certification paths.');
         }
         usort(

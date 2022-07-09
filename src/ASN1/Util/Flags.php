@@ -35,7 +35,7 @@ class Flags
      */
     public function __construct($flags, int $width)
     {
-        if (!$width) {
+        if (! $width) {
             $this->_flags = '';
         } else {
             // calculate number of unused bits in last octet

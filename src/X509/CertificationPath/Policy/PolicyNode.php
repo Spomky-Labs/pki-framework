@@ -228,7 +228,7 @@ class PolicyNode implements \IteratorAggregate, \Countable
      */
     public function parents(): array
     {
-        if (!$this->_parent) {
+        if (! $this->_parent) {
             return [];
         }
         $nodes = $this->_parent->parents();

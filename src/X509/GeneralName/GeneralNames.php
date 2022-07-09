@@ -46,7 +46,7 @@ class GeneralNames implements \Countable, \IteratorAggregate
      */
     public static function fromASN1(Sequence $seq): GeneralNames
     {
-        if (!count($seq)) {
+        if (! count($seq)) {
             throw new \UnexpectedValueException(
                 'GeneralNames must have at least one GeneralName.'
             );
@@ -84,7 +84,7 @@ class GeneralNames implements \Countable, \IteratorAggregate
     public function firstOf(int $tag): GeneralName
     {
         $name = $this->_findFirst($tag);
-        if (!$name) {
+        if (! $name) {
             throw new \UnexpectedValueException("No GeneralName by tag {$tag}.");
         }
         return $name;
@@ -116,7 +116,7 @@ class GeneralNames implements \Countable, \IteratorAggregate
     public function firstDNS(): string
     {
         $gn = $this->firstOf(GeneralName::TAG_DNS_NAME);
-        if (!$gn instanceof DNSName) {
+        if (! $gn instanceof DNSName) {
             throw new \RuntimeException(
                 DNSName::class . ' expected, got ' . get_class($gn)
             );
@@ -132,7 +132,7 @@ class GeneralNames implements \Countable, \IteratorAggregate
     public function firstDN(): Name
     {
         $gn = $this->firstOf(GeneralName::TAG_DIRECTORY_NAME);
-        if (!$gn instanceof DirectoryName) {
+        if (! $gn instanceof DirectoryName) {
             throw new \RuntimeException(
                 DirectoryName::class . ' expected, got ' . get_class($gn)
             );
@@ -148,7 +148,7 @@ class GeneralNames implements \Countable, \IteratorAggregate
     public function firstURI(): string
     {
         $gn = $this->firstOf(GeneralName::TAG_URI);
-        if (!$gn instanceof UniformResourceIdentifier) {
+        if (! $gn instanceof UniformResourceIdentifier) {
             throw new \RuntimeException(
                 UniformResourceIdentifier::class . ' expected, got ' . get_class($gn)
             );
@@ -163,7 +163,7 @@ class GeneralNames implements \Countable, \IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        if (!count($this->_names)) {
+        if (! count($this->_names)) {
             throw new \LogicException(
                 'GeneralNames must have at least one GeneralName.'
             );

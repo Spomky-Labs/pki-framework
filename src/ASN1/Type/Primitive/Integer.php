@@ -35,7 +35,7 @@ class Integer extends Element
     public function __construct($number)
     {
         $this->_typeTag = self::TYPE_INTEGER;
-        if (!self::_validateNumber($number)) {
+        if (! self::_validateNumber($number)) {
             $var = is_scalar($number) ? strval($number) : gettype($number);
             throw new \InvalidArgumentException("'{$var}' is not a valid number.");
         }

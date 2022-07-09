@@ -50,7 +50,7 @@ class ECPublicKey extends PublicKey
     {
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
-        if (!strlen($ec_point) || !in_array(ord($ec_point[0]), [2, 3, 4])) {
+        if (! strlen($ec_point) || ! in_array(ord($ec_point[0]), [2, 3, 4])) {
             throw new \InvalidArgumentException('Invalid ECPoint.');
         }
         $this->_ecPoint = $ec_point;
@@ -74,7 +74,7 @@ class ECPublicKey extends PublicKey
         ?int $bits = null
     ): ECPublicKey {
         // if bitsize is not explicitly set, check from supported curves
-        if (!isset($bits) && isset($named_curve)) {
+        if (! isset($bits) && isset($named_curve)) {
             $bits = self::_curveSize($named_curve);
         }
         $mlen = null;
@@ -102,7 +102,7 @@ class ECPublicKey extends PublicKey
         $pki = PublicKeyInfo::fromDER($pem->data());
         $algo = $pki->algorithmIdentifier();
         if (AlgorithmIdentifier::OID_EC_PUBLIC_KEY !== $algo->oid()
-            || !($algo instanceof ECPublicKeyAlgorithmIdentifier)) {
+            || ! ($algo instanceof ECPublicKeyAlgorithmIdentifier)) {
             throw new \UnexpectedValueException('Not an elliptic curve key.');
         }
         // ECPoint is directly mapped into public key data
@@ -171,7 +171,7 @@ class ECPublicKey extends PublicKey
      */
     public function namedCurve(): string
     {
-        if (!$this->hasNamedCurve()) {
+        if (! $this->hasNamedCurve()) {
             throw new \LogicException('namedCurve not set.');
         }
         return $this->_namedCurve;
@@ -219,7 +219,7 @@ class ECPublicKey extends PublicKey
      */
     private static function _curveSize(string $oid): ?int
     {
-        if (!array_key_exists($oid, ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE)) {
+        if (! array_key_exists($oid, ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE)) {
             return null;
         }
         return ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE[$oid];

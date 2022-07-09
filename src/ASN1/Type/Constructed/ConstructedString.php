@@ -62,7 +62,7 @@ class ConstructedString extends Structure implements StringType
      */
     public static function create(StringType ...$elements): self
     {
-        if (!count($elements)) {
+        if (! count($elements)) {
             throw new \LogicException('No elements, unable to determine type tag.');
         }
         $tag = $elements[0]->tag();

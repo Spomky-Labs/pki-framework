@@ -68,7 +68,7 @@ class UTCTime extends BaseTime
         $str = substr($data, $idx, $length);
         $idx += $length;
         /** @var string[] $match */
-        if (!preg_match(self::REGEX, $str, $match)) {
+        if (! preg_match(self::REGEX, $str, $match)) {
             throw new DecodeException('Invalid UTCTime format.');
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
@@ -78,7 +78,7 @@ class UTCTime extends BaseTime
             $time,
             self::_createTimeZone(self::TZ_UTC)
         );
-        if (!$dt) {
+        if (! $dt) {
             throw new DecodeException('Failed to decode UTCTime: ' .
                 self::_getLastDateTimeImmutableErrorsStr());
         }
