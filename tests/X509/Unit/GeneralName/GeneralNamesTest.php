@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\GeneralName;
 
+use BadMethodCallException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\TaggedType;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\GeneralName;
@@ -240,5 +242,10 @@ class GeneralNamesTest_NameMockup extends GeneralName
     protected function _choiceASN1(): TaggedType
     {
         return new NullType();
+    }
+
+    public static function fromChosenASN1(UnspecifiedType $el): GeneralName
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
     }
 }

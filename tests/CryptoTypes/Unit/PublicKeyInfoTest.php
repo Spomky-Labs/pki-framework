@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit;
 
+use BadMethodCallException;
 use function mb_strlen;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
@@ -215,5 +217,10 @@ class PubliceKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
     protected function _paramsASN1(): ?Element
     {
         return null;
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\AlgoId\Signature;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
@@ -124,6 +126,11 @@ class SignatureFactoryTest_InvalidCryptoAlgo extends SpecificAlgorithmIdentifier
     {
         return null;
     }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
+    }
 }
 
 class SignatureFactoryTest_InvalidHashAlgo extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
@@ -141,5 +148,10 @@ class SignatureFactoryTest_InvalidHashAlgo extends SpecificAlgorithmIdentifier i
     protected function _paramsASN1(): ?Element
     {
         return null;
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 }

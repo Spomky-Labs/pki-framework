@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
-use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -44,10 +43,7 @@ abstract class PolicyQualifierInfo
      *
      * @return self
      */
-    public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo
-    {
-        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
-    }
+    abstract public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo;
 
     /**
      * Initialize from ASN.1.

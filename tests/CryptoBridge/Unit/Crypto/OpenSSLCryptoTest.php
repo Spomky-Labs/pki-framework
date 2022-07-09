@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoBridge\Unit\Crypto;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Element;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoBridge\Crypto\OpenSSLCrypto;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -31,6 +33,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA224WithRSAEncryptionAlgorit
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
+use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\CryptoTypes\Signature\RSASignature;
@@ -326,6 +329,11 @@ class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
     {
         return null;
     }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
+    }
 }
 
 class OpenSSLCryptoTest_InvalidRC2 extends CipherAlgorithmIdentifier
@@ -353,5 +361,10 @@ class OpenSSLCryptoTest_InvalidRC2 extends CipherAlgorithmIdentifier
     protected function _paramsASN1(): ?Element
     {
         return null;
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
-use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -61,10 +60,7 @@ abstract class GeneralName
      *
      * @return self
      */
-    public static function fromChosenASN1(UnspecifiedType $el): GeneralName
-    {
-        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
-    }
+    abstract public static function fromChosenASN1(UnspecifiedType $el): GeneralName;
 
     /**
      * Initialize from ASN.1.

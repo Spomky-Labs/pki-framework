@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\GeneralName;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
@@ -26,15 +24,6 @@ final class GeneralNameTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         GeneralName::fromASN1(new ImplicitlyTaggedType(9, new NullType()));
-    }
-
-    /**
-     * @test
-     */
-    public function fromChosenBadCall()
-    {
-        $this->expectException(BadMethodCallException::class);
-        GeneralName::fromChosenASN1(new UnspecifiedType(new NullType()));
     }
 
     /**

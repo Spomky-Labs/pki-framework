@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\AlgoId;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 /**
  * @internal
@@ -51,15 +49,6 @@ final class AlgorithmIdentifierTest extends TestCase
     {
         $seq = $ai->toASN1();
         static::assertEquals(self::$_unknownASN1, $seq);
-    }
-
-    /**
-     * @test
-     */
-    public function specificAlgoBadCall()
-    {
-        $this->expectException(BadMethodCallException::class);
-        SpecificAlgorithmIdentifier::fromASN1Params();
     }
 
     /**
