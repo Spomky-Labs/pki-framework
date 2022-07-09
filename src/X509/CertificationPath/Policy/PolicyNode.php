@@ -110,7 +110,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function hasExpectedPolicy(string $oid): bool
     {
-        return in_array($oid, $this->_expectedPolicies);
+        return in_array($oid, $this->_expectedPolicies, true);
     }
 
     /**

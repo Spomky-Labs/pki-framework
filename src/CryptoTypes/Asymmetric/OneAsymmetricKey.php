@@ -107,7 +107,7 @@ class OneAsymmetricKey
         $version = $seq->at(0)
             ->asInteger()
             ->intNumber();
-        if (! in_array($version, [self::VERSION_1, self::VERSION_2])) {
+        if (! in_array($version, [self::VERSION_1, self::VERSION_2], true)) {
             throw new UnexpectedValueException("Version {$version} not supported.");
         }
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());

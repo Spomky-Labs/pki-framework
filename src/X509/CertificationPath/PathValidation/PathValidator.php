@@ -480,7 +480,7 @@ class PathValidator
         // the user-initial-policy-set is any-policy, the intersection
         // is the entire valid_policy_tree
         $initial_policies = $this->_config->policySet();
-        if (in_array(PolicyInformation::OID_ANY_POLICY, $initial_policies)) {
+        if (in_array(PolicyInformation::OID_ANY_POLICY, $initial_policies, true)) {
             return $state;
         }
         // (iii) If the valid_policy_tree is not NULL and the

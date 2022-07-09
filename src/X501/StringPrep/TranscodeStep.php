@@ -53,7 +53,7 @@ class TranscodeStep implements PrepareStep
      */
     public static function isTypeSupported(int $type): bool
     {
-        return in_array($type, self::SUPPORTED_TYPES);
+        return in_array($type, self::SUPPORTED_TYPES, true);
     }
 
     /**

@@ -90,7 +90,7 @@ class PolicyTree
                 if ($node->isAnyPolicy()) {
                     return true;
                 }
-                if (in_array($node->validPolicy(), $policies)) {
+                if (in_array($node->validPolicy(), $policies, true)) {
                     return true;
                 }
                 $node->remove();
@@ -296,7 +296,7 @@ class PolicyTree
         // delete each node of depth i in the valid_policy_tree
         // where ID-P is the valid_policy
         foreach ($this->_nodesAtDepth($state->index()) as $node) {
-            if (in_array($node->validPolicy(), $idps)) {
+            if (in_array($node->validPolicy(), $idps, true)) {
                 $node->remove();
             }
         }

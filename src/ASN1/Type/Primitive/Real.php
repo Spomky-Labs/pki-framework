@@ -449,7 +449,7 @@ class Real extends Element
     protected static function _decodeDecimalEncoding(string $data): self
     {
         $nr = ord($data[0]) & 0x3f;
-        if (! in_array($nr, [1, 2, 3])) {
+        if (! in_array($nr, [1, 2, 3], true)) {
             throw new DecodeException('Unsupported decimal encoding form.');
         }
         $str = substr($data, 1);

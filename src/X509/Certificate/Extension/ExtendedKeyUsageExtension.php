@@ -103,7 +103,7 @@ class ExtendedKeyUsageExtension extends Extension implements Countable, Iterator
     public function has(string ...$oids): bool
     {
         foreach ($oids as $oid) {
-            if (! in_array($oid, $this->_purposes)) {
+            if (! in_array($oid, $this->_purposes, true)) {
                 return false;
             }
         }
