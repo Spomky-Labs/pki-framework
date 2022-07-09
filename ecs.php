@@ -44,8 +44,8 @@ return static function (ECSConfig $config) use ($header): void {
     $config->import(SetList::NAMESPACES);
     $config->import(SetList::SYMPLIFY);
     $config->import(SetList::CONTROL_STRUCTURES);
-    /*
     $config->import(SetList::COMMON);
+    /*
     $config->import(SetList::STRICT);
 
     $config->rule(StrictComparisonFixer::class);

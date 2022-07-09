@@ -135,7 +135,7 @@ final class Real extends Element implements Stringable
      */
     public function __construct($mantissa, $exponent, int $base = 10)
     {
-        if ($base != 10 && $base != 2) {
+        if ($base !== 10 && $base !== 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
         $this->_typeTag = self::TYPE_REAL;
@@ -237,15 +237,18 @@ final class Real extends Element implements Stringable
             $m = $this->_mantissa->gmpObj();
             $e = $this->_exponent->gmpObj();
         }
+        $zero = gmp_init(0);
+        $ten = gmp_init(10, 10);
+
         // shift trailing zeroes from the mantissa to the exponent
         // (X.690 07-2002, section 11.3.2.4)
-        while ($m != 0 && $m % 10 == 0) {
-            $m /= 10;
+        while (gmp_cmp($m, $zero) !== 0 && gmp_cmp(gmp_mod($m, $ten), $zero) === 0) {
+            $m = gmp_div($m, $ten);
             ++$e;
         }
         // if exponent is zero, it must be prefixed with a "+" sign
         // (X.690 07-2002, section 11.3.2.6)
-        if ($e == 0) {
+        if (gmp_cmp($e, 0) === 0) {
             $es = '+';
         } else {
             $es = $e < 0 ? '-' : '';
@@ -255,12 +258,13 @@ final class Real extends Element implements Stringable
 
     protected function _encodedContentDER(): string
     {
-        if ($this->_exponent->gmpObj() == self::INF_EXPONENT) {
+        $infExponent = gmp_init(self::INF_EXPONENT, 10);
+        if (gmp_cmp($this->_exponent->gmpObj(), $infExponent) === 0) {
             return $this->_encodeSpecial();
         }
         // if the real value is the value zero, there shall be no contents
         // octets in the encoding. (X.690 07-2002, section 8.5.2)
-        if ($this->_mantissa->gmpObj() == 0) {
+        if ($this->_mantissa->gmpObj() === 0) {
             return '';
         }
         if ($this->_base === 10) {
@@ -467,12 +471,15 @@ final class Real extends Element implements Stringable
         $e = $this->_exponent->gmpObj();
         $es = gmp_sign($e);
         $e = gmp_abs($e);
+        $zero = gmp_init(0);
+        $three = gmp_init(3, 10);
+        $four = gmp_init(4, 10);
         // DER uses only base 2 binary encoding
         if (! $this->_strictDer) {
-            if ($e % 4 == 0) {
+            if (gmp_cmp(gmp_mod($e, $four), $zero) === 0) {
                 $base = 16;
                 $e = gmp_div_q($e, 4);
-            } elseif ($e % 3 == 0) {
+            } elseif (gmp_cmp(gmp_mod($e, $three), $zero) === 0) {
                 $base = 8;
                 $e = gmp_div_q($e, 3);
             }
@@ -505,7 +512,8 @@ final class Real extends Element implements Stringable
         // 52 bits of mantissa
         $man = gmp_and($n, '0xfffffffffffff');
         // zero, ASN.1 doesn't differentiate -0 from +0
-        if ($exp === self::EXP_BIAS && $man == 0) {
+        $zero = gmp_init(0);
+        if ($exp === self::EXP_BIAS && gmp_cmp($man, $zero) === 0) {
             return [gmp_init(0, 10), gmp_init(0, 10)];
         }
         // denormalized value, shift binary point
@@ -559,7 +567,9 @@ final class Real extends Element implements Stringable
             throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
         }
         // normalize so that mantsissa has no trailing zeroes
-        while ($m != 0 && $m % 10 == 0) {
+        $zero = gmp_init(0);
+        $ten = gmp_init(10, 10);
+        while ($m !== 0 && gmp_cmp(gmp_mod($m, $ten), $zero) === 0) {
             $m /= 10;
             ++$e;
         }
