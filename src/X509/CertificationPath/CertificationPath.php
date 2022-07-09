@@ -33,7 +33,7 @@ final class CertificationPath implements Countable, IteratorAggregate
      *
      * @var Certificate[]
      */
-    private $_certificates;
+    private readonly array $_certificates;
 
     /**
      * Constructor.

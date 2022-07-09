@@ -31,10 +31,8 @@ final class ECPublicKey extends PublicKey
 {
     /**
      * Elliptic curve public key.
-     *
-     * @var string
      */
-    protected $_ecPoint;
+    protected string $_ecPoint;
 
     /**
      * Constructor.

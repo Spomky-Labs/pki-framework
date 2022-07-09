@@ -24,10 +24,8 @@ final class Time
 
     /**
      * Time ASN.1 type tag.
-     *
-     * @var int
      */
-    protected $_type;
+    protected int $_type;
 
     public function __construct(/**
      * Datetime.

@@ -84,7 +84,7 @@ final class ExtendedKeyUsageExtension extends Extension implements Countable, It
      *
      * @var string[]
      */
-    protected $_purposes;
+    protected array $_purposes;
 
     public function __construct(bool $critical, string ...$purposes)
     {

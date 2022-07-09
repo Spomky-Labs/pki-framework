@@ -19,24 +19,18 @@ final class DERData extends Element
 {
     /**
      * DER encoded data.
-     *
-     * @var string
      */
-    protected $_der;
+    protected string $_der;
 
     /**
      * Identifier of the underlying type.
-     *
-     * @var Identifier
      */
-    protected $_identifier;
+    protected Identifier $_identifier;
 
     /**
      * Offset to the content in DER data.
-     *
-     * @var int
      */
-    protected $_contentOffset = 0;
+    protected int $_contentOffset = 0;
 
     /**
      * Constructor.

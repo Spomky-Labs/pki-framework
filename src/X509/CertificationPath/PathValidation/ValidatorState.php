@@ -23,17 +23,13 @@ final class ValidatorState
 {
     /**
      * Length of the certification path (n).
-     *
-     * @var int
      */
-    private $_pathLength;
+    private ?int $_pathLength = null;
 
     /**
      * Current index in the certification path in the range of 1..n (i).
-     *
-     * @var int
      */
-    private $_index;
+    private ?int $_index = null;
 
     /**
      * Valid policy tree (valid_policy_tree).
@@ -41,10 +37,8 @@ final class ValidatorState
      * A tree of certificate policies with their optional qualifiers. Each of the leaves of the tree represents a valid
      * policy at this stage in the certification path validation. Once the tree is set to NULL, policy processing
      * ceases.
-     *
-     * @var null|PolicyTree
      */
-    private $_validPolicyTree;
+    private ?PolicyTree $_validPolicyTree = null;
 
     /**
      * Permitted subtrees (permitted_subtrees).
@@ -66,28 +60,22 @@ final class ValidatorState
      * Explicit policy (explicit_policy).
      *
      * An integer that indicates if a non-NULL valid_policy_tree is required.
-     *
-     * @var int
      */
-    private $_explicitPolicy;
+    private ?int $_explicitPolicy = null;
 
     /**
      * Inhibit anyPolicy (inhibit_anyPolicy).
      *
      * An integer that indicates whether the anyPolicy policy identifier is considered a match.
-     *
-     * @var int
      */
-    private $_inhibitAnyPolicy;
+    private ?int $_inhibitAnyPolicy = null;
 
     /**
      * Policy mapping (policy_mapping).
      *
      * An integer that indicates if policy mapping is permitted.
-     *
-     * @var int
      */
-    private $_policyMapping;
+    private ?int $_policyMapping = null;
 
     /**
      * Working public key algorithm (working_public_key_algorithm).
@@ -102,35 +90,27 @@ final class ValidatorState
      * Working public key (working_public_key).
      *
      * The public key used to verify the signature of a certificate.
-     *
-     * @var PublicKeyInfo
      */
-    private $_workingPublicKey;
+    private ?PublicKeyInfo $_workingPublicKey = null;
 
     /**
      * Working public key parameters (working_public_key_parameters).
      *
      * Parameters associated with the current public key that may be required to verify a signature.
-     *
-     * @var null|Element
      */
-    private $_workingPublicKeyParameters;
+    private ?Element $_workingPublicKeyParameters = null;
 
     /**
      * Working issuer name (working_issuer_name).
      *
      * The issuer distinguished name expected in the next certificate in the chain.
-     *
-     * @var Name
      */
-    private $_workingIssuerName;
+    private ?Name $_workingIssuerName = null;
 
     /**
      * Maximum certification path length (max_path_length).
-     *
-     * @var int
      */
-    private $_maxPathLength;
+    private ?int $_maxPathLength = null;
 
     private function __construct()
     {

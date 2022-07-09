@@ -23,7 +23,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      *
      * @var Certificate[]
      */
-    private $_certs;
+    private readonly array $_certs;
 
     /**
      * Constructor.

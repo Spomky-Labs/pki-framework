@@ -21,7 +21,7 @@ final class CertificateBundle implements Countable, IteratorAggregate
      *
      * @var Certificate[]
      */
-    private $_certs;
+    private array $_certs;
 
     /**
      * Mapping from public key id to array of certificates.

@@ -30,10 +30,8 @@ final class CertificationRequestInfo
 
     /**
      * Version.
-     *
-     * @var int
      */
-    private $_version;
+    private readonly int $_version;
 
     /**
      * Attributes.

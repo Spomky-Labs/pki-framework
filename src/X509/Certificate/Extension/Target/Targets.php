@@ -23,7 +23,7 @@ final class Targets implements Countable, IteratorAggregate
      *
      * @var Target[]
      */
-    private $_targets;
+    private readonly array $_targets;
 
     public function __construct(Target ...$targets)
     {

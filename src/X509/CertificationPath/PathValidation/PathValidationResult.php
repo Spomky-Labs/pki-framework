@@ -24,7 +24,7 @@ final class PathValidationResult
      *
      * @var Certificate[]
      */
-    private $_certificates;
+    private readonly array $_certificates;
 
     /**
      * Constructor.

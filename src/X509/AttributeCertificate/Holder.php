@@ -22,10 +22,8 @@ final class Holder
 {
     /**
      * Linked object.
-     *
-     * @var null|ObjectDigestInfo
      */
-    private $_objectDigestInfo;
+    private ?ObjectDigestInfo $_objectDigestInfo = null;
 
     public function __construct(
         /**

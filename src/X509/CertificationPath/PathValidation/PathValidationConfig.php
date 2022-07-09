@@ -21,51 +21,33 @@ final class PathValidationConfig
      *
      * @var string[]
      */
-    private $_policySet;
+    private array $_policySet;
 
     /**
      * Trust anchor certificate.
      *
      * If not set, path validation uses the first certificate of the path.
-     *
-     * @var null|Certificate
      */
-    private $_trustAnchor;
+    private ?Certificate $_trustAnchor = null;
 
     /**
      * Whether policy mapping in inhibited.
      *
      * Setting this to true disallows policy mapping.
-     *
-     * @var bool
      */
-    private $_policyMappingInhibit;
+    private bool $_policyMappingInhibit;
 
     /**
      * Whether the path must be valid for at least one policy in the initial policy set.
-     *
-     * @var bool
      */
-    private $_explicitPolicy;
+    private bool $_explicitPolicy;
 
     /**
      * Whether anyPolicy OID processing should be inhibited.
      *
      * Setting this to true disallows the usage of anyPolicy.
-     *
-     * @var bool
      */
-    private $_anyPolicyInhibit;
-
-    /**
-     * @todo Implement
-     */
-    private $_permittedSubtrees;
-
-    /**
-     * @todo Implement
-     */
-    private $_excludedSubtrees;
+    private bool $_anyPolicyInhibit;
 
     /**
      * Constructor.

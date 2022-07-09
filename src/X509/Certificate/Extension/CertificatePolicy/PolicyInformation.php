@@ -32,7 +32,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      *
      * @var PolicyQualifierInfo[]
      */
-    private $_qualifiers;
+    private array $_qualifiers;
 
     public function __construct(
     /**

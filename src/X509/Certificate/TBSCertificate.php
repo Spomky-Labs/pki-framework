@@ -40,17 +40,13 @@ final class TBSCertificate
 
     /**
      * Certificate version.
-     *
-     * @var null|int
      */
-    private $_version;
+    private ?int $_version = null;
 
     /**
      * Serial number.
-     *
-     * @var null|string
      */
-    private $_serialNumber;
+    private ?string $_serialNumber = null;
 
     /**
      * Signature algorithm.
@@ -61,24 +57,18 @@ final class TBSCertificate
 
     /**
      * Issuer unique identifier.
-     *
-     * @var null|UniqueIdentifier
      */
-    private $_issuerUniqueID;
+    private ?UniqueIdentifier $_issuerUniqueID = null;
 
     /**
      * Subject unique identifier.
-     *
-     * @var null|UniqueIdentifier
      */
-    private $_subjectUniqueID;
+    private ?UniqueIdentifier $_subjectUniqueID = null;
 
     /**
      * Extensions.
-     *
-     * @var Extensions
      */
-    private $_extensions;
+    private Extensions $_extensions;
 
     /**
      * Constructor.

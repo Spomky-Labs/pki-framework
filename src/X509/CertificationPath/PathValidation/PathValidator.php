@@ -26,14 +26,12 @@ final class PathValidator
      *
      * @var Certificate[]
      */
-    private $_certificates;
+    private readonly array $_certificates;
 
     /**
      * Certification path trust anchor.
-     *
-     * @var Certificate
      */
-    private $_trustAnchor;
+    private ?Certificate $_trustAnchor = null;
 
     /**
      * Constructor.

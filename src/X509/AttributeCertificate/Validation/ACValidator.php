@@ -24,10 +24,8 @@ final class ACValidator
 {
     /**
      * Crypto engine.
-     *
-     * @var Crypto
      */
-    private $_crypto;
+    private readonly Crypto $_crypto;
 
     /**
      * Constructor.

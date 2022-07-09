@@ -31,10 +31,8 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
 {
     /**
      * Parameters.
-     *
-     * @var null|NullType
      */
-    protected $_params;
+    protected ?NullType $_params;
 
     public function __construct()
     {

@@ -15,17 +15,15 @@ final class ACValidationConfig
 {
     /**
      * Evaluation reference time.
-     *
-     * @var DateTimeImmutable
      */
-    private $_evalTime;
+    private DateTimeImmutable $_evalTime;
 
     /**
      * Permitted targets.
      *
      * @var Target[]
      */
-    private $_targets;
+    private array $_targets;
 
     /**
      * Constructor.

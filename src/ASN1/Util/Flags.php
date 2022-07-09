@@ -21,17 +21,13 @@ final class Flags
 {
     /**
      * Flag octets.
-     *
-     * @var string
      */
-    private $_flags;
+    private ?string $_flags = null;
 
     /**
      * Number of flags.
-     *
-     * @var int
      */
-    private $_width;
+    private readonly int $_width;
 
     /**
      * Constructor.

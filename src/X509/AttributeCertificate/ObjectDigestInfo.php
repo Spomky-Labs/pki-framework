@@ -28,10 +28,8 @@ final class ObjectDigestInfo
 
     /**
      * OID of other object type.
-     *
-     * @var null|string
      */
-    private $_otherObjectTypeID;
+    private ?string $_otherObjectTypeID;
 
     public function __construct(
     /**

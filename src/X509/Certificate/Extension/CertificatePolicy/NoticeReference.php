@@ -20,7 +20,7 @@ final class NoticeReference
      *
      * @var int[]
      */
-    private $_numbers;
+    private readonly array $_numbers;
 
     public function __construct(
     /**

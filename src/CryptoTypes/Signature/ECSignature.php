@@ -21,17 +21,13 @@ final class ECSignature extends Signature
 {
     /**
      * r-value as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_r;
+    protected string $_r;
 
     /**
      * s-value as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_s;
+    protected string $_s;
 
     /**
      * Constructor.

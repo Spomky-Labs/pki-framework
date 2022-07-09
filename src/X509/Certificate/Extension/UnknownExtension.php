@@ -16,10 +16,8 @@ final class UnknownExtension extends Extension
 {
     /**
      * Raw extension value.
-     *
-     * @var string
      */
-    protected $_data;
+    protected string $_data;
 
     public function __construct(
         string $oid,

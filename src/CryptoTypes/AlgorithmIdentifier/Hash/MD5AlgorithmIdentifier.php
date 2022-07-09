@@ -35,10 +35,8 @@ final class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implement
 {
     /**
      * Parameters.
-     *
-     * @var null|NullType
      */
-    protected $_params;
+    protected ?NullType $_params;
 
     public function __construct()
     {

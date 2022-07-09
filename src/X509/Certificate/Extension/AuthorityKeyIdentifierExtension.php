@@ -25,10 +25,8 @@ final class AuthorityKeyIdentifierExtension extends Extension
 {
     /**
      * Issuer serial number as a base 10 integer.
-     *
-     * @var null|string
      */
-    protected $_authorityCertSerialNumber;
+    protected ?string $_authorityCertSerialNumber;
 
     /**
      * Constructor.

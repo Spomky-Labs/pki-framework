@@ -29,7 +29,7 @@ final class TargetInformationExtension extends Extension implements Countable, I
      *
      * @var Targets[]
      */
-    protected $_targets;
+    protected array $_targets;
 
     /**
      * Targets[] merged to single Targets.

@@ -26,7 +26,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      *
      * @var PEM[]
      */
-    private $_pems;
+    private array $_pems;
 
     public function __construct(PEM ...$pems)
     {

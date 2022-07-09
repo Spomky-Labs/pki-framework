@@ -30,10 +30,8 @@ final class AttributeCertificateInfo
 
     /**
      * AC version.
-     *
-     * @var int
      */
-    private $_version;
+    private readonly int $_version;
 
     /**
      * Signature algorithm identifier.
@@ -44,24 +42,18 @@ final class AttributeCertificateInfo
 
     /**
      * AC serial number as a base 10 integer.
-     *
-     * @var string
      */
-    private $_serialNumber;
+    private ?string $_serialNumber = null;
 
     /**
      * Issuer unique identifier.
-     *
-     * @var null|UniqueIdentifier
      */
-    private $_issuerUniqueID;
+    private ?UniqueIdentifier $_issuerUniqueID = null;
 
     /**
      * Extensions.
-     *
-     * @var Extensions
      */
-    private $_extensions;
+    private Extensions $_extensions;
 
     /**
      * Constructor.

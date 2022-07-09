@@ -24,59 +24,43 @@ final class RSAPrivateKey extends PrivateKey
 {
     /**
      * Modulus as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_modulus;
+    protected string $_modulus;
 
     /**
      * Public exponent as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_publicExponent;
+    protected string $_publicExponent;
 
     /**
      * Private exponent as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_privateExponent;
+    protected string $_privateExponent;
 
     /**
      * First prime factor as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_prime1;
+    protected string $_prime1;
 
     /**
      * Second prime factor as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_prime2;
+    protected string $_prime2;
 
     /**
      * First factor exponent as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_exponent1;
+    protected string $_exponent1;
 
     /**
      * Second factor exponent as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_exponent2;
+    protected string $_exponent2;
 
     /**
      * CRT coefficient of the second factor as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_coefficient;
+    protected string $_coefficient;
 
     /**
      * Constructor.

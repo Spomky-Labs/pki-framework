@@ -29,7 +29,7 @@ final class Attribute implements Countable, IteratorAggregate
      *
      * @var AttributeValue[]
      */
-    protected $_values;
+    protected array $_values;
 
     /**
      * Constructor.

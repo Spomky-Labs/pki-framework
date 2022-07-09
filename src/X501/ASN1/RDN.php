@@ -26,7 +26,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
      *
      * @var AttributeTypeAndValue[]
      */
-    private $_attribs;
+    private readonly array $_attribs;
 
     /**
      * Constructor.

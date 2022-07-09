@@ -23,10 +23,8 @@ final class IssuerSerial
 {
     /**
      * Serial number as a base 10 integer.
-     *
-     * @var string
      */
-    private $_serial;
+    private readonly string $_serial;
 
     /**
      * Constructor.

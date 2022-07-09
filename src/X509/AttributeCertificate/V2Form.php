@@ -21,17 +21,13 @@ final class V2Form extends AttCertIssuer
 {
     /**
      * Issuer PKC's issuer and serial.
-     *
-     * @var IssuerSerial
      */
-    protected $_baseCertificateID;
+    protected ?IssuerSerial $_baseCertificateID;
 
     /**
      * Linked object.
-     *
-     * @var ObjectDigestInfo
      */
-    protected $_objectDigestInfo;
+    protected ?ObjectDigestInfo $_objectDigestInfo;
 
     public function __construct(/**
      * Issuer name.

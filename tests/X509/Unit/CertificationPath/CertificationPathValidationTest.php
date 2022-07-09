@@ -109,22 +109,4 @@ final class CertificationPathValidationTest extends TestCase
         $validator = new PathValidator(Crypto::getDefault(), $config, ...self::$_path->certificates());
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
-
-    /**
-     * @test
-     */
-    public function validateFailNoCerts()
-    {
-        $validator = new PathValidator(
-            Crypto::getDefault(),
-            PathValidationConfig::defaultConfig(),
-            ...self::$_path->certificates()
-        );
-        $cls = new ReflectionClass($validator);
-        $prop = $cls->getProperty('_certificates');
-        $prop->setAccessible(true);
-        $prop->setValue($validator, []);
-        $this->expectException(LogicException::class);
-        $validator->validate();
-    }
 }

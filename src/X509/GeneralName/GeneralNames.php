@@ -29,7 +29,7 @@ final class GeneralNames implements Countable, IteratorAggregate
      *
      * @var GeneralName[]
      */
-    private $_names;
+    private readonly array $_names;
 
     /**
      * Constructor.

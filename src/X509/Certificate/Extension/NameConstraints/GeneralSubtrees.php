@@ -25,7 +25,7 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
      *
      * @var GeneralSubtree[]
      */
-    private $_subtrees;
+    private readonly array $_subtrees;
 
     public function __construct(GeneralSubtree ...$subtrees)
     {

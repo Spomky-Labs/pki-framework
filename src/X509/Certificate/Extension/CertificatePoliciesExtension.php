@@ -27,7 +27,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
      *
      * @var PolicyInformation[]
      */
-    protected $_policies;
+    protected array $_policies;
 
     public function __construct(bool $critical, PolicyInformation ...$policies)
     {

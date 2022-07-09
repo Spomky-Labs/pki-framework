@@ -42,7 +42,7 @@ final class Extensions implements Countable, IteratorAggregate
      *
      * @var Extension[]
      */
-    private $_extensions;
+    private array $_extensions;
 
     /**
      * Constructor.

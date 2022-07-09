@@ -25,17 +25,13 @@ final class RSAPublicKey extends PublicKey
 {
     /**
      * Modulus as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_modulus;
+    protected string $_modulus;
 
     /**
      * Public exponent as a base 10 integer.
-     *
-     * @var string
      */
-    protected $_publicExponent;
+    protected string $_publicExponent;
 
     /**
      * Constructor.
