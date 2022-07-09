@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Real;
 
+use const INF;
+use const M_PI;
+use const NAN;
+use const PHP_FLOAT_MAX;
+use const PHP_FLOAT_MIN;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;

@@ -5,6 +5,15 @@ declare(strict_types=1);
 namespace Sop\CryptoBridge\Crypto;
 
 use function array_key_exists;
+use const OPENSSL_ALGO_MD4;
+use const OPENSSL_ALGO_MD5;
+use const OPENSSL_ALGO_SHA1;
+use const OPENSSL_ALGO_SHA224;
+use const OPENSSL_ALGO_SHA256;
+use const OPENSSL_ALGO_SHA384;
+use const OPENSSL_ALGO_SHA512;
+use const OPENSSL_RAW_DATA;
+use const OPENSSL_ZERO_PADDING;
 use RuntimeException;
 use Sop\CryptoBridge\Crypto;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;

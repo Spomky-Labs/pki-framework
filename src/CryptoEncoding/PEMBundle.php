@@ -9,6 +9,7 @@ use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
+use const PREG_SET_ORDER;
 use RuntimeException;
 use UnexpectedValueException;
 

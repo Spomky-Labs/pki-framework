@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Integer;
 
+use const PHP_INT_MAX;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Element;

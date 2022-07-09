@@ -6,8 +6,12 @@ namespace Sop\ASN1\Util;
 
 use function chr;
 use GMP;
+use const GMP_BIG_ENDIAN;
+use const GMP_MSW_FIRST;
 use InvalidArgumentException;
 use function ord;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use RuntimeException;
 use function strlen;
 

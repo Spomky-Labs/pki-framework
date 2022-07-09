@@ -6,6 +6,8 @@ namespace Sop\Test\ASN1\Util;
 
 use GMP;
 use InvalidArgumentException;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Sop\ASN1\Util\BigInt;

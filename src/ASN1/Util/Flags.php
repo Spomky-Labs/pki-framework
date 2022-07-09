@@ -6,6 +6,8 @@ namespace Sop\ASN1\Util;
 
 use function assert;
 use function count;
+use const GMP_BIG_ENDIAN;
+use const GMP_MSW_FIRST;
 use function is_array;
 use function ord;
 use OutOfBoundsException;

@@ -6,6 +6,8 @@ namespace Sop\CryptoTypes\Asymmetric\EC;
 
 use function assert;
 use GMP;
+use const GMP_BIG_ENDIAN;
+use const GMP_MSW_FIRST;
 use RangeException;
 use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;

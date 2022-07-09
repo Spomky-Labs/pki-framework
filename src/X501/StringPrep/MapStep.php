@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X501\StringPrep;
 
+use const MB_CASE_LOWER;
+
 /**
  * Implements 'Map' step of the Internationalized String Preparation as specified by RFC 4518.
  *

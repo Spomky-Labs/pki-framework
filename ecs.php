@@ -48,20 +48,20 @@ return static function (ECSConfig $config) use ($header): void {
     $config->import(SetList::CONTROL_STRUCTURES);
     $config->import(SetList::STRICT);
 
+    $config->rule(MbStrFunctionsFixer::class);
     $config->rule(StrictParamFixer::class);
     $config->rule(StrictComparisonFixer::class);
     $config->rule(ArrayIndentationFixer::class);
     $config->rule(OrderedImportsFixer::class);
     $config->rule(ProtectedToPrivateFixer::class);
+    */
     $config->rule(DeclareStrictTypesFixer::class);
     $config->rule(NativeConstantInvocationFixer::class);
-    $config->rule(MbStrFunctionsFixer::class);
     $config->rule(LinebreakAfterOpeningTagFixer::class);
     $config->rule(CombineConsecutiveIssetsFixer::class);
     $config->rule(CombineConsecutiveUnsetsFixer::class);
     $config->rule(CompactNullableTypehintFixer::class);
     $config->rule(NoSuperfluousElseifFixer::class);
-    */
     $config->rule(NoSuperfluousPhpdocTagsFixer::class);
     $config->rule(PhpdocTrimConsecutiveBlankLineSeparationFixer::class);
     $config->rule(PhpdocOrderFixer::class);
