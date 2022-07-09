@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Boolean;
@@ -63,7 +64,7 @@ class BasicConstraintsExtension extends Extension
     public function pathLen(): int
     {
         if (! $this->hasPathLen()) {
-            throw new \LogicException('pathLenConstraint not set.');
+            throw new LogicException('pathLenConstraint not set.');
         }
         return $this->_pathLen;
     }

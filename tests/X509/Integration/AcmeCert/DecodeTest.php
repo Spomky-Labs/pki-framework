@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\AcmeCert;
 
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -151,7 +152,7 @@ final class DecodeTest extends TestCase
     {
         $str = $validity->notBefore()
             ->dateTime()
-            ->setTimezone(new \DateTimeZone('GMT'))
+            ->setTimezone(new DateTimeZone('GMT'))
             ->format('M j H:i:s Y T');
         $this->assertEquals('Jan 1 12:00:00 2016 GMT', $str);
     }
@@ -163,7 +164,7 @@ final class DecodeTest extends TestCase
     {
         $str = $validity->notAfter()
             ->dateTime()
-            ->setTimezone(new \DateTimeZone('GMT'))
+            ->setTimezone(new DateTimeZone('GMT'))
             ->format('M j H:i:s Y T');
         $this->assertEquals('Jan 2 15:04:05 2026 GMT', $str);
     }

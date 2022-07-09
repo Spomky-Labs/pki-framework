@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Sop\Test\ASN1\Type\Primitive\Integer;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -71,7 +73,7 @@ final class IntegerTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('INTEGER expected, got primitive NULL');
         $wrap->asInteger();
     }
@@ -90,7 +92,7 @@ final class IntegerTest extends TestCase
     {
         $num = gmp_init(PHP_INT_MAX, 10) + 1;
         $int = new Integer(gmp_strval($num, 10));
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow.');
         $int->intNumber();
     }

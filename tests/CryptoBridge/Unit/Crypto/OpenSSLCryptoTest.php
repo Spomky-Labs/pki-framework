@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\CryptoBridge\Unit\Crypto;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\CryptoBridge\Crypto\OpenSSLCrypto;
 use Sop\CryptoEncoding\PEM;
@@ -34,6 +35,7 @@ use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\CryptoTypes\Signature\RSASignature;
 use Sop\CryptoTypes\Signature\Signature;
+use UnexpectedValueException;
 
 /**
  * @requires extension openssl
@@ -124,7 +126,7 @@ final class OpenSSLCryptoTest extends TestCase
     public function testUnsupportedDigestFail()
     {
         $algo = new MD2WithRSAEncryptionAlgorithmIdentifier();
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
     }
 
@@ -132,7 +134,7 @@ final class OpenSSLCryptoTest extends TestCase
     {
         $pk = new RSAPrivateKey(0, 0, 0, 0, 0, 0, 0, 0);
         $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         self::$_crypto->sign(self::DATA, $pk->privateKeyInfo(), $algo);
     }
 
@@ -141,7 +143,7 @@ final class OpenSSLCryptoTest extends TestCase
         $signature = RSASignature::fromSignatureString('');
         $algo = new OpenSSLCryptoTest_SHA1WithRSAAsEC();
         $pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), $algo);
     }
 
@@ -150,7 +152,7 @@ final class OpenSSLCryptoTest extends TestCase
         $signature = RSASignature::fromSignatureString('');
         $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
         $pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), $algo);
     }
 
@@ -199,7 +201,7 @@ final class OpenSSLCryptoTest extends TestCase
         $data = '12345678';
         $key = '12345678';
         $algo = new RC2CBCAlgorithmIdentifier(1, '87654321');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt($data, $key, $algo);
     }
 
@@ -208,7 +210,7 @@ final class OpenSSLCryptoTest extends TestCase
         $data = '1234567';
         $key = '12345678';
         $algo = new DESCBCAlgorithmIdentifier('87654321');
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         self::$_crypto->encrypt($data, $key, $algo);
     }
 
@@ -217,25 +219,25 @@ final class OpenSSLCryptoTest extends TestCase
         $data = '1234567';
         $key = '12345678';
         $algo = new DESCBCAlgorithmIdentifier('87654321');
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         self::$_crypto->decrypt($data, $key, $algo);
     }
 
     public function testUnsupportedCipherFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, '', new OpenSSLCryptoTest_UnsupportedCipher());
     }
 
     public function testInvalidRC2AlgoFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, '', new OpenSSLCryptoTest_InvalidRC2());
     }
 
     public function testUnsupportedRC2KeySizeFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, 'x', new RC2CBCAlgorithmIdentifier(8, '87654321'));
     }
 

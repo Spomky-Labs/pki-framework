@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\AttributeValue\AttributeValue;
+use UnexpectedValueException;
 
 /**
  * Implements *RelativeDistinguishedName* ASN.1 type.
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.RelativeDistinguishedName
  */
-class RDN implements \Countable, \IteratorAggregate
+class RDN implements Countable, IteratorAggregate
 {
     /**
      * Attributes.
@@ -30,7 +34,7 @@ class RDN implements \Countable, \IteratorAggregate
     public function __construct(AttributeTypeAndValue ...$attribs)
     {
         if (! count($attribs)) {
-            throw new \UnexpectedValueException('RDN must have at least one AttributeTypeAndValue.');
+            throw new UnexpectedValueException('RDN must have at least one AttributeTypeAndValue.');
         }
         $this->_attribs = $attribs;
     }
@@ -166,8 +170,8 @@ class RDN implements \Countable, \IteratorAggregate
     /**
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_attribs);
+        return new ArrayIterator($this->_attribs);
     }
 }

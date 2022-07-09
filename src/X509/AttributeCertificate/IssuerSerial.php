@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -114,7 +115,7 @@ class IssuerSerial
     public function issuerUID(): UniqueIdentifier
     {
         if (! $this->hasIssuerUID()) {
-            throw new \LogicException('issuerUID not set.');
+            throw new LogicException('issuerUID not set.');
         }
         return $this->_issuerUID;
     }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\GeneralName;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\TaggedType;
@@ -13,6 +15,7 @@ use Sop\X509\GeneralName\DNSName;
 use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -94,7 +97,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function testFirstOfFail(GeneralNames $gns)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $gns->firstOf(GeneralName::TAG_URI);
     }
 
@@ -121,14 +124,14 @@ final class GeneralNamesTest extends TestCase
 
     public function testFromEmptyFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         GeneralNames::fromASN1(new Sequence());
     }
 
     public function testEmptyToASN1Fail()
     {
         $gn = new GeneralNames();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $gn->toASN1();
     }
 
@@ -156,21 +159,21 @@ final class GeneralNamesTest extends TestCase
     public function testFirstDNSFail()
     {
         $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DNS_NAME));
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $gn->firstDNS();
     }
 
     public function testFirstDNFail()
     {
         $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DIRECTORY_NAME));
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $gn->firstDN();
     }
 
     public function testFirstURIFail()
     {
         $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_URI));
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $gn->firstURI();
     }
 }

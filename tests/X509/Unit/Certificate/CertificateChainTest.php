@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\X509\Certificate\Certificate;
@@ -61,7 +62,7 @@ final class CertificateChainTest extends TestCase
     public function testEndEntityCertFail()
     {
         $chain = new CertificateChain();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $chain->endEntityCertificate();
     }
 
@@ -76,7 +77,7 @@ final class CertificateChainTest extends TestCase
     public function testTrustAnchorCertFail()
     {
         $chain = new CertificateChain();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $chain->trustAnchorCertificate();
     }
 

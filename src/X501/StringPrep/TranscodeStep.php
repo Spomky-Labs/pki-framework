@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X501\StringPrep;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\T61String;
 
@@ -80,6 +81,6 @@ class TranscodeStep implements PrepareStep
                 $el = new T61String($string);
                 return '#' . bin2hex($el->toDER());
         }
-        throw new \LogicException(sprintf('Unsupported string type %s.', Element::tagToName($this->_type)));
+        throw new LogicException(sprintf('Unsupported string type %s.', Element::tagToName($this->_type)));
     }
 }

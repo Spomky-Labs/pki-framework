@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
+use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Base class for *PolicyQualifierInfo* ASN.1 types used by 'Certificate Policies' certificate extension.
@@ -44,7 +46,7 @@ abstract class PolicyQualifierInfo
      */
     public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo
     {
-        throw new \BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
     }
 
     /**
@@ -61,7 +63,7 @@ abstract class PolicyQualifierInfo
             case self::OID_UNOTICE:
                 return UserNoticeQualifier::fromQualifierASN1($seq->at(1));
         }
-        throw new \UnexpectedValueException("Qualifier {$oid} not supported.");
+        throw new UnexpectedValueException("Qualifier {$oid} not supported.");
     }
 
     /**

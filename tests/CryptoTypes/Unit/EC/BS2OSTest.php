@@ -6,6 +6,7 @@ namespace Sop\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
@@ -29,7 +30,7 @@ final class BS2OSTest extends TestCase
 
     public function testUnusedBits()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         ECConversion::bitStringToOctetString(new BitString("\0", 4));
     }
 

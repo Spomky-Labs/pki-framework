@@ -7,6 +7,7 @@ namespace Sop\Test\CryptoTypes\Unit\RSA;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -64,14 +65,14 @@ final class RSAPublicKeyTest extends TestCase
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         RSAPublicKey::fromPEM($pem);
     }
 
     public function testECKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         RSAPublicKey::fromPEM($pem);
     }
 

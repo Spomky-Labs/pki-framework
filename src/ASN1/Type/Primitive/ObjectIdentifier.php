@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use GMP;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -11,6 +12,7 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
+use UnexpectedValueException;
 
 /**
  * Implements *OBJECT IDENTIFIER* type.
@@ -30,7 +32,7 @@ class ObjectIdentifier extends Element
     /**
      * Object identifier split to sub ID's.
      *
-     * @var \GMP[]
+     * @var GMP[]
      */
     protected $_subids;
 
@@ -47,15 +49,15 @@ class ObjectIdentifier extends Element
         if (count($this->_subids) > 0) {
             // check that at least two nodes are set
             if (count($this->_subids) < 2) {
-                throw new \UnexpectedValueException('OID must have at least two nodes.');
+                throw new UnexpectedValueException('OID must have at least two nodes.');
             }
             // check that root arc is in 0..2 range
             if ($this->_subids[0] > 2) {
-                throw new \UnexpectedValueException('Root arc must be in range of 0..2.');
+                throw new UnexpectedValueException('Root arc must be in range of 0..2.');
             }
             // if root arc is 0 or 1, second node must be in 0..39 range
             if ($this->_subids[0] < 2 && $this->_subids[1] >= 40) {
-                throw new \UnexpectedValueException('Second node must be in 0..39 range for root arcs 0 and 1.');
+                throw new UnexpectedValueException('Second node must be in 0..39 range for root arcs 0 and 1.');
             }
         }
         $this->_typeTag = self::TYPE_OBJECT_IDENTIFIER;
@@ -105,7 +107,7 @@ class ObjectIdentifier extends Element
      *
      * @param string $oid OID in dotted format
      *
-     * @return \GMP[] Array of GMP numbers
+     * @return GMP[] Array of GMP numbers
      */
     protected static function _explodeDottedOID(string $oid): array
     {
@@ -114,7 +116,7 @@ class ObjectIdentifier extends Element
             foreach (explode('.', $oid) as $subid) {
                 $n = @gmp_init($subid, 10);
                 if (false === $n) {
-                    throw new \UnexpectedValueException("'{$subid}' is not a number.");
+                    throw new UnexpectedValueException("'{$subid}' is not a number.");
                 }
                 $subids[] = $n;
             }
@@ -125,7 +127,7 @@ class ObjectIdentifier extends Element
     /**
      * Implode an array of sub IDs to dotted OID format.
      */
-    protected static function _implodeSubIDs(\GMP ...$subids): string
+    protected static function _implodeSubIDs(GMP ...$subids): string
     {
         return implode('.', array_map(function ($num) {
             return gmp_strval($num, 10);
@@ -135,7 +137,7 @@ class ObjectIdentifier extends Element
     /**
      * Encode sub ID's to DER.
      */
-    protected static function _encodeSubIDs(\GMP ...$subids): string
+    protected static function _encodeSubIDs(GMP ...$subids): string
     {
         $data = '';
         foreach ($subids as $subid) {
@@ -161,7 +163,7 @@ class ObjectIdentifier extends Element
     /**
      * Decode sub ID's from DER data.
      *
-     * @return \GMP[] Array of GMP numbers
+     * @return GMP[] Array of GMP numbers
      */
     protected static function _decodeSubIDs(string $data): array
     {

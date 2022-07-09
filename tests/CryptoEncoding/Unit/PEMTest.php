@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Sop\Test\CryptoEncoding\Unit;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\CryptoEncoding\PEM;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -48,7 +50,7 @@ CODE_SAMPLE;
 
     public function testInvalidPEM()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PEM::fromString('invalid');
     }
 
@@ -59,13 +61,13 @@ CODE_SAMPLE;
 %%%
 -----END TEST-----
 CODE_SAMPLE;
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PEM::fromString($str);
     }
 
     public function testInvalidFile()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         PEM::fromFile(TEST_ASSETS_DIR . '/nonexistent');
     }
 

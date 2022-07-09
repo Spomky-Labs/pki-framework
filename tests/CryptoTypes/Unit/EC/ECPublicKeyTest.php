@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
+use InvalidArgumentException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -46,27 +50,27 @@ final class ECPublicKeyTest extends TestCase
     public function testNoNamedCurve()
     {
         $pk = new ECPublicKey("\x04\0\0");
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pk->publicKeyInfo();
     }
 
     public function testInvalidECPoint()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ECPublicKey("\x0");
     }
 
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         ECPublicKey::fromPEM($pem);
     }
 
     public function testRSAKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         ECPublicKey::fromPEM($pem);
     }
 
@@ -107,14 +111,14 @@ final class ECPublicKeyTest extends TestCase
     public function testNoCurveFail()
     {
         $pk = new ECPublicKey("\x4\0\0");
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pk->namedCurve();
     }
 
     public function testCompressedFail()
     {
         $pk = new ECPublicKey("\x3\0");
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $pk->curvePoint();
     }
 

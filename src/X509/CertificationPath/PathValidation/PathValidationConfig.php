@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
+use DateTimeImmutable;
+use LogicException;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 
@@ -24,7 +26,7 @@ class PathValidationConfig
     /**
      * Reference time.
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     protected $_dateTime;
 
@@ -86,10 +88,10 @@ class PathValidationConfig
     /**
      * Constructor.
      *
-     * @param \DateTimeImmutable $dt         Reference date and time
+     * @param DateTimeImmutable $dt         Reference date and time
      * @param int                $max_length Maximum certification path length
      */
-    public function __construct(\DateTimeImmutable $dt, int $max_length)
+    public function __construct(DateTimeImmutable $dt, int $max_length)
     {
         $this->_dateTime = $dt;
         $this->_maxLength = $max_length;
@@ -104,7 +106,7 @@ class PathValidationConfig
      */
     public static function defaultConfig(): self
     {
-        return new self(new \DateTimeImmutable(), 3);
+        return new self(new DateTimeImmutable(), 3);
     }
 
     /**
@@ -120,7 +122,7 @@ class PathValidationConfig
     /**
      * Get self with reference date and time.
      */
-    public function withDateTime(\DateTimeImmutable $dt): self
+    public function withDateTime(DateTimeImmutable $dt): self
     {
         $obj = clone $this;
         $obj->_dateTime = $dt;
@@ -190,7 +192,7 @@ class PathValidationConfig
     /**
      * Get reference date and time.
      */
-    public function dateTime(): \DateTimeImmutable
+    public function dateTime(): DateTimeImmutable
     {
         return $this->_dateTime;
     }
@@ -219,7 +221,7 @@ class PathValidationConfig
     public function trustAnchor(): Certificate
     {
         if (! $this->hasTrustAnchor()) {
-            throw new \LogicException('No trust anchor.');
+            throw new LogicException('No trust anchor.');
         }
         return $this->_trustAnchor;
     }

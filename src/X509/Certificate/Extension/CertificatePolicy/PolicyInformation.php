@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -13,7 +17,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.4
  */
-class PolicyInformation implements \Countable, \IteratorAggregate
+class PolicyInformation implements Countable, IteratorAggregate
 {
     /**
      * Wildcard policy.
@@ -110,7 +114,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
     public function get(string $oid): PolicyQualifierInfo
     {
         if (! $this->has($oid)) {
-            throw new \LogicException("No {$oid} qualifier.");
+            throw new LogicException("No {$oid} qualifier.");
         }
         return $this->_qualifiers[$oid];
     }
@@ -129,7 +133,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
     public function CPSQualifier(): CPSQualifier
     {
         if (! $this->hasCPSQualifier()) {
-            throw new \LogicException('CPS qualifier not set.');
+            throw new LogicException('CPS qualifier not set.');
         }
         return $this->get(PolicyQualifierInfo::OID_CPS);
     }
@@ -148,7 +152,7 @@ class PolicyInformation implements \Countable, \IteratorAggregate
     public function userNoticeQualifier(): UserNoticeQualifier
     {
         if (! $this->hasUserNoticeQualifier()) {
-            throw new \LogicException('User notice qualifier not set.');
+            throw new LogicException('User notice qualifier not set.');
         }
         return $this->get(PolicyQualifierInfo::OID_UNOTICE);
     }
@@ -186,8 +190,8 @@ class PolicyInformation implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_qualifiers);
+        return new ArrayIterator($this->_qualifiers);
     }
 }

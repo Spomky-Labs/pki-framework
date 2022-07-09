@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
@@ -20,6 +24,7 @@ use Sop\X509\Certificate\Extension\PolicyConstraintsExtension;
 use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
 use Sop\X509\Certificate\Extension\SubjectAlternativeNameExtension;
 use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
+use Traversable;
 
 /**
  * Implements *Extensions* ASN.1 type.
@@ -29,7 +34,7 @@ use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.9
  */
-class Extensions implements \Countable, \IteratorAggregate
+class Extensions implements Countable, IteratorAggregate
 {
     /**
      * Extensions.
@@ -110,7 +115,7 @@ class Extensions implements \Countable, \IteratorAggregate
     public function get(string $oid): Extension
     {
         if (! $this->has($oid)) {
-            throw new \LogicException("No extension by OID {$oid}.");
+            throw new LogicException("No extension by OID {$oid}.");
         }
         return $this->_extensions[$oid];
     }
@@ -336,8 +341,8 @@ class Extensions implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->_extensions);
+        return new ArrayIterator($this->_extensions);
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\X509\Certificate\Extension\UnknownExtension;
@@ -56,7 +58,7 @@ final class UnknownExtensionTest extends TestCase
      */
     public function testExtensionValueASN1(UnknownExtension $ext)
     {
-        $cls = new \ReflectionClass(UnknownExtension::class);
+        $cls = new ReflectionClass(UnknownExtension::class);
         $mtd = $cls->getMethod('_valueASN1');
         $mtd->setAccessible(true);
         $result = $mtd->invoke($ext);
@@ -68,10 +70,10 @@ final class UnknownExtensionTest extends TestCase
      */
     public function testExtensionValueASN1Fail(UnknownExtension $ext)
     {
-        $cls = new \ReflectionClass(UnknownExtension::class);
+        $cls = new ReflectionClass(UnknownExtension::class);
         $mtd = $cls->getMethod('_valueASN1');
         $mtd->setAccessible(true);
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $mtd->invoke($ext);
     }
 }

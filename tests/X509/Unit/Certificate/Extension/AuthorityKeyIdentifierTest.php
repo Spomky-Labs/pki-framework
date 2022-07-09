@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -18,6 +19,7 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -154,35 +156,35 @@ final class AuthorityKeyIdentifierTest extends TestCase
             new ObjectIdentifier(Extension::OID_AUTHORITY_KEY_IDENTIFIER),
             new OctetString($seq->toDER())
         );
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AuthorityKeyIdentifierExtension::fromASN1($ext_seq);
     }
 
     public function testEncodeIssuerXorSerialFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, '', null, 1);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
     public function testNoKeyIdentifierFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, null);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->keyIdentifier();
     }
 
     public function testNoIssuerFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, null);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->issuer();
     }
 
     public function testNoSerialFail()
     {
         $ext = new AuthorityKeyIdentifierExtension(false, null);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->serial();
     }
 }

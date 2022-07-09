@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Component;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
 
@@ -33,14 +35,14 @@ final class LengthDecodeTest extends TestCase
 
     public function testLengthFailsBecauseIndefinite()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Length is indefinite');
         Length::fromDER("\x80")->length();
     }
 
     public function testIntLengthFailsBecauseIndefinite()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Length is indefinite');
         Length::fromDER("\x80")->intLength();
     }
@@ -48,7 +50,7 @@ final class LengthDecodeTest extends TestCase
     public function testHugeLengthHasNoIntval()
     {
         $der = "\xfe" . str_repeat("\xff", 126);
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow');
         Length::fromDER($der)->intLength();
     }

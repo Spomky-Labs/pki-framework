@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationRequest;
 
+use LogicException;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\Collection\SetOfAttributes;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
@@ -40,7 +41,7 @@ class Attributes extends SetOfAttributes
     public function extensionRequest(): ExtensionRequestValue
     {
         if (! $this->hasExtensionRequest()) {
-            throw new \LogicException('No extension request attribute.');
+            throw new LogicException('No extension request attribute.');
         }
         return $this->firstOf(ExtensionRequestValue::OID)->first();
     }

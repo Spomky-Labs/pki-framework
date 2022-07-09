@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed;
 
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
@@ -90,7 +91,7 @@ final class StructureTest extends TestCase
     public function testReplaceFail()
     {
         $seq = new Sequence(new NullType(), new NullType());
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Structure doesn\'t have element at index 2');
         $seq->withReplaced(2, new Boolean(true));
     }
@@ -122,7 +123,7 @@ final class StructureTest extends TestCase
     public function testInsertOOB()
     {
         $seq = new Sequence(new NullType(), new NullType());
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Index 3 is out of bounds');
         $seq->withInserted(3, new Boolean(true));
     }
@@ -170,7 +171,7 @@ final class StructureTest extends TestCase
     public function testRemoveFail()
     {
         $seq = new Sequence(new NullType());
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Structure doesn\'t have element at index 1');
         $seq->withoutElement(1);
     }

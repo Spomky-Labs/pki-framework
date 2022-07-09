@@ -9,6 +9,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\Real;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -71,7 +72,7 @@ final class RealTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('REAL expected, got primitive NULL');
         $wrap->asReal();
     }
@@ -154,14 +155,14 @@ final class RealTest extends TestCase
 
     public function testFromFloatNAN()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NaN values not supported');
         Real::fromFloat(NAN);
     }
 
     public function testFromPartsInvalidBase()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Base must be 2 or 10');
         new Real(1, 1, 3);
     }
@@ -210,7 +211,7 @@ final class RealTest extends TestCase
 
     public function testParseFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('X could not be parsed to REAL');
         Real::fromString('X');
     }

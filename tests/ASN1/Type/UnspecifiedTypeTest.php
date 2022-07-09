@@ -11,6 +11,7 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -55,7 +56,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function testAsTaggedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Tagged element expected, got primitive NULL');
         $wrap->asTagged();
     }
@@ -63,7 +64,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function testAsStringFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Any String expected, got primitive NULL');
         $wrap->asString();
     }
@@ -71,7 +72,7 @@ final class UnspecifiedTypeTest extends TestCase
     public function testAsTimeFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Any Time expected, got primitive NULL');
         $wrap->asTime();
     }
@@ -80,7 +81,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = new DERData("\xdf\x7f\x0");
         $wrap = new UnspecifiedType($el);
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NULL expected, got primitive PRIVATE TAG 127');
         $wrap->asNull();
     }

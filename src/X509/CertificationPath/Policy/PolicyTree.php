@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\Policy;
 
+use LogicException;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\CertificationPath\PathValidation\ValidatorState;
@@ -266,7 +267,7 @@ class PolicyTree
                                 ->certificatePolicies()
                                 ->anyPolicy()
                                 ->qualifiers();
-                        } catch (\LogicException $e) {
+                        } catch (LogicException $e) {
                             // if there's no policies or no qualifiers
                             $qualifiers = [];
                         }

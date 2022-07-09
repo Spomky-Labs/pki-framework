@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1\Collection;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\AttributeType;
 use Sop\X501\ASN1\AttributeValue\AttributeValue;
+use UnexpectedValueException;
 
 /**
  * Base class for X.501 attribute containers.
  *
  * Implements methods for Countable and IteratorAggregate interfaces.
  */
-abstract class AttributeCollection implements \Countable, \IteratorAggregate
+abstract class AttributeCollection implements Countable, IteratorAggregate
 {
     /**
      * Array of attributes.
@@ -72,7 +76,7 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
     {
         $attr = $this->_findFirst($name);
         if (! $attr) {
-            throw new \UnexpectedValueException("No {$name} attribute.");
+            throw new UnexpectedValueException("No {$name} attribute.");
         }
         return $attr;
     }
@@ -159,11 +163,11 @@ abstract class AttributeCollection implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      *
-     * @return \ArrayIterator|Attribute[]
+     * @return ArrayIterator|Attribute[]
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_attributes);
+        return new ArrayIterator($this->_attributes);
     }
 
     /**

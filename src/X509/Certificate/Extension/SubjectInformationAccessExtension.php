@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -15,7 +18,7 @@ use Sop\X509\Certificate\Extension\AccessDescription\SubjectAccessDescription;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.2
  */
-class SubjectInformationAccessExtension extends Extension implements \Countable, \IteratorAggregate
+class SubjectInformationAccessExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Access descriptions.
@@ -58,11 +61,11 @@ class SubjectInformationAccessExtension extends Extension implements \Countable,
      *
      * @see \IteratorAggregate::getIterator()
      *
-     * @return \ArrayIterator List of SubjectAccessDescription objects
+     * @return ArrayIterator List of SubjectAccessDescription objects
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_accessDescriptions);
+        return new ArrayIterator($this->_accessDescriptions);
     }
 
     protected static function _fromDER(string $data, bool $critical): Extension

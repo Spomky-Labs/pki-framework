@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
@@ -19,6 +20,7 @@ use Sop\X509\Certificate\Extensions;
 use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\Certificate\Validity;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -304,7 +306,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function testNoVersionFail(TBSCertificate $tc)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $tc->version();
     }
 
@@ -313,7 +315,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function testNoSerialFail(TBSCertificate $tc)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $tc->serialNumber();
     }
 
@@ -322,7 +324,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function testNoSignatureFail(TBSCertificate $tc)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $tc->signature();
     }
 
@@ -331,7 +333,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function testNoIssuerUniqueIDFail(TBSCertificate $tc)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $tc->issuerUniqueID();
     }
 
@@ -340,7 +342,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function testNoSubjectUniqueIDFail(TBSCertificate $tc)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $tc->subjectUniqueID();
     }
 
@@ -374,7 +376,7 @@ final class TBSCertificateTest extends TestCase
         $seq = $tc->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
         $seq = $seq->withReplaced(2, $algo->toASN1());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         TBSCertificate::fromASN1($seq);
     }
 }

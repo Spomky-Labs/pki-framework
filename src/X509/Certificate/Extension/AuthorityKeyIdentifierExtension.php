@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -12,6 +13,7 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * Implements 'Authority Key Identifier' certificate extension.
@@ -85,7 +87,7 @@ class AuthorityKeyIdentifierExtension extends Extension
     public function keyIdentifier(): string
     {
         if (! $this->hasKeyIdentifier()) {
-            throw new \LogicException('keyIdentifier not set.');
+            throw new LogicException('keyIdentifier not set.');
         }
         return $this->_keyIdentifier;
     }
@@ -101,7 +103,7 @@ class AuthorityKeyIdentifierExtension extends Extension
     public function issuer(): GeneralNames
     {
         if (! $this->hasIssuer()) {
-            throw new \LogicException('authorityCertIssuer not set.');
+            throw new LogicException('authorityCertIssuer not set.');
         }
         return $this->_authorityCertIssuer;
     }
@@ -122,7 +124,7 @@ class AuthorityKeyIdentifierExtension extends Extension
     public function serial(): string
     {
         if (! $this->hasSerial()) {
-            throw new \LogicException('authorityCertSerialNumber not set.');
+            throw new LogicException('authorityCertSerialNumber not set.');
         }
         return $this->_authorityCertSerialNumber;
     }
@@ -141,7 +143,7 @@ class AuthorityKeyIdentifierExtension extends Extension
         }
         if ($seq->hasTagged(1) || $seq->hasTagged(2)) {
             if (! $seq->hasTagged(1) || ! $seq->hasTagged(2)) {
-                throw new \UnexpectedValueException(
+                throw new UnexpectedValueException(
                     'AuthorityKeyIdentifier must have both' .
                         ' authorityCertIssuer and authorityCertSerialNumber' .
                         ' present or both absent.'
@@ -167,7 +169,7 @@ class AuthorityKeyIdentifierExtension extends Extension
              isset($this->_authorityCertSerialNumber)) {
             if (! isset($this->_authorityCertIssuer,
                 $this->_authorityCertSerialNumber)) {
-                throw new \LogicException(
+                throw new LogicException(
                     'AuthorityKeyIdentifier must have both' .
                         ' authorityCertIssuer and authorityCertSerialNumber' .
                         ' present or both absent.'

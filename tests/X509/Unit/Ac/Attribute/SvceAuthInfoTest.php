@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac\Attribute;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
@@ -30,7 +31,7 @@ final class SvceAuthInfoTest extends TestCase
      */
     public function testNoAuthInfoFail(SvceAuthInfo $val)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $val->authInfo();
     }
 

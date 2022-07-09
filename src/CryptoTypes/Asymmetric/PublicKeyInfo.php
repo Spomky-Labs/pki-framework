@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
+use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -11,6 +12,7 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use UnexpectedValueException;
 
 /**
  * Implements X.509 SubjectPublicKeyInfo ASN.1 type.
@@ -75,7 +77,7 @@ class PublicKeyInfo
             case PEM::TYPE_RSA_PUBLIC_KEY:
                 return RSA\RSAPublicKey::fromDER($pem->data())->publicKeyInfo();
         }
-        throw new \UnexpectedValueException('Invalid PEM type.');
+        throw new UnexpectedValueException('Invalid PEM type.');
     }
 
     /**
@@ -115,7 +117,7 @@ class PublicKeyInfo
             // Elliptic Curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
-                    throw new \UnexpectedValueException('Not an EC algorithm.');
+                    throw new UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data
                 return new EC\ECPublicKey($this->_publicKey->string(), $algo->namedCurve());
@@ -132,7 +134,7 @@ class PublicKeyInfo
             case AlgorithmIdentifier::OID_X448:
                 return new RFC8410\Curve448\X448PublicKey($this->_publicKey->string());
         }
-        throw new \RuntimeException('Public key ' . $algo->name() . ' not supported.');
+        throw new RuntimeException('Public key ' . $algo->name() . ' not supported.');
     }
 
     /**

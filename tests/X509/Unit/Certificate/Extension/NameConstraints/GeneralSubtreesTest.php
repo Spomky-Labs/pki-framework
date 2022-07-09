@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension\NameConstraints;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtree;
 use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -87,14 +89,14 @@ final class GeneralSubtreesTest extends TestCase
 
     public function testDecodeEmptyFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         GeneralSubtrees::fromASN1(new Sequence());
     }
 
     public function testEncodeEmptyFail()
     {
         $subtrees = new GeneralSubtrees();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $subtrees->toASN1();
     }
 }

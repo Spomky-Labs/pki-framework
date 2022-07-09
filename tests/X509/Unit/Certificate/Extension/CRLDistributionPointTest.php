@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -17,6 +18,7 @@ use Sop\X509\Certificate\Extensions;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -174,7 +176,7 @@ final class CRLDistributionPointTest extends TestCase
     public function testEncodeEmptyFail()
     {
         $ext = new CRLDistributionPointsExtension(false);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
@@ -185,7 +187,7 @@ final class CRLDistributionPointTest extends TestCase
             new ObjectIdentifier(Extension::OID_CRL_DISTRIBUTION_POINTS),
             new OctetString($seq->toDER())
         );
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         CRLDistributionPointsExtension::fromASN1($ext_seq);
     }
 }

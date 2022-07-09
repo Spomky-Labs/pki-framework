@@ -11,6 +11,7 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -80,21 +81,21 @@ final class RSAPrivateKeyTest extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $seq = Sequence::fromDER($pem->data());
         $seq = $seq->withReplaced(0, new Integer(1));
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         RSAPrivateKey::fromASN1($seq);
     }
 
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         RSAPrivateKey::fromPEM($pem);
     }
 
     public function testECKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         RSAPrivateKey::fromPEM($pem);
     }
 

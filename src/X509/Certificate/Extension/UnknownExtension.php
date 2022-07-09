@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\OctetString;
 
@@ -63,7 +64,7 @@ class UnknownExtension extends Extension
     protected function _valueASN1(): Element
     {
         if (! isset($this->_element)) {
-            throw new \RuntimeException('Extension value is not DER encoded.');
+            throw new RuntimeException('Extension value is not DER encoded.');
         }
         return $this->_element;
     }

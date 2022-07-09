@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
@@ -98,7 +99,7 @@ final class IssuerSerialTest extends TestCase
     public function testNoIssuerUIDFail()
     {
         $is = new IssuerSerial(self::$_issuer, 1);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $is->issuerUID();
     }
 }

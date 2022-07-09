@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\Attribute;
@@ -102,14 +103,14 @@ final class AttributeTest extends TestCase
 
     public function testCreateMismatch()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
         Attribute::fromAttributeValues(new NameValue('name'), new CommonNameValue('cn'));
     }
 
     public function testEmptyFromValuesFail()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No values');
         Attribute::fromAttributeValues();
     }
@@ -126,7 +127,7 @@ final class AttributeTest extends TestCase
      */
     public function testEmptyFirstFail(Attribute $attr)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute contains no values');
         $attr->first();
     }

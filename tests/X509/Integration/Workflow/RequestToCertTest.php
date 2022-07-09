@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\Workflow;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
@@ -111,9 +112,7 @@ final class RequestToCertTest extends TestCase
      */
     public function testValidatePath(CertificationPath $path)
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(
-            new \DateTimeImmutable('2016-05-02 12:30:00')
-        );
+        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2016-05-02 12:30:00'));
         $result = $path->validate($config);
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }

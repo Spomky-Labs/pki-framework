@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use OutOfBoundsException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
@@ -67,14 +68,14 @@ class BitString extends BaseString
         $oi = (int) floor($idx / 8);
         // if octet is outside range
         if ($oi < 0 || $oi >= strlen($this->_string)) {
-            throw new \OutOfBoundsException('Index is out of bounds.');
+            throw new OutOfBoundsException('Index is out of bounds.');
         }
         // bit index
         $bi = $idx % 8;
         // if tested bit is last octet's unused bit
         if ($oi === strlen($this->_string) - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
-                throw new \OutOfBoundsException('Index refers to an unused bit.');
+                throw new OutOfBoundsException('Index refers to an unused bit.');
             }
         }
         $byte = $this->_string[$oi];
@@ -97,7 +98,7 @@ class BitString extends BaseString
             return '0';
         }
         if ($start + $length > $this->numBits()) {
-            throw new \OutOfBoundsException('Not enough bits.');
+            throw new OutOfBoundsException('Not enough bits.');
         }
         $bits = gmp_init(0);
         $idx = $start;

@@ -26,6 +26,7 @@ use Sop\X509\Certificate\Certificate;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -138,7 +139,7 @@ final class AttributeCertificateTest extends TestCase
         $seq = $ac->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
         $seq = $seq->withReplaced(1, $algo->toASN1());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AttributeCertificate::fromASN1($seq);
     }
 
@@ -169,7 +170,7 @@ final class AttributeCertificateTest extends TestCase
 
     public function testInvalidPEMTypeFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AttributeCertificate::fromPEM(new PEM('fail', ''));
     }
 

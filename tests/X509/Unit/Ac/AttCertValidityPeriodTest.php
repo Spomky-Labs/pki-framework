@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\AttributeCertificate\AttCertValidityPeriod;
@@ -19,8 +20,8 @@ final class AttCertValidityPeriodTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_nb = new \DateTimeImmutable('2016-05-17 12:00:00');
-        self::$_na = new \DateTimeImmutable('2016-05-17 13:00:00');
+        self::$_nb = new DateTimeImmutable('2016-05-17 12:00:00');
+        self::$_na = new DateTimeImmutable('2016-05-17 13:00:00');
     }
 
     public static function tearDownAfterClass(): void

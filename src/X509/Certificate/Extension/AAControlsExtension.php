@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Boolean;
@@ -85,7 +86,7 @@ class AAControlsExtension extends Extension
     public function pathLen(): int
     {
         if (! $this->hasPathLen()) {
-            throw new \LogicException('pathLen not set.');
+            throw new LogicException('pathLen not set.');
         }
         return $this->_pathLenConstraint;
     }
@@ -106,7 +107,7 @@ class AAControlsExtension extends Extension
     public function permittedAttrs(): array
     {
         if (! $this->hasPermittedAttrs()) {
-            throw new \LogicException('permittedAttrs not set.');
+            throw new LogicException('permittedAttrs not set.');
         }
         return $this->_permittedAttrs;
     }
@@ -127,7 +128,7 @@ class AAControlsExtension extends Extension
     public function excludedAttrs(): array
     {
         if (! $this->hasExcludedAttrs()) {
-            throw new \LogicException('excludedAttrs not set.');
+            throw new LogicException('excludedAttrs not set.');
         }
         return $this->_excludedAttrs;
     }

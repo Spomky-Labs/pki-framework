@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -61,7 +62,7 @@ class NameConstraintsExtension extends Extension
     public function permittedSubtrees(): GeneralSubtrees
     {
         if (! $this->hasPermittedSubtrees()) {
-            throw new \LogicException('No permitted subtrees.');
+            throw new LogicException('No permitted subtrees.');
         }
         return $this->_permitted;
     }
@@ -80,7 +81,7 @@ class NameConstraintsExtension extends Extension
     public function excludedSubtrees(): GeneralSubtrees
     {
         if (! $this->hasExcludedSubtrees()) {
-            throw new \LogicException('No excluded subtrees.');
+            throw new LogicException('No excluded subtrees.');
         }
         return $this->_excluded;
     }

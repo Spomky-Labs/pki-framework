@@ -7,6 +7,7 @@ namespace Sop\ASN1\Type\Tagged;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Implements implicit tagging mode.
@@ -40,7 +41,7 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
     {
         $this->_element->expectType($tag);
         if ($this->_element->typeClass() !== $class) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf(
                     'Type class %s expected, got %s.',
                     Identifier::classToName($class),

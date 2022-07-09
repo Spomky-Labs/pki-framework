@@ -8,6 +8,7 @@ use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Tagged\ExplicitTagging;
 use Sop\ASN1\Type\Tagged\ImplicitTagging;
+use UnexpectedValueException;
 
 /**
  * Base class for context-specific types.
@@ -23,7 +24,7 @@ abstract class TaggedType extends Element
     {
         $el = $this;
         if (! $el instanceof ExplicitTagging) {
-            throw new \UnexpectedValueException("Element doesn't implement explicit tagging.");
+            throw new UnexpectedValueException("Element doesn't implement explicit tagging.");
         }
         if (isset($expectedTag)) {
             $el->expectTagged($expectedTag);
@@ -51,7 +52,7 @@ abstract class TaggedType extends Element
     {
         $el = $this;
         if (! $el instanceof ImplicitTagging) {
-            throw new \UnexpectedValueException("Element doesn't implement implicit tagging.");
+            throw new UnexpectedValueException("Element doesn't implement implicit tagging.");
         }
         if (isset($expectedTag)) {
             $el->expectTagged($expectedTag);

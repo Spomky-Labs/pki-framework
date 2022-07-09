@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\CryptoBridge\Crypto;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\CertificateBundle;
@@ -21,7 +25,7 @@ use Sop\X509\CertificationPath\PathValidation\PathValidator;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-3.2
  */
-class CertificationPath implements \Countable, \IteratorAggregate
+class CertificationPath implements Countable, IteratorAggregate
 {
     /**
      * Certification path.
@@ -97,7 +101,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
     public function trustAnchorCertificate(): Certificate
     {
         if (! count($this->_certificates)) {
-            throw new \LogicException('No certificates.');
+            throw new LogicException('No certificates.');
         }
         return $this->_certificates[0];
     }
@@ -108,7 +112,7 @@ class CertificationPath implements \Countable, \IteratorAggregate
     public function endEntityCertificate(): Certificate
     {
         if (! count($this->_certificates)) {
-            throw new \LogicException('No certificates.');
+            throw new LogicException('No certificates.');
         }
         return $this->_certificates[count($this->_certificates) - 1];
     }
@@ -165,8 +169,8 @@ class CertificationPath implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_certificates);
+        return new ArrayIterator($this->_certificates);
     }
 }

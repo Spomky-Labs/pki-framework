@@ -9,6 +9,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\BaseTime;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\TimeType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -37,7 +38,7 @@ final class TimeTypeDecodeTest extends TestCase
     public function testExpectationFails()
     {
         $el = new NullType();
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Any Time expected, got NULL');
         $el->expectType(Element::TYPE_TIME);
     }

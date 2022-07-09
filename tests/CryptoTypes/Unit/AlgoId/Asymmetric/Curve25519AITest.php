@@ -13,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed25519AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X25519AlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -83,14 +84,14 @@ final class Curve25519AITest extends TestCase
 
     public function testEd25519MustHaveNoParams()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/must be absent/');
         Ed25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(new NullType()));
     }
 
     public function testX25519MustHaveNoParams()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/must be absent/');
         X25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(new NullType()));
     }

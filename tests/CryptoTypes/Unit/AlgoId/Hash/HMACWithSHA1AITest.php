@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -42,7 +43,7 @@ final class HMACWithSHA1AITest extends TestCase
     public function testDecodeWithParamsFail(Sequence $seq)
     {
         $seq = $seq->withInserted(1, new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 

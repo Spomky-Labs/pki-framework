@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -17,6 +18,7 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -142,7 +144,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function testGetFail(CertificatePoliciesExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->get('1.2.3');
     }
 
@@ -155,7 +157,7 @@ final class CertificatePoliciesTest extends TestCase
     public function testAnyPolicyFail()
     {
         $ext = new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'));
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->anyPolicy();
     }
 
@@ -274,7 +276,7 @@ final class CertificatePoliciesTest extends TestCase
     public function testEncodeEmptyFail()
     {
         $ext = new CertificatePoliciesExtension(false);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
@@ -285,7 +287,7 @@ final class CertificatePoliciesTest extends TestCase
             new ObjectIdentifier(Extension::OID_CERTIFICATE_POLICIES),
             new OctetString($seq->toDER())
         );
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         CertificatePoliciesExtension::fromASN1($ext_seq);
     }
 }

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoEncoding\PEMBundle;
 
 /**
  * Implements a list of certificates.
  */
-class CertificateBundle implements \Countable, \IteratorAggregate
+class CertificateBundle implements Countable, IteratorAggregate
 {
     /**
      * Certificates.
@@ -153,9 +156,9 @@ class CertificateBundle implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_certs);
+        return new ArrayIterator($this->_certs);
     }
 
     /**

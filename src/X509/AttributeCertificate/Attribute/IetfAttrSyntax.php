@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -18,7 +22,7 @@ use Sop\X509\GeneralName\GeneralNames;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.4
  */
-abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \IteratorAggregate
+abstract class IetfAttrSyntax extends AttributeValue implements Countable, IteratorAggregate
 {
     /**
      * Policy authority.
@@ -96,7 +100,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
     public function policyAuthority(): GeneralNames
     {
         if (! $this->hasPolicyAuthority()) {
-            throw new \LogicException('policyAuthority not set.');
+            throw new LogicException('policyAuthority not set.');
         }
         return $this->_policyAuthority;
     }
@@ -117,7 +121,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
     public function first(): IetfAttrValue
     {
         if (! count($this->_values)) {
-            throw new \LogicException('No values.');
+            throw new LogicException('No values.');
         }
         return $this->_values[0];
     }
@@ -165,9 +169,9 @@ abstract class IetfAttrSyntax extends AttributeValue implements \Countable, \Ite
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_values);
+        return new ArrayIterator($this->_values);
     }
 
     protected function _transcodedString(): string

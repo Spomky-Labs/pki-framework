@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Validation;
 
+use DateTimeImmutable;
 use Sop\X509\Certificate\Extension\Target\Target;
 use Sop\X509\CertificationPath\CertificationPath;
 
@@ -29,7 +30,7 @@ class ACValidationConfig
     /**
      * Evaluation reference time.
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     protected $_evalTime;
 
@@ -50,7 +51,7 @@ class ACValidationConfig
     {
         $this->_holderPath = $holder_path;
         $this->_issuerPath = $issuer_path;
-        $this->_evalTime = new \DateTimeImmutable();
+        $this->_evalTime = new DateTimeImmutable();
         $this->_targets = [];
     }
 
@@ -73,7 +74,7 @@ class ACValidationConfig
     /**
      * Get self with given evaluation reference time.
      */
-    public function withEvaluationTime(\DateTimeImmutable $dt): self
+    public function withEvaluationTime(DateTimeImmutable $dt): self
     {
         $obj = clone $this;
         $obj->_evalTime = $dt;
@@ -83,7 +84,7 @@ class ACValidationConfig
     /**
      * Get the evaluation reference time.
      */
-    public function evaluationTime(): \DateTimeImmutable
+    public function evaluationTime(): DateTimeImmutable
     {
         return $this->_evalTime;
     }

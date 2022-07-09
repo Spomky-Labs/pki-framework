@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Integer;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\Integer;
 
@@ -26,14 +27,14 @@ final class EncodeTest extends TestCase
 
     public function testInvalidNumber()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('is not a valid number');
         new Integer('one');
     }
 
     public function testEmpty()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('is not a valid number');
         new Integer('');
     }

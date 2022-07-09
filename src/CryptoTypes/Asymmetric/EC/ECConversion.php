@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
+use GMP;
+use RangeException;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
@@ -25,7 +28,7 @@ class ECConversion
         $str = $bs->string();
         if ($bs->unusedBits()) {
             // @todo pad string
-            throw new \RuntimeException('Unaligned bitstrings to supported');
+            throw new RuntimeException('Unaligned bitstrings to supported');
         }
         return new OctetString($str);
     }
@@ -55,7 +58,7 @@ class ECConversion
         if (null !== $mlen) {
             $len = strlen($str);
             if ($len > $mlen) {
-                throw new \RangeException('Number is too large.');
+                throw new RangeException('Number is too large.');
             }
             // pad with zeroes
             if ($len < $mlen) {
@@ -75,7 +78,7 @@ class ECConversion
     public static function octetStringToInteger(OctetString $os): Integer
     {
         $num = gmp_import($os->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        assert($num instanceof \GMP, new \RuntimeException('gmp_import() failed.'));
+        assert($num instanceof GMP, new RuntimeException('gmp_import() failed.'));
         return new Integer(gmp_strval($num, 10));
     }
 

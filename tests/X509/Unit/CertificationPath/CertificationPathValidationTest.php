@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\CertificationPath;
 
+use DateTimeImmutable;
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\CryptoBridge\Crypto;
 use Sop\CryptoEncoding\PEM;
 use Sop\X509\Certificate\Certificate;
@@ -59,14 +62,14 @@ final class CertificationPathValidationTest extends TestCase
 
     public function testValidateExpired()
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new \DateTimeImmutable('2026-01-03'));
+        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2026-01-03'));
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
 
     public function testValidateNotBeforeFail()
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new \DateTimeImmutable('2015-12-31'));
+        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2015-12-31'));
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
@@ -80,7 +83,7 @@ final class CertificationPathValidationTest extends TestCase
 
     public function testNoCertsFail()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         new PathValidator(Crypto::getDefault(), PathValidationConfig::defaultConfig());
     }
 
@@ -98,11 +101,11 @@ final class CertificationPathValidationTest extends TestCase
             PathValidationConfig::defaultConfig(),
             ...self::$_path->certificates()
         );
-        $cls = new \ReflectionClass($validator);
+        $cls = new ReflectionClass($validator);
         $prop = $cls->getProperty('_certificates');
         $prop->setAccessible(true);
         $prop->setValue($validator, []);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $validator->validate();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -51,7 +52,7 @@ class PolicyConstraintsExtension extends Extension
     public function requireExplicitPolicy(): int
     {
         if (! $this->hasRequireExplicitPolicy()) {
-            throw new \LogicException('requireExplicitPolicy not set.');
+            throw new LogicException('requireExplicitPolicy not set.');
         }
         return $this->_requireExplicitPolicy;
     }
@@ -67,7 +68,7 @@ class PolicyConstraintsExtension extends Extension
     public function inhibitPolicyMapping(): int
     {
         if (! $this->hasInhibitPolicyMapping()) {
-            throw new \LogicException('inhibitPolicyMapping not set.');
+            throw new LogicException('inhibitPolicyMapping not set.');
         }
         return $this->_inhibitPolicyMapping;
     }

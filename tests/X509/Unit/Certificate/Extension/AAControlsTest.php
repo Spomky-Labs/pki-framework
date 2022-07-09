@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\AAControlsExtension;
@@ -143,7 +144,7 @@ final class AAControlsTest extends TestCase
      */
     public function testNoPathLenFail(AAControlsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->pathLen();
     }
 
@@ -152,7 +153,7 @@ final class AAControlsTest extends TestCase
      */
     public function testNoPermittedAttrsFail(AAControlsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->permittedAttrs();
     }
 
@@ -161,7 +162,7 @@ final class AAControlsTest extends TestCase
      */
     public function testNoExcludedAttrsFail(AAControlsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->excludedAttrs();
     }
 }

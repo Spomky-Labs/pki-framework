@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -14,6 +15,7 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X501\ASN1\AttributeValue\DescriptionValue;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -160,7 +162,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
     public function testEncodeEmptyFail()
     {
         $ext = new SubjectDirectoryAttributesExtension(false);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
@@ -171,7 +173,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
             new ObjectIdentifier(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES),
             new OctetString($seq->toDER())
         );
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         SubjectDirectoryAttributesExtension::fromASN1($ext_seq);
     }
 }

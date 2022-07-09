@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -83,7 +84,7 @@ final class V2FormTest extends TestCase
     public function testNoIssuerNameFail()
     {
         $issuer = new V2Form();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $issuer->issuerName();
     }
 

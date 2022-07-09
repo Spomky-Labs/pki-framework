@@ -12,6 +12,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentif
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
+use UnexpectedValueException;
 
 /**
  * Implements PKCS #1 RSAPrivateKey ASN.1 type.
@@ -111,7 +112,7 @@ class RSAPrivateKey extends PrivateKey
             ->asInteger()
             ->intNumber();
         if (0 !== $version) {
-            throw new \UnexpectedValueException('Version must be 0.');
+            throw new UnexpectedValueException('Version must be 0.');
         }
         // helper function get integer from given index
         $get_int = function ($idx) use ($seq) {
@@ -149,7 +150,7 @@ class RSAPrivateKey extends PrivateKey
     {
         $pk = parent::fromPEM($pem);
         if (! ($pk instanceof self)) {
-            throw new \UnexpectedValueException('Not an RSA private key.');
+            throw new UnexpectedValueException('Not an RSA private key.');
         }
         return $pk;
     }

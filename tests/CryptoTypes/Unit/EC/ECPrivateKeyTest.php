@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\EC;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -12,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -111,21 +113,21 @@ final class ECPrivateKeyTest extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $seq = Sequence::fromDER($pem->data());
         $seq = $seq->withReplaced(0, new Integer(0));
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         ECPrivateKey::fromASN1($seq);
     }
 
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         ECPrivateKey::fromPEM($pem);
     }
 
     public function testRSAKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         ECPrivateKey::fromPEM($pem);
     }
 
@@ -135,14 +137,14 @@ final class ECPrivateKeyTest extends TestCase
     public function testNamedCurveNotSet(ECPrivateKey $pk)
     {
         $pk = $pk->withNamedCurve(null);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pk->namedCurve();
     }
 
     public function testPublicKeyNotSet()
     {
         $pk = new ECPrivateKey("\0");
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pk->publicKey();
     }
 }

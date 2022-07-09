@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -80,7 +81,7 @@ final class StructureDecodeTest extends TestCase
     {
         // null, tag 0, null
         $set = Set::fromDER("\x31\x6\x5\x0\x80\x0\x5\x0");
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No tagged element for tag 1');
         $set->getTagged(1);
     }

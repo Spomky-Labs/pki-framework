@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 From RFC 3447:
@@ -44,7 +45,7 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier imple
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (! isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+            throw new UnexpectedValueException('No parameters.');
         }
         $params->asNull();
         return new self();

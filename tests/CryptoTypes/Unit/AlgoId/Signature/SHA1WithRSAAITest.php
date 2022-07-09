@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -41,7 +42,7 @@ final class SHA1WithRSAAITest extends TestCase
     public function testDecodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 
@@ -51,7 +52,7 @@ final class SHA1WithRSAAITest extends TestCase
     public function testDecodeInvalidParamsFail(Sequence $seq)
     {
         $seq = $seq->withReplaced(1, new Sequence());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 

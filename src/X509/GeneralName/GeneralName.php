@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
+use BadMethodCallException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Implements *GeneralName* CHOICE with implicit tagging.
@@ -61,7 +63,7 @@ abstract class GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        throw new \BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
+        throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
     }
 
     /**
@@ -101,7 +103,7 @@ abstract class GeneralName
             case self::TAG_REGISTERED_ID:
                 return RegisteredID::fromChosenASN1($el->asImplicit(Element::TYPE_OBJECT_IDENTIFIER));
         }
-        throw new \UnexpectedValueException('GeneralName type ' . $el->tag() . ' not supported.');
+        throw new UnexpectedValueException('GeneralName type ' . $el->tag() . ' not supported.');
     }
 
     /**

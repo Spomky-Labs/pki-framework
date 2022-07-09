@@ -17,6 +17,7 @@ use Sop\X501\ASN1\Name;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\TBSCertificate;
 use Sop\X509\Certificate\Validity;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -147,7 +148,7 @@ final class CertificateTest extends TestCase
 
     public function testFromInvalidPEMFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         Certificate::fromPEM(new PEM('nope', ''));
     }
 
@@ -167,7 +168,7 @@ final class CertificateTest extends TestCase
         $seq = $cert->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
         $seq = $seq->withReplaced(1, $algo->toASN1());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         Certificate::fromASN1($seq);
     }
 }

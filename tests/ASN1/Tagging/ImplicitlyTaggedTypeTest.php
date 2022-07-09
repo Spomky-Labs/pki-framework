@@ -11,6 +11,7 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\Tagged\ImplicitTagging;
 use Sop\ASN1\Type\TaggedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -37,7 +38,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testExpectationFail(ImplicitTagging $el)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type class PRIVATE expected, got UNIVERSAL');
         $el->implicit(Element::TYPE_NULL, Identifier::CLASS_PRIVATE);
     }
@@ -55,7 +56,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testExpectExplicitFail(TaggedType $el)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Element doesn\'t implement explicit tagging');
         $el->expectExplicit();
     }
@@ -73,7 +74,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testExpectImplicitWithInvalidTagFail(TaggedType $el)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Tag 2 expected, got 1');
         $el->expectImplicit(2);
     }
@@ -83,7 +84,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testExpectTypeFails(TaggedType $el)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NULL expected, got CONTEXT SPECIFIC TAG 1');
         $el->expectType(Element::TYPE_NULL);
     }
@@ -101,7 +102,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function testAsImplicitFail(TaggedType $el)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Tag 2 expected, got 1');
         $el->asImplicit(Element::TYPE_NULL, 2);
     }

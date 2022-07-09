@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Component;
 
+use DomainException;
+use GMP;
+use LogicException;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\Encodable;
 use Sop\ASN1\Util\BigInt;
@@ -30,7 +33,7 @@ class Length implements Encodable
     /**
      * Constructor.
      *
-     * @param \GMP|int|string $length     Length
+     * @param GMP|int|string $length     Length
      * @param bool            $indefinite Whether length is indefinite
      */
     public function __construct($length, bool $indefinite = false)
@@ -129,7 +132,7 @@ class Length implements Encodable
                 $count = count($octets);
                 // first octet must not be 0xff
                 if ($count >= 127) {
-                    throw new \DomainException('Too many length octets.');
+                    throw new DomainException('Too many length octets.');
                 }
                 $bytes[] = 0x80 | $count;
                 foreach (array_reverse($octets) as $octet) {
@@ -152,7 +155,7 @@ class Length implements Encodable
     public function length(): string
     {
         if ($this->_indefinite) {
-            throw new \LogicException('Length is indefinite.');
+            throw new LogicException('Length is indefinite.');
         }
         return $this->_length->base10();
     }
@@ -163,7 +166,7 @@ class Length implements Encodable
     public function intLength(): int
     {
         if ($this->_indefinite) {
-            throw new \LogicException('Length is indefinite.');
+            throw new LogicException('Length is indefinite.');
         }
         return $this->_length->intVal();
     }
@@ -183,7 +186,7 @@ class Length implements Encodable
      * @param string $data   Data
      * @param int    $offset reference to the variable containing offset to the data
      */
-    private static function _decodeLongFormLength(int $length, string $data, int &$offset): \GMP
+    private static function _decodeLongFormLength(int $length, string $data, int &$offset): GMP
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if (127 === $length) {

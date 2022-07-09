@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
+use InvalidArgumentException;
 use Sop\ASN1\Element;
 
 /**
@@ -24,9 +25,7 @@ abstract class BaseString extends Element implements StringType
     public function __construct(string $string)
     {
         if (! $this->_validateString($string)) {
-            throw new \InvalidArgumentException(
-                sprintf('Not a valid %s string.', self::tagToName($this->_typeTag))
-            );
+            throw new InvalidArgumentException(sprintf('Not a valid %s string.', self::tagToName($this->_typeTag)));
         }
         $this->_string = $string;
     }

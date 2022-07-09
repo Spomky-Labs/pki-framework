@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use DateTimeImmutable;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
 use Sop\X509\Feature\DateTimeHelper;
@@ -20,21 +21,21 @@ class AttCertValidityPeriod
     /**
      * Not before time.
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     protected $_notBeforeTime;
 
     /**
      * Not after time.
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     protected $_notAfterTime;
 
     /**
      * Constructor.
      */
-    public function __construct(\DateTimeImmutable $nb, \DateTimeImmutable $na)
+    public function __construct(DateTimeImmutable $nb, DateTimeImmutable $na)
     {
         $this->_notBeforeTime = $nb;
         $this->_notAfterTime = $na;
@@ -71,7 +72,7 @@ class AttCertValidityPeriod
     /**
      * Get not before time.
      */
-    public function notBeforeTime(): \DateTimeImmutable
+    public function notBeforeTime(): DateTimeImmutable
     {
         return $this->_notBeforeTime;
     }
@@ -79,7 +80,7 @@ class AttCertValidityPeriod
     /**
      * Get not after time.
      */
-    public function notAfterTime(): \DateTimeImmutable
+    public function notAfterTime(): DateTimeImmutable
     {
         return $this->_notAfterTime;
     }

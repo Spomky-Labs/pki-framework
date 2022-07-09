@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
+use UnexpectedValueException;
+
 class IPv6Address extends IPAddress
 {
     /**
@@ -22,7 +24,7 @@ class IPv6Address extends IPAddress
                 $mask = self::_wordsToIPv6String(array_slice($words, 8, 8));
                 break;
             default:
-                throw new \UnexpectedValueException('Invalid IPv6 octet length.');
+                throw new UnexpectedValueException('Invalid IPv6 octet length.');
         }
         return new self($ip, $mask);
     }

@@ -9,6 +9,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\IA5String;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -71,7 +72,7 @@ final class IA5StringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('IA5String expected, got primitive NULL');
         $wrap->asIA5String();
     }

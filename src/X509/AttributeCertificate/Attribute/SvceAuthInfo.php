@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\OctetString;
@@ -95,7 +96,7 @@ abstract class SvceAuthInfo extends AttributeValue
     public function authInfo(): string
     {
         if (! $this->hasAuthInfo()) {
-            throw new \LogicException('authInfo not set.');
+            throw new LogicException('authInfo not set.');
         }
         return $this->_authInfo;
     }

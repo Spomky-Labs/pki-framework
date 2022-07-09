@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
+use UnexpectedValueException;
 
 /**
  * Implements 'CRL Distribution Points' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.13
  */
-class CRLDistributionPointsExtension extends Extension implements \Countable, \IteratorAggregate
+class CRLDistributionPointsExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Distribution points.
@@ -57,9 +62,9 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_distributionPoints);
+        return new ArrayIterator($this->_distributionPoints);
     }
 
     protected static function _fromDER(string $data, bool $critical): Extension
@@ -71,7 +76,7 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($dps)) {
-            throw new \UnexpectedValueException('CRLDistributionPoints must have at least one DistributionPoint.');
+            throw new UnexpectedValueException('CRLDistributionPoints must have at least one DistributionPoint.');
         }
         // late static bound, extended by Freshest CRL extension
         return new static($critical, ...$dps);
@@ -80,7 +85,7 @@ class CRLDistributionPointsExtension extends Extension implements \Countable, \I
     protected function _valueASN1(): Element
     {
         if (! count($this->_distributionPoints)) {
-            throw new \LogicException('No distribution points.');
+            throw new LogicException('No distribution points.');
         }
         $elements = array_map(
             function (DistributionPoint $dp) {

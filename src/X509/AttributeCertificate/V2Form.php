@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -94,7 +95,7 @@ class V2Form extends AttCertIssuer
     public function issuerName(): GeneralNames
     {
         if (! $this->hasIssuerName()) {
-            throw new \LogicException('issuerName not set.');
+            throw new LogicException('issuerName not set.');
         }
         return $this->_issuerName;
     }

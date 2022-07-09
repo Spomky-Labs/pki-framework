@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric;
 
+use LogicException;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
@@ -16,6 +18,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
+use UnexpectedValueException;
 
 /**
  * Implements PKCS #8 PrivateKeyInfo / OneAsymmetricKey ASN.1 type.
@@ -104,7 +107,7 @@ class OneAsymmetricKey
             ->asInteger()
             ->intNumber();
         if (! in_array($version, [self::VERSION_1, self::VERSION_2])) {
-            throw new \UnexpectedValueException("Version {$version} not supported.");
+            throw new UnexpectedValueException("Version {$version} not supported.");
         }
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         $key = $seq->at(2)
@@ -158,7 +161,7 @@ class OneAsymmetricKey
             case PEM::TYPE_EC_PRIVATE_KEY:
                 return self::fromPrivateKey(EC\ECPrivateKey::fromDER($pem->data()));
         }
-        throw new \UnexpectedValueException('Invalid PEM type.');
+        throw new UnexpectedValueException('Invalid PEM type.');
     }
 
     /**
@@ -214,7 +217,7 @@ class OneAsymmetricKey
                 // If private key doesn't encode named curve, assign from parameters.
                 if (! $pk->hasNamedCurve()) {
                     if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
-                        throw new \UnexpectedValueException('Not an EC algorithm.');
+                        throw new UnexpectedValueException('Not an EC algorithm.');
                     }
                     $pk = $pk->withNamedCurve($algo->namedCurve());
                 }
@@ -263,7 +266,7 @@ class OneAsymmetricKey
                     ->withVersion($this->_version)
                     ->withAttributes($this->_attributes);
         }
-        throw new \RuntimeException('Private key ' . $algo->name() . ' not supported.');
+        throw new RuntimeException('Private key ' . $algo->name() . ' not supported.');
     }
 
     /**
@@ -292,7 +295,7 @@ class OneAsymmetricKey
     public function attributes(): OneAsymmetricKeyAttributes
     {
         if (! $this->hasAttributes()) {
-            throw new \LogicException('Attributes not set.');
+            throw new LogicException('Attributes not set.');
         }
         return $this->_attributes;
     }
@@ -308,12 +311,12 @@ class OneAsymmetricKey
     /**
      * Get the explicit public key data.
      *
-     * @return \LogicException If public key is not present
+     * @return LogicException If public key is not present
      */
     public function publicKeyData(): BitString
     {
         if (! $this->hasPublicKeyData()) {
-            throw new \LogicException('No explicit public key.');
+            throw new LogicException('No explicit public key.');
         }
         return $this->_publicKeyData;
     }

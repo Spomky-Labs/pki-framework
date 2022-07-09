@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -15,7 +19,7 @@ use Sop\X501\ASN1\Feature\TypedAttribute;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.Attribute
  */
-class Attribute implements \Countable, \IteratorAggregate
+class Attribute implements Countable, IteratorAggregate
 {
     use TypedAttribute;
 
@@ -37,7 +41,7 @@ class Attribute implements \Countable, \IteratorAggregate
         // check that attribute values have correct oid
         foreach ($values as $value) {
             if ($value->oid() !== $type->oid()) {
-                throw new \LogicException('Attribute OID mismatch.');
+                throw new LogicException('Attribute OID mismatch.');
             }
         }
         $this->_type = $type;
@@ -70,7 +74,7 @@ class Attribute implements \Countable, \IteratorAggregate
     {
         // we need at least one value to determine OID
         if (! count($values)) {
-            throw new \LogicException('No values.');
+            throw new LogicException('No values.');
         }
         $oid = reset($values)
             ->oid();
@@ -83,7 +87,7 @@ class Attribute implements \Countable, \IteratorAggregate
     public function first(): AttributeValue
     {
         if (! count($this->_values)) {
-            throw new \LogicException('Attribute contains no values.');
+            throw new LogicException('Attribute contains no values.');
         }
         return $this->_values[0];
     }
@@ -124,14 +128,14 @@ class Attribute implements \Countable, \IteratorAggregate
     {
         // check that target class derives from AttributeValue
         if (! is_subclass_of($cls, AttributeValue::class)) {
-            throw new \LogicException(sprintf('%s must be derived from %s.', $cls, AttributeValue::class));
+            throw new LogicException(sprintf('%s must be derived from %s.', $cls, AttributeValue::class));
         }
         $values = array_map(
             function (AttributeValue $value) use ($cls) {
                 /** @var AttributeValue $cls Class name as a string */
                 $value = $cls::fromSelf($value);
                 if ($value->oid() !== $this->oid()) {
-                    throw new \LogicException('Attribute OID mismatch.');
+                    throw new LogicException('Attribute OID mismatch.');
                 }
                 return $value;
             },
@@ -151,8 +155,8 @@ class Attribute implements \Countable, \IteratorAggregate
     /**
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_values);
+        return new ArrayIterator($this->_values);
     }
 }

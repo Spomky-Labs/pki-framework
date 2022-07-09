@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\ASN1;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\DERData;
 use Sop\ASN1\Element;
@@ -65,7 +66,7 @@ final class DERDataTest extends TestCase
     public function testEncodedContentEmpty()
     {
         $el = new DERData("\x5\x0");
-        $cls = new \ReflectionClass($el);
+        $cls = new ReflectionClass($el);
         $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
@@ -75,7 +76,7 @@ final class DERDataTest extends TestCase
     public function testEncodedContentValue()
     {
         $el = new DERData((new OctetString('test'))->toDER());
-        $cls = new \ReflectionClass($el);
+        $cls = new ReflectionClass($el);
         $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);

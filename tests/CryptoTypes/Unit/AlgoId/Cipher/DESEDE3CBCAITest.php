@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\AlgoId\Cipher;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -51,14 +53,14 @@ final class DESEDE3CBCAITest extends TestCase
     public function testDecodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }
 
     public function testEncodeNoIVFail()
     {
         $ai = new DESEDE3CBCAlgorithmIdentifier();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ai->toASN1();
     }
 
@@ -80,7 +82,7 @@ final class DESEDE3CBCAITest extends TestCase
 
     public function testInvalidIVSizeFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         new DESEDE3CBCAlgorithmIdentifier('1234');
     }
 

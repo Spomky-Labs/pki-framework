@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\UniversalString;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\UniversalString;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -61,7 +63,7 @@ final class UniversalStringTest extends TestCase
 
     public function testInvalidString()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid UniversalString string');
         new UniversalString('xxx');
     }
@@ -78,7 +80,7 @@ final class UniversalStringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UniversalString expected, got primitive NULL');
         $wrap->asUniversalString();
     }

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\BitString;
 
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -96,7 +98,7 @@ final class BitStringTest extends TestCase
     public function testRangeOOB()
     {
         $bs = new BitString("\xff");
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Not enough bits');
         $bs->range(7, 2);
     }
@@ -113,7 +115,7 @@ final class BitStringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('BIT STRING expected, got primitive NULL');
         $wrap->asBitString();
     }

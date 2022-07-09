@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Csr;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Set;
 use Sop\X501\ASN1\Attribute;
@@ -12,6 +13,7 @@ use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 use Sop\X509\CertificationRequest\Attributes;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -97,14 +99,14 @@ final class AttributesTest extends TestCase
      */
     public function testFirstOfFail(Attributes $attribs)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $attribs->firstOf('1.3.6.1.3');
     }
 
     public function testNoExtensionRequestFail()
     {
         $attribs = new Attributes();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $attribs->extensionRequest();
     }
 

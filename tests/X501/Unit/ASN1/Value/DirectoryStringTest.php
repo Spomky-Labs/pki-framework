@@ -10,6 +10,7 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
 use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -18,7 +19,7 @@ final class DirectoryStringTest extends TestCase
 {
     public function testFromASN1InvalidType()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type NULL is not valid DirectoryString');
         DirectoryString::fromASN1(new UnspecifiedType(new NullType()));
     }
@@ -26,7 +27,7 @@ final class DirectoryStringTest extends TestCase
     public function testToASN1InvalidType()
     {
         $value = new CommonNameValue('name', Element::TYPE_NULL);
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type NULL is not valid DirectoryString');
         $value->toASN1();
     }

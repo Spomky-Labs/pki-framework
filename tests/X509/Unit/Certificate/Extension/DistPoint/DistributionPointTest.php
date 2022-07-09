@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension\DistPoint;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\AttributeTypeAndValue;
@@ -85,7 +86,7 @@ final class DistributionPointTest extends TestCase
      */
     public function testRelativeNameFail(DistributionPoint $dp)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $dp->relativeName();
     }
 
@@ -158,7 +159,7 @@ final class DistributionPointTest extends TestCase
      */
     public function testFullNameFail(DistributionPoint $dp)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $dp->fullName();
     }
 
@@ -174,7 +175,7 @@ final class DistributionPointTest extends TestCase
      */
     public function testDistributionPointNameFail(DistributionPoint $dp)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $dp->distributionPointName();
     }
 
@@ -183,7 +184,7 @@ final class DistributionPointTest extends TestCase
      */
     public function testReasonsFail(DistributionPoint $dp)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $dp->reasons();
     }
 
@@ -192,7 +193,7 @@ final class DistributionPointTest extends TestCase
      */
     public function testCRLIssuerFail(DistributionPoint $dp)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $dp->crlIssuer();
     }
 }

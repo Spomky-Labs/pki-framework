@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
+use UnexpectedValueException;
 
 /**
  * Implements 'Policy Mappings' certificate extension.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.5
  */
-class PolicyMappingsExtension extends Extension implements \Countable, \IteratorAggregate
+class PolicyMappingsExtension extends Extension implements Countable, IteratorAggregate
 {
     /**
      * Policy mappings.
@@ -133,9 +138,9 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_mappings);
+        return new ArrayIterator($this->_mappings);
     }
 
     protected static function _fromDER(string $data, bool $critical): Extension
@@ -147,7 +152,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (! count($mappings)) {
-            throw new \UnexpectedValueException('PolicyMappings must have at least one mapping.');
+            throw new UnexpectedValueException('PolicyMappings must have at least one mapping.');
         }
         return new self($critical, ...$mappings);
     }
@@ -155,7 +160,7 @@ class PolicyMappingsExtension extends Extension implements \Countable, \Iterator
     protected function _valueASN1(): Element
     {
         if (! count($this->_mappings)) {
-            throw new \LogicException('No mappings.');
+            throw new LogicException('No mappings.');
         }
         $elements = array_map(function (PolicyMapping $mapping) {
             return $mapping->toASN1();

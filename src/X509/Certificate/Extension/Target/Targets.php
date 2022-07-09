@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\Target;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
 
@@ -12,7 +15,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5755#section-4.3.2
  */
-class Targets implements \Countable, \IteratorAggregate
+class Targets implements Countable, IteratorAggregate
 {
     /**
      * Target elements.
@@ -110,9 +113,9 @@ class Targets implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_targets);
+        return new ArrayIterator($this->_targets);
     }
 
     /**

@@ -13,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentif
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use UnexpectedValueException;
 
 /**
  * Implements PKCS #1 RSAPublicKey ASN.1 type.
@@ -88,11 +89,11 @@ class RSAPublicKey extends PublicKey
                 if (AlgorithmIdentifier::OID_RSA_ENCRYPTION !==
                     $pki->algorithmIdentifier()
                         ->oid()) {
-                    throw new \UnexpectedValueException('Not an RSA public key.');
+                    throw new UnexpectedValueException('Not an RSA public key.');
                 }
                 return self::fromDER($pki->publicKeyData()->string());
         }
-        throw new \UnexpectedValueException('Invalid PEM type ' . $pem->type());
+        throw new UnexpectedValueException('Invalid PEM type ' . $pem->type());
     }
 
     /**

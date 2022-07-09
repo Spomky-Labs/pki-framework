@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Csr;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -19,6 +20,7 @@ use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -154,7 +156,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function testNoAttributesFail()
     {
         $cri = new CertificationRequestInfo(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $cri->attributes();
     }
 
@@ -179,7 +181,7 @@ final class CertificationRequestInfoTest extends TestCase
             self::$_subject->toASN1(),
             self::$_privateKeyInfo->publicKeyInfo()->toASN1()
         );
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         CertificationRequestInfo::fromASN1($seq);
     }
 

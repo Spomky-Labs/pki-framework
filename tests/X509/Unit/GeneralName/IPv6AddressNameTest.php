@@ -11,6 +11,7 @@ use Sop\ASN1\Type\TaggedType;
 use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\IPAddress;
 use Sop\X509\GeneralName\IPv6Address;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -127,7 +128,7 @@ final class IPv6AddressNameTest extends TestCase
 
     public function testInvalidOctetLength()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         IPv6Address::fromOctets('');
     }
 }

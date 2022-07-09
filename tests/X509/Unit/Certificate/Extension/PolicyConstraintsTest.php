@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\Extension;
@@ -147,7 +148,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function testNoRequireExplicitFail(PolicyConstraintsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->requireExplicitPolicy();
     }
 
@@ -156,7 +157,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function testNoInhibitMappingFail(PolicyConstraintsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->inhibitPolicyMapping();
     }
 }

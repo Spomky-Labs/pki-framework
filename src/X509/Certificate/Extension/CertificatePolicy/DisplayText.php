@@ -10,6 +10,7 @@ use Sop\ASN1\Type\Primitive\IA5String;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
+use UnexpectedValueException;
 
 /**
  * Implements *DisplayText* ASN.1 CHOICE type used by 'Certificate Policies' certificate extension.
@@ -85,7 +86,7 @@ class DisplayText
             case Element::TYPE_UTF8_STRING:
                 return new UTF8String($this->_text);
             default:
-                throw new \UnexpectedValueException('Type ' . Element::tagToName($this->_tag) . ' not supported.');
+                throw new UnexpectedValueException('Type ' . Element::tagToName($this->_tag) . ' not supported.');
         }
     }
 }

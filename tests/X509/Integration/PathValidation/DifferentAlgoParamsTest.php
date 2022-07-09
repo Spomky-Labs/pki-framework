@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\PathValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\ASN1\Element;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
@@ -55,7 +57,7 @@ final class DifferentAlgoParamsTest extends TestCase
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();
         // hack modified algorithm identifier into PublicKeyInfo
-        $cls = new \ReflectionClass($pubkey);
+        $cls = new ReflectionClass($pubkey);
         $prop = $cls->getProperty('_algo');
         $prop->setAccessible(true);
         $prop->setValue($pubkey, new DifferentAlgoParamsValidationIntegrationTest_RSAAlgo());
@@ -80,7 +82,7 @@ final class DifferentAlgoParamsTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
+        $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
         $this->assertInstanceOf(PathValidationResult::class, $result);
     }
 }

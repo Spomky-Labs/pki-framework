@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Utf8String;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -63,7 +65,7 @@ final class UTF8StringTest extends TestCase
 
     public function testInvalidString()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid UTF8String string');
         new UTF8String(hex2bin('ff'));
     }
@@ -80,7 +82,7 @@ final class UTF8StringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UTF8String expected, got primitive NULL');
         $wrap->asUTF8String();
     }

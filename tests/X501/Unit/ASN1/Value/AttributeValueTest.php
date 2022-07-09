@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1\Value;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -19,7 +20,7 @@ final class AttributeValueTest extends TestCase
 {
     public function testFromASN1BadCall()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('must be implemented in a concrete class');
         AttributeValue::fromASN1(new UnspecifiedType(new NullType()));
     }

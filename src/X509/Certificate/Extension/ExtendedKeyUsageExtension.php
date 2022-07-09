@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -14,7 +17,7 @@ use Sop\ASN1\Type\UnspecifiedType;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.1.12
  */
-class ExtendedKeyUsageExtension extends Extension implements \Countable, \IteratorAggregate
+class ExtendedKeyUsageExtension extends Extension implements Countable, IteratorAggregate
 {
     public const OID_SERVER_AUTH = '1.3.6.1.5.5.7.3.1';
 
@@ -130,9 +133,9 @@ class ExtendedKeyUsageExtension extends Extension implements \Countable, \Iterat
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_purposes);
+        return new ArrayIterator($this->_purposes);
     }
 
     protected static function _fromDER(string $data, bool $critical): Extension

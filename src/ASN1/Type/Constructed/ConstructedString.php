@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Constructed;
 
+use LogicException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
@@ -48,12 +49,12 @@ class ConstructedString extends Structure implements StringType
     public static function create(StringType ...$elements): self
     {
         if (! count($elements)) {
-            throw new \LogicException('No elements, unable to determine type tag.');
+            throw new LogicException('No elements, unable to determine type tag.');
         }
         $tag = $elements[0]->tag();
         foreach ($elements as $el) {
             if ($el->tag() !== $tag) {
-                throw new \LogicException('All elements in constructed string must have the same type.');
+                throw new LogicException('All elements in constructed string must have the same type.');
             }
         }
         return self::createWithTag($tag, ...$elements);

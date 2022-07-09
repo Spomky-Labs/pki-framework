@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed\Sequence;
 
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -11,6 +12,7 @@ use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -116,7 +118,7 @@ final class SequenceTest extends TestCase
      */
     public function testAtOOB(Sequence $seq)
     {
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Structure doesn\'t have an element at index 2');
         $seq->at(2);
     }
@@ -133,7 +135,7 @@ final class SequenceTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('SEQUENCE expected, got primitive NULL');
         $wrap->asSequence();
     }

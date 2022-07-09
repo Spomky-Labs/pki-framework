@@ -16,6 +16,7 @@ use Sop\X501\DN\DNParser;
 use Sop\X501\MatchingRule\CaseIgnoreMatch;
 use Sop\X501\MatchingRule\MatchingRule;
 use Sop\X501\StringPrep\TranscodeStep;
+use UnexpectedValueException;
 
 /**
  * Base class for attribute values having *(Unbounded)DirectoryString* as a syntax.
@@ -148,7 +149,7 @@ abstract class DirectoryString extends AttributeValue
     private static function _tagToASN1Class(int $tag): string
     {
         if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf('Type %s is not valid DirectoryString.', Element::tagToName($tag))
             );
         }

@@ -29,6 +29,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorit
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SignatureAlgorithmIdentifierFactory;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -80,7 +81,7 @@ final class SignatureFactoryTest extends TestCase
     {
         $crypto_algo = new SignatureFactoryTest_InvalidCryptoAlgo();
         $hash_algo = new MD5AlgorithmIdentifier();
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
     }
 
@@ -88,7 +89,7 @@ final class SignatureFactoryTest extends TestCase
     {
         $crypto_algo = new RSAEncryptionAlgorithmIdentifier();
         $hash_algo = new SignatureFactoryTest_InvalidHashAlgo();
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
     }
 
@@ -96,7 +97,7 @@ final class SignatureFactoryTest extends TestCase
     {
         $crypto_algo = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
         $hash_algo = new SignatureFactoryTest_InvalidHashAlgo();
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
     }
 }

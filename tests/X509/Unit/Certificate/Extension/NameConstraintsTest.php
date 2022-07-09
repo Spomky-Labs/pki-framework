@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\Extension;
@@ -227,7 +228,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function testNoPermittedSubtreesFail(NameConstraintsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->permittedSubtrees();
     }
 
@@ -236,7 +237,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function testNoExcludedSubtreesFail(NameConstraintsExtension $ext)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->excludedSubtrees();
     }
 }

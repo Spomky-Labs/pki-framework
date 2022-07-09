@@ -9,6 +9,7 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -57,7 +58,7 @@ final class PublicKeyTest extends TestCase
     public function testInvalidPEM()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PublicKey::fromPEM($pem);
     }
 }

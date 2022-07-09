@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoEncoding\PEMBundle;
 use Sop\X509\CertificationPath\CertificationPath;
@@ -11,7 +15,7 @@ use Sop\X509\CertificationPath\CertificationPath;
 /**
  * Ordered list of certificates from the end-entity to the trust anchor.
  */
-class CertificateChain implements \Countable, \IteratorAggregate
+class CertificateChain implements Countable, IteratorAggregate
 {
     /**
      * List of certificates in a chain.
@@ -66,7 +70,7 @@ class CertificateChain implements \Countable, \IteratorAggregate
     public function endEntityCertificate(): Certificate
     {
         if (! count($this->_certs)) {
-            throw new \LogicException('No certificates.');
+            throw new LogicException('No certificates.');
         }
         return $this->_certs[0];
     }
@@ -77,7 +81,7 @@ class CertificateChain implements \Countable, \IteratorAggregate
     public function trustAnchorCertificate(): Certificate
     {
         if (! count($this->_certs)) {
-            throw new \LogicException('No certificates.');
+            throw new LogicException('No certificates.');
         }
         return $this->_certs[count($this->_certs) - 1];
     }
@@ -117,8 +121,8 @@ class CertificateChain implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_certs);
+        return new ArrayIterator($this->_certs);
     }
 }

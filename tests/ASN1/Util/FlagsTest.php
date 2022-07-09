@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Util;
 
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Util\Flags;
@@ -193,7 +194,7 @@ final class FlagsTest extends TestCase
     public function testTestOOB()
     {
         $flags = new Flags(0, 8);
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Index is out of bounds');
         $flags->test(8);
     }

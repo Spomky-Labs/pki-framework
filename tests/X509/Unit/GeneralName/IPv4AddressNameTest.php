@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\GeneralName;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Tagged\ImplicitTagging;
@@ -11,6 +12,7 @@ use Sop\ASN1\Type\TaggedType;
 use Sop\X509\GeneralName\GeneralName;
 use Sop\X509\GeneralName\IPAddress;
 use Sop\X509\GeneralName\IPv4Address;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -134,7 +136,7 @@ final class IPv4AddressNameTest extends TestCase
 
     public function testInvalidOctetLength()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         IPv4Address::fromOctets('');
     }
 
@@ -143,7 +145,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function testNoMaskFails(IPAddress $ip)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ip->mask();
     }
 }

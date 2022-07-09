@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X501\StringPrep;
 
+use Normalizer;
+
 /**
  * Implements 'Normalize' step of the Internationalized String Preparation as specified by RFC 4518.
  *
@@ -16,6 +18,6 @@ class NormalizeStep implements PrepareStep
      */
     public function apply(string $string): string
     {
-        return normalizer_normalize($string, \Normalizer::NFKC);
+        return normalizer_normalize($string, Normalizer::NFKC);
     }
 }

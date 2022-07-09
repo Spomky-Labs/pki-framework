@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -19,6 +20,7 @@ use Sop\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 use Sop\X509\CertificationRequest\CertificationRequest;
+use UnexpectedValueException;
 
 /**
  * Implements *TBSCertificate* ASN.1 type.
@@ -141,7 +143,7 @@ class TBSCertificate
             ->number();
         $algo = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $algo->name() . '.');
+            throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->name() . '.');
         }
         $issuer = Name::fromASN1($seq->at($idx++)->asSequence());
         $validity = Validity::fromASN1($seq->at($idx++)->asSequence());
@@ -361,7 +363,7 @@ class TBSCertificate
     public function version(): int
     {
         if (! $this->hasVersion()) {
-            throw new \LogicException('version not set.');
+            throw new LogicException('version not set.');
         }
         return $this->_version;
     }
@@ -382,7 +384,7 @@ class TBSCertificate
     public function serialNumber(): string
     {
         if (! $this->hasSerialNumber()) {
-            throw new \LogicException('serialNumber not set.');
+            throw new LogicException('serialNumber not set.');
         }
         return $this->_serialNumber;
     }
@@ -401,7 +403,7 @@ class TBSCertificate
     public function signature(): SignatureAlgorithmIdentifier
     {
         if (! $this->hasSignature()) {
-            throw new \LogicException('signature not set.');
+            throw new LogicException('signature not set.');
         }
         return $this->_signature;
     }
@@ -443,7 +445,7 @@ class TBSCertificate
     public function issuerUniqueID(): UniqueIdentifier
     {
         if (! $this->hasIssuerUniqueID()) {
-            throw new \LogicException('issuerUniqueID not set.');
+            throw new LogicException('issuerUniqueID not set.');
         }
         return $this->_issuerUniqueID;
     }
@@ -459,7 +461,7 @@ class TBSCertificate
     public function subjectUniqueID(): UniqueIdentifier
     {
         if (! $this->hasSubjectUniqueID()) {
-            throw new \LogicException('subjectUniqueID not set.');
+            throw new LogicException('subjectUniqueID not set.');
         }
         return $this->_subjectUniqueID;
     }

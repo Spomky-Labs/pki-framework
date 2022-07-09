@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -27,6 +28,7 @@ use Sop\X509\Certificate\UniqueIdentifier;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
 use Sop\X509\GeneralName\UniformResourceIdentifier;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -293,7 +295,7 @@ final class AttributeCertificateInfoTest extends TestCase
     {
         $seq = $aci->toASN1();
         $seq = $seq->withReplaced(0, new Integer(0));
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AttributeCertificateInfo::fromASN1($seq);
     }
 
@@ -302,7 +304,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function testNoSignatureFail(AttributeCertificateInfo $aci)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $aci->signature();
     }
 
@@ -311,7 +313,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function testNoSerialFail(AttributeCertificateInfo $aci)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $aci->serialNumber();
     }
 
@@ -320,7 +322,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function testNoIssuerUniqueIdFail(AttributeCertificateInfo $aci)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $aci->issuerUniqueID();
     }
 
@@ -341,7 +343,7 @@ final class AttributeCertificateInfoTest extends TestCase
         $seq = $aci->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
         $seq = $seq->withReplaced(3, $algo->toASN1());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         AttributeCertificateInfo::fromASN1($seq);
     }
 }

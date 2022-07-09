@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 Parameters may be seen in various forms. This implementation attemts
@@ -121,7 +123,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (! isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+            throw new UnexpectedValueException('No parameters.');
         }
         $key_bits = 32;
         // rfc2268 a choice containing only IV
@@ -180,7 +182,7 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
             $version = self::EKB_TABLE[$this->_effectiveKeyBits];
         }
         if (! isset($this->_initializationVector)) {
-            throw new \LogicException('IV not set.');
+            throw new LogicException('IV not set.');
         }
         return new Sequence(new Integer($version), new OctetString($this->_initializationVector));
     }

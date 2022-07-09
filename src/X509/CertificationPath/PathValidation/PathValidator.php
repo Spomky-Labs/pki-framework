@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
+use LogicException;
+use RuntimeException;
 use Sop\CryptoBridge\Crypto;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
@@ -56,7 +58,7 @@ class PathValidator
     public function __construct(Crypto $crypto, PathValidationConfig $config, Certificate ...$certificates)
     {
         if (! count($certificates)) {
-            throw new \LogicException('No certificates.');
+            throw new LogicException('No certificates.');
         }
         $this->_crypto = $crypto;
         $this->_config = $config;
@@ -87,7 +89,7 @@ class PathValidator
             }
         }
         if (! isset($cert)) {
-            throw new \LogicException('No certificates.');
+            throw new LogicException('No certificates.');
         }
         // wrap-up (section 6.1.5.)
         $state = $this->_wrapUp($state, $cert);
@@ -241,7 +243,7 @@ class PathValidator
     {
         try {
             $valid = $cert->verify($state->workingPublicKey(), $this->_crypto);
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             throw new PathValidationException('Failed to verify signature: ' . $e->getMessage(), 0, $e);
         }
         if (! $valid) {

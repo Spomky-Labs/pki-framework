@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\Signature;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoTypes\Signature\Ed448Signature;
@@ -30,7 +31,7 @@ final class Ed448SignatureTest extends TestCase
 
     public function testInvalid()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/must be 114 octets/');
         new Ed448Signature('');
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationRequest;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -16,6 +17,7 @@ use Sop\X501\ASN1\Attribute;
 use Sop\X501\ASN1\Name;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
+use UnexpectedValueException;
 
 /**
  * Implements *CertificationRequestInfo* ASN.1 type.
@@ -76,7 +78,7 @@ class CertificationRequestInfo
             ->asInteger()
             ->intNumber();
         if (self::VERSION_1 !== $version) {
-            throw new \UnexpectedValueException("Version {$version} not supported.");
+            throw new UnexpectedValueException("Version {$version} not supported.");
         }
         $subject = Name::fromASN1($seq->at(1)->asSequence());
         $pkinfo = PublicKeyInfo::fromASN1($seq->at(2)->asSequence());
@@ -126,7 +128,7 @@ class CertificationRequestInfo
     public function attributes(): Attributes
     {
         if (! $this->hasAttributes()) {
-            throw new \LogicException('No attributes.');
+            throw new LogicException('No attributes.');
         }
         return $this->_attributes;
     }

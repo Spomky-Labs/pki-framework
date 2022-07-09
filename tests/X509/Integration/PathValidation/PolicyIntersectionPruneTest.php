@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\PathValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
@@ -82,7 +83,7 @@ final class PolicyIntersectionPruneTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $config = new PathValidationConfig(new \DateTimeImmutable(), 3);
+        $config = new PathValidationConfig(new DateTimeImmutable(), 3);
         $config = $config->withPolicySet('1.3.6.1.3.2')
             ->withExplicitPolicy(true);
         $this->expectException(PathValidationException::class);

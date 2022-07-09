@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace Sop\CryptoEncoding;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
+use RuntimeException;
+use UnexpectedValueException;
+
 /**
  * Container for multiple PEM objects.
  *
  * The order of PEMs shall be retained, eg. when read from a file.
  */
-class PEMBundle implements \Countable, \IteratorAggregate
+class PEMBundle implements Countable, IteratorAggregate
 {
     /**
      * Array of PEM objects.
@@ -37,14 +44,14 @@ class PEMBundle implements \Countable, \IteratorAggregate
     public static function fromString(string $str): self
     {
         if (! preg_match_all(PEM::PEM_REGEX, $str, $matches, PREG_SET_ORDER)) {
-            throw new \UnexpectedValueException('No PEM blocks.');
+            throw new UnexpectedValueException('No PEM blocks.');
         }
         $pems = array_map(
             function ($match) {
                 $payload = preg_replace('/\s+/', '', $match[2]);
                 $data = base64_decode($payload, true);
                 if (false === $data) {
-                    throw new \UnexpectedValueException('Failed to decode PEM data.');
+                    throw new UnexpectedValueException('Failed to decode PEM data.');
                 }
                 return new PEM($match[1], $data);
             },
@@ -59,11 +66,11 @@ class PEMBundle implements \Countable, \IteratorAggregate
     public static function fromFile(string $filename): self
     {
         if (! is_readable($filename)) {
-            throw new \RuntimeException("Failed to read {$filename}.");
+            throw new RuntimeException("Failed to read {$filename}.");
         }
         $str = file_get_contents($filename);
         if (false === $str) {
-            throw new \RuntimeException("Failed to read {$filename}.");
+            throw new RuntimeException("Failed to read {$filename}.");
         }
         return self::fromString($str);
     }
@@ -94,7 +101,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
     public function first(): PEM
     {
         if (! count($this->_pems)) {
-            throw new \LogicException('No PEMs.');
+            throw new LogicException('No PEMs.');
         }
         return $this->_pems[0];
     }
@@ -105,7 +112,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
     public function last(): PEM
     {
         if (! count($this->_pems)) {
-            throw new \LogicException('No PEMs.');
+            throw new LogicException('No PEMs.');
         }
         return $this->_pems[count($this->_pems) - 1];
     }
@@ -123,9 +130,9 @@ class PEMBundle implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_pems);
+        return new ArrayIterator($this->_pems);
     }
 
     /**

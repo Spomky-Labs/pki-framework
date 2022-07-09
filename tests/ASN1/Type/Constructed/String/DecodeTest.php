@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\ConstructedString;
 use Sop\ASN1\Type\Primitive\NullType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -30,7 +31,7 @@ final class DecodeTest extends TestCase
 
     public function testInvalidCallingClass()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage(NullType::class . ' expected, got ' . ConstructedString::class);
         NullType::fromDER(hex2bin('2400'));
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Component;
 
+use DomainException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Component\Length;
 
@@ -54,7 +55,7 @@ final class LengthEncodeTest extends TestCase
     {
         $largenum = gmp_init(str_repeat('ff', 127), 16);
         $length = new Length(gmp_strval($largenum, 10));
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Too many length octets');
         $length->toDER();
     }
@@ -63,7 +64,7 @@ final class LengthEncodeTest extends TestCase
     {
         $largenum = gmp_init(str_repeat('ff', 128), 16);
         $length = new Length(gmp_strval($largenum, 10));
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Too many length octets');
         $length->toDER();
     }

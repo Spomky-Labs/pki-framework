@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\Policy;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 
@@ -14,7 +17,7 @@ use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
  *
  * @see https://tools.ietf.org/html/rfc5280#section-6.1.2
  */
-final class PolicyNode implements \IteratorAggregate, \Countable
+final class PolicyNode implements IteratorAggregate, Countable
 {
     /**
      * Policy OID.
@@ -247,8 +250,8 @@ final class PolicyNode implements \IteratorAggregate, \Countable
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_children);
+        return new ArrayIterator($this->_children);
     }
 }

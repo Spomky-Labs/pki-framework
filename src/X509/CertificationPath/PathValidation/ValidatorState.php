@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\CertificationPath\PathValidation;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
@@ -310,7 +311,7 @@ class ValidatorState
     public function validPolicyTree(): PolicyTree
     {
         if (! $this->hasValidPolicyTree()) {
-            throw new \LogicException('valid_policy_tree not set.');
+            throw new LogicException('valid_policy_tree not set.');
         }
         return $this->_validPolicyTree;
     }

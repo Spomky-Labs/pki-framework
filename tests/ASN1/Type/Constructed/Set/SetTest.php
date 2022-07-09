@@ -11,6 +11,7 @@ use Sop\ASN1\Type\Primitive\Boolean;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Structure;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -80,7 +81,7 @@ final class SetTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('SET expected, got primitive NULL');
         $wrap->asSet();
     }

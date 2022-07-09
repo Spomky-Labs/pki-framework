@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\PathValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
@@ -112,6 +113,6 @@ final class PolicyMappingInhibitTest extends TestCase
     {
         $path = new CertificationPath(self::$_ca, self::$_interm, self::$_cert);
         $this->expectException(PathValidationException::class);
-        $path->validate(new PathValidationConfig(new \DateTimeImmutable(), 3));
+        $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
     }
 }

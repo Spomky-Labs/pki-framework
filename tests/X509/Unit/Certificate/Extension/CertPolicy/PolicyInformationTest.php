@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
@@ -94,7 +95,7 @@ final class PolicyInformationTest extends TestCase
      */
     public function testGetFail(PolicyInformation $pi)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pi->get('1.3.6.1.3');
     }
 
@@ -111,7 +112,7 @@ final class PolicyInformationTest extends TestCase
      */
     public function testUserNoticeQualifierFail(PolicyInformation $pi)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pi->userNoticeQualifier();
     }
 
@@ -127,7 +128,7 @@ final class PolicyInformationTest extends TestCase
      */
     public function testCPSQualifierFail(PolicyInformation $pi)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $pi->CPSQualifier();
     }
 

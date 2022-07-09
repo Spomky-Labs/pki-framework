@@ -10,6 +10,7 @@ use Sop\X501\ASN1\Name;
 use Sop\X509\Certificate\Certificate;
 use Sop\X509\GeneralName\DirectoryName;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * Base class implementing *AttCertIssuer* ASN.1 CHOICE type.
@@ -57,13 +58,13 @@ abstract class AttCertIssuer
     public static function fromASN1(UnspecifiedType $el): self
     {
         if (! $el->isTagged()) {
-            throw new \UnexpectedValueException('v1Form issuer not supported.');
+            throw new UnexpectedValueException('v1Form issuer not supported.');
         }
         $tagged = $el->asTagged();
         switch ($tagged->tag()) {
             case 0:
                 return V2Form::fromV2ASN1($tagged->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
         }
-        throw new \UnexpectedValueException('Unsupported issuer type.');
+        throw new UnexpectedValueException('Unsupported issuer type.');
     }
 }

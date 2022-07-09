@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\CertificatePolicy;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -71,7 +72,7 @@ class UserNoticeQualifier extends PolicyQualifierInfo
     public function explicitText(): DisplayText
     {
         if (! $this->hasExplicitText()) {
-            throw new \LogicException('explicitText not set.');
+            throw new LogicException('explicitText not set.');
         }
         return $this->_text;
     }
@@ -90,7 +91,7 @@ class UserNoticeQualifier extends PolicyQualifierInfo
     public function noticeRef(): NoticeReference
     {
         if (! $this->hasNoticeRef()) {
-            throw new \LogicException('noticeRef not set.');
+            throw new LogicException('noticeRef not set.');
         }
         return $this->_ref;
     }

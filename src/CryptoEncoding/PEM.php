@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\CryptoEncoding;
 
+use RuntimeException;
+use UnexpectedValueException;
+
 /**
  * Implements PEM file encoding and decoding.
  *
@@ -85,12 +88,12 @@ class PEM
     public static function fromString(string $str): self
     {
         if (! preg_match(self::PEM_REGEX, $str, $match)) {
-            throw new \UnexpectedValueException('Not a PEM formatted string.');
+            throw new UnexpectedValueException('Not a PEM formatted string.');
         }
         $payload = preg_replace('/\s+/', '', $match[2]);
         $data = base64_decode($payload, true);
         if (false === $data) {
-            throw new \UnexpectedValueException('Failed to decode PEM data.');
+            throw new UnexpectedValueException('Failed to decode PEM data.');
         }
         return new self($match[1], $data);
     }
@@ -103,11 +106,11 @@ class PEM
     public static function fromFile(string $filename): self
     {
         if (! is_readable($filename)) {
-            throw new \RuntimeException("Failed to read {$filename}.");
+            throw new RuntimeException("Failed to read {$filename}.");
         }
         $str = file_get_contents($filename);
         if (false === $str) {
-            throw new \RuntimeException("Failed to read {$filename}.");
+            throw new RuntimeException("Failed to read {$filename}.");
         }
         return self::fromString($str);
     }

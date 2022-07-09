@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\AlgoId;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\NullType;
@@ -50,7 +51,7 @@ final class AlgorithmIdentifierTest extends TestCase
 
     public function testSpecificAlgoBadCall()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         SpecificAlgorithmIdentifier::fromASN1Params();
     }
 

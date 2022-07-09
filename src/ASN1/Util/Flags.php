@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Util;
 
+use OutOfBoundsException;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 
 /**
@@ -48,7 +50,7 @@ class Flags
             // shift towards MSB if needed
             $data = gmp_export($num << $unused_bits, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
             $octets = unpack('C*', $data);
-            assert(is_array($octets), new \RuntimeException('unpack() failed'));
+            assert(is_array($octets), new RuntimeException('unpack() failed'));
             $bits = count($octets) * 8;
             // pad with zeroes
             while ($bits < $width) {
@@ -82,7 +84,7 @@ class Flags
     public function test(int $idx): bool
     {
         if ($idx >= $this->_width) {
-            throw new \OutOfBoundsException('Index is out of bounds.');
+            throw new OutOfBoundsException('Index is out of bounds.');
         }
         // octet index
         $oi = (int) floor($idx / 8);

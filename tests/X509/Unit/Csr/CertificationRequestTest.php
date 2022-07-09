@@ -15,6 +15,7 @@ use Sop\CryptoTypes\Signature\Signature;
 use Sop\X501\ASN1\Name;
 use Sop\X509\CertificationRequest\CertificationRequest;
 use Sop\X509\CertificationRequest\CertificationRequestInfo;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -121,7 +122,7 @@ final class CertificationRequestTest extends TestCase
         $seq = $cr->toASN1();
         $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
         $seq = $seq->withReplaced(1, $algo->toASN1());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         CertificationRequest::fromASN1($seq);
     }
 
@@ -172,7 +173,7 @@ final class CertificationRequestTest extends TestCase
 
     public function testFromInvalidPEMFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         CertificationRequest::fromPEM(new PEM('nope', ''));
     }
 }

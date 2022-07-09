@@ -10,6 +10,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -71,7 +72,7 @@ final class PrivateKeyTest extends TestCase
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PrivateKey::fromPEM($pem);
     }
 }

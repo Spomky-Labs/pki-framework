@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoBridge\Crypto;
 
+use RuntimeException;
 use Sop\CryptoBridge\Crypto;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier;
@@ -13,6 +14,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Signature\Signature;
+use UnexpectedValueException;
 
 /**
  * Crypto engine using OpenSSL extension.
@@ -64,7 +66,7 @@ class OpenSSLCrypto extends Crypto
         $this->_checkSignatureAlgoAndKey($algo, $privkey_info->algorithmIdentifier());
         $result = openssl_sign($data, $signature, $privkey_info->toPEM(), $this->_algoToDigest($algo));
         if (false === $result) {
-            throw new \RuntimeException('openssl_sign() failed: ' . $this->_getLastError());
+            throw new RuntimeException('openssl_sign() failed: ' . $this->_getLastError());
         }
         return Signature::fromSignatureData($signature, $algo);
     }
@@ -84,7 +86,7 @@ class OpenSSLCrypto extends Crypto
             $this->_algoToDigest($algo)
         );
         if (-1 == $result) {
-            throw new \RuntimeException('openssl_verify() failed: ' . $this->_getLastError());
+            throw new RuntimeException('openssl_verify() failed: ' . $this->_getLastError());
         }
         return 1 == $result ? true : false;
     }
@@ -101,7 +103,7 @@ class OpenSSLCrypto extends Crypto
             $iv
         );
         if (false === $result) {
-            throw new \RuntimeException('openssl_encrypt() failed: ' . $this->_getLastError());
+            throw new RuntimeException('openssl_encrypt() failed: ' . $this->_getLastError());
         }
         return $result;
     }
@@ -118,7 +120,7 @@ class OpenSSLCrypto extends Crypto
             $iv
         );
         if (false === $result) {
-            throw new \RuntimeException('openssl_decrypt() failed: ' . $this->_getLastError());
+            throw new RuntimeException('openssl_decrypt() failed: ' . $this->_getLastError());
         }
         return $result;
     }
@@ -130,7 +132,7 @@ class OpenSSLCrypto extends Crypto
     {
         if ($algo instanceof BlockCipherAlgorithmIdentifier) {
             if (strlen($key) !== $algo->keySize()) {
-                throw new \UnexpectedValueException(
+                throw new UnexpectedValueException(
                     sprintf(
                         'Key length for %s must be %d, %d given.',
                         $algo->name(),
@@ -166,7 +168,7 @@ class OpenSSLCrypto extends Crypto
         AlgorithmIdentifier $key_algo
     ): void {
         if (! $sig_algo->supportsKeyAlgorithm($key_algo)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf(
                     'Signature algorithm %s does not support key algorithm %s.',
                     $sig_algo->name(),
@@ -183,7 +185,7 @@ class OpenSSLCrypto extends Crypto
     {
         $oid = $algo->oid();
         if (! array_key_exists($oid, self::MAP_DIGEST_OID)) {
-            throw new \UnexpectedValueException(sprintf('Digest method %s not supported.', $algo->name()));
+            throw new UnexpectedValueException(sprintf('Digest method %s not supported.', $algo->name()));
         }
         return self::MAP_DIGEST_OID[$oid];
     }
@@ -199,11 +201,11 @@ class OpenSSLCrypto extends Crypto
         }
         if (AlgorithmIdentifier::OID_RC2_CBC === $oid) {
             if (! $algo instanceof RC2CBCAlgorithmIdentifier) {
-                throw new \UnexpectedValueException('Not an RC2-CBC algorithm.');
+                throw new UnexpectedValueException('Not an RC2-CBC algorithm.');
             }
             return $this->_rc2AlgoToCipher($algo);
         }
-        throw new \UnexpectedValueException(sprintf('Cipher method %s not supported.', $algo->name()));
+        throw new UnexpectedValueException(sprintf('Cipher method %s not supported.', $algo->name()));
     }
 
     /**
@@ -219,6 +221,6 @@ class OpenSSLCrypto extends Crypto
             case 40:
                 return 'rc2-40-cbc';
         }
-        throw new \UnexpectedValueException($algo->effectiveKeyBits() . ' bit RC2 not supported.');
+        throw new UnexpectedValueException($algo->effectiveKeyBits() . ' bit RC2 not supported.');
     }
 }

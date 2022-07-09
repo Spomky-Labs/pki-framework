@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1;
 
+use BadMethodCallException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Feature\ElementBase;
@@ -17,6 +18,7 @@ use Sop\ASN1\Type\Tagged\PrivateType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Base class for all ASN.1 type elements.
@@ -229,7 +231,7 @@ abstract class Element implements ElementBase
         $called_class = get_called_class();
         if (self::class !== $called_class) {
             if (! $element instanceof $called_class) {
-                throw new \UnexpectedValueException(
+                throw new UnexpectedValueException(
                     sprintf('%s expected, got %s.', $called_class, get_class($element))
                 );
             }
@@ -279,7 +281,7 @@ abstract class Element implements ElementBase
     public function expectType(int $tag): ElementBase
     {
         if (! $this->isType($tag)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf('%s expected, got %s.', self::tagToName($tag), $this->_typeDescriptorString())
             );
         }
@@ -294,12 +296,12 @@ abstract class Element implements ElementBase
     public function expectTagged(?int $tag = null): TaggedType
     {
         if (! $this->isTagged()) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf('Context specific element expected, got %s.', Identifier::classToName($this->typeClass()))
             );
         }
         if (isset($tag) && $this->tag() !== $tag) {
-            throw new \UnexpectedValueException(sprintf('Tag %d expected, got %d.', $tag, $this->tag()));
+            throw new UnexpectedValueException(sprintf('Tag %d expected, got %d.', $tag, $this->tag()));
         }
         return $this;
     }
@@ -364,7 +366,7 @@ abstract class Element implements ElementBase
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
-        throw new \BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
+        throw new BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
     }
 
     /**
@@ -390,7 +392,7 @@ abstract class Element implements ElementBase
             case Identifier::CLASS_PRIVATE:
                 return PrivateType::class;
         }
-        throw new \UnexpectedValueException(sprintf(
+        throw new UnexpectedValueException(sprintf(
             '%s %d not implemented.',
             Identifier::classToName($identifier->typeClass()),
             $identifier->tag()
@@ -405,7 +407,7 @@ abstract class Element implements ElementBase
     protected static function _determineUniversalImplClass(int $tag): string
     {
         if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
-            throw new \UnexpectedValueException("Universal tag {$tag} not implemented.");
+            throw new UnexpectedValueException("Universal tag {$tag} not implemented.");
         }
         return self::MAP_TAG_TO_CLASS[$tag];
     }

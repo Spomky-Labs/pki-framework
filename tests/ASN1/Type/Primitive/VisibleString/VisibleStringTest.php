@@ -9,6 +9,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -73,7 +74,7 @@ final class VisibleStringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('VisibleString expected, got primitive NULL');
         $wrap->asVisibleString();
     }

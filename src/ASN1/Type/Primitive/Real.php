@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use GMP;
+use LogicException;
+use RangeException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -12,6 +15,7 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
+use UnexpectedValueException;
 
 /**
  * Implements *REAL* type.
@@ -126,14 +130,14 @@ class Real extends Element
     /**
      * Constructor.
      *
-     * @param \GMP|int|string $mantissa Integer mantissa
-     * @param \GMP|int|string $exponent Integer exponent
+     * @param GMP|int|string $mantissa Integer mantissa
+     * @param GMP|int|string $exponent Integer exponent
      * @param int             $base     Base, 2 or 10
      */
     public function __construct($mantissa, $exponent, int $base = 10)
     {
         if (10 !== $base && 2 !== $base) {
-            throw new \UnexpectedValueException('Base must be 2 or 10.');
+            throw new UnexpectedValueException('Base must be 2 or 10.');
         }
         $this->_typeTag = self::TYPE_REAL;
         $this->_strictDer = true;
@@ -156,7 +160,7 @@ class Real extends Element
             return self::_fromInfinite($number);
         }
         if (is_nan($number)) {
-            throw new \UnexpectedValueException('NaN values not supported.');
+            throw new UnexpectedValueException('NaN values not supported.');
         }
         [$m, $e] = self::_parse754Double(pack('E', $number));
         return new self($m, $e, 2);
@@ -310,7 +314,7 @@ class Real extends Element
         $exp_bytes = (new BigInt($e))->signedOctets();
         $exp_len = strlen($exp_bytes);
         if ($exp_len > 0xff) {
-            throw new \RangeException('Exponent encoding is too long.');
+            throw new RangeException('Exponent encoding is too long.');
         }
         if ($exp_len <= 3) {
             $byte |= ($exp_len - 1) & 0x03;
@@ -347,7 +351,7 @@ class Real extends Element
             case -1:
                 return chr(0x41);
         }
-        throw new \LogicException('Invalid special value.');
+        throw new LogicException('Invalid special value.');
     }
 
     protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
@@ -502,7 +506,7 @@ class Real extends Element
      *
      * @param string $octets 64 bits
      *
-     * @return \GMP[] Tuple of mantissa and exponent
+     * @return GMP[] Tuple of mantissa and exponent
      */
     private static function _parse754Double(string $octets): array
     {
@@ -543,7 +547,7 @@ class Real extends Element
      *
      * @param string $str Number
      *
-     * @return \GMP[] Tuple of mantissa and exponent
+     * @return GMP[] Tuple of mantissa and exponent
      */
     private static function _parseString(string $str): array
     {
@@ -565,7 +569,7 @@ class Real extends Element
         }
         // invalid number
         else {
-            throw new \UnexpectedValueException("{$str} could not be parsed to REAL.");
+            throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
         }
         // normalize so that mantsissa has no trailing zeroes
         while (0 != $m && 0 == $m % 10) {
@@ -580,7 +584,7 @@ class Real extends Element
      *
      * @param array $match Regexp match
      *
-     * @return \GMP[] Tuple of mantissa and exponent
+     * @return GMP[] Tuple of mantissa and exponent
      */
     private static function _parsePHPExponentMatch(array $match): array
     {
@@ -608,7 +612,7 @@ class Real extends Element
      *
      * @param array $match Regexp match
      *
-     * @return \GMP[] Tuple of mantissa and exponent
+     * @return GMP[] Tuple of mantissa and exponent
      */
     private static function _parseNR3Match(array $match): array
     {
@@ -638,7 +642,7 @@ class Real extends Element
      *
      * @param array $match Regexp match
      *
-     * @return \GMP[] Tuple of mantissa and exponent
+     * @return GMP[] Tuple of mantissa and exponent
      */
     private static function _parseNR2Match(array $match): array
     {
@@ -664,7 +668,7 @@ class Real extends Element
      *
      * @param array $match Regexp match
      *
-     * @return \GMP[] Tuple of mantissa and exponent
+     * @return GMP[] Tuple of mantissa and exponent
      */
     private static function _parseNR1Match(array $match): array
     {

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\Real;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RangeException;
 use Sop\ASN1\Type\Primitive\Real;
 
 /**
@@ -21,7 +23,7 @@ final class EncodeTest extends TestCase
     public function testInvalidSpecial()
     {
         $real = new Real(0, Real::INF_EXPONENT, 10);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Invalid special value');
         $real->toDER();
     }
@@ -64,7 +66,7 @@ final class EncodeTest extends TestCase
     public function testTooLongExponent()
     {
         $real = new Real(1, gmp_init('0x40' . str_repeat('00', 255)), 2);
-        $this->expectException(\RangeException::class);
+        $this->expectException(RangeException::class);
         $this->expectExceptionMessage('Exponent encoding is too long');
         $real->toDER();
     }

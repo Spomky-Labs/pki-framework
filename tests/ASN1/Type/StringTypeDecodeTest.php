@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\ASN1\Type;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
@@ -40,7 +41,7 @@ final class StringTypeDecodeTest extends TestCase
      */
     public function testConstructedFail()
     {
-        $cls = new \ReflectionClass(PrimitiveString::class);
+        $cls = new ReflectionClass(PrimitiveString::class);
         $mtd = $cls->getMethod('_decodeFromDER');
         $mtd->setAccessible(true);
         $identifier = new Identifier(

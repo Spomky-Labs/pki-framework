@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
 use Sop\X509\Certificate\Extension\Extension;
@@ -17,10 +19,10 @@ final class ExtensionTest extends TestCase
 {
     public function testFromDERBadCall()
     {
-        $cls = new \ReflectionClass(Extension::class);
+        $cls = new ReflectionClass(Extension::class);
         $mtd = $cls->getMethod('_fromDER');
         $mtd->setAccessible(true);
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $mtd->invoke(null, '', false);
     }
 

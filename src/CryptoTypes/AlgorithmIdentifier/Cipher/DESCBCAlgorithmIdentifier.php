@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 RFC 2898 defines parameters as follows:
@@ -47,7 +49,7 @@ class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (! isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+            throw new UnexpectedValueException('No parameters.');
         }
         $iv = $params->asOctetString()
             ->string();
@@ -75,7 +77,7 @@ class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     protected function _paramsASN1(): ?Element
     {
         if (! isset($this->_initializationVector)) {
-            throw new \LogicException('IV not set.');
+            throw new LogicException('IV not set.');
         }
         return new OctetString($this->_initializationVector);
     }

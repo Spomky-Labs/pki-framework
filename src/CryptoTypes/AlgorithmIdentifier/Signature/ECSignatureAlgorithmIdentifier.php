@@ -9,6 +9,7 @@ use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 From RFC 5758 - 3.2.  ECDSA Signature Algorithm
@@ -33,7 +34,7 @@ abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifie
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (isset($params)) {
-            throw new \UnexpectedValueException('Parameters must be omitted.');
+            throw new UnexpectedValueException('Parameters must be omitted.');
         }
         return new static();
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\ASN1\Type;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
 use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -31,14 +32,14 @@ final class TimeTypeTest extends TestCase
 
     public function testFromInvalidStringFail()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create DateTime');
         GeneralizedTime::fromString('fail');
     }
 
     public function testFromStringWithInvalidTzFail()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create DateTime');
         GeneralizedTime::fromString(self::VALUE, 'nope');
     }

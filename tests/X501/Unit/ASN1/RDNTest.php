@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Constructed\Set;
 use Sop\X501\ASN1\AttributeTypeAndValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\RDN;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -124,7 +125,7 @@ final class RDNTest extends TestCase
 
     public function testCreateFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('RDN must have at least one AttributeTypeAndValue');
         new RDN();
     }

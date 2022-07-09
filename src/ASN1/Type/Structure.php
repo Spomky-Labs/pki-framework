@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
+use OutOfBoundsException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -13,7 +18,7 @@ use Sop\ASN1\Feature\ElementBase;
 /**
  * Base class for the constructed types.
  */
-abstract class Structure extends Element implements \Countable, \IteratorAggregate
+abstract class Structure extends Element implements Countable, IteratorAggregate
 {
     use UniversalClass;
 
@@ -107,7 +112,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function withReplaced(int $idx, Element $el): self
     {
         if (! isset($this->_elements[$idx])) {
-            throw new \OutOfBoundsException("Structure doesn't have element at index {$idx}.");
+            throw new OutOfBoundsException("Structure doesn't have element at index {$idx}.");
         }
         $obj = clone $this;
         $obj->_elements[$idx] = $el;
@@ -123,7 +128,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function withInserted(int $idx, Element $el): self
     {
         if (count($this->_elements) < $idx || $idx < 0) {
-            throw new \OutOfBoundsException("Index {$idx} is out of bounds.");
+            throw new OutOfBoundsException("Index {$idx} is out of bounds.");
         }
         $obj = clone $this;
         array_splice($obj->_elements, $idx, 0, [$el]);
@@ -162,7 +167,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function withoutElement(int $idx): self
     {
         if (! isset($this->_elements[$idx])) {
-            throw new \OutOfBoundsException("Structure doesn't have element at index {$idx}.");
+            throw new OutOfBoundsException("Structure doesn't have element at index {$idx}.");
         }
         $obj = clone $this;
         array_splice($obj->_elements, $idx, 1);
@@ -214,7 +219,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function at(int $idx): UnspecifiedType
     {
         if (! isset($this->_elements[$idx])) {
-            throw new \OutOfBoundsException("Structure doesn't have an element at index {$idx}.");
+            throw new OutOfBoundsException("Structure doesn't have an element at index {$idx}.");
         }
         return new UnspecifiedType($this->_elements[$idx]);
     }
@@ -244,7 +249,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function getTagged(int $tag): TaggedType
     {
         if (! $this->hasTagged($tag)) {
-            throw new \LogicException("No tagged element for tag {$tag}.");
+            throw new LogicException("No tagged element for tag {$tag}.");
         }
         return $this->_taggedMap[$tag];
     }
@@ -262,9 +267,9 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->elements());
+        return new ArrayIterator($this->elements());
     }
 
     protected function _encodedContentDER(): string

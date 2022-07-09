@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\CertificationPath\Validation;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\CryptoEncoding\PEM;
@@ -40,7 +41,7 @@ final class ValidatorStateTest extends TestCase
      */
     public function testValidPolicyTreeFail(ValidatorState $state)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $state->withoutValidPolicyTree()
             ->validPolicyTree();
     }

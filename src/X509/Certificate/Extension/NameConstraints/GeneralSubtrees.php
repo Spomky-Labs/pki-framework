@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\NameConstraints;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Implements *GeneralSubtrees* ASN.1 type used by 'Name Constraints' certificate extension.
  *
  * @see @link https://tools.ietf.org/html/rfc5280#section-4.2.1.10
  */
-class GeneralSubtrees implements \Countable, \IteratorAggregate
+class GeneralSubtrees implements Countable, IteratorAggregate
 {
     /**
      * Subtrees.
@@ -41,7 +46,7 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
             $seq->elements()
         );
         if (! count($subtrees)) {
-            throw new \UnexpectedValueException('GeneralSubtrees must contain at least one GeneralSubtree.');
+            throw new UnexpectedValueException('GeneralSubtrees must contain at least one GeneralSubtree.');
         }
         return new self(...$subtrees);
     }
@@ -62,7 +67,7 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
     public function toASN1(): Sequence
     {
         if (! count($this->_subtrees)) {
-            throw new \LogicException('No subtrees.');
+            throw new LogicException('No subtrees.');
         }
         $elements = array_map(function (GeneralSubtree $gs) {
             return $gs->toASN1();
@@ -83,8 +88,8 @@ class GeneralSubtrees implements \Countable, \IteratorAggregate
      *
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_subtrees);
+        return new ArrayIterator($this->_subtrees);
     }
 }

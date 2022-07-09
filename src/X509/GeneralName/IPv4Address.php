@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
+use UnexpectedValueException;
+
 class IPv4Address extends IPAddress
 {
     /**
@@ -22,7 +24,7 @@ class IPv4Address extends IPAddress
                 $mask = implode('.', array_slice($bytes, 4, 4));
                 break;
             default:
-                throw new \UnexpectedValueException('Invalid IPv4 octet length.');
+                throw new UnexpectedValueException('Invalid IPv4 octet length.');
         }
         return new self($ip, $mask);
     }

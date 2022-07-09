@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Constructed\String;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\ConstructedString;
@@ -27,6 +28,7 @@ use Sop\ASN1\Type\Primitive\VideotexString;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -118,7 +120,7 @@ final class ConstructedStringTest extends TestCase
     public function testUnspecifiedFail()
     {
         $ut = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Constructed String expected, got primitive NULL');
         $ut->asConstructedString();
     }
@@ -140,14 +142,14 @@ final class ConstructedStringTest extends TestCase
 
     public function testCreateNoElementsFail()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No elements, unable to determine type tag');
         ConstructedString::create();
     }
 
     public function testCreateMixedElementsFail()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('All elements in constructed string must have the same type');
         ConstructedString::create(new OctetString('Hello'), new BitString('World'));
     }

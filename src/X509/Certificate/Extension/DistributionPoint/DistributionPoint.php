@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate\Extension\DistributionPoint;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
@@ -94,7 +95,7 @@ class DistributionPoint
     public function distributionPointName(): DistributionPointName
     {
         if (! $this->hasDistributionPointName()) {
-            throw new \LogicException('distributionPoint not set.');
+            throw new LogicException('distributionPoint not set.');
         }
         return $this->_distributionPoint;
     }
@@ -115,7 +116,7 @@ class DistributionPoint
     public function fullName(): FullName
     {
         if (! $this->hasFullName()) {
-            throw new \LogicException('fullName not set.');
+            throw new LogicException('fullName not set.');
         }
         return $this->_distributionPoint;
     }
@@ -136,7 +137,7 @@ class DistributionPoint
     public function relativeName(): RelativeName
     {
         if (! $this->hasRelativeName()) {
-            throw new \LogicException('nameRelativeToCRLIssuer not set.');
+            throw new LogicException('nameRelativeToCRLIssuer not set.');
         }
         return $this->_distributionPoint;
     }
@@ -155,7 +156,7 @@ class DistributionPoint
     public function reasons(): ReasonFlags
     {
         if (! $this->hasReasons()) {
-            throw new \LogicException('reasons not set.');
+            throw new LogicException('reasons not set.');
         }
         return $this->_reasons;
     }
@@ -174,7 +175,7 @@ class DistributionPoint
     public function crlIssuer(): GeneralNames
     {
         if (! $this->hasCRLIssuer()) {
-            throw new \LogicException('crlIssuer not set.');
+            throw new LogicException('crlIssuer not set.');
         }
         return $this->_issuer;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\X509\Unit\CertificationPath\Policy;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\X509\CertificationPath\Policy\PolicyNode;
 use Sop\X509\CertificationPath\Policy\PolicyTree;
 
@@ -19,7 +20,7 @@ final class PolicyTreeTest extends TestCase
     public function testNodesAtDepthNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
-        $obj = new \ReflectionClass($tree);
+        $obj = new ReflectionClass($tree);
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
@@ -32,7 +33,7 @@ final class PolicyTreeTest extends TestCase
     public function testValidPolicyNodeSetNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
-        $obj = new \ReflectionClass($tree);
+        $obj = new ReflectionClass($tree);
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
@@ -47,7 +48,7 @@ final class PolicyTreeTest extends TestCase
     public function testPruneNoRoot()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode());
-        $obj = new \ReflectionClass($tree);
+        $obj = new ReflectionClass($tree);
         $prop = $obj->getProperty('_root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);

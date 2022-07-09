@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\X501\Unit\ASN1;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X501\ASN1\Name;
 use Sop\X501\ASN1\RDN;
@@ -74,14 +75,14 @@ final class NameTest extends TestCase
      */
     public function testFirstValueOfNotFound(Name $name)
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Attribute cn not found');
         $name->firstValueOf('cn');
     }
 
     public function testFirstValueOfMultipleFail()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('RDN with multiple name attributes');
         Name::fromString('name=one+name=two')->firstValueOf('name');
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\ASN1;
 
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\X501\ASN1\AttributeType;
@@ -77,7 +78,7 @@ final class AttributeTypeTest extends TestCase
 
     public function testNameToOIDFail()
     {
-        $this->expectException(\OutOfBoundsException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('No OID for unknown');
         AttributeType::attrNameToOID('unknown');
     }

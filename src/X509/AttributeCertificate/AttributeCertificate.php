@@ -13,6 +13,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Signature\Signature;
 use Sop\X509\Certificate\Certificate;
+use UnexpectedValueException;
 
 /**
  * Implements *AttributeCertificate* ASN.1 type.
@@ -72,7 +73,7 @@ class AttributeCertificate
         $acinfo = AttributeCertificateInfo::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
+            throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
         $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
         return new self($acinfo, $algo, $signature);
@@ -92,7 +93,7 @@ class AttributeCertificate
     public static function fromPEM(PEM $pem): self
     {
         if (PEM::TYPE_ATTRIBUTE_CERTIFICATE !== $pem->type()) {
-            throw new \UnexpectedValueException('Invalid PEM type.');
+            throw new UnexpectedValueException('Invalid PEM type.');
         }
         return self::fromDER($pem->data());
     }

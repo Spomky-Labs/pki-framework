@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 From RFC 5480 - 2.1.1.  Unrestricted Algorithm Identifier and Parameters:
@@ -269,7 +270,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier impleme
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (! isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+            throw new UnexpectedValueException('No parameters.');
         }
         $named_curve = $params->asObjectIdentifier()
             ->oid();

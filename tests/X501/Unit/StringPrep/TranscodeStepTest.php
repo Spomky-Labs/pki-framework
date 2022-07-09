@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Unit\StringPrep;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\X501\StringPrep\TranscodeStep;
@@ -51,7 +52,7 @@ final class TranscodeStepTest extends TestCase
     public function testInvalidType()
     {
         $step = new TranscodeStep(Element::TYPE_BOOLEAN);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Unsupported string type BOOLEAN');
         $step->apply('TEST');
     }

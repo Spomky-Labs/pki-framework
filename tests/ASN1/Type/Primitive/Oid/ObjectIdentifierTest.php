@@ -9,6 +9,8 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
+use ValueError;
 
 /**
  * @internal
@@ -71,35 +73,35 @@ final class ObjectIdentifierTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('OBJECT IDENTIFIER expected, got primitive NULL');
         $wrap->asObjectIdentifier();
     }
 
     public function testOnlyRootArc()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('OID must have at least two nodes');
         new ObjectIdentifier('0');
     }
 
     public function testInvalidRootArc()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Root arc must be in range of 0..2');
         new ObjectIdentifier('3.0');
     }
 
     public function testInvalidSubarc()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
         new ObjectIdentifier('0.40');
     }
 
     public function testInvalidSubarc1()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
         new ObjectIdentifier('1.40');
     }
@@ -109,7 +111,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function testInvalidNumberPrePHP8()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('is not a number');
         new ObjectIdentifier('1.1.x');
     }
@@ -119,7 +121,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function testInvalidNumberPHP8()
     {
-        $this->expectException(\ValueError::class);
+        $this->expectException(ValueError::class);
         $this->expectExceptionMessage('not an integer');
         new ObjectIdentifier('1.1.x');
     }

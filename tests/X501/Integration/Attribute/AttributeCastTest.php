@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X501\Integration\Attribute;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\X501\ASN1\Attribute;
@@ -41,14 +42,14 @@ final class AttributeCastTest extends TestCase
 
     public function testInvalidClass()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage(stdClass::class . ' must be derived from ' . AttributeValue::class);
         self::$_attr->castValues(stdClass::class);
     }
 
     public function testOIDMismatch()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
         self::$_attr->castValues(DescriptionValue::class);
     }

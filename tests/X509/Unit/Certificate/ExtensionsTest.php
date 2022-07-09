@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\DERData;
 use Sop\ASN1\Type\Constructed\Sequence;
@@ -86,7 +87,7 @@ final class ExtensionsTest extends TestCase
      */
     public function testGetFail(Extensions $exts)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $exts->get('1.3.6.1.3.3');
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
+use LogicException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -16,6 +17,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
+use UnexpectedValueException;
 
 /**
  * Implements elliptic curve private key type as specified by RFC 5915.
@@ -70,7 +72,7 @@ class ECPrivateKey extends PrivateKey
             ->asInteger()
             ->intNumber();
         if (1 !== $version) {
-            throw new \UnexpectedValueException('Version must be 1.');
+            throw new UnexpectedValueException('Version must be 1.');
         }
         $private_key = $seq->at(1)
             ->asOctetString()
@@ -111,7 +113,7 @@ class ECPrivateKey extends PrivateKey
     {
         $pk = parent::fromPEM($pem);
         if (! ($pk instanceof self)) {
-            throw new \UnexpectedValueException('Not an EC private key.');
+            throw new UnexpectedValueException('Not an EC private key.');
         }
         return $pk;
     }
@@ -140,7 +142,7 @@ class ECPrivateKey extends PrivateKey
     public function namedCurve(): string
     {
         if (! $this->hasNamedCurve()) {
-            throw new \LogicException('namedCurve not set.');
+            throw new LogicException('namedCurve not set.');
         }
         return $this->_namedCurve;
     }
@@ -178,7 +180,7 @@ class ECPrivateKey extends PrivateKey
     public function publicKey(): PublicKey
     {
         if (! $this->hasPublicKey()) {
-            throw new \LogicException('publicKey not set.');
+            throw new LogicException('publicKey not set.');
         }
         return new ECPublicKey($this->_publicKey, $this->namedCurve());
     }

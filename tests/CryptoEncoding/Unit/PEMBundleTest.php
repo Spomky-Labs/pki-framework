@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoEncoding\Unit;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoEncoding\PEMBundle;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -87,7 +90,7 @@ final class PEMBundleTest extends TestCase
 
     public function testInvalidPEM()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PEMBundle::fromString('invalid');
     }
 
@@ -98,27 +101,27 @@ final class PEMBundleTest extends TestCase
 %%%
 -----END TEST-----
 CODE_SAMPLE;
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PEMBundle::fromString($str);
     }
 
     public function testInvalidFile()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         PEMBundle::fromFile(TEST_ASSETS_DIR . '/nonexistent');
     }
 
     public function testFirstEmptyFail()
     {
         $bundle = new PEMBundle();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $bundle->first();
     }
 
     public function testLastEmptyFail()
     {
         $bundle = new PEMBundle();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $bundle->last();
     }
 

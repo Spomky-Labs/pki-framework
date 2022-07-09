@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -13,6 +14,7 @@ use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
 use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
 use Sop\X509\Certificate\Extensions;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -200,7 +202,7 @@ final class PolicyMappingsTest extends TestCase
     public function testEncodeEmptyFail()
     {
         $ext = new PolicyMappingsExtension(false);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->toASN1();
     }
 
@@ -211,7 +213,7 @@ final class PolicyMappingsTest extends TestCase
             new ObjectIdentifier(Extension::OID_POLICY_MAPPINGS),
             new OctetString($seq->toDER())
         );
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PolicyMappingsExtension::fromASN1($ext_seq);
     }
 }

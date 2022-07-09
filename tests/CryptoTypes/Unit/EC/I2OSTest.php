@@ -6,6 +6,7 @@ namespace Sop\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
+use RangeException;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
@@ -41,7 +42,7 @@ final class I2OSTest extends TestCase
 
     public function testTooLarge()
     {
-        $this->expectException(\RangeException::class);
+        $this->expectException(RangeException::class);
         ECConversion::integerToOctetString(new Integer(256), 1);
     }
 

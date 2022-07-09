@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\AcValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoEncoding\PEMBundle;
@@ -62,7 +63,7 @@ final class ValidityTest extends TestCase
     public function testValidateBefore()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $config = $config->withEvaluationTime(new \DateTimeImmutable('now - 1 hour'));
+        $config = $config->withEvaluationTime(new DateTimeImmutable('now - 1 hour'));
         $validator = new ACValidator(self::$_ac, $config);
         $this->expectException(X509ValidationException::class);
         $validator->validate();
@@ -71,7 +72,7 @@ final class ValidityTest extends TestCase
     public function testValidateAfter()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $config = $config->withEvaluationTime(new \DateTimeImmutable('now + 2 hours'));
+        $config = $config->withEvaluationTime(new DateTimeImmutable('now + 2 hours'));
         $validator = new ACValidator(self::$_ac, $config);
         $this->expectException(X509ValidationException::class);
         $validator->validate();

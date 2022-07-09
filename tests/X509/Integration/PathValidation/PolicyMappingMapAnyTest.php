@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Integration\PathValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKey;
@@ -85,7 +87,7 @@ final class PolicyMappingMapAnyTest extends TestCase
     public function testValidate()
     {
         $path = new CertificationPath(self::$_ca, self::$_cert);
-        $config = new PathValidationConfig(new \DateTimeImmutable(), 3);
+        $config = new PathValidationConfig(new DateTimeImmutable(), 3);
         $config = $config->withExplicitPolicy(true);
         $result = $path->validate($config);
         $this->assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
@@ -94,7 +96,7 @@ final class PolicyMappingMapAnyTest extends TestCase
     public function testCoverLogicException()
     {
         $tree = new PolicyTree(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));
-        $refl = new \ReflectionClass($tree);
+        $refl = new ReflectionClass($tree);
         $mtd = $refl->getMethod('_applyAnyPolicyMapping');
         $mtd->setAccessible(true);
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);

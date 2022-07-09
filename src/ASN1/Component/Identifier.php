@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Component;
 
+use GMP;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\Encodable;
 use Sop\ASN1\Util\BigInt;
@@ -67,7 +68,7 @@ class Identifier implements Encodable
      *
      * @param int             $class Type class
      * @param int             $pc    Primitive / Constructed
-     * @param \GMP|int|string $tag   Type tag number
+     * @param GMP|int|string $tag   Type tag number
      */
     public function __construct(int $class, int $pc, $tag)
     {
@@ -232,7 +233,7 @@ class Identifier implements Encodable
     /**
      * Get self with given type tag.
      *
-     * @param \GMP|int|string $tag Tag number
+     * @param GMP|int|string $tag Tag number
      *
      * @return self
      */
@@ -260,9 +261,9 @@ class Identifier implements Encodable
      * @param string $data   DER data
      * @param int    $offset Reference to the variable containing offset to data
      *
-     * @return \GMP Tag number
+     * @return GMP Tag number
      */
-    private static function _decodeLongFormTag(string $data, int &$offset): \GMP
+    private static function _decodeLongFormTag(string $data, int &$offset): GMP
     {
         $datalen = strlen($data);
         $tag = gmp_init(0, 10);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\CertificationPath;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\X509\Certificate\Certificate;
@@ -109,7 +110,7 @@ final class CertificationPathTest extends TestCase
     public function testTrustAnchorFail()
     {
         $path = new CertificationPath();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $path->trustAnchorCertificate();
     }
 
@@ -125,7 +126,7 @@ final class CertificationPathTest extends TestCase
     public function testEndEntityFail()
     {
         $path = new CertificationPath();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $path->endEntityCertificate();
     }
 

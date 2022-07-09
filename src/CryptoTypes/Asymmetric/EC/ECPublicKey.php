@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\EC;
 
+use InvalidArgumentException;
+use LogicException;
+use RuntimeException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\OctetString;
@@ -13,6 +16,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifie
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use UnexpectedValueException;
 
 /**
  * Implements elliptic curve public key type as specified by RFC 5480.
@@ -48,7 +52,7 @@ class ECPublicKey extends PublicKey
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
         if (! strlen($ec_point) || ! in_array(ord($ec_point[0]), [2, 3, 4])) {
-            throw new \InvalidArgumentException('Invalid ECPoint.');
+            throw new InvalidArgumentException('Invalid ECPoint.');
         }
         $this->_ecPoint = $ec_point;
         $this->_namedCurve = $named_curve;
@@ -88,13 +92,13 @@ class ECPublicKey extends PublicKey
     public static function fromPEM(PEM $pem): ECPublicKey
     {
         if (PEM::TYPE_PUBLIC_KEY !== $pem->type()) {
-            throw new \UnexpectedValueException('Not a public key.');
+            throw new UnexpectedValueException('Not a public key.');
         }
         $pki = PublicKeyInfo::fromDER($pem->data());
         $algo = $pki->algorithmIdentifier();
         if (AlgorithmIdentifier::OID_EC_PUBLIC_KEY !== $algo->oid()
             || ! ($algo instanceof ECPublicKeyAlgorithmIdentifier)) {
-            throw new \UnexpectedValueException('Not an elliptic curve key.');
+            throw new UnexpectedValueException('Not an elliptic curve key.');
         }
         // ECPoint is directly mapped into public key data
         return new self($pki->publicKeyData()->string(), $algo->namedCurve());
@@ -128,7 +132,7 @@ class ECPublicKey extends PublicKey
     public function curvePointOctets(): array
     {
         if ($this->isCompressed()) {
-            throw new \RuntimeException('EC point compression not supported.');
+            throw new RuntimeException('EC point compression not supported.');
         }
         $str = substr($this->_ecPoint, 1);
         [$x, $y] = str_split($str, (int) floor(strlen($str) / 2));
@@ -158,7 +162,7 @@ class ECPublicKey extends PublicKey
     public function namedCurve(): string
     {
         if (! $this->hasNamedCurve()) {
-            throw new \LogicException('namedCurve not set.');
+            throw new LogicException('namedCurve not set.');
         }
         return $this->_namedCurve;
     }

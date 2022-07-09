@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\CertificationPath\Validation;
 
+use DateTimeImmutable;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\X509\Certificate\Certificate;
@@ -34,7 +36,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function testDateTime(PathValidationConfig $config)
     {
-        $this->assertInstanceOf(\DateTimeImmutable::class, $config->dateTime());
+        $this->assertInstanceOf(DateTimeImmutable::class, $config->dateTime());
     }
 
     /**
@@ -59,7 +61,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function testWithDateTime(PathValidationConfig $config)
     {
-        $config = $config->withDateTime(new \DateTimeImmutable());
+        $config = $config->withDateTime(new DateTimeImmutable());
         $this->assertInstanceOf(PathValidationConfig::class, $config);
     }
 
@@ -118,7 +120,7 @@ final class PathValidationConfigTest extends TestCase
      */
     public function testTrustAnchorFail(PathValidationConfig $config)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $config->trustAnchor();
     }
 

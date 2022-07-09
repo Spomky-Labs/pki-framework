@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use GMP;
+use InvalidArgumentException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Element;
@@ -30,14 +32,14 @@ class Integer extends Element
     /**
      * Constructor.
      *
-     * @param \GMP|int|string $number Base 10 integer
+     * @param GMP|int|string $number Base 10 integer
      */
     public function __construct($number)
     {
         $this->_typeTag = self::TYPE_INTEGER;
         if (! self::_validateNumber($number)) {
             $var = is_scalar($number) ? strval($number) : gettype($number);
-            throw new \InvalidArgumentException("'{$var}' is not a valid number.");
+            throw new InvalidArgumentException("'{$var}' is not a valid number.");
         }
         $this->_number = new BigInt($number);
     }
@@ -90,7 +92,7 @@ class Integer extends Element
         if (is_string($num) && preg_match('/-?\d+/', $num)) {
             return true;
         }
-        if ($num instanceof \GMP) {
+        if ($num instanceof GMP) {
             return true;
         }
         return false;

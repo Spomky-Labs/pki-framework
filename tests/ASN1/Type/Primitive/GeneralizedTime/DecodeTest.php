@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\GeneralizedTime;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
@@ -29,15 +31,15 @@ final class DecodeTest extends TestCase
     public function testFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999", new \DateTimeZone('UTC'));
+        $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999", new DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x15" . '20060102220405.99999Z');
         $this->assertEquals($dt->format('c u'), $el->dateTime() ->format('c u'));
     }
 
     public function testNoFractions()
     {
-        $dt = new \DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006');
-        $dt = $dt->setTimezone(new \DateTimeZone('UTC'));
+        $dt = new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006');
+        $dt = $dt->setTimezone(new DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x0f" . '20060102220405Z');
         $this->assertEquals($dt->format('c u'), $el->dateTime() ->format('c u'));
     }

@@ -83,6 +83,7 @@ return static function (ECSConfig $config) use ($header): void {
     $config->ruleWithConfiguration(PhpUnitTestAnnotationFixer::class, [
         'style' => 'annotation',
     ]);
+    */
     $config->ruleWithConfiguration(GlobalNamespaceImportFixer::class, [
         'import_classes' => true,
         'import_constants' => true,
@@ -92,7 +93,6 @@ return static function (ECSConfig $config) use ($header): void {
     $config->services()
         ->remove(PhpUnitTestClassRequiresCoversFixer::class)
     ;
-    */
 
     $config->parallel();
     $config->paths([

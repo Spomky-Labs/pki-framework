@@ -13,6 +13,7 @@ use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\Primitive\VisibleString;
 use Sop\ASN1\Type\StringType;
 use Sop\X509\Certificate\Extension\CertificatePolicy\DisplayText;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -92,7 +93,7 @@ final class DisplayTextTest extends TestCase
     public function testEncodeUnsupportedTypeFail()
     {
         $dt = new DisplayText('', Element::TYPE_NULL);
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $dt->toASN1();
     }
 

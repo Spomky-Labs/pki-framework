@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -135,7 +136,7 @@ class Holder
     public function baseCertificateID(): IssuerSerial
     {
         if (! $this->hasBaseCertificateID()) {
-            throw new \LogicException('baseCertificateID not set.');
+            throw new LogicException('baseCertificateID not set.');
         }
         return $this->_baseCertificateID;
     }
@@ -154,7 +155,7 @@ class Holder
     public function entityName(): GeneralNames
     {
         if (! $this->hasEntityName()) {
-            throw new \LogicException('entityName not set.');
+            throw new LogicException('entityName not set.');
         }
         return $this->_entityName;
     }
@@ -173,7 +174,7 @@ class Holder
     public function objectDigestInfo(): ObjectDigestInfo
     {
         if (! $this->hasObjectDigestInfo()) {
-            throw new \LogicException('objectDigestInfo not set.');
+            throw new LogicException('objectDigestInfo not set.');
         }
         return $this->_objectDigestInfo;
     }

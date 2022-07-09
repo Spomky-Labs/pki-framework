@@ -12,6 +12,7 @@ use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\Tagged\PrivateType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -105,7 +106,7 @@ final class PrivateTypeTest extends TestCase
     public function testFromUnspecifiedFail()
     {
         $el = UnspecifiedType::fromDER("\x5\0");
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Private type expected, got primitive NULL');
         $el->asPrivate();
     }

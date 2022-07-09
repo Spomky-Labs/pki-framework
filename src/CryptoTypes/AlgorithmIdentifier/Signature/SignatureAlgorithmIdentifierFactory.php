@@ -9,6 +9,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * Factory class for constructing signature algorithm identifiers.
@@ -64,7 +65,7 @@ abstract class SignatureAlgorithmIdentifierFactory
                 $oid = self::_oidForEC($hash_algo);
                 break;
             default:
-                throw new \UnexpectedValueException(
+                throw new UnexpectedValueException(
                     sprintf('Crypto algorithm %s not supported.', $crypto_algo->name())
                 );
         }
@@ -78,7 +79,7 @@ abstract class SignatureAlgorithmIdentifierFactory
     private static function _oidForRSA(HashAlgorithmIdentifier $hash_algo): string
     {
         if (! array_key_exists($hash_algo->oid(), self::MAP_RSA_OID)) {
-            throw new \UnexpectedValueException(sprintf('No RSA signature algorithm for %s.', $hash_algo->name()));
+            throw new UnexpectedValueException(sprintf('No RSA signature algorithm for %s.', $hash_algo->name()));
         }
         return self::MAP_RSA_OID[$hash_algo->oid()];
     }
@@ -89,7 +90,7 @@ abstract class SignatureAlgorithmIdentifierFactory
     private static function _oidForEC(HashAlgorithmIdentifier $hash_algo): string
     {
         if (! array_key_exists($hash_algo->oid(), self::MAP_EC_OID)) {
-            throw new \UnexpectedValueException(sprintf('No EC signature algorithm for %s.', $hash_algo->name()));
+            throw new UnexpectedValueException(sprintf('No EC signature algorithm for %s.', $hash_algo->name()));
         }
         return self::MAP_EC_OID[$hash_algo->oid()];
     }

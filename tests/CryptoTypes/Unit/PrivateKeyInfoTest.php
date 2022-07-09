@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -19,6 +21,7 @@ use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use Sop\X501\ASN1\AttributeType;
 use Sop\X501\ASN1\AttributeValue\CommonNameValue;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -176,14 +179,14 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $seq = $pki->toASN1();
         $seq = $seq->withReplaced(0, new Integer(2));
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PrivateKeyInfo::fromASN1($seq);
     }
 
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PrivateKeyInfo::fromPEM($pem);
     }
 
@@ -197,7 +200,7 @@ final class PrivateKeyInfoTest extends TestCase
             ->asSequence()
             ->withReplaced(0, new ObjectIdentifier('1.3.6.1.3'));
         $seq = $seq->withReplaced(1, $ai);
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         PrivateKeyInfo::fromASN1($seq)->privateKey();
     }
 
@@ -209,7 +212,7 @@ final class PrivateKeyInfoTest extends TestCase
             ->asOctetString()
             ->string();
         $pki = new PrivateKeyInfo(new PrivateKeyInfoTestInvalidECAlgo(), $data);
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $pki->privateKey();
     }
 
@@ -242,7 +245,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function testHasNoAttributes(PrivateKeyInfo $pki)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');
         $pki->attributes();
     }

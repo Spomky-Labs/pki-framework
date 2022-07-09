@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * Base class for cipher algorithm identifiers.
@@ -55,7 +56,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
     protected function _checkIVSize(?string $iv): void
     {
         if (null !== $iv && strlen($iv) !== $this->ivSize()) {
-            throw new \UnexpectedValueException('Invalid IV size.');
+            throw new UnexpectedValueException('Invalid IV size.');
         }
     }
 }

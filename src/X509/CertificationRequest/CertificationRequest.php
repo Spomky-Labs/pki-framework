@@ -11,6 +11,7 @@ use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Signature\Signature;
+use UnexpectedValueException;
 
 /**
  * Implements *CertificationRequest* ASN.1 type.
@@ -70,7 +71,7 @@ class CertificationRequest
         $info = CertificationRequestInfo::fromASN1($seq->at(0)->asSequence());
         $algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
+            throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
         $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
         return new self($info, $algo, $signature);
@@ -90,7 +91,7 @@ class CertificationRequest
     public static function fromPEM(PEM $pem): self
     {
         if (PEM::TYPE_CERTIFICATE_REQUEST !== $pem->type()) {
-            throw new \UnexpectedValueException('Invalid PEM type.');
+            throw new UnexpectedValueException('Invalid PEM type.');
         }
         return self::fromDER($pem->data());
     }

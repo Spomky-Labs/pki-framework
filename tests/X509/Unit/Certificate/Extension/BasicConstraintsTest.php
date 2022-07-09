@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
@@ -107,7 +108,7 @@ final class BasicConstraintsTest extends TestCase
     public function testNoPathLenFail()
     {
         $ext = new BasicConstraintsExtension(false, false);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $ext->pathLen();
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\ASN1\Component;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Exception\DecodeException;
 
@@ -96,7 +97,7 @@ final class IdentifierDecodeTest extends TestCase
     public function testHugeIntTagOverflow()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow');
         Identifier::fromDER($der)->intTag();
     }

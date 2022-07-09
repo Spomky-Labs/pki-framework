@@ -10,6 +10,7 @@ use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\UTCTime;
 use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -72,7 +73,7 @@ final class UTCTimeTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UTCTime expected, got primitive NULL');
         $wrap->asUTCTime();
     }

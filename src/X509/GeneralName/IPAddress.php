@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\X509\GeneralName;
 
+use LogicException;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Implements *iPAddress* CHOICE type of *GeneralName*.
@@ -57,7 +59,7 @@ abstract class IPAddress extends GeneralName
             case 32:
                 return IPv6Address::fromOctets($octets);
             default:
-                throw new \UnexpectedValueException('Invalid octet length for IP address.');
+                throw new UnexpectedValueException('Invalid octet length for IP address.');
         }
     }
 
@@ -88,7 +90,7 @@ abstract class IPAddress extends GeneralName
     public function mask(): string
     {
         if (! $this->hasMask()) {
-            throw new \LogicException('mask is not set.');
+            throw new LogicException('mask is not set.');
         }
         return $this->_mask;
     }

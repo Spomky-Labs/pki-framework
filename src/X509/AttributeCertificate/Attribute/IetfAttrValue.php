@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate\Attribute;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Primitive\UTF8String;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * Implements *IetfAttrSyntax.values* ASN.1 CHOICE type.
@@ -57,7 +59,7 @@ class IetfAttrValue
             case Element::TYPE_OBJECT_IDENTIFIER:
                 return new self($el->asObjectIdentifier()->oid(), $el->tag());
         }
-        throw new \UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.');
+        throw new UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.');
     }
 
     /**
@@ -134,6 +136,6 @@ class IetfAttrValue
             case Element::TYPE_OBJECT_IDENTIFIER:
                 return new ObjectIdentifier($this->_value);
         }
-        throw new \LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.');
+        throw new LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.');
     }
 }

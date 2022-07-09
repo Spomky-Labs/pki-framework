@@ -6,6 +6,7 @@ namespace Sop\X501\DN;
 
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
+use UnexpectedValueException;
 
 /**
  * Distinguished Name parsing conforming to RFC 2253 and RFC 1779.
@@ -92,7 +93,7 @@ class DNParser
         $name = $this->_parseName($offset);
         if ($offset < $this->_len) {
             $remains = substr($this->_dn, $offset);
-            throw new \UnexpectedValueException(sprintf(
+            throw new UnexpectedValueException(sprintf(
                 'Parser finished before the end of string, remaining: %s',
                 $remains
             ));
@@ -165,7 +166,7 @@ class DNParser
         $type = $this->_parseAttrType($idx);
         $this->_skipWs($idx);
         if ($idx >= $this->_len || '=' != $this->_dn[$idx++]) {
-            throw new \UnexpectedValueException('Invalid type and value pair.');
+            throw new UnexpectedValueException('Invalid type and value pair.');
         }
         $this->_skipWs($idx);
         // hexstring
@@ -175,7 +176,7 @@ class DNParser
             try {
                 $value = Element::fromDER($data);
             } catch (DecodeException $e) {
-                throw new \UnexpectedValueException('Invalid DER encoding from hexstring.', 0, $e);
+                throw new UnexpectedValueException('Invalid DER encoding from hexstring.', 0, $e);
             }
         } else {
             $value = $this->_parseAttrStringValue($idx);
@@ -198,7 +199,7 @@ class DNParser
             // name
             $type = $this->_regexMatch('/^[a-z][a-z0-9\-]*/i', $idx);
             if (null === $type) {
-                throw new \UnexpectedValueException('Invalid attribute type.');
+                throw new UnexpectedValueException('Invalid attribute type.');
             }
         }
         $offset = $idx;
@@ -241,7 +242,7 @@ class DNParser
                 continue;
             }
             if ('"' == $c) {
-                throw new \UnexpectedValueException('Unexpected quotation.');
+                throw new UnexpectedValueException('Unexpected quotation.');
             }
             if (false !== strpos(self::SPECIAL_CHARS, $c)) {
                 break;
@@ -301,7 +302,7 @@ class DNParser
         $idx = $offset;
         $hexstr = $this->_regexMatch('/^(?:[0-9a-f]{2})+/i', $idx);
         if (null === $hexstr) {
-            throw new \UnexpectedValueException('Invalid hexstring.');
+            throw new UnexpectedValueException('Invalid hexstring.');
         }
         $data = hex2bin($hexstr);
         $offset = $idx;
@@ -315,7 +316,7 @@ class DNParser
     {
         $idx = $offset;
         if ($idx >= $this->_len) {
-            throw new \UnexpectedValueException('Unexpected end of escape sequence.');
+            throw new UnexpectedValueException('Unexpected end of escape sequence.');
         }
         $c = $this->_dn[$idx++];
         // special | \ | " | SPACE
@@ -323,11 +324,11 @@ class DNParser
             $val = $c;
         } else { // hexpair
             if ($idx >= $this->_len) {
-                throw new \UnexpectedValueException('Unexpected end of hexpair.');
+                throw new UnexpectedValueException('Unexpected end of hexpair.');
             }
             $val = @hex2bin($c . $this->_dn[$idx++]);
             if (false === $val) {
-                throw new \UnexpectedValueException('Invalid hexpair.');
+                throw new UnexpectedValueException('Invalid hexpair.');
             }
         }
         $offset = $idx;

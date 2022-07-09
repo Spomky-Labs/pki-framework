@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac\Attribute;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X509\AttributeCertificate\Attribute\IetfAttrValue;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -17,14 +19,14 @@ final class IetfAttrValueTest extends TestCase
 {
     public function testFromUnsupportedTypeFail()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         IetfAttrValue::fromASN1(new UnspecifiedType(new NullType()));
     }
 
     public function testToUnsupportedTypeFail()
     {
         $val = new IetfAttrValue('', Element::TYPE_NULL);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $val->toASN1();
     }
 

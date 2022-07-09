@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Util;
 
+use GMP;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Util\BigInt;
+use ValueError;
 
 /**
  * @internal
@@ -27,7 +31,7 @@ final class BigIntTest extends TestCase
     public function testOverflow()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10) + 1));
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow');
         $int->intVal();
     }
@@ -35,7 +39,7 @@ final class BigIntTest extends TestCase
     public function testUnderflow()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10) - 1));
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Integer underflow');
         $int->intVal();
     }
@@ -49,7 +53,7 @@ final class BigIntTest extends TestCase
     public function testGmpObj()
     {
         $int = new BigInt(1);
-        $this->assertInstanceOf(\GMP::class, $int->gmpObj());
+        $this->assertInstanceOf(GMP::class, $int->gmpObj());
     }
 
     /**
@@ -57,7 +61,7 @@ final class BigIntTest extends TestCase
      */
     public function testInvalidNumberPrePHP8()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to convert');
         new BigInt('fail');
     }
@@ -67,7 +71,7 @@ final class BigIntTest extends TestCase
      */
     public function testInvalidNumberPHP8()
     {
-        $this->expectException(\ValueError::class);
+        $this->expectException(ValueError::class);
         $this->expectExceptionMessage('not an integer');
         new BigInt('fail');
     }
@@ -80,7 +84,7 @@ final class BigIntTest extends TestCase
 
     public function testFromUnsignedOctetsEmpty()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Empty octets');
         BigInt::fromUnsignedOctets('');
     }
@@ -93,7 +97,7 @@ final class BigIntTest extends TestCase
 
     public function testFromSignedOctetsEmpty()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Empty octets');
         BigInt::fromSignedOctets('');
     }

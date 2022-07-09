@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\RFC8410;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\CryptoEncoding\PEM;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -12,6 +13,7 @@ use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PublicKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -55,21 +57,21 @@ final class Curve448Test extends TestCase
 
     public function testEd448PkInvalidPrivateKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
         new Ed448PrivateKey('');
     }
 
     public function testEd448PkInvalidPublicKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed448PrivateKey(str_repeat("\0", 57), '');
     }
 
     public function testEd448PubInvalidPublicKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed448PublicKey('');
     }
@@ -85,7 +87,7 @@ final class Curve448Test extends TestCase
      */
     public function testEd448PublicKeyNotSet(Ed448PrivateKey $pk)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');
         $pk->publicKey();
     }
@@ -127,21 +129,21 @@ final class Curve448Test extends TestCase
 
     public function testX448PkInvalidPrivateKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
         new X448PrivateKey('');
     }
 
     public function testX448PkInvalidPublicKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new X448PrivateKey(str_repeat("\0", 56), '');
     }
 
     public function testX448PubInvalidPublicKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new X448PublicKey('');
     }
@@ -157,7 +159,7 @@ final class Curve448Test extends TestCase
      */
     public function testX448PublicKeyNotSet(X448PrivateKey $pk)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');
         $pk->publicKey();
     }

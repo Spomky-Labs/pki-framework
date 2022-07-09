@@ -11,6 +11,7 @@ use Sop\X501\ASN1\AttributeValue\DescriptionValue;
 use Sop\X501\ASN1\AttributeValue\NameValue;
 use Sop\X501\ASN1\Collection\AttributeCollection;
 use Sop\X501\ASN1\Collection\SequenceOfAttributes;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -57,7 +58,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function testFirstOfFails(AttributeCollection $c)
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('No commonName attribute');
         $c->firstOf('commonName');
     }

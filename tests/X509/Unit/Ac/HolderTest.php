@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Ac;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
@@ -130,21 +131,21 @@ final class HolderTest extends TestCase
     public function testNoBaseCertificateIDFail()
     {
         $holder = new Holder();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $holder->baseCertificateID();
     }
 
     public function testNoEntityNameFail()
     {
         $holder = new Holder();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $holder->entityName();
     }
 
     public function testNoObjectDigestInfoFail()
     {
         $holder = new Holder();
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $holder->objectDigestInfo();
     }
 }

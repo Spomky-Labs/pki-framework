@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoTypes\Asymmetric\RFC8410;
 
+use LogicException;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoTypes\Asymmetric\PublicKey;
 
@@ -35,7 +36,7 @@ abstract class RFC8410PublicKey extends PublicKey
 
     public function toDER(): string
     {
-        throw new \LogicException("RFC 8410 public key doesn't have a DER encoding.");
+        throw new LogicException("RFC 8410 public key doesn't have a DER encoding.");
     }
 
     public function subjectPublicKey(): BitString

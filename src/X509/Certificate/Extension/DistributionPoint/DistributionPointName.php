@@ -9,6 +9,7 @@ use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\TaggedType;
 use Sop\X501\ASN1\RDN;
 use Sop\X509\GeneralName\GeneralNames;
+use UnexpectedValueException;
 
 /**
  * Base class for *DistributionPointName* ASN.1 CHOICE type used by 'CRL Distribution Points' certificate extension.
@@ -39,7 +40,7 @@ abstract class DistributionPointName
             case self::TAG_RDN:
                 return new RelativeName(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet()));
             default:
-                throw new \UnexpectedValueException('DistributionPointName tag ' . $el->tag() . ' not supported.');
+                throw new UnexpectedValueException('DistributionPointName tag ' . $el->tag() . ' not supported.');
         }
     }
 

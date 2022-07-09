@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\X509\AttributeCertificate;
 
+use LogicException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -14,6 +15,7 @@ use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use Sop\X509\Certificate\Extension\Extension;
 use Sop\X509\Certificate\Extensions;
 use Sop\X509\Certificate\UniqueIdentifier;
+use UnexpectedValueException;
 
 /**
  * Implements *AttributeCertificateInfo* ASN.1 type.
@@ -119,13 +121,13 @@ class AttributeCertificateInfo
             ->asInteger()
             ->intNumber();
         if (self::VERSION_2 !== $version) {
-            throw new \UnexpectedValueException('Version must be 2.');
+            throw new UnexpectedValueException('Version must be 2.');
         }
         $holder = Holder::fromASN1($seq->at($idx++)->asSequence());
         $issuer = AttCertIssuer::fromASN1($seq->at($idx++));
         $signature = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
         if (! $signature instanceof SignatureAlgorithmIdentifier) {
-            throw new \UnexpectedValueException('Unsupported signature algorithm ' . $signature->oid() . '.');
+            throw new UnexpectedValueException('Unsupported signature algorithm ' . $signature->oid() . '.');
         }
         $serial = $seq->at($idx++)
             ->asInteger()
@@ -289,7 +291,7 @@ class AttributeCertificateInfo
     public function signature(): SignatureAlgorithmIdentifier
     {
         if (! $this->hasSignature()) {
-            throw new \LogicException('signature not set.');
+            throw new LogicException('signature not set.');
         }
         return $this->_signature;
     }
@@ -308,7 +310,7 @@ class AttributeCertificateInfo
     public function serialNumber(): string
     {
         if (! $this->hasSerialNumber()) {
-            throw new \LogicException('serialNumber not set.');
+            throw new LogicException('serialNumber not set.');
         }
         return $this->_serialNumber;
     }
@@ -340,7 +342,7 @@ class AttributeCertificateInfo
     public function issuerUniqueID(): UniqueIdentifier
     {
         if (! $this->hasIssuerUniqueID()) {
-            throw new \LogicException('issuerUniqueID not set.');
+            throw new LogicException('issuerUniqueID not set.');
         }
         return $this->_issuerUniqueID;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\CryptoBridge;
 
+use RuntimeException;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -81,7 +82,7 @@ abstract class Crypto
             return new Crypto\OpenSSLCrypto();
         }
         // @codeCoverageIgnoreStart
-        throw new \RuntimeException('No crypto implementation available.');
+        throw new RuntimeException('No crypto implementation available.');
         // @codeCoverageIgnoreEnd
     }
 }

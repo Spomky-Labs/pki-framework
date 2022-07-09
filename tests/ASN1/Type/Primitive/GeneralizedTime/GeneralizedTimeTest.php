@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Sop\Test\ASN1\Type\Primitive\GeneralizedTime;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -72,7 +75,7 @@ final class GeneralizedTimeTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('GeneralizedTime expected, got primitive NULL');
         $wrap->asGeneralizedTime();
     }
@@ -101,7 +104,7 @@ final class GeneralizedTimeTest extends TestCase
     public function testLeadingFractionZeroes()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.05", new \DateTimeZone('UTC'));
+        $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.05", new DateTimeZone('UTC'));
         $el = new GeneralizedTime($dt);
         $str = $el->string();
         $der = $el->toDER();

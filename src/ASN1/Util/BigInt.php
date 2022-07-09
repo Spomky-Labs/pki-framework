@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Util;
 
+use GMP;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  * Class to wrap an integer of arbirtary length.
  */
@@ -12,7 +16,7 @@ class BigInt
     /**
      * Number as a GMP object.
      *
-     * @var \GMP
+     * @var GMP
      */
     private $_gmp;
 
@@ -37,15 +41,15 @@ class BigInt
     /**
      * Constructor.
      *
-     * @param \GMP|int|string $num Integer number in base 10
+     * @param GMP|int|string $num Integer number in base 10
      */
     public function __construct($num)
     {
         // convert to GMP object
-        if (! ($num instanceof \GMP)) {
+        if (! ($num instanceof GMP)) {
             $gmp = @gmp_init($num, 10);
             if (false === $gmp) {
-                throw new \InvalidArgumentException("Unable to convert '{$num}' to integer.");
+                throw new InvalidArgumentException("Unable to convert '{$num}' to integer.");
             }
             $num = $gmp;
         }
@@ -63,7 +67,7 @@ class BigInt
     public static function fromUnsignedOctets(string $octets): self
     {
         if (! strlen($octets)) {
-            throw new \InvalidArgumentException('Empty octets.');
+            throw new InvalidArgumentException('Empty octets.');
         }
         return new self(gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN));
     }
@@ -74,7 +78,7 @@ class BigInt
     public static function fromSignedOctets(string $octets): self
     {
         if (! strlen($octets)) {
-            throw new \InvalidArgumentException('Empty octets.');
+            throw new InvalidArgumentException('Empty octets.');
         }
         $neg = ord($octets[0]) & 0x80;
         // negative, apply inversion of two's complement
@@ -107,10 +111,10 @@ class BigInt
     {
         if (! isset($this->_intNum)) {
             if (gmp_cmp($this->_gmp, $this->_intMaxGmp()) > 0) {
-                throw new \RuntimeException('Integer overflow.');
+                throw new RuntimeException('Integer overflow.');
             }
             if (gmp_cmp($this->_gmp, $this->_intMinGmp()) < 0) {
-                throw new \RuntimeException('Integer underflow.');
+                throw new RuntimeException('Integer underflow.');
             }
             $this->_intNum = gmp_intval($this->_gmp);
         }
@@ -120,7 +124,7 @@ class BigInt
     /**
      * Get the number as a `GMP` object.
      */
-    public function gmpObj(): \GMP
+    public function gmpObj(): GMP
     {
         return clone $this->_gmp;
     }
@@ -189,7 +193,7 @@ class BigInt
     /**
      * Get the maximum integer value.
      */
-    private function _intMaxGmp(): \GMP
+    private function _intMaxGmp(): GMP
     {
         static $gmp;
         if (! isset($gmp)) {
@@ -201,7 +205,7 @@ class BigInt
     /**
      * Get the minimum integer value.
      */
-    private function _intMinGmp(): \GMP
+    private function _intMinGmp(): GMP
     {
         static $gmp;
         if (! isset($gmp)) {

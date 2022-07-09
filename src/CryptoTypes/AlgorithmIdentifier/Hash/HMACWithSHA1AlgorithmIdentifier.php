@@ -9,6 +9,7 @@ use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 Per RFC 2898 this algorithm identifier has no parameters:
@@ -45,7 +46,7 @@ class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (isset($params)) {
-            throw new \UnexpectedValueException('Parameters must be omitted.');
+            throw new UnexpectedValueException('Parameters must be omitted.');
         }
         return new self();
     }

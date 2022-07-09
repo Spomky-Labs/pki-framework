@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use RangeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\UnspecifiedType;
@@ -17,7 +21,7 @@ use Sop\X501\DN\DNParser;
  *
  * @see https://www.itu.int/ITU-T/formal-language/itu-t/x/x501/2012/InformationFramework.html#InformationFramework.Name
  */
-class Name implements \Countable, \IteratorAggregate
+class Name implements Countable, IteratorAggregate
 {
     /**
      * Relative distinguished name components.
@@ -155,13 +159,13 @@ class Name implements \Countable, \IteratorAggregate
         foreach ($this->_rdns as $rdn) {
             $tvs = $rdn->allOf($oid);
             if (count($tvs) > 1) {
-                throw new \RangeException("RDN with multiple {$name} attributes.");
+                throw new RangeException("RDN with multiple {$name} attributes.");
             }
             if (1 === count($tvs)) {
                 return $tvs[0]->value();
             }
         }
-        throw new \RangeException("Attribute {$name} not found.");
+        throw new RangeException("Attribute {$name} not found.");
     }
 
     /**
@@ -190,8 +194,8 @@ class Name implements \Countable, \IteratorAggregate
     /**
      * @see \IteratorAggregate::getIterator()
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_rdns);
+        return new ArrayIterator($this->_rdns);
     }
 }

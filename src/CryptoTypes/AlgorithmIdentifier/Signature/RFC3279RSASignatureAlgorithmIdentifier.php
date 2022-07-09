@@ -8,6 +8,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /*
 From RFC 3279 - 2.2.1  RSA Signature Algorithm:
@@ -30,7 +31,7 @@ abstract class RFC3279RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
     public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (! isset($params)) {
-            throw new \UnexpectedValueException('No parameters.');
+            throw new UnexpectedValueException('No parameters.');
         }
         $params->asNull();
         return new static();

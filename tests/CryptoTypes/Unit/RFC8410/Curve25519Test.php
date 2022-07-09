@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\CryptoTypes\Unit\RFC8410;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\CryptoEncoding\PEM;
@@ -14,6 +15,7 @@ use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PublicKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PrivateKey;
 use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PublicKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -90,21 +92,21 @@ CODE_SAMPLE;
 
     public function testEd25519PkInvalidPrivateKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
         new Ed25519PrivateKey('');
     }
 
     public function testEd25519PkInvalidPublicKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed25519PrivateKey(str_repeat("\0", 32), '');
     }
 
     public function testEd25519PubInvalidPublicKey()
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
         new Ed25519PublicKey('');
     }
@@ -113,7 +115,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pk = Ed25519PrivateKey::fromPEM($pem);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');
         $pk->publicKey();
     }
@@ -136,7 +138,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pki = PrivateKeyInfo::fromPEM($pem);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/No explicit public key/');
         $pki->publicKeyData();
     }
@@ -163,7 +165,7 @@ CODE_SAMPLE;
      */
     public function testEd25519PubNoDer(Ed25519PublicKey $pub)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/doesn\'t have a DER/');
         $pub->toDER();
     }
@@ -215,7 +217,7 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
         $pk = X25519PrivateKey::fromPEM($pem);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/not set/');
         $pk->publicKey();
     }

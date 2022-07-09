@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sop\X501\ASN1;
 
+use LogicException;
+use OutOfBoundsException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\ASN1\Type\Primitive\PrintableString;
@@ -485,7 +487,7 @@ class AttributeType
         $map = self::_oidReverseMap();
         $k = strtolower($name);
         if (! isset($map[$k])) {
-            throw new \OutOfBoundsException("No OID for {$name}.");
+            throw new OutOfBoundsException("No OID for {$name}.");
         }
         return $map[$k];
     }
@@ -507,7 +509,7 @@ class AttributeType
             // @codeCoverageIgnoreStart
             default:
                 // only reachable during development
-                throw new \LogicException();
+                throw new LogicException();
         }
         // @codeCoverageIgnoreEnd
     }

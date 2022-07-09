@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\Test\CryptoTypes\Unit;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
@@ -15,6 +16,7 @@ use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
 use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -138,7 +140,7 @@ final class PublicKeyInfoTest extends TestCase
     public function testInvalidPEMType()
     {
         $pem = new PEM('nope', '');
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         PublicKeyInfo::fromPEM($pem);
     }
 
@@ -152,14 +154,14 @@ final class PublicKeyInfoTest extends TestCase
             ->asSequence()
             ->withReplaced(0, new ObjectIdentifier('1.3.6.1.3'));
         $seq = $seq->withReplaced(0, $ai);
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         PublicKeyInfo::fromASN1($seq)->publicKey();
     }
 
     public function testInvalidECAlgoFail()
     {
         $pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), new BitString(''));
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $pki->publicKey();
     }
 }

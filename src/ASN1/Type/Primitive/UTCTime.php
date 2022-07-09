@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\ASN1\Type\Primitive;
 
+use DateTimeImmutable;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
@@ -40,7 +41,7 @@ class UTCTime extends BaseTime
     /**
      * Constructor.
      */
-    public function __construct(\DateTimeImmutable $dt)
+    public function __construct(DateTimeImmutable $dt)
     {
         $this->_typeTag = self::TYPE_UTC_TIME;
         parent::__construct($dt);
@@ -64,7 +65,7 @@ class UTCTime extends BaseTime
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
         $time = $year . $month . $day . $hour . $minute . $second . self::TZ_UTC;
-        $dt = \DateTimeImmutable::createFromFormat('!ymdHisT', $time, self::_createTimeZone(self::TZ_UTC));
+        $dt = DateTimeImmutable::createFromFormat('!ymdHisT', $time, self::_createTimeZone(self::TZ_UTC));
         if (! $dt) {
             throw new DecodeException('Failed to decode UTCTime: ' . self::_getLastDateTimeImmutableErrorsStr());
         }

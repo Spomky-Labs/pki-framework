@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sop\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\X509\Certificate\Extension\CertificatePolicy\DisplayText;
@@ -84,7 +85,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function testExplicitTextFail(UserNoticeQualifier $qual)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $qual->explicitText();
     }
 
@@ -93,7 +94,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function testNoticeRefFail(UserNoticeQualifier $qual)
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $qual->noticeRef();
     }
 }

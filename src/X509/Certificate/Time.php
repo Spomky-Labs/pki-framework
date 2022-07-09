@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sop\X509\Certificate;
 
+use DateTimeImmutable;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Primitive\GeneralizedTime;
 use Sop\ASN1\Type\Primitive\UTCTime;
 use Sop\ASN1\Type\TimeType;
 use Sop\X509\Feature\DateTimeHelper;
+use UnexpectedValueException;
 
 /**
  * Implements *Time* ASN.1 type.
@@ -22,7 +24,7 @@ class Time
     /**
      * Datetime.
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     protected $_dt;
 
@@ -36,7 +38,7 @@ class Time
     /**
      * Constructor.
      */
-    public function __construct(\DateTimeImmutable $dt)
+    public function __construct(DateTimeImmutable $dt)
     {
         $this->_dt = $dt;
         $this->_type = self::_determineType($dt);
@@ -60,7 +62,7 @@ class Time
         return new self(self::_createDateTime($time, $tz));
     }
 
-    public function dateTime(): \DateTimeImmutable
+    public function dateTime(): DateTimeImmutable
     {
         return $this->_dt;
     }
@@ -83,7 +85,7 @@ class Time
                 }
                 return new GeneralizedTime($dt);
         }
-        throw new \UnexpectedValueException('Time type ' . Element::tagToName($this->_type) . ' not supported.');
+        throw new UnexpectedValueException('Time type ' . Element::tagToName($this->_type) . ' not supported.');
     }
 
     /**
@@ -91,7 +93,7 @@ class Time
      *
      * @return int Type tag
      */
-    protected static function _determineType(\DateTimeImmutable $dt): int
+    protected static function _determineType(DateTimeImmutable $dt): int
     {
         if ($dt->format('Y') >= 2050) {
             return Element::TYPE_GENERALIZED_TIME;
