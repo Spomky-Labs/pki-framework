@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Constructed\String;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\String;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\ConstructedString;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\BMPString;
-use Sop\ASN1\Type\Primitive\CharacterString;
-use Sop\ASN1\Type\Primitive\GeneralizedTime;
-use Sop\ASN1\Type\Primitive\GeneralString;
-use Sop\ASN1\Type\Primitive\GraphicString;
-use Sop\ASN1\Type\Primitive\IA5String;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\Primitive\NumericString;
-use Sop\ASN1\Type\Primitive\ObjectDescriptor;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\Primitive\PrintableString;
-use Sop\ASN1\Type\Primitive\T61String;
-use Sop\ASN1\Type\Primitive\UniversalString;
-use Sop\ASN1\Type\Primitive\UTCTime;
-use Sop\ASN1\Type\Primitive\UTF8String;
-use Sop\ASN1\Type\Primitive\VideotexString;
-use Sop\ASN1\Type\Primitive\VisibleString;
-use Sop\ASN1\Type\StringType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BMPString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\CharacterString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\GraphicString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\IA5String;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NumericString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectDescriptor;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\T61String;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UniversalString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\VideotexString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\VisibleString;
+use SpomkyLabs\Pki\ASN1\Type\StringType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use function strval;
 use UnexpectedValueException;
 

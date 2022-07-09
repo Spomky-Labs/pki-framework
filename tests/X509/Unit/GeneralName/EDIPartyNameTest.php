@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\GeneralName;
+namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\Tagged\ImplicitTagging;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X509\GeneralName\EDIPartyName;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X509\GeneralName\EDIPartyName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * @internal

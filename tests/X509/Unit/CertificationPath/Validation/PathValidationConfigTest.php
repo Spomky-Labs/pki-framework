@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\CertificationPath\Validation;
+namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Validation;
 
 use DateTimeImmutable;
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
  * @internal

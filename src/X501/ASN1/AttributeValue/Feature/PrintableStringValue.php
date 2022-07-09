@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1\AttributeValue\Feature;
+namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\PrintableString;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\DN\DNParser;
-use Sop\X501\MatchingRule\CaseIgnoreMatch;
-use Sop\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\DN\DNParser;
+use SpomkyLabs\Pki\X501\MatchingRule\CaseIgnoreMatch;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
 
 /**
  * Base class for attribute values having *PrintableString* syntax.

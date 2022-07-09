@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use Sop\X509\Certificate\Extension\CertificatePoliciesExtension;
-use Sop\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
-use Sop\X509\Certificate\Extension\CertificatePolicy\NoticeReference;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
-use Sop\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
-use Sop\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePoliciesExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\NoticeReference;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualifier;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 
 /**
  * @internal

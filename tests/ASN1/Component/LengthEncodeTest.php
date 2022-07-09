@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Component;
+namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use DomainException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Component\Length;
 
 /**
  * @internal

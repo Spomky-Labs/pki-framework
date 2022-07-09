@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac\Attribute;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X509\AttributeCertificate\Attribute\IetfAttrValue;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\IetfAttrValue;
 use UnexpectedValueException;
 
 /**

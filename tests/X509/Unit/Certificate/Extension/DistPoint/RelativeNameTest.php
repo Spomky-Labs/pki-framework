@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\DistPoint;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\DistPoint;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Tagged\ImplicitTagging;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X501\ASN1\AttributeTypeAndValue;
-use Sop\X501\ASN1\AttributeValue\CommonNameValue;
-use Sop\X501\ASN1\RDN;
-use Sop\X509\Certificate\Extension\DistributionPoint\RelativeName;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
+use SpomkyLabs\Pki\X501\ASN1\RDN;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\RelativeName;
 
 /**
  * @internal

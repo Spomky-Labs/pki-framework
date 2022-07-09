@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1;
+namespace SpomkyLabs\Pki\Test\ASN1;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\DERData;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\Boolean;
-use Sop\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\DERData;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 
 /**
  * @internal

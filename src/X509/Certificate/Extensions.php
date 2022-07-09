@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate;
+namespace SpomkyLabs\Pki\X509\Certificate;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
-use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
-use Sop\X509\Certificate\Extension\CertificatePoliciesExtension;
-use Sop\X509\Certificate\Extension\CRLDistributionPointsExtension;
-use Sop\X509\Certificate\Extension\ExtendedKeyUsageExtension;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\InhibitAnyPolicyExtension;
-use Sop\X509\Certificate\Extension\IssuerAlternativeNameExtension;
-use Sop\X509\Certificate\Extension\KeyUsageExtension;
-use Sop\X509\Certificate\Extension\NameConstraintsExtension;
-use Sop\X509\Certificate\Extension\PolicyConstraintsExtension;
-use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
-use Sop\X509\Certificate\Extension\SubjectAlternativeNameExtension;
-use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePoliciesExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CRLDistributionPointsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\ExtendedKeyUsageExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\InhibitAnyPolicyExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\IssuerAlternativeNameExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\KeyUsageExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyMappingsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectAlternativeNameExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 use Traversable;
 
 /**

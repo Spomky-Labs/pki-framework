@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\Signature;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed25519AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Signature\ECSignature;
-use Sop\CryptoTypes\Signature\Ed25519Signature;
-use Sop\CryptoTypes\Signature\Ed448Signature;
-use Sop\CryptoTypes\Signature\GenericSignature;
-use Sop\CryptoTypes\Signature\RSASignature;
-use Sop\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed25519AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Signature\ECSignature;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Ed25519Signature;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Ed448Signature;
+use SpomkyLabs\Pki\CryptoTypes\Signature\GenericSignature;
+use SpomkyLabs\Pki\CryptoTypes\Signature\RSASignature;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 
 /**
  * @internal

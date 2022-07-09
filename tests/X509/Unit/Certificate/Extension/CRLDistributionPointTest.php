@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\X509\Certificate\Extension\CRLDistributionPointsExtension;
-use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
-use Sop\X509\Certificate\Extension\DistributionPoint\FullName;
-use Sop\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CRLDistributionPointsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\FullName;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 use UnexpectedValueException;
 
 /**

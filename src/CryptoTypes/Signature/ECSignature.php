@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\Signature;
 
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use function strval;
 
 /**

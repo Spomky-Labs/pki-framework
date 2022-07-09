@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\Workflow;
+namespace SpomkyLabs\Pki\Test\X509\Integration\Workflow;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
-use Sop\X509\Certificate\Extension\KeyUsageExtension;
-use Sop\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\Certificate\Validity;
-use Sop\X509\CertificationPath\CertificationPath;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
-use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
-use Sop\X509\CertificationRequest\CertificationRequest;
-use Sop\X509\CertificationRequest\CertificationRequestInfo;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\KeyUsageExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\Certificate\Validity;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationResult;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequestInfo;
 
 /**
  * @internal

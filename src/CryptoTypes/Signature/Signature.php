@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\Signature;
 
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed25519AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECSignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\RSASignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed25519AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECSignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\RSASignatureAlgorithmIdentifier;
 
 /**
  * Base class for signature values.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
 /**
  * RSA with MD5 signature algorithm identifier.

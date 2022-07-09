@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationRequest;
+namespace SpomkyLabs\Pki\X509\CertificationRequest;
 
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\CryptoBridge\Crypto;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use Stringable;
 use UnexpectedValueException;
 

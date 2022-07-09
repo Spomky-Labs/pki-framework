@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeAc\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeAc\Extension;
 
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\Target\Target;
-use Sop\X509\Certificate\Extension\TargetInformationExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Target;
+use SpomkyLabs\Pki\X509\Certificate\Extension\TargetInformationExtension;
 
 require_once __DIR__ . '/RefACExtTestHelper.php';
 

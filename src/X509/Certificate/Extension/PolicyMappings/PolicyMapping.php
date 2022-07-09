@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\PolicyMappings;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\PolicyMappings;
 
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 
 /**
  * Implements ASN.1 type containing policy mapping values to be used in 'Policy Mappings' certificate extension.

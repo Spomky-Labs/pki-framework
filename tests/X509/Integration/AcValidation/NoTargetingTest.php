@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcValidation;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcValidation;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoEncoding\PEMBundle;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\X509\AttributeCertificate\AttCertIssuer;
-use Sop\X509\AttributeCertificate\AttCertValidityPeriod;
-use Sop\X509\AttributeCertificate\AttributeCertificate;
-use Sop\X509\AttributeCertificate\AttributeCertificateInfo;
-use Sop\X509\AttributeCertificate\Attributes;
-use Sop\X509\AttributeCertificate\Holder;
-use Sop\X509\AttributeCertificate\Validation\ACValidationConfig;
-use Sop\X509\AttributeCertificate\Validation\ACValidator;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\CertificateBundle;
-use Sop\X509\Certificate\Extension\Target\TargetName;
-use Sop\X509\CertificationPath\CertificationPath;
-use Sop\X509\GeneralName\DNSName;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificateInfo;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Holder;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Validation\ACValidationConfig;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Validation\ACValidator;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\TargetName;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\GeneralName\DNSName;
 
 /**
  * @internal

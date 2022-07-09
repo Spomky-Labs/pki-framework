@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Feature;
+namespace SpomkyLabs\Pki\ASN1\Feature;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Base interface for ASN.1 type elements.

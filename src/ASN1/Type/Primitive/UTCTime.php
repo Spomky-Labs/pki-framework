@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Primitive;
+namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use DateTimeImmutable;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Component\Length;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Type\BaseTime;
-use Sop\ASN1\Type\PrimitiveType;
-use Sop\ASN1\Type\UniversalClass;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Type\BaseTime;
+use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
+use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
 
 /**
  * Implements *UTCTime* type.

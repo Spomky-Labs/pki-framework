@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 use UnexpectedValueException;
 
 /**

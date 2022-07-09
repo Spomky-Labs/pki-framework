@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\PathValidation;
+namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use DateTimeImmutable;
 use LogicException;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 
 /**
  * Configuration for the certification path validation process.

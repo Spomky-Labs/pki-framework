@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X501\ASN1\Name;
-use Sop\X501\ASN1\RDN;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X501\ASN1\RDN;
 use function strval;
 
 /**

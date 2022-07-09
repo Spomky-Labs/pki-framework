@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\GeneralName;
+namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
 use BadMethodCallException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\DNSName;
-use Sop\X509\GeneralName\GeneralName;
-use Sop\X509\GeneralName\GeneralNames;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\DNSName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 use UnexpectedValueException;
 
 /**

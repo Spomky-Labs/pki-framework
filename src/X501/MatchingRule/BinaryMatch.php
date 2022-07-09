@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\MatchingRule;
+namespace SpomkyLabs\Pki\X501\MatchingRule;
 
 /**
  * Implements binary matching rule.

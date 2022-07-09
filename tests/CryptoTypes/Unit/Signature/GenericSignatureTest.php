@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\Signature;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Signature\GenericSignature;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Signature\GenericSignature;
 
 /**
  * @internal

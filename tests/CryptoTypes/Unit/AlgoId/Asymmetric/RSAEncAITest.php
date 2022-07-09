@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\AlgoId\Asymmetric;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Asymmetric;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use UnexpectedValueException;
 
 /**

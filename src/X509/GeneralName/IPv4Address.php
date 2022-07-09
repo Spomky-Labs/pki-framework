@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\GeneralName;
+namespace SpomkyLabs\Pki\X509\GeneralName;
 
 use function array_slice;
 use function count;

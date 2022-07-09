@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\Enumerated;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\X509\AttributeCertificate\ObjectDigestInfo;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Enumerated;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\X509\AttributeCertificate\ObjectDigestInfo;
 
 /**
  * @internal

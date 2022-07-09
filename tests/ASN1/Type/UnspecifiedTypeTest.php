@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type;
+namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\DERData;
-use Sop\ASN1\Element;
-use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\DERData;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
 
 /**

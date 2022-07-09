@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric;
 
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\Asymmetric\EC\ECPrivateKey;
-use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use UnexpectedValueException;
 
 /**

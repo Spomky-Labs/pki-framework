@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\Target;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\Target;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\X509\Certificate\Extension\Target\Target;
-use Sop\X509\Certificate\Extension\Target\TargetGroup;
-use Sop\X509\Certificate\Extension\Target\TargetName;
-use Sop\X509\GeneralName\DNSName;
-use Sop\X509\GeneralName\RFC822Name;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Target;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\TargetGroup;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\TargetName;
+use SpomkyLabs\Pki\X509\GeneralName\DNSName;
+use SpomkyLabs\Pki\X509\GeneralName\RFC822Name;
 use UnexpectedValueException;
 
 /**

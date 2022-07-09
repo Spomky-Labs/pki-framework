@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1;
+namespace SpomkyLabs\Pki\X501\ASN1;
 
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\ASN1\Feature\TypedAttribute;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\ASN1\Feature\TypedAttribute;
 use Stringable;
 
 /**

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
 use function mb_strlen;
-use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\RFC8410PublicKey;
 use UnexpectedValueException;
 
 /**

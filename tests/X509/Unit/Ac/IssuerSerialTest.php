@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\X509\AttributeCertificate\IssuerSerial;
-use Sop\X509\Certificate\UniqueIdentifier;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\X509\AttributeCertificate\IssuerSerial;
+use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * @internal

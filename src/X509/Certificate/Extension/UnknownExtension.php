@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension;
 
 use BadMethodCallException;
 use RuntimeException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 
 /**
  * Class to park payload of an unknown extension.

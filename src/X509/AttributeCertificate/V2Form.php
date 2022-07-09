@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\AttributeCertificate;
+namespace SpomkyLabs\Pki\X509\AttributeCertificate;
 
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * Implements *V2Form* ASN.1 type used as a attribute certificate issuer.

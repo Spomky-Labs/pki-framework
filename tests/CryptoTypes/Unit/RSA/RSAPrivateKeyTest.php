@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\RSA;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\RSA;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
-use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
 
 /**

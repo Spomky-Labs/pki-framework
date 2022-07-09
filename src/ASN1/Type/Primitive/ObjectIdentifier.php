@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Primitive;
+namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use function chr;
 use function count;
@@ -10,13 +10,13 @@ use GMP;
 use function intval;
 use function mb_strlen;
 use function ord;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Component\Length;
-use Sop\ASN1\Element;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Type\PrimitiveType;
-use Sop\ASN1\Type\UniversalClass;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
+use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
 use UnexpectedValueException;
 
 /**

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Integration\Attribute;
+namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\Collection\SequenceOfAttributes;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
 
 final class AttributeCollectionCastTestCollection extends SequenceOfAttributes
 {

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\AlgoId\Asymmetric;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Asymmetric;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X448AlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\X448AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 
 /**
  * @internal

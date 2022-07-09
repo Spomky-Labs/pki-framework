@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac\Attribute;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\SvceAuthInfo;
-use Sop\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\SvceAuthInfo;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 use function strval;
 
 /**

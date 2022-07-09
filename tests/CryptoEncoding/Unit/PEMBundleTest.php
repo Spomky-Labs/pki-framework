@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoEncoding\Unit;
+namespace SpomkyLabs\Pki\Test\CryptoEncoding\Unit;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoEncoding\PEMBundle;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
 use function strval;
 use UnexpectedValueException;
 

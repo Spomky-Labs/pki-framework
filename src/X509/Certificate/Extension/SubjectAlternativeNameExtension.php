@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * Implements 'Subject Alternative Name' certificate extension.

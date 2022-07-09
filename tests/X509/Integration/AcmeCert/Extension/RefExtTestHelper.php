@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
 
 abstract class RefExtTestHelper extends TestCase
 {

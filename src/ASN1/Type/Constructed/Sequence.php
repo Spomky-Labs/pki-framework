@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Constructed;
+namespace SpomkyLabs\Pki\ASN1\Type\Constructed;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Structure;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Structure;
 
 /**
  * Implements *SEQUENCE* and *SEQUENCE OF* types.

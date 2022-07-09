@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 /**
  * Base class for signature algorithms employing RSASSA.

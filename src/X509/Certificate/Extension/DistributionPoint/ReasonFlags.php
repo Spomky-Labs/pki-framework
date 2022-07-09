@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\DistributionPoint;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint;
 
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Util\Flags;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Util\Flags;
 
 /**
  * Implements *ReasonFlags* ASN.1 type used by 'CRL Distribution Points' certificate extension.

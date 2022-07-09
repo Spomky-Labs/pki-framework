@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
 use LogicException;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\X25519AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\X25519AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 
 /**
  * Implements an intermediary object to store X25519 private key.

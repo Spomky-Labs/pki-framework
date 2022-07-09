@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type;
+namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\StringType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\StringType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use function strval;
 
 /**

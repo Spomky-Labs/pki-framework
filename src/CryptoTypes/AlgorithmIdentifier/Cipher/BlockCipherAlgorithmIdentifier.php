@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 /**
  * Base class for block cipher algorithm identifiers.

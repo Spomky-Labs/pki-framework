@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\AttributeCertificate\Attribute;
+namespace SpomkyLabs\Pki\X509\AttributeCertificate\Attribute;
 
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\MatchingRule\BinaryMatch;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\MatchingRule\BinaryMatch;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * Base class implementing *SvceAuthInfo* ASN.1 type used by attribute certificate attribute values.

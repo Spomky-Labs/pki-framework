@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type;
+namespace SpomkyLabs\Pki\ASN1\Type;
 
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 use RuntimeException;
-use Sop\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Element;
 use Stringable;
 use UnexpectedValueException;
 

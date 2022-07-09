@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate;
+namespace SpomkyLabs\Pki\X509\Certificate;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoEncoding\PEMBundle;
-use Sop\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
 
 /**
  * Ordered list of certificates from the end-entity to the trust anchor.

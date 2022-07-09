@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\CryptoBridge\Crypto;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\CryptoTypes\Signature\Signature;
-use Sop\X501\ASN1\Name;
-use Sop\X509\AttributeCertificate\AttCertIssuer;
-use Sop\X509\AttributeCertificate\AttCertValidityPeriod;
-use Sop\X509\AttributeCertificate\Attribute\RoleAttributeValue;
-use Sop\X509\AttributeCertificate\AttributeCertificate;
-use Sop\X509\AttributeCertificate\AttributeCertificateInfo;
-use Sop\X509\AttributeCertificate\Attributes;
-use Sop\X509\AttributeCertificate\Holder;
-use Sop\X509\AttributeCertificate\IssuerSerial;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\RoleAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificateInfo;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Holder;
+use SpomkyLabs\Pki\X509\AttributeCertificate\IssuerSerial;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 use function strval;
 use UnexpectedValueException;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\EC;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC;
 
 use function assert;
 use GMP;
@@ -11,9 +11,9 @@ use const GMP_MSW_FIRST;
 use function mb_strlen;
 use RangeException;
 use RuntimeException;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 
 /**
  * Implements data type conversions from SEC 1: Elliptic Curve Cryptography.

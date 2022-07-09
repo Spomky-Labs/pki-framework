@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 
 /**
  * Algorithm identifier for the Edwards-curve Digital Signature Algorithm (EdDSA) with curve448.

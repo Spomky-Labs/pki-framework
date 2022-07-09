@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\Signature;
 
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 
 /**
  * Generic signature value container.

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Component;
+namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use function chr;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 
 /**
  * @internal

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\GeneralName;
+namespace SpomkyLabs\Pki\X509\GeneralName;
 
-use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\Name;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\Name;
 
 /**
  * Implements *directoryName* CHOICE type of *GeneralName*.

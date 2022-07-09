@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\DN;
+namespace SpomkyLabs\Pki\X501\DN;
 
 use function mb_strlen;
-use Sop\ASN1\Element;
-use Sop\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use UnexpectedValueException;
 
 /**

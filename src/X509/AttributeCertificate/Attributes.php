@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\AttributeCertificate;
+namespace SpomkyLabs\Pki\X509\AttributeCertificate;
 
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeType;
-use Sop\X501\ASN1\Collection\SequenceOfAttributes;
-use Sop\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\AuthenticationInfoAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\ChargingIdentityAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\RoleAttributeValue;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AuthenticationInfoAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\ChargingIdentityAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\GroupAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\RoleAttributeValue;
 
 /**
  * Implements *Attributes* ASN.1 type of *AttributeCertificateInfo*.

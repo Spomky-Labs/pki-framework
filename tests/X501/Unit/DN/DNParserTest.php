@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\DN;
+namespace SpomkyLabs\Pki\Test\X501\Unit\DN;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\Boolean;
-use Sop\X501\DN\DNParser;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
+use SpomkyLabs\Pki\X501\DN\DNParser;
 use UnexpectedValueException;
 
 /**

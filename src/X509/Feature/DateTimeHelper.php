@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Feature;
+namespace SpomkyLabs\Pki\X509\Feature;
 
 use DateTimeImmutable;
 use DateTimeZone;

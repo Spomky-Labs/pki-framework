@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\NameConstraints;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\NameConstraints;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtree;
-use Sop\X509\GeneralName\GeneralName;
-use Sop\X509\GeneralName\RFC822Name;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtree;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\X509\GeneralName\RFC822Name;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 
 /**
  * @internal

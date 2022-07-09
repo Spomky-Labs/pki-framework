@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\Certificate;
+namespace SpomkyLabs\Pki\Test\X509\Integration\Certificate;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\PrivateKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
 
 /**
  * @internal

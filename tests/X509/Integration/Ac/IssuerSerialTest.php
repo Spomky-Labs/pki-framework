@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Integration\Ac;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\X501\ASN1\Name;
-use Sop\X509\AttributeCertificate\IssuerSerial;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\Certificate\UniqueIdentifier;
-use Sop\X509\Certificate\Validity;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\AttributeCertificate\IssuerSerial;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
+use SpomkyLabs\Pki\X509\Certificate\Validity;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * @internal

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
-use Sop\X509\Certificate\Extension\UnknownExtension;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\UnknownExtension;
 
 /**
  * @internal

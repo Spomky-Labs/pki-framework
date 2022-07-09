@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Csr;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Csr;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\CryptoBridge\Crypto;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\CryptoTypes\Signature\Signature;
-use Sop\X501\ASN1\Name;
-use Sop\X509\CertificationRequest\CertificationRequest;
-use Sop\X509\CertificationRequest\CertificationRequestInfo;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequestInfo;
 use function strval;
 use UnexpectedValueException;
 

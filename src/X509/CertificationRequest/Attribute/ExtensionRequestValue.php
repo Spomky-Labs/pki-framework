@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationRequest\Attribute;
+namespace SpomkyLabs\Pki\X509\CertificationRequest\Attribute;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\MatchingRule\BinaryMatch;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\MatchingRule\BinaryMatch;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
 
 /**
  * Implements value for 'Extension request' attribute.

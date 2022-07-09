@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\AttributeCertificate\Validation;
+namespace SpomkyLabs\Pki\X509\AttributeCertificate\Validation;
 
 use function count;
-use Sop\CryptoBridge\Crypto;
-use Sop\X509\AttributeCertificate\AttributeCertificate;
-use Sop\X509\AttributeCertificate\Validation\Exception\ACValidationException;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\Target\Targets;
-use Sop\X509\Certificate\Extension\TargetInformationExtension;
-use Sop\X509\CertificationPath\Exception\PathValidationException;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Validation\Exception\ACValidationException;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Targets;
+use SpomkyLabs\Pki\X509\Certificate\Extension\TargetInformationExtension;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
  * Implements attribute certificate validation conforming to RFC 5755.

@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Integration\Attribute;
+namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\StringType;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\ASN1\AttributeValue\CommonNameValue;
-use Sop\X501\ASN1\AttributeValue\CountryNameValue;
-use Sop\X501\ASN1\AttributeValue\DescriptionValue;
-use Sop\X501\ASN1\AttributeValue\GivenNameValue;
-use Sop\X501\ASN1\AttributeValue\LocalityNameValue;
-use Sop\X501\ASN1\AttributeValue\NameValue;
-use Sop\X501\ASN1\AttributeValue\OrganizationalUnitNameValue;
-use Sop\X501\ASN1\AttributeValue\OrganizationNameValue;
-use Sop\X501\ASN1\AttributeValue\PseudonymValue;
-use Sop\X501\ASN1\AttributeValue\SerialNumberValue;
-use Sop\X501\ASN1\AttributeValue\StateOrProvinceNameValue;
-use Sop\X501\ASN1\AttributeValue\SurnameValue;
-use Sop\X501\ASN1\AttributeValue\TitleValue;
+use SpomkyLabs\Pki\ASN1\Type\StringType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CountryNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\DescriptionValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\GivenNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\LocalityNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\OrganizationalUnitNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\OrganizationNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\PseudonymValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\SerialNumberValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\StateOrProvinceNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\SurnameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\TitleValue;
 
 /**
  * @internal

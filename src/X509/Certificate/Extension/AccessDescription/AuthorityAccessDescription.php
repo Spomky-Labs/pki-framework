@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\AccessDescription;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\AccessDescription;
 
 /**
  * @see https://tools.ietf.org/html/rfc5280#section-4.2.2.1

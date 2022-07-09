@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1\Feature;
+namespace SpomkyLabs\Pki\X501\ASN1\Feature;
 
-use Sop\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
 
 /**
  * Trait for attributes having a type.

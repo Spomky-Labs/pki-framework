@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\CertificationPath\Policy;
+namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Policy;
 
 use PHPUnit\Framework\TestCase;
-use Sop\X509\CertificationPath\Policy\PolicyNode;
+use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyNode;
 
 /**
  * @internal

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\NameConstraints;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
 
 /**

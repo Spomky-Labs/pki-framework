@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\Target;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\Target;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Implements *Targets* ASN.1 type as a *SEQUENCE OF Target*.

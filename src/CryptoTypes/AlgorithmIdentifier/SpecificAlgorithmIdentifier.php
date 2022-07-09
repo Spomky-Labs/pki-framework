@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier;
 
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Base class for algorithm identifiers implementing specific functionality and parameter handling.

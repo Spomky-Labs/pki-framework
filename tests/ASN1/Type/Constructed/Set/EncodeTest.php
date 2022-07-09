@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Constructed\Set;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\Set;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Set;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\Primitive\PrintableString;
-use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
 
 /**
  * @internal

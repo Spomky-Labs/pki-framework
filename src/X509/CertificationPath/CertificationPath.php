@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath;
+namespace SpomkyLabs\Pki\X509\CertificationPath;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
-use Sop\CryptoBridge\Crypto;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\CertificateBundle;
-use Sop\X509\Certificate\CertificateChain;
-use Sop\X509\CertificationPath\PathBuilding\CertificationPathBuilder;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
-use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
-use Sop\X509\CertificationPath\PathValidation\PathValidator;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
+use SpomkyLabs\Pki\X509\Certificate\CertificateChain;
+use SpomkyLabs\Pki\X509\CertificationPath\PathBuilding\CertificationPathBuilder;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationResult;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidator;
 
 /**
  * Implements certification path structure.

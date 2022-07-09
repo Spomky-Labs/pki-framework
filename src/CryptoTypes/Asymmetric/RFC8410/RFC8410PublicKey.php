@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\RFC8410;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410;
 
 use LogicException;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 
 /**
  * Implements an intermediary object to store a public key using Curve25519 or Curve448 as defined by RFC 8410.

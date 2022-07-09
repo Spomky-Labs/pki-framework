@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type;
+namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Element;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Type\BaseString;
-use Sop\ASN1\Type\PrimitiveString;
-use Sop\ASN1\Type\StringType;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Type\BaseString;
+use SpomkyLabs\Pki\ASN1\Type\PrimitiveString;
+use SpomkyLabs\Pki\ASN1\Type\StringType;
 
 /**
  * @internal

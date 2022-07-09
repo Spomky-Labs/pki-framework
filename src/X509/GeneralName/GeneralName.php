@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\GeneralName;
+namespace SpomkyLabs\Pki\X509\GeneralName;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use Stringable;
 use UnexpectedValueException;
 

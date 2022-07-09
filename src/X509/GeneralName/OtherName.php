@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\GeneralName;
+namespace SpomkyLabs\Pki\X509\GeneralName;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Implements *otherName* CHOICE type of *GeneralName*.

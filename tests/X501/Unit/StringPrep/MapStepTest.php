@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\StringPrep;
+namespace SpomkyLabs\Pki\Test\X501\Unit\StringPrep;
 
 use PHPUnit\Framework\TestCase;
-use Sop\X501\StringPrep\MapStep;
+use SpomkyLabs\Pki\X501\StringPrep\MapStep;
 
 /**
  * @internal

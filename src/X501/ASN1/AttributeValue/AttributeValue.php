@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1\AttributeValue;
+namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue;
 
 use function array_key_exists;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeType;
-use Sop\X501\ASN1\AttributeTypeAndValue;
-use Sop\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
 use Stringable;
 
 /**

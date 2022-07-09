@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\RFC8410;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\RFC8410;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\CryptoTypes\Asymmetric\PublicKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PrivateKey;
-use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PublicKey;
-use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PrivateKey;
-use Sop\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PublicKey;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PublicKey;
 use UnexpectedValueException;
 
 /**

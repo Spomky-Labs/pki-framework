@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Util;
+namespace SpomkyLabs\Pki\ASN1\Util;
 
 use function assert;
 use function count;
@@ -12,7 +12,7 @@ use function is_array;
 use function ord;
 use OutOfBoundsException;
 use RuntimeException;
-use Sop\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 
 /**
  * Class to handle a bit string as a field of flags.

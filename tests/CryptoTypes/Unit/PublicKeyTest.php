@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
-use Sop\CryptoTypes\Asymmetric\PublicKey;
-use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
 
 /**

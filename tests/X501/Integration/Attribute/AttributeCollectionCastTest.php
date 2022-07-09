@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Integration\Attribute;
+namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
 use PHPUnit\Framework\TestCase;
-use Sop\X501\ASN1\AttributeValue\NameValue;
-use Sop\X501\ASN1\Collection\SequenceOfAttributes;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
+use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
 
 /**
  * @internal

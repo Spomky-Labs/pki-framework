@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\CertificatePolicy;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
 
 /**

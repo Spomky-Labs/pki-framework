@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1\Value;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Value;
 
 use PHPUnit\Framework\TestCase;
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeTypeAndValue;
-use Sop\X501\ASN1\AttributeValue\CommonNameValue;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
 
 /**
  * @internal

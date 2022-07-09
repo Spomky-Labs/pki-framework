@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1\Value;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Value;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\UTF8String;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\ASN1\AttributeValue\UnknownAttributeValue;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\UnknownAttributeValue;
 use function strval;
 
 /**

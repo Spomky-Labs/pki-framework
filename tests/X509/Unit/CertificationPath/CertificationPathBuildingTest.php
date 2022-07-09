@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\CertificationPath;
+namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\CertificateBundle;
-use Sop\X509\CertificationPath\CertificationPath;
-use Sop\X509\CertificationPath\Exception\PathBuildingException;
-use Sop\X509\CertificationPath\PathBuilding\CertificationPathBuilder;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathBuildingException;
+use SpomkyLabs\Pki\X509\CertificationPath\PathBuilding\CertificationPathBuilder;
 
 /**
  * @internal

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Extension\KeyUsageExtension;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\Certificate\UniqueIdentifier;
-use Sop\X509\Certificate\Validity;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Extension\KeyUsageExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
+use SpomkyLabs\Pki\X509\Certificate\Validity;
 
 /**
  * @internal

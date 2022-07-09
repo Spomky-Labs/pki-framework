@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Primitive;
+namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use function chr;
 use function mb_strlen;
 use function ord;
 use OutOfBoundsException;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Component\Length;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Type\BaseString;
-use Sop\ASN1\Type\PrimitiveType;
-use Sop\ASN1\Type\UniversalClass;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Type\BaseString;
+use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
+use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
 
 /**
  * Implements *BIT STRING* type.

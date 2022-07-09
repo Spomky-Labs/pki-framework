@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\Exception;
+namespace SpomkyLabs\Pki\X509\CertificationPath\Exception;
 
 use RuntimeException;
 

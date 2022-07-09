@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\CertificationPath;
+namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use DateTimeImmutable;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Sop\CryptoBridge\Crypto;
-use Sop\CryptoEncoding\PEM;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\CertificationPath\CertificationPath;
-use Sop\X509\CertificationPath\Exception\PathValidationException;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
-use Sop\X509\CertificationPath\PathValidation\PathValidationResult;
-use Sop\X509\CertificationPath\PathValidation\PathValidator;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationResult;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidator;
 
 /**
  * @internal

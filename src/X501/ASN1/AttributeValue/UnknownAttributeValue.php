@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1\AttributeValue;
+namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue;
 
 use BadMethodCallException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\DN\DNParser;
-use Sop\X501\MatchingRule\BinaryMatch;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X501\StringPrep\TranscodeStep;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\DN\DNParser;
+use SpomkyLabs\Pki\X501\MatchingRule\BinaryMatch;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X501\StringPrep\TranscodeStep;
 
 /**
  * Class to hold ASN.1 structure of an unimplemented attribute value.

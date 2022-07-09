@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Util;
+namespace SpomkyLabs\Pki\Test\ASN1\Util;
 
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Util\Flags;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Util\Flags;
 
 /**
  * @internal

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\EC;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\EC;
 
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
 use UnexpectedValueException;
 
 /**

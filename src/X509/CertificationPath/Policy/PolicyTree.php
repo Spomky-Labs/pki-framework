@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\Policy;
+namespace SpomkyLabs\Pki\X509\CertificationPath\Policy;
 
 use function count;
 use function in_array;
 use LogicException;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
-use Sop\X509\CertificationPath\PathValidation\ValidatorState;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState;
 
 final class PolicyTree
 {

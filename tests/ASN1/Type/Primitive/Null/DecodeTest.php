@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Primitive\Null;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Null;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 
 /**
  * @internal

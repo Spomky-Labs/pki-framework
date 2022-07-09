@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Generic algorithm identifier to hold parameters as ASN.1 objects.

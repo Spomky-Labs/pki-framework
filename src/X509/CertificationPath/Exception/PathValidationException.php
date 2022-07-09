@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\Exception;
+namespace SpomkyLabs\Pki\X509\CertificationPath\Exception;
 
-use Sop\X509\Exception\X509ValidationException;
+use SpomkyLabs\Pki\X509\Exception\X509ValidationException;
 
 /**
  * Exception thrown on certification path validation errors.

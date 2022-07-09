@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
 
 /**
  * @internal

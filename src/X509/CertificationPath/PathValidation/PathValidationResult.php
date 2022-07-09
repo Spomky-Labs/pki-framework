@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\PathValidation;
+namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use function count;
-use Sop\ASN1\Element;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
-use Sop\X509\CertificationPath\Policy\PolicyTree;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyTree;
 
 /**
  * Result of the path validation process.

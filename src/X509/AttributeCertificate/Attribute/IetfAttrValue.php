@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\AttributeCertificate\Attribute;
+namespace SpomkyLabs\Pki\X509\AttributeCertificate\Attribute;
 
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\Primitive\UTF8String;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use Stringable;
 use UnexpectedValueException;
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Tagged;
+namespace SpomkyLabs\Pki\ASN1\Type\Tagged;
 
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Component\Length;
-use Sop\ASN1\Element;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Intermediate class to store tagged DER data.

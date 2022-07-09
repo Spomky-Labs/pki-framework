@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X501\ASN1\AttributeTypeAndValue;
-use Sop\X501\ASN1\AttributeValue\NameValue;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
 use function strval;
 
 /**

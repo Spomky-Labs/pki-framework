@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\NameConstraints;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints;
 
 use function count;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * Implements *GeneralSubtree* ASN.1 type used by 'Name Constraints' certificate extension.

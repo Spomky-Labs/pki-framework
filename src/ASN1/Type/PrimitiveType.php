@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type;
+namespace SpomkyLabs\Pki\ASN1\Type;
 
 /**
  * Trait for primitive types.

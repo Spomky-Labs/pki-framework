@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type;
+namespace SpomkyLabs\Pki\ASN1\Type;
 
 use function assert;
 use InvalidArgumentException;
 use function is_string;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Component\Length;
-use Sop\ASN1\Exception\DecodeException;
-use Sop\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 
 /**
  * Base class for primitive strings.

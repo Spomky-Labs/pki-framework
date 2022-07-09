@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\Target;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\Target;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * Implements 'targetGroup' CHOICE of the *Target* ASN.1 type.

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\AccessDescription;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\AccessDescription;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 
 /**
  * @internal

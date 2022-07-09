@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoBridge;
+namespace SpomkyLabs\Pki\CryptoBridge;
 
 use function defined;
 use RuntimeException;
-use Sop\CryptoBridge\Crypto\OpenSSLCrypto;
-use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\CryptoBridge\Crypto\OpenSSLCrypto;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 
 /**
  * Base class for crypto engine implementations.

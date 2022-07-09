@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\GeneralName;
+namespace SpomkyLabs\Pki\X509\GeneralName;
 
 use LogicException;
 use function mb_strlen;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\TaggedType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
 
 /**

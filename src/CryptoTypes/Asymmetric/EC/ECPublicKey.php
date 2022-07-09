@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\EC;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC;
 
 use function array_key_exists;
 use function in_array;
@@ -11,15 +11,15 @@ use LogicException;
 use function mb_strlen;
 use function ord;
 use RuntimeException;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\Asymmetric\PublicKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
 use UnexpectedValueException;
 
 /**

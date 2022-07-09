@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\X509\AttributeCertificate\AttCertIssuer;
-use Sop\X509\AttributeCertificate\IssuerSerial;
-use Sop\X509\AttributeCertificate\ObjectDigestInfo;
-use Sop\X509\AttributeCertificate\V2Form;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
+use SpomkyLabs\Pki\X509\AttributeCertificate\IssuerSerial;
+use SpomkyLabs\Pki\X509\AttributeCertificate\ObjectDigestInfo;
+use SpomkyLabs\Pki\X509\AttributeCertificate\V2Form;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * @internal

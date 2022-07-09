@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Util;
+namespace SpomkyLabs\Pki\ASN1\Util;
 
 use function chr;
 use GMP;

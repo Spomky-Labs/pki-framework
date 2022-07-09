@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeAc;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeAc;
 
 use AlgorithmIdentifier;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
-use Sop\X509\AttributeCertificate\AttributeCertificate;
-use Sop\X509\AttributeCertificate\AttributeCertificateInfo;
-use Sop\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificateInfo;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
 
 /**
  * Decodes reference attribute certificate acme-ac.pem.

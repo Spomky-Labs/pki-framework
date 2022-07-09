@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Component;
+namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Component\Length;
-use Sop\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 
 /**
  * @internal

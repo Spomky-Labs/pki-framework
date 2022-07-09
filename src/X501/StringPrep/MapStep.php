@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\StringPrep;
+namespace SpomkyLabs\Pki\X501\StringPrep;
 
 use const MB_CASE_LOWER;
 

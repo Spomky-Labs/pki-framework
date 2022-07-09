@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type;
+namespace SpomkyLabs\Pki\ASN1\Type;
 
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Tagged\ExplicitTagging;
-use Sop\ASN1\Type\Tagged\ImplicitTagging;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
 use UnexpectedValueException;
 
 /**

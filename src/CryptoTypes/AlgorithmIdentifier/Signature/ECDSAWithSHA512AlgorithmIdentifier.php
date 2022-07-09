@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
 /**
  * ECDSA with SHA-512 signature algorithm identifier.

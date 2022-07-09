@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Integration\Attribute;
+namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
-use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString;
 
 class AttributeCollectionCastTestAttrValue extends DirectoryString
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use BadMethodCallException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 class PrivateKeyInfoTestInvalidECAlgo extends SpecificAlgorithmIdentifier
 {

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X509\Certificate\Extension\AccessDescription\AccessDescription;
-use Sop\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\AccessDescription\AccessDescription;
+use SpomkyLabs\Pki\X509\Certificate\Extension\AccessDescription\AuthorityAccessDescription;
 
 /**
  * Implements 'Authority Information Access' extension.

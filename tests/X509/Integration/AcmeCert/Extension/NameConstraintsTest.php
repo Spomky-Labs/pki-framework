@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
-use Sop\X509\Certificate\Extension\NameConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
+use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraintsExtension;
 
 /**
  * @internal

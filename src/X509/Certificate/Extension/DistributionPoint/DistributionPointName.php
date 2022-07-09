@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\DistributionPoint;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X501\ASN1\RDN;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X501\ASN1\RDN;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 use UnexpectedValueException;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\StringPrep;
+namespace SpomkyLabs\Pki\X501\StringPrep;
 
 /**
  * Interface for string preparation steps of Internationalized String Preparation algorithm specified by RFC 4518.

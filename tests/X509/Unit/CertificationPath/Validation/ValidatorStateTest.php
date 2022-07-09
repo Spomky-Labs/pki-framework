@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\CertificationPath\Validation;
+namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Validation;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\CryptoEncoding\PEM;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
-use Sop\X509\CertificationPath\PathValidation\ValidatorState;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState;
 
 /**
  * @internal

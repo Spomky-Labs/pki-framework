@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use RuntimeException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\GeneralizedTime;
-use Sop\ASN1\Type\Primitive\UTCTime;
-use Sop\X509\Certificate\Time;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
+use SpomkyLabs\Pki\X509\Certificate\Time;
 use UnexpectedValueException;
 
 /**

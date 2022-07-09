@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Primitive\Real;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Real;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RangeException;
-use Sop\ASN1\Type\Primitive\Real;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
 
 /**
  * @internal

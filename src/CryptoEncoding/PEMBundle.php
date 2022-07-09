@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoEncoding;
+namespace SpomkyLabs\Pki\CryptoEncoding;
 
 use ArrayIterator;
 use function count;

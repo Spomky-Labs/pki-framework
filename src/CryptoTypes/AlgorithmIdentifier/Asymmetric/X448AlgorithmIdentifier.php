@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
 /**
  * Algorithm identifier for the Diffie-Hellman operation with curve448.

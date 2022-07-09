@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\CertPolicy;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
 
 /**
  * @internal

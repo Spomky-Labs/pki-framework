@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Primitive;
+namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use function mb_strlen;
-use Sop\ASN1\Type\PrimitiveString;
-use Sop\ASN1\Type\UniversalClass;
+use SpomkyLabs\Pki\ASN1\Type\PrimitiveString;
+use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
 
 /**
  * Implements *BMPString* type.

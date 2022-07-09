@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Hash;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash;
 
 /**
  * HMAC with SHA-512 algorithm identifier.

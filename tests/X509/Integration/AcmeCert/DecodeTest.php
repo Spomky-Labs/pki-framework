@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert;
 
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\CryptoTypes\Signature\Signature;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\Certificate\Validity;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\Certificate\Validity;
 
 /**
  * Decodes reference certificate acme-rsa.pem.

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\AlgoId;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId;
 
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierProvider;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierProvider;
 
 class AIFactoryTestProvider implements AlgorithmIdentifierProvider
 {

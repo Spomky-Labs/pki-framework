@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Csr\Attribute;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Csr\Attribute;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 use function strval;
 
 /**

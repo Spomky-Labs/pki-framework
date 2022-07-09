@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationRequest;
+namespace SpomkyLabs\Pki\X509\CertificationRequest;
 
 use LogicException;
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\Collection\SetOfAttributes;
-use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\Collection\SetOfAttributes;
+use SpomkyLabs\Pki\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 
 /**
  * Implements *Attributes* ASN.1 type of *CertificationRequestInfo*.

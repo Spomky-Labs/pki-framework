@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use Sop\X509\Certificate\Extension\CRLDistributionPointsExtension;
-use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
-use Sop\X509\Certificate\Extension\DistributionPoint\DistributionPointName;
-use Sop\X509\Certificate\Extension\DistributionPoint\FullName;
-use Sop\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\GeneralName\GeneralName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CRLDistributionPointsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\DistributionPointName;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\FullName;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * @internal

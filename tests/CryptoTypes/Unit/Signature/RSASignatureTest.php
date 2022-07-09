@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\Signature;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoTypes\Signature\RSASignature;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoTypes\Signature\RSASignature;
 
 /**
  * @internal

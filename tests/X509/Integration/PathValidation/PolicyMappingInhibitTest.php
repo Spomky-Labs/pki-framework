@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\PathValidation;
+namespace SpomkyLabs\Pki\Test\X509\Integration\PathValidation;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKey;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
-use Sop\X509\Certificate\Extension\CertificatePoliciesExtension;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
-use Sop\X509\Certificate\Extension\PolicyConstraintsExtension;
-use Sop\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
-use Sop\X509\Certificate\Extension\PolicyMappingsExtension;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\Certificate\Validity;
-use Sop\X509\CertificationPath\CertificationPath;
-use Sop\X509\CertificationPath\Exception\PathValidationException;
-use Sop\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePoliciesExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
+use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyMappingsExtension;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\Certificate\Validity;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
  * Covers policy mapping inhibit handling.

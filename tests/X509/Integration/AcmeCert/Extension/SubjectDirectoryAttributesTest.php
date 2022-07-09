@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use Sop\X501\ASN1\AttributeType;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectDirectoryAttributesExtension;
 
 /**
  * @internal

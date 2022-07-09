@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension\AccessDescription;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension\AccessDescription;
 
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * Base class implementing *AccessDescription* ASN.1 type for 'Authority Information Access' and 'Subject Information

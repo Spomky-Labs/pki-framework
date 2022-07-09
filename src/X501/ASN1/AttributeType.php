@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1;
+namespace SpomkyLabs\Pki\X501\ASN1;
 
 use function array_key_exists;
 use LogicException;
 use OutOfBoundsException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\Primitive\PrintableString;
-use Sop\ASN1\Type\Primitive\UTF8String;
-use Sop\ASN1\Type\StringType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
+use SpomkyLabs\Pki\ASN1\Type\StringType;
 
 /**
  * Implements *AttributeType* ASN.1 type.

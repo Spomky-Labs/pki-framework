@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\PathValidation;
+namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\CertificationPath\Policy\PolicyNode;
-use Sop\X509\CertificationPath\Policy\PolicyTree;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyNode;
+use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyTree;
 
 /**
  * State class for the certification path validation process.

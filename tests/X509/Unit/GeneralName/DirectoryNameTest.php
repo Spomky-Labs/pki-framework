@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\GeneralName;
+namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Tagged\ExplicitTagging;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X501\ASN1\Name;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * @internal
@@ -20,7 +20,7 @@ final class DirectoryNameTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): DirectoryName
     {
         $name = DirectoryName::fromDNString('cn=Test');
         static::assertInstanceOf(DirectoryName::class, $name);
@@ -32,7 +32,7 @@ final class DirectoryNameTest extends TestCase
      *
      * @test
      */
-    public function encode(DirectoryName $name)
+    public function encode(DirectoryName $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ExplicitTagging::class, $el);
@@ -46,7 +46,7 @@ final class DirectoryNameTest extends TestCase
      *
      * @test
      */
-    public function choiceTag($der)
+    public function choiceTag(string $der)
     {
         $el = TaggedType::fromDER($der);
         static::assertEquals(GeneralName::TAG_DIRECTORY_NAME, $el->tag());

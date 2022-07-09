@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\AttributeCertificate\Validation;
+namespace SpomkyLabs\Pki\X509\AttributeCertificate\Validation;
 
 use DateTimeImmutable;
-use Sop\X509\Certificate\Extension\Target\Target;
-use Sop\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Target;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
 
 /**
  * Provides configuration context for the attribute certificate validation.

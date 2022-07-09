@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeAc\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeAc\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\X509\AttributeCertificate\AttributeCertificate;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
 
 abstract class RefACExtTestHelper extends TestCase
 {

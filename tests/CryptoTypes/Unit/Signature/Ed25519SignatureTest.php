@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\Signature;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\CryptoTypes\Signature\Ed25519Signature;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Ed25519Signature;
 
 /**
  * @internal

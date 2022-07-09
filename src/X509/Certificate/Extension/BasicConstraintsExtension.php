@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate\Extension;
+namespace SpomkyLabs\Pki\X509\Certificate\Extension;
 
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\Boolean;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Implements 'Basic Constraints' certificate extension.

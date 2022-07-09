@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1\Collection;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Collection;
 
 use PHPUnit\Framework\TestCase;
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeValue\CommonNameValue;
-use Sop\X501\ASN1\AttributeValue\DescriptionValue;
-use Sop\X501\ASN1\AttributeValue\NameValue;
-use Sop\X501\ASN1\Collection\AttributeCollection;
-use Sop\X501\ASN1\Collection\SequenceOfAttributes;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\DescriptionValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
+use SpomkyLabs\Pki\X501\ASN1\Collection\AttributeCollection;
+use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
 use UnexpectedValueException;
 
 /**

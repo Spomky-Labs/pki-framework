@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1\AttributeValue\Feature;
+namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature;
 
 use function array_key_exists;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\BMPString;
-use Sop\ASN1\Type\Primitive\PrintableString;
-use Sop\ASN1\Type\Primitive\T61String;
-use Sop\ASN1\Type\Primitive\UniversalString;
-use Sop\ASN1\Type\Primitive\UTF8String;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\DN\DNParser;
-use Sop\X501\MatchingRule\CaseIgnoreMatch;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X501\StringPrep\TranscodeStep;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BMPString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\T61String;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UniversalString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\DN\DNParser;
+use SpomkyLabs\Pki\X501\MatchingRule\CaseIgnoreMatch;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X501\StringPrep\TranscodeStep;
 use UnexpectedValueException;
 
 /**

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\MatchingRule;
+namespace SpomkyLabs\Pki\X501\MatchingRule;
 
-use Sop\X501\StringPrep\StringPreparer;
+use SpomkyLabs\Pki\X501\StringPrep\StringPreparer;
 
 /**
  * Base class for matching rules employing string preparement semantics.

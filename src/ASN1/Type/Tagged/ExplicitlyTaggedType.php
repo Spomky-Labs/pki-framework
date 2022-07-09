@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\ASN1\Type\Tagged;
+namespace SpomkyLabs\Pki\ASN1\Type\Tagged;
 
 use BadMethodCallException;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Element;
-use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 
 /**
  * Implements explicit tagging mode.

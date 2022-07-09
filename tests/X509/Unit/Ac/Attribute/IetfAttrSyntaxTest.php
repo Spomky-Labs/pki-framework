@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac\Attribute;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\X501\MatchingRule\MatchingRule;
-use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\IetfAttrSyntax;
+use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\GroupAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\IetfAttrSyntax;
 use function strval;
 
 /**

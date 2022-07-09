@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac\Attribute;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\IetfAttrValue;
-use Sop\X509\AttributeCertificate\Attributes;
-use Sop\X509\GeneralName\DirectoryName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\GroupAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\IetfAttrValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * @internal

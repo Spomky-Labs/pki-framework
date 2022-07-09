@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1;
+namespace SpomkyLabs\Pki\X501\ASN1;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
-use Sop\ASN1\Type\Constructed\Set;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 use Stringable;
 use UnexpectedValueException;
 

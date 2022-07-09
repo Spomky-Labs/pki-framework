@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use LogicException;
 use function mb_strlen;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKeyInfo;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\BasicConstraintsExtension;
-use Sop\X509\Certificate\Extension\UnknownExtension;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\Certificate\UniqueIdentifier;
-use Sop\X509\Certificate\Validity;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\UnknownExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
+use SpomkyLabs\Pki\X509\Certificate\Validity;
 use UnexpectedValueException;
 
 /**

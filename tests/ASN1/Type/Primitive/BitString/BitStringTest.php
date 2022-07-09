@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Primitive\BitString;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\BitString;
 
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use function strval;
 use UnexpectedValueException;
 

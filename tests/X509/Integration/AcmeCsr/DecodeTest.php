@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCsr;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCsr;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\PrivateKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\CryptoTypes\Signature\Signature;
-use Sop\X501\ASN1\Name;
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\KeyUsageExtension;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
-use Sop\X509\CertificationRequest\Attributes;
-use Sop\X509\CertificationRequest\CertificationRequest;
-use Sop\X509\CertificationRequest\CertificationRequestInfo;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\KeyUsageExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\CertificationRequest\Attribute\ExtensionRequestValue;
+use SpomkyLabs\Pki\X509\CertificationRequest\Attributes;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequestInfo;
 
 /**
  * @internal

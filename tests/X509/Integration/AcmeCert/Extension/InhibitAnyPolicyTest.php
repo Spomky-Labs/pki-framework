@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use Sop\X509\Certificate\Extension\Extension;
-use Sop\X509\Certificate\Extension\InhibitAnyPolicyExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\InhibitAnyPolicyExtension;
 
 /**
  * @internal

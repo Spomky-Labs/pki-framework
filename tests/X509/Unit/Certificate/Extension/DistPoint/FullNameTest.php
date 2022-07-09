@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\DistPoint;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\DistPoint;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Tagged\ImplicitTagging;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X509\Certificate\Extension\DistributionPoint\FullName;
-use Sop\X509\GeneralName\GeneralNames;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\FullName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 
 /**
  * @internal

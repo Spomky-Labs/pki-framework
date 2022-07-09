@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\X509\Certificate\UniqueIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
 
 /**
  * @internal

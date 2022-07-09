@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use BadMethodCallException;
 use function mb_strlen;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use Sop\CryptoTypes\Asymmetric\EC\ECPublicKey;
-use Sop\CryptoTypes\Asymmetric\PublicKeyInfo;
-use Sop\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
 
 /**

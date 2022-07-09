@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\Attribute;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\Attribute;
 
-use Sop\X501\ASN1\Collection\SetOfAttributes;
+use SpomkyLabs\Pki\X501\ASN1\Collection\SetOfAttributes;
 
 /**
  * Implements *OneAsymmetricKey*'s *Attribute* ASN.1 type.

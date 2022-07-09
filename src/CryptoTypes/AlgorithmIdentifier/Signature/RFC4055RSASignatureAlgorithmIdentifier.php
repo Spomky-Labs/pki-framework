@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Signature;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 /*
 From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm

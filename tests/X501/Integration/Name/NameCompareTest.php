@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Integration\Name;
+namespace SpomkyLabs\Pki\Test\X501\Integration\Name;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Sop\X501\ASN1\Name;
+use SpomkyLabs\Pki\X501\ASN1\Name;
 
 /**
  * @internal

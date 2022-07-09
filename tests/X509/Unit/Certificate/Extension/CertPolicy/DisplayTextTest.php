@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\CertPolicy;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\BaseString;
-use Sop\ASN1\Type\Primitive\BMPString;
-use Sop\ASN1\Type\Primitive\IA5String;
-use Sop\ASN1\Type\Primitive\UTF8String;
-use Sop\ASN1\Type\Primitive\VisibleString;
-use Sop\ASN1\Type\StringType;
-use Sop\X509\Certificate\Extension\CertificatePolicy\DisplayText;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\BaseString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BMPString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\IA5String;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\VisibleString;
+use SpomkyLabs\Pki\ASN1\Type\StringType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\DisplayText;
 use function strval;
 use UnexpectedValueException;
 

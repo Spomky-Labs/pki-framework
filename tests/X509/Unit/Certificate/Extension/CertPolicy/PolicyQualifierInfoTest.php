@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\CertPolicy;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyQualifierInfo;
 use UnexpectedValueException;
 
 /**

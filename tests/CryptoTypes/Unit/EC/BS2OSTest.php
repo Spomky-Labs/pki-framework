@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoTypes\Unit\EC;
+namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\CryptoTypes\Asymmetric\EC\ECConversion;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECConversion;
 
 /**
  * @internal

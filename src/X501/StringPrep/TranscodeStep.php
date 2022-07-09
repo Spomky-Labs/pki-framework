@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\StringPrep;
+namespace SpomkyLabs\Pki\X501\StringPrep;
 
 use function in_array;
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\T61String;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\T61String;
 
 /**
  * Implements 'Transcode' step of the Internationalized String Preparation as specified by RFC 4518.

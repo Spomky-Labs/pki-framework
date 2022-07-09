@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\ASN1\Value;
+namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Value;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\CommonNameValue;
-use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString;
 use UnexpectedValueException;
 
 /**

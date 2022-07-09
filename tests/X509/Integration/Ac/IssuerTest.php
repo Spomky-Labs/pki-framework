@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Integration\Ac;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoEncoding\PEM;
-use Sop\X501\ASN1\Name;
-use Sop\X509\AttributeCertificate\AttCertIssuer;
-use Sop\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
 
 /**
  * @internal

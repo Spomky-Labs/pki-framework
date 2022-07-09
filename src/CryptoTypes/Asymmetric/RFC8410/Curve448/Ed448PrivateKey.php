@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\RFC8410\Curve448;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448;
 
 use LogicException;
 use function mb_strlen;
-use Sop\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
-use Sop\CryptoTypes\Asymmetric\PublicKey;
-use Sop\CryptoTypes\Asymmetric\RFC8410\RFC8410PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\RFC8410PrivateKey;
 use UnexpectedValueException;
 
 /**

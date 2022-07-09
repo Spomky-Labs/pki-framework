@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Constructed\String;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\String;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Constructed\ConstructedString;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString;
 
 /**
  * @internal

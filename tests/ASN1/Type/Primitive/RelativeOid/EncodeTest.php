@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Type\Primitive\RelativeOid;
+namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\RelativeOid;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Primitive\RelativeOID;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\RelativeOID;
 
 /**
  * @internal

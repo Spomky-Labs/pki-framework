@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Ac;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeType;
-use Sop\X501\ASN1\AttributeValue\DescriptionValue;
-use Sop\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\GroupAttributeValue;
-use Sop\X509\AttributeCertificate\Attribute\IetfAttrValue;
-use Sop\X509\AttributeCertificate\Attribute\RoleAttributeValue;
-use Sop\X509\AttributeCertificate\Attributes;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\DescriptionValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\GroupAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\IetfAttrValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\RoleAttributeValue;
+use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 
 /**
  * @internal

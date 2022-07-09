@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\GeneralName;
+namespace SpomkyLabs\Pki\X509\GeneralName;
 
 use ArrayIterator;
 use function count;
@@ -10,9 +10,9 @@ use Countable;
 use IteratorAggregate;
 use LogicException;
 use RuntimeException;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\Name;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\Name;
 use UnexpectedValueException;
 
 /**

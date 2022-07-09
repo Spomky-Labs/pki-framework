@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Integration\AcmeCert\Extension;
+namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
-use Sop\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
-use Sop\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
+use SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
  * @internal

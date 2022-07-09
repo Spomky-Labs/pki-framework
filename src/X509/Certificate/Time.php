@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\Certificate;
+namespace SpomkyLabs\Pki\X509\Certificate;
 
 use DateTimeImmutable;
 use function intval;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\GeneralizedTime;
-use Sop\ASN1\Type\Primitive\UTCTime;
-use Sop\ASN1\Type\TimeType;
-use Sop\X509\Feature\DateTimeHelper;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
+use SpomkyLabs\Pki\ASN1\Type\TimeType;
+use SpomkyLabs\Pki\X509\Feature\DateTimeHelper;
 use UnexpectedValueException;
 
 /**

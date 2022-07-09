@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\ASN1\Tagging;
+namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Component\Identifier;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\Integer;
-use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
-use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
-use Sop\ASN1\Type\Tagged\PrivateType;
-use Sop\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\PrivateType;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
 
 /**

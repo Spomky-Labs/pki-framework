@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 /**
  * Algorithm identifier for AES with 128-bit key in CBC mode.

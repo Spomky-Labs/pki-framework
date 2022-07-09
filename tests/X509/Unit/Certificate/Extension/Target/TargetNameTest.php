@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Certificate\Extension\Target;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\Target;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Tagged\ExplicitTagging;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X509\Certificate\Extension\Target\Target;
-use Sop\X509\Certificate\Extension\Target\TargetName;
-use Sop\X509\GeneralName\GeneralName;
-use Sop\X509\GeneralName\UniformResourceIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Target;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Target\TargetName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 
 /**
  * @internal

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\X509\CertificationPath\PathValidation;
+namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use function count;
 use function in_array;
 use LogicException;
 use RuntimeException;
-use Sop\CryptoBridge\Crypto;
-use Sop\X509\Certificate\Certificate;
-use Sop\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
-use Sop\X509\Certificate\TBSCertificate;
-use Sop\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
 
 /**
  * Implements certification path validation.

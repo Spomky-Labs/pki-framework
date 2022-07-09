@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X501\Unit\MatchingRule;
+namespace SpomkyLabs\Pki\Test\X501\Unit\MatchingRule;
 
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\X501\MatchingRule\CaseExactMatch;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\X501\MatchingRule\CaseExactMatch;
 
 /**
  * @internal

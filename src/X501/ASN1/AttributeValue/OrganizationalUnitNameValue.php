@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1\AttributeValue;
+namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue;
 
-use Sop\X501\ASN1\AttributeType;
-use Sop\X501\ASN1\AttributeValue\Feature\DirectoryString;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString;
 
 /**
  * 'organizationalUnitName' attribute value.

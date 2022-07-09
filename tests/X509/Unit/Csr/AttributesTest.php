@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\Csr;
+namespace SpomkyLabs\Pki\Test\X509\Unit\Csr;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Type\Constructed\Set;
-use Sop\X501\ASN1\Attribute;
-use Sop\X501\ASN1\AttributeType;
-use Sop\X501\ASN1\AttributeValue\CommonNameValue;
-use Sop\X509\Certificate\Extensions;
-use Sop\X509\CertificationRequest\Attribute\ExtensionRequestValue;
-use Sop\X509\CertificationRequest\Attributes;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
+use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
+use SpomkyLabs\Pki\X509\Certificate\Extensions;
+use SpomkyLabs\Pki\X509\CertificationRequest\Attribute\ExtensionRequestValue;
+use SpomkyLabs\Pki\X509\CertificationRequest\Attributes;
 use UnexpectedValueException;
 
 /**

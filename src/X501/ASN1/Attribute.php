@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Sop\X501\ASN1;
+namespace SpomkyLabs\Pki\X501\ASN1;
 
 use ArrayIterator;
 use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
-use Sop\ASN1\Type\Constructed\Sequence;
-use Sop\ASN1\Type\Constructed\Set;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\X501\ASN1\AttributeValue\AttributeValue;
-use Sop\X501\ASN1\Feature\TypedAttribute;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
+use SpomkyLabs\Pki\X501\ASN1\Feature\TypedAttribute;
 
 /**
  * Implements *Attribute* ASN.1 type.

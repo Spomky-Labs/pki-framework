@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\Asymmetric\RFC8410;
+namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410;
 
-use Sop\ASN1\Type\Primitive\BitString;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\CryptoEncoding\PEM;
-use Sop\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
-use Sop\CryptoTypes\Asymmetric\OneAsymmetricKey;
-use Sop\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 
 /**
  * Implements an intermediary object to store a private key using Curve25519 or Curve448 as defined by RFC 8410.

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\X509\Unit\GeneralName;
+namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Tagged\ImplicitTagging;
-use Sop\ASN1\Type\TaggedType;
-use Sop\X509\GeneralName\GeneralName;
-use Sop\X509\GeneralName\IPAddress;
-use Sop\X509\GeneralName\IPv4Address;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
+use SpomkyLabs\Pki\ASN1\Type\TaggedType;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\X509\GeneralName\IPAddress;
+use SpomkyLabs\Pki\X509\GeneralName\IPv4Address;
 use UnexpectedValueException;
 
 /**

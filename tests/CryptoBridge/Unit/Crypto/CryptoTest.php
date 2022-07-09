@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\Test\CryptoBridge\Unit\Crypto;
+namespace SpomkyLabs\Pki\Test\CryptoBridge\Unit\Crypto;
 
 use PHPUnit\Framework\TestCase;
-use Sop\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
 
 /**
  * @internal

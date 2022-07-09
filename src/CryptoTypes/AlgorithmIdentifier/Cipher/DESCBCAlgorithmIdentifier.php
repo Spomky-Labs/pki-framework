@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 use LogicException;
-use Sop\ASN1\Element;
-use Sop\ASN1\Type\Primitive\OctetString;
-use Sop\ASN1\Type\UnspecifiedType;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use UnexpectedValueException;
 
 /*

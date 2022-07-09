@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sop\CryptoTypes\AlgorithmIdentifier\Cipher;
+namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 use function mb_strlen;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use UnexpectedValueException;
 
 /**
