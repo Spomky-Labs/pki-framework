@@ -21,16 +21,6 @@ final class AttributeValueTest extends TestCase
     /**
      * @test
      */
-    public function fromASN1BadCall()
-    {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('must be implemented in a concrete class');
-        AttributeValue::fromASN1(new UnspecifiedType(new NullType()));
-    }
-
-    /**
-     * @test
-     */
     public function toAttribute()
     {
         $val = new CommonNameValue('name');

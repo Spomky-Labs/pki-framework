@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sop\X501\ASN1\AttributeValue;
 
 use Sop\ASN1\Element;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\X501\DN\DNParser;
 use Sop\X501\MatchingRule\BinaryMatch;
 use Sop\X501\MatchingRule\MatchingRule;
@@ -71,5 +72,10 @@ class UnknownAttributeValue extends AttributeValue
             return $step->apply($this->stringValue());
         }
         return $this->stringValue();
+    }
+
+    public static function fromASN1(UnspecifiedType $el): AttributeValue
+    {
+        throw new \BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
     }
 }

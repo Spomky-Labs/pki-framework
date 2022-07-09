@@ -87,10 +87,7 @@ abstract class AttributeValue
      *
      * @return self
      */
-    public static function fromASN1(UnspecifiedType $el): AttributeValue
-    {
-        throw new BadMethodCallException('ASN.1 parsing must be implemented in a concrete class.');
-    }
+    abstract public static function fromASN1(UnspecifiedType $el): AttributeValue;
 
     /**
      * Initialize from ASN.1 with given OID hint.
