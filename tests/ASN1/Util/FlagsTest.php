@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Util;
 
+use Brick\Math\BigInteger;
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -17,11 +18,9 @@ final class FlagsTest extends TestCase
     /**
      * @dataProvider flagsProvider
      *
-     * @param number $num
-     *
      * @test
      */
-    public function flags($num, int $width, string $result)
+    public function flags(BigInteger|int|string $num, int $width, string $result)
     {
         $flags = new Flags($num, $width);
         static::assertEquals($result, $flags->string());
@@ -45,7 +44,7 @@ final class FlagsTest extends TestCase
             [0xffff, 1, "\x80"],
             [0xffffff, 12, "\xff\xf0"],
             [1, 128, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01"],
-            ['0x80000000000000000000000000000000', 128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"],
+            [BigInteger::fromBase('80000000000000000000000000000000', 16), 128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"],
         ];
     }
 
@@ -148,13 +147,11 @@ final class FlagsTest extends TestCase
     /**
      * @dataProvider numberProvider
      *
-     * @param string $num
-     * @param int    $width
      * @param number $result
      *
      * @test
      */
-    public function number($num, $width, $result)
+    public function number(BigInteger|int|string $num, int $width, $result)
     {
         $flags = new Flags($num, $width);
         static::assertEquals($result, $flags->number());
@@ -175,7 +172,11 @@ final class FlagsTest extends TestCase
             [1, 16, 1],
             [0x80, 24, 0x80],
             [0x8000, 16, 0x8000],
-            ['0x80000000000000000000000000000000', 128, '170141183460469231731687303715884105728'],
+            [
+                BigInteger::fromBase('080000000000000000000000000000000', 16),
+                128,
+                '170141183460469231731687303715884105728',
+            ],
         ];
     }
 

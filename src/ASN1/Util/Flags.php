@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Util;
 
 use function assert;
+use Brick\Math\BigInteger;
 use function count;
-use const GMP_BIG_ENDIAN;
-use const GMP_MSW_FIRST;
 use function is_array;
 use function ord;
 use OutOfBoundsException;
@@ -37,31 +36,34 @@ final class Flags
      * number of bits in $flags, zeroes are prepended
      * to flag field.
      */
-    public function __construct($flags, int $width)
+    public function __construct(BigInteger|int|string $flags, int $width)
     {
-        if (! $width) {
-            $this->_flags = '';
-        } else {
-            // calculate number of unused bits in last octet
-            $last_octet_bits = $width % 8;
-            $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
-            $num = gmp_init($flags);
-            // mask bits outside bitfield width
-            $mask = gmp_sub(gmp_init(1) << $width, 1);
-            $num &= $mask;
-            // shift towards MSB if needed
-            $data = gmp_export($num << $unused_bits, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-            $octets = unpack('C*', $data);
-            assert(is_array($octets), new RuntimeException('unpack() failed'));
-            $bits = count($octets) * 8;
-            // pad with zeroes
-            while ($bits < $width) {
-                array_unshift($octets, 0);
-                $bits += 8;
-            }
-            $this->_flags = pack('C*', ...$octets);
-        }
         $this->_width = $width;
+        if ($width === 0) {
+            $this->_flags = '';
+            return;
+        }
+
+        // calculate number of unused bits in last octet
+        $last_octet_bits = $width % 8;
+        $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
+        // mask bits outside bitfield width
+        $num = BigInteger::of($flags);
+        $mask = BigInteger::of(1)->shiftedLeft($width)->minus(1);
+        $num = $num->and($mask);
+
+        // shift towards MSB if needed
+        $data = $num->shiftedLeft($unused_bits)
+            ->toBytes(false);
+        $octets = unpack('C*', $data);
+        assert(is_array($octets), new RuntimeException('unpack() failed'));
+        $bits = count($octets) * 8;
+        // pad with zeroes
+        while ($bits < $width) {
+            array_unshift($octets, 0);
+            $bits += 8;
+        }
+        $this->_flags = pack('C*', ...$octets);
     }
 
     /**
@@ -70,12 +72,13 @@ final class Flags
     public static function fromBitString(BitString $bs, int $width): self
     {
         $num_bits = $bs->numBits();
-        $num = gmp_import($bs->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        $num >>= $bs->unusedBits();
+        $data = $bs->string();
+        $num = $data === '' ? BigInteger::of(0) : BigInteger::fromBytes($bs->string(), false);
+        $num = $num->shiftedRight($bs->unusedBits());
         if ($num_bits < $width) {
-            $num <<= ($width - $num_bits);
+            $num = $num->shiftedLeft($width - $num_bits);
         }
-        return new self(gmp_strval($num, 10), $width);
+        return new self($num, $width);
     }
 
     /**
@@ -115,11 +118,11 @@ final class Flags
      */
     public function number(): string
     {
-        $num = gmp_import($this->_flags, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        $num = BigInteger::fromBytes($this->_flags, false);
         $last_octet_bits = $this->_width % 8;
         $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
-        $num >>= $unused_bits;
-        return gmp_strval($num, 10);
+        $num = $num->shiftedRight($unused_bits);
+        return $num->toBase(10);
     }
 
     /**

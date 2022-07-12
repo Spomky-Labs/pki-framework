@@ -17,14 +17,13 @@ A PHP Framework
 ## Requirements
 
 - PHP >=8.1
-- gmp
-- intl
-- mbstring
+- `mbstring`
+
+The extension `gmp` or `bcmath` is highly recommended
 
 ## Installation
 
-This library is available on
-[Packagist](https://packagist.org/packages/sop/x509).
+This library is available on [Github](https://github.com/Spomky-Labs/pki-framework).
 
 ```sh
 composer require spomky-labs/pki-framework

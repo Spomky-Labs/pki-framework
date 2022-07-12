@@ -10,7 +10,6 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
-use ValueError;
 
 /**
  * @internal
@@ -153,8 +152,8 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function invalidNumberPHP8()
     {
-        $this->expectException(ValueError::class);
-        $this->expectExceptionMessage('not an integer');
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('"x" is not a number.');
         new ObjectIdentifier('1.1.x');
     }
 

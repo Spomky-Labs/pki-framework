@@ -9,6 +9,7 @@ use GMP;
 use InvalidArgumentException;
 use function mb_strlen;
 use Stringable;
+use Throwable;
 
 /**
  * Class to wrap an integer of arbirtary length.
@@ -38,11 +39,11 @@ final class BigInt implements Stringable
     {
         // convert to BigInteger object
         if ($num instanceof GMP) {
-            $num = BigInteger::fromBase(gmp_strval($num, 10), 10);
+            $num = BigInteger::fromBase(gmp_strval($num), 10);
         } elseif (! $num instanceof BigInteger) {
             try {
                 $num = BigInteger::of($num);
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 throw new InvalidArgumentException('Unable to convert to integer.');
             }
         }
