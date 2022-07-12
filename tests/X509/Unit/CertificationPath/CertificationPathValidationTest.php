@@ -7,7 +7,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 use DateTimeImmutable;
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;

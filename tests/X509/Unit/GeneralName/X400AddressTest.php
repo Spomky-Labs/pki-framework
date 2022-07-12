@@ -43,8 +43,6 @@ final class X400AddressTest extends TestCase
     /**
      * @depends encode
      *
-     * @param string $der
-     *
      * @test
      */
     public function choiceTag(string $der): void
@@ -55,8 +53,6 @@ final class X400AddressTest extends TestCase
 
     /**
      * @depends encode
-     *
-     * @param string $der
      *
      * @test
      */

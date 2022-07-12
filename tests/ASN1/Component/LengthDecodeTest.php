@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
+use Brick\Math\Exception\IntegerOverflowException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 
@@ -68,8 +68,7 @@ final class LengthDecodeTest extends TestCase
     public function hugeLengthHasNoIntval()
     {
         $der = "\xfe" . str_repeat("\xff", 126);
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Integer overflow');
+        $this->expectException(IntegerOverflowException::class);
         Length::fromDER($der)->intLength();
     }
 

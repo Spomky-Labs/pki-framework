@@ -167,7 +167,7 @@ final class Length implements Encodable
         if ($this->_indefinite) {
             throw new LogicException('Length is indefinite.');
         }
-        return $this->_length->intVal();
+        return $this->_length->toInt();
     }
 
     /**

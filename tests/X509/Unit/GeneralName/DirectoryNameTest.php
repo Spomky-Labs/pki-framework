@@ -42,8 +42,6 @@ final class DirectoryNameTest extends TestCase
     /**
      * @depends encode
      *
-     * @param string $der
-     *
      * @test
      */
     public function choiceTag(string $der)

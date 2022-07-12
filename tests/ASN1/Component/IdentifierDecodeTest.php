@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
+use Brick\Math\Exception\IntegerOverflowException;
 use function chr;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 
@@ -140,8 +140,7 @@ final class IdentifierDecodeTest extends TestCase
     public function hugeIntTagOverflow()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Integer overflow');
+        $this->expectException(IntegerOverflowException::class);
         Identifier::fromDER($der)->intTag();
     }
 

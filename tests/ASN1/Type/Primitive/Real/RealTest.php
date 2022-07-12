@@ -115,7 +115,7 @@ final class RealTest extends TestCase
      */
     public function mantissa(Real $el)
     {
-        static::assertEquals(314, $el->mantissa()->intVal());
+        static::assertEquals(314, $el->mantissa()->toInt());
     }
 
     /**
@@ -125,7 +125,7 @@ final class RealTest extends TestCase
      */
     public function exponent(Real $el)
     {
-        static::assertEquals(-2, $el->exponent()->intVal());
+        static::assertEquals(-2, $el->exponent()->toInt());
     }
 
     /**
@@ -266,7 +266,7 @@ final class RealTest extends TestCase
     public function parseNormalize()
     {
         $real = Real::fromString('100');
-        static::assertEquals(2, $real->exponent()->intVal());
+        static::assertEquals(2, $real->exponent()->toInt());
     }
 
     /**

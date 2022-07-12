@@ -62,7 +62,7 @@ class Integer extends Element
      */
     public function intNumber(): int
     {
-        return $this->_number->intVal();
+        return $this->_number->toInt();
     }
 
     protected function _encodedContentDER(): string

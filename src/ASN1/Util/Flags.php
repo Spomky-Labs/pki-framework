@@ -128,7 +128,7 @@ final class Flags
     public function intNumber(): int
     {
         $num = new BigInt($this->number());
-        return $num->intVal();
+        return $num->toInt();
     }
 
     /**

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 
+use Brick\Math\Exception\IntegerOverflowException;
 use const PHP_INT_MAX;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -21,7 +21,7 @@ final class IntegerTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): Integer
     {
         $el = new Integer(1);
         static::assertInstanceOf(Integer::class, $el);
@@ -114,8 +114,7 @@ final class IntegerTest extends TestCase
     {
         $num = gmp_init(PHP_INT_MAX, 10) + 1;
         $int = new Integer(gmp_strval($num, 10));
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Integer overflow.');
+        $this->expectException(IntegerOverflowException::class);
         $int->intNumber();
     }
 }

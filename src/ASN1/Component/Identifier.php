@@ -160,7 +160,7 @@ final class Identifier implements Encodable
      */
     public function intTag(): int
     {
-        return $this->_tag->intVal();
+        return $this->_tag->toInt();
     }
 
     /**

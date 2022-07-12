@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Util;
 
-use function chr;
+use Brick\Math\BigInteger;
 use GMP;
-use const GMP_BIG_ENDIAN;
-use const GMP_MSW_FIRST;
 use InvalidArgumentException;
 use function mb_strlen;
-use function ord;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
-use RuntimeException;
 use Stringable;
 
 /**
@@ -22,16 +16,16 @@ use Stringable;
 final class BigInt implements Stringable
 {
     /**
-     * Number as a GMP object.
+     * Number as a BigInteger object.
      */
-    private readonly GMP $_gmp;
+    private readonly BigInteger $value;
 
     /**
      * Number as a base 10 integer string.
      *
      * @internal Lazily initialized
      */
-    private ?string $_num = null;
+    private ?string $number = null;
 
     /**
      * Number as an integer type.
@@ -40,22 +34,19 @@ final class BigInt implements Stringable
      */
     private ?int $_intNum = null;
 
-    /**
-     * Constructor.
-     *
-     * @param GMP|int|string $num Integer number in base 10
-     */
-    public function __construct($num)
+    public function __construct(BigInteger|GMP|int|string $num)
     {
-        // convert to GMP object
-        if (! ($num instanceof GMP)) {
-            $gmp = @gmp_init($num, 10);
-            if ($gmp === false) {
-                throw new InvalidArgumentException("Unable to convert '{$num}' to integer.");
+        // convert to BigInteger object
+        if ($num instanceof GMP) {
+            $num = BigInteger::fromBase(gmp_strval($num, 10), 10);
+        } elseif (! $num instanceof BigInteger) {
+            try {
+                $num = BigInteger::of($num);
+            } catch (\Throwable) {
+                throw new InvalidArgumentException('Unable to convert to integer.');
             }
-            $num = $gmp;
         }
-        $this->_gmp = $num;
+        $this->value = $num;
     }
 
     public function __toString(): string
@@ -68,10 +59,10 @@ final class BigInt implements Stringable
      */
     public static function fromUnsignedOctets(string $octets): self
     {
-        if (! mb_strlen($octets, '8bit')) {
+        if (mb_strlen($octets, '8bit') === 0) {
             throw new InvalidArgumentException('Empty octets.');
         }
-        return new self(gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN));
+        return new self(BigInteger::fromBytes($octets, false));
     }
 
     /**
@@ -79,20 +70,11 @@ final class BigInt implements Stringable
      */
     public static function fromSignedOctets(string $octets): self
     {
-        if (! mb_strlen($octets, '8bit')) {
+        if (mb_strlen($octets, '8bit') === 0) {
             throw new InvalidArgumentException('Empty octets.');
         }
-        $neg = ord($octets[0]) & 0x80;
-        // negative, apply inversion of two's complement
-        if ($neg) {
-            $octets = ~$octets;
-        }
-        $num = gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        // negative, apply addition of two's complement and produce negative result
-        if ($neg) {
-            $num = gmp_neg($num + 1);
-        }
-        return new self($num);
+
+        return new self(BigInteger::fromBytes($octets));
     }
 
     /**
@@ -100,25 +82,19 @@ final class BigInt implements Stringable
      */
     public function base10(): string
     {
-        if (! isset($this->_num)) {
-            $this->_num = gmp_strval($this->_gmp, 10);
+        if ($this->number === null) {
+            $this->number = $this->value->toBase(10);
         }
-        return $this->_num;
+        return $this->number;
     }
 
     /**
      * Get the number as an integer.
      */
-    public function intVal(): int
+    public function toInt(): int
     {
         if (! isset($this->_intNum)) {
-            if (gmp_cmp($this->_gmp, $this->_intMaxGmp()) > 0) {
-                throw new RuntimeException('Integer overflow.');
-            }
-            if (gmp_cmp($this->_gmp, $this->_intMinGmp()) < 0) {
-                throw new RuntimeException('Integer underflow.');
-            }
-            $this->_intNum = gmp_intval($this->_gmp);
+            $this->_intNum = $this->value->toInt();
         }
         return $this->_intNum;
     }
@@ -128,7 +104,7 @@ final class BigInt implements Stringable
      */
     public function gmpObj(): GMP
     {
-        return clone $this->_gmp;
+        return gmp_init($this->base10(), 10);
     }
 
     /**
@@ -136,7 +112,7 @@ final class BigInt implements Stringable
      */
     public function unsignedOctets(): string
     {
-        return gmp_export($this->_gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        return $this->value->toBytes(false);
     }
 
     /**
@@ -144,72 +120,6 @@ final class BigInt implements Stringable
      */
     public function signedOctets(): string
     {
-        return match (gmp_sign($this->_gmp)) {
-            1 => $this->_signedPositiveOctets(),
-            -1 => $this->_signedNegativeOctets(),
-            default => chr(0),
-        };
-    }
-
-    /**
-     * Encode positive integer in two's complement binary.
-     */
-    private function _signedPositiveOctets(): string
-    {
-        $bin = gmp_export($this->_gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        // if first bit is 1, prepend full zero byte to represent positive two's complement
-        if (ord($bin[0]) & 0x80) {
-            $bin = chr(0x00) . $bin;
-        }
-        return $bin;
-    }
-
-    /**
-     * Encode negative integer in two's complement binary.
-     */
-    private function _signedNegativeOctets(): string
-    {
-        $num = gmp_abs($this->_gmp);
-        // compute number of bytes required
-        $width = 1;
-        if ($num > 128) {
-            $tmp = $num;
-            do {
-                ++$width;
-                $tmp >>= 8;
-            } while ($tmp > 128);
-        }
-        // compute two's complement 2^n - x
-        $num = gmp_pow('2', 8 * $width) - $num;
-        $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        // if first bit is 0, prepend full inverted byte to represent negative two's complement
-        if (! (ord($bin[0]) & 0x80)) {
-            $bin = chr(0xff) . $bin;
-        }
-        return $bin;
-    }
-
-    /**
-     * Get the maximum integer value.
-     */
-    private function _intMaxGmp(): GMP
-    {
-        static $gmp;
-        if (! isset($gmp)) {
-            $gmp = gmp_init(PHP_INT_MAX, 10);
-        }
-        return $gmp;
-    }
-
-    /**
-     * Get the minimum integer value.
-     */
-    private function _intMinGmp(): GMP
-    {
-        static $gmp;
-        if (! isset($gmp)) {
-            $gmp = gmp_init(PHP_INT_MIN, 10);
-        }
-        return $gmp;
+        return $this->value->toBytes();
     }
 }

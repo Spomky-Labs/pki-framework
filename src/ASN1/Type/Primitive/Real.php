@@ -218,8 +218,8 @@ final class Real extends Element implements Stringable
     public function floatVal(): float
     {
         if (! isset($this->_float)) {
-            $m = $this->_mantissa->intVal();
-            $e = $this->_exponent->intVal();
+            $m = $this->_mantissa->toInt();
+            $e = $this->_exponent->toInt();
             $this->_float = (float) ($m * $this->_base ** $e);
         }
         return $this->_float;
@@ -346,7 +346,7 @@ final class Real extends Element implements Stringable
      */
     protected function _encodeSpecial(): string
     {
-        return match ($this->_mantissa->intVal()) {
+        return match ($this->_mantissa->toInt()) {
             1 => chr(0x40),
             -1 => chr(0x41),
             default => throw new LogicException('Invalid special value.'),
