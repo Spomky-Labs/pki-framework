@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Component;
 
 use function array_key_exists;
-use GMP;
+use Brick\Math\BigInteger;
 use function mb_strlen;
 use function ord;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -65,9 +65,9 @@ final class Identifier implements Encodable
      *
      * @param int             $class Type class
      * @param int             $pc    Primitive / Constructed
-     * @param GMP|int|string $tag   Type tag number
+     * @param BigInteger|int $tag   Type tag number
      */
-    public function __construct(int $class, int $pc, $tag)
+    public function __construct(int $class, int $pc, BigInteger|int $tag)
     {
         $this->_class = 0b11 & $class;
         $this->_pc = 0b1 & $pc;
@@ -226,9 +226,9 @@ final class Identifier implements Encodable
     /**
      * Get self with given type tag.
      *
-     * @param GMP|int|string $tag Tag number
+     * @param int $tag Tag number
      */
-    public function withTag(GMP|int|string $tag): self
+    public function withTag(int $tag): self
     {
         $obj = clone $this;
         $obj->_tag = new BigInt($tag);
@@ -252,19 +252,19 @@ final class Identifier implements Encodable
      * @param string $data   DER data
      * @param int    $offset Reference to the variable containing offset to data
      *
-     * @return GMP Tag number
+     * @return BigInteger Tag number
      */
-    private static function _decodeLongFormTag(string $data, int &$offset): GMP
+    private static function _decodeLongFormTag(string $data, int &$offset): BigInteger
     {
         $datalen = mb_strlen($data, '8bit');
-        $tag = gmp_init(0, 10);
+        $tag = BigInteger::of(0);
         while (true) {
             if ($offset >= $datalen) {
                 throw new DecodeException('Unexpected end of data while decoding long form identifier.');
             }
             $byte = ord($data[$offset++]);
-            $tag <<= 7;
-            $tag |= 0x7f & $byte;
+            $tag = $tag->shiftedLeft(7);
+            $tag = $tag->or(0x7f & $byte);
             // last byte has bit 8 set to zero
             if (! (0x80 & $byte)) {
                 break;

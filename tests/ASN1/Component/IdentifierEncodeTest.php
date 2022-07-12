@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
+use Brick\Math\BigInteger;
 use function chr;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
@@ -78,7 +79,7 @@ final class IdentifierEncodeTest extends TestCase
     public function hugeTag()
     {
         $num = gmp_init(str_repeat('1111111', 100) . '1111111', 2);
-        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, gmp_strval($num, 10));
+        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, BigInteger::of($num));
         static::assertEquals(chr(0b01111111) . str_repeat("\xff", 100) . "\x7f", $identifier->toDER());
     }
 }
