@@ -237,8 +237,6 @@ final class Real extends Element implements Stringable
         // convert to base 10
         if ($this->_base === 2) {
             [$m, $e] = self::_parseString(sprintf('%15E', $this->floatVal()));
-            $m = BigInteger::fromBase(gmp_strval($m), 10);
-            $e = BigInteger::fromBase(gmp_strval($e), 10);
         } else {
             $m = $this->_mantissa->getValue();
             $e = $this->_exponent->getValue();
@@ -532,6 +530,7 @@ final class Real extends Element implements Stringable
         else {
             gmp_setbit($man, 52);
         }
+
         // find the last fraction bit that is set
         $last = gmp_scan1($man, 0);
         $bits_for_fraction = 52 - $last;
@@ -550,7 +549,7 @@ final class Real extends Element implements Stringable
      *
      * @param string $str Number
      *
-     * @return GMP[] Tuple of mantissa and exponent
+     * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parseString(string $str): array
     {
@@ -574,12 +573,12 @@ final class Real extends Element implements Stringable
         else {
             throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
         }
-        // normalize so that mantsissa has no trailing zeroes
-        $zero = gmp_init(0);
-        $ten = gmp_init(10, 10);
-        while (gmp_cmp($m, $zero) !== 0 && gmp_cmp(gmp_mod($m, $ten), $zero) === 0) {
-            $m = gmp_div($m, $ten);
-            $e = gmp_add($e, 1);
+        // normalize so that mantissa has no trailing zeroes
+        $zero = BigInteger::of(0);
+        $ten = BigInteger::of(10);
+        while (! $m->isEqualTo($zero) && $m->mod($ten)->isEqualTo($zero)) {
+            $m = $m->dividedBy($ten);
+            $e = $e->plus(1);
         }
         return [$m, $e];
     }
@@ -589,7 +588,7 @@ final class Real extends Element implements Stringable
      *
      * @param array $match Regexp match
      *
-     * @return GMP[] Tuple of mantissa and exponent
+     * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parsePHPExponentMatch(array $match): array
     {
@@ -601,14 +600,14 @@ final class Real extends Element implements Stringable
         // exponent sign
         $es = $match['es'] === '-' ? -1 : 1;
         // signed exponent
-        $e = gmp_init($match['e'], 10) * $es;
+        $e = BigInteger::of($match['e'])->multipliedBy($es);
         // if mantissa had fractional part
         if (count($m_parts) === 2) {
             $frac = rtrim($m_parts[1], '0');
-            $e -= mb_strlen($frac, '8bit');
+            $e = $e->minus(mb_strlen($frac, '8bit'));
             $int .= $frac;
         }
-        $m = gmp_init($int, 10) * $ms;
+        $m = BigInteger::of($int)->multipliedBy($ms);
         return [$m, $e];
     }
 
@@ -617,7 +616,7 @@ final class Real extends Element implements Stringable
      *
      * @param array $match Regexp match
      *
-     * @return GMP[] Tuple of mantissa and exponent
+     * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parseNR3Match(array $match): array
     {
@@ -630,15 +629,15 @@ final class Real extends Element implements Stringable
         // exponent sign
         $es = $match['es'] === '-' ? -1 : 1;
         // signed exponent
-        $e = gmp_init($match['e'], 10) * $es;
+        $e = BigInteger::of($match['e'])->multipliedBy($es);
         // shift exponent by the number of base 10 fractions
-        $e -= mb_strlen($frac, '8bit');
+        $e = $e->minus(mb_strlen($frac, '8bit'));
         // insert fractions to integer part and produce signed mantissa
         $int .= $frac;
         if ($int === '') {
             $int = '0';
         }
-        $m = gmp_init($int, 10) * $ms;
+        $m = BigInteger::of($int)->multipliedBy($ms);
         return [$m, $e];
     }
 
@@ -647,7 +646,7 @@ final class Real extends Element implements Stringable
      *
      * @param array $match Regexp match
      *
-     * @return GMP[] Tuple of mantissa and exponent
+     * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parseNR2Match(array $match): array
     {
@@ -657,14 +656,14 @@ final class Real extends Element implements Stringable
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // shift exponent by the number of base 10 fractions
-        $e = gmp_init(0, 10);
-        $e -= mb_strlen($frac, '8bit');
+        $e = BigInteger::of(0);
+        $e = $e->minus(mb_strlen($frac, '8bit'));
         // insert fractions to integer part and produce signed mantissa
         $int .= $frac;
         if ($int === '') {
             $int = '0';
         }
-        $m = gmp_init($int, 10) * $sign;
+        $m = BigInteger::of($int)->multipliedBy($sign);
         return [$m, $e];
     }
 
@@ -673,7 +672,7 @@ final class Real extends Element implements Stringable
      *
      * @param array $match Regexp match
      *
-     * @return GMP[] Tuple of mantissa and exponent
+     * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parseNR1Match(array $match): array
     {
@@ -682,7 +681,7 @@ final class Real extends Element implements Stringable
         if ($int === '') {
             $int = '0';
         }
-        $m = gmp_init($int, 10) * $sign;
-        return [$m, gmp_init(0, 10)];
+        $m = BigInteger::of($int)->multipliedBy($sign);
+        return [$m, BigInteger::of(0)];
     }
 }
