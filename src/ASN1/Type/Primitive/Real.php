@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
+use Brick\Math\BigInteger;
 use function chr;
 use function count;
 use GMP;
@@ -129,11 +130,15 @@ final class Real extends Element implements Stringable
     /**
      * Constructor.
      *
-     * @param GMP|int|string $mantissa Integer mantissa
-     * @param GMP|int|string $exponent Integer exponent
+     * @param BigInteger|GMP|int|string $mantissa Integer mantissa
+     * @param BigInteger|GMP|int|string $exponent Integer exponent
      * @param int             $base     Base, 2 or 10
      */
-    public function __construct($mantissa, $exponent, int $base = 10)
+    public function __construct(
+        BigInteger|GMP|int|string $mantissa,
+        BigInteger|GMP|int|string $exponent,
+        int $base = 10
+    )
     {
         if ($base !== 10 && $base !== 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
@@ -264,7 +269,7 @@ final class Real extends Element implements Stringable
         }
         // if the real value is the value zero, there shall be no contents
         // octets in the encoding. (X.690 07-2002, section 8.5.2)
-        if ($this->_mantissa->gmpObj() === 0) {
+        if ($this->_mantissa->getValue()->toBase(10) === '0') {
             return '';
         }
         if ($this->_base === 10) {
@@ -278,8 +283,10 @@ final class Real extends Element implements Stringable
      */
     protected function _encodeBinary(): string
     {
+        /** @var BigInteger $m */
+        /** @var BigInteger $e */
         [$base, $sign, $m, $e] = $this->_prepareBinaryEncoding();
-        $zero = gmp_init(0, 10);
+        $zero = BigInteger::of(0);
         $byte = 0x80;
         if ($sign < 0) {
             $byte |= 0x40;
@@ -287,29 +294,29 @@ final class Real extends Element implements Stringable
         // normalization: mantissa must be 0 or odd
         if ($base === 2) {
             // while last bit is zero
-            while ($m > 0 && gmp_cmp($m & 0x01, $zero) === 0) {
-                $m >>= 1;
-                ++$e;
+            while ($m->isGreaterThan(0) && $m->and(0x01)->isEqualTo($zero)) {
+                $m = $m->shiftedRight(1);
+                $e = $e->plus(1);
             }
         } elseif ($base === 8) {
             $byte |= 0x10;
             // while last 3 bits are zero
-            while ($m > 0 && gmp_cmp($m & 0x07, $zero) === 0) {
-                $m >>= 3;
-                ++$e;
+            while ($m->isGreaterThan(0) && $m->and(0x07)->isEqualTo($zero)) {
+                $m = $m->shiftedRight(3);
+                $e = $e->plus(1);
             }
         } else { // base === 16
             $byte |= 0x20;
             // while last 4 bits are zero
-            while ($m > 0 && gmp_cmp($m & 0x0f, $zero) === 0) {
-                $m >>= 4;
-                ++$e;
+            while ($m->isGreaterThan(0) && $m->and(0x0f)->isEqualTo($zero)) {
+                $m = $m->shiftedRight(4);
+                $e = $e->plus(1);
             }
         }
         // scale factor
         $scale = 0;
-        while ($m > 0 && gmp_cmp($m & 0x01, $zero) === 0) {
-            $m >>= 1;
+        while ($m->isGreaterThan(0) && $m->and(0x01)->isEqualTo($zero)) {
+            $m = $m->shiftedRight(1);
             ++$scale;
         }
         $byte |= ($scale & 0x03) << 2;
@@ -407,21 +414,21 @@ final class Real extends Element implements Stringable
         }
         // decode exponent
         $octets = mb_substr($data, $idx, $len, '8bit');
-        $exp = BigInt::fromSignedOctets($octets)->gmpObj();
+        $exp = BigInt::fromSignedOctets($octets)->getValue();
         if ($base === 8) {
-            $exp *= 3;
+            $exp = $exp->multipliedBy(3);
         } elseif ($base === 16) {
-            $exp *= 4;
+            $exp = $exp->multipliedBy(4);
         }
         if (mb_strlen($data, '8bit') <= $idx + $len) {
             throw new DecodeException('Unexpected end of data while decoding REAL mantissa.');
         }
         // decode mantissa
         $octets = mb_substr($data, $idx + $len, null, '8bit');
-        $n = BigInt::fromUnsignedOctets($octets)->gmpObj();
-        $n *= 2 ** $scale;
+        $n = BigInt::fromUnsignedOctets($octets)->getValue();
+        $n = $n->multipliedBy(2 ** $scale);
         if ($neg) {
-            $n = gmp_neg($n);
+            $n = $n->negated();
         }
         return new self($n, $exp, 2);
     }
@@ -460,31 +467,31 @@ final class Real extends Element implements Stringable
     /**
      * Prepare value for binary encoding.
      *
-     * @return array (int) base, (int) sign, (\GMP) mantissa and (\GMP) exponent
+     * @return array (int) base, (int) sign, (BigInteger) mantissa and (BigInteger) exponent
      */
     protected function _prepareBinaryEncoding(): array
     {
         $base = 2;
-        $m = $this->_mantissa->gmpObj();
-        $ms = gmp_sign($m);
-        $m = gmp_abs($m);
-        $e = $this->_exponent->gmpObj();
-        $es = gmp_sign($e);
-        $e = gmp_abs($e);
-        $zero = gmp_init(0);
-        $three = gmp_init(3, 10);
-        $four = gmp_init(4, 10);
+        $m = $this->_mantissa->getValue();
+        $ms = $m->getSign();
+        $m = BigInteger::of($m->abs());
+        $e = $this->_exponent->getValue();
+        $es = $e->getSign();
+        $e = BigInteger::of($e->abs());
+        $zero = BigInteger::of(0);
+        $three = BigInteger::of(3);
+        $four = BigInteger::of(4);
         // DER uses only base 2 binary encoding
         if (! $this->_strictDer) {
-            if (gmp_cmp(gmp_mod($e, $four), $zero) === 0) {
+            if ($e->mod($four)->isEqualTo($zero)) {
                 $base = 16;
-                $e = gmp_div_q($e, 4);
-            } elseif (gmp_cmp(gmp_mod($e, $three), $zero) === 0) {
+                $e = $e->dividedBy(4);
+            } elseif ($e->mod($three)->isEqualTo($zero)) {
                 $base = 8;
-                $e = gmp_div_q($e, 3);
+                $e = $e->dividedBy(3);
             }
         }
-        return [$base, $ms, $m, $e * $es];
+        return [$base, $ms, $m, $e->multipliedBy($es)];
     }
 
     /**

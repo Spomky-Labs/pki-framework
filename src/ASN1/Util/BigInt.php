@@ -107,6 +107,11 @@ final class BigInt implements Stringable
         return gmp_init($this->base10(), 10);
     }
 
+    public function getValue(): BigInteger
+    {
+        return $this->value;
+    }
+
     /**
      * Get the number as an unsigned integer encoded in binary.
      */

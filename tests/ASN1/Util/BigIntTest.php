@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Util;
 
+use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
-use GMP;
 use InvalidArgumentException;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
@@ -71,7 +71,7 @@ final class BigIntTest extends TestCase
     public function gmpObj()
     {
         $int = new BigInt(1);
-        static::assertInstanceOf(GMP::class, $int->gmpObj());
+        static::assertInstanceOf(BigInteger::class, $int->getValue());
     }
 
     /**
