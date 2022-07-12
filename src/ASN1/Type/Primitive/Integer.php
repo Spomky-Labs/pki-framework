@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use Brick\Math\BigInteger;
 use function gettype;
-use GMP;
 use InvalidArgumentException;
 use function is_int;
 use function is_scalar;
@@ -36,9 +35,9 @@ class Integer extends Element
     /**
      * Constructor.
      *
-     * @param BigInteger|GMP|int|string $number Base 10 integer
+     * @param BigInteger|int|string $number Base 10 integer
      */
-    public function __construct(BigInteger|GMP|int|string $number)
+    public function __construct(BigInteger|int|string $number)
     {
         $this->_typeTag = self::TYPE_INTEGER;
         if (! self::_validateNumber($number)) {
@@ -92,9 +91,6 @@ class Integer extends Element
             return true;
         }
         if (is_string($num) && preg_match('/-?\d+/', $num)) {
-            return true;
-        }
-        if ($num instanceof GMP) {
             return true;
         }
         if ($num instanceof BigInteger) {

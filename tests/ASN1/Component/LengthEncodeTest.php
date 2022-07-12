@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
+use Brick\Math\BigInteger;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Length;
@@ -63,8 +64,8 @@ final class LengthEncodeTest extends TestCase
      */
     public function hugeLength()
     {
-        $largenum = gmp_init(str_repeat('ff', 126), 16);
-        $length = new Length(gmp_strval($largenum, 10));
+        $largenum = BigInteger::fromBase(str_repeat('ff', 126), 16);
+        $length = new Length($largenum);
         $expected = "\xfe" . str_repeat("\xff", 126);
         static::assertEquals($expected, $length->toDER());
     }
@@ -74,8 +75,8 @@ final class LengthEncodeTest extends TestCase
      */
     public function tooLong()
     {
-        $largenum = gmp_init(str_repeat('ff', 127), 16);
-        $length = new Length(gmp_strval($largenum, 10));
+        $largenum = BigInteger::fromBase(str_repeat('ff', 127), 16);
+        $length = new Length($largenum);
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Too many length octets');
         $length->toDER();
@@ -86,8 +87,8 @@ final class LengthEncodeTest extends TestCase
      */
     public function tooLong2()
     {
-        $largenum = gmp_init(str_repeat('ff', 128), 16);
-        $length = new Length(gmp_strval($largenum, 10));
+        $largenum = BigInteger::fromBase(str_repeat('ff', 128), 16);
+        $length = new Length($largenum);
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Too many length octets');
         $length->toDER();

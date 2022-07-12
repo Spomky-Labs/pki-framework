@@ -7,7 +7,6 @@ namespace SpomkyLabs\Pki\ASN1\Component;
 use Brick\Math\BigInteger;
 use function count;
 use DomainException;
-use GMP;
 use LogicException;
 use function mb_strlen;
 use function ord;
@@ -28,11 +27,11 @@ final class Length implements Encodable
     /**
      * Constructor.
      *
-     * @param GMP|int|string $length     Length
+     * @param BigInteger|int $length     Length
      * @param bool $_indefinite Whether length is indefinite
      */
     public function __construct(
-        $length,
+        BigInteger|int $length,
         private readonly bool $_indefinite = false
     ) {
         $this->_length = new BigInt($length);
@@ -186,18 +185,19 @@ final class Length implements Encodable
      * @param string $data   Data
      * @param int    $offset reference to the variable containing offset to the data
      */
-    private static function _decodeLongFormLength(int $length, string $data, int &$offset): GMP
+    private static function _decodeLongFormLength(int $length, string $data, int &$offset): BigInteger
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if ($length === 127) {
             throw new DecodeException('Invalid number of length octets.');
         }
-        $num = gmp_init(0, 10);
+        $num = BigInteger::of(0);
         while (--$length >= 0) {
             $byte = ord($data[$offset++]);
-            $num <<= 8;
-            $num |= $byte;
+            $num = $num->shiftedLeft(8)
+                ->or($byte);
         }
+
         return $num;
     }
 }

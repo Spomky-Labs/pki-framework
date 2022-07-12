@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC;
 
-use function assert;
-use GMP;
+use Brick\Math\BigInteger;
 use const GMP_BIG_ENDIAN;
 use const GMP_MSW_FIRST;
 use function mb_strlen;
@@ -81,9 +80,9 @@ final class ECConversion
      */
     public static function octetStringToInteger(OctetString $os): Integer
     {
-        $num = gmp_import($os->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        assert($num instanceof GMP, new RuntimeException('gmp_import() failed.'));
-        return new Integer(gmp_strval($num, 10));
+        $num = BigInteger::fromBytes($os->string(), false);
+
+        return new Integer($num);
     }
 
     /**
