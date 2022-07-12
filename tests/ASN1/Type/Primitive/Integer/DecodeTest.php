@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 
+use Brick\Math\BigInteger;
 use function chr;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -229,8 +230,8 @@ final class DecodeTest extends TestCase
     public function hugePositive()
     {
         $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xfffe);
-        $num = gmp_init('7f' . str_repeat('ff', 0xfffe), 16);
-        static::assertEquals(gmp_strval($num), Integer::fromDER($der)->number());
+        $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xfffe), 16);
+        static::assertEquals($num->toBase(10), Integer::fromDER($der)->number());
     }
 
     /**
@@ -239,7 +240,7 @@ final class DecodeTest extends TestCase
     public function hugeNegative()
     {
         $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xfffe);
-        $num = 0 - gmp_init('80' . str_repeat('00', 0xfffe), 16);
-        static::assertEquals(gmp_strval($num), Integer::fromDER($der)->number());
+        $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xfffe), 16));
+        static::assertEquals($num->toBase(10), Integer::fromDER($der)->number());
     }
 }

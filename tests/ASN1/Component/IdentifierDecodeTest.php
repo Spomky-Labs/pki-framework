@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
+use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use function chr;
 use PHPUnit\Framework\TestCase;
@@ -130,8 +131,8 @@ final class IdentifierDecodeTest extends TestCase
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $identifier = Identifier::fromDER($der);
-        $num = gmp_init(str_repeat('1111111', 100) . '1111111', 2);
-        static::assertEquals(gmp_strval($num, 10), $identifier->tag());
+        $num = BigInteger::fromBase(str_repeat('1111111', 100) . '1111111', 2);
+        static::assertEquals($num->toBase(10), $identifier->tag());
     }
 
     /**

@@ -78,8 +78,8 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function hugeTag()
     {
-        $num = gmp_init(str_repeat('1111111', 100) . '1111111', 2);
-        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, BigInteger::of($num));
+        $num = BigInteger::fromBase(str_repeat('1111111', 100) . '1111111', 2);
+        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, $num);
         static::assertEquals(chr(0b01111111) . str_repeat("\xff", 100) . "\x7f", $identifier->toDER());
     }
 }

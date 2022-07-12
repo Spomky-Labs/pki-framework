@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
+use Brick\Math\BigInteger;
 use LogicException;
 use function mb_strlen;
 use PHPUnit\Framework\TestCase;
@@ -277,7 +278,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function withRandomSerial(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withRandomSerialNumber(16);
-        $bin = gmp_export(gmp_init($aci->serialNumber(), 10), 1);
+        $bin = BigInteger::of($aci->serialNumber())->toBytes();
         static::assertEquals(16, mb_strlen($bin, '8bit'));
     }
 

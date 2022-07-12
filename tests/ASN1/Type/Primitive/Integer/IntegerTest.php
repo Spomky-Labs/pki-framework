@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 
+use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use const PHP_INT_MAX;
 use PHPUnit\Framework\TestCase;
@@ -112,8 +113,8 @@ final class IntegerTest extends TestCase
      */
     public function intNumberOverflow()
     {
-        $num = gmp_init(PHP_INT_MAX, 10) + 1;
-        $int = new Integer(gmp_strval($num, 10));
+        $num = BigInteger::of(PHP_INT_MAX)->plus(1);
+        $int = new Integer($num);
         $this->expectException(IntegerOverflowException::class);
         $int->intNumber();
     }

@@ -23,7 +23,7 @@ final class BigIntTest extends TestCase
      */
     public function maxInt()
     {
-        $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10)));
+        $int = new BigInt(BigInteger::of(PHP_INT_MAX));
         static::assertEquals(PHP_INT_MAX, $int->toInt());
     }
 
@@ -32,7 +32,7 @@ final class BigIntTest extends TestCase
      */
     public function minInt()
     {
-        $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10)));
+        $int = new BigInt(BigInteger::of(PHP_INT_MIN));
         static::assertEquals(PHP_INT_MIN, $int->toInt());
     }
 
@@ -41,7 +41,7 @@ final class BigIntTest extends TestCase
      */
     public function overflow()
     {
-        $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10) + 1));
+        $int = new BigInt(BigInteger::of(PHP_INT_MAX)->plus(1));
         $this->expectException(IntegerOverflowException::class);
         $int->toInt();
     }
@@ -51,7 +51,7 @@ final class BigIntTest extends TestCase
      */
     public function underflow()
     {
-        $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10) - 1));
+        $int = new BigInt(BigInteger::of(PHP_INT_MIN)->minus(1));
         $this->expectException(IntegerOverflowException::class);
         $int->toInt();
     }
@@ -68,33 +68,19 @@ final class BigIntTest extends TestCase
     /**
      * @test
      */
-    public function gmpObj()
+    public function getBigIntegerObject()
     {
         $int = new BigInt(1);
         static::assertInstanceOf(BigInteger::class, $int->getValue());
     }
 
     /**
-     * @requires PHP < 8.0
-     *
      * @test
      */
-    public function invalidNumberPrePHP8()
+    public function invalidNumber()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to convert');
-        new BigInt('fail');
-    }
-
-    /**
-     * @requires PHP >= 8.0
-     *
-     * @test
-     */
-    public function invalidNumberPHP8()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unable to convert to integer.');
         new BigInt('fail');
     }
 

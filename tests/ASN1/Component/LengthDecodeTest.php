@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
+use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -132,8 +133,8 @@ final class LengthDecodeTest extends TestCase
     {
         $der = "\xfe" . str_repeat("\xff", 126);
         $length = Length::fromDER($der);
-        $num = gmp_init(str_repeat('ff', 126), 16);
-        static::assertEquals($length->length(), gmp_strval($num));
+        $num = BigInteger::fromBase(str_repeat('ff', 126), 16);
+        static::assertEquals($length->length(), $num->toBase(10));
     }
 
     /**

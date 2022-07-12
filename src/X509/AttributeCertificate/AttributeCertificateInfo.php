@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\AttributeCertificate;
 
+use Brick\Math\BigInteger;
 use function count;
 use LogicException;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -155,15 +156,15 @@ final class AttributeCertificateInfo
      *
      * @param int $size Number of random bytes
      */
-    public function withRandomSerialNumber(int $size = 16): self
+    public function withRandomSerialNumber(int $size): self
     {
         // ensure that first byte is always non-zero and having first bit unset
-        $num = gmp_init(random_int(1, 0x7f), 10);
+        $num = BigInteger::of(random_int(1, 0x7f));
         for ($i = 1; $i < $size; ++$i) {
-            $num <<= 8;
-            $num += random_int(0, 0xff);
+            $num = $num->shiftedLeft(8);
+            $num = $num->plus(random_int(0, 0xff));
         }
-        return $this->withSerialNumber(gmp_strval($num, 10));
+        return $this->withSerialNumber($num->toBase(10));
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
+use Brick\Math\BigInteger;
 use function chr;
 use function mb_strlen;
 use function ord;
@@ -97,18 +98,18 @@ final class BitString extends BaseString
         if ($start + $length > $this->numBits()) {
             throw new OutOfBoundsException('Not enough bits.');
         }
-        $bits = gmp_init(0);
+        $bits = BigInteger::of(0);
         $idx = $start;
         $end = $start + $length;
         while (true) {
             $bit = $this->testBit($idx) ? 1 : 0;
-            $bits |= $bit;
+            $bits = $bits->or($bit);
             if (++$idx >= $end) {
                 break;
             }
-            $bits <<= 1;
+            $bits = $bits->shiftedLeft(1);
         }
-        return gmp_strval($bits, 10);
+        return $bits->toBase(10);
     }
 
     /**

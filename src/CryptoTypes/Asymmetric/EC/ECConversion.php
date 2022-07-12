@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC;
 
 use Brick\Math\BigInteger;
-use const GMP_BIG_ENDIAN;
-use const GMP_MSW_FIRST;
 use function mb_strlen;
 use RangeException;
 use RuntimeException;
@@ -56,8 +54,8 @@ final class ECConversion
      */
     public static function integerToOctetString(Integer $num, ?int $mlen = null): OctetString
     {
-        $gmp = gmp_init($num->number(), 10);
-        $str = gmp_export($gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        $gmp = BigInteger::of($num->getValue());
+        $str = $gmp->toBytes(false);
         if ($mlen !== null) {
             $len = mb_strlen($str, '8bit');
             if ($len > $mlen) {

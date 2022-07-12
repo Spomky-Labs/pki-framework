@@ -57,6 +57,11 @@ class Integer extends Element
         return $this->_number->base10();
     }
 
+    public function getValue(): BigInteger
+    {
+        return $this->_number->getValue();
+    }
+
     /**
      * Get the number as an integer type.
      */

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Real;
 
+use Brick\Math\BigInteger;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use RangeException;
@@ -19,7 +20,7 @@ final class EncodeTest extends TestCase
      */
     public function longExponent()
     {
-        $real = new Real(1, gmp_init('0x40000000'), 2);
+        $real = new Real(1, BigInteger::fromBase('40000000', 16), 2);
         static::assertEquals(hex2bin('090783044000000001'), $real->toDER());
     }
 
@@ -79,7 +80,7 @@ final class EncodeTest extends TestCase
      */
     public function veryLongExponent()
     {
-        $real = new Real(1, gmp_init('0x40' . str_repeat('00', 254)), 2);
+        $real = new Real(1, BigInteger::fromBase('40' . str_repeat('00', 254), 16), 2);
         $expected = hex2bin('0982010283ff40' . str_repeat('00', 254) . '01');
         static::assertEquals($expected, $real->toDER());
     }
@@ -89,7 +90,7 @@ final class EncodeTest extends TestCase
      */
     public function tooLongExponent()
     {
-        $real = new Real(1, gmp_init('0x40' . str_repeat('00', 255)), 2);
+        $real = new Real(1, BigInteger::fromBase('40' . str_repeat('00', 255), 16), 2);
         $this->expectException(RangeException::class);
         $this->expectExceptionMessage('Exponent encoding is too long');
         $real->toDER();
