@@ -138,8 +138,7 @@ final class Real extends Element implements Stringable
         BigInteger|GMP|int|string $mantissa,
         BigInteger|GMP|int|string $exponent,
         int $base = 10
-    )
-    {
+    ) {
         if ($base !== 10 && $base !== 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
@@ -238,33 +237,35 @@ final class Real extends Element implements Stringable
         // convert to base 10
         if ($this->_base === 2) {
             [$m, $e] = self::_parseString(sprintf('%15E', $this->floatVal()));
+            $m = BigInteger::fromBase(gmp_strval($m), 10);
+            $e = BigInteger::fromBase(gmp_strval($e), 10);
         } else {
-            $m = $this->_mantissa->gmpObj();
-            $e = $this->_exponent->gmpObj();
+            $m = $this->_mantissa->getValue();
+            $e = $this->_exponent->getValue();
         }
-        $zero = gmp_init(0);
-        $ten = gmp_init(10, 10);
+        $zero = BigInteger::of(0);
+        $ten = BigInteger::of(10);
 
         // shift trailing zeroes from the mantissa to the exponent
         // (X.690 07-2002, section 11.3.2.4)
-        while (gmp_cmp($m, $zero) !== 0 && gmp_cmp(gmp_mod($m, $ten), $zero) === 0) {
-            $m = gmp_div($m, $ten);
-            ++$e;
+        while (! $m->isEqualTo($zero) && $m->mod($ten)->isEqualTo($zero)) {
+            $m = $m->dividedBy($ten);
+            $e = $e->plus(1);
         }
         // if exponent is zero, it must be prefixed with a "+" sign
         // (X.690 07-2002, section 11.3.2.6)
-        if (gmp_cmp($e, 0) === 0) {
+        if ($e->isEqualTo(0)) {
             $es = '+';
         } else {
-            $es = $e < 0 ? '-' : '';
+            $es = $e->isLessThan(0) ? '-' : '';
         }
-        return sprintf('%s.E%s%s', gmp_strval($m), $es, gmp_strval(gmp_abs($e)));
+        return sprintf('%s.E%s%s', $m->toBase(10), $es, $e->abs()->toBase(10));
     }
 
     protected function _encodedContentDER(): string
     {
-        $infExponent = gmp_init(self::INF_EXPONENT, 10);
-        if (gmp_cmp($this->_exponent->gmpObj(), $infExponent) === 0) {
+        $infExponent = BigInteger::of(self::INF_EXPONENT);
+        if ($this->_exponent->getValue()->isEqualTo($infExponent)) {
             return $this->_encodeSpecial();
         }
         // if the real value is the value zero, there shall be no contents

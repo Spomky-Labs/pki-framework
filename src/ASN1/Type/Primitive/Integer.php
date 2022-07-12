@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
+use Brick\Math\BigInteger;
 use function gettype;
 use GMP;
 use InvalidArgumentException;
@@ -35,9 +36,9 @@ class Integer extends Element
     /**
      * Constructor.
      *
-     * @param GMP|int|string $number Base 10 integer
+     * @param BigInteger|GMP|int|string $number Base 10 integer
      */
-    public function __construct($number)
+    public function __construct(BigInteger|GMP|int|string $number)
     {
         $this->_typeTag = self::TYPE_INTEGER;
         if (! self::_validateNumber($number)) {
@@ -76,7 +77,7 @@ class Integer extends Element
         $length = Length::expectFromDER($data, $idx)->intLength();
         $bytes = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
-        $num = BigInt::fromSignedOctets($bytes)->gmpObj();
+        $num = BigInt::fromSignedOctets($bytes)->getValue();
         $offset = $idx;
         // late static binding since enumerated extends integer type
         return new static($num);
@@ -94,6 +95,9 @@ class Integer extends Element
             return true;
         }
         if ($num instanceof GMP) {
+            return true;
+        }
+        if ($num instanceof BigInteger) {
             return true;
         }
         return false;

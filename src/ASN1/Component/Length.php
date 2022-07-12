@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Component;
 
+use Brick\Math\BigInteger;
 use function count;
 use DomainException;
 use GMP;
@@ -121,12 +122,12 @@ final class Length implements Encodable
         if ($this->_indefinite) {
             $bytes[] = 0x80;
         } else {
-            $num = $this->_length->gmpObj();
+            $num = $this->_length->getValue();
             // long form
-            if ($num > 127) {
+            if ($num->isGreaterThan(127)) {
                 $octets = [];
-                for (; $num > 0; $num >>= 8) {
-                    $octets[] = gmp_intval(0xff & $num);
+                for (; $num->isGreaterThan(0); $num = $num->shiftedRight(8)) {
+                    $octets[] = BigInteger::of(0xff)->and($num)->toInt();
                 }
                 $count = count($octets);
                 // first octet must not be 0xff
@@ -140,7 +141,7 @@ final class Length implements Encodable
             }
             // short form
             else {
-                $bytes[] = gmp_intval($num);
+                $bytes[] = $num->toInt();
             }
         }
         return pack('C*', ...$bytes);
