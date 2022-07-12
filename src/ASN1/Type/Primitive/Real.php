@@ -7,9 +7,6 @@ namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 use Brick\Math\BigInteger;
 use function chr;
 use function count;
-use GMP;
-use const GMP_BIG_ENDIAN;
-use const GMP_MSW_FIRST;
 use function in_array;
 use const INF;
 use LogicException;
@@ -130,15 +127,12 @@ final class Real extends Element implements Stringable
     /**
      * Constructor.
      *
-     * @param BigInteger|GMP|int|string $mantissa Integer mantissa
-     * @param BigInteger|GMP|int|string $exponent Integer exponent
+     * @param BigInteger|int|string $mantissa Integer mantissa
+     * @param BigInteger|int|string $exponent Integer exponent
      * @param int             $base     Base, 2 or 10
      */
-    public function __construct(
-        BigInteger|GMP|int|string $mantissa,
-        BigInteger|GMP|int|string $exponent,
-        int $base = 10
-    ) {
+    public function __construct(BigInteger|int|string $mantissa, BigInteger|int|string $exponent, int $base = 10)
+    {
         if ($base !== 10 && $base !== 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
@@ -506,40 +500,49 @@ final class Real extends Element implements Stringable
      *
      * @param string $octets 64 bits
      *
-     * @return GMP[] Tuple of mantissa and exponent
+     * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parse754Double(string $octets): array
     {
-        $n = gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        $n = BigInteger::fromBytes($octets, false);
         // sign bit
-        $neg = gmp_testbit($n, 63);
+        $neg = $n->testBit(63);
         // 11 bits of biased exponent
-        $exp = (gmp_and($n, '0x7ff0000000000000') >> 52) + self::EXP_BIAS;
+        $exponentMask = BigInteger::fromBase('7ff0000000000000', 16);
+        $exp = $n->and($exponentMask)
+            ->shiftedRight(52)
+            ->plus(self::EXP_BIAS);
+
         // 52 bits of mantissa
-        $man = gmp_and($n, '0xfffffffffffff');
+        $mantissaMask = BigInteger::fromBase('fffffffffffff', 16);
+        $man = $n->and($mantissaMask);
         // zero, ASN.1 doesn't differentiate -0 from +0
-        $zero = gmp_init(0);
-        if ($exp === self::EXP_BIAS && gmp_cmp($man, $zero) === 0) {
-            return [gmp_init(0, 10), gmp_init(0, 10)];
+        $zero = BigInteger::of(0);
+        if ($exp->isEqualTo(self::EXP_BIAS) && $man->isEqualTo($zero)) {
+            return [BigInteger::of(0), BigInteger::of(0)];
         }
         // denormalized value, shift binary point
-        if ($exp === self::EXP_BIAS) {
-            ++$exp;
+        if ($exp->isEqualTo(self::EXP_BIAS)) {
+            $exp = $exp->plus(1);
         }
         // normalized value, insert implicit leading one before the binary point
         else {
-            gmp_setbit($man, 52);
+            $man = $man->or(BigInteger::of(1)->shiftedLeft(52));
         }
 
         // find the last fraction bit that is set
-        $last = gmp_scan1($man, 0);
+        $last = 0;
+        while (! $man->testBit($last) && $last !== 52) {
+            $last++;
+        }
+
         $bits_for_fraction = 52 - $last;
         // adjust mantissa and exponent so that we have integer values
-        $man >>= $last;
-        $exp -= $bits_for_fraction;
+        $man = $man->shiftedRight($last);
+        $exp = $exp->minus($bits_for_fraction);
         // negate mantissa if number was negative
         if ($neg) {
-            $man = gmp_neg($man);
+            $man = $man->negated();
         }
         return [$man, $exp];
     }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Util;
 
 use Brick\Math\BigInteger;
-use GMP;
 use InvalidArgumentException;
 use function mb_strlen;
 use Stringable;
@@ -35,12 +34,10 @@ final class BigInt implements Stringable
      */
     private ?int $_intNum = null;
 
-    public function __construct(BigInteger|GMP|int|string $num)
+    public function __construct(BigInteger|int|string $num)
     {
         // convert to BigInteger object
-        if ($num instanceof GMP) {
-            $num = BigInteger::fromBase(gmp_strval($num), 10);
-        } elseif (! $num instanceof BigInteger) {
+        if (! $num instanceof BigInteger) {
             try {
                 $num = BigInteger::of($num);
             } catch (Throwable) {

@@ -24,32 +24,29 @@ final class Flags
     private ?string $_flags = null;
 
     /**
+    * Constructor.
+    *
+    * @param int|string $flags Flags
+     * @param int $_width The number of flags. If width is larger than
+    number of bits in $flags, zeroes are prepended
+    to flag field.
+    */
+    public function __construct(BigInteger|int|string $flags, /**
      * Number of flags.
      */
-    private readonly int $_width;
-
-    /**
-     * Constructor.
-     *
-     * @param int|string $flags Flags
-     * @param int        $width The number of flags. If width is larger than
-     * number of bits in $flags, zeroes are prepended
-     * to flag field.
-     */
-    public function __construct(BigInteger|int|string $flags, int $width)
+    private readonly int $_width)
     {
-        $this->_width = $width;
-        if ($width === 0) {
+        if ($_width === 0) {
             $this->_flags = '';
             return;
         }
 
         // calculate number of unused bits in last octet
-        $last_octet_bits = $width % 8;
+        $last_octet_bits = $_width % 8;
         $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
         // mask bits outside bitfield width
         $num = BigInteger::of($flags);
-        $mask = BigInteger::of(1)->shiftedLeft($width)->minus(1);
+        $mask = BigInteger::of(1)->shiftedLeft($_width)->minus(1);
         $num = $num->and($mask);
 
         // shift towards MSB if needed
@@ -59,7 +56,7 @@ final class Flags
         assert(is_array($octets), new RuntimeException('unpack() failed'));
         $bits = count($octets) * 8;
         // pad with zeroes
-        while ($bits < $width) {
+        while ($bits < $_width) {
             array_unshift($octets, 0);
             $bits += 8;
         }
