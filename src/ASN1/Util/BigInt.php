@@ -99,14 +99,6 @@ final class BigInt implements Stringable
         return $this->_intNum;
     }
 
-    /**
-     * Get the number as a `GMP` object.
-     */
-    public function gmpObj(): GMP
-    {
-        return gmp_init($this->base10(), 10);
-    }
-
     public function getValue(): BigInteger
     {
         return $this->value;

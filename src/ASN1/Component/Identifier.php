@@ -112,16 +112,16 @@ final class Identifier implements Encodable
     {
         $bytes = [];
         $byte = $this->_class << 6 | $this->_pc << 5;
-        $tag = $this->_tag->gmpObj();
-        if ($tag < 0x1f) {
-            $bytes[] = $byte | $tag;
+        $tag = $this->_tag->getValue();
+        if ($tag->isLessThan(0x1f)) {
+            $bytes[] = $byte | $tag->toInt();
         }
         // long-form identifier
         else {
             $bytes[] = $byte | 0x1f;
             $octets = [];
-            for (; $tag > 0; $tag >>= 7) {
-                array_push($octets, gmp_intval(0x80 | ($tag & 0x7f)));
+            for (; $tag->isGreaterThan(0); $tag = $tag->shiftedRight(7)) {
+                $octets[] = 0x80 | $tag->and(0x7f)->toInt();
             }
             // last octet has bit 8 set to zero
             $octets[0] &= 0x7f;
