@@ -54,8 +54,8 @@ final class ECConversion
      */
     public static function integerToOctetString(Integer $num, ?int $mlen = null): OctetString
     {
-        $gmp = BigInteger::of($num->getValue());
-        $str = $gmp->toBytes(false);
+        $bigInteger = BigInteger::of($num->getValue());
+        $str = $bigInteger->toBytes(false);
         if ($mlen !== null) {
             $len = mb_strlen($str, '8bit');
             if ($len > $mlen) {
