@@ -219,17 +219,15 @@ abstract class Element implements ElementBase
 
     /**
      * Element's type tag.
-     *
-     * @var int
      */
-    protected $_typeTag;
+    protected int $_typeTag;
 
     /**
      * Whether type shall be encoded with indefinite length.
      *
      * @var bool
      */
-    protected $_indefiniteLength = false;
+    protected bool $_indefiniteLength = false;
 
     abstract public function typeClass(): int;
 
@@ -252,7 +250,7 @@ abstract class Element implements ElementBase
         // determine class that implements type specific decoding
         $cls = self::_determineImplClass($identifier);
         // decode remaining element
-        $element = $cls::_decodeFromDER($identifier, $data, $idx);
+        $element = $cls::decodeFromDER($identifier, $data, $idx);
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
         $called_class = static::class;
@@ -275,7 +273,7 @@ abstract class Element implements ElementBase
             $this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE,
             $this->_typeTag
         );
-        $content = $this->_encodedContentDER();
+        $content = $this->encodedAsDER();
         if ($this->_indefiniteLength) {
             $length = new Length(0, true);
             $eoc = new EOC();
@@ -380,7 +378,7 @@ abstract class Element implements ElementBase
      *
      * Returns the DER encoded content without identifier and length header octets.
      */
-    abstract protected function _encodedContentDER(): string;
+    abstract protected function encodedAsDER(): string;
 
     /**
      * Decode type-specific element from DER.
@@ -389,7 +387,7 @@ abstract class Element implements ElementBase
      * @param string     $data       DER data
      * @param int        $offset     Offset in data to the next byte after identifier
      */
-    abstract protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase;
+    abstract protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase;
 
     /**
      * Determine the class that implements the type.

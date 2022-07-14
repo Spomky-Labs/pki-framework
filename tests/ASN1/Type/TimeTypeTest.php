@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
@@ -41,8 +42,7 @@ final class TimeTypeTest extends TestCase
      */
     public function fromInvalidStringFail()
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Failed to create DateTime');
+        $this->expectException(Exception::class);
         GeneralizedTime::fromString('fail');
     }
 
@@ -52,7 +52,7 @@ final class TimeTypeTest extends TestCase
     public function fromStringWithInvalidTzFail()
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Failed to create DateTime');
+        $this->expectExceptionMessage('Invalid timezone.');
         GeneralizedTime::fromString(self::VALUE, 'nope');
     }
 

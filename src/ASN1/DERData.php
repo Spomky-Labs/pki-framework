@@ -61,7 +61,7 @@ final class DERData extends Element
         return $this->_der;
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         // if there's no content payload
         if (mb_strlen($this->_der, '8bit') === $this->_contentOffset) {
@@ -70,7 +70,7 @@ final class DERData extends Element
         return mb_substr($this->_der, $this->_contentOffset, null, '8bit');
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         throw new BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
     }

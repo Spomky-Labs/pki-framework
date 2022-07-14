@@ -70,7 +70,7 @@ final class NameConstraintsExtension extends Extension
         return $this->_excluded;
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $permitted = null;

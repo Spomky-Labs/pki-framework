@@ -267,7 +267,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
         return new ArrayIterator($this->elements());
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         $data = '';
         foreach ($this->_elements as $element) {
@@ -279,7 +279,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         if (! $identifier->isConstructed()) {
             throw new DecodeException('Structured element must have constructed bit set.');

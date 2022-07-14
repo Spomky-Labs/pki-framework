@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\AttributeCertificate\Attribute;
 
+use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 
 /**
@@ -19,5 +21,19 @@ final class AuthenticationInfoAttributeValue extends SvceAuthInfo
     {
         parent::__construct($service, $ident, $auth_info);
         $this->_oid = self::OID;
+    }
+
+    public static function fromASN1(UnspecifiedType $el): static
+    {
+        $seq = $el->asSequence();
+        $service = GeneralName::fromASN1($seq->at(0)->asTagged());
+        $ident = GeneralName::fromASN1($seq->at(1)->asTagged());
+        $auth_info = null;
+        if ($seq->has(2, Element::TYPE_OCTET_STRING)) {
+            $auth_info = $seq->at(2)
+                ->asString()
+                ->string();
+        }
+        return new static($service, $ident, $auth_info);
     }
 }

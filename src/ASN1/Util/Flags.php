@@ -24,18 +24,19 @@ final class Flags
     private ?string $_flags = null;
 
     /**
-    * Constructor.
-    *
-    * @param int|string $flags Flags
+     * Constructor.
+     *
+     * @param int|string $flags Flags
      * @param int $_width The number of flags. If width is larger than
-    number of bits in $flags, zeroes are prepended
-    to flag field.
-    */
-    public function __construct(BigInteger|int|string $flags, /**
+     * number of bits in $flags, zeroes are prepended
+     * to flag field.
+     */
+    public function __construct(
+        BigInteger|int|string $flags, /**
      * Number of flags.
      */
-    private readonly int $_width)
-    {
+    private readonly int $_width
+    ) {
         if ($_width === 0) {
             $this->_flags = '';
             return;

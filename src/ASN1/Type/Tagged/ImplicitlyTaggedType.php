@@ -28,9 +28,8 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
      */
     public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
     {
+        parent::__construct($element, $class);
         $this->_typeTag = $tag;
-        $this->_element = $element;
-        $this->_class = $class;
     }
 
     public function isConstructed(): bool
@@ -54,13 +53,13 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
         return $this->_element->asUnspecified();
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         // get only the content of the wrapped element.
-        return $this->_element->_encodedContentDER();
+        return $this->_element->encodedAsDER();
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         throw new BadMethodCallException(__METHOD__ . ' must be implemented in derived class.');
     }

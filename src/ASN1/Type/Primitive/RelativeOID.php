@@ -25,12 +25,12 @@ final class RelativeOID extends ObjectIdentifier
         $this->_typeTag = self::TYPE_RELATIVE_OID;
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         return self::_encodeSubIDs(...$this->_subids);
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();

@@ -16,7 +16,8 @@ final class IPv6Address extends IPAddress
     public static function fromOctets(string $octets): self
     {
         $mask = null;
-        $words = unpack('n*', $octets) ?: [];
+        $words = unpack('n*', $octets);
+        $words = $words === false ? [] : $words;
         switch (count($words)) {
             case 8:
                 $ip = self::_wordsToIPv6String($words);

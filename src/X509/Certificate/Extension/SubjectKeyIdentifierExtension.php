@@ -32,7 +32,7 @@ final class SubjectKeyIdentifierExtension extends Extension
         return $this->_keyIdentifier;
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         return new self($critical, UnspecifiedType::fromDER($data)->asOctetString()->string());
     }

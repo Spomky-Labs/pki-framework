@@ -147,7 +147,7 @@ final class BitString extends BaseString
         return new self($bits, $unused_bits);
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         $der = chr($this->_unusedBits);
         $der .= $this->_string;
@@ -160,7 +160,7 @@ final class BitString extends BaseString
         return $der;
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);

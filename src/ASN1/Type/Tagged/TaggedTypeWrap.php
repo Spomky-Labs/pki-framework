@@ -12,15 +12,11 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
  */
 abstract class TaggedTypeWrap extends TaggedType
 {
-    /**
-     * Wrapped element.
-     */
-    protected Element $_element;
-
-    /**
-     * Type class.
-     */
-    protected int $_class;
+    public function __construct(
+        protected Element $_element,
+        protected int $_class
+    ) {
+    }
 
     public function typeClass(): int
     {

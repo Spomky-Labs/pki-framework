@@ -66,7 +66,7 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
         return new ArrayIterator($this->_accessDescriptions);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $access = array_map(
             fn (UnspecifiedType $el) => AuthorityAccessDescription::fromASN1($el->asSequence()),

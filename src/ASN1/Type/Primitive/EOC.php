@@ -25,12 +25,12 @@ final class EOC extends Element
         $this->_typeTag = self::TYPE_EOC;
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         return '';
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         if (! $identifier->isPrimitive()) {

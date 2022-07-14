@@ -19,7 +19,7 @@ final class NoRevocationAvailableExtension extends Extension
         parent::__construct(self::OID_NO_REV_AVAIL, $critical);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         NullType::fromDER($data);
         return new self($critical);

@@ -85,7 +85,7 @@ final class DERDataTest extends TestCase
     {
         $el = new DERData("\x5\x0");
         $cls = new ReflectionClass($el);
-        $mtd = $cls->getMethod('_encodedContentDER');
+        $mtd = $cls->getMethod('encodedAsDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
         static::assertEquals('', $content);
@@ -98,7 +98,7 @@ final class DERDataTest extends TestCase
     {
         $el = new DERData((new OctetString('test'))->toDER());
         $cls = new ReflectionClass($el);
-        $mtd = $cls->getMethod('_encodedContentDER');
+        $mtd = $cls->getMethod('encodedAsDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
         static::assertEquals('test', $content);

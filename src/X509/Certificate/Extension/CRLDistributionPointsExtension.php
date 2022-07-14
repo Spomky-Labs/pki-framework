@@ -27,7 +27,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      *
      * @var DistributionPoint[]
      */
-    protected $_distributionPoints;
+    protected array $_distributionPoints;
 
     public function __construct(bool $critical, DistributionPoint ...$distribution_points)
     {
@@ -65,7 +65,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
         return new ArrayIterator($this->_distributionPoints);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $dps = array_map(
             fn (UnspecifiedType $el) => DistributionPoint::fromASN1($el->asSequence()),

@@ -98,7 +98,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
         return $this->_attributes->getIterator();
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $attribs = SequenceOfAttributes::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
         if (! count($attribs)) {

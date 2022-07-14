@@ -139,7 +139,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
         return new ArrayIterator($this->_mappings);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $mappings = array_map(
             fn (UnspecifiedType $el) => PolicyMapping::fromASN1($el->asSequence()),

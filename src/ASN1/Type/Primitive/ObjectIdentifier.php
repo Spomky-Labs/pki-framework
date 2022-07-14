@@ -32,7 +32,7 @@ class ObjectIdentifier extends Element
      *
      * @var BigInteger[]
      */
-    protected $_subids;
+    protected array $_subids;
 
     /**
      * Constructor.
@@ -68,7 +68,7 @@ class ObjectIdentifier extends Element
         return $this->_oid;
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         $subids = $this->_subids;
         // encode first two subids to one according to spec section 8.19.4
@@ -79,7 +79,7 @@ class ObjectIdentifier extends Element
         return self::_encodeSubIDs(...$subids);
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();

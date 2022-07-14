@@ -96,7 +96,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
         return new ArrayIterator($this->_policies);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $policies = array_map(
             fn (UnspecifiedType $el) => PolicyInformation::fromASN1($el->asSequence()),

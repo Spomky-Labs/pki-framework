@@ -102,7 +102,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
     /**
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         /** @var ConstructedString $type */
         $type = forward_static_call_array([parent::class, __FUNCTION__], [$identifier, $data, &$offset]);

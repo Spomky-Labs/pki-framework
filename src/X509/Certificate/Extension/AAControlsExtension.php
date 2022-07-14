@@ -121,7 +121,7 @@ final class AAControlsExtension extends Extension
         return $this->_permitUnSpecified;
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $path_len = null;

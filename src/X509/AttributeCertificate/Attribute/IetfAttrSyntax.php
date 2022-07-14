@@ -27,17 +27,15 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
 {
     /**
      * Policy authority.
-     *
-     * @var null|GeneralNames
      */
-    protected $_policyAuthority;
+    protected ?GeneralNames $_policyAuthority;
 
     /**
      * Values.
      *
      * @var IetfAttrValue[]
      */
-    protected $_values;
+    protected array $_values;
 
     public function __construct(IetfAttrValue ...$values)
     {

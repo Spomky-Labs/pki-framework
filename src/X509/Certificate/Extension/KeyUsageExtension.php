@@ -122,7 +122,7 @@ final class KeyUsageExtension extends Extension
         return (bool) ($this->_keyUsage & $flag);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         return new self(
             $critical,

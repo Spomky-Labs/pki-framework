@@ -317,7 +317,7 @@ abstract class Extension implements Stringable
      * @param string $data     DER data
      * @param bool   $critical Whether extension is critical
      */
-    abstract protected static function _fromDER(string $data, bool $critical): self;
+    abstract protected static function _fromDER(string $data, bool $critical): static;
 
     /**
      * Get the extnValue element.

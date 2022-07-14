@@ -115,7 +115,7 @@ final class TargetInformationExtension extends Extension implements Countable, I
         return new ArrayIterator($this->targets()->all());
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $targets = array_map(
             fn (UnspecifiedType $el) => Targets::fromASN1($el->asSequence()),

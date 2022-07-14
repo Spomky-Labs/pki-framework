@@ -254,7 +254,7 @@ final class Real extends Element implements Stringable
         return sprintf('%s.E%s%s', $m->toBase(10), $es, $e->abs()->toBase(10));
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         $infExponent = BigInteger::of(self::INF_EXPONENT);
         if ($this->_exponent->getValue()->isEqualTo($infExponent)) {
@@ -353,7 +353,7 @@ final class Real extends Element implements Stringable
         };
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();

@@ -23,12 +23,12 @@ abstract class PrimitiveString extends BaseString
 {
     use PrimitiveType;
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         return $this->_string;
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         if (! $identifier->isPrimitive()) {

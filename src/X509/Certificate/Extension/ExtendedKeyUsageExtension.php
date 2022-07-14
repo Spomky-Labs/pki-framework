@@ -137,7 +137,7 @@ final class ExtendedKeyUsageExtension extends Extension implements Countable, It
         return new ArrayIterator($this->_purposes);
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $purposes = array_map(
             fn (UnspecifiedType $el) => $el->asObjectIdentifier()

@@ -58,7 +58,7 @@ final class PolicyConstraintsExtension extends Extension
         return $this->_inhibitPolicyMapping;
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $require_explicit_policy = null;

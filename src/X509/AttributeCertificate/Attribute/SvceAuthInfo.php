@@ -22,37 +22,14 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 abstract class SvceAuthInfo extends AttributeValue
 {
     public function __construct(
-        /**
-         * Service.
-         */
         protected GeneralName $_service,
-        /**
-         * Ident.
-         */
         protected GeneralName $_ident,
-        /**
-         * Auth info.
-         */
         protected ?string $_authInfo = null
     ) {
     }
 
-    /**
-     * @return self
-     */
-    public static function fromASN1(UnspecifiedType $el): AttributeValue
-    {
-        $seq = $el->asSequence();
-        $service = GeneralName::fromASN1($seq->at(0)->asTagged());
-        $ident = GeneralName::fromASN1($seq->at(1)->asTagged());
-        $auth_info = null;
-        if ($seq->has(2, Element::TYPE_OCTET_STRING)) {
-            $auth_info = $seq->at(2)
-                ->asString()
-                ->string();
-        }
-        return new static($service, $ident, $auth_info);
-    }
+
+    abstract public static function fromASN1(UnspecifiedType $el): static;
 
     /**
      * Get service name.

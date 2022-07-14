@@ -22,10 +22,8 @@ final class Boolean extends Element
     use UniversalClass;
     use PrimitiveType;
 
-    public function __construct(/**
-     * Value.
-     */
-    private readonly bool $_bool
+    public function __construct(
+        private readonly bool $_bool
     ) {
         $this->_typeTag = self::TYPE_BOOLEAN;
     }
@@ -38,12 +36,12 @@ final class Boolean extends Element
         return $this->_bool;
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         return $this->_bool ? chr(0xff) : chr(0);
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         Length::expectFromDER($data, $idx, 1);

@@ -57,7 +57,7 @@ final class BasicConstraintsExtension extends Extension
         return $this->_pathLen;
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $ca = false;

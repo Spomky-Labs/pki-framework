@@ -31,10 +31,7 @@ abstract class AccessDescription
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): self
-    {
-        return new static($seq->at(0)->asObjectIdentifier()->oid(), GeneralName::fromASN1($seq->at(1)->asTagged()));
-    }
+    abstract public static function fromASN1(Sequence $seq): static;
 
     /**
      * Get the access method OID.

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use function intval;
 use function mb_strlen;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
@@ -14,6 +15,8 @@ use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\BaseTime;
 use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
 use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
+use Throwable;
+use UnexpectedValueException;
 
 /**
  * Implements *GeneralizedTime* type.
@@ -43,10 +46,8 @@ final class GeneralizedTime extends BaseTime
 
     /**
      * Cached formatted date.
-     *
-     * @var null|string
      */
-    private $_formatted;
+    private ?string $_formatted;
 
     public function __construct(DateTimeImmutable $dt)
     {
@@ -62,10 +63,15 @@ final class GeneralizedTime extends BaseTime
         $this->_formatted = null;
     }
 
-    protected function _encodedContentDER(): string
+    public static function fromString(string $time, ?string $tz = null): static
+    {
+        return new static(new DateTimeImmutable($time, self::_createTimeZone($tz)));
+    }
+
+    protected function encodedAsDER(): string
     {
         if (! isset($this->_formatted)) {
-            $dt = $this->_dateTime->setTimezone(self::_createTimeZone(self::TZ_UTC));
+            $dt = $this->_dateTime->setTimezone(new DateTimeZone('UTC'));
             $this->_formatted = $dt->format('YmdHis');
             // if fractions were used
             $frac = $dt->format('u');
@@ -79,7 +85,7 @@ final class GeneralizedTime extends BaseTime
         return $this->_formatted;
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
@@ -102,7 +108,7 @@ final class GeneralizedTime extends BaseTime
         }
         $time = $year . $month . $day . $hour . $minute . $second . '.' . $frac .
             self::TZ_UTC;
-        $dt = DateTimeImmutable::createFromFormat('!YmdHis.uT', $time, self::_createTimeZone(self::TZ_UTC));
+        $dt = DateTimeImmutable::createFromFormat('!YmdHis.uT', $time, new DateTimeZone('UTC'));
         if (! $dt) {
             throw new DecodeException(
                 'Failed to decode GeneralizedTime: ' .
@@ -111,5 +117,17 @@ final class GeneralizedTime extends BaseTime
         }
         $offset = $idx;
         return new self($dt);
+    }
+
+    /**
+     * Create `DateTimeZone` object from string.
+     */
+    private static function _createTimeZone(?string $tz): DateTimeZone
+    {
+        try {
+            return new DateTimeZone($tz ?? 'UTC');
+        } catch (Throwable $e) {
+            throw new UnexpectedValueException('Invalid timezone.', 0, $e);
+        }
     }
 }

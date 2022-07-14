@@ -62,7 +62,7 @@ final class UnknownExtension extends Extension
         return $this->_element;
     }
 
-    protected static function _fromDER(string $data, bool $critical): Extension
+    protected static function _fromDER(string $data, bool $critical): static
     {
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }

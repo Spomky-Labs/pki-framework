@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Type;
 
 use DateTimeImmutable;
-use DateTimeZone;
-use Exception;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Element;
 use Stringable;
-use UnexpectedValueException;
 
 /**
  * Base class for all types representing a point in time.
@@ -25,10 +21,7 @@ abstract class BaseTime extends Element implements TimeType, Stringable
     public const TZ_UTC = 'UTC';
 
     public function __construct(
-        /**
-         * Date and time.
-         */
-        protected DateTimeImmutable $_dateTime
+        protected readonly DateTimeImmutable $_dateTime
     ) {
     }
 
@@ -42,25 +35,9 @@ abstract class BaseTime extends Element implements TimeType, Stringable
      *
      * @see http://php.net/manual/en/datetime.formats.php
      *
-     * @param string      $time Time string
-     * @param null|string $tz   timezone, if null use default
+     * @param string $time Time string
      */
-    public static function fromString(string $time, ?string $tz = null): self
-    {
-        try {
-            if (! isset($tz)) {
-                $tz = date_default_timezone_get();
-            }
-            return new static(new DateTimeImmutable($time, self::_createTimeZone($tz)));
-        } catch (Exception $e) {
-            throw new RuntimeException(
-                'Failed to create DateTime: ' .
-                self::_getLastDateTimeImmutableErrorsStr(),
-                0,
-                $e
-            );
-        }
-    }
+    abstract public static function fromString(string $time): static;
 
     /**
      * Get the date and time.
@@ -75,19 +52,7 @@ abstract class BaseTime extends Element implements TimeType, Stringable
      */
     public function string(): string
     {
-        return $this->_encodedContentDER();
-    }
-
-    /**
-     * Create `DateTimeZone` object from string.
-     */
-    protected static function _createTimeZone(string $tz): DateTimeZone
-    {
-        try {
-            return new DateTimeZone($tz);
-        } catch (Exception $e) {
-            throw new UnexpectedValueException('Invalid timezone.', 0, $e);
-        }
+        return $this->encodedAsDER();
     }
 
     /**

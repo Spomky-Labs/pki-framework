@@ -70,12 +70,12 @@ class Integer extends Element
         return $this->_number->toInt();
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         return $this->_number->signedOctets();
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();

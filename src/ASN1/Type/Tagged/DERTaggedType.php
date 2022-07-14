@@ -60,7 +60,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         $cls = self::_determineImplClass($identifier);
         $idx = $this->_offset;
         /** @var ElementBase $element */
-        $element = $cls::_decodeFromDER($identifier, $this->_data, $idx);
+        $element = $cls::decodeFromDER($identifier, $this->_data, $idx);
         return $element->asUnspecified();
     }
 
@@ -70,7 +70,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         return Element::fromDER($this->_data, $idx)->asUnspecified();
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
@@ -92,7 +92,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         return $type;
     }
 
-    protected function _encodedContentDER(): string
+    protected function encodedAsDER(): string
     {
         return mb_substr($this->_data, $this->_valueOffset, $this->_valueLength, '8bit');
     }

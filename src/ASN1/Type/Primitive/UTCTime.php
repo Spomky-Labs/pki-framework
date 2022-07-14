@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -44,13 +45,18 @@ final class UTCTime extends BaseTime
         parent::__construct($dt);
     }
 
-    protected function _encodedContentDER(): string
+    public static function fromString(string $time): static
     {
-        $dt = $this->_dateTime->setTimezone(self::_createTimeZone(self::TZ_UTC));
+        return new static(new DateTimeImmutable($time, new DateTimeZone('UTC')));
+    }
+
+    protected function encodedAsDER(): string
+    {
+        $dt = $this->_dateTime->setTimezone(new DateTimeZone('UTC'));
         return $dt->format('ymdHis\\Z');
     }
 
-    protected static function _decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
@@ -62,7 +68,7 @@ final class UTCTime extends BaseTime
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
         $time = $year . $month . $day . $hour . $minute . $second . self::TZ_UTC;
-        $dt = DateTimeImmutable::createFromFormat('!ymdHisT', $time, self::_createTimeZone(self::TZ_UTC));
+        $dt = DateTimeImmutable::createFromFormat('!ymdHisT', $time, new DateTimeZone('UTC'));
         if (! $dt) {
             throw new DecodeException('Failed to decode UTCTime: ' . self::_getLastDateTimeImmutableErrorsStr());
         }
