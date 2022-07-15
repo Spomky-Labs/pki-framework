@@ -134,23 +134,9 @@ final class ObjectIdentifierTest extends TestCase
     }
 
     /**
-     * @requires PHP < 8.0
-     *
      * @test
      */
-    public function invalidNumberPrePHP8()
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('is not a number');
-        new ObjectIdentifier('1.1.x');
-    }
-
-    /**
-     * @requires PHP >= 8.0
-     *
-     * @test
-     */
-    public function invalidNumberPHP8()
+    public function invalidNumber()
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('"x" is not a number.');
