@@ -626,7 +626,7 @@ final class Real extends Element implements Stringable
         // mantissa sign
         $ms = $match['ms'] === '-' ? -1 : 1;
         // explode mantissa to integer and fraction parts
-        [$int, $frac] = explode('.', (string) str_replace(',', '.', $match['m']));
+        [$int, $frac] = explode('.', str_replace(',', '.', (string) $match['m']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // exponent sign
@@ -655,7 +655,7 @@ final class Real extends Element implements Stringable
     {
         $sign = $match['s'] === '-' ? -1 : 1;
         // explode decimal number to integer and fraction parts
-        [$int, $frac] = explode('.', (string) str_replace(',', '.', $match['d']));
+        [$int, $frac] = explode('.', str_replace(',', '.', (string) $match['d']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // shift exponent by the number of base 10 fractions
@@ -680,7 +680,7 @@ final class Real extends Element implements Stringable
     private static function _parseNR1Match(array $match): array
     {
         $sign = $match['s'] === '-' ? -1 : 1;
-        $int = ltrim($match['i'], '0');
+        $int = ltrim((string) $match['i'], '0');
         if ($int === '') {
             $int = '0';
         }

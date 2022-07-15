@@ -47,7 +47,7 @@ final class GeneralizedTime extends BaseTime
     /**
      * Cached formatted date.
      */
-    private ?string $_formatted;
+    private ?string $_formatted = null;
 
     public function __construct(DateTimeImmutable $dt)
     {
@@ -100,7 +100,7 @@ final class GeneralizedTime extends BaseTime
         if (isset($match[7])) {
             $frac = $match[7];
             // DER restricts trailing zeroes in fractional seconds component
-            if ($frac[mb_strlen($frac, '8bit') - 1] === '0') {
+            if ($frac[mb_strlen((string) $frac, '8bit') - 1] === '0') {
                 throw new DecodeException('Fractional seconds must omit trailing zeroes.');
             }
         } else {

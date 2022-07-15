@@ -28,7 +28,6 @@ abstract class SvceAuthInfo extends AttributeValue
     ) {
     }
 
-
     abstract public static function fromASN1(UnspecifiedType $el): static;
 
     /**

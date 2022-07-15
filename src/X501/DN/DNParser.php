@@ -337,7 +337,7 @@ final class DNParser
         if (! preg_match($pattern, mb_substr($this->_dn, $idx, null, '8bit'), $match)) {
             return null;
         }
-        $idx += mb_strlen($match[0], '8bit');
+        $idx += mb_strlen((string) $match[0], '8bit');
         $offset = $idx;
         return end($match);
     }

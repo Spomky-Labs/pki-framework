@@ -224,8 +224,6 @@ abstract class Element implements ElementBase
 
     /**
      * Whether type shall be encoded with indefinite length.
-     *
-     * @var bool
      */
     protected bool $_indefiniteLength = false;
 
