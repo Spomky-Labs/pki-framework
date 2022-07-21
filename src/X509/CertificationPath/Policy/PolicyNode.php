@@ -46,10 +46,10 @@ final class PolicyNode implements IteratorAggregate, Countable
         private readonly string $_validPolicy, /**
      * List of qualifiers.
      */
-    private readonly array $_qualifiers, /**
+        private readonly array $_qualifiers, /**
      * List of expected policy OIDs.
      */
-    private array $_expectedPolicies
+        private array $_expectedPolicies
     ) {
         $this->_children = [];
     }

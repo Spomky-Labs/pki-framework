@@ -15,7 +15,7 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
     /**
      * Constructor.
      *
-     * @param string               $oid    Algorithm OID
+     * @param string $oid Algorithm OID
      * @param null|UnspecifiedType $_params Parameters
      */
     public function __construct(

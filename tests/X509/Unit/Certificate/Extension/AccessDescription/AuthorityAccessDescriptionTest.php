@@ -103,6 +103,6 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function location(AuthorityAccessDescription $desc)
     {
-        static::assertEquals(self::URI, $desc->accessLocation() ->string());
+        static::assertEquals(self::URI, $desc->accessLocation()->string());
     }
 }

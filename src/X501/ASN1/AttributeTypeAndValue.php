@@ -21,7 +21,7 @@ final class AttributeTypeAndValue implements Stringable
     /**
      * Constructor.
      *
-     * @param AttributeType  $type  Attribute type
+     * @param AttributeType $type Attribute type
      * @param AttributeValue $_value Attribute value
      */
     public function __construct(

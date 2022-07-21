@@ -88,7 +88,7 @@ abstract class AttributeValue implements Stringable
     /**
      * Initialize from ASN.1 with given OID hint.
      *
-     * @param string          $oid Attribute's OID
+     * @param string $oid Attribute's OID
      */
     public static function fromASN1ByOID(string $oid, UnspecifiedType $el): self
     {

@@ -44,7 +44,7 @@ final class DistributionPoint
         $issuer = null;
         if ($seq->hasTagged(0)) {
             // promoted to explicit tagging because underlying type is CHOICE
-            $name = DistributionPointName::fromTaggedType($seq->getTagged(0) ->asExplicit() ->asTagged());
+            $name = DistributionPointName::fromTaggedType($seq->getTagged(0)->asExplicit()->asTagged());
         }
         if ($seq->hasTagged(1)) {
             $reasons = ReasonFlags::fromASN1(
@@ -89,7 +89,7 @@ final class DistributionPoint
     {
         return $this->distributionPointName()
             ->tag() ===
-             DistributionPointName::TAG_FULL_NAME;
+            DistributionPointName::TAG_FULL_NAME;
     }
 
     /**
@@ -110,7 +110,7 @@ final class DistributionPoint
     {
         return $this->distributionPointName()
             ->tag() ===
-             DistributionPointName::TAG_RDN;
+            DistributionPointName::TAG_RDN;
     }
 
     /**

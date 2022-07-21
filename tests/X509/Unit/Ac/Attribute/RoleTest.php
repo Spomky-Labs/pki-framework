@@ -115,7 +115,7 @@ final class RoleTest extends TestCase
      */
     public function roleAuthority(RoleAttributeValue $value)
     {
-        static::assertEquals(self::AUTHORITY_DN, $value->roleAuthority() ->firstDN());
+        static::assertEquals(self::AUTHORITY_DN, $value->roleAuthority()->firstDN());
     }
 
     /**

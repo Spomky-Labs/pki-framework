@@ -141,7 +141,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function withExtensionRequest(CertificationRequestInfo $cri)
     {
         $cri = $cri->withExtensionRequest(new Extensions());
-        static::assertTrue($cri->attributes() ->hasExtensionRequest());
+        static::assertTrue($cri->attributes()->hasExtensionRequest());
     }
 
     /**
@@ -151,7 +151,7 @@ final class CertificationRequestInfoTest extends TestCase
     {
         $cri = new CertificationRequestInfo(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
         $cri = $cri->withExtensionRequest(new Extensions());
-        static::assertTrue($cri->attributes() ->hasExtensionRequest());
+        static::assertTrue($cri->attributes()->hasExtensionRequest());
     }
 
     /**

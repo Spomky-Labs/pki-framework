@@ -23,10 +23,10 @@ final class NoticeReference
     private readonly array $_numbers;
 
     public function __construct(
-    /**
-     * Organization.
-     */
-    protected DisplayText $_organization,
+        /**
+         * Organization.
+         */
+        protected DisplayText $_organization,
         int ...$numbers
     ) {
         $this->_numbers = $numbers;

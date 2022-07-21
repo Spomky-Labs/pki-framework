@@ -29,17 +29,17 @@ final class IssuerSerial
     /**
      * Constructor.
      *
-     * @param int|string            $serial
+     * @param int|string $serial
      */
     public function __construct(
-    /**
-     * Issuer name.
-     */
-    protected GeneralNames $_issuer,
+        /**
+         * Issuer name.
+         */
+        protected GeneralNames $_issuer,
         $serial, /**
      * Issuer unique ID.
      */
-    protected ?UniqueIdentifier $_issuerUID = null
+        protected ?UniqueIdentifier $_issuerUID = null
     ) {
         $this->_serial = strval($serial);
     }

@@ -55,7 +55,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function issuer(IssuerSerial $is)
     {
-        static::assertEquals(self::$_cert->tbsCertificate() ->issuer(), $is->issuer() ->firstDN());
+        static::assertEquals(self::$_cert->tbsCertificate()->issuer(), $is->issuer()->firstDN());
     }
 
     /**
@@ -65,7 +65,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function serial(IssuerSerial $is)
     {
-        static::assertEquals(self::$_cert->tbsCertificate() ->serialNumber(), $is->serial());
+        static::assertEquals(self::$_cert->tbsCertificate()->serialNumber(), $is->serial());
     }
 
     /**

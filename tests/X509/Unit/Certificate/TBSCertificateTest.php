@@ -203,7 +203,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function issuerUniqueID(TBSCertificate $tc)
     {
-        static::assertEquals('issuer', $tc->issuerUniqueID() ->string());
+        static::assertEquals('issuer', $tc->issuerUniqueID()->string());
     }
 
     /**
@@ -213,7 +213,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function subjectUniqueID(TBSCertificate $tc)
     {
-        static::assertEquals('subject', $tc->subjectUniqueID() ->string());
+        static::assertEquals('subject', $tc->subjectUniqueID()->string());
     }
 
     /**

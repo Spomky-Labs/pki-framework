@@ -32,7 +32,7 @@ final class V2Form extends AttCertIssuer
     public function __construct(/**
      * Issuer name.
      */
-    protected ?GeneralNames $_issuerName = null
+        protected ?GeneralNames $_issuerName = null
     ) {
         $this->_baseCertificateID = null;
         $this->_objectDigestInfo = null;

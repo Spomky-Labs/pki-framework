@@ -24,7 +24,7 @@ abstract class Signature
     /**
      * Get signature object by signature data and used algorithm.
      *
-     * @param string                  $data Signature value
+     * @param string $data Signature value
      * @param AlgorithmIdentifierType $algo Algorithm identifier
      */
     public static function fromSignatureData(string $data, AlgorithmIdentifierType $algo): self

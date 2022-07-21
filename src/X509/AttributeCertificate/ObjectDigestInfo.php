@@ -32,16 +32,16 @@ final class ObjectDigestInfo
     private ?string $_otherObjectTypeID;
 
     public function __construct(
-    /**
-     * Object type.
-     */
-    protected int $_digestedObjectType, /**
+        /**
+         * Object type.
+         */
+        protected int $_digestedObjectType, /**
      * Digest algorithm.
      */
-    protected AlgorithmIdentifierType $_digestAlgorithm, /**
+        protected AlgorithmIdentifierType $_digestAlgorithm, /**
      * Object digest.
      */
-    protected BitString $_objectDigest
+        protected BitString $_objectDigest
     ) {
         $this->_otherObjectTypeID = null;
     }

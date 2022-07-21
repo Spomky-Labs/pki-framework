@@ -34,7 +34,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function getExplicit(ExplicitTagging $el)
     {
-        static::assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->explicit()->tag());
     }
 
     /**
@@ -132,7 +132,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function asExplicit(TaggedType $el)
     {
-        static::assertInstanceOf(NullType::class, $el->asExplicit(1) ->asNull());
+        static::assertInstanceOf(NullType::class, $el->asExplicit(1)->asNull());
     }
 
     /**

@@ -93,7 +93,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function name(SubjectAlternativeNameExtension $ext)
     {
-        static::assertEquals(self::DN, $ext->names() ->firstDN());
+        static::assertEquals(self::DN, $ext->names()->firstDN());
     }
 
     /**

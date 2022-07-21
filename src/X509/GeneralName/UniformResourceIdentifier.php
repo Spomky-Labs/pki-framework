@@ -19,7 +19,7 @@ final class UniformResourceIdentifier extends GeneralName
     public function __construct(/**
      * URI.
      */
-    protected string $_uri
+        protected string $_uri
     ) {
         $this->_tag = self::TAG_URI;
     }

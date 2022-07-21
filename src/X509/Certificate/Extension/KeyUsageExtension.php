@@ -37,7 +37,7 @@ final class KeyUsageExtension extends Extension
         bool $critical, /**
      * Key usage flags.
      */
-    protected int $_keyUsage
+        protected int $_keyUsage
     ) {
         parent::__construct(self::OID_KEY_USAGE, $critical);
     }

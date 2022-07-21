@@ -28,7 +28,7 @@ final class BitString extends BaseString
     /**
      * Constructor.
      *
-     * @param string $string      Content octets
+     * @param string $string Content octets
      * @param int $_unusedBits Number of unused bits in the last octet
      */
     public function __construct(
@@ -85,7 +85,7 @@ final class BitString extends BaseString
     /**
      * Get range of bits.
      *
-     * @param int $start  Index of first bit
+     * @param int $start Index of first bit
      * @param int $length Number of bits in range
      *
      * @return string Integer of $length bits

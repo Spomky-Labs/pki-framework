@@ -34,7 +34,7 @@ final class Attribute implements Countable, IteratorAggregate
     /**
      * Constructor.
      *
-     * @param AttributeType  $type      Attribute type
+     * @param AttributeType $type Attribute type
      * @param AttributeValue ...$values Attribute values
      */
     public function __construct(AttributeType $type, AttributeValue ...$values)

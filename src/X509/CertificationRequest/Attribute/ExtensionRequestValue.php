@@ -23,7 +23,7 @@ final class ExtensionRequestValue extends AttributeValue
     public function __construct(/**
      * Extensions.
      */
-    protected Extensions $_extensions
+        protected Extensions $_extensions
     ) {
         $this->_oid = self::OID;
     }

@@ -57,7 +57,7 @@ final class Certificate implements Stringable
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
             throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
+        $signature = Signature::fromSignatureData($seq->at(2)->asBitString()->string(), $algo);
         return new self($tbsCert, $algo, $signature);
     }
 
@@ -121,7 +121,7 @@ final class Certificate implements Stringable
     public function equals(self $cert): bool
     {
         return $this->_hasEqualSerialNumber($cert) &&
-             $this->_hasEqualPublicKey($cert) && $this->_hasEqualSubject($cert);
+            $this->_hasEqualPublicKey($cert) && $this->_hasEqualSubject($cert);
     }
 
     /**
@@ -157,7 +157,7 @@ final class Certificate implements Stringable
      * Verify certificate signature.
      *
      * @param PublicKeyInfo $pubkey_info Issuer's public key
-     * @param null|Crypto   $crypto      Crypto engine, use default if not set
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      *
      * @return bool True if certificate signature is valid
      */

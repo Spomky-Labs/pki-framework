@@ -35,7 +35,7 @@ final class Flags
         BigInteger|int|string $flags, /**
      * Number of flags.
      */
-    private readonly int $_width
+        private readonly int $_width
     ) {
         if ($_width === 0) {
             $this->_flags = '';

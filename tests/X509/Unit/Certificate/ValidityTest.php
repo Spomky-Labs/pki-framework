@@ -72,7 +72,7 @@ final class ValidityTest extends TestCase
      */
     public function notBefore(Validity $validity)
     {
-        static::assertEquals(new DateTimeImmutable(self::NB), $validity->notBefore() ->dateTime());
+        static::assertEquals(new DateTimeImmutable(self::NB), $validity->notBefore()->dateTime());
     }
 
     /**
@@ -82,6 +82,6 @@ final class ValidityTest extends TestCase
      */
     public function notAfter(Validity $validity)
     {
-        static::assertEquals(new DateTimeImmutable(self::NA), $validity->notAfter() ->dateTime());
+        static::assertEquals(new DateTimeImmutable(self::NA), $validity->notAfter()->dateTime());
     }
 }

@@ -68,7 +68,7 @@ final class CertificationRequestInfo
         $pkinfo = PublicKeyInfo::fromASN1($seq->at(2)->asSequence());
         $obj = new self($subject, $pkinfo);
         if ($seq->hasTagged(0)) {
-            $obj->_attributes = Attributes::fromASN1($seq->getTagged(0) ->asImplicit(Element::TYPE_SET)->asSet());
+            $obj->_attributes = Attributes::fromASN1($seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet());
         }
         return $obj;
     }
@@ -159,9 +159,9 @@ final class CertificationRequestInfo
     /**
      * Create signed CertificationRequest.
      *
-     * @param SignatureAlgorithmIdentifier $algo         Algorithm used for signing
-     * @param PrivateKeyInfo               $privkey_info Private key used for signing
-     * @param null|Crypto                  $crypto       Crypto engine, use default if not set
+     * @param SignatureAlgorithmIdentifier $algo Algorithm used for signing
+     * @param PrivateKeyInfo $privkey_info Private key used for signing
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function sign(
         SignatureAlgorithmIdentifier $algo,

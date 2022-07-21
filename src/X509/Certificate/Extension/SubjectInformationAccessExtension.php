@@ -57,9 +57,8 @@ final class SubjectInformationAccessExtension extends Extension implements Count
     /**
      * Get iterator for access descriptions.
      *
-     * @see \IteratorAggregate::getIterator()
-     *
      * @return ArrayIterator List of SubjectAccessDescription objects
+     * @see \IteratorAggregate::getIterator()
      */
     public function getIterator(): ArrayIterator
     {

@@ -46,7 +46,7 @@ final class CertificateVersionTest extends TestCase
     public function version1()
     {
         $cert = self::$_tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        static::assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_1);
+        static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_1);
     }
 
     /**
@@ -56,7 +56,7 @@ final class CertificateVersionTest extends TestCase
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(UniqueIdentifier::fromString('subject'));
         $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        static::assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_2);
+        static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_2);
     }
 
     /**
@@ -66,7 +66,7 @@ final class CertificateVersionTest extends TestCase
     {
         $tbsCert = self::$_tbsCert->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'));
         $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        static::assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_2);
+        static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_2);
     }
 
     /**
@@ -78,7 +78,7 @@ final class CertificateVersionTest extends TestCase
             UniqueIdentifier::fromString('subject')
         )->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'));
         $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        static::assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_2);
+        static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_2);
     }
 
     /**
@@ -90,6 +90,6 @@ final class CertificateVersionTest extends TestCase
             new Extensions(new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE))
         );
         $cert = $tbsCert->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
-        static::assertEquals($cert->tbsCertificate() ->version(), TBSCertificate::VERSION_3);
+        static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_3);
     }
 }

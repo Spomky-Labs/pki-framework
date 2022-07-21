@@ -58,7 +58,7 @@ final class AttributeCertificate implements Stringable
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
             throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
+        $signature = Signature::fromSignatureData($seq->at(2)->asBitString()->string(), $algo);
         return new self($acinfo, $algo, $signature);
     }
 
@@ -164,7 +164,7 @@ final class AttributeCertificate implements Stringable
      * Verify signature.
      *
      * @param PublicKeyInfo $pubkey_info Signer's public key
-     * @param null|Crypto   $crypto      Crypto engine, use default if not set
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {

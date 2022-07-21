@@ -101,10 +101,10 @@ final class AttributeCertificateInfo
         $obj->_signature = $signature;
         $obj->_serialNumber = $serial;
         if ($seq->has($idx, Element::TYPE_BIT_STRING)) {
-            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++) ->asBitString());
+            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++)->asBitString());
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
-            $obj->_extensions = Extensions::fromASN1($seq->at($idx++) ->asSequence());
+            $obj->_extensions = Extensions::fromASN1($seq->at($idx++)->asSequence());
         }
         return $obj;
     }
@@ -338,9 +338,9 @@ final class AttributeCertificateInfo
     /**
      * Create signed attribute certificate.
      *
-     * @param SignatureAlgorithmIdentifier $algo         Signature algorithm
-     * @param PrivateKeyInfo               $privkey_info Private key
-     * @param null|Crypto                  $crypto       Crypto engine, use default if not set
+     * @param SignatureAlgorithmIdentifier $algo Signature algorithm
+     * @param PrivateKeyInfo $privkey_info Private key
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function sign(
         SignatureAlgorithmIdentifier $algo,

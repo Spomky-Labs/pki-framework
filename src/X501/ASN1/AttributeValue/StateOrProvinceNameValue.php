@@ -17,8 +17,8 @@ final class StateOrProvinceNameValue extends DirectoryString
     /**
      * Constructor.
      *
-     * @param string $value      String value
-     * @param int    $string_tag Syntax choice
+     * @param string $value String value
+     * @param int $string_tag Syntax choice
      */
     public function __construct(string $value, int $string_tag = DirectoryString::UTF8)
     {

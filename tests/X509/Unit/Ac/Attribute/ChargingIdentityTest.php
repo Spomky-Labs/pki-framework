@@ -95,7 +95,7 @@ final class ChargingIdentityTest extends TestCase
      */
     public function authority(ChargingIdentityAttributeValue $value)
     {
-        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
+        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority()->firstDN());
     }
 
     /**

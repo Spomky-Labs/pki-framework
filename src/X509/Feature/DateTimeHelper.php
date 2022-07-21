@@ -19,7 +19,7 @@ trait DateTimeHelper
      * Create DateTime object from time string and timezone.
      *
      * @param null|string $time Time string, default to 'now'
-     * @param null|string $tz   Timezone, default if omitted
+     * @param null|string $tz Timezone, default if omitted
      */
     private static function _createDateTime(?string $time = null, ?string $tz = null): DateTimeImmutable
     {
@@ -35,7 +35,7 @@ trait DateTimeHelper
         } catch (Exception $e) {
             throw new RuntimeException(
                 'Failed to create DateTime: ' .
-                     self::_getLastDateTimeImmutableErrorsStr(),
+                self::_getLastDateTimeImmutableErrorsStr(),
                 0,
                 $e
             );

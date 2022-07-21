@@ -65,7 +65,7 @@ final class FreshestCRLTest extends RefExtTestHelper
      */
     public function rDN(RelativeName $name)
     {
-        static::assertEquals('cn=Delta Distribution Point', $name->rdn() ->toString());
+        static::assertEquals('cn=Delta Distribution Point', $name->rdn()->toString());
     }
 
     /**

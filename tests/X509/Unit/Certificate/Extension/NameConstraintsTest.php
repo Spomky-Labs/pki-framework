@@ -175,7 +175,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function permittedURI(GeneralSubtrees $subtrees)
     {
-        static::assertEquals(self::PERMITTED_URI, $subtrees->all()[0] ->base() ->string());
+        static::assertEquals(self::PERMITTED_URI, $subtrees->all()[0]->base()->string());
     }
 
     /**
@@ -185,7 +185,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function permittedDN(GeneralSubtrees $subtrees)
     {
-        static::assertEquals(self::PERMITTED_DN, $subtrees->all()[1] ->base() ->string());
+        static::assertEquals(self::PERMITTED_DN, $subtrees->all()[1]->base()->string());
     }
 
     /**
@@ -195,7 +195,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function excludedURI(GeneralSubtrees $subtrees)
     {
-        static::assertEquals(self::EXCLUDED_URI, $subtrees->all()[0] ->base() ->string());
+        static::assertEquals(self::EXCLUDED_URI, $subtrees->all()[0]->base()->string());
     }
 
     /**

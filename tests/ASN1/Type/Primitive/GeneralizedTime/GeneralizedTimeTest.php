@@ -72,7 +72,7 @@ final class GeneralizedTimeTest extends TestCase
      */
     public function recoded(TimeType $ref, TimeType $el)
     {
-        static::assertEquals($ref->dateTime() ->getTimestamp(), $el->dateTime() ->getTimestamp());
+        static::assertEquals($ref->dateTime()->getTimestamp(), $el->dateTime()->getTimestamp());
     }
 
     /**

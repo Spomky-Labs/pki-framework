@@ -19,7 +19,7 @@ final class FullName extends DistributionPointName
     public function __construct(/**
      * Names.
      */
-    protected GeneralNames $_names
+        protected GeneralNames $_names
     ) {
         $this->_tag = self::TAG_FULL_NAME;
     }

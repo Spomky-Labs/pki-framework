@@ -52,7 +52,7 @@ abstract class SignatureAlgorithmIdentifierFactory
      * Get signature algorithm identifier of given asymmetric cryptographic type utilizing given hash algorithm.
      *
      * @param AsymmetricCryptoAlgorithmIdentifier $crypto_algo Cryptographic algorithm identifier, eg. RSA or EC
-     * @param HashAlgorithmIdentifier             $hash_algo   Hash algorithm identifier
+     * @param HashAlgorithmIdentifier $hash_algo Hash algorithm identifier
      */
     public static function algoForAsymmetricCrypto(
         AsymmetricCryptoAlgorithmIdentifier $crypto_algo,

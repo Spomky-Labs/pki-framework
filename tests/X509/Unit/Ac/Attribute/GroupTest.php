@@ -87,7 +87,7 @@ final class GroupTest extends TestCase
      */
     public function authority(GroupAttributeValue $value)
     {
-        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority() ->firstDN());
+        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority()->firstDN());
     }
 
     /**

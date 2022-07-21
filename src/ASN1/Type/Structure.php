@@ -106,8 +106,8 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * Get self with an element at the given index replaced by another.
      *
-     * @param int     $idx Element index
-     * @param Element $el  New element to insert into the structure
+     * @param int $idx Element index
+     * @param Element $el New element to insert into the structure
      */
     public function withReplaced(int $idx, Element $el): self
     {
@@ -122,8 +122,8 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * Get self with an element inserted before the given index.
      *
-     * @param int     $idx Element index
-     * @param Element $el  New element to insert into the structure
+     * @param int $idx Element index
+     * @param Element $el New element to insert into the structure
      */
     public function withInserted(int $idx, Element $el): self
     {
@@ -190,7 +190,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * Check whether the structure has an element at the given index, optionally satisfying given tag expectation.
      *
-     * @param int      $idx         Index 0..n
+     * @param int $idx Index 0..n
      * @param null|int $expectedTag Optional type tag expectation
      */
     public function has(int $idx, ?int $expectedTag = null): bool
@@ -302,9 +302,9 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * Decode elements for a definite length.
      *
-     * @param string $data   DER data
-     * @param int    $offset Offset to data
-     * @param int    $length Number of bytes to decode
+     * @param string $data DER data
+     * @param int $offset Offset to data
+     * @param int $length Number of bytes to decode
      */
     private static function _decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase
     {
@@ -326,8 +326,8 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * Decode elements for an indefinite length.
      *
-     * @param string $data   DER data
-     * @param int    $offset Offset to data
+     * @param string $data DER data
+     * @param int $offset Offset to data
      */
     private static function _decodeIndefiniteLength(string $data, int &$offset): ElementBase
     {

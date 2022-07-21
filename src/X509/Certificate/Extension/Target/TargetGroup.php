@@ -19,7 +19,7 @@ final class TargetGroup extends Target
     public function __construct(/**
      * Group name.
      */
-    protected GeneralName $_name
+        protected GeneralName $_name
     ) {
         $this->_type = self::TYPE_GROUP;
     }

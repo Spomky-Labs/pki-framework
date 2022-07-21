@@ -37,7 +37,7 @@ final class ECPublicKey extends PublicKey
     /**
      * Constructor.
      *
-     * @param string      $ec_point    ECPoint
+     * @param string $ec_point ECPoint
      * @param null|string $_namedCurve Named curve OID
      */
     public function __construct(
@@ -55,10 +55,10 @@ final class ECPublicKey extends PublicKey
     /**
      * Initialize from curve point coordinates.
      *
-     * @param int|string  $x           X coordinate as a base10 number
-     * @param int|string  $y           Y coordinate as a base10 number
+     * @param int|string $x X coordinate as a base10 number
+     * @param int|string $y Y coordinate as a base10 number
      * @param null|string $named_curve Named curve OID
-     * @param null|int    $bits        Size of *p* in bits
+     * @param null|int $bits Size of *p* in bits
      */
     public static function fromCoordinates(
         int|string $x,

@@ -168,7 +168,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function dPReasons(DistributionPoint $dp)
     {
-        static::assertTrue($dp->reasons() ->isPrivilegeWithdrawn());
+        static::assertTrue($dp->reasons()->isPrivilegeWithdrawn());
     }
 
     /**
@@ -178,7 +178,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function dPIssuer(DistributionPoint $dp)
     {
-        static::assertEquals(self::ISSUER_DN, $dp->crlIssuer() ->firstDN());
+        static::assertEquals(self::ISSUER_DN, $dp->crlIssuer()->firstDN());
     }
 
     /**

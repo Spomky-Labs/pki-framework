@@ -49,7 +49,7 @@ final class AttCertValidityPeriod
      *
      * @param null|string $nb_date Not before date
      * @param null|string $na_date Not after date
-     * @param null|string $tz      Timezone string
+     * @param null|string $tz Timezone string
      */
     public static function fromStrings(?string $nb_date, ?string $na_date, ?string $tz = null): self
     {

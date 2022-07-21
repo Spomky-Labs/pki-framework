@@ -39,6 +39,6 @@ final class ImplicitlyTaggedEncodeTest extends TestCase
     public function recode()
     {
         $el = new ImplicitlyTaggedType(0, new Boolean(true));
-        static::assertInstanceOf(Boolean::class, $el->implicit(Element::TYPE_BOOLEAN) ->asBoolean());
+        static::assertInstanceOf(Boolean::class, $el->implicit(Element::TYPE_BOOLEAN)->asBoolean());
     }
 }

@@ -121,8 +121,8 @@ final class ValidatorState
      *
      * @see https://tools.ietf.org/html/rfc5280#section-6.1.2
      *
-     * @param Certificate          $trust_anchor Trust anchor certificate
-     * @param int                  $n            Number of certificates
+     * @param Certificate $trust_anchor Trust anchor certificate
+     * @param int $n Number of certificates
      * in the certification path
      */
     public static function initialize(PathValidationConfig $config, Certificate $trust_anchor, int $n): self

@@ -35,10 +35,10 @@ final class PolicyInformation implements Countable, IteratorAggregate
     private array $_qualifiers;
 
     public function __construct(
-    /**
-     * Policy identifier.
-     */
-    protected string $_oid,
+        /**
+         * Policy identifier.
+         */
+        protected string $_oid,
         PolicyQualifierInfo ...$qualifiers
     ) {
         $this->_qualifiers = [];

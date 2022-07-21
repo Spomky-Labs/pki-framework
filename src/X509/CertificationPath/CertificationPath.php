@@ -57,9 +57,9 @@ final class CertificationPath implements Countable, IteratorAggregate
     /**
      * Build certification path to given target.
      *
-     * @param Certificate            $target        Target end-entity certificate
-     * @param CertificateBundle      $trust_anchors List of trust anchors
-     * @param null|CertificateBundle $intermediate  Optional intermediate certificates
+     * @param Certificate $target Target end-entity certificate
+     * @param CertificateBundle $trust_anchors List of trust anchors
+     * @param null|CertificateBundle $intermediate Optional intermediate certificates
      */
     public static function toTarget(
         Certificate $target,
@@ -74,8 +74,8 @@ final class CertificationPath implements Countable, IteratorAggregate
      * Build certification path from given trust anchor to target certificate, using intermediate certificates from
      * given bundle.
      *
-     * @param Certificate            $trust_anchor Trust anchor certificate
-     * @param Certificate            $target       Target end-entity certificate
+     * @param Certificate $trust_anchor Trust anchor certificate
+     * @param Certificate $target Target end-entity certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
      */
     public static function fromTrustAnchorToTarget(
@@ -148,7 +148,7 @@ final class CertificationPath implements Countable, IteratorAggregate
     /**
      * Validate certification path.
      *
-     * @param null|Crypto          $crypto Crypto engine, use default if not set
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
     {

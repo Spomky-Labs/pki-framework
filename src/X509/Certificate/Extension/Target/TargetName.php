@@ -19,7 +19,7 @@ final class TargetName extends Target
     public function __construct(/**
      * Name.
      */
-    protected GeneralName $_name
+        protected GeneralName $_name
     ) {
         $this->_type = self::TYPE_NAME;
     }

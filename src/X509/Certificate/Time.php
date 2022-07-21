@@ -30,7 +30,7 @@ final class Time
     public function __construct(/**
      * Datetime.
      */
-    protected DateTimeImmutable $_dt
+        protected DateTimeImmutable $_dt
     ) {
         $this->_type = self::_determineType($_dt);
     }

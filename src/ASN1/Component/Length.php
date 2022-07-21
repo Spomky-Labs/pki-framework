@@ -27,7 +27,7 @@ final class Length implements Encodable
     /**
      * Constructor.
      *
-     * @param BigInteger|int $length     Length
+     * @param BigInteger|int $length Length
      * @param bool $_indefinite Whether length is indefinite
      */
     public function __construct(
@@ -40,7 +40,7 @@ final class Length implements Encodable
     /**
      * Decode length component from DER data.
      *
-     * @param string   $data   DER encoded data
+     * @param string $data DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
      * into the data where to start parsing.
      * Variable is updated to the offset next to the
@@ -81,11 +81,10 @@ final class Length implements Encodable
      *
      * Requirement of definite length is relaxed contrary to the specification (sect. 10.1).
      *
-     * @see self::fromDER
-     *
-     * @param string   $data     DER data
-     * @param int      $offset   Reference to the offset variable
+     * @param string $data DER data
+     * @param int $offset Reference to the offset variable
      * @param null|int $expected Expected length, null to bypass checking
+     * @see self::fromDER
      */
     public static function expectFromDER(string $data, int &$offset, int $expected = null): self
     {
@@ -137,8 +136,7 @@ final class Length implements Encodable
                 foreach (array_reverse($octets) as $octet) {
                     $bytes[] = $octet;
                 }
-            }
-            // short form
+            } // short form
             else {
                 $bytes[] = $num->toInt();
             }
@@ -181,9 +179,9 @@ final class Length implements Encodable
     /**
      * Decode long form length.
      *
-     * @param int    $length Number of octets
-     * @param string $data   Data
-     * @param int    $offset reference to the variable containing offset to the data
+     * @param int $length Number of octets
+     * @param string $data Data
+     * @param int $offset reference to the variable containing offset to the data
      */
     private static function _decodeLongFormLength(int $length, string $data, int &$offset): BigInteger
     {

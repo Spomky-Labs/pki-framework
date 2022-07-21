@@ -92,7 +92,7 @@ final class StructureDecodeTest extends TestCase
         // null, tag 1 (null), null
         $set = Set::fromDER("\x31\x8\x5\x0\xa1\x2\x5\x0\x5\x0");
         static::assertInstanceOf(DERTaggedType::class, $set->getTagged(1));
-        static::assertInstanceOf(NullType::class, $set->getTagged(1) ->expectExplicit() ->explicit() ->asNull());
+        static::assertInstanceOf(NullType::class, $set->getTagged(1)->expectExplicit()->explicit()->asNull());
     }
 
     /**

@@ -19,7 +19,7 @@ final class IssuerAlternativeNameExtension extends Extension
         bool $critical, /**
      * Names.
      */
-    protected GeneralNames $_names
+        protected GeneralNames $_names
     ) {
         parent::__construct(self::OID_ISSUER_ALT_NAME, $critical);
     }

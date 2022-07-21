@@ -154,7 +154,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $x = new ObjectIdentifier($oid);
         $der = $x->toDER();
-        static::assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier() ->oid());
+        static::assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier()->oid());
     }
 
     /**

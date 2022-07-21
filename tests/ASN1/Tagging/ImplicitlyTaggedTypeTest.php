@@ -35,7 +35,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function getImplicit(ImplicitTagging $el)
     {
-        static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL) ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
     }
 
     /**
@@ -113,7 +113,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function asImplicit(TaggedType $el)
     {
-        static::assertInstanceOf(NullType::class, $el->asImplicit(Element::TYPE_NULL, 1) ->asNull());
+        static::assertInstanceOf(NullType::class, $el->asImplicit(Element::TYPE_NULL, 1)->asNull());
     }
 
     /**

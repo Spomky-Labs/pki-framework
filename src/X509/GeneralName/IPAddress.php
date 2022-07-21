@@ -22,13 +22,13 @@ use UnexpectedValueException;
 abstract class IPAddress extends GeneralName
 {
     public function __construct(
-    /**
-     * IP address.
-     */
-    protected string $_ip, /**
+        /**
+         * IP address.
+         */
+        protected string $_ip, /**
      * Subnet mask.
      */
-    protected ?string $_mask = null
+        protected ?string $_mask = null
     ) {
         $this->_tag = self::TAG_IP_ADDRESS;
     }

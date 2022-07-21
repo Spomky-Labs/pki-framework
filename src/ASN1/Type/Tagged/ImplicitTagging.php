@@ -16,7 +16,7 @@ interface ImplicitTagging extends ElementBase
     /**
      * Get implicitly tagged wrapped element.
      *
-     * @param int $tag   Tag of the element
+     * @param int $tag Tag of the element
      * @param int $class Expected type class of the element
      */
     public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType;

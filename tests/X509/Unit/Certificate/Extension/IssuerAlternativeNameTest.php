@@ -93,7 +93,7 @@ final class IssuerAlternativeNameTest extends TestCase
      */
     public function name(IssuerAlternativeNameExtension $ext)
     {
-        static::assertEquals(self::DN, $ext->names() ->firstDN());
+        static::assertEquals(self::DN, $ext->names()->firstDN());
     }
 
     /**

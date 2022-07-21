@@ -41,7 +41,7 @@ final class RoleAttributeValue extends AttributeValue
     /**
      * Initialize from a role string.
      *
-     * @param string            $role_name Role name in URI format
+     * @param string $role_name Role name in URI format
      * @param null|GeneralNames $authority Issuing authority
      */
     public static function fromString(string $role_name, ?GeneralNames $authority = null): self
@@ -63,7 +63,7 @@ final class RoleAttributeValue extends AttributeValue
                     ->asSequence()
             );
         }
-        $name = GeneralName::fromASN1($seq->getTagged(1) ->asExplicit() ->asTagged());
+        $name = GeneralName::fromASN1($seq->getTagged(1)->asExplicit()->asTagged());
         return new self($name, $authority);
     }
 

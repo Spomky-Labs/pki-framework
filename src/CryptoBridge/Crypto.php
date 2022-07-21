@@ -21,9 +21,9 @@ abstract class Crypto
     /**
      * Sign data with given algorithm using given private key.
      *
-     * @param string                       $data         Data to sign
-     * @param PrivateKeyInfo               $privkey_info Private key
-     * @param SignatureAlgorithmIdentifier $algo         Signature algorithm
+     * @param string $data Data to sign
+     * @param PrivateKeyInfo $privkey_info Private key
+     * @param SignatureAlgorithmIdentifier $algo Signature algorithm
      */
     abstract public function sign(
         string $data,
@@ -34,10 +34,10 @@ abstract class Crypto
     /**
      * Verify signature with given algorithm using given public key.
      *
-     * @param string                       $data        Data to verify
-     * @param Signature                    $signature   Signature
-     * @param PublicKeyInfo                $pubkey_info Public key
-     * @param SignatureAlgorithmIdentifier $algo        Signature algorithm
+     * @param string $data Data to verify
+     * @param Signature $signature Signature
+     * @param PublicKeyInfo $pubkey_info Public key
+     * @param SignatureAlgorithmIdentifier $algo Signature algorithm
      *
      * @return bool True if signature matches
      */
@@ -53,8 +53,8 @@ abstract class Crypto
      *
      * Padding must be added by the caller. Initialization vector is taken from the algorithm identifier if available.
      *
-     * @param string                    $data Plaintext
-     * @param string                    $key  Encryption key
+     * @param string $data Plaintext
+     * @param string $key Encryption key
      * @param CipherAlgorithmIdentifier $algo Encryption algorithm
      *
      * @return string Ciphertext
@@ -67,8 +67,8 @@ abstract class Crypto
      * Possible padding is not removed and must be handled by the caller. Initialization vector is taken from the
      * algorithm identifier if available.
      *
-     * @param string                    $data Ciphertext
-     * @param string                    $key  Encryption key
+     * @param string $data Ciphertext
+     * @param string $key Encryption key
      * @param CipherAlgorithmIdentifier $algo Encryption algorithm
      *
      * @return string Plaintext

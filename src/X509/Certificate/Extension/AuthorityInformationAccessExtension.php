@@ -57,9 +57,8 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
     /**
      * Get iterator for access descriptions.
      *
-     * @see \IteratorAggregate::getIterator()
-     *
      * @return ArrayIterator List of AuthorityAccessDescription objects
+     * @see \IteratorAggregate::getIterator()
      */
     public function getIterator(): ArrayIterator
     {

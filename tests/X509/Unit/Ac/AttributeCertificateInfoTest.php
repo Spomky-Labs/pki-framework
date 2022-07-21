@@ -213,7 +213,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function issuerUniqueID(AttributeCertificateInfo $aci)
     {
-        static::assertEquals('uid', $aci->issuerUniqueID() ->string());
+        static::assertEquals('uid', $aci->issuerUniqueID()->string());
     }
 
     /**

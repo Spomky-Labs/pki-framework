@@ -63,9 +63,9 @@ abstract class TaggedType extends Element
     /**
      * Get the wrapped inner element employing implicit tagging.
      *
-     * @param int      $tag           Type tag of the inner element
-     * @param null|int $expectedTag   Optional outer tag expectation
-     * @param int      $expectedClass Optional inner type class expectation
+     * @param int $tag Type tag of the inner element
+     * @param null|int $expectedTag Optional outer tag expectation
+     * @param int $expectedClass Optional inner type class expectation
      */
     public function asImplicit(
         int $tag,

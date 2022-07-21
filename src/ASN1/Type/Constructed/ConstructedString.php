@@ -29,9 +29,8 @@ final class ConstructedString extends Structure implements StringType, Stringabl
     /**
      * Constructor.
      *
-     * @internal Use `create()` or `createWithTag()` method instead
-     *
      * @param Element ...$elements Any number of elements
+     * @internal Use `create()` or `createWithTag()` method instead
      */
     protected function __construct(Element ...$elements)
     {
@@ -67,7 +66,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      *
      * Does not perform any validation on types.
      *
-     * @param int        $tag         Type tag for the constructed string element
+     * @param int $tag Type tag for the constructed string element
      * @param StringType ...$elements Any number of elements
      *
      * @return self

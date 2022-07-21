@@ -32,7 +32,7 @@ final class ACValidator
      *
      * @param AttributeCertificate $_ac Attribute certificate to validate
      * @param ACValidationConfig $_config Validation configuration
-     * @param null|Crypto          $crypto Crypto engine, use default if not set
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function __construct(
         protected AttributeCertificate $_ac,
@@ -120,7 +120,7 @@ final class ACValidator
         if ($exts->hasKeyUsage() && ! $exts->keyUsage()->isDigitalSignature()) {
             throw new ACValidationException(
                 "Issuer PKC's Key Usage extension doesn't permit" .
-                     ' verification of digital signatures.'
+                ' verification of digital signatures.'
             );
         }
         if ($exts->hasBasicConstraints() && $exts->basicConstraints()->isCA()) {

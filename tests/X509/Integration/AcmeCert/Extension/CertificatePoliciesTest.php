@@ -88,7 +88,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function policyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
-        static::assertEquals('All your base are belong to us!', $un->explicitText() ->string());
+        static::assertEquals('All your base are belong to us!', $un->explicitText()->string());
     }
 
     /**
@@ -112,7 +112,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
      */
     public function policyUserNoticeQualifierOrganization(NoticeReference $ref)
     {
-        static::assertEquals('Toaplan Co., Ltd.', $ref->organization() ->string());
+        static::assertEquals('Toaplan Co., Ltd.', $ref->organization()->string());
     }
 
     /**

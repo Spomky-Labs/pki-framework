@@ -24,7 +24,7 @@ final class UnknownExtension extends Extension
         bool $critical, /**
      * Decoded extension value.
      */
-    protected ?Element $_element
+        protected ?Element $_element
     ) {
         parent::__construct($oid, $critical);
         $this->_data = $_element->toDER();

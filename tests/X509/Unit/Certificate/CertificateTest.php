@@ -52,7 +52,7 @@ final class CertificateTest extends TestCase
         $tc = $tc->withVersion(TBSCertificate::VERSION_1)
             ->withSerialNumber(0)
             ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
-        $signature = Crypto::getDefault()->sign($tc->toASN1() ->toDER(), self::$_privateKeyInfo, $tc->signature());
+        $signature = Crypto::getDefault()->sign($tc->toASN1()->toDER(), self::$_privateKeyInfo, $tc->signature());
         $cert = new Certificate($tc, $tc->signature(), $signature);
         static::assertInstanceOf(Certificate::class, $cert);
         return $cert;

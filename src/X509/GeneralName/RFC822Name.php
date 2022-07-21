@@ -19,7 +19,7 @@ final class RFC822Name extends GeneralName
     public function __construct(/**
      * Email.
      */
-    protected string $_email
+        protected string $_email
     ) {
         $this->_tag = self::TAG_RFC822_NAME;
     }

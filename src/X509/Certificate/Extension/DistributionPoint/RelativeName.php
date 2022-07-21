@@ -18,7 +18,7 @@ final class RelativeName extends DistributionPointName
     public function __construct(/**
      * Relative distinguished name.
      */
-    protected RDN $_rdn
+        protected RDN $_rdn
     ) {
         $this->_tag = self::TAG_RDN;
     }

@@ -95,7 +95,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      * Constructor.
      *
      * @param int $_effectiveKeyBits Number of effective key bits
-     * @param null|string $iv       Initialization vector
+     * @param null|string $iv Initialization vector
      */
     public function __construct(
         protected int $_effectiveKeyBits = 64,

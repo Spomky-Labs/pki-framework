@@ -65,7 +65,7 @@ final class AttributeCertificateTest extends TestCase
         $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
         $acinfo = $acinfo->withSignature($algo)
             ->withSerialNumber(1);
-        $signature = Crypto::getDefault()->sign($acinfo->toASN1() ->toDER(), self::$_privateKeyInfo, $algo);
+        $signature = Crypto::getDefault()->sign($acinfo->toASN1()->toDER(), self::$_privateKeyInfo, $algo);
         $ac = new AttributeCertificate($acinfo, $algo, $signature);
         static::assertInstanceOf(AttributeCertificate::class, $ac);
         return $ac;

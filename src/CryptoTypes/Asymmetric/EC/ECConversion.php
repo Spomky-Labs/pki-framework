@@ -49,7 +49,7 @@ final class ECConversion
      *
      * Defined in SEC 1 section 2.3.7.
      *
-     * @param int      $num
+     * @param int $num
      * @param null|int $mlen Optional desired output length
      */
     public static function integerToOctetString(Integer $num, ?int $mlen = null): OctetString
@@ -89,8 +89,8 @@ final class ECConversion
      * This is a convenicence method for integer <-> octet string conversion without the need for external ASN.1
      * dependencies.
      *
-     * @param int|string $num  Number in base-10
-     * @param null|int   $mlen Optional desired output length
+     * @param int|string $num Number in base-10
+     * @param null|int $mlen Optional desired output length
      */
     public static function numberToOctets(int|string $num, ?int $mlen = null): string
     {

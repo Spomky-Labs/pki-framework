@@ -155,7 +155,7 @@ final class AttributesTest extends TestCase
         );
         static::assertInstanceOf(Attributes::class, $attribs);
         static::assertCount(3, $attribs);
-        static::assertEquals('uri:new', $attribs->firstOf(AttributeType::OID_ROLE) ->first() ->roleName());
+        static::assertEquals('uri:new', $attribs->firstOf(AttributeType::OID_ROLE)->first()->roleName());
     }
 
     /**

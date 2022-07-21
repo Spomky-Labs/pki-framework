@@ -38,8 +38,8 @@ final class Real extends Element implements Stringable
      * @var string
      */
     final public const NR1_REGEX = '/^\s*' .
-        '(?<s>[+\-])?' .    // sign
-        '(?<i>\d+)' .       // integer
+    '(?<s>[+\-])?' .    // sign
+    '(?<i>\d+)' .       // integer
     '$/';
 
     /**
@@ -48,8 +48,8 @@ final class Real extends Element implements Stringable
      * @var string
      */
     final public const NR2_REGEX = '/^\s*' .
-        '(?<s>[+\-])?' .                            // sign
-        '(?<d>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // decimal number
+    '(?<s>[+\-])?' .                            // sign
+    '(?<d>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // decimal number
     '$/';
 
     /**
@@ -58,10 +58,10 @@ final class Real extends Element implements Stringable
      * @var string
      */
     final public const NR3_REGEX = '/^\s*' .
-        '(?<ms>[+\-])?' .                           // mantissa sign
-        '(?<m>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // mantissa
-        '[Ee](?<es>[+\-])?' .                       // exponent sign
-        '(?<e>\d+)' .                               // exponent
+    '(?<ms>[+\-])?' .                           // mantissa sign
+    '(?<m>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // mantissa
+    '[Ee](?<es>[+\-])?' .                       // exponent sign
+    '(?<e>\d+)' .                               // exponent
     '$/';
 
     /**
@@ -72,13 +72,13 @@ final class Real extends Element implements Stringable
      * @var string
      */
     final public const PHP_EXPONENT_DNUM = '/^' .
-        '(?<ms>[+\-])?' .               // sign
-        '(?<m>' .
-            '\d+' .                     // LNUM
-            '|' .
-            '(?:\d*\.\d+|\d+\.\d*)' .   // DNUM
-        ')[eE]' .
-        '(?<es>[+\-])?(?<e>\d+)' .      // exponent
+    '(?<ms>[+\-])?' .               // sign
+    '(?<m>' .
+    '\d+' .                     // LNUM
+    '|' .
+    '(?:\d*\.\d+|\d+\.\d*)' .   // DNUM
+    ')[eE]' .
+    '(?<es>[+\-])?(?<e>\d+)' .      // exponent
     '$/';
 
     /**
@@ -129,7 +129,7 @@ final class Real extends Element implements Stringable
      *
      * @param BigInteger|int|string $mantissa Integer mantissa
      * @param BigInteger|int|string $exponent Integer exponent
-     * @param int             $base     Base, 2 or 10
+     * @param int $base Base, 2 or 10
      */
     public function __construct(BigInteger|int|string $mantissa, BigInteger|int|string $exponent, int $base = 10)
     {
@@ -524,8 +524,7 @@ final class Real extends Element implements Stringable
         // denormalized value, shift binary point
         if ($exp->isEqualTo(self::EXP_BIAS)) {
             $exp = $exp->plus(1);
-        }
-        // normalized value, insert implicit leading one before the binary point
+        } // normalized value, insert implicit leading one before the binary point
         else {
             $man = $man->or(BigInteger::of(1)->shiftedLeft(52));
         }
@@ -559,20 +558,16 @@ final class Real extends Element implements Stringable
         // PHP exponent format
         if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match)) {
             [$m, $e] = self::_parsePHPExponentMatch($match);
-        }
-        // NR3 format
+        } // NR3 format
         elseif (preg_match(self::NR3_REGEX, $str, $match)) {
             [$m, $e] = self::_parseNR3Match($match);
-        }
-        // NR2 format
+        } // NR2 format
         elseif (preg_match(self::NR2_REGEX, $str, $match)) {
             [$m, $e] = self::_parseNR2Match($match);
-        }
-        // NR1 format
+        } // NR1 format
         elseif (preg_match(self::NR1_REGEX, $str, $match)) {
             [$m, $e] = self::_parseNR1Match($match);
-        }
-        // invalid number
+        } // invalid number
         else {
             throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
         }

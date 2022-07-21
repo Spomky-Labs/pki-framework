@@ -56,7 +56,7 @@ final class CertificationRequest implements Stringable
         if (! $algo instanceof SignatureAlgorithmIdentifier) {
             throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
-        $signature = Signature::fromSignatureData($seq->at(2) ->asBitString() ->string(), $algo);
+        $signature = Signature::fromSignatureData($seq->at(2)->asBitString()->string(), $algo);
         return new self($info, $algo, $signature);
     }
 

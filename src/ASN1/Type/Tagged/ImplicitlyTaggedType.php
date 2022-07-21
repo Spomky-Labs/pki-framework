@@ -22,9 +22,9 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
     /**
      * Constructor.
      *
-     * @param int     $tag     Tag number
+     * @param int $tag Tag number
      * @param Element $element Wrapped element
-     * @param int     $class   Type class
+     * @param int $class Type class
      */
     public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
     {

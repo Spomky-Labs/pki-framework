@@ -65,11 +65,11 @@ final class RSAPrivateKey extends PrivateKey
     /**
      * Constructor.
      *
-     * @param int|string $n  Modulus
-     * @param int|string $e  Public exponent
-     * @param int|string $d  Private exponent
-     * @param int|string $p  First prime factor
-     * @param int|string $q  Second prime factor
+     * @param int|string $n Modulus
+     * @param int|string $e Public exponent
+     * @param int|string $d Private exponent
+     * @param int|string $p First prime factor
+     * @param int|string $q Second prime factor
      * @param int|string $dp First factor exponent
      * @param int|string $dq Second factor exponent
      * @param int|string $qi CRT coefficient of the second factor

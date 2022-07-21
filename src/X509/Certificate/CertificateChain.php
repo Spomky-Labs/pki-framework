@@ -98,7 +98,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function toPEMString(): string
     {
-        return implode("\n", array_map(fn (Certificate $cert) => $cert->toPEM() ->string(), $this->_certs));
+        return implode("\n", array_map(fn (Certificate $cert) => $cert->toPEM()->string(), $this->_certs));
     }
 
     /**

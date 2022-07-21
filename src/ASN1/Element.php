@@ -234,7 +234,7 @@ abstract class Element implements ElementBase
     /**
      * Decode element from DER data.
      *
-     * @param string   $data   DER encoded data
+     * @param string $data DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
      * into the data where to start parsing.
      * Variable is updated to the offset next to the
@@ -382,8 +382,8 @@ abstract class Element implements ElementBase
      * Decode type-specific element from DER.
      *
      * @param Identifier $identifier Pre-parsed identifier
-     * @param string     $data       DER data
-     * @param int        $offset     Offset in data to the next byte after identifier
+     * @param string $data DER data
+     * @param int $offset Offset in data to the next byte after identifier
      */
     abstract protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase;
 

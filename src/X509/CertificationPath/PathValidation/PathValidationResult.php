@@ -29,7 +29,7 @@ final class PathValidationResult
     /**
      * Constructor.
      *
-     * @param Certificate[]           $certificates Certificates in a certification path
+     * @param Certificate[] $certificates Certificates in a certification path
      * @param null|PolicyTree $_policyTree Valid policy tree
      * @param PublicKeyInfo $_publicKeyInfo Public key of the end-entity certificate
      * @param AlgorithmIdentifierType $_publicKeyAlgo Public key algorithm of the end-entity certificate

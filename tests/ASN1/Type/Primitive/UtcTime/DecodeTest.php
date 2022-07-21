@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = UTCTime::fromDER("\x17\x0d" . '060102220405Z');
-        static::assertEquals($date, $el->dateTime() ->getTimestamp());
+        static::assertEquals($date, $el->dateTime()->getTimestamp());
     }
 
     /**

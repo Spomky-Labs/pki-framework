@@ -29,7 +29,7 @@ final class CertificationPathBuilder
     /**
      * Get all certification paths to given target certificate from any trust anchor.
      *
-     * @param Certificate            $target       Target certificate
+     * @param Certificate $target Target certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
      *
      * @return CertificationPath[]
@@ -44,7 +44,7 @@ final class CertificationPathBuilder
     /**
      * Get shortest path to given target certificate from any trust anchor.
      *
-     * @param Certificate            $target       Target certificate
+     * @param Certificate $target Target certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
      */
     public function shortestPathToTarget(
@@ -62,7 +62,7 @@ final class CertificationPathBuilder
     /**
      * Find all issuers of the target certificate from a given bundle.
      *
-     * @param Certificate       $target Target certificate
+     * @param Certificate $target Target certificate
      * @param CertificateBundle $bundle Certificates to search
      *
      * @return Certificate[]
@@ -95,9 +95,8 @@ final class CertificationPathBuilder
      *
      * Helper method for allPathsToTarget to be called recursively.
      *
-     * @todo Implement loop detection
-     *
      * @return array[] Array of arrays containing path certificates
+     * @todo Implement loop detection
      */
     private function _resolvePathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
     {

@@ -21,7 +21,7 @@ final class UnknownAttributeValue extends AttributeValue
         string $oid, /**
      * ASN.1 element.
      */
-    protected Element $_element
+        protected Element $_element
     ) {
         $this->_oid = $oid;
     }

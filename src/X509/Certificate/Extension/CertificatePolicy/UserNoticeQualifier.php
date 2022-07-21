@@ -17,13 +17,13 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class UserNoticeQualifier extends PolicyQualifierInfo
 {
     public function __construct(
-    /**
-     * Explicit notice text.
-     */
-    protected ?DisplayText $_text = null, /**
+        /**
+         * Explicit notice text.
+         */
+        protected ?DisplayText $_text = null, /**
      * Notice reference.
      */
-    protected ?NoticeReference $_ref = null
+        protected ?NoticeReference $_ref = null
     ) {
         $this->_oid = self::OID_UNOTICE;
     }

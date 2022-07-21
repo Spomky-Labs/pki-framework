@@ -314,8 +314,8 @@ abstract class Extension implements Stringable
     /**
      * Parse extension value from DER.
      *
-     * @param string $data     DER data
-     * @param bool   $critical Whether extension is critical
+     * @param string $data DER data
+     * @param bool $critical Whether extension is critical
      */
     abstract protected static function _fromDER(string $data, bool $critical): static;
 

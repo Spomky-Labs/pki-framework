@@ -172,7 +172,7 @@ final class OpenSSLCrypto extends Crypto
      * Check that given signature algorithm supports key of given type.
      *
      * @param SignatureAlgorithmIdentifier $sig_algo Signature algorithm
-     * @param AlgorithmIdentifier          $key_algo Key algorithm
+     * @param AlgorithmIdentifier $key_algo Key algorithm
      */
     protected function _checkSignatureAlgoAndKey(
         SignatureAlgorithmIdentifier $sig_algo,

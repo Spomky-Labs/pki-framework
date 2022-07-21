@@ -19,7 +19,7 @@ final class SubjectKeyIdentifierExtension extends Extension
         bool $critical, /**
      * Key identifier.
      */
-    protected string $_keyIdentifier
+        protected string $_keyIdentifier
     ) {
         parent::__construct(self::OID_SUBJECT_KEY_IDENTIFIER, $critical);
     }

@@ -38,7 +38,7 @@ final class PathValidator
      *
      * @param Crypto $_crypto Crypto engine
      * @param PathValidationConfig $_config Validation config
-     * @param Certificate          ...$certificates Certificates from the trust anchor to
+     * @param Certificate ...$certificates Certificates from the trust anchor to
      * the end-entity certificate
      */
     public function __construct(
@@ -137,7 +137,7 @@ final class PathValidator
         // (a)(b) if policy mappings extension is present
         $state = $this->_preparePolicyMappings($state, $cert);
         // (c) assign working_issuer_name
-        $state = $state->withWorkingIssuerName($cert->tbsCertificate() ->subject());
+        $state = $state->withWorkingIssuerName($cert->tbsCertificate()->subject());
         // (d)(e)(f)
         $state = $this->_setPublicKeyState($state, $cert);
         // (g) if name constraints extension is present
@@ -214,8 +214,8 @@ final class PathValidator
         } else {
             // if algorithms differ, set parameters to null
             if ($pk_info->algorithmIdentifier()->oid() !==
-                    $state->workingPublicKeyAlgorithm()
-                        ->oid()) {
+                $state->workingPublicKeyAlgorithm()
+                    ->oid()) {
                 $state = $state->withWorkingPublicKeyParameters(null);
             }
         }
@@ -351,12 +351,12 @@ final class PathValidator
         $ext = $extensions->policyConstraints();
         // (i.1)
         if ($ext->hasRequireExplicitPolicy() &&
-                $ext->requireExplicitPolicy() < $state->explicitPolicy()) {
+            $ext->requireExplicitPolicy() < $state->explicitPolicy()) {
             $state = $state->withExplicitPolicy($ext->requireExplicitPolicy());
         }
         // (i.2)
         if ($ext->hasInhibitPolicyMapping() &&
-                $ext->inhibitPolicyMapping() < $state->policyMapping()) {
+            $ext->inhibitPolicyMapping() < $state->policyMapping()) {
             $state = $state->withPolicyMapping($ext->inhibitPolicyMapping());
         }
         return $state;

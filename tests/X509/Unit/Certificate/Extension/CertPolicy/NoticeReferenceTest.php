@@ -68,7 +68,7 @@ final class NoticeReferenceTest extends TestCase
      */
     public function organization(NoticeReference $ref)
     {
-        static::assertEquals('org', $ref->organization() ->string());
+        static::assertEquals('org', $ref->organization()->string());
     }
 
     /**

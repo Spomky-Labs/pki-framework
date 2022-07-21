@@ -133,7 +133,7 @@ final class TBSCertificate
             );
         }
         if ($seq->hasTagged(3)) {
-            $tbs_cert->_extensions = Extensions::fromASN1($seq->getTagged(3) ->asExplicit() ->asSequence());
+            $tbs_cert->_extensions = Extensions::fromASN1($seq->getTagged(3)->asExplicit()->asSequence());
         }
         return $tbs_cert;
     }
@@ -151,12 +151,12 @@ final class TBSCertificate
         if ($cri->hasAttributes()) {
             $attribs = $cri->attributes();
             if ($attribs->hasExtensionRequest()) {
-                $tbs_cert = $tbs_cert->withExtensions($attribs->extensionRequest() ->extensions());
+                $tbs_cert = $tbs_cert->withExtensions($attribs->extensionRequest()->extensions());
             }
         }
         // add Subject Key Identifier extension
         return $tbs_cert->withAdditionalExtensions(
-            new SubjectKeyIdentifierExtension(false, $cri->subjectPKInfo() ->keyIdentifier())
+            new SubjectKeyIdentifierExtension(false, $cri->subjectPKInfo()->keyIdentifier())
         );
     }
 
@@ -474,9 +474,9 @@ final class TBSCertificate
     /**
      * Create signed certificate.
      *
-     * @param SignatureAlgorithmIdentifier $algo         Algorithm used for signing
-     * @param PrivateKeyInfo               $privkey_info Private key used for signing
-     * @param null|Crypto                  $crypto       Crypto engine, use default if not set
+     * @param SignatureAlgorithmIdentifier $algo Algorithm used for signing
+     * @param PrivateKeyInfo $privkey_info Private key used for signing
+     * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function sign(
         SignatureAlgorithmIdentifier $algo,

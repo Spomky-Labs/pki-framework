@@ -98,7 +98,7 @@ final class DecodeTest extends TestCase
     public function signatureValue(Signature $signature)
     {
         $expected = hex2bin(trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig')));
-        static::assertEquals($expected, $signature->bitString() ->string());
+        static::assertEquals($expected, $signature->bitString()->string());
     }
 
     /**
@@ -156,7 +156,7 @@ final class DecodeTest extends TestCase
      */
     public function publicKeyAlgo(PublicKeyInfo $info)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier() ->oid());
+        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier()->oid());
     }
 
     /**

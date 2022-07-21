@@ -58,7 +58,7 @@ final class TranscodeStep implements PrepareStep
         switch ($this->_type) {
             // UTF-8 string as is
             case Element::TYPE_UTF8_STRING:
-            // PrintableString maps directly to UTF-8
+                // PrintableString maps directly to UTF-8
             case Element::TYPE_PRINTABLE_STRING:
                 return $string;
             // UCS-2 to UTF-8

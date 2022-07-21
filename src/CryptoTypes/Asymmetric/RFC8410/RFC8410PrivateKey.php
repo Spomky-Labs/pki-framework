@@ -52,7 +52,7 @@ abstract class RFC8410PrivateKey extends PrivateKey
     /**
      * Initialize from `CurvePrivateKey` OctetString.
      *
-     * @param OctetString $str        Private key data wrapped into OctetString
+     * @param OctetString $str Private key data wrapped into OctetString
      * @param null|string $public_key Optional public key data
      */
     public static function fromOctetString(OctetString $str, ?string $public_key = null): self

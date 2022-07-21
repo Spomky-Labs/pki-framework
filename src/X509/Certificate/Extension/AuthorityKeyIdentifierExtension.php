@@ -31,10 +31,10 @@ final class AuthorityKeyIdentifierExtension extends Extension
     /**
      * Constructor.
      *
-     * @param bool              $critical      Conforming CA's must mark as non-critical (false)
+     * @param bool $critical Conforming CA's must mark as non-critical (false)
      * @param null|string $_keyIdentifier Key identifier
      * @param null|GeneralNames $_authorityCertIssuer Issuer name
-     * @param null|int|string   $serial        Issuer serial number as a base 10 integer
+     * @param null|int|string $serial Issuer serial number as a base 10 integer
      */
     public function __construct(
         bool $critical,
@@ -126,11 +126,11 @@ final class AuthorityKeyIdentifierExtension extends Extension
             if (! $seq->hasTagged(1) || ! $seq->hasTagged(2)) {
                 throw new UnexpectedValueException(
                     'AuthorityKeyIdentifier must have both' .
-                        ' authorityCertIssuer and authorityCertSerialNumber' .
-                        ' present or both absent.'
+                    ' authorityCertIssuer and authorityCertSerialNumber' .
+                    ' present or both absent.'
                 );
             }
-            $issuer = GeneralNames::fromASN1($seq->getTagged(1) ->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
+            $issuer = GeneralNames::fromASN1($seq->getTagged(1)->asImplicit(Element::TYPE_SEQUENCE)->asSequence());
             $serial = $seq->getTagged(2)
                 ->asImplicit(Element::TYPE_INTEGER)
                 ->asInteger()
@@ -147,13 +147,13 @@ final class AuthorityKeyIdentifierExtension extends Extension
         }
         // if either issuer or serial is set, both must be set
         if (isset($this->_authorityCertIssuer) ||
-             isset($this->_authorityCertSerialNumber)) {
+            isset($this->_authorityCertSerialNumber)) {
             if (! isset($this->_authorityCertIssuer,
                 $this->_authorityCertSerialNumber)) {
                 throw new LogicException(
                     'AuthorityKeyIdentifier must have both' .
-                        ' authorityCertIssuer and authorityCertSerialNumber' .
-                        ' present or both absent.'
+                    ' authorityCertIssuer and authorityCertSerialNumber' .
+                    ' present or both absent.'
                 );
             }
             $elements[] = new ImplicitlyTaggedType(1, $this->_authorityCertIssuer->toASN1());

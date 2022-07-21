@@ -103,6 +103,6 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     public function location(SubjectAccessDescription $desc)
     {
-        static::assertEquals(self::URI, $desc->accessLocation() ->string());
+        static::assertEquals(self::URI, $desc->accessLocation()->string());
     }
 }

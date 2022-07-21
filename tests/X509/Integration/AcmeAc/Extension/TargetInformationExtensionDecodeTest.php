@@ -43,7 +43,7 @@ final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
      */
     public function values(TargetInformationExtension $ti)
     {
-        $vals = array_map(fn (Target $target) => $target->string(), $ti->targets() ->all());
+        $vals = array_map(fn (Target $target) => $target->string(), $ti->targets()->all());
         static::assertEqualsCanonicalizing(['urn:test', '*.example.com', 'urn:another'], $vals);
     }
 }

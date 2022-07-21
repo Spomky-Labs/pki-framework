@@ -229,8 +229,8 @@ final class PolicyTree
     /**
      * Apply anyPolicy mapping to the policy tree as specified in 6.1.4 (b)(1).
      *
-     * @param string         $idp   OID of the issuer domain policy
-     * @param array          $sdps  Array of subject domain policy OIDs
+     * @param string $idp OID of the issuer domain policy
+     * @param array $sdps Array of subject domain policy OIDs
      */
     private function _applyAnyPolicyMapping(
         Certificate $cert,

@@ -18,8 +18,8 @@ abstract class Curve25519PrivateKey extends RFC8410PrivateKey
     /**
      * Constructor.
      *
-     * @param string      $private_key Private key data
-     * @param null|string $public_key  Public key data
+     * @param string $private_key Private key data
+     * @param null|string $public_key Public key data
      */
     public function __construct(string $private_key, ?string $public_key = null)
     {

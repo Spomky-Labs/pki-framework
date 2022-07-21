@@ -102,7 +102,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function cN(SubjectDirectoryAttributesExtension $ext)
     {
-        static::assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME) ->first() ->stringValue());
+        static::assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME)->first()->stringValue());
     }
 
     /**
@@ -112,7 +112,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function desc(SubjectDirectoryAttributesExtension $ext)
     {
-        static::assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION) ->first() ->stringValue());
+        static::assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION)->first()->stringValue());
     }
 
     /**

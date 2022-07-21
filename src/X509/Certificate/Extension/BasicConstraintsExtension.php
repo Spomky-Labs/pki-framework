@@ -22,10 +22,10 @@ final class BasicConstraintsExtension extends Extension
         bool $critical, /**
      * Whether certificate is a CA.
      */
-    protected bool $_ca, /**
+        protected bool $_ca, /**
      * Maximum certification path length.
      */
-    protected ?int $_pathLen = null
+        protected ?int $_pathLen = null
     ) {
         parent::__construct(self::OID_BASIC_CONSTRAINTS, $critical);
     }

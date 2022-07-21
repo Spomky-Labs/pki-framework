@@ -28,7 +28,7 @@ final class OtherName extends GeneralName
         protected string $_type, /**
      * Value.
      */
-    protected Element $_element
+        protected Element $_element
     ) {
         $this->_tag = self::TAG_OTHER_NAME;
     }

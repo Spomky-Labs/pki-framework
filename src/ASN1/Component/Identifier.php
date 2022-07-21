@@ -63,9 +63,9 @@ final class Identifier implements Encodable
     /**
      * Constructor.
      *
-     * @param int             $class Type class
-     * @param int             $pc    Primitive / Constructed
-     * @param BigInteger|int $tag   Type tag number
+     * @param int $class Type class
+     * @param int $pc Primitive / Constructed
+     * @param BigInteger|int $tag Type tag number
      */
     public function __construct(int $class, int $pc, BigInteger|int $tag)
     {
@@ -77,7 +77,7 @@ final class Identifier implements Encodable
     /**
      * Decode identifier component from DER data.
      *
-     * @param string   $data   DER encoded data
+     * @param string $data DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
      * into the data where to start parsing.
      * Variable is updated to the offset next to the
@@ -115,8 +115,7 @@ final class Identifier implements Encodable
         $tag = $this->_tag->getValue();
         if ($tag->isLessThan(0x1f)) {
             $bytes[] = $byte | $tag->toInt();
-        }
-        // long-form identifier
+        } // long-form identifier
         else {
             $bytes[] = $byte | 0x1f;
             $octets = [];
@@ -249,8 +248,8 @@ final class Identifier implements Encodable
     /**
      * Parse long form tag.
      *
-     * @param string $data   DER data
-     * @param int    $offset Reference to the variable containing offset to data
+     * @param string $data DER data
+     * @param int $offset Reference to the variable containing offset to data
      *
      * @return BigInteger Tag number
      */

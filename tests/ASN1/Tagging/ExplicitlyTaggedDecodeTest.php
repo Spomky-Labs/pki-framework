@@ -57,7 +57,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     public function innerType()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        static::assertEquals(Element::TYPE_NULL, $el->explicit() ->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->explicit()->tag());
     }
 
     /**
@@ -67,7 +67,7 @@ final class ExplicitlyTaggedDecodeTest extends TestCase
     {
         $el = TaggedType::fromDER("\xa1\x4\xa2\x2\x5\x0");
         static::assertEquals(1, $el->tag());
-        static::assertEquals(2, $el->explicit() ->tag());
-        static::assertEquals(Element::TYPE_NULL, $el->explicit() ->asTagged() ->explicit() ->tag());
+        static::assertEquals(2, $el->explicit()->tag());
+        static::assertEquals(Element::TYPE_NULL, $el->explicit()->asTagged()->explicit()->tag());
     }
 }
