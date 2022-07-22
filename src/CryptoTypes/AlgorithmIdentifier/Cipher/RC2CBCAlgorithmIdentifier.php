@@ -36,7 +36,7 @@ RC2-CBC-Parameter ::= SEQUENCE {
 RC2CBCParameter ::= SEQUENCE {
     rc2ParameterVersion INTEGER,
     iv OCTET STRING  }  -- exactly 8 octets
-*/
+ */
 
 /**
  * Algorithm identifier for RC2 cipher in CBC mode.

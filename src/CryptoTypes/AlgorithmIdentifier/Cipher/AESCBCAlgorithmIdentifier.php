@@ -17,7 +17,7 @@ From RFC 3565 - 4.1. AES Algorithm Identifiers and Parameters:
 The AlgorithmIdentifier parameters field MUST be present, and the parameter field MUST contain a AES-IV:
 
     AES-IV ::= OCTET STRING (SIZE(16))
-*/
+ */
 
 /**
  * Base class for AES-CBC algorithm identifiers.
