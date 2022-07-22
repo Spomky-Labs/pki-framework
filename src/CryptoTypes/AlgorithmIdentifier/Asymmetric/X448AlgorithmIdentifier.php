@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
+
 /**
  * Algorithm identifier for the Diffie-Hellman operation with curve448.
  *
@@ -11,9 +15,25 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric;
  */
 final class X448AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
 {
-    public function __construct()
+    private function __construct()
     {
-        $this->_oid = self::OID_X448;
+        $this->oid = self::OID_X448;
+    }
+
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @return self
+     */
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        if ($params !== null) {
+            throw new UnexpectedValueException('Parameters must be absent.');
+        }
+        return new self();
     }
 
     public function name(): string

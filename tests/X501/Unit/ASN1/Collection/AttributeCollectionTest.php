@@ -24,9 +24,9 @@ final class AttributeCollectionTest extends TestCase
     public function create()
     {
         $c = SequenceOfAttributes::fromAttributeValues(
-            new NameValue('n1'),
-            new NameValue('n2'),
-            new DescriptionValue('d')
+            NameValue::create('n1'),
+            NameValue::create('n2'),
+            DescriptionValue::create('d')
         );
         static::assertInstanceOf(AttributeCollection::class, $c);
         return $c;
@@ -113,7 +113,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function withAdditional(AttributeCollection $c)
     {
-        $c = $c->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('cn')));
+        $c = $c->withAdditional(Attribute::fromAttributeValues(CommonNameValue::create('cn')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         static::assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
     }
@@ -125,7 +125,7 @@ final class AttributeCollectionTest extends TestCase
      */
     public function withUnique(AttributeCollection $c)
     {
-        $c = $c->withUnique(Attribute::fromAttributeValues(new NameValue('uniq')));
+        $c = $c->withUnique(Attribute::fromAttributeValues(NameValue::create('uniq')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         static::assertEquals(['d', 'uniq'], $vals);
     }

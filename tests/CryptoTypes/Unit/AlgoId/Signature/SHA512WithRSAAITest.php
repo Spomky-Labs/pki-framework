@@ -21,7 +21,7 @@ final class SHA512WithRSAAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new SHA512WithRSAEncryptionAlgorithmIdentifier();
+        $ai = SHA512WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

@@ -23,7 +23,7 @@ final class AttributeTest extends TestCase
      */
     public function create()
     {
-        $attr = Attribute::fromAttributeValues(new NameValue('one'), new NameValue('two'));
+        $attr = Attribute::fromAttributeValues(NameValue::create('one'), NameValue::create('two'));
         static::assertInstanceOf(Attribute::class, $attr);
         return $attr;
     }
@@ -127,7 +127,7 @@ final class AttributeTest extends TestCase
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
-        Attribute::fromAttributeValues(new NameValue('name'), new CommonNameValue('cn'));
+        Attribute::fromAttributeValues(NameValue::create('name'), CommonNameValue::create('cn'));
     }
 
     /**

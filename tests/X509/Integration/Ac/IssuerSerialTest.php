@@ -89,7 +89,7 @@ final class IssuerSerialTest extends TestCase
             Validity::fromStrings('now', 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
-        $cert = $tbs->sign(new SHA256WithRSAEncryptionAlgorithmIdentifier(), self::$_privKey);
+        $cert = $tbs->sign(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privKey);
         $is = IssuerSerial::fromPKC($cert);
         static::assertTrue($is->identifiesPKC($cert));
     }
@@ -107,7 +107,7 @@ final class IssuerSerialTest extends TestCase
             Validity::fromStrings('now', 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
-        $cert = $tbs->sign(new SHA256WithRSAEncryptionAlgorithmIdentifier(), self::$_privKey);
+        $cert = $tbs->sign(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privKey);
         $is = new IssuerSerial(
             new GeneralNames(new DirectoryName($issuer)),
             $cert->tbsCertificate()

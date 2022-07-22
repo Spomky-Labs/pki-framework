@@ -22,7 +22,7 @@ final class AES192CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
      */
     protected function __construct(?string $iv = null)
     {
-        $this->_oid = self::OID_AES_192_CBC;
+        $this->oid = self::OID_AES_192_CBC;
         parent::__construct($iv);
     }
 

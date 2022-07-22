@@ -19,7 +19,7 @@ abstract class Curve25519PrivateKey extends RFC8410PrivateKey
      * @param string $private_key Private key data
      * @param null|string $public_key Public key data
      */
-    public function __construct(string $private_key, ?string $public_key = null)
+    protected function __construct(string $private_key, ?string $public_key = null)
     {
         if (mb_strlen($private_key, '8bit') !== 32) {
             throw new UnexpectedValueException('Curve25519 private key must be exactly 32 bytes.');

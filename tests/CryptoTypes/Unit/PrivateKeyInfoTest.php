@@ -267,7 +267,7 @@ final class PrivateKeyInfoTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $ref = PrivateKeyInfo::fromPEM($pem);
-        $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(new CommonNameValue('John Doe'));
+        $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(CommonNameValue::create('John Doe'));
         $pki = new PrivateKeyInfo($ref->algorithmIdentifier(), $ref->privateKeyData(), $attribs);
         $pem = $pki->toPEM();
         static::assertInstanceOf(PEM::class, $pem);

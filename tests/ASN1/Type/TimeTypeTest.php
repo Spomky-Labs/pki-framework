@@ -63,7 +63,7 @@ final class TimeTypeTest extends TestCase
      */
     public function wrapped(TimeType $time)
     {
-        $wrap = new UnspecifiedType($time->asElement());
+        $wrap = UnspecifiedType::create($time->asElement());
         static::assertInstanceOf(TimeType::class, $wrap->asTime());
     }
 }

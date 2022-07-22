@@ -25,9 +25,9 @@ abstract class AttributeValue implements Stringable
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    public const MAP_OID_TO_CLASS = [
+    private const MAP_OID_TO_CLASS = [
         AttributeType::OID_COMMON_NAME => CommonNameValue::class,
         AttributeType::OID_SURNAME => SurnameValue::class,
         AttributeType::OID_SERIAL_NUMBER => SerialNumberValue::class,

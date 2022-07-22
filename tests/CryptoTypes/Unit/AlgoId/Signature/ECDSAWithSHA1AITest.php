@@ -23,7 +23,7 @@ final class ECDSAWithSHA1AITest extends TestCase
      */
     public function encode()
     {
-        $ai = new ECDSAWithSHA1AlgorithmIdentifier();
+        $ai = ECDSAWithSHA1AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

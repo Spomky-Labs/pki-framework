@@ -80,7 +80,7 @@ final class UTCTimeTest extends TestCase
      */
     public function wrapped(Element $el)
     {
-        $wrap = new UnspecifiedType($el);
+        $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(UTCTime::class, $wrap->asUTCTime());
     }
 
@@ -89,7 +89,7 @@ final class UTCTimeTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = new UnspecifiedType(new NullType());
+        $wrap = UnspecifiedType::create(new NullType());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UTCTime expected, got primitive NULL');
         $wrap->asUTCTime();

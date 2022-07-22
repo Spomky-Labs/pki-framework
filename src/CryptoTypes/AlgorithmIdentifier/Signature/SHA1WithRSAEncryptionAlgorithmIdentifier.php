@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
+
 /**
  * RSA with SHA-1 signature algorithm identifier.
  *
@@ -11,9 +14,23 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
  */
 final class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorithmIdentifier
 {
-    public function __construct()
+    private function __construct()
     {
-        $this->_oid = self::OID_SHA1_WITH_RSA_ENCRYPTION;
+        $this->oid = self::OID_SHA1_WITH_RSA_ENCRYPTION;
+    }
+
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): self
+    {
+        if (! isset($params)) {
+            throw new UnexpectedValueException('No parameters.');
+        }
+        $params->asNull();
+        return new self();
     }
 
     public function name(): string

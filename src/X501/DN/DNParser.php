@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\X501\DN;
 use function mb_strlen;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use UnexpectedValueException;
 
 /**
@@ -39,6 +40,8 @@ final class DNParser
 
     /**
      * Parse distinguished name string to name-components.
+     *
+     * @return array<array<string>>
      */
     public static function parseString(string $dn): array
     {
@@ -73,6 +76,8 @@ final class DNParser
 
     /**
      * Parse DN to name-components.
+     *
+     * @return array<array<string>>
      */
     private function parse(): array
     {
@@ -93,7 +98,7 @@ final class DNParser
      *
      * name-component *("," name-component)
      *
-     * @return array Array of name-components
+     * @return array<array<string>> Array of name-components
      */
     private function _parseName(int &$offset): array
     {
@@ -120,7 +125,7 @@ final class DNParser
      *
      * attributeTypeAndValue *("+" attributeTypeAndValue)
      *
-     * @return array Array of [type, value] tuples
+     * @return array<array<string, string|ElementBase>> Array of [type, value] tuples
      */
     private function _parseNameComponent(int &$offset): array
     {
@@ -144,7 +149,7 @@ final class DNParser
      *
      * attributeType "=" attributeValue
      *
-     * @return array A tuple of [type, value]. Value may be either a string or
+     * @return array<string, string|ElementBase> A tuple of [type, value]. Value may be either a string or
      * an Element, if it's encoded as hexstring.
      */
     private function _parseAttrTypeAndValue(int &$offset): array

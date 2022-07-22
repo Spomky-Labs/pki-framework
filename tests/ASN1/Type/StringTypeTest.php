@@ -20,7 +20,7 @@ final class StringTypeTest extends TestCase
      */
     public function wrapped()
     {
-        $wrap = new UnspecifiedType(new OctetString(''));
+        $wrap = UnspecifiedType::create(new OctetString(''));
         static::assertInstanceOf(StringType::class, $wrap->asString());
     }
 

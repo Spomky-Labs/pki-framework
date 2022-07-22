@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash;
 
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
@@ -20,32 +19,14 @@ abstract class RFC4231HMACAlgorithmIdentifier extends SpecificAlgorithmIdentifie
 {
     /**
      * Parameters stored for re-encoding.
-     *
-     * @var null|NullType
      */
-    protected $_params;
-
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
-        /*
-         * RFC 4231 states that the "parameter" component SHOULD be present
-         * but have type NULL.
-         */
-        $obj = new static();
-        if (isset($params)) {
-            $obj->_params = $params->asNull();
-        }
-        return $obj;
-    }
+    protected ?NullType $params = null;
 
     /**
      * @return null|NullType
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
-        return $this->_params;
+        return $this->params;
     }
 }

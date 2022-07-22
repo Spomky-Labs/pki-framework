@@ -62,7 +62,7 @@ final class AttributeCertificateTest extends TestCase
             new RoleAttributeValue(new UniformResourceIdentifier('urn:admin'))
         );
         $acinfo = new AttributeCertificateInfo($holder, $issuer, $validity, $attribs);
-        $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
+        $algo = SHA256WithRSAEncryptionAlgorithmIdentifier::create();
         $acinfo = $acinfo->withSignature($algo)
             ->withSerialNumber(1);
         $signature = Crypto::getDefault()->sign($acinfo->toASN1()->toDER(), self::$_privateKeyInfo, $algo);

@@ -1,5 +1,5 @@
 parameters:
-    level: 1
+    level: 0
     paths:
         - src
     ignoreErrors:
@@ -16,7 +16,7 @@ parameters:
             path: src/ASN1/Type/Primitive/ObjectDescriptor.php
             count: 1
     checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
+    checkGenericClassInNonGenericObjectType: false
     checkUninitializedProperties: true
     treatPhpDocTypesAsCertain: false
 includes:

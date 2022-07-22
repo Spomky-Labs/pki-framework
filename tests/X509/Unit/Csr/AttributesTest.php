@@ -139,7 +139,7 @@ final class AttributesTest extends TestCase
      */
     public function withAdditional(Attributes $attribs)
     {
-        $attribs = $attribs->withAdditional(Attribute::fromAttributeValues(new CommonNameValue('Test')));
+        $attribs = $attribs->withAdditional(Attribute::fromAttributeValues(CommonNameValue::create('Test')));
         static::assertCount(2, $attribs);
         return $attribs;
     }

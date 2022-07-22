@@ -132,7 +132,7 @@ final class BitStringTest extends TestCase
      */
     public function wrapped(Element $el)
     {
-        $wrap = new UnspecifiedType($el);
+        $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(BitString::class, $wrap->asBitString());
     }
 
@@ -141,7 +141,7 @@ final class BitStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = new UnspecifiedType(new NullType());
+        $wrap = UnspecifiedType::create(new NullType());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('BIT STRING expected, got primitive NULL');
         $wrap->asBitString();

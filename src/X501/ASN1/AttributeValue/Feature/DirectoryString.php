@@ -66,9 +66,9 @@ abstract class DirectoryString extends AttributeValue
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    public const MAP_TAG_TO_CLASS = [
+    private const MAP_TAG_TO_CLASS = [
         self::TELETEX => T61String::class,
         self::PRINTABLE => PrintableString::class,
         self::UNIVERSAL => UniversalString::class,
@@ -80,7 +80,7 @@ abstract class DirectoryString extends AttributeValue
      * @param string $_string String value
      * @param int $_stringTag Syntax choice
      */
-    public function __construct(
+    protected function __construct(
         protected string $_string,
         protected int $_stringTag
     ) {

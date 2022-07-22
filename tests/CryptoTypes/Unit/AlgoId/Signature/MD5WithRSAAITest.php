@@ -21,7 +21,7 @@ final class MD5WithRSAAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new MD5WithRSAEncryptionAlgorithmIdentifier();
+        $ai = MD5WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+
 /**
  * RSA with SHA-384 signature algorithm identifier.
  *
@@ -11,10 +13,25 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
  */
 final class SHA384WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatureAlgorithmIdentifier
 {
-    public function __construct()
+    protected function __construct()
     {
         parent::__construct();
-        $this->_oid = self::OID_SHA384_WITH_RSA_ENCRYPTION;
+        $this->oid = self::OID_SHA384_WITH_RSA_ENCRYPTION;
+    }
+
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): self
+    {
+        $obj = new self();
+        // store parameters so re-encoding doesn't change
+        if (isset($params)) {
+            $obj->params = $params->asElement();
+        }
+        return $obj;
     }
 
     public function name(): string

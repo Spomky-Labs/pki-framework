@@ -27,9 +27,14 @@ algid-hmacWithSHA1 AlgorithmIdentifier {{PBKDF2-PRFs}} ::=
  */
 final class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier, PRFAlgorithmIdentifier
 {
-    public function __construct()
+    private function __construct()
     {
-        $this->_oid = self::OID_HMAC_WITH_SHA1;
+        $this->oid = self::OID_HMAC_WITH_SHA1;
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function name(): string
@@ -48,7 +53,7 @@ final class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier 
         return new self();
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

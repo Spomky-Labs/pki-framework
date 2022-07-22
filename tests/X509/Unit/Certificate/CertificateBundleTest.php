@@ -128,9 +128,9 @@ final class CertificateBundleTest extends TestCase
             Name::fromString('cn=Issuer 1'),
             Validity::fromStrings(null, null)
         );
-        $cert1 = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $priv_key_info);
+        $cert1 = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $priv_key_info);
         $tc = $tc->withSubject(Name::fromString('cn=Issuer 2'));
-        $cert2 = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $priv_key_info);
+        $cert2 = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $priv_key_info);
         $bundle = new CertificateBundle($cert1);
         static::assertFalse($bundle->contains($cert2));
     }
@@ -213,7 +213,7 @@ final class CertificateBundleTest extends TestCase
             Name::fromString('cn=Issuer'),
             Validity::fromStrings(null, null)
         );
-        $cert = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $priv_key_info);
+        $cert = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $priv_key_info);
         $bundle = new CertificateBundle($cert);
         static::assertEmpty($bundle->allBySubjectKeyIdentifier('nope'));
     }

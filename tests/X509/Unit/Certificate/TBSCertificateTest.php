@@ -81,7 +81,7 @@ final class TBSCertificateTest extends TestCase
         );
         $tc = $tc->withVersion(TBSCertificate::VERSION_3)
             ->withSerialNumber(1)
-            ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier())
+            ->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create())
             ->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'))
             ->withSubjectUniqueID(UniqueIdentifier::fromString('subject'))
             ->withAdditionalExtensions(new BasicConstraintsExtension(true, false));
@@ -153,7 +153,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function signature(TBSCertificate $tc)
     {
-        static::assertEquals(new SHA1WithRSAEncryptionAlgorithmIdentifier(), $tc->signature());
+        static::assertEquals(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $tc->signature());
     }
 
     /**
@@ -267,7 +267,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function withSignature(TBSCertificate $tc)
     {
-        $tc = $tc->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
+        $tc = $tc->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
@@ -421,7 +421,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function sign(TBSCertificate $tc)
     {
-        $cert = $tc->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
+        $cert = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privateKeyInfo);
         static::assertInstanceOf(Certificate::class, $cert);
     }
 
@@ -434,7 +434,7 @@ final class TBSCertificateTest extends TestCase
     {
         $tc = $tc->withVersion(TBSCertificate::VERSION_1)
             ->withSerialNumber(1)
-            ->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
+            ->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         $seq = $tc->toASN1();
         $tbs_cert = TBSCertificate::fromASN1($seq);
         static::assertInstanceOf(TBSCertificate::class, $tbs_cert);

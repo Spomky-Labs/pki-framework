@@ -61,7 +61,7 @@ final class PolicyMappingMapAnyTest extends TestCase
             new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY)),
             new PolicyMappingsExtension(true, new PolicyMapping('1.3.6.1.3.1', '1.3.6.1.3.2'))
         );
-        self::$_ca = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
+        self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
@@ -73,7 +73,7 @@ final class PolicyMappingMapAnyTest extends TestCase
         $tbs = $tbs->withAdditionalExtensions(
             new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3.2'))
         );
-        self::$_cert = $tbs->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_caKey);
+        self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }
 
     public static function tearDownAfterClass(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\X501\ASN1\AttributeType;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\PrintableStringValue;
 
@@ -17,9 +18,19 @@ final class SerialNumberValue extends PrintableStringValue
     /**
      * @param string $value String value
      */
-    public function __construct(string $value)
+    protected function __construct(string $value)
     {
         $this->_oid = AttributeType::OID_SERIAL_NUMBER;
         parent::__construct($value);
+    }
+
+    public static function create(string $value): self
+    {
+        return new self($value);
+    }
+
+    public static function fromASN1(UnspecifiedType $el): self
+    {
+        return new self($el->asPrintableString()->string());
     }
 }

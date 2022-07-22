@@ -227,9 +227,9 @@ final class AttributeType
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_ATTR_TO_STR_TYPE = [
+    private const MAP_ATTR_TO_STR_TYPE = [
         self::OID_DN_QUALIFIER => Element::TYPE_PRINTABLE_STRING,
         self::OID_COUNTRY_NAME => Element::TYPE_PRINTABLE_STRING,
         self::OID_SERIAL_NUMBER => Element::TYPE_PRINTABLE_STRING,
@@ -244,9 +244,9 @@ final class AttributeType
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_OID_TO_NAME = [
+    private const MAP_OID_TO_NAME = [
         '0.9.2342.19200300.100.1.1' => ['uid', 'userid'],
         '0.9.2342.19200300.100.1.2' => ['textEncodedORAddress'],
         '0.9.2342.19200300.100.1.3' => ['mail', 'rfc822Mailbox'],

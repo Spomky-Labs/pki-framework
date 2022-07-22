@@ -133,7 +133,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function unspecified(ConstructedString $cs)
     {
-        $ut = new UnspecifiedType($cs);
+        $ut = UnspecifiedType::create($cs);
         static::assertInstanceOf(ConstructedString::class, $ut->asConstructedString());
     }
 
@@ -142,7 +142,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function unspecifiedFail()
     {
-        $ut = new UnspecifiedType(new NullType());
+        $ut = UnspecifiedType::create(new NullType());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Constructed String expected, got primitive NULL');
         $ut->asConstructedString();

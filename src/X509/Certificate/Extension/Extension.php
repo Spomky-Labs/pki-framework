@@ -167,9 +167,9 @@ abstract class Extension implements Stringable
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    public const MAP_OID_TO_CLASS = [
+    private const MAP_OID_TO_CLASS = [
         self::OID_AUTHORITY_KEY_IDENTIFIER => AuthorityKeyIdentifierExtension::class,
         self::OID_SUBJECT_KEY_IDENTIFIER => SubjectKeyIdentifierExtension::class,
         self::OID_KEY_USAGE => KeyUsageExtension::class,
@@ -197,9 +197,9 @@ abstract class Extension implements Stringable
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    public const MAP_OID_TO_NAME = [
+    private const MAP_OID_TO_NAME = [
         self::OID_AUTHORITY_KEY_IDENTIFIER => 'authorityKeyIdentifier',
         self::OID_SUBJECT_KEY_IDENTIFIER => 'subjectKeyIdentifier',
         self::OID_KEY_USAGE => 'keyUsage',

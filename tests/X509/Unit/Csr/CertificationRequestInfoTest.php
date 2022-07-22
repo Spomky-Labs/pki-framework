@@ -224,7 +224,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function sign(CertificationRequestInfo $cri)
     {
-        $csr = $cri->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privateKeyInfo);
+        $csr = $cri->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privateKeyInfo);
         static::assertInstanceOf(CertificationRequest::class, $csr);
     }
 }

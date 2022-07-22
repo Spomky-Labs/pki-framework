@@ -22,9 +22,9 @@ abstract class SignatureAlgorithmIdentifierFactory
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_RSA_OID = [
+    private const MAP_RSA_OID = [
         AlgorithmIdentifier::OID_MD5 => AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA1 => AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA224 => AlgorithmIdentifier::OID_SHA224_WITH_RSA_ENCRYPTION,
@@ -38,9 +38,9 @@ abstract class SignatureAlgorithmIdentifierFactory
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_EC_OID = [
+    private const MAP_EC_OID = [
         AlgorithmIdentifier::OID_SHA1 => AlgorithmIdentifier::OID_ECDSA_WITH_SHA1,
         AlgorithmIdentifier::OID_SHA224 => AlgorithmIdentifier::OID_ECDSA_WITH_SHA224,
         AlgorithmIdentifier::OID_SHA256 => AlgorithmIdentifier::OID_ECDSA_WITH_SHA256,
@@ -66,7 +66,8 @@ abstract class SignatureAlgorithmIdentifierFactory
             ),
         };
         $cls = (new AlgorithmIdentifierFactory())->getClass($oid);
-        return new $cls();
+
+        return $cls::create();
     }
 
     /**

@@ -41,14 +41,13 @@ final class SignatureFactoryTest extends TestCase
     /**
      * @dataProvider provideAlgoForAsymmetricCrypto
      *
-     * @param AsymmetricCryptoAlgorithmIdentifier $crypto_algo
-     * @param HashAlgorithmIdentifier $hash_algo
-     * @param string $expected_class
-     *
      * @test
      */
-    public function algoForAsymmetricCrypto($crypto_algo, $hash_algo, $expected_class)
-    {
+    public function algoForAsymmetricCrypto(
+        AsymmetricCryptoAlgorithmIdentifier $crypto_algo,
+        HashAlgorithmIdentifier $hash_algo,
+        string $expected_class
+    ) {
         $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto($crypto_algo, $hash_algo);
         static::assertInstanceOf($expected_class, $algo);
     }
@@ -114,7 +113,7 @@ class SignatureFactoryTest_InvalidCryptoAlgo extends SpecificAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->_oid = '1.3.6.1.3';
+        $this->oid = '1.3.6.1.3';
     }
 
     public function name(): string
@@ -127,7 +126,7 @@ class SignatureFactoryTest_InvalidCryptoAlgo extends SpecificAlgorithmIdentifier
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }
@@ -137,7 +136,7 @@ class SignatureFactoryTest_InvalidHashAlgo extends SpecificAlgorithmIdentifier i
 {
     public function __construct()
     {
-        $this->_oid = '1.3.6.1.3';
+        $this->oid = '1.3.6.1.3';
     }
 
     public function name(): string
@@ -150,7 +149,7 @@ class SignatureFactoryTest_InvalidHashAlgo extends SpecificAlgorithmIdentifier i
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

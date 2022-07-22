@@ -34,7 +34,7 @@ final class CertificationPathBuilder
      */
     public function allPathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
     {
-        $paths = $this->_resolvePathsToTarget($target, $intermediate);
+        $paths = $this->resolvePathsToTarget($target, $intermediate);
         // map paths to CertificationPath objects
         return array_map(fn ($certs) => new CertificationPath(...$certs), $paths);
     }
@@ -93,10 +93,10 @@ final class CertificationPathBuilder
      *
      * Helper method for allPathsToTarget to be called recursively.
      *
-     * @return array[] Array of arrays containing path certificates
+     * @return array<int, array<Certificate>> Array of arrays containing path certificates
      * @todo Implement loop detection
      */
-    private function _resolvePathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
+    private function resolvePathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
     {
         // array of possible paths
         $paths = [];
@@ -118,12 +118,13 @@ final class CertificationPathBuilder
                     continue;
                 }
                 // resolve paths to issuer
-                $subpaths = $this->_resolvePathsToTarget($issuer, $intermediate);
+                $subpaths = $this->resolvePathsToTarget($issuer, $intermediate);
                 foreach ($subpaths as $path) {
                     $paths[] = array_merge($path, [$target]);
                 }
             }
         }
+
         return $paths;
     }
 }

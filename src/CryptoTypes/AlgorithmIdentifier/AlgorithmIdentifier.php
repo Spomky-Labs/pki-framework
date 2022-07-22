@@ -100,10 +100,8 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 
     /**
      * Object identifier.
-     *
-     * @var string
      */
-    protected $_oid;
+    protected string $oid;
 
     /**
      * Initialize from ASN.1.
@@ -115,13 +113,13 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     public function toASN1(): Sequence
     {
-        $elements = [new ObjectIdentifier($this->_oid)];
-        $params = $this->_paramsASN1();
+        $elements = [new ObjectIdentifier($this->oid)];
+        $params = $this->paramsASN1();
         if (isset($params)) {
             $elements[] = $params;
         }
@@ -133,5 +131,5 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
      *
      * If type allows parameters to be omitted, return null.
      */
-    abstract protected function _paramsASN1(): ?Element;
+    abstract protected function paramsASN1(): ?Element;
 }

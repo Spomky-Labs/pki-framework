@@ -19,9 +19,9 @@ final class TranscodeStep implements PrepareStep
     /**
      * Supported ASN.1 types.
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const SUPPORTED_TYPES = [
+    private const SUPPORTED_TYPES = [
         Element::TYPE_UTF8_STRING,
         Element::TYPE_PRINTABLE_STRING,
         Element::TYPE_BMP_STRING,

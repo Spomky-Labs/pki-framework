@@ -29,7 +29,7 @@ final class SignatureTest extends TestCase
      */
     public function fromRSAAlgo()
     {
-        $sig = Signature::fromSignatureData('test', new SHA1WithRSAEncryptionAlgorithmIdentifier());
+        $sig = Signature::fromSignatureData('test', SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         static::assertInstanceOf(RSASignature::class, $sig);
     }
 
@@ -39,7 +39,7 @@ final class SignatureTest extends TestCase
     public function fromECAlgo()
     {
         $seq = Sequence::create(new Integer(1), new Integer(2));
-        $sig = Signature::fromSignatureData($seq->toDER(), new ECDSAWithSHA1AlgorithmIdentifier());
+        $sig = Signature::fromSignatureData($seq->toDER(), ECDSAWithSHA1AlgorithmIdentifier::create());
         static::assertInstanceOf(ECSignature::class, $sig);
     }
 
@@ -48,7 +48,7 @@ final class SignatureTest extends TestCase
      */
     public function fromEd25519Algo()
     {
-        $sig = Signature::fromSignatureData(str_repeat("\0", 64), new Ed25519AlgorithmIdentifier());
+        $sig = Signature::fromSignatureData(str_repeat("\0", 64), Ed25519AlgorithmIdentifier::create());
         static::assertInstanceOf(Ed25519Signature::class, $sig);
     }
 
@@ -57,7 +57,7 @@ final class SignatureTest extends TestCase
      */
     public function fromEd448Algo()
     {
-        $sig = Signature::fromSignatureData(str_repeat("\0", 114), new Ed448AlgorithmIdentifier());
+        $sig = Signature::fromSignatureData(str_repeat("\0", 114), Ed448AlgorithmIdentifier::create());
         static::assertInstanceOf(Ed448Signature::class, $sig);
     }
 

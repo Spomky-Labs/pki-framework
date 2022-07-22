@@ -30,6 +30,6 @@ final class X448PublicKey extends RFC8410PublicKey
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new X448AlgorithmIdentifier();
+        return X448AlgorithmIdentifier::create();
     }
 }

@@ -27,14 +27,12 @@ From RFC 5754 - 2. Message Digest Algorithms
  */
 abstract class SHA2AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
 {
-    public function __construct(protected ?NullType $_params)
-    {
-    }
+    protected ?NullType $_params = null;
 
     /**
      * @return null|NullType
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return $this->_params;
     }

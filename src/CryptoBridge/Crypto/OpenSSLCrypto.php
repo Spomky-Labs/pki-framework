@@ -37,9 +37,9 @@ final class OpenSSLCrypto extends Crypto
      *
      * @internal
      *
-     * @var array
+     * @var array<string, int>
      */
-    final public const MAP_DIGEST_OID = [
+    private const MAP_DIGEST_OID = [
         AlgorithmIdentifier::OID_MD4_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_MD4,
         AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_MD5,
         AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION => OPENSSL_ALGO_SHA1,
@@ -59,9 +59,9 @@ final class OpenSSLCrypto extends Crypto
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_CIPHER_OID = [
+    private const MAP_CIPHER_OID = [
         AlgorithmIdentifier::OID_DES_CBC => 'des-cbc',
         AlgorithmIdentifier::OID_DES_EDE3_CBC => 'des-ede3-cbc',
         AlgorithmIdentifier::OID_AES_128_CBC => 'aes-128-cbc',

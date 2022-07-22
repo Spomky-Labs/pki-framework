@@ -216,7 +216,7 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
      *
      * @internal
      *
-     * @var array
+     * @var array<string, int>
      */
     final public const MAP_CURVE_TO_SIZE = [
         self::CURVE_PRIME192V1 => 192,
@@ -246,7 +246,7 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
      */
     public function __construct(protected string $_namedCurve)
     {
-        $this->_oid = self::OID_EC_PUBLIC_KEY;
+        $this->oid = self::OID_EC_PUBLIC_KEY;
     }
 
     public function name(): string
@@ -278,7 +278,7 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
     /**
      * @return ObjectIdentifier
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return new ObjectIdentifier($this->_namedCurve);
     }

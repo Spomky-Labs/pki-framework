@@ -56,7 +56,7 @@ final class InvalidKeyUsageTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate($issuer_ca);
         $tbs = $tbs->withAdditionalExtensions(new KeyUsageExtension(true, 0));
-        $issuer = $tbs->sign(new ECDSAWithSHA512AlgorithmIdentifier(), $issuer_ca_pk);
+        $issuer = $tbs->sign(ECDSAWithSHA512AlgorithmIdentifier::create(), $issuer_ca_pk);
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
         $aci = new AttributeCertificateInfo(
@@ -65,7 +65,7 @@ final class InvalidKeyUsageTest extends TestCase
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
             new Attributes()
         );
-        self::$_ac = $aci->sign(new ECDSAWithSHA256AlgorithmIdentifier(), $issuer_pk);
+        self::$_ac = $aci->sign(ECDSAWithSHA256AlgorithmIdentifier::create(), $issuer_pk);
     }
 
     public static function tearDownAfterClass(): void

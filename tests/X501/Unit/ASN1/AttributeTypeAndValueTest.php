@@ -20,7 +20,7 @@ final class AttributeTypeAndValueTest extends TestCase
      */
     public function create()
     {
-        $atv = AttributeTypeAndValue::fromAttributeValue(new NameValue('one'));
+        $atv = AttributeTypeAndValue::fromAttributeValue(NameValue::create('one'));
         static::assertInstanceOf(AttributeTypeAndValue::class, $atv);
         return $atv;
     }

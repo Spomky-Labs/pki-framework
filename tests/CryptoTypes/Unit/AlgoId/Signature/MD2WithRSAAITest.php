@@ -21,7 +21,7 @@ final class MD2WithRSAAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new MD2WithRSAEncryptionAlgorithmIdentifier();
+        $ai = MD2WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

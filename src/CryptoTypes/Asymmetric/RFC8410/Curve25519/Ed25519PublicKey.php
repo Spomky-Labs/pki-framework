@@ -16,6 +16,6 @@ final class Ed25519PublicKey extends Curve25519PublicKey
 {
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new Ed25519AlgorithmIdentifier();
+        return Ed25519AlgorithmIdentifier::create();
     }
 }

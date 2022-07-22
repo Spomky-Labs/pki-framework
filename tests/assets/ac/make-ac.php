@@ -84,5 +84,5 @@ $extensions = new Extensions($aki_ext, $nra_ext, $ti_ext);
 $aci = new AttributeCertificateInfo($holder, $issuer, $validity, $attribs);
 $aci = $aci->withSerialNumber(0xbadcafe);
 $aci = $aci->withExtensions($extensions);
-$ac = $aci->sign(new SHA256WithRSAEncryptionAlgorithmIdentifier(), $issuer_private_key);
+$ac = $aci->sign(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), $issuer_private_key);
 echo $ac;

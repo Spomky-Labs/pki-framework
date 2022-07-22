@@ -91,13 +91,13 @@ final class OpenSSLCryptoTest extends TestCase
 
     public function provideSignAndVerifyRSA(): iterable
     {
-        yield [new MD4WithRSAEncryptionAlgorithmIdentifier()];
-        yield [new MD5WithRSAEncryptionAlgorithmIdentifier()];
-        yield [new SHA1WithRSAEncryptionAlgorithmIdentifier()];
-        yield [new SHA224WithRSAEncryptionAlgorithmIdentifier()];
-        yield [new SHA256WithRSAEncryptionAlgorithmIdentifier()];
-        yield [new SHA384WithRSAEncryptionAlgorithmIdentifier()];
-        yield [new SHA512WithRSAEncryptionAlgorithmIdentifier()];
+        yield [MD4WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [MD5WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [SHA1WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [SHA224WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [SHA256WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [SHA384WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [SHA512WithRSAEncryptionAlgorithmIdentifier::create()];
     }
 
     /**
@@ -116,7 +116,7 @@ final class OpenSSLCryptoTest extends TestCase
 
     public function provideSignAndVerifyEC(): iterable
     {
-        yield [new ECDSAWithSHA1AlgorithmIdentifier()];
+        yield [ECDSAWithSHA1AlgorithmIdentifier::create()];
     }
 
     /**
@@ -124,7 +124,7 @@ final class OpenSSLCryptoTest extends TestCase
      */
     public function unsupportedDigestFail()
     {
-        $algo = new MD2WithRSAEncryptionAlgorithmIdentifier();
+        $algo = MD2WithRSAEncryptionAlgorithmIdentifier::create();
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
     }
@@ -135,7 +135,7 @@ final class OpenSSLCryptoTest extends TestCase
     public function signInvalidKeyFails()
     {
         $pk = new RSAPrivateKey(0, 0, 0, 0, 0, 0, 0, 0);
-        $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
+        $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $this->expectException(RuntimeException::class);
         self::$_crypto->sign(self::DATA, $pk->privateKeyInfo(), $algo);
     }
@@ -146,7 +146,7 @@ final class OpenSSLCryptoTest extends TestCase
     public function verifyInvalidKeyType()
     {
         $signature = RSASignature::fromSignatureString('');
-        $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
+        $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
         $this->expectException(RuntimeException::class);
         self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), $algo);
@@ -268,18 +268,18 @@ final class OpenSSLCryptoTest extends TestCase
     {
         $rsa_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
         $ec_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));
-        yield [$rsa_key, new MD4WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$rsa_key, new MD5WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$rsa_key, new SHA1WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$rsa_key, new SHA224WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$rsa_key, new SHA256WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$rsa_key, new SHA384WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$rsa_key, new SHA512WithRSAEncryptionAlgorithmIdentifier()];
-        yield [$ec_key, new ECDSAWithSHA1AlgorithmIdentifier()];
-        yield [$ec_key, new ECDSAWithSHA224AlgorithmIdentifier()];
-        yield [$ec_key, new ECDSAWithSHA256AlgorithmIdentifier()];
-        yield [$ec_key, new ECDSAWithSHA384AlgorithmIdentifier()];
-        yield [$ec_key, new ECDSAWithSHA512AlgorithmIdentifier()];
+        yield [$rsa_key, MD4WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$rsa_key, MD5WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$rsa_key, SHA1WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$rsa_key, SHA224WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$rsa_key, SHA256WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$rsa_key, SHA384WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$rsa_key, SHA512WithRSAEncryptionAlgorithmIdentifier::create()];
+        yield [$ec_key, ECDSAWithSHA1AlgorithmIdentifier::create()];
+        yield [$ec_key, ECDSAWithSHA224AlgorithmIdentifier::create()];
+        yield [$ec_key, ECDSAWithSHA256AlgorithmIdentifier::create()];
+        yield [$ec_key, ECDSAWithSHA384AlgorithmIdentifier::create()];
+        yield [$ec_key, ECDSAWithSHA512AlgorithmIdentifier::create()];
     }
 }
 
@@ -287,7 +287,7 @@ class UnsupportedCipher extends CipherAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->_oid = '1.3.6.1.3';
+        $this->oid = '1.3.6.1.3';
     }
 
     public function name(): string
@@ -310,7 +310,7 @@ class UnsupportedCipher extends CipherAlgorithmIdentifier
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }
@@ -320,7 +320,7 @@ class InvalidRC2 extends CipherAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->_oid = AlgorithmIdentifier::OID_RC2_CBC;
+        $this->oid = AlgorithmIdentifier::OID_RC2_CBC;
     }
 
     public function name(): string
@@ -343,7 +343,7 @@ class InvalidRC2 extends CipherAlgorithmIdentifier
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

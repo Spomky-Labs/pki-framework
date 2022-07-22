@@ -20,7 +20,7 @@ final class SetOfAttributesTest extends TestCase
      */
     public function create()
     {
-        $c = SetOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
+        $c = SetOfAttributes::fromAttributeValues(NameValue::create('n'), DescriptionValue::create('d'));
         static::assertInstanceOf(SetOfAttributes::class, $c);
         return $c;
     }

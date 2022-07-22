@@ -206,7 +206,7 @@ class PubliceKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->_oid = self::OID_EC_PUBLIC_KEY;
+        $this->oid = self::OID_EC_PUBLIC_KEY;
     }
 
     public function name(): string
@@ -219,7 +219,7 @@ class PubliceKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

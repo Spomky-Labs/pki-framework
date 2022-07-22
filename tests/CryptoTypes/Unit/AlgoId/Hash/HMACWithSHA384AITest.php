@@ -21,7 +21,7 @@ final class HMACWithSHA384AITest extends TestCase
      */
     public function encode()
     {
-        $ai = new HMACWithSHA384AlgorithmIdentifier();
+        $ai = HMACWithSHA384AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

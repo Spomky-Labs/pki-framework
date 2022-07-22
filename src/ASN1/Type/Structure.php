@@ -179,7 +179,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function elements(): array
     {
         if (! isset($this->unspecifiedTypes)) {
-            $this->unspecifiedTypes = array_map(fn (Element $el) => new UnspecifiedType($el), $this->elements);
+            $this->unspecifiedTypes = array_map(fn (Element $el) => UnspecifiedType::create($el), $this->elements);
         }
         return $this->unspecifiedTypes;
     }
@@ -213,7 +213,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
         if (! isset($this->elements[$idx])) {
             throw new OutOfBoundsException("Structure doesn't have an element at index {$idx}.");
         }
-        return new UnspecifiedType($this->elements[$idx]);
+        return UnspecifiedType::create($this->elements[$idx]);
     }
 
     /**

@@ -32,7 +32,7 @@ final class HolderTest extends TestCase
         self::$_subject = new GeneralNames(DirectoryName::fromDNString('cn=Subject'));
         self::$_odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
             new BitString('')
         );
     }

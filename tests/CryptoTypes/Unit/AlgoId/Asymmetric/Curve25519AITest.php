@@ -25,7 +25,7 @@ final class Curve25519AITest extends TestCase
      */
     public function encodeEd25519(): Sequence
     {
-        $ai = new Ed25519AlgorithmIdentifier();
+        $ai = Ed25519AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -70,7 +70,7 @@ final class Curve25519AITest extends TestCase
      */
     public function encodeX25519(): Sequence
     {
-        $ai = new X25519AlgorithmIdentifier();
+        $ai = X25519AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

@@ -26,24 +26,24 @@ final class Identifier implements Encodable
 
     final public const CLASS_PRIVATE = 0b11;
 
+    // P/C enumerations
+    final public const PRIMITIVE = 0b0;
+
+    final public const CONSTRUCTED = 0b1;
+
     /**
      * Mapping from type class to human readable name.
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_CLASS_TO_NAME = [
+    private const MAP_CLASS_TO_NAME = [
         self::CLASS_UNIVERSAL => 'UNIVERSAL',
         self::CLASS_APPLICATION => 'APPLICATION',
         self::CLASS_CONTEXT_SPECIFIC => 'CONTEXT SPECIFIC',
         self::CLASS_PRIVATE => 'PRIVATE',
     ];
-
-    // P/C enumerations
-    final public const PRIMITIVE = 0b0;
-
-    final public const CONSTRUCTED = 0b1;
 
     /**
      * Type class.

@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
 use SpomkyLabs\Pki\ASN1\Element;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use UnexpectedValueException;
 
 /*
 From RFC 5758 - 3.2.  ECDSA Signature Algorithm
@@ -28,23 +26,12 @@ From RFC 5758 - 3.2.  ECDSA Signature Algorithm
  */
 abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements SignatureAlgorithmIdentifier
 {
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
-        if (isset($params)) {
-            throw new UnexpectedValueException('Parameters must be omitted.');
-        }
-        return new static();
-    }
-
     public function supportsKeyAlgorithm(AlgorithmIdentifier $algo): bool
     {
         return $algo->oid() === self::OID_EC_PUBLIC_KEY;
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

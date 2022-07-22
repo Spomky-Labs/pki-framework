@@ -21,8 +21,8 @@ final class AttributeCollectionCastTest extends TestCase
     public function cast()
     {
         $in = SequenceOfAttributes::fromAttributeValues(
-            new AttributeCollectionCastTestAttrValue('test'),
-            new NameValue('name')
+            AttributeCollectionCastTestAttrValue::create('test'),
+            NameValue::create('name')
         );
         $asn1 = $in->toASN1();
         $out = AttributeCollectionCastTestCollection::fromASN1($asn1);

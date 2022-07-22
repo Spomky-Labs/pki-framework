@@ -6,8 +6,6 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 /*
 From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm
@@ -24,33 +22,15 @@ From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm
  */
 abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
 {
-    /**
-     * Parameters.
-     *
-     * @var null|Element
-     */
-    protected $_params;
+    protected null|Element $params;
 
-    public function __construct()
+    protected function __construct()
     {
-        $this->_params = new NullType();
+        $this->params = new NullType();
     }
 
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    protected function paramsASN1(): ?Element
     {
-        $obj = new static();
-        // store parameters so re-encoding doesn't change
-        if (isset($params)) {
-            $obj->_params = $params->asElement();
-        }
-        return $obj;
-    }
-
-    protected function _paramsASN1(): ?Element
-    {
-        return $this->_params;
+        return $this->params;
     }
 }

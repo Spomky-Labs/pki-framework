@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
 use SpomkyLabs\Pki\ASN1\Element;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use UnexpectedValueException;
 
 /*
 From RFC 8410:
@@ -34,18 +32,7 @@ From RFC 8410:
  */
 abstract class RFC8410EdAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier, SignatureAlgorithmIdentifier
 {
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
-        if (isset($params)) {
-            throw new UnexpectedValueException('Parameters must be absent.');
-        }
-        return new static();
-    }
-
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

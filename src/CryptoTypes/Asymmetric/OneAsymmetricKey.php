@@ -40,21 +40,19 @@ class OneAsymmetricKey
      *
      * @var int
      */
-    public const VERSION_1 = 0;
+    final public const VERSION_1 = 0;
 
     /**
      * Version number for OneAsymmetricKey.
      *
      * @var int
      */
-    public const VERSION_2 = 1;
+    final public const VERSION_2 = 1;
 
     /**
      * Version number.
-     *
-     * @var int
      */
-    protected $_version;
+    protected int $version;
 
     /**
      * @param AlgorithmIdentifierType $_algo Algorithm
@@ -68,7 +66,7 @@ class OneAsymmetricKey
         protected ?OneAsymmetricKeyAttributes $_attributes = null,
         protected ?BitString $_publicKeyData = null
     ) {
-        $this->_version = self::VERSION_2;
+        $this->version = self::VERSION_2;
     }
 
     /**
@@ -97,7 +95,7 @@ class OneAsymmetricKey
                 ->asImplicit(Element::TYPE_BIT_STRING)->asBitString();
         }
         $obj = new static($algo, $key, $attribs, $pubkey);
-        $obj->_version = $version;
+        $obj->version = $version;
         return $obj;
     }
 
@@ -116,7 +114,7 @@ class OneAsymmetricKey
      * `OneAsymmetricKey` may include attributes as well the public key that are not conveyed in a specific `PrivateKey`
      * object.
      */
-    public static function fromPrivateKey(PrivateKey $private_key): self
+    public static function fromPrivateKey(PrivateKey $private_key): static
     {
         return new static($private_key->algorithmIdentifier(), $private_key->privateKeyData());
     }
@@ -140,7 +138,7 @@ class OneAsymmetricKey
     public function withVersion(int $version): self
     {
         $obj = clone $this;
-        $obj->_version = $version;
+        $obj->version = $version;
         return $obj;
     }
 
@@ -149,7 +147,7 @@ class OneAsymmetricKey
      */
     public function version(): int
     {
-        return $this->_version;
+        return $this->version;
     }
 
     /**
@@ -200,28 +198,28 @@ class OneAsymmetricKey
                 // is encoded into private key data. So Ed25519 private key
                 // is doubly wrapped into octet string encodings.
                 return Ed25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
-                    ->withVersion($this->_version)
+                    ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
             // X25519
             case AlgorithmIdentifier::OID_X25519:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return X25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
-                    ->withVersion($this->_version)
+                    ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
             // Ed448
             case AlgorithmIdentifier::OID_ED448:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return Ed448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
-                    ->withVersion($this->_version)
+                    ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
             // X448
             case AlgorithmIdentifier::OID_X448:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return X448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
-                    ->withVersion($this->_version)
+                    ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
         }
         throw new RuntimeException('Private key ' . $algo->name() . ' not supported.');
@@ -284,11 +282,7 @@ class OneAsymmetricKey
      */
     public function toASN1(): Sequence
     {
-        $elements = [
-            new Integer($this->_version),
-            $this->_algo->toASN1(),
-            new OctetString($this->_privateKeyData),
-        ];
+        $elements = [new Integer($this->version), $this->_algo->toASN1(), new OctetString($this->_privateKeyData)];
         if ($this->_attributes) {
             $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
         }

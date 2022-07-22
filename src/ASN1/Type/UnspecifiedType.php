@@ -45,12 +45,14 @@ use UnexpectedValueException;
  */
 final class UnspecifiedType implements ElementBase
 {
-    public function __construct(
-        /**
-         * The wrapped element.
-         */
-        private readonly Element $_element
+    private function __construct(
+        private readonly Element $element
     ) {
+    }
+
+    public static function create(Element $element): self
+    {
+        return new self($element);
     }
 
     /**
@@ -80,10 +82,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asTagged(): TaggedType
     {
-        if (! $this->_element instanceof TaggedType) {
+        if (! $this->element instanceof TaggedType) {
             throw new UnexpectedValueException('Tagged element expected, got ' . $this->_typeDescriptorString());
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -91,10 +93,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asApplication(): ApplicationType
     {
-        if (! $this->_element instanceof ApplicationType) {
+        if (! $this->element instanceof ApplicationType) {
             throw new UnexpectedValueException('Application type expected, got ' . $this->_typeDescriptorString());
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -102,10 +104,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asPrivate(): PrivateType
     {
-        if (! $this->_element instanceof PrivateType) {
+        if (! $this->element instanceof PrivateType) {
             throw new UnexpectedValueException('Private type expected, got ' . $this->_typeDescriptorString());
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -113,10 +115,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asBoolean(): Boolean
     {
-        if (! $this->_element instanceof Boolean) {
+        if (! $this->element instanceof Boolean) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_BOOLEAN));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -124,10 +126,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asInteger(): Integer
     {
-        if (! $this->_element instanceof Integer) {
+        if (! $this->element instanceof Integer) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_INTEGER));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -135,10 +137,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asBitString(): BitString
     {
-        if (! $this->_element instanceof BitString) {
+        if (! $this->element instanceof BitString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_BIT_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -146,10 +148,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asOctetString(): OctetString
     {
-        if (! $this->_element instanceof OctetString) {
+        if (! $this->element instanceof OctetString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_OCTET_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -157,10 +159,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asNull(): NullType
     {
-        if (! $this->_element instanceof NullType) {
+        if (! $this->element instanceof NullType) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_NULL));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -168,10 +170,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asObjectIdentifier(): ObjectIdentifier
     {
-        if (! $this->_element instanceof ObjectIdentifier) {
+        if (! $this->element instanceof ObjectIdentifier) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_OBJECT_IDENTIFIER));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -179,10 +181,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asObjectDescriptor(): ObjectDescriptor
     {
-        if (! $this->_element instanceof ObjectDescriptor) {
+        if (! $this->element instanceof ObjectDescriptor) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_OBJECT_DESCRIPTOR));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -190,10 +192,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asReal(): Real
     {
-        if (! $this->_element instanceof Real) {
+        if (! $this->element instanceof Real) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_REAL));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -201,10 +203,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asEnumerated(): Enumerated
     {
-        if (! $this->_element instanceof Enumerated) {
+        if (! $this->element instanceof Enumerated) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_ENUMERATED));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -212,10 +214,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asUTF8String(): UTF8String
     {
-        if (! $this->_element instanceof UTF8String) {
+        if (! $this->element instanceof UTF8String) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_UTF8_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -223,10 +225,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asRelativeOID(): RelativeOID
     {
-        if (! $this->_element instanceof RelativeOID) {
+        if (! $this->element instanceof RelativeOID) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_RELATIVE_OID));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -234,10 +236,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asSequence(): Sequence
     {
-        if (! $this->_element instanceof Sequence) {
+        if (! $this->element instanceof Sequence) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_SEQUENCE));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -245,10 +247,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asSet(): Set
     {
-        if (! $this->_element instanceof Set) {
+        if (! $this->element instanceof Set) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_SET));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -256,10 +258,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asNumericString(): NumericString
     {
-        if (! $this->_element instanceof NumericString) {
+        if (! $this->element instanceof NumericString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_NUMERIC_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -267,10 +269,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asPrintableString(): PrintableString
     {
-        if (! $this->_element instanceof PrintableString) {
+        if (! $this->element instanceof PrintableString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_PRINTABLE_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -278,10 +280,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asT61String(): T61String
     {
-        if (! $this->_element instanceof T61String) {
+        if (! $this->element instanceof T61String) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_T61_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -289,10 +291,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asVideotexString(): VideotexString
     {
-        if (! $this->_element instanceof VideotexString) {
+        if (! $this->element instanceof VideotexString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_VIDEOTEX_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -300,10 +302,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asIA5String(): IA5String
     {
-        if (! $this->_element instanceof IA5String) {
+        if (! $this->element instanceof IA5String) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_IA5_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -311,10 +313,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asUTCTime(): UTCTime
     {
-        if (! $this->_element instanceof UTCTime) {
+        if (! $this->element instanceof UTCTime) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_UTC_TIME));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -322,10 +324,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asGeneralizedTime(): GeneralizedTime
     {
-        if (! $this->_element instanceof GeneralizedTime) {
+        if (! $this->element instanceof GeneralizedTime) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_GENERALIZED_TIME));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -333,10 +335,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asGraphicString(): GraphicString
     {
-        if (! $this->_element instanceof GraphicString) {
+        if (! $this->element instanceof GraphicString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_GRAPHIC_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -344,10 +346,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asVisibleString(): VisibleString
     {
-        if (! $this->_element instanceof VisibleString) {
+        if (! $this->element instanceof VisibleString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_VISIBLE_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -355,10 +357,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asGeneralString(): GeneralString
     {
-        if (! $this->_element instanceof GeneralString) {
+        if (! $this->element instanceof GeneralString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_GENERAL_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -366,10 +368,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asUniversalString(): UniversalString
     {
-        if (! $this->_element instanceof UniversalString) {
+        if (! $this->element instanceof UniversalString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_UNIVERSAL_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -377,10 +379,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asCharacterString(): CharacterString
     {
-        if (! $this->_element instanceof CharacterString) {
+        if (! $this->element instanceof CharacterString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_CHARACTER_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -388,10 +390,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asBMPString(): BMPString
     {
-        if (! $this->_element instanceof BMPString) {
+        if (! $this->element instanceof BMPString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_BMP_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -399,10 +401,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asConstructedString(): ConstructedString
     {
-        if (! $this->_element instanceof ConstructedString) {
+        if (! $this->element instanceof ConstructedString) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_CONSTRUCTED_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -410,10 +412,10 @@ final class UnspecifiedType implements ElementBase
      */
     public function asString(): StringType
     {
-        if (! $this->_element instanceof StringType) {
+        if (! $this->element instanceof StringType) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_STRING));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     /**
@@ -421,15 +423,15 @@ final class UnspecifiedType implements ElementBase
      */
     public function asTime(): TimeType
     {
-        if (! $this->_element instanceof TimeType) {
+        if (! $this->element instanceof TimeType) {
             throw new UnexpectedValueException($this->_generateExceptionMessage(Element::TYPE_TIME));
         }
-        return $this->_element;
+        return $this->element;
     }
 
     public function asElement(): Element
     {
-        return $this->_element;
+        return $this->element;
     }
 
     public function asUnspecified(): self
@@ -439,32 +441,32 @@ final class UnspecifiedType implements ElementBase
 
     public function toDER(): string
     {
-        return $this->_element->toDER();
+        return $this->element->toDER();
     }
 
     public function typeClass(): int
     {
-        return $this->_element->typeClass();
+        return $this->element->typeClass();
     }
 
     public function tag(): int
     {
-        return $this->_element->tag();
+        return $this->element->tag();
     }
 
     public function isConstructed(): bool
     {
-        return $this->_element->isConstructed();
+        return $this->element->isConstructed();
     }
 
     public function isType(int $tag): bool
     {
-        return $this->_element->isType($tag);
+        return $this->element->isType($tag);
     }
 
     public function isTagged(): bool
     {
-        return $this->_element->isTagged();
+        return $this->element->isTagged();
     }
 
     /**
@@ -474,7 +476,7 @@ final class UnspecifiedType implements ElementBase
      */
     public function expectType(int $tag): ElementBase
     {
-        return $this->_element->expectType($tag);
+        return $this->element->expectType($tag);
     }
 
     /**
@@ -485,7 +487,7 @@ final class UnspecifiedType implements ElementBase
      */
     public function expectTagged(?int $tag = null): TaggedType
     {
-        return $this->_element->expectTagged($tag);
+        return $this->element->expectTagged($tag);
     }
 
     /**
@@ -503,9 +505,9 @@ final class UnspecifiedType implements ElementBase
      */
     private function _typeDescriptorString(): string
     {
-        $type_cls = $this->_element->typeClass();
-        $tag = $this->_element->tag();
-        $str = $this->_element->isConstructed() ? 'constructed ' : 'primitive ';
+        $type_cls = $this->element->typeClass();
+        $tag = $this->element->tag();
+        $str = $this->element->isConstructed() ? 'constructed ' : 'primitive ';
         if ($type_cls === Identifier::CLASS_UNIVERSAL) {
             $str .= Element::tagToName($tag);
         } else {

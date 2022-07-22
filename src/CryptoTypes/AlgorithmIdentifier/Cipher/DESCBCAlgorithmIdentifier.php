@@ -32,7 +32,7 @@ final class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     public function __construct(?string $iv = null)
     {
         $this->_checkIVSize($iv);
-        $this->_oid = self::OID_DES_CBC;
+        $this->oid = self::OID_DES_CBC;
         $this->_initializationVector = $iv;
     }
 
@@ -72,7 +72,7 @@ final class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @return OctetString
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         if (! isset($this->_initializationVector)) {
             throw new LogicException('IV not set.');

@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature;
 
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 use SpomkyLabs\Pki\X501\DN\DNParser;
 use SpomkyLabs\Pki\X501\MatchingRule\CaseIgnoreMatch;
@@ -20,16 +19,8 @@ abstract class PrintableStringValue extends AttributeValue
     /**
      * @param string $_string String value
      */
-    public function __construct(protected string $_string)
+    protected function __construct(protected string $_string)
     {
-    }
-
-    /**
-     * @return self
-     */
-    public static function fromASN1(UnspecifiedType $el): AttributeValue
-    {
-        return new static($el->asPrintableString()->string());
     }
 
     public function toASN1(): Element

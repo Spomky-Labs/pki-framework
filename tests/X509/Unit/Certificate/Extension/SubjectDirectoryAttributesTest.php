@@ -31,8 +31,8 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function create()
     {
-        $cn = new CommonNameValue(self::CN);
-        $desc = new DescriptionValue(self::DESC);
+        $cn = CommonNameValue::create(self::CN);
+        $desc = DescriptionValue::create(self::DESC);
         $ext = new SubjectDirectoryAttributesExtension(false, $cn->toAttribute(), $desc->toAttribute());
         static::assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;

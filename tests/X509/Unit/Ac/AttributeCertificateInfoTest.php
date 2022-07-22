@@ -91,7 +91,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function createWithAll()
     {
         $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
-        $aci = $aci->withSignature(new SHA256WithRSAEncryptionAlgorithmIdentifier())
+        $aci = $aci->withSignature(SHA256WithRSAEncryptionAlgorithmIdentifier::create())
             ->withSerialNumber(1)
             ->withExtensions(self::$_extensions)
             ->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
@@ -173,7 +173,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function signature(AttributeCertificateInfo $aci)
     {
-        static::assertEquals(new SHA256WithRSAEncryptionAlgorithmIdentifier(), $aci->signature());
+        static::assertEquals(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), $aci->signature());
     }
 
     /**
@@ -255,7 +255,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function withSignature(AttributeCertificateInfo $aci)
     {
-        $aci = $aci->withSignature(new SHA1WithRSAEncryptionAlgorithmIdentifier());
+        $aci = $aci->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
@@ -393,7 +393,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function sign(AttributeCertificateInfo $aci)
     {
-        $ac = $aci->sign(new SHA1WithRSAEncryptionAlgorithmIdentifier(), self::$_privKeyInfo);
+        $ac = $aci->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privKeyInfo);
         static::assertInstanceOf(AttributeCertificate::class, $ac);
     }
 

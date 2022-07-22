@@ -63,7 +63,7 @@ final class DERTaggedTypeTest extends TestCase
      */
     public function wrapped(Element $el)
     {
-        $wrap = new UnspecifiedType($el);
+        $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(TaggedType::class, $wrap->asTagged());
     }
 }

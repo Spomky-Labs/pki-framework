@@ -120,7 +120,7 @@ final class V2FormTest extends TestCase
         $iss_ser = new IssuerSerial(self::$_issuerName, 1);
         $odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
-            new SHA1WithRSAEncryptionAlgorithmIdentifier(),
+            SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
             new BitString('')
         );
         $el = new ImplicitlyTaggedType(

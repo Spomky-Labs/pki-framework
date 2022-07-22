@@ -52,7 +52,7 @@ final class InvalidHolderNameTest extends TestCase
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
             new Attributes()
         );
-        self::$_ac = $aci->sign(new ECDSAWithSHA256AlgorithmIdentifier(), $issuer_pk);
+        self::$_ac = $aci->sign(ECDSAWithSHA256AlgorithmIdentifier::create(), $issuer_pk);
     }
 
     public static function tearDownAfterClass(): void

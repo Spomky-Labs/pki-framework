@@ -72,7 +72,7 @@ final class Curve448Test extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
-        new Ed448PrivateKey('');
+        Ed448PrivateKey::create('');
     }
 
     /**
@@ -82,7 +82,7 @@ final class Curve448Test extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
-        new Ed448PrivateKey(str_repeat("\0", 57), '');
+        Ed448PrivateKey::create(str_repeat("\0", 57), '');
     }
 
     /**
@@ -100,7 +100,7 @@ final class Curve448Test extends TestCase
      */
     public function ed448PublicKey()
     {
-        $pk = new Ed448PrivateKey(str_repeat("\0", 57), str_repeat("\0", 57));
+        $pk = Ed448PrivateKey::create(str_repeat("\0", 57), str_repeat("\0", 57));
         static::assertInstanceOf(Ed448PublicKey::class, $pk->publicKey());
     }
 
@@ -168,7 +168,7 @@ final class Curve448Test extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
-        new X448PrivateKey('');
+        X448PrivateKey::create('');
     }
 
     /**
@@ -178,7 +178,7 @@ final class Curve448Test extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
-        new X448PrivateKey(str_repeat("\0", 56), '');
+        X448PrivateKey::create(str_repeat("\0", 56), '');
     }
 
     /**
@@ -196,7 +196,7 @@ final class Curve448Test extends TestCase
      */
     public function x448PublicKey()
     {
-        $pk = new X448PrivateKey(str_repeat("\0", 56), str_repeat("\0", 56));
+        $pk = X448PrivateKey::create(str_repeat("\0", 56), str_repeat("\0", 56));
         static::assertInstanceOf(X448PublicKey::class, $pk->publicKey());
     }
 

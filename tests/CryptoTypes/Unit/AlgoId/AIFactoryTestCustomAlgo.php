@@ -20,7 +20,7 @@ class AIFactoryTestCustomAlgo extends SpecificAlgorithmIdentifier
         return '';
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return null;
     }

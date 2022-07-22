@@ -54,7 +54,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      *
      * This table maps effective key bytes from 0..255 to version number.
      *
-     * @var array ekb => version
+     * @var array<int> ekb => version
      */
     private const EKB_TABLE = [
         0xbd, 0x56, 0xea, 0xf2, 0xa2, 0xf1, 0xac, 0x2a,
@@ -100,7 +100,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         ?string $iv = null
     ) {
         $this->_checkIVSize($iv);
-        $this->_oid = self::OID_RC2_CBC;
+        $this->oid = self::OID_RC2_CBC;
         $this->_initializationVector = $iv;
     }
 
@@ -166,7 +166,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @return Sequence
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         if ($this->_effectiveKeyBits >= 256) {
             $version = $this->_effectiveKeyBits;

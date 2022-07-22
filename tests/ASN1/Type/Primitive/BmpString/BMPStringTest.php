@@ -78,7 +78,7 @@ final class BMPStringTest extends TestCase
      */
     public function wrapped(Element $el)
     {
-        $wrap = new UnspecifiedType($el);
+        $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(BMPString::class, $wrap->asBMPString());
     }
 
@@ -87,7 +87,7 @@ final class BMPStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = new UnspecifiedType(new NullType());
+        $wrap = UnspecifiedType::create(new NullType());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('BMPString expected, got primitive NULL');
         $wrap->asBMPString();

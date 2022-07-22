@@ -26,9 +26,9 @@ final class Attributes extends SequenceOfAttributes
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_OID_TO_CLASS = [
+    private const MAP_OID_TO_CLASS = [
         AccessIdentityAttributeValue::OID => AccessIdentityAttributeValue::class,
         AuthenticationInfoAttributeValue::OID => AuthenticationInfoAttributeValue::class,
         ChargingIdentityAttributeValue::OID => ChargingIdentityAttributeValue::class,

@@ -20,7 +20,7 @@ final class GenericAlgorithmIdentifierTest extends TestCase
      */
     public function create()
     {
-        $ai = new GenericAlgorithmIdentifier('1.3.6.1.3', new UnspecifiedType(new Integer(42)));
+        $ai = new GenericAlgorithmIdentifier('1.3.6.1.3', UnspecifiedType::create(new Integer(42)));
         static::assertInstanceOf(GenericAlgorithmIdentifier::class, $ai);
         return $ai;
     }

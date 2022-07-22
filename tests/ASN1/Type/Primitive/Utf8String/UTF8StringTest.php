@@ -91,7 +91,7 @@ final class UTF8StringTest extends TestCase
      */
     public function wrapped(Element $el)
     {
-        $wrap = new UnspecifiedType($el);
+        $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(UTF8String::class, $wrap->asUTF8String());
     }
 
@@ -100,7 +100,7 @@ final class UTF8StringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = new UnspecifiedType(new NullType());
+        $wrap = UnspecifiedType::create(new NullType());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UTF8String expected, got primitive NULL');
         $wrap->asUTF8String();

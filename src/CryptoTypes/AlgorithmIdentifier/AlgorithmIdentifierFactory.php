@@ -56,9 +56,9 @@ final class AlgorithmIdentifierFactory
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    final public const MAP_OID_TO_CLASS = [
+    private const MAP_OID_TO_CLASS = [
         AlgorithmIdentifier::OID_RSA_ENCRYPTION => RSAEncryptionAlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_EC_PUBLIC_KEY => ECPublicKeyAlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_X25519 => X25519AlgorithmIdentifier::class,

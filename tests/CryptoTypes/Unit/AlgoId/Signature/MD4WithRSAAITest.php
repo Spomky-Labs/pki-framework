@@ -21,7 +21,7 @@ final class MD4WithRSAAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new MD4WithRSAEncryptionAlgorithmIdentifier();
+        $ai = MD4WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

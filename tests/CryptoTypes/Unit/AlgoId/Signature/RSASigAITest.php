@@ -19,7 +19,7 @@ final class RSASigAITest extends TestCase
      */
     public function supportsKeyAlgorithm()
     {
-        $sig_algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
+        $sig_algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $key_algo = new RSAEncryptionAlgorithmIdentifier();
         static::assertTrue($sig_algo->supportsKeyAlgorithm($key_algo));
     }
@@ -29,7 +29,7 @@ final class RSASigAITest extends TestCase
      */
     public function doesntSupportsKeyAlgorithm()
     {
-        $sig_algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
+        $sig_algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $key_algo = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME192V1);
         static::assertFalse($sig_algo->supportsKeyAlgorithm($key_algo));
     }

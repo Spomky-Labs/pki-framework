@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519;
 
 use LogicException;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\X25519AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
@@ -16,9 +17,25 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
  */
 final class X25519PrivateKey extends Curve25519PrivateKey
 {
+    public static function create(string $private_key, ?string $public_key = null): self
+    {
+        return new self($private_key, $public_key);
+    }
+
+    /**
+     * Initialize from `CurvePrivateKey` OctetString.
+     *
+     * @param OctetString $str Private key data wrapped into OctetString
+     * @param null|string $public_key Optional public key data
+     */
+    public static function fromOctetString(OctetString $str, ?string $public_key = null): self
+    {
+        return new self($str->string(), $public_key);
+    }
+
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new X25519AlgorithmIdentifier();
+        return X25519AlgorithmIdentifier::create();
     }
 
     public function publicKey(): PublicKey

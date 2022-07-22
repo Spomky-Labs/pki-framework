@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
 
 /**
  * Algorithm identifier for the Edwards-curve Digital Signature Algorithm (EdDSA) with curve25519.
@@ -16,9 +19,25 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
  */
 final class Ed25519AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
 {
-    public function __construct()
+    protected function __construct()
     {
-        $this->_oid = self::OID_ED25519;
+        $this->oid = self::OID_ED25519;
+    }
+
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @return self
+     */
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        if ($params !== null) {
+            throw new UnexpectedValueException('Parameters must be absent.');
+        }
+        return new self();
     }
 
     public function name(): string

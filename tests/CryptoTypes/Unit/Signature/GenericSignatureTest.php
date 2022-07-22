@@ -22,7 +22,7 @@ final class GenericSignatureTest extends TestCase
      */
     public function create()
     {
-        $sig = new GenericSignature(new BitString('test'), new SHA1WithRSAEncryptionAlgorithmIdentifier());
+        $sig = new GenericSignature(new BitString('test'), SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         static::assertInstanceOf(GenericSignature::class, $sig);
         return $sig;
     }

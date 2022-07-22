@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use UnexpectedValueException;
+
 /**
  * ECDSA with SHA-1 signature algorithm identifier.
  *
@@ -11,13 +14,26 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
  */
 final class ECDSAWithSHA1AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
 {
-    public function __construct()
+    private function __construct()
     {
-        $this->_oid = self::OID_ECDSA_WITH_SHA1;
+        $this->oid = self::OID_ECDSA_WITH_SHA1;
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function name(): string
     {
         return 'ecdsa-with-SHA1';
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): self
+    {
+        if ($params !== null) {
+            throw new UnexpectedValueException('Parameters must be omitted.');
+        }
+        return new self();
     }
 }

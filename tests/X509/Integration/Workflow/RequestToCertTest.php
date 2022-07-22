@@ -62,7 +62,7 @@ final class RequestToCertTest extends TestCase
                 new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_CERT_SIGN)
             )
         );
-        $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
+        $algo = SHA256WithRSAEncryptionAlgorithmIdentifier::create();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);
         static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
@@ -77,7 +77,7 @@ final class RequestToCertTest extends TestCase
         $pkinfo = self::$_subjectKey->publicKeyInfo();
         $cri = new CertificationRequestInfo($subject, $pkinfo);
         $cri = $cri->withExtensionRequest(new Extensions(new BasicConstraintsExtension(true, false)));
-        $algo = new ECDSAWithSHA1AlgorithmIdentifier();
+        $algo = ECDSAWithSHA1AlgorithmIdentifier::create();
         $csr = $cri->sign($algo, self::$_subjectKey);
         static::assertInstanceOf(CertificationRequest::class, $csr);
         return $csr;
@@ -98,7 +98,7 @@ final class RequestToCertTest extends TestCase
             new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_ENCIPHERMENT),
             new BasicConstraintsExtension(true, false)
         );
-        $algo = new SHA512WithRSAEncryptionAlgorithmIdentifier();
+        $algo = SHA512WithRSAEncryptionAlgorithmIdentifier::create();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);
         static::assertInstanceOf(Certificate::class, $cert);
         return $cert;

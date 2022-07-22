@@ -29,7 +29,7 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      *
      * @var Attribute[]
      */
-    protected $_attributes;
+    protected array $_attributes;
 
     /**
      * @param Attribute ...$attribs List of attributes

@@ -23,39 +23,24 @@ abstract class RFC8410PrivateKey extends PrivateKey
 {
     /**
      * Version for OneAsymmetricKey.
-     *
-     * @var int
      */
-    protected $_version;
+    protected int $_version;
 
     /**
      * Attributes from OneAsymmetricKey.
-     *
-     * @var null|OneAsymmetricKeyAttributes
      */
-    protected $_attributes;
+    protected ?OneAsymmetricKeyAttributes $_attributes;
 
     /**
      * @param string $_privateKeyData Private key data
      * @param null|string $_publicKeyData Public key data
      */
-    public function __construct(
+    protected function __construct(
         protected string $_privateKeyData,
         protected ?string $_publicKeyData = null
     ) {
         $this->_version = OneAsymmetricKey::VERSION_2;
         $this->_attributes = null;
-    }
-
-    /**
-     * Initialize from `CurvePrivateKey` OctetString.
-     *
-     * @param OctetString $str Private key data wrapped into OctetString
-     * @param null|string $public_key Optional public key data
-     */
-    public static function fromOctetString(OctetString $str, ?string $public_key = null): self
-    {
-        return new static($str->string(), $public_key);
     }
 
     /**

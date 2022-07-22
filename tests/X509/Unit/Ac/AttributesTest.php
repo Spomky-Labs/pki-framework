@@ -32,7 +32,7 @@ final class AttributesTest extends TestCase
                 new UniformResourceIdentifier('urn:ident')
             ),
             new RoleAttributeValue(new UniformResourceIdentifier('urn:admin')),
-            new DescriptionValue('test')
+            DescriptionValue::create('test')
         );
         static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;

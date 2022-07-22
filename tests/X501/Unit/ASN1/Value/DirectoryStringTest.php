@@ -24,7 +24,7 @@ final class DirectoryStringTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type NULL is not valid DirectoryString');
-        DirectoryString::fromASN1(new UnspecifiedType(new NullType()));
+        DirectoryString::fromASN1(UnspecifiedType::create(new NullType()));
     }
 
     /**
@@ -32,7 +32,7 @@ final class DirectoryStringTest extends TestCase
      */
     public function toASN1InvalidType()
     {
-        $value = new CommonNameValue('name', Element::TYPE_NULL);
+        $value = CommonNameValue::create('name', Element::TYPE_NULL);
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type NULL is not valid DirectoryString');
         $value->toASN1();
@@ -43,7 +43,7 @@ final class DirectoryStringTest extends TestCase
      */
     public function teletexValue()
     {
-        $value = new CommonNameValue('name', Element::TYPE_T61_STRING);
+        $value = CommonNameValue::create('name', Element::TYPE_T61_STRING);
         static::assertEquals('#1404' . bin2hex('name'), $value->rfc2253String());
     }
 }

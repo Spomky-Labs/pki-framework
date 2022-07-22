@@ -48,7 +48,7 @@ final class CertificationRequestTest extends TestCase
         $cri = new CertificationRequestInfo(self::$_subject, $pkinfo);
         $data = $cri->toASN1()
             ->toDER();
-        $algo = new SHA256WithRSAEncryptionAlgorithmIdentifier();
+        $algo = SHA256WithRSAEncryptionAlgorithmIdentifier::create();
         $signature = Crypto::getDefault()->sign($data, self::$_privateKeyInfo, $algo);
         $cr = new CertificationRequest($cri, $algo, $signature);
         static::assertInstanceOf(CertificationRequest::class, $cr);

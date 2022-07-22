@@ -113,7 +113,7 @@ CODE_SAMPLE;
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/private key/');
-        new Ed25519PrivateKey('');
+        Ed25519PrivateKey::create('');
     }
 
     /**
@@ -123,7 +123,7 @@ CODE_SAMPLE;
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
-        new Ed25519PrivateKey(str_repeat("\0", 32), '');
+        Ed25519PrivateKey::create(str_repeat("\0", 32), '');
     }
 
     /**
@@ -286,7 +286,7 @@ CODE_SAMPLE;
      */
     public function x25519PkGetPub()
     {
-        $pk = new X25519PrivateKey(str_repeat("\0", 32), str_repeat("\0", 32));
+        $pk = X25519PrivateKey::create(str_repeat("\0", 32), str_repeat("\0", 32));
         static::assertInstanceOf(X25519PublicKey::class, $pk->publicKey());
     }
 }

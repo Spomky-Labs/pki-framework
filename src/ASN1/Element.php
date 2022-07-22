@@ -112,13 +112,40 @@ abstract class Element implements ElementBase
     public const TYPE_BMP_STRING = 0x1e;
 
     /**
+     * Pseudotype for all string types.
+     *
+     * May be used as an expectation parameter.
+     *
+     * @var int
+     */
+    public const TYPE_STRING = -1;
+
+    /**
+     * Pseudotype for all time types.
+     *
+     * May be used as an expectation parameter.
+     *
+     * @var int
+     */
+    public const TYPE_TIME = -2;
+
+    /**
+     * Pseudotype for constructed strings.
+     *
+     * May be used as an expectation parameter.
+     *
+     * @var int
+     */
+    public const TYPE_CONSTRUCTED_STRING = -3;
+
+    /**
      * Mapping from universal type tag to implementation class name.
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    public const MAP_TAG_TO_CLASS = [
+    private const MAP_TAG_TO_CLASS = [
         self::TYPE_EOC => EOC::class,
         self::TYPE_BOOLEAN => Boolean::class,
         self::TYPE_INTEGER => Integer::class,
@@ -149,40 +176,13 @@ abstract class Element implements ElementBase
     ];
 
     /**
-     * Pseudotype for all string types.
-     *
-     * May be used as an expectation parameter.
-     *
-     * @var int
-     */
-    public const TYPE_STRING = -1;
-
-    /**
-     * Pseudotype for all time types.
-     *
-     * May be used as an expectation parameter.
-     *
-     * @var int
-     */
-    public const TYPE_TIME = -2;
-
-    /**
-     * Pseudotype for constructed strings.
-     *
-     * May be used as an expectation parameter.
-     *
-     * @var int
-     */
-    public const TYPE_CONSTRUCTED_STRING = -3;
-
-    /**
      * Mapping from universal type tag to human readable name.
      *
      * @internal
      *
-     * @var array
+     * @var array<string, string>
      */
-    public const MAP_TYPE_TO_NAME = [
+    private const MAP_TYPE_TO_NAME = [
         self::TYPE_EOC => 'EOC',
         self::TYPE_BOOLEAN => 'BOOLEAN',
         self::TYPE_INTEGER => 'INTEGER',
@@ -357,7 +357,7 @@ abstract class Element implements ElementBase
      */
     public function asUnspecified(): UnspecifiedType
     {
-        return new UnspecifiedType($this);
+        return UnspecifiedType::create($this);
     }
 
     /**

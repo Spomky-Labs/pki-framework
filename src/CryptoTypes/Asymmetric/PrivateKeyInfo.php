@@ -27,6 +27,6 @@ final class PrivateKeyInfo extends OneAsymmetricKey
     ) {
         parent::__construct($algo, $key, $attributes, $public_key);
         // PrivateKeyInfo has version 1 by default
-        $this->_version = parent::VERSION_1;
+        $this->version = parent::VERSION_1;
     }
 }

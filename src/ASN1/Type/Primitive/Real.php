@@ -458,7 +458,7 @@ final class Real extends Element implements Stringable
     /**
      * Prepare value for binary encoding.
      *
-     * @return array (int) base, (int) sign, (BigInteger) mantissa and (BigInteger) exponent
+     * @return array<int|BigInteger> (int) base, (int) sign, (BigInteger) mantissa and (BigInteger) exponent
      */
     protected function _prepareBinaryEncoding(): array
     {
@@ -582,7 +582,7 @@ final class Real extends Element implements Stringable
     /**
      * Parse PHP form float to base 10 mantissa and exponent.
      *
-     * @param array $match Regexp match
+     * @param array<string> $match Regexp match
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
@@ -590,7 +590,7 @@ final class Real extends Element implements Stringable
     {
         // mantissa sign
         $ms = $match['ms'] === '-' ? -1 : 1;
-        $m_parts = explode('.', (string) $match['m']);
+        $m_parts = explode('.', $match['m']);
         // integer part of the mantissa
         $int = ltrim($m_parts[0], '0');
         // exponent sign
@@ -610,7 +610,7 @@ final class Real extends Element implements Stringable
     /**
      * Parse NR3 form number to base 10 mantissa and exponent.
      *
-     * @param array $match Regexp match
+     * @param array<string> $match Regexp match
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
@@ -619,7 +619,7 @@ final class Real extends Element implements Stringable
         // mantissa sign
         $ms = $match['ms'] === '-' ? -1 : 1;
         // explode mantissa to integer and fraction parts
-        [$int, $frac] = explode('.', str_replace(',', '.', (string) $match['m']));
+        [$int, $frac] = explode('.', str_replace(',', '.', $match['m']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // exponent sign
@@ -640,7 +640,7 @@ final class Real extends Element implements Stringable
     /**
      * Parse NR2 form number to base 10 mantissa and exponent.
      *
-     * @param array $match Regexp match
+     * @param array<string> $match Regexp match
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
@@ -648,7 +648,7 @@ final class Real extends Element implements Stringable
     {
         $sign = $match['s'] === '-' ? -1 : 1;
         // explode decimal number to integer and fraction parts
-        [$int, $frac] = explode('.', str_replace(',', '.', (string) $match['d']));
+        [$int, $frac] = explode('.', str_replace(',', '.', $match['d']));
         $int = ltrim($int, '0');
         $frac = rtrim($frac, '0');
         // shift exponent by the number of base 10 fractions
@@ -666,14 +666,14 @@ final class Real extends Element implements Stringable
     /**
      * Parse NR1 form number to base 10 mantissa and exponent.
      *
-     * @param array $match Regexp match
+     * @param array<string> $match Regexp match
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
     private static function _parseNR1Match(array $match): array
     {
         $sign = $match['s'] === '-' ? -1 : 1;
-        $int = ltrim((string) $match['i'], '0');
+        $int = ltrim($match['i'], '0');
         if ($int === '') {
             $int = '0';
         }

@@ -36,7 +36,7 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
 
     public function __construct()
     {
-        $this->_oid = self::OID_SHA1;
+        $this->oid = self::OID_SHA1;
         $this->_params = null;
     }
 
@@ -61,7 +61,7 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
     /**
      * @return null|NullType
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return $this->_params;
     }

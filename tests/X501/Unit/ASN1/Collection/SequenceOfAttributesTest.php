@@ -20,7 +20,7 @@ final class SequenceOfAttributesTest extends TestCase
      */
     public function create()
     {
-        $c = SequenceOfAttributes::fromAttributeValues(new NameValue('n'), new DescriptionValue('d'));
+        $c = SequenceOfAttributes::fromAttributeValues(NameValue::create('n'), DescriptionValue::create('d'));
         static::assertInstanceOf(SequenceOfAttributes::class, $c);
         return $c;
     }

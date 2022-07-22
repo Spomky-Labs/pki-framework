@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448;
 
 use LogicException;
 use function mb_strlen;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
@@ -23,7 +24,7 @@ final class Ed448PrivateKey extends RFC8410PrivateKey
      * @param string $private_key Private key data
      * @param null|string $public_key Public key data
      */
-    public function __construct(string $private_key, ?string $public_key = null)
+    protected function __construct(string $private_key, ?string $public_key = null)
     {
         if (mb_strlen($private_key, '8bit') !== 57) {
             throw new UnexpectedValueException('Ed448 private key must be exactly 57 bytes.');
@@ -34,9 +35,25 @@ final class Ed448PrivateKey extends RFC8410PrivateKey
         parent::__construct($private_key, $public_key);
     }
 
+    public static function create(string $private_key, ?string $public_key = null): self
+    {
+        return new self($private_key, $public_key);
+    }
+
+    /**
+     * Initialize from `CurvePrivateKey` OctetString.
+     *
+     * @param OctetString $str Private key data wrapped into OctetString
+     * @param null|string $public_key Optional public key data
+     */
+    public static function fromOctetString(OctetString $str, ?string $public_key = null): self
+    {
+        return new self($str->string(), $public_key);
+    }
+
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new Ed448AlgorithmIdentifier();
+        return Ed448AlgorithmIdentifier::create();
     }
 
     public function publicKey(): PublicKey

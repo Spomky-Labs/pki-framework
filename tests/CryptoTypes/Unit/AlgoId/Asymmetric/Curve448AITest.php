@@ -22,7 +22,7 @@ final class Curve448AITest extends TestCase
      */
     public function encodeEd448(): Sequence
     {
-        $ai = new Ed448AlgorithmIdentifier();
+        $ai = Ed448AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -67,7 +67,7 @@ final class Curve448AITest extends TestCase
      */
     public function encodeX448(): Sequence
     {
-        $ai = new X448AlgorithmIdentifier();
+        $ai = X448AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

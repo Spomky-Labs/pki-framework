@@ -30,6 +30,6 @@ final class Ed448PublicKey extends RFC8410PublicKey
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new Ed448AlgorithmIdentifier();
+        return Ed448AlgorithmIdentifier::create();
     }
 }

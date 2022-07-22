@@ -45,7 +45,7 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @return OctetString
      */
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         if (! isset($this->_initializationVector)) {
             throw new LogicException('IV not set.');

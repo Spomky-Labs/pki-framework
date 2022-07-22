@@ -80,7 +80,7 @@ final class NullTest extends TestCase
      */
     public function wrapped(Element $el)
     {
-        $wrap = new UnspecifiedType($el);
+        $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(NullType::class, $wrap->asNull());
     }
 
@@ -89,7 +89,7 @@ final class NullTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = new UnspecifiedType(new Boolean(true));
+        $wrap = UnspecifiedType::create(new Boolean(true));
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NULL expected, got primitive BOOLEAN');
         $wrap->asNull();

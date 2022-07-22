@@ -55,7 +55,7 @@ final class TargetMismatchTest extends TestCase
         $aci = $aci->withAdditionalExtensions(
             TargetInformationExtension::fromTargets(new TargetName(new DNSName('test')))
         );
-        self::$_ac = $aci->sign(new ECDSAWithSHA256AlgorithmIdentifier(), $issuer_pk);
+        self::$_ac = $aci->sign(ECDSAWithSHA256AlgorithmIdentifier::create(), $issuer_pk);
     }
 
     public static function tearDownAfterClass(): void

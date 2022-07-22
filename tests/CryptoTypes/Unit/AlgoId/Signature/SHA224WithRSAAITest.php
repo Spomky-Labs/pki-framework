@@ -15,13 +15,11 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA224WithRSAEncryp
 final class SHA224WithRSAAITest extends TestCase
 {
     /**
-     * @return Sequence
-     *
      * @test
      */
-    public function encode()
+    public function encode(): Sequence
     {
-        $ai = new SHA224WithRSAEncryptionAlgorithmIdentifier();
+        $ai = SHA224WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -32,7 +30,7 @@ final class SHA224WithRSAAITest extends TestCase
      *
      * @test
      */
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(SHA224WithRSAEncryptionAlgorithmIdentifier::class, $ai);

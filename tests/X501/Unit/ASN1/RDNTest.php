@@ -22,7 +22,7 @@ final class RDNTest extends TestCase
      */
     public function create()
     {
-        $rdn = RDN::fromAttributeValues(new NameValue('one'), new NameValue('two'));
+        $rdn = RDN::fromAttributeValues(NameValue::create('one'), NameValue::create('two'));
         static::assertInstanceOf(RDN::class, $rdn);
         return $rdn;
     }

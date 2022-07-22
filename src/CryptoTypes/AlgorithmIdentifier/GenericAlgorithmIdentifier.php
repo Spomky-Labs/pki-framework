@@ -20,12 +20,12 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
         string $oid,
         protected ?UnspecifiedType $_params = null
     ) {
-        $this->_oid = $oid;
+        $this->oid = $oid;
     }
 
     public function name(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     public function parameters(): ?UnspecifiedType
@@ -33,7 +33,7 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
         return $this->_params;
     }
 
-    protected function _paramsASN1(): ?Element
+    protected function paramsASN1(): ?Element
     {
         return $this->_params ? $this->_params->asElement() : null;
     }

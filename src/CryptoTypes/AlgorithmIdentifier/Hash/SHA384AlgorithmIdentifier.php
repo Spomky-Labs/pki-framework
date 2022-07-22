@@ -16,10 +16,9 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
  */
 final class SHA384AlgorithmIdentifier extends SHA2AlgorithmIdentifier
 {
-    protected function __construct()
+    private function __construct()
     {
-        $this->_oid = self::OID_SHA384;
-        parent::__construct(null);
+        $this->oid = self::OID_SHA384;
     }
 
     public static function create(): self
