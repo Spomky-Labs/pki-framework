@@ -184,9 +184,9 @@ final class OpenSSLCryptoTest extends TestCase
         yield [$data8, new RC2CBCAlgorithmIdentifier(40, $iv8), $key5];
         yield [$data8, new RC2CBCAlgorithmIdentifier(64, $iv8), $key8];
         yield [$data8, new RC2CBCAlgorithmIdentifier(128, $iv8), $key16];
-        yield [$data16, new AES128CBCAlgorithmIdentifier($iv16), $key16];
-        yield [$data16, new AES192CBCAlgorithmIdentifier($iv16), $key24];
-        yield [$data16, new AES256CBCAlgorithmIdentifier($iv16), $key32];
+        yield [$data16, AES128CBCAlgorithmIdentifier::create($iv16), $key16];
+        yield [$data16, AES192CBCAlgorithmIdentifier::create($iv16), $key24];
+        yield [$data16, AES256CBCAlgorithmIdentifier::create($iv16), $key32];
     }
 
     /**
