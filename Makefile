@@ -17,6 +17,9 @@ st: vendor ## Run static analyse
 
 ################################################
 
+ci-mu: vendor ## Mutation tests (for Github only)
+	vendor/bin/infection --logger-github -s --threads=$(nproc) --min-msi=40 --min-covered-msi=40
+
 .PHONY: ci-cc
 ci-cc: vendor ## Show test coverage rates (for CI/CD only)
 	vendor/bin/phpunit --coverage-text
