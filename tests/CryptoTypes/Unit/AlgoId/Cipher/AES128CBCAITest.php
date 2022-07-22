@@ -25,7 +25,7 @@ final class AES128CBCAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new AES128CBCAlgorithmIdentifier(self::IV);
+        $ai = AES128CBCAlgorithmIdentifier::create(self::IV);
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -70,7 +70,7 @@ final class AES128CBCAITest extends TestCase
      */
     public function encodeNoIVFail()
     {
-        $ai = new AES128CBCAlgorithmIdentifier();
+        $ai = AES128CBCAlgorithmIdentifier::create();
         $this->expectException(LogicException::class);
         $ai->toASN1();
     }
@@ -101,7 +101,7 @@ final class AES128CBCAITest extends TestCase
     public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        new AES128CBCAlgorithmIdentifier('1234');
+        AES128CBCAlgorithmIdentifier::create('1234');
     }
 
     /**

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use UnexpectedValueException;
+
 /**
  * Algorithm identifier for AES with 192-bit key in CBC mode.
  *
@@ -16,10 +20,28 @@ final class AES192CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
     /**
      * @param null|string $iv Initialization vector
      */
-    public function __construct(?string $iv = null)
+    protected function __construct(?string $iv = null)
     {
         $this->_oid = self::OID_AES_192_CBC;
         parent::__construct($iv);
+    }
+
+    public static function create(?string $iv = null): self
+    {
+        return new self($iv);
+    }
+
+    /**
+     * @return self
+     */
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        if (! isset($params)) {
+            throw new UnexpectedValueException('No parameters.');
+        }
+        $iv = $params->asOctetString()
+            ->string();
+        return new static($iv);
     }
 
     public function name(): string

@@ -7,9 +7,6 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 use LogicException;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use UnexpectedValueException;
 
 /*
 From RFC 3565 - 4.1. AES Algorithm Identifiers and Parameters:
@@ -29,23 +26,10 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @param null|string $iv Initialization vector
      */
-    public function __construct(?string $iv = null)
+    protected function __construct(?string $iv = null)
     {
         $this->_checkIVSize($iv);
         $this->_initializationVector = $iv;
-    }
-
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
-        if (! isset($params)) {
-            throw new UnexpectedValueException('No parameters.');
-        }
-        $iv = $params->asOctetString()
-            ->string();
-        return new static($iv);
     }
 
     public function blockSize(): int
