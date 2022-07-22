@@ -25,7 +25,7 @@ final class Boolean extends Element
     public function __construct(
         private readonly bool $_bool
     ) {
-        $this->_typeTag = self::TYPE_BOOLEAN;
+        $this->typeTag = self::TYPE_BOOLEAN;
     }
 
     /**

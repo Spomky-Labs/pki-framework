@@ -21,7 +21,7 @@ final class Set extends Structure
      */
     private function __construct(ElementBase ...$elements)
     {
-        $this->_typeTag = self::TYPE_SET;
+        $this->typeTag = self::TYPE_SET;
         parent::__construct(...$elements);
     }
 

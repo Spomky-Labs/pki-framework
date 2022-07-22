@@ -55,7 +55,7 @@ class ObjectIdentifier extends Element
                 throw new UnexpectedValueException('Second node must be in 0..39 range for root arcs 0 and 1.');
             }
         }
-        $this->_typeTag = self::TYPE_OBJECT_IDENTIFIER;
+        $this->typeTag = self::TYPE_OBJECT_IDENTIFIER;
     }
 
     /**

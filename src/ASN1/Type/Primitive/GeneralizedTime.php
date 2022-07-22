@@ -51,7 +51,7 @@ final class GeneralizedTime extends BaseTime
 
     public function __construct(DateTimeImmutable $dt)
     {
-        $this->_typeTag = self::TYPE_GENERALIZED_TIME;
+        $this->typeTag = self::TYPE_GENERALIZED_TIME;
         parent::__construct($dt);
     }
 

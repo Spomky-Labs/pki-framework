@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash;
 
+use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+
 /**
  * SHA-256 algorithm identifier.
  *
@@ -13,10 +16,28 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash;
  */
 final class SHA256AlgorithmIdentifier extends SHA2AlgorithmIdentifier
 {
-    public function __construct()
+    protected function __construct()
     {
         $this->_oid = self::OID_SHA256;
-        parent::__construct();
+        parent::__construct(null);
+    }
+
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @return self
+     */
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        $obj = new static();
+        // if parameters field is present, it must be null type
+        if (isset($params)) {
+            $obj->_params = $params->asNull();
+        }
+        return $obj;
     }
 
     public function name(): string

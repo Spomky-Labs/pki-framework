@@ -16,7 +16,7 @@ final class CharacterString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_CHARACTER_STRING;
+        $this->typeTag = self::TYPE_CHARACTER_STRING;
         parent::__construct($string);
     }
 }

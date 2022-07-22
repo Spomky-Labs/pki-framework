@@ -16,7 +16,7 @@ final class NumericString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_NUMERIC_STRING;
+        $this->typeTag = self::TYPE_NUMERIC_STRING;
         parent::__construct($string);
     }
 

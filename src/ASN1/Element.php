@@ -220,7 +220,7 @@ abstract class Element implements ElementBase
     /**
      * Element's type tag.
      */
-    protected int $_typeTag;
+    protected int $typeTag;
 
     /**
      * Whether type shall be encoded with indefinite length.
@@ -269,7 +269,7 @@ abstract class Element implements ElementBase
         $identifier = new Identifier(
             $this->typeClass(),
             $this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE,
-            $this->_typeTag
+            $this->typeTag
         );
         $content = $this->encodedAsDER();
         if ($this->_indefiniteLength) {
@@ -283,7 +283,7 @@ abstract class Element implements ElementBase
 
     public function tag(): int
     {
-        return $this->_typeTag;
+        return $this->typeTag;
     }
 
     public function isType(int $tag): bool
@@ -436,9 +436,9 @@ abstract class Element implements ElementBase
     protected function _typeDescriptorString(): string
     {
         if ($this->typeClass() === Identifier::CLASS_UNIVERSAL) {
-            return self::tagToName($this->_typeTag);
+            return self::tagToName($this->typeTag);
         }
-        return sprintf('%s TAG %d', Identifier::classToName($this->typeClass()), $this->_typeTag);
+        return sprintf('%s TAG %d', Identifier::classToName($this->typeClass()), $this->typeTag);
     }
 
     /**

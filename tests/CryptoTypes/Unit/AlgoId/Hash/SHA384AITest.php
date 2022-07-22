@@ -21,7 +21,7 @@ final class SHA384AITest extends TestCase
      */
     public function encode()
     {
-        $ai = new SHA384AlgorithmIdentifier();
+        $ai = SHA384AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

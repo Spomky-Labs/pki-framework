@@ -41,7 +41,7 @@ final class UTCTime extends BaseTime
 
     public function __construct(DateTimeImmutable $dt)
     {
-        $this->_typeTag = self::TYPE_UTC_TIME;
+        $this->typeTag = self::TYPE_UTC_TIME;
         parent::__construct($dt);
     }
 

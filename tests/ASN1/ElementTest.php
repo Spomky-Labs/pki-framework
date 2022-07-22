@@ -30,7 +30,7 @@ final class ElementTest extends TestCase
     {
         $el = new NullType();
         $cls = new ReflectionClass($el);
-        $prop = $cls->getProperty('_typeTag');
+        $prop = $cls->getProperty('typeTag');
         $prop->setAccessible(true);
         $prop->setValue($el, Element::TYPE_BOOLEAN);
         static::assertFalse($el->isType(Element::TYPE_BOOLEAN));

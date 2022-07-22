@@ -21,7 +21,7 @@ final class Sequence extends Structure
      */
     private function __construct(ElementBase ...$elements)
     {
-        $this->_typeTag = self::TYPE_SEQUENCE;
+        $this->typeTag = self::TYPE_SEQUENCE;
         parent::__construct(...$elements);
     }
 

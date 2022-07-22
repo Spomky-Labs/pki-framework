@@ -16,7 +16,7 @@ final class OctetString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_OCTET_STRING;
+        $this->typeTag = self::TYPE_OCTET_STRING;
         parent::__construct($string);
     }
 }

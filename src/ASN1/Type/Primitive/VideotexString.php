@@ -16,7 +16,7 @@ final class VideotexString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_VIDEOTEX_STRING;
+        $this->typeTag = self::TYPE_VIDEOTEX_STRING;
         parent::__construct($string);
     }
 

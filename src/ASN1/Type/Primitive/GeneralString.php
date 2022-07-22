@@ -16,7 +16,7 @@ final class GeneralString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_GENERAL_STRING;
+        $this->typeTag = self::TYPE_GENERAL_STRING;
         parent::__construct($string);
     }
 

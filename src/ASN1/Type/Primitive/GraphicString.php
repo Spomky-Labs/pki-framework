@@ -16,7 +16,7 @@ final class GraphicString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_GRAPHIC_STRING;
+        $this->typeTag = self::TYPE_GRAPHIC_STRING;
         parent::__construct($string);
     }
 

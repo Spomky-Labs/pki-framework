@@ -16,7 +16,7 @@ final class VisibleString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_VISIBLE_STRING;
+        $this->typeTag = self::TYPE_VISIBLE_STRING;
         parent::__construct($string);
     }
 

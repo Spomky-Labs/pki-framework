@@ -59,10 +59,10 @@ final class SignatureFactoryTest extends TestCase
         $ec = new ECPublicKeyAlgorithmIdentifier(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
         $md5 = new MD5AlgorithmIdentifier();
         $sha1 = new SHA1AlgorithmIdentifier();
-        $sha224 = new SHA224AlgorithmIdentifier();
-        $sha256 = new SHA256AlgorithmIdentifier();
-        $sha384 = new SHA384AlgorithmIdentifier();
-        $sha512 = new SHA512AlgorithmIdentifier();
+        $sha224 = SHA224AlgorithmIdentifier::create();
+        $sha256 = SHA256AlgorithmIdentifier::create();
+        $sha384 = SHA384AlgorithmIdentifier::create();
+        $sha512 = SHA512AlgorithmIdentifier::create();
         yield [$rsa, $md5, MD5WithRSAEncryptionAlgorithmIdentifier::class];
         yield [$rsa, $sha1, SHA1WithRSAEncryptionAlgorithmIdentifier::class];
         yield [$rsa, $sha224, SHA224WithRSAEncryptionAlgorithmIdentifier::class];

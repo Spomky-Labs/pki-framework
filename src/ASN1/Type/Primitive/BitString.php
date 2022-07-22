@@ -33,7 +33,7 @@ final class BitString extends BaseString
         string $string,
         protected int $_unusedBits = 0
     ) {
-        $this->_typeTag = self::TYPE_BIT_STRING;
+        $this->typeTag = self::TYPE_BIT_STRING;
         parent::__construct($string);
     }
 

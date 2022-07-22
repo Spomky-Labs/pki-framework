@@ -20,7 +20,7 @@ final class RelativeOID extends ObjectIdentifier
     {
         $this->_oid = $oid;
         $this->_subids = self::_explodeDottedOID($oid);
-        $this->_typeTag = self::TYPE_RELATIVE_OID;
+        $this->typeTag = self::TYPE_RELATIVE_OID;
     }
 
     protected function encodedAsDER(): string

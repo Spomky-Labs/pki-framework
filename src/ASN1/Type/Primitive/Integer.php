@@ -37,7 +37,7 @@ class Integer extends Element
      */
     public function __construct(BigInteger|int|string $number)
     {
-        $this->_typeTag = self::TYPE_INTEGER;
+        $this->typeTag = self::TYPE_INTEGER;
         if (! self::_validateNumber($number)) {
             $var = is_scalar($number) ? strval($number) : gettype($number);
             throw new InvalidArgumentException("'{$var}' is not a valid number.");
@@ -82,7 +82,7 @@ class Integer extends Element
         $num = BigInt::fromSignedOctets($bytes)->getValue();
         $offset = $idx;
         // late static binding since enumerated extends integer type
-        return new static($num);
+        return new self($num);
     }
 
     /**

@@ -19,7 +19,7 @@ final class BMPString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_BMP_STRING;
+        $this->typeTag = self::TYPE_BMP_STRING;
         parent::__construct($string);
     }
 

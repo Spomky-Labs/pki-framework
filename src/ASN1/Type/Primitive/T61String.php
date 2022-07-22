@@ -16,7 +16,7 @@ final class T61String extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_T61_STRING;
+        $this->typeTag = self::TYPE_T61_STRING;
         parent::__construct($string);
     }
 

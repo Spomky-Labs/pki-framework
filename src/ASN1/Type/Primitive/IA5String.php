@@ -16,7 +16,7 @@ final class IA5String extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_IA5_STRING;
+        $this->typeTag = self::TYPE_IA5_STRING;
         parent::__construct($string);
     }
 

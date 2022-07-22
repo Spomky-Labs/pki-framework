@@ -22,7 +22,7 @@ final class NullType extends Element
 
     public function __construct()
     {
-        $this->_typeTag = self::TYPE_NULL;
+        $this->typeTag = self::TYPE_NULL;
     }
 
     protected function encodedAsDER(): string

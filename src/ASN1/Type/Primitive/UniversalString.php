@@ -19,7 +19,7 @@ final class UniversalString extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_UNIVERSAL_STRING;
+        $this->typeTag = self::TYPE_UNIVERSAL_STRING;
         parent::__construct($string);
     }
 

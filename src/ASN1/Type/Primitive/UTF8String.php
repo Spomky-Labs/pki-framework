@@ -18,7 +18,7 @@ final class UTF8String extends PrimitiveString
 
     public function __construct(string $string)
     {
-        $this->_typeTag = self::TYPE_UTF8_STRING;
+        $this->typeTag = self::TYPE_UTF8_STRING;
         parent::__construct($string);
     }
 

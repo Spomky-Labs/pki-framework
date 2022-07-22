@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash;
 
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
@@ -28,29 +27,8 @@ From RFC 5754 - 2. Message Digest Algorithms
  */
 abstract class SHA2AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier
 {
-    /**
-     * Parameters.
-     *
-     * @var null|NullType
-     */
-    protected $_params;
-
-    public function __construct()
+    public function __construct(protected ?NullType $_params)
     {
-        $this->_params = null;
-    }
-
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
-    {
-        $obj = new static();
-        // if parameters field is present, it must be null type
-        if (isset($params)) {
-            $obj->_params = $params->asNull();
-        }
-        return $obj;
     }
 
     /**

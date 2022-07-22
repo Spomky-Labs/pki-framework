@@ -38,7 +38,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         bool $indefinite_length
     ) {
         $this->_indefiniteLength = $indefinite_length;
-        $this->_typeTag = $_identifier->intTag();
+        $this->typeTag = $_identifier->intTag();
     }
 
     public function typeClass(): int

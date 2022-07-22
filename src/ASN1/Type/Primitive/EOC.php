@@ -22,7 +22,7 @@ final class EOC extends Element
 
     public function __construct()
     {
-        $this->_typeTag = self::TYPE_EOC;
+        $this->typeTag = self::TYPE_EOC;
     }
 
     protected function encodedAsDER(): string

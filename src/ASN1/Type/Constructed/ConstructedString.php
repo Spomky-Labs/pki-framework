@@ -28,15 +28,6 @@ use Stringable;
  */
 final class ConstructedString extends Structure implements StringType, Stringable
 {
-    /**
-     * @param ElementBase ...$elements Any number of elements
-     * @internal Use `create()` or `createWithTag()` method instead
-     */
-    protected function __construct(ElementBase ...$elements)
-    {
-        parent::__construct(...$elements);
-    }
-
     public function __toString(): string
     {
         return $this->string();
@@ -74,7 +65,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
     public static function createWithTag(int $tag, StringType ...$elements)
     {
         $el = new self(...$elements);
-        $el->_typeTag = $tag;
+        $el->typeTag = $tag;
         return $el;
     }
 
@@ -114,7 +105,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
             $type = self::decodeDefiniteLength($data, $idx, $length->intLength());
         }
         $offset = $idx;
-        $type->_typeTag = $identifier->intTag();
+        $type->typeTag = $identifier->intTag();
 
         return $type;
     }
