@@ -15,8 +15,6 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString;
 final class NameValue extends DirectoryString
 {
     /**
-     * Constructor.
-     *
      * @param string $value String value
      * @param int $string_tag Syntax choice
      */

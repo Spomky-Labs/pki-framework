@@ -17,8 +17,6 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 abstract class AccessDescription
 {
     /**
-     * Constructor.
-     *
      * @param string $_accessMethod Access method OID
      * @param GeneralName $_accessLocation Access location
      */
@@ -54,6 +52,6 @@ abstract class AccessDescription
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new ObjectIdentifier($this->_accessMethod), $this->_accessLocation->toASN1());
+        return Sequence::create(new ObjectIdentifier($this->_accessMethod), $this->_accessLocation->toASN1());
     }
 }

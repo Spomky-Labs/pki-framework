@@ -23,7 +23,7 @@ final class SetTest extends TestCase
      */
     public function create()
     {
-        $set = new Set(new NullType(), new Boolean(true));
+        $set = Set::create(new NullType(), new Boolean(true));
         static::assertInstanceOf(Structure::class, $set);
         return $set;
     }
@@ -78,7 +78,7 @@ final class SetTest extends TestCase
      */
     public function sortSame()
     {
-        $set = new Set(new NullType(), new NullType());
+        $set = Set::create(new NullType(), new NullType());
         $sorted = $set->sortedSet();
         static::assertEquals($set, $sorted);
     }

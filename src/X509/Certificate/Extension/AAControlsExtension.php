@@ -21,8 +21,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class AAControlsExtension extends Extension
 {
     /**
-     * Constructor.
-     *
      * @param null|string[] $_permittedAttrs
      * @param null|string[] $_excludedAttrs
      */
@@ -172,15 +170,15 @@ final class AAControlsExtension extends Extension
         }
         if (isset($this->_permittedAttrs)) {
             $oids = array_map(fn ($oid) => new ObjectIdentifier($oid), $this->_permittedAttrs);
-            $elements[] = new ImplicitlyTaggedType(0, new Sequence(...$oids));
+            $elements[] = new ImplicitlyTaggedType(0, Sequence::create(...$oids));
         }
         if (isset($this->_excludedAttrs)) {
             $oids = array_map(fn ($oid) => new ObjectIdentifier($oid), $this->_excludedAttrs);
-            $elements[] = new ImplicitlyTaggedType(1, new Sequence(...$oids));
+            $elements[] = new ImplicitlyTaggedType(1, Sequence::create(...$oids));
         }
         if ($this->_permitUnSpecified !== true) {
             $elements[] = new Boolean(false);
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

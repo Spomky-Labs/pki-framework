@@ -66,7 +66,7 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
             throw new LogicException('No subtrees.');
         }
         $elements = array_map(fn (GeneralSubtree $gs) => $gs->toASN1(), $this->_subtrees);
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

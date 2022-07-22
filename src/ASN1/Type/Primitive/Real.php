@@ -125,8 +125,6 @@ final class Real extends Element implements Stringable
     private ?float $_float = null;
 
     /**
-     * Constructor.
-     *
      * @param BigInteger|int|string $mantissa Integer mantissa
      * @param BigInteger|int|string $exponent Integer exponent
      * @param int $base Base, 2 or 10

@@ -110,7 +110,7 @@ final class AttributeCertificate implements Stringable
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
+        return Sequence::create(
             $this->_acinfo->toASN1(),
             $this->_signatureAlgorithm->toASN1(),
             $this->_signatureValue->bitString()

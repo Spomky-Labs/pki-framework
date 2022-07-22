@@ -30,6 +30,6 @@ class SequenceOfAttributes extends AttributeCollection
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(...array_map(fn (Attribute $attr) => $attr->toASN1(), $this->_attributes));
+        return Sequence::create(...array_map(fn (Attribute $attr) => $attr->toASN1(), $this->_attributes));
     }
 }

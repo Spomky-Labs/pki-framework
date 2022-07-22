@@ -30,8 +30,6 @@ final class DNParser
     private readonly int $_len;
 
     /**
-     * Constructor.
-     *
      * @param string $_dn Distinguised name
      */
     private function __construct(private readonly string $_dn)

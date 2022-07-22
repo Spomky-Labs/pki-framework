@@ -18,8 +18,6 @@ use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
 abstract class PrintableStringValue extends AttributeValue
 {
     /**
-     * Constructor.
-     *
      * @param string $_string String value
      */
     public function __construct(protected string $_string)

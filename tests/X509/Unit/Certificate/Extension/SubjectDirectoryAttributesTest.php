@@ -205,8 +205,8 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function decodeEmptyFail()
     {
-        $seq = new Sequence();
-        $ext_seq = new Sequence(
+        $seq = Sequence::create();
+        $ext_seq = Sequence::create(
             new ObjectIdentifier(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES),
             new OctetString($seq->toDER())
         );

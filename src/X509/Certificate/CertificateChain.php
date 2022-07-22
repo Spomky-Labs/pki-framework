@@ -26,8 +26,6 @@ final class CertificateChain implements Countable, IteratorAggregate
     private readonly array $_certs;
 
     /**
-     * Constructor.
-     *
      * @param Certificate ...$certs List of certificates, end-entity first
      */
     public function __construct(Certificate ...$certs)

@@ -93,6 +93,6 @@ final class UserNoticeQualifier extends PolicyQualifierInfo
         if (isset($this->_text)) {
             $elements[] = $this->_text->toASN1();
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

@@ -45,8 +45,6 @@ final class Extensions implements Countable, IteratorAggregate
     private array $_extensions;
 
     /**
-     * Constructor.
-     *
      * @param Extension ...$extensions Extension objects
      */
     public function __construct(Extension ...$extensions)
@@ -75,7 +73,7 @@ final class Extensions implements Countable, IteratorAggregate
     public function toASN1(): Sequence
     {
         $elements = array_values(array_map(fn ($ext) => $ext->toASN1(), $this->_extensions));
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

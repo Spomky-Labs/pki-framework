@@ -7,7 +7,9 @@ namespace SpomkyLabs\Pki\ASN1\Type\Constructed;
 use function count;
 use LogicException;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
+use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\ASN1\Type\Structure;
@@ -27,12 +29,10 @@ use Stringable;
 final class ConstructedString extends Structure implements StringType, Stringable
 {
     /**
-     * Constructor.
-     *
-     * @param Element ...$elements Any number of elements
+     * @param ElementBase ...$elements Any number of elements
      * @internal Use `create()` or `createWithTag()` method instead
      */
-    protected function __construct(Element ...$elements)
+    protected function __construct(ElementBase ...$elements)
     {
         parent::__construct(...$elements);
     }
@@ -85,7 +85,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      */
     public function strings(): array
     {
-        return array_map(fn (StringType $el) => $el->string(), $this->_elements);
+        return array_map(fn (StringType $el) => $el->string(), $this->elements);
     }
 
     /**
@@ -103,9 +103,70 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      */
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
-        /** @var ConstructedString $type */
-        $type = forward_static_call_array([parent::class, __FUNCTION__], [$identifier, $data, &$offset]);
+        if (! $identifier->isConstructed()) {
+            throw new DecodeException('Structured element must have constructed bit set.');
+        }
+        $idx = $offset;
+        $length = Length::expectFromDER($data, $idx);
+        if ($length->isIndefinite()) {
+            $type = self::decodeIndefiniteLength($data, $idx);
+        } else {
+            $type = self::decodeDefiniteLength($data, $idx, $length->intLength());
+        }
+        $offset = $idx;
         $type->_typeTag = $identifier->intTag();
+
+        return $type;
+    }
+
+    /**
+     * Decode elements for a definite length.
+     *
+     * @param string $data DER data
+     * @param int $offset Offset to data
+     * @param int $length Number of bytes to decode
+     */
+    protected static function decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase
+    {
+        $idx = $offset;
+        $end = $idx + $length;
+        $elements = [];
+        while ($idx < $end) {
+            $elements[] = Element::fromDER($data, $idx);
+            // check that element didn't overflow length
+            if ($idx > $end) {
+                throw new DecodeException("Structure's content overflows length.");
+            }
+        }
+        $offset = $idx;
+        // return instance by static late binding
+        return new self(...$elements);
+    }
+
+    /**
+     * Decode elements for an indefinite length.
+     *
+     * @param string $data DER data
+     * @param int $offset Offset to data
+     */
+    protected static function decodeIndefiniteLength(string $data, int &$offset): ElementBase
+    {
+        $idx = $offset;
+        $elements = [];
+        $end = mb_strlen($data, '8bit');
+        while (true) {
+            if ($idx >= $end) {
+                throw new DecodeException('Unexpected end of data while decoding indefinite length structure.');
+            }
+            $el = Element::fromDER($data, $idx);
+            if ($el->isType(self::TYPE_EOC)) {
+                break;
+            }
+            $elements[] = $el;
+        }
+        $offset = $idx;
+        $type = new self(...$elements);
+        $type->_indefiniteLength = true;
         return $type;
     }
 }

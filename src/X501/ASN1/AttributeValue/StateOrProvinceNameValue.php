@@ -15,8 +15,6 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString;
 final class StateOrProvinceNameValue extends DirectoryString
 {
     /**
-     * Constructor.
-     *
      * @param string $value String value
      * @param int $string_tag Syntax choice
      */

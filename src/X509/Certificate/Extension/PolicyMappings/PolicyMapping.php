@@ -15,8 +15,6 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 final class PolicyMapping
 {
     /**
-     * Constructor.
-     *
      * @param string $_issuerDomainPolicy OID of the issuer policy
      * @param string $_subjectDomainPolicy OID of the subject policy
      */
@@ -65,7 +63,7 @@ final class PolicyMapping
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
+        return Sequence::create(
             new ObjectIdentifier($this->_issuerDomainPolicy),
             new ObjectIdentifier($this->_subjectDomainPolicy)
         );

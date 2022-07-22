@@ -27,8 +27,6 @@ final class IssuerSerial
     private readonly string $_serial;
 
     /**
-     * Constructor.
-     *
      * @param int|string $serial
      */
     public function __construct(
@@ -116,7 +114,7 @@ final class IssuerSerial
         if (isset($this->_issuerUID)) {
             $elements[] = $this->_issuerUID->toASN1();
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

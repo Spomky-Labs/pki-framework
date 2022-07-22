@@ -24,7 +24,7 @@ final class SequenceTest extends TestCase
      */
     public function create()
     {
-        $seq = new Sequence(new NullType(), new Boolean(true));
+        $seq = Sequence::create(new NullType(), new Boolean(true));
         static::assertInstanceOf(Structure::class, $seq);
         return $seq;
     }

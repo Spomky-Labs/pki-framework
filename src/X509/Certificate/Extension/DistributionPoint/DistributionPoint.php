@@ -177,6 +177,6 @@ final class DistributionPoint
         if (isset($this->_issuer)) {
             $elements[] = new ImplicitlyTaggedType(2, $this->_issuer->toASN1());
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

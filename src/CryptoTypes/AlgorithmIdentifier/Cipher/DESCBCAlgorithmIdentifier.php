@@ -27,8 +27,6 @@ RFC 2898 defines parameters as follows:
 final class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
     /**
-     * Constructor.
-     *
      * @param null|string $iv Initialization vector
      */
     public function __construct(?string $iv = null)

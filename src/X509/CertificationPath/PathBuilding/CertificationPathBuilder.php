@@ -18,8 +18,6 @@ use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathBuildingException;
 final class CertificationPathBuilder
 {
     /**
-     * Constructor.
-     *
      * @param CertificateBundle $_trustList List of trust anchors
      */
     public function __construct(protected CertificateBundle $_trustList)

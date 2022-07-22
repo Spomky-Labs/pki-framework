@@ -26,8 +26,6 @@ final class ACValidationConfig
     private array $_targets;
 
     /**
-     * Constructor.
-     *
      * @param CertificationPath $_holderPath Certification path of the AC holder
      * @param CertificationPath $_issuerPath Certification path of the AC issuer
      */

@@ -19,8 +19,6 @@ final class AttributeTypeAndValue implements Stringable
     use TypedAttribute;
 
     /**
-     * Constructor.
-     *
      * @param AttributeType $type Attribute type
      * @param AttributeValue $_value Attribute value
      */
@@ -69,7 +67,7 @@ final class AttributeTypeAndValue implements Stringable
      */
     public function toASN1(): Sequence
     {
-        return new Sequence($this->_type->toASN1(), $this->_value->toASN1());
+        return Sequence::create($this->_type->toASN1(), $this->_value->toASN1());
     }
 
     /**

@@ -25,8 +25,6 @@ final class Length implements Encodable
     private readonly BigInt $_length;
 
     /**
-     * Constructor.
-     *
      * @param BigInteger|int $length Length
      * @param bool $_indefinite Whether length is indefinite
      */

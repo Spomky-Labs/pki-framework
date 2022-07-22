@@ -30,8 +30,6 @@ final class ECSignature extends Signature
     protected string $_s;
 
     /**
-     * Constructor.
-     *
      * @param int|string $r Signature's `r` value
      * @param int|string $s Signature's `s` value
      */
@@ -88,7 +86,7 @@ final class ECSignature extends Signature
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new Integer($this->_r), new Integer($this->_s));
+        return Sequence::create(new Integer($this->_r), new Integer($this->_s));
     }
 
     /**

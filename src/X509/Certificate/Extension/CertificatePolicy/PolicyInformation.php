@@ -161,9 +161,9 @@ final class PolicyInformation implements Countable, IteratorAggregate
                 fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
                 array_values($this->_qualifiers)
             );
-            $elements[] = new Sequence(...$qualifiers);
+            $elements[] = Sequence::create(...$qualifiers);
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

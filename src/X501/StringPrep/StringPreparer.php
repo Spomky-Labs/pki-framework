@@ -24,8 +24,6 @@ final class StringPreparer
     final public const STEP_INSIGNIFICANT_CHARS = 6;
 
     /**
-     * Constructor.
-     *
      * @param PrepareStep[] $_steps Preparation steps to apply
      */
     private function __construct(

@@ -32,8 +32,6 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
     protected $_attributes;
 
     /**
-     * Constructor.
-     *
      * @param Attribute ...$attribs List of attributes
      */
     public function __construct(Attribute ...$attribs)

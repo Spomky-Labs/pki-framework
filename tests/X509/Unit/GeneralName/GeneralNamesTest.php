@@ -153,7 +153,7 @@ final class GeneralNamesTest extends TestCase
     public function fromEmptyFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        GeneralNames::fromASN1(new Sequence());
+        GeneralNames::fromASN1(Sequence::create());
     }
 
     /**

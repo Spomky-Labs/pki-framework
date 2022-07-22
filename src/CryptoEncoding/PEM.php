@@ -57,8 +57,6 @@ final class PEM implements Stringable
     '/ms';
 
     /**
-     * Constructor.
-     *
      * @param string $_type Content type
      * @param string $_data Payload
      */

@@ -20,8 +20,6 @@ use UnexpectedValueException;
 class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
 {
     /**
-     * Constructor.
-     *
      * @param int $tag Tag number
      * @param Element $element Wrapped element
      * @param int $class Type class

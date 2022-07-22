@@ -38,7 +38,7 @@ final class SignatureTest extends TestCase
      */
     public function fromECAlgo()
     {
-        $seq = new Sequence(new Integer(1), new Integer(2));
+        $seq = Sequence::create(new Integer(1), new Integer(2));
         $sig = Signature::fromSignatureData($seq->toDER(), new ECDSAWithSHA1AlgorithmIdentifier());
         static::assertInstanceOf(ECSignature::class, $sig);
     }

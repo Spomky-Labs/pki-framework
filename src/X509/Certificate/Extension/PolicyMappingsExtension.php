@@ -31,8 +31,6 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
     protected array $_mappings;
 
     /**
-     * Constructor.
-     *
      * @param PolicyMapping ...$mappings One or more PolicyMapping objects
      */
     public function __construct(bool $critical, PolicyMapping ...$mappings)
@@ -157,6 +155,6 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
             throw new LogicException('No mappings.');
         }
         $elements = array_map(fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->_mappings);
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

@@ -36,8 +36,6 @@ final class CertificationPath implements Countable, IteratorAggregate
     private readonly array $_certificates;
 
     /**
-     * Constructor.
-     *
      * @param Certificate ...$certificates Certificates from the trust anchor
      * to the target end-entity certificate
      */

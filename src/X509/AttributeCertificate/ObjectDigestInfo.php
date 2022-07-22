@@ -80,6 +80,6 @@ final class ObjectDigestInfo
         }
         $elements[] = $this->_digestAlgorithm->toASN1();
         $elements[] = $this->_objectDigest;
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

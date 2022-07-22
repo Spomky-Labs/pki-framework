@@ -26,8 +26,6 @@ final class BitString extends BaseString
     use PrimitiveType;
 
     /**
-     * Constructor.
-     *
      * @param string $string Content octets
      * @param int $_unusedBits Number of unused bits in the last octet
      */

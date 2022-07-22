@@ -30,8 +30,6 @@ use UnexpectedValueException;
 final class PublicKeyInfo
 {
     /**
-     * Constructor.
-     *
      * @param AlgorithmIdentifierType $_algo Algorithm
      * @param BitString $_publicKey Public key data
      */
@@ -161,7 +159,7 @@ final class PublicKeyInfo
      */
     public function toASN1(): Sequence
     {
-        return new Sequence($this->_algo->toASN1(), $this->_publicKey);
+        return Sequence::create($this->_algo->toASN1(), $this->_publicKey);
     }
 
     /**

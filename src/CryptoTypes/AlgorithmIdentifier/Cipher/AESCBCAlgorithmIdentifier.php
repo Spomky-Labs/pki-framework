@@ -27,8 +27,6 @@ The AlgorithmIdentifier parameters field MUST be present, and the parameter fiel
 abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
     /**
-     * Constructor.
-     *
      * @param null|string $iv Initialization vector
      */
     public function __construct(?string $iv = null)

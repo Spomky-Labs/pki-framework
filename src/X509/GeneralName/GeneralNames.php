@@ -32,8 +32,6 @@ final class GeneralNames implements Countable, IteratorAggregate
     private readonly array $_names;
 
     /**
-     * Constructor.
-     *
      * @param GeneralName ...$names One or more GeneralName objects
      */
     public function __construct(GeneralName ...$names)
@@ -135,7 +133,7 @@ final class GeneralNames implements Countable, IteratorAggregate
             throw new LogicException('GeneralNames must have at least one GeneralName.');
         }
         $elements = array_map(fn (GeneralName $name) => $name->toASN1(), $this->_names);
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

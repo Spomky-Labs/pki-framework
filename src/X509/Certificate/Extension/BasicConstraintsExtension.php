@@ -85,6 +85,6 @@ final class BasicConstraintsExtension extends Extension
         if (isset($this->_pathLen)) {
             $elements[] = new Integer($this->_pathLen);
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

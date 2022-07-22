@@ -50,7 +50,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function decodeRFC2268OnlyIV()
     {
-        $seq = new Sequence(new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), new OctetString(self::IV));
+        $seq = Sequence::create(new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), new OctetString(self::IV));
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
     }

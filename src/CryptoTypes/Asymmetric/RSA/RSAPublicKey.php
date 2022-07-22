@@ -34,8 +34,6 @@ final class RSAPublicKey extends PublicKey
     protected string $_publicExponent;
 
     /**
-     * Constructor.
-     *
      * @param int|string $n Modulus
      * @param int|string $e Public exponent
      */
@@ -117,7 +115,7 @@ final class RSAPublicKey extends PublicKey
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new Integer($this->_modulus), new Integer($this->_publicExponent));
+        return Sequence::create(new Integer($this->_modulus), new Integer($this->_publicExponent));
     }
 
     public function toDER(): string

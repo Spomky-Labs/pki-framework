@@ -41,8 +41,6 @@ final class CertificationRequestInfo
     private $_attributes;
 
     /**
-     * Constructor.
-     *
      * @param Name $_subject Subject
      * @param PublicKeyInfo $_subjectPKInfo Public key info
      */
@@ -153,7 +151,7 @@ final class CertificationRequestInfo
         if (isset($this->_attributes)) {
             $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

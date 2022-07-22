@@ -29,8 +29,6 @@ final class AuthorityKeyIdentifierExtension extends Extension
     protected ?string $_authorityCertSerialNumber;
 
     /**
-     * Constructor.
-     *
      * @param bool $critical Conforming CA's must mark as non-critical (false)
      * @param null|string $_keyIdentifier Key identifier
      * @param null|GeneralNames $_authorityCertIssuer Issuer name
@@ -159,6 +157,6 @@ final class AuthorityKeyIdentifierExtension extends Extension
             $elements[] = new ImplicitlyTaggedType(1, $this->_authorityCertIssuer->toASN1());
             $elements[] = new ImplicitlyTaggedType(2, new Integer($this->_authorityCertSerialNumber));
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

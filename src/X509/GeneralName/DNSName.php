@@ -17,8 +17,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class DNSName extends GeneralName
 {
     /**
-     * Constructor.
-     *
      * @param string $_name Domain name
      */
     public function __construct(protected string $_name)

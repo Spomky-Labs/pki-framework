@@ -24,8 +24,6 @@ final class Flags
     private ?string $_flags = null;
 
     /**
-     * Constructor.
-     *
      * @param int|string $flags Flags
      * @param int $_width The number of flags. If width is larger than
      * number of bits in $flags, zeroes are prepended

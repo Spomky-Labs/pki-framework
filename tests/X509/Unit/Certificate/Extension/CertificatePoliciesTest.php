@@ -344,8 +344,8 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function decodeEmptyFail()
     {
-        $seq = new Sequence();
-        $ext_seq = new Sequence(
+        $seq = Sequence::create();
+        $ext_seq = Sequence::create(
             new ObjectIdentifier(Extension::OID_CERTIFICATE_POLICIES),
             new OctetString($seq->toDER())
         );

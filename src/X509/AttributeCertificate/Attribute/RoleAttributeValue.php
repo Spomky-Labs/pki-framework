@@ -26,8 +26,6 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 final class RoleAttributeValue extends AttributeValue
 {
     /**
-     * Constructor.
-     *
      * @param GeneralName $_roleName Role name
      * @param null|GeneralNames $_roleAuthority Issuing authority
      */
@@ -101,7 +99,7 @@ final class RoleAttributeValue extends AttributeValue
             $elements[] = new ImplicitlyTaggedType(0, $this->_roleAuthority->toASN1());
         }
         $elements[] = new ExplicitlyTaggedType(1, $this->_roleName->toASN1());
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     public function stringValue(): string

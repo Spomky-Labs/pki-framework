@@ -21,7 +21,7 @@ final class EncodeTest extends TestCase
      */
     public function encode()
     {
-        $el = new Set();
+        $el = Set::create();
         static::assertEquals("\x31\x0", $el->toDER());
     }
 
@@ -30,7 +30,7 @@ final class EncodeTest extends TestCase
      */
     public function setSort()
     {
-        $set = new Set(
+        $set = Set::create(
             new ImplicitlyTaggedType(1, new NullType()),
             new ImplicitlyTaggedType(2, new NullType()),
             new ImplicitlyTaggedType(0, new NullType())
@@ -43,7 +43,7 @@ final class EncodeTest extends TestCase
      */
     public function setSortClasses()
     {
-        $set = new Set(
+        $set = Set::create(
             new ExplicitlyTaggedType(5, new NullType()),
             new ImplicitlyTaggedType(6, new NullType()),
             new NullType()
@@ -56,7 +56,7 @@ final class EncodeTest extends TestCase
      */
     public function setOfSort()
     {
-        $set = new Set(new PrintableString('B'), new PrintableString('C'), new PrintableString('A'));
+        $set = Set::create(new PrintableString('B'), new PrintableString('C'), new PrintableString('A'));
         static::assertEquals("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf()->toDER());
     }
 }

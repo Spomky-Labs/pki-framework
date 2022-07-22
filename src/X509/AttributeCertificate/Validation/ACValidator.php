@@ -28,8 +28,6 @@ final class ACValidator
     private readonly Crypto $_crypto;
 
     /**
-     * Constructor.
-     *
      * @param AttributeCertificate $_ac Attribute certificate to validate
      * @param ACValidationConfig $_config Validation configuration
      * @param null|Crypto $crypto Crypto engine, use default if not set

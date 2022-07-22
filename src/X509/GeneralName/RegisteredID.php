@@ -17,8 +17,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class RegisteredID extends GeneralName
 {
     /**
-     * Constructor.
-     *
      * @param string $_oid OID in dotted format
      */
     public function __construct(protected string $_oid)

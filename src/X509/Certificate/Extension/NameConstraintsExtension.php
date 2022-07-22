@@ -19,8 +19,6 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
 final class NameConstraintsExtension extends Extension
 {
     /**
-     * Constructor.
-     *
      * @param GeneralSubtrees $_permitted
      * @param GeneralSubtrees $_excluded
      */
@@ -99,6 +97,6 @@ final class NameConstraintsExtension extends Extension
         if (isset($this->_excluded)) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_excluded->toASN1());
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

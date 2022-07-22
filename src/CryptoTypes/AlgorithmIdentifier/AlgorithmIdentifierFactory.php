@@ -105,8 +105,6 @@ final class AlgorithmIdentifierFactory
     private readonly array $_additionalProviders;
 
     /**
-     * Constructor.
-     *
      * @param AlgorithmIdentifierProvider ...$providers Additional providers
      */
     public function __construct(AlgorithmIdentifierProvider ...$providers)

@@ -108,7 +108,7 @@ final class GeneralSubtreesTest extends TestCase
     public function decodeEmptyFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        GeneralSubtrees::fromASN1(new Sequence());
+        GeneralSubtrees::fromASN1(Sequence::create());
     }
 
     /**

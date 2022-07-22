@@ -68,7 +68,7 @@ abstract class SvceAuthInfo extends AttributeValue
         if (isset($this->_authInfo)) {
             $elements[] = new OctetString($this->_authInfo);
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     public function stringValue(): string

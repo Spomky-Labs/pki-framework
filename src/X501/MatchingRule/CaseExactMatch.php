@@ -14,8 +14,6 @@ use SpomkyLabs\Pki\X501\StringPrep\StringPreparer;
 final class CaseExactMatch extends StringPrepMatchingRule
 {
     /**
-     * Constructor.
-     *
      * @param int $string_type ASN.1 string type tag
      */
     public function __construct(int $string_type)

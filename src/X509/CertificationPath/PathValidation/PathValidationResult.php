@@ -27,8 +27,6 @@ final class PathValidationResult
     private readonly array $_certificates;
 
     /**
-     * Constructor.
-     *
      * @param Certificate[] $certificates Certificates in a certification path
      * @param null|PolicyTree $_policyTree Valid policy tree
      * @param PublicKeyInfo $_publicKeyInfo Public key of the end-entity certificate

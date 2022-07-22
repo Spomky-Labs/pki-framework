@@ -33,8 +33,6 @@ final class DERData extends Element
     protected int $_contentOffset = 0;
 
     /**
-     * Constructor.
-     *
      * @param string $data DER encoded data
      */
     public function __construct(string $data)

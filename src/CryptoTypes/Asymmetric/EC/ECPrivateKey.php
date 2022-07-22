@@ -27,8 +27,6 @@ use UnexpectedValueException;
 final class ECPrivateKey extends PrivateKey
 {
     /**
-     * Constructor.
-     *
      * @param string $_privateKey Private key
      * @param null|string $_namedCurve OID of the named curve
      * @param null|string $_publicKey ECPoint value
@@ -168,7 +166,7 @@ final class ECPrivateKey extends PrivateKey
         if (isset($this->_publicKey)) {
             $elements[] = new ExplicitlyTaggedType(1, new BitString($this->_publicKey));
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     public function toDER(): string

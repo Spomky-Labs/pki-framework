@@ -36,8 +36,6 @@ final class PolicyNode implements IteratorAggregate, Countable
     private $_parent;
 
     /**
-     * Constructor.
-     *
      * @param string $_validPolicy Policy OID
      * @param PolicyQualifierInfo[] $_qualifiers
      * @param string[] $_expectedPolicies

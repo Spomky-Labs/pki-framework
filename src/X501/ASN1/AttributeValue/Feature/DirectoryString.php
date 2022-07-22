@@ -77,8 +77,6 @@ abstract class DirectoryString extends AttributeValue
     ];
 
     /**
-     * Constructor.
-     *
      * @param string $_string String value
      * @param int $_stringTag Syntax choice
      */

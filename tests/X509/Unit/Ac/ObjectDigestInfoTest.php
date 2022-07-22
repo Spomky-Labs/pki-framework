@@ -74,7 +74,7 @@ final class ObjectDigestInfoTest extends TestCase
     public function decodeWithOtherObjectTypeID()
     {
         $algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
-        $seq = new Sequence(
+        $seq = Sequence::create(
             new Enumerated(ObjectDigestInfo::TYPE_OTHER_OBJECT_TYPES),
             new ObjectIdentifier('1.3.6.1.3'),
             $algo->toASN1(),

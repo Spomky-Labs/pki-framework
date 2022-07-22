@@ -18,8 +18,6 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 abstract class RFC8410PublicKey extends PublicKey
 {
     /**
-     * Constructor.
-     *
      * @param string $_publicKey Public key data
      */
     public function __construct(protected string $_publicKey)

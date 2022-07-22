@@ -23,8 +23,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTagging
 {
     /**
-     * Constructor.
-     *
      * @param Identifier $_identifier Pre-parsed identifier
      * @param string $_data DER data
      * @param int $_offset Offset to next byte after identifier

@@ -105,7 +105,7 @@ final class CertificationRequest implements Stringable
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
+        return Sequence::create(
             $this->_certificationRequestInfo->toASN1(),
             $this->_signatureAlgorithm->toASN1(),
             $this->_signature->bitString()

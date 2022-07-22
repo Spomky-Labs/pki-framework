@@ -18,8 +18,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
 {
     /**
-     * Constructor.
-     *
      * @param int $tag Tag number
      * @param Element $element Wrapped element
      * @param int $class Type class

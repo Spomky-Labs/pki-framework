@@ -32,8 +32,6 @@ final class Attribute implements Countable, IteratorAggregate
     protected array $_values;
 
     /**
-     * Constructor.
-     *
      * @param AttributeType $type Attribute type
      * @param AttributeValue ...$values Attribute values
      */
@@ -107,8 +105,8 @@ final class Attribute implements Countable, IteratorAggregate
     public function toASN1(): Sequence
     {
         $values = array_map(fn (AttributeValue $value) => $value->toASN1(), $this->_values);
-        $valueset = new Set(...$values);
-        return new Sequence($this->_type->toASN1(), $valueset->sortedSetOf());
+        $valueset = Set::create(...$values);
+        return Sequence::create($this->_type->toASN1(), $valueset->sortedSetOf());
     }
 
     /**

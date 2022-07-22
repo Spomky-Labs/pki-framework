@@ -177,11 +177,11 @@ final class AuthorityKeyIdentifierTest extends TestCase
      */
     public function decodeIssuerXorSerialFail()
     {
-        $seq = new Sequence(
+        $seq = Sequence::create(
             new ImplicitlyTaggedType(0, new OctetString('')),
             new ImplicitlyTaggedType(2, new Integer(1))
         );
-        $ext_seq = new Sequence(
+        $ext_seq = Sequence::create(
             new ObjectIdentifier(Extension::OID_AUTHORITY_KEY_IDENTIFIER),
             new OctetString($seq->toDER())
         );

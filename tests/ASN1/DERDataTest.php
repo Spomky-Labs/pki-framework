@@ -64,7 +64,7 @@ final class DERDataTest extends TestCase
     public function encodeIntoSequence()
     {
         $el = new DERData("\x5\x0");
-        $seq = new Sequence($el);
+        $seq = Sequence::create($el);
         static::assertEquals("\x30\x2\x5\x0", $seq->toDER());
     }
 
@@ -74,7 +74,7 @@ final class DERDataTest extends TestCase
     public function encodeIntoSequenceWithOther()
     {
         $el = new DERData("\x5\x0");
-        $seq = new Sequence($el, new Boolean(true));
+        $seq = Sequence::create($el, new Boolean(true));
         static::assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
 

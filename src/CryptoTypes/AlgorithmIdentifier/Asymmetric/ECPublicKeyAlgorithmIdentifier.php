@@ -242,8 +242,6 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
     ];
 
     /**
-     * Constructor.
-     *
      * @param string $_namedCurve Curve identifier
      */
     public function __construct(protected string $_namedCurve)

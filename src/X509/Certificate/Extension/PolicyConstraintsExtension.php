@@ -83,6 +83,6 @@ final class PolicyConstraintsExtension extends Extension
         if (isset($this->_inhibitPolicyMapping)) {
             $elements[] = new ImplicitlyTaggedType(1, new Integer($this->_inhibitPolicyMapping));
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

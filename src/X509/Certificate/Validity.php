@@ -68,6 +68,6 @@ final class Validity
      */
     public function toASN1(): Sequence
     {
-        return new Sequence($this->_notBefore->toASN1(), $this->_notAfter->toASN1());
+        return Sequence::create($this->_notBefore->toASN1(), $this->_notAfter->toASN1());
     }
 }

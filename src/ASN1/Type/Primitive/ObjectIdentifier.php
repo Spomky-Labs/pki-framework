@@ -35,8 +35,6 @@ class ObjectIdentifier extends Element
     protected array $_subids;
 
     /**
-     * Constructor.
-     *
      * @param string $_oid OID in dotted format
      */
     public function __construct(protected string $_oid)

@@ -29,8 +29,6 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     private readonly array $_attribs;
 
     /**
-     * Constructor.
-     *
      * @param AttributeTypeAndValue ...$attribs One or more attributes
      */
     public function __construct(AttributeTypeAndValue ...$attribs)
@@ -78,7 +76,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     public function toASN1(): Set
     {
         $elements = array_map(fn (AttributeTypeAndValue $tv) => $tv->toASN1(), $this->_attribs);
-        $set = new Set(...$elements);
+        $set = Set::create(...$elements);
         return $set->sortedSetOf();
     }
 

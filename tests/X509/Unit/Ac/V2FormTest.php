@@ -125,7 +125,7 @@ final class V2FormTest extends TestCase
         );
         $el = new ImplicitlyTaggedType(
             0,
-            new Sequence(
+            Sequence::create(
                 self::$_issuerName->toASN1(),
                 new ImplicitlyTaggedType(0, $iss_ser->toASN1()),
                 new ImplicitlyTaggedType(1, $odi->toASN1())

@@ -35,8 +35,6 @@ final class ECPublicKey extends PublicKey
     protected string $_ecPoint;
 
     /**
-     * Constructor.
-     *
      * @param string $ec_point ECPoint
      * @param null|string $_namedCurve Named curve OID
      */

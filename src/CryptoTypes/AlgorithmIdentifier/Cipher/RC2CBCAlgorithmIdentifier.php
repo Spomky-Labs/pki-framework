@@ -92,8 +92,6 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     ];
 
     /**
-     * Constructor.
-     *
      * @param int $_effectiveKeyBits Number of effective key bits
      * @param null|string $iv Initialization vector
      */
@@ -178,7 +176,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if (! isset($this->_initializationVector)) {
             throw new LogicException('IV not set.');
         }
-        return new Sequence(new Integer($version), new OctetString($this->_initializationVector));
+        return Sequence::create(new Integer($version), new OctetString($this->_initializationVector));
     }
 
     /**

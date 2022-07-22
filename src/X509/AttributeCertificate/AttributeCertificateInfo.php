@@ -57,8 +57,6 @@ final class AttributeCertificateInfo
     private Extensions $_extensions;
 
     /**
-     * Constructor.
-     *
      * @param Holder $_holder AC holder
      * @param AttCertIssuer $_issuer AC issuer
      * @param AttCertValidityPeriod $_attrCertValidityPeriod Validity
@@ -332,7 +330,7 @@ final class AttributeCertificateInfo
         if (count($this->_extensions)) {
             $elements[] = $this->_extensions->toASN1();
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

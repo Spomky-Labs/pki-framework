@@ -59,7 +59,7 @@ final class SHA1WithRSAAITest extends TestCase
      */
     public function decodeInvalidParamsFail(Sequence $seq)
     {
-        $seq = $seq->withReplaced(1, new Sequence());
+        $seq = $seq->withReplaced(1, Sequence::create());
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }

@@ -181,7 +181,7 @@ final class Holder
         if (isset($this->_objectDigestInfo)) {
             $elements[] = new ImplicitlyTaggedType(2, $this->_objectDigestInfo->toASN1());
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

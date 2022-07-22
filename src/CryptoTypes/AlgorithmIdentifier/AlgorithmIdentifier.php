@@ -125,7 +125,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
         if (isset($params)) {
             $elements[] = $params;
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

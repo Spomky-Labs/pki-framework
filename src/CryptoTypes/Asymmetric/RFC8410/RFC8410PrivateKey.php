@@ -36,8 +36,6 @@ abstract class RFC8410PrivateKey extends PrivateKey
     protected $_attributes;
 
     /**
-     * Constructor.
-     *
      * @param string $_privateKeyData Private key data
      * @param null|string $_publicKeyData Public key data
      */

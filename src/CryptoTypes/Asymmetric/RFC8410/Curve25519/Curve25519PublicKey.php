@@ -16,8 +16,6 @@ use UnexpectedValueException;
 abstract class Curve25519PublicKey extends RFC8410PublicKey
 {
     /**
-     * Constructor.
-     *
      * @param string $public_key Public key data
      */
     public function __construct(string $public_key)

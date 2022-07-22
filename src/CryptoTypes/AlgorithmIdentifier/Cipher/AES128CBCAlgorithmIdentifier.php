@@ -14,8 +14,6 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 final class AES128CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
 {
     /**
-     * Constructor.
-     *
      * @param null|string $iv Initialization vector
      */
     public function __construct(?string $iv = null)

@@ -13,8 +13,6 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierTy
 final class GenericSignature extends Signature
 {
     /**
-     * Constructor.
-     *
      * @param BitString $_signature Signature value
      * @param AlgorithmIdentifierType $_signatureAlgorithm Algorithm identifier
      */

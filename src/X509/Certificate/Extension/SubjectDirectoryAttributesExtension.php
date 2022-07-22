@@ -28,8 +28,6 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
     private readonly SequenceOfAttributes $_attributes;
 
     /**
-     * Constructor.
-     *
      * @param Attribute ...$attribs One or more Attribute objects
      */
     public function __construct(bool $critical, Attribute ...$attribs)

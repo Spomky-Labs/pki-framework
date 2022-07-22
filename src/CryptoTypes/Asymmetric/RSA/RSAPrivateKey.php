@@ -63,8 +63,6 @@ final class RSAPrivateKey extends PrivateKey
     protected string $_coefficient;
 
     /**
-     * Constructor.
-     *
      * @param int|string $n Modulus
      * @param int|string $e Public exponent
      * @param int|string $d Private exponent
@@ -230,7 +228,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
+        return Sequence::create(
             new Integer(0),
             new Integer($this->_modulus),
             new Integer($this->_publicExponent),

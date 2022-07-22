@@ -225,8 +225,6 @@ abstract class Extension implements Stringable
     ];
 
     /**
-     * Constructor.
-     *
      * @param string $_oid Extension OID
      * @param bool $_critical Whether extension is critical
      */
@@ -292,7 +290,7 @@ abstract class Extension implements Stringable
             $elements[] = new Boolean(true);
         }
         $elements[] = $this->_extnValue();
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

@@ -31,8 +31,6 @@ final class CertificateBundle implements Countable, IteratorAggregate
     private $_keyIdMap;
 
     /**
-     * Constructor.
-     *
      * @param Certificate ...$certs Certificate objects
      */
     public function __construct(Certificate ...$certs)

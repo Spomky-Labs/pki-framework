@@ -15,8 +15,6 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\PrintableStringValue;
 final class CountryNameValue extends PrintableStringValue
 {
     /**
-     * Constructor.
-     *
      * @param string $value String value
      */
     public function __construct(string $value)

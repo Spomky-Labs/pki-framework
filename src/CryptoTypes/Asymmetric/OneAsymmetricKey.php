@@ -57,8 +57,6 @@ class OneAsymmetricKey
     protected $_version;
 
     /**
-     * Constructor.
-     *
      * @param AlgorithmIdentifierType $_algo Algorithm
      * @param string $_privateKeyData Private key data
      * @param null|OneAsymmetricKeyAttributes $_attributes Optional attributes
@@ -297,7 +295,7 @@ class OneAsymmetricKey
         if ($this->_publicKeyData) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_publicKeyData);
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

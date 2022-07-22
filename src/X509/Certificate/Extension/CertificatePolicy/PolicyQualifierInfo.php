@@ -71,7 +71,7 @@ abstract class PolicyQualifierInfo
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(new ObjectIdentifier($this->_oid), $this->_qualifierASN1());
+        return Sequence::create(new ObjectIdentifier($this->_oid), $this->_qualifierASN1());
     }
 
     /**

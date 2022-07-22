@@ -61,8 +61,6 @@ final class Identifier implements Encodable
     private BigInt $_tag;
 
     /**
-     * Constructor.
-     *
      * @param int $class Type class
      * @param int $pc Primitive / Constructed
      * @param BigInteger|int $tag Type tag number

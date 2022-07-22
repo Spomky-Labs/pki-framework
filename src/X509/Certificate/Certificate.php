@@ -129,7 +129,7 @@ final class Certificate implements Stringable
      */
     public function toASN1(): Sequence
     {
-        return new Sequence(
+        return Sequence::create(
             $this->_tbsCertificate->toASN1(),
             $this->_signatureAlgorithm->toASN1(),
             $this->_signatureValue->bitString()

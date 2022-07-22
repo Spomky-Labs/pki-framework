@@ -26,7 +26,7 @@ final class StructureTest extends TestCase
      */
     public function has(int $idx, bool $result)
     {
-        $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
+        $seq = Sequence::create(new NullType(), new Boolean(true), new NullType());
         static::assertEquals($seq->has($idx), $result);
     }
 
@@ -42,7 +42,7 @@ final class StructureTest extends TestCase
      */
     public function hasType(int $idx, int $type, bool $result)
     {
-        $seq = new Sequence(new NullType(), new Boolean(true));
+        $seq = Sequence::create(new NullType(), new Boolean(true));
         static::assertEquals($seq->has($idx, $type), $result);
     }
 
@@ -61,7 +61,7 @@ final class StructureTest extends TestCase
      */
     public function explode()
     {
-        $el = new Sequence(new NullType(), new NullType(), new NullType());
+        $el = Sequence::create(new NullType(), new NullType(), new NullType());
         $der = $el->toDER();
         $parts = Structure::explodeDER($der);
         $null = "\x5\x0";
@@ -85,7 +85,7 @@ final class StructureTest extends TestCase
      */
     public function explodeIndefiniteFail()
     {
-        $el = new Sequence(new NullType());
+        $el = Sequence::create(new NullType());
         $el = $el->withIndefiniteLength();
         $der = $el->toDER();
         $this->expectException(DecodeException::class);
@@ -98,9 +98,9 @@ final class StructureTest extends TestCase
      */
     public function replace()
     {
-        $seq = new Sequence(new NullType(), new NullType());
+        $seq = Sequence::create(new NullType(), new NullType());
         $seq = $seq->withReplaced(1, new Boolean(true));
-        $expected = new Sequence(new NullType(), new Boolean(true));
+        $expected = Sequence::create(new NullType(), new Boolean(true));
         static::assertEquals($expected, $seq);
     }
 
@@ -109,7 +109,7 @@ final class StructureTest extends TestCase
      */
     public function replaceFail()
     {
-        $seq = new Sequence(new NullType(), new NullType());
+        $seq = Sequence::create(new NullType(), new NullType());
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Structure doesn\'t have element at index 2');
         $seq->withReplaced(2, new Boolean(true));
@@ -120,9 +120,9 @@ final class StructureTest extends TestCase
      */
     public function insertFirst()
     {
-        $seq = new Sequence(new NullType(), new NullType());
+        $seq = Sequence::create(new NullType(), new NullType());
         $seq = $seq->withInserted(0, new Boolean(true));
-        $expected = new Sequence(new Boolean(true), new NullType(), new NullType());
+        $expected = Sequence::create(new Boolean(true), new NullType(), new NullType());
         static::assertEquals($expected, $seq);
     }
 
@@ -131,9 +131,9 @@ final class StructureTest extends TestCase
      */
     public function insertBetween()
     {
-        $seq = new Sequence(new NullType(), new NullType());
+        $seq = Sequence::create(new NullType(), new NullType());
         $seq = $seq->withInserted(1, new Boolean(true));
-        $expected = new Sequence(new NullType(), new Boolean(true), new NullType());
+        $expected = Sequence::create(new NullType(), new Boolean(true), new NullType());
         static::assertEquals($expected, $seq);
     }
 
@@ -142,9 +142,9 @@ final class StructureTest extends TestCase
      */
     public function insertLast()
     {
-        $seq = new Sequence(new NullType(), new NullType());
+        $seq = Sequence::create(new NullType(), new NullType());
         $seq = $seq->withInserted(2, new Boolean(true));
-        $expected = new Sequence(new NullType(), new NullType(), new Boolean(true));
+        $expected = Sequence::create(new NullType(), new NullType(), new Boolean(true));
         static::assertEquals($expected, $seq);
     }
 
@@ -153,7 +153,7 @@ final class StructureTest extends TestCase
      */
     public function insertOOB()
     {
-        $seq = new Sequence(new NullType(), new NullType());
+        $seq = Sequence::create(new NullType(), new NullType());
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Index 3 is out of bounds');
         $seq->withInserted(3, new Boolean(true));
@@ -164,9 +164,9 @@ final class StructureTest extends TestCase
      */
     public function append()
     {
-        $seq = new Sequence(new NullType());
+        $seq = Sequence::create(new NullType());
         $seq = $seq->withAppended(new Boolean(true));
-        $expected = new Sequence(new NullType(), new Boolean(true));
+        $expected = Sequence::create(new NullType(), new Boolean(true));
         static::assertEquals($expected, $seq);
     }
 
@@ -175,9 +175,9 @@ final class StructureTest extends TestCase
      */
     public function prepend()
     {
-        $seq = new Sequence(new NullType());
+        $seq = Sequence::create(new NullType());
         $seq = $seq->withPrepended(new Boolean(true));
-        $expected = new Sequence(new Boolean(true), new NullType());
+        $expected = Sequence::create(new Boolean(true), new NullType());
         static::assertEquals($expected, $seq);
     }
 
@@ -186,9 +186,9 @@ final class StructureTest extends TestCase
      */
     public function removeFirst()
     {
-        $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
+        $seq = Sequence::create(new NullType(), new Boolean(true), new NullType());
         $seq = $seq->withoutElement(0);
-        $expected = new Sequence(new Boolean(true), new NullType());
+        $expected = Sequence::create(new Boolean(true), new NullType());
         static::assertEquals($expected, $seq);
     }
 
@@ -197,9 +197,9 @@ final class StructureTest extends TestCase
      */
     public function removeLast()
     {
-        $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
+        $seq = Sequence::create(new NullType(), new Boolean(true), new NullType());
         $seq = $seq->withoutElement(2);
-        $expected = new Sequence(new NullType(), new Boolean(true));
+        $expected = Sequence::create(new NullType(), new Boolean(true));
         static::assertEquals($expected, $seq);
     }
 
@@ -208,9 +208,9 @@ final class StructureTest extends TestCase
      */
     public function removeOnly()
     {
-        $seq = new Sequence(new NullType());
+        $seq = Sequence::create(new NullType());
         $seq = $seq->withoutElement(0);
-        $expected = new Sequence();
+        $expected = Sequence::create();
         static::assertEquals($expected, $seq);
     }
 
@@ -219,7 +219,7 @@ final class StructureTest extends TestCase
      */
     public function removeFail()
     {
-        $seq = new Sequence(new NullType());
+        $seq = Sequence::create(new NullType());
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Structure doesn\'t have element at index 1');
         $seq->withoutElement(1);
@@ -232,7 +232,7 @@ final class StructureTest extends TestCase
      */
     public function taggedAfterClone()
     {
-        $seq = new Sequence(new ImplicitlyTaggedType(1, new NullType()));
+        $seq = Sequence::create(new ImplicitlyTaggedType(1, new NullType()));
         $seq->hasTagged(1);
         $seq = $seq->withAppended(new ImplicitlyTaggedType(2, new NullType()));
         static::assertTrue($seq->hasTagged(2));

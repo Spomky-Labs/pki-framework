@@ -14,8 +14,6 @@ use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 final class RelativeOID extends ObjectIdentifier
 {
     /**
-     * Constructor.
-     *
      * @param string $oid OID in dotted format
      */
     public function __construct(string $oid)

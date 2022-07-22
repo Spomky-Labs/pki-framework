@@ -73,6 +73,6 @@ final class NoticeReference
     {
         $org = $this->_organization->toASN1();
         $nums = array_map(fn ($number) => new Integer($number), $this->_numbers);
-        return new Sequence($org, new Sequence(...$nums));
+        return Sequence::create($org, Sequence::create(...$nums));
     }
 }

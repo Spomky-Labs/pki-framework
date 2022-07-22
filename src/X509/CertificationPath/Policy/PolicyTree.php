@@ -14,8 +14,6 @@ use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState;
 final class PolicyTree
 {
     /**
-     * Constructor.
-     *
      * @param PolicyNode $_root Initial root node
      */
     public function __construct(protected ?PolicyNode $_root)

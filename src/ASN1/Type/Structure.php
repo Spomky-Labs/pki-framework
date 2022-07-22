@@ -9,7 +9,6 @@ use function count;
 use Countable;
 use IteratorAggregate;
 use LogicException;
-use function mb_strlen;
 use OutOfBoundsException;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
@@ -29,30 +28,28 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      *
      * @var Element[]
      */
-    protected $_elements;
+    protected array $elements;
 
     /**
      * Lookup table for the tagged elements.
      *
      * @var null|TaggedType[]
      */
-    private $_taggedMap;
+    private ?array $taggedMap = null;
 
     /**
      * Cache variable of elements wrapped into `UnspecifiedType` objects.
      *
      * @var null|UnspecifiedType[]
      */
-    private ?array $_unspecifiedTypes = null;
+    private ?array $unspecifiedTypes = null;
 
     /**
-     * Constructor.
-     *
      * @param ElementBase ...$elements Any number of elements
      */
-    public function __construct(ElementBase ...$elements)
+    protected function __construct(ElementBase ...$elements)
     {
-        $this->_elements = array_map(fn (ElementBase $el) => $el->asElement(), $elements);
+        $this->elements = array_map(fn (ElementBase $el) => $el->asElement(), $elements);
     }
 
     /**
@@ -61,8 +58,8 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function __clone()
     {
         // clear cache-variables
-        $this->_taggedMap = null;
-        $this->_unspecifiedTypes = null;
+        $this->taggedMap = null;
+        $this->unspecifiedTypes = null;
     }
 
     public function isConstructed(): bool
@@ -111,11 +108,11 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function withReplaced(int $idx, Element $el): self
     {
-        if (! isset($this->_elements[$idx])) {
+        if (! isset($this->elements[$idx])) {
             throw new OutOfBoundsException("Structure doesn't have element at index {$idx}.");
         }
         $obj = clone $this;
-        $obj->_elements[$idx] = $el;
+        $obj->elements[$idx] = $el;
         return $obj;
     }
 
@@ -127,11 +124,11 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function withInserted(int $idx, Element $el): self
     {
-        if (count($this->_elements) < $idx || $idx < 0) {
+        if (count($this->elements) < $idx || $idx < 0) {
             throw new OutOfBoundsException("Index {$idx} is out of bounds.");
         }
         $obj = clone $this;
-        array_splice($obj->_elements, $idx, 0, [$el]);
+        array_splice($obj->elements, $idx, 0, [$el]);
         return $obj;
     }
 
@@ -143,7 +140,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function withAppended(Element $el): self
     {
         $obj = clone $this;
-        array_push($obj->_elements, $el);
+        array_push($obj->elements, $el);
         return $obj;
     }
 
@@ -155,7 +152,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function withPrepended(Element $el): self
     {
         $obj = clone $this;
-        array_unshift($obj->_elements, $el);
+        array_unshift($obj->elements, $el);
         return $obj;
     }
 
@@ -166,11 +163,11 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function withoutElement(int $idx): self
     {
-        if (! isset($this->_elements[$idx])) {
+        if (! isset($this->elements[$idx])) {
             throw new OutOfBoundsException("Structure doesn't have element at index {$idx}.");
         }
         $obj = clone $this;
-        array_splice($obj->_elements, $idx, 1);
+        array_splice($obj->elements, $idx, 1);
         return $obj;
     }
 
@@ -181,10 +178,10 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function elements(): array
     {
-        if (! isset($this->_unspecifiedTypes)) {
-            $this->_unspecifiedTypes = array_map(fn (Element $el) => new UnspecifiedType($el), $this->_elements);
+        if (! isset($this->unspecifiedTypes)) {
+            $this->unspecifiedTypes = array_map(fn (Element $el) => new UnspecifiedType($el), $this->elements);
         }
-        return $this->_unspecifiedTypes;
+        return $this->unspecifiedTypes;
     }
 
     /**
@@ -195,11 +192,11 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function has(int $idx, ?int $expectedTag = null): bool
     {
-        if (! isset($this->_elements[$idx])) {
+        if (! isset($this->elements[$idx])) {
             return false;
         }
         if (isset($expectedTag)) {
-            if (! $this->_elements[$idx]->isType($expectedTag)) {
+            if (! $this->elements[$idx]->isType($expectedTag)) {
                 return false;
             }
         }
@@ -213,10 +210,10 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function at(int $idx): UnspecifiedType
     {
-        if (! isset($this->_elements[$idx])) {
+        if (! isset($this->elements[$idx])) {
             throw new OutOfBoundsException("Structure doesn't have an element at index {$idx}.");
         }
-        return new UnspecifiedType($this->_elements[$idx]);
+        return new UnspecifiedType($this->elements[$idx]);
     }
 
     /**
@@ -227,15 +224,15 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function hasTagged(int $tag): bool
     {
         // lazily build lookup map
-        if (! isset($this->_taggedMap)) {
-            $this->_taggedMap = [];
-            foreach ($this->_elements as $element) {
+        if (! isset($this->taggedMap)) {
+            $this->taggedMap = [];
+            foreach ($this->elements as $element) {
                 if ($element->isTagged()) {
-                    $this->_taggedMap[$element->tag()] = $element;
+                    $this->taggedMap[$element->tag()] = $element;
                 }
             }
         }
-        return isset($this->_taggedMap[$tag]);
+        return isset($this->taggedMap[$tag]);
     }
 
     /**
@@ -246,7 +243,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
         if (! $this->hasTagged($tag)) {
             throw new LogicException("No tagged element for tag {$tag}.");
         }
-        return $this->_taggedMap[$tag];
+        return $this->taggedMap[$tag];
     }
 
     /**
@@ -254,7 +251,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_elements);
+        return count($this->elements);
     }
 
     /**
@@ -270,33 +267,10 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     protected function encodedAsDER(): string
     {
         $data = '';
-        foreach ($this->_elements as $element) {
+        foreach ($this->elements as $element) {
             $data .= $element->toDER();
         }
         return $data;
-    }
-
-    /**
-     * @return self
-     */
-    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
-    {
-        if (! $identifier->isConstructed()) {
-            throw new DecodeException('Structured element must have constructed bit set.');
-        }
-        $idx = $offset;
-        $length = Length::expectFromDER($data, $idx);
-        if ($length->isIndefinite()) {
-            $type = self::_decodeIndefiniteLength($data, $idx);
-        } else {
-            $type = self::_decodeDefiniteLength(
-                $data,
-                $idx,
-                $length->intLength()
-            );
-        }
-        $offset = $idx;
-        return $type;
     }
 
     /**
@@ -306,22 +280,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      * @param int $offset Offset to data
      * @param int $length Number of bytes to decode
      */
-    private static function _decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase
-    {
-        $idx = $offset;
-        $end = $idx + $length;
-        $elements = [];
-        while ($idx < $end) {
-            $elements[] = Element::fromDER($data, $idx);
-            // check that element didn't overflow length
-            if ($idx > $end) {
-                throw new DecodeException("Structure's content overflows length.");
-            }
-        }
-        $offset = $idx;
-        // return instance by static late binding
-        return new static(...$elements);
-    }
+    abstract protected static function decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase;
 
     /**
      * Decode elements for an indefinite length.
@@ -329,24 +288,5 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
      * @param string $data DER data
      * @param int $offset Offset to data
      */
-    private static function _decodeIndefiniteLength(string $data, int &$offset): ElementBase
-    {
-        $idx = $offset;
-        $elements = [];
-        $end = mb_strlen($data, '8bit');
-        while (true) {
-            if ($idx >= $end) {
-                throw new DecodeException('Unexpected end of data while decoding indefinite length structure.');
-            }
-            $el = Element::fromDER($data, $idx);
-            if ($el->isType(self::TYPE_EOC)) {
-                break;
-            }
-            $elements[] = $el;
-        }
-        $offset = $idx;
-        $type = new static(...$elements);
-        $type->_indefiniteLength = true;
-        return $type;
-    }
+    abstract protected static function decodeIndefiniteLength(string $data, int &$offset): ElementBase;
 }

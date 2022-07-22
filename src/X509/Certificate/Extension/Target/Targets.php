@@ -88,7 +88,7 @@ final class Targets implements Countable, IteratorAggregate
     public function toASN1(): Sequence
     {
         $elements = array_map(fn (Target $target) => $target->toASN1(), $this->_targets);
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

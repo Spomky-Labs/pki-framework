@@ -34,8 +34,6 @@ final class PathValidator
     private ?Certificate $_trustAnchor = null;
 
     /**
-     * Constructor.
-     *
      * @param Crypto $_crypto Crypto engine
      * @param PathValidationConfig $_config Validation config
      * @param Certificate ...$certificates Certificates from the trust anchor to

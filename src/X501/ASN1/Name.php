@@ -33,8 +33,6 @@ final class Name implements Countable, IteratorAggregate, Stringable
     private readonly array $_rdns;
 
     /**
-     * Constructor.
-     *
      * @param RDN ...$rdns RDN components
      */
     public function __construct(RDN ...$rdns)
@@ -88,7 +86,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
     public function toASN1(): Sequence
     {
         $elements = array_map(fn (RDN $rdn) => $rdn->toASN1(), $this->_rdns);
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**

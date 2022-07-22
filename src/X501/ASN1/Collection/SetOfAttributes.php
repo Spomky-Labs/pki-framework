@@ -30,7 +30,7 @@ class SetOfAttributes extends AttributeCollection
      */
     public function toASN1(): Set
     {
-        $set = new Set(...array_map(fn (Attribute $attr) => $attr->toASN1(), $this->_attributes));
+        $set = Set::create(...array_map(fn (Attribute $attr) => $attr->toASN1(), $this->_attributes));
         return $set->sortedSetOf();
     }
 }

@@ -50,8 +50,6 @@ final class PathValidationConfig
     private bool $_anyPolicyInhibit;
 
     /**
-     * Constructor.
-     *
      * @param DateTimeImmutable $_dateTime Reference date and time
      * @param int $_maxLength Maximum certification path length
      */

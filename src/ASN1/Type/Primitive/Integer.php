@@ -33,8 +33,6 @@ class Integer extends Element
     private readonly BigInt $_number;
 
     /**
-     * Constructor.
-     *
      * @param BigInteger|int|string $number Base 10 integer
      */
     public function __construct(BigInteger|int|string $number)

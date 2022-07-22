@@ -13,8 +13,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 {
     /**
-     * Constructor.
-     *
      * @param string $oid Algorithm OID
      * @param null|UnspecifiedType $_params Parameters
      */

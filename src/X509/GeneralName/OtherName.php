@@ -20,8 +20,6 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class OtherName extends GeneralName
 {
     /**
-     * Constructor.
-     *
      * @param string $_type OID
      */
     public function __construct(
@@ -73,7 +71,7 @@ final class OtherName extends GeneralName
     {
         return new ImplicitlyTaggedType(
             $this->_tag,
-            new Sequence(new ObjectIdentifier($this->_type), new ExplicitlyTaggedType(0, $this->_element))
+            Sequence::create(new ObjectIdentifier($this->_type), new ExplicitlyTaggedType(0, $this->_element))
         );
     }
 }

@@ -14,8 +14,6 @@ use const MB_CASE_LOWER;
 final class MapStep implements PrepareStep
 {
     /**
-     * Constructor.
-     *
      * @param bool $_fold Whether to apply case folding
      */
     public function __construct(protected bool $_fold = false)

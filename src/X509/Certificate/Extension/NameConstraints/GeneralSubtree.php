@@ -82,6 +82,6 @@ final class GeneralSubtree
         if (isset($this->_max)) {
             $elements[] = new ImplicitlyTaggedType(1, new Integer($this->_max));
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 }

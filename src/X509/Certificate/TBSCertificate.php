@@ -72,8 +72,6 @@ final class TBSCertificate
     private Extensions $_extensions;
 
     /**
-     * Constructor.
-     *
      * @param Name $_subject Certificate subject
      * @param PublicKeyInfo $_subjectPublicKeyInfo Subject public key
      * @param Name $_issuer Certificate issuer
@@ -468,7 +466,7 @@ final class TBSCertificate
         if (count($this->_extensions)) {
             $elements[] = new ExplicitlyTaggedType(3, $this->_extensions->toASN1());
         }
-        return new Sequence(...$elements);
+        return Sequence::create(...$elements);
     }
 
     /**
