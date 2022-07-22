@@ -28,7 +28,8 @@ final class CertificationPathValidationTest extends TestCase
         $certs = [
             Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem')),
             Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-ecdsa.pem')),
-            Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')), ];
+            Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')),
+        ];
         self::$_path = new CertificationPath(...$certs);
     }
 

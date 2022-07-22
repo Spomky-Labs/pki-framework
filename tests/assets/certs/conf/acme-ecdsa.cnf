@@ -6,7 +6,6 @@ distinguished_name		= req_dn
 req_extensions			= req_ext
 attributes				= req_attribs
 x509_extensions			= x509_ext
-
 [ req_dn ]
 
 [ req_ext ]

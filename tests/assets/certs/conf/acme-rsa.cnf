@@ -6,14 +6,10 @@ distinguished_name		= req_dn
 req_extensions			= req_ext
 attributes				= req_attribs
 x509_extensions			= x509_ext
-
 [ req_dn ]
-
 [ req_ext ]
 keyUsage				= keyCertSign, keyEncipherment
-
 [ req_attribs ]
-
 [ x509_ext ]
 basicConstraints		= CA:TRUE, pathlen:3
 keyUsage				= keyCertSign, keyEncipherment
@@ -21,14 +17,7 @@ extendedKeyUsage		= serverAuth, timeStamping
 subjectKeyIdentifier	= hash
 # issuer used for test purposes here (https://www.v13.gr/blog/?p=293)
 authorityKeyIdentifier	= keyid:always, issuer:always
-subjectAltName			= email:foo@example.com, \
-						  URI:urn:foo:bar, \
-						  DNS:alt.example.com, \
-						  RID:1.3.6.1.4.1.45710.2.1, \
-						  IP:127.0.0.1, \
-						  IP:2001:0db8:85a3:0000:0000:8a2e:0370:7334, \
-						  dirName:san_dir, \
-						  otherName:1.3.6.1.4.1.45710.2.2;UTF8:example
+subjectAltName			= email:foo@example.com, URI:urn:foo:bar, DNS:alt.example.com, RID:1.3.6.1.4.1.45710.2.1, IP:127.0.0.1, IP:2001:0db8:85a3:0000:0000:8a2e:0370:7334, dirName:san_dir, otherName:1.3.6.1.4.1.45710.2.2;UTF8:example
 issuerAltName			= issuer:copy
 authorityInfoAccess		= caIssuers;URI:http://example.com/ca.html
 crlDistributionPoints	= crldp

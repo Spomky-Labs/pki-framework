@@ -17,11 +17,11 @@ From RFC 5480 - 2.1.1.  Unrestricted Algorithm Identifier and Parameters:
 The parameter for id-ecPublicKey is as follows and MUST always be
 present:
 
-  ECParameters ::= CHOICE {
+ECParameters ::= CHOICE {
     namedCurve         OBJECT IDENTIFIER
     -- implicitCurve   NULL
     -- specifiedCurve  SpecifiedECDomain
-  }
+}
  */
 
 /**

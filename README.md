@@ -10,8 +10,7 @@ A PHP Framework
 * X.509 public key certificates, attribute certificates,
 * X.690 Abstract Syntax Notation One (ASN.1) Distinguished Encoding Rules (DER) encoding and decoding
 * X.501 ASN.1 types, X.520 attributes and DN parsing.
-* [RFC 7468](https://tools.ietf.org/html/rfc7468)
-  textual encodings of cryptographic structures _(PEM)_.
+* [RFC 7468](https://tools.ietf.org/html/rfc7468) textual encodings of cryptographic structures _(PEM)_.
 * Various ASN.1 types for cryptographic applications.
 * Cryptography support for various PKCS applications.
 

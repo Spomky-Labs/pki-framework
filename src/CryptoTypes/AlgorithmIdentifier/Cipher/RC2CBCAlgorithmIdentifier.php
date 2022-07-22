@@ -19,11 +19,11 @@ to take them all into consideration.
 
 # RFC 2268 - A Description of the RC2(r) Encryption Algorithm
 RC2-CBCParameter ::= CHOICE {
-  iv IV,
-  params SEQUENCE {
-    version RC2Version,
-    iv IV
-  }
+    iv IV,
+    params SEQUENCE {
+        version RC2Version,
+        iv IV
+    }
 }
 
 # RFC 2898 - PKCS #5: Password-Based Cryptography Specification Version 2.0
@@ -34,9 +34,9 @@ RC2-CBC-Parameter ::= SEQUENCE {
 
 # RFC 3370 - Cryptographic Message Syntax (CMS) Algorithms
 RC2CBCParameter ::= SEQUENCE {
-  rc2ParameterVersion INTEGER,
-  iv OCTET STRING  }  -- exactly 8 octets
- */
+    rc2ParameterVersion INTEGER,
+    iv OCTET STRING  }  -- exactly 8 octets
+*/
 
 /**
  * Algorithm identifier for RC2 cipher in CBC mode.

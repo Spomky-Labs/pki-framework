@@ -14,11 +14,11 @@ use UnexpectedValueException;
 /*
 From RFC 5758 - 3.2.  ECDSA Signature Algorithm
 
-   When the ecdsa-with-SHA224, ecdsa-with-SHA256, ecdsa-with-SHA384, or
-   ecdsa-with-SHA512 algorithm identifier appears in the algorithm field
-   as an AlgorithmIdentifier, the encoding MUST omit the parameters
-   field.
- */
+    When the ecdsa-with-SHA224, ecdsa-with-SHA256, ecdsa-with-SHA384, or
+    ecdsa-with-SHA512 algorithm identifier appears in the algorithm field
+    as an AlgorithmIdentifier, the encoding MUST omit the parameters
+    field.
+*/
 
 /**
  * Base class for ECDSA signature algorithm identifiers.
