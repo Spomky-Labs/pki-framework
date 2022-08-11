@@ -39,6 +39,6 @@ final class SubjectKeyIdentifierExtension extends Extension
 
     protected function _valueASN1(): Element
     {
-        return new OctetString($this->_keyIdentifier);
+        return OctetString::create($this->_keyIdentifier);
     }
 }

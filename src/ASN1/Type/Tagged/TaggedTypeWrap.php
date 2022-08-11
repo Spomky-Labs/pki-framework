@@ -14,8 +14,10 @@ abstract class TaggedTypeWrap extends TaggedType
 {
     public function __construct(
         protected Element $_element,
-        protected int $_class
+        protected int $_class,
+        int $typeTag
     ) {
+        parent::__construct($typeTag);
     }
 
     public function typeClass(): int

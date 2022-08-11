@@ -21,7 +21,7 @@ final class BS2OSTest extends TestCase
      */
     public function oSType()
     {
-        $os = ECConversion::bitStringToOctetString(new BitString('test'));
+        $os = ECConversion::bitStringToOctetString(BitString::create('test'));
         static::assertInstanceOf(OctetString::class, $os);
     }
 
@@ -30,7 +30,7 @@ final class BS2OSTest extends TestCase
      */
     public function bSType()
     {
-        $bs = ECConversion::octetStringToBitString(new OctetString('test'));
+        $bs = ECConversion::octetStringToBitString(OctetString::create('test'));
         static::assertInstanceOf(BitString::class, $bs);
     }
 
@@ -40,7 +40,7 @@ final class BS2OSTest extends TestCase
     public function unusedBits()
     {
         $this->expectException(RuntimeException::class);
-        ECConversion::bitStringToOctetString(new BitString("\0", 4));
+        ECConversion::bitStringToOctetString(BitString::create("\0", 4));
     }
 
     /**
@@ -58,8 +58,8 @@ final class BS2OSTest extends TestCase
 
     public function provideConvert(): Iterator
     {
-        yield [new OctetString(''), new BitString('')];
-        yield [new OctetString("\0"), new BitString("\0")];
-        yield [new OctetString(str_repeat("\1\2\3\4", 256)), new BitString(str_repeat("\1\2\3\4", 256))];
+        yield [OctetString::create(''), BitString::create('')];
+        yield [OctetString::create("\0"), BitString::create("\0")];
+        yield [OctetString::create(str_repeat("\1\2\3\4", 256)), BitString::create(str_repeat("\1\2\3\4", 256))];
     }
 }

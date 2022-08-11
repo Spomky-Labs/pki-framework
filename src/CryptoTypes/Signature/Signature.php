@@ -41,6 +41,6 @@ abstract class Signature
         if ($algo instanceof Ed448AlgorithmIdentifier) {
             return new Ed448Signature($data);
         }
-        return new GenericSignature(new BitString($data), $algo);
+        return new GenericSignature(BitString::create($data), $algo);
     }
 }

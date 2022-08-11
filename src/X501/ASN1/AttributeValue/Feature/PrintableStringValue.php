@@ -25,7 +25,7 @@ abstract class PrintableStringValue extends AttributeValue
 
     public function toASN1(): Element
     {
-        return new PrintableString($this->_string);
+        return PrintableString::create($this->_string);
     }
 
     public function stringValue(): string

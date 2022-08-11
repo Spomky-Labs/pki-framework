@@ -21,7 +21,7 @@ final class PrintableStringTest extends TestCase
      */
     public function create()
     {
-        $el = new PrintableString('');
+        $el = PrintableString::create('');
         static::assertInstanceOf(PrintableString::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class PrintableStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('PrintableString expected, got primitive NULL');
         $wrap->asPrintableString();

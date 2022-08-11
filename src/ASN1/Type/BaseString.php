@@ -15,13 +15,12 @@ abstract class BaseString extends Element implements StringType, Stringable
 {
     /**
      * String value.
-     *
-     * @var string
      */
-    protected $_string;
+    protected string $_string;
 
-    public function __construct(string $string)
+    public function __construct(int $typeTag, string $string)
     {
+        parent::__construct($typeTag);
         if (! $this->_validateString($string)) {
             throw new InvalidArgumentException(sprintf('Not a valid %s string.', self::tagToName($this->typeTag)));
         }

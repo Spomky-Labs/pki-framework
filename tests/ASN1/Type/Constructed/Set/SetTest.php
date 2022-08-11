@@ -23,7 +23,7 @@ final class SetTest extends TestCase
      */
     public function create()
     {
-        $set = Set::create(new NullType(), new Boolean(true));
+        $set = Set::create(NullType::create(), Boolean::create(true));
         static::assertInstanceOf(Structure::class, $set);
         return $set;
     }
@@ -78,7 +78,7 @@ final class SetTest extends TestCase
      */
     public function sortSame()
     {
-        $set = Set::create(new NullType(), new NullType());
+        $set = Set::create(NullType::create(), NullType::create());
         $sorted = $set->sortedSet();
         static::assertEquals($set, $sorted);
     }
@@ -99,7 +99,7 @@ final class SetTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('SET expected, got primitive NULL');
         $wrap->asSet();

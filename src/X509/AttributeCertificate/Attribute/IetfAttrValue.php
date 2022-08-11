@@ -116,9 +116,9 @@ final class IetfAttrValue implements Stringable
     public function toASN1(): Element
     {
         return match ($this->_type) {
-            Element::TYPE_OCTET_STRING => new OctetString($this->_value),
-            Element::TYPE_UTF8_STRING => new UTF8String($this->_value),
-            Element::TYPE_OBJECT_IDENTIFIER => new ObjectIdentifier($this->_value),
+            Element::TYPE_OCTET_STRING => OctetString::create($this->_value),
+            Element::TYPE_UTF8_STRING => UTF8String::create($this->_value),
+            Element::TYPE_OBJECT_IDENTIFIER => ObjectIdentifier::create($this->_value),
             default => throw new LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.'),
         };
     }

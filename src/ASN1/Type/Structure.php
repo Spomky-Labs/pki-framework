@@ -47,8 +47,9 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * @param ElementBase ...$elements Any number of elements
      */
-    protected function __construct(ElementBase ...$elements)
+    protected function __construct(int $typeTag, ElementBase ...$elements)
     {
+        parent::__construct($typeTag);
         $this->elements = array_map(fn (ElementBase $el) => $el->asElement(), $elements);
     }
 
@@ -272,21 +273,4 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
         }
         return $data;
     }
-
-    /**
-     * Decode elements for a definite length.
-     *
-     * @param string $data DER data
-     * @param int $offset Offset to data
-     * @param int $length Number of bytes to decode
-     */
-    abstract protected static function decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase;
-
-    /**
-     * Decode elements for an indefinite length.
-     *
-     * @param string $data DER data
-     * @param int $offset Offset to data
-     */
-    abstract protected static function decodeIndefiniteLength(string $data, int &$offset): ElementBase;
 }

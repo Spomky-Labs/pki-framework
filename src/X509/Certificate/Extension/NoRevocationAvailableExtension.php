@@ -27,6 +27,6 @@ final class NoRevocationAvailableExtension extends Extension
 
     protected function _valueASN1(): Element
     {
-        return new NullType();
+        return NullType::create();
     }
 }

@@ -246,6 +246,6 @@ class GeneralNamesTest_NameMockup extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new NullType();
+        return NullType::create();
     }
 }

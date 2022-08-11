@@ -7,14 +7,6 @@ parameters:
             message: '#.*\:\:__construct\(\) does not call parent constructor from .*.\.#'
             path: src/X509/Certificate/Extension/FreshestCRLExtension.php
             count: 1
-        -
-            message: '#.*\:\:__construct\(\) does not call parent constructor from .*.\.#'
-            path: src/ASN1/Type/Primitive/RelativeOID.php
-            count: 1
-        -
-            message: '#.*\:\:__construct\(\) does not call parent constructor from .*.\.#'
-            path: src/ASN1/Type/Primitive/ObjectDescriptor.php
-            count: 1
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false
     checkUninitializedProperties: true

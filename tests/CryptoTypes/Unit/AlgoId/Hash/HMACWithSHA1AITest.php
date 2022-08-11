@@ -48,7 +48,7 @@ final class HMACWithSHA1AITest extends TestCase
      */
     public function decodeWithParamsFail(Sequence $seq)
     {
-        $seq = $seq->withInserted(1, new NullType());
+        $seq = $seq->withInserted(1, NullType::create());
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }

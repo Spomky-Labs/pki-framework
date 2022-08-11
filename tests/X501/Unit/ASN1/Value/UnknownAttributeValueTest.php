@@ -23,7 +23,7 @@ final class UnknownAttributeValueTest extends TestCase
      */
     public function create()
     {
-        $val = AttributeValue::fromASN1ByOID(self::OID, UnspecifiedType::create(new UTF8String('Test')));
+        $val = AttributeValue::fromASN1ByOID(self::OID, UnspecifiedType::create(UTF8String::create('Test')));
         static::assertInstanceOf(UnknownAttributeValue::class, $val);
         return $val;
     }

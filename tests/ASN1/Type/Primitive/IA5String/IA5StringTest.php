@@ -21,7 +21,7 @@ final class IA5StringTest extends TestCase
      */
     public function create()
     {
-        $el = new IA5String('');
+        $el = IA5String::create('');
         static::assertInstanceOf(IA5String::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class IA5StringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('IA5String expected, got primitive NULL');
         $wrap->asIA5String();

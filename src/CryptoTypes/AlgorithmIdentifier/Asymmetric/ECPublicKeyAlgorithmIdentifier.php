@@ -246,7 +246,7 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
      */
     public function __construct(protected string $_namedCurve)
     {
-        $this->oid = self::OID_EC_PUBLIC_KEY;
+        parent::__construct(self::OID_EC_PUBLIC_KEY);
     }
 
     public function name(): string
@@ -280,6 +280,6 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
      */
     protected function paramsASN1(): ?Element
     {
-        return new ObjectIdentifier($this->_namedCurve);
+        return ObjectIdentifier::create($this->_namedCurve);
     }
 }

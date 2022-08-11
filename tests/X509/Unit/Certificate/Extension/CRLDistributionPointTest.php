@@ -221,8 +221,8 @@ final class CRLDistributionPointTest extends TestCase
     {
         $seq = Sequence::create();
         $ext_seq = Sequence::create(
-            new ObjectIdentifier(Extension::OID_CRL_DISTRIBUTION_POINTS),
-            new OctetString($seq->toDER())
+            ObjectIdentifier::create(Extension::OID_CRL_DISTRIBUTION_POINTS),
+            OctetString::create($seq->toDER())
         );
         $this->expectException(UnexpectedValueException::class);
         CRLDistributionPointsExtension::fromASN1($ext_seq);

@@ -35,7 +35,7 @@ final class UnknownExtension extends Extension
      */
     public static function fromRawString(string $oid, bool $critical, string $data): self
     {
-        $obj = new self($oid, $critical, new OctetString(''));
+        $obj = new self($oid, $critical, OctetString::create(''));
         $obj->_element = null;
         $obj->_data = $data;
         return $obj;
@@ -51,7 +51,7 @@ final class UnknownExtension extends Extension
 
     protected function _extnValue(): OctetString
     {
-        return new OctetString($this->_data);
+        return OctetString::create($this->_data);
     }
 
     protected function _valueASN1(): Element

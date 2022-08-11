@@ -185,7 +185,7 @@ final class PublicKeyInfoTest extends TestCase
         $seq = $pki->toASN1();
         $ai = $seq->at(0)
             ->asSequence()
-            ->withReplaced(0, new ObjectIdentifier('1.3.6.1.3'));
+            ->withReplaced(0, ObjectIdentifier::create('1.3.6.1.3'));
         $seq = $seq->withReplaced(0, $ai);
         $this->expectException(RuntimeException::class);
         PublicKeyInfo::fromASN1($seq)->publicKey();
@@ -196,7 +196,7 @@ final class PublicKeyInfoTest extends TestCase
      */
     public function invalidECAlgoFail()
     {
-        $pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), new BitString(''));
+        $pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), BitString::create(''));
         $this->expectException(UnexpectedValueException::class);
         $pki->publicKey();
     }
@@ -206,7 +206,7 @@ class PubliceKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->oid = self::OID_EC_PUBLIC_KEY;
+        parent::__construct(self::OID_EC_PUBLIC_KEY);
     }
 
     public function name(): string

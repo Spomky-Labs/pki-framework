@@ -24,6 +24,6 @@ abstract class RFC3279RSASignatureAlgorithmIdentifier extends RSASignatureAlgori
 {
     protected function paramsASN1(): ?Element
     {
-        return new NullType();
+        return NullType::create();
     }
 }

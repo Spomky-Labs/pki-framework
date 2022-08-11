@@ -61,10 +61,10 @@ final class DisplayText implements Stringable
     public function toASN1(): StringType
     {
         return match ($this->_tag) {
-            Element::TYPE_IA5_STRING => new IA5String($this->_text),
-            Element::TYPE_VISIBLE_STRING => new VisibleString($this->_text),
-            Element::TYPE_BMP_STRING => new BMPString($this->_text),
-            Element::TYPE_UTF8_STRING => new UTF8String($this->_text),
+            Element::TYPE_IA5_STRING => IA5String::create($this->_text),
+            Element::TYPE_VISIBLE_STRING => VisibleString::create($this->_text),
+            Element::TYPE_BMP_STRING => BMPString::create($this->_text),
+            Element::TYPE_UTF8_STRING => UTF8String::create($this->_text),
             default => throw new UnexpectedValueException('Type ' . Element::tagToName(
                 $this->_tag
             ) . ' not supported.'),

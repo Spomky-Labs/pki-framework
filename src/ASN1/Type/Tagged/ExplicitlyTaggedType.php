@@ -24,8 +24,7 @@ final class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTaggi
      */
     public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
     {
-        parent::__construct($element, $class);
-        $this->typeTag = $tag;
+        parent::__construct($element, $class, $tag);
     }
 
     public function isConstructed(): bool

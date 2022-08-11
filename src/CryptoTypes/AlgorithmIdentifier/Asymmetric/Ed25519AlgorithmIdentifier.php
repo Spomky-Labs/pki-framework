@@ -21,7 +21,7 @@ final class Ed25519AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
 {
     protected function __construct()
     {
-        $this->oid = self::OID_ED25519;
+        parent::__construct(self::OID_ED25519);
     }
 
     public static function create(): self

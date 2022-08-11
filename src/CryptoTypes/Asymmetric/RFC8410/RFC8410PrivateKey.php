@@ -81,7 +81,7 @@ abstract class RFC8410PrivateKey extends PrivateKey
      */
     public function toASN1(): OctetString
     {
-        return new OctetString($this->_privateKeyData);
+        return OctetString::create($this->_privateKeyData);
     }
 
     public function toDER(): string
@@ -93,8 +93,8 @@ abstract class RFC8410PrivateKey extends PrivateKey
     public function toPEM(): PEM
     {
         $pub = $this->_publicKeyData ?
-            new BitString($this->_publicKeyData) : null;
-        $pki = new OneAsymmetricKey($this->algorithmIdentifier(), $this->toDER(), $this->_attributes, $pub);
+            BitString::create($this->_publicKeyData) : null;
+        $pki = OneAsymmetricKey::create($this->algorithmIdentifier(), $this->toDER(), $this->_attributes, $pub);
         return $pki->withVersion($this->_version)
             ->toPEM();
     }

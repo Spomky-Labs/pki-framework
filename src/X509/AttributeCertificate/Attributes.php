@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\X509\AttributeCertificate;
 
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
 use SpomkyLabs\Pki\X501\ASN1\AttributeType;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AuthenticationInfoAttributeValue;
@@ -35,6 +36,16 @@ final class Attributes extends SequenceOfAttributes
         GroupAttributeValue::OID => GroupAttributeValue::class,
         AttributeType::OID_ROLE => RoleAttributeValue::class,
     ];
+
+    /**
+     * Initialize from attribute values.
+     *
+     * @param AttributeValue ...$values List of attribute values
+     */
+    public static function fromAttributeValues(AttributeValue ...$values): self
+    {
+        return new self(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+    }
 
     /**
      * Check whether 'Access Identity' attribute is present.

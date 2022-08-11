@@ -41,7 +41,7 @@ final class DERData extends Element
         // check that length encoding is valid
         Length::expectFromDER($data, $this->_contentOffset);
         $this->_der = $data;
-        $this->typeTag = $this->_identifier->intTag();
+        parent::__construct($this->_identifier->intTag());
     }
 
     public function typeClass(): int

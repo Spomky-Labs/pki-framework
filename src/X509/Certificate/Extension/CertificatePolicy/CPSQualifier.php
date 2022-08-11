@@ -36,6 +36,6 @@ final class CPSQualifier extends PolicyQualifierInfo
 
     protected function _qualifierASN1(): Element
     {
-        return new IA5String($this->_uri);
+        return IA5String::create($this->_uri);
     }
 }

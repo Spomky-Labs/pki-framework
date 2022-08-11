@@ -36,7 +36,7 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
 
     public function __construct()
     {
-        $this->oid = self::OID_SHA1;
+        parent::__construct(self::OID_SHA1);
         $this->_params = null;
     }
 

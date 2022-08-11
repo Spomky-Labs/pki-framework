@@ -30,7 +30,7 @@ abstract class PublicKey
      */
     public function subjectPublicKey(): BitString
     {
-        return new BitString($this->toDER());
+        return BitString::create($this->toDER());
     }
 
     /**

@@ -21,7 +21,7 @@ final class RelativeOIDTest extends TestCase
      */
     public function create()
     {
-        $el = new RelativeOID('1.3.6.1.3');
+        $el = RelativeOID::create('1.3.6.1.3');
         static::assertInstanceOf(RelativeOID::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class RelativeOIDTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('RELATIVE-OID expected, got primitive NULL');
         $wrap->asRelativeOID();

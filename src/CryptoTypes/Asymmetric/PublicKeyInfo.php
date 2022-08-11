@@ -104,23 +104,23 @@ final class PublicKeyInfo
             // RSA
             case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
                 return RSAPublicKey::fromDER($this->_publicKey->string());
-            // Elliptic Curve
+                // Elliptic Curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
                     throw new UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data
                 return new ECPublicKey($this->_publicKey->string(), $algo->namedCurve());
-            // Ed25519
+                // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
                 return new Ed25519PublicKey($this->_publicKey->string());
-            // X25519
+                // X25519
             case AlgorithmIdentifier::OID_X25519:
                 return new X25519PublicKey($this->_publicKey->string());
-            // Ed448
+                // Ed448
             case AlgorithmIdentifier::OID_ED448:
                 return new Ed448PublicKey($this->_publicKey->string());
-            // X448
+                // X448
             case AlgorithmIdentifier::OID_X448:
                 return new X448PublicKey($this->_publicKey->string());
         }

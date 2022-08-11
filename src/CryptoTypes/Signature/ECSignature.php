@@ -100,6 +100,6 @@ final class ECSignature extends Signature
 
     public function bitString(): BitString
     {
-        return new BitString($this->toDER());
+        return BitString::create($this->toDER());
     }
 }

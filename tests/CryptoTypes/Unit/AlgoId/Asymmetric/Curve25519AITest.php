@@ -105,7 +105,7 @@ final class Curve25519AITest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/must be absent/');
-        Ed25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(new NullType()));
+        Ed25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(NullType::create()));
     }
 
     /**
@@ -115,6 +115,6 @@ final class Curve25519AITest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/must be absent/');
-        X25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(new NullType()));
+        X25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(NullType::create()));
     }
 }

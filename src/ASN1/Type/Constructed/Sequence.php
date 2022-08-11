@@ -8,7 +8,6 @@ use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
-use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\Structure;
 
 /**
@@ -17,26 +16,14 @@ use SpomkyLabs\Pki\ASN1\Type\Structure;
 final class Sequence extends Structure
 {
     /**
-     * @param ElementBase ...$elements Any number of elements
-     */
-    private function __construct(ElementBase ...$elements)
-    {
-        $this->typeTag = self::TYPE_SEQUENCE;
-        parent::__construct(...$elements);
-    }
-
-    /**
      * @param Element ...$elements Any number of elements
      */
     public static function create(Element ...$elements): self
     {
-        return new self(...$elements);
+        return new self(self::TYPE_SEQUENCE, ...$elements);
     }
 
-    /**
-     * @return self
-     */
-    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): self
     {
         if (! $identifier->isConstructed()) {
             throw new DecodeException('Structured element must have constructed bit set.');
@@ -59,7 +46,7 @@ final class Sequence extends Structure
      * @param int $offset Offset to data
      * @param int $length Number of bytes to decode
      */
-    protected static function decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase
+    protected static function decodeDefiniteLength(string $data, int &$offset, int $length): self
     {
         $idx = $offset;
         $end = $idx + $length;
@@ -73,7 +60,7 @@ final class Sequence extends Structure
         }
         $offset = $idx;
         // return instance by static late binding
-        return new self(...$elements);
+        return self::create(...$elements);
     }
 
     /**
@@ -82,7 +69,7 @@ final class Sequence extends Structure
      * @param string $data DER data
      * @param int $offset Offset to data
      */
-    protected static function decodeIndefiniteLength(string $data, int &$offset): ElementBase
+    protected static function decodeIndefiniteLength(string $data, int &$offset): self
     {
         $idx = $offset;
         $elements = [];
@@ -98,7 +85,7 @@ final class Sequence extends Structure
             $elements[] = $el;
         }
         $offset = $idx;
-        $type = new self(...$elements);
+        $type = self::create(...$elements);
         $type->_indefiniteLength = true;
         return $type;
     }

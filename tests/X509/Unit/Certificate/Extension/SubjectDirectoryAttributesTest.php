@@ -207,8 +207,8 @@ final class SubjectDirectoryAttributesTest extends TestCase
     {
         $seq = Sequence::create();
         $ext_seq = Sequence::create(
-            new ObjectIdentifier(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES),
-            new OctetString($seq->toDER())
+            ObjectIdentifier::create(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES),
+            OctetString::create($seq->toDER())
         );
         $this->expectException(UnexpectedValueException::class);
         SubjectDirectoryAttributesExtension::fromASN1($ext_seq);

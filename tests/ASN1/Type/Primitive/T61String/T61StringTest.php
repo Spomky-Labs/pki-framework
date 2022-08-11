@@ -21,7 +21,7 @@ final class T61StringTest extends TestCase
      */
     public function create()
     {
-        $el = new T61String('');
+        $el = T61String::create('');
         static::assertInstanceOf(T61String::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class T61StringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('T61String expected, got primitive NULL');
         $wrap->asT61String();

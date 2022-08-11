@@ -19,7 +19,7 @@ final class EncodeTest extends TestCase
      */
     public function withoutTrailingZeroes(string $bits, string $expected)
     {
-        $bs = new BitString($bits);
+        $bs = BitString::create($bits);
         static::assertEquals($expected, $bs->withoutTrailingZeroes()->toDER());
     }
 

@@ -17,20 +17,11 @@ use SpomkyLabs\Pki\ASN1\Type\Structure;
 final class Set extends Structure
 {
     /**
-     * @param ElementBase ...$elements Any number of elements
-     */
-    private function __construct(ElementBase ...$elements)
-    {
-        $this->typeTag = self::TYPE_SET;
-        parent::__construct(...$elements);
-    }
-
-    /**
      * @param Element ...$elements Any number of elements
      */
     public static function create(Element ...$elements): self
     {
-        return new self(...$elements);
+        return new self(self::TYPE_SET, ...$elements);
     }
 
     /**
@@ -112,7 +103,7 @@ final class Set extends Structure
         }
         $offset = $idx;
         // return instance by static late binding
-        return new self(...$elements);
+        return self::create(...$elements);
     }
 
     /**
@@ -137,7 +128,7 @@ final class Set extends Structure
             $elements[] = $el;
         }
         $offset = $idx;
-        $type = new self(...$elements);
+        $type = self::create(...$elements);
         $type->_indefiniteLength = true;
         return $type;
     }

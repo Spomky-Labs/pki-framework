@@ -22,7 +22,7 @@ final class UniversalStringTest extends TestCase
      */
     public function create()
     {
-        $el = new UniversalString('');
+        $el = UniversalString::create('');
         static::assertInstanceOf(UniversalString::class, $el);
         return $el;
     }
@@ -79,7 +79,7 @@ final class UniversalStringTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid UniversalString string');
-        new UniversalString('xxx');
+        UniversalString::create('xxx');
     }
 
     /**
@@ -98,7 +98,7 @@ final class UniversalStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UniversalString expected, got primitive NULL');
         $wrap->asUniversalString();

@@ -18,7 +18,7 @@ final class SHA384AlgorithmIdentifier extends SHA2AlgorithmIdentifier
 {
     private function __construct()
     {
-        $this->oid = self::OID_SHA384;
+        parent::__construct(self::OID_SHA384);
     }
 
     public static function create(): self

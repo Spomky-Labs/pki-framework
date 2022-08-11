@@ -47,7 +47,7 @@ final class SHA1AITest extends TestCase
      */
     public function decodeWithParams(Sequence $seq)
     {
-        $seq = $seq->withInserted(1, new NullType());
+        $seq = $seq->withInserted(1, NullType::create());
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(SHA1AlgorithmIdentifier::class, $ai);
     }

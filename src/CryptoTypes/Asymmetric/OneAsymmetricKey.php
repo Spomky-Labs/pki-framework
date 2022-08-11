@@ -60,13 +60,23 @@ class OneAsymmetricKey
      * @param null|OneAsymmetricKeyAttributes $_attributes Optional attributes
      * @param null|BitString $_publicKeyData Optional public key
      */
-    public function __construct(
+    protected function __construct(
         protected AlgorithmIdentifierType $_algo,
         protected string $_privateKeyData,
         protected ?OneAsymmetricKeyAttributes $_attributes = null,
-        protected ?BitString $_publicKeyData = null
+        protected ?BitString $_publicKeyData = null,
+        ?int $version = null
     ) {
-        $this->version = self::VERSION_2;
+        $this->version = $version ?? self::VERSION_2;
+    }
+
+    public static function create(
+        AlgorithmIdentifierType $_algo,
+        string $_privateKeyData,
+        ?OneAsymmetricKeyAttributes $_attributes = null,
+        ?BitString $_publicKeyData = null
+    ): self {
+        return new self($_algo, $_privateKeyData, $_attributes, $_publicKeyData);
     }
 
     /**
@@ -94,9 +104,7 @@ class OneAsymmetricKey
             $pubkey = $seq->getTagged(1)
                 ->asImplicit(Element::TYPE_BIT_STRING)->asBitString();
         }
-        $obj = new static($algo, $key, $attribs, $pubkey);
-        $obj->version = $version;
-        return $obj;
+        return static::create($algo, $key, $attribs, $pubkey);
     }
 
     /**
@@ -116,7 +124,7 @@ class OneAsymmetricKey
      */
     public static function fromPrivateKey(PrivateKey $private_key): static
     {
-        return new static($private_key->algorithmIdentifier(), $private_key->privateKeyData());
+        return static::create($private_key->algorithmIdentifier(), $private_key->privateKeyData());
     }
 
     /**
@@ -176,7 +184,7 @@ class OneAsymmetricKey
             // RSA
             case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
                 return RSAPrivateKey::fromDER($this->_privateKeyData);
-            // elliptic curve
+                // elliptic curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 $pk = ECPrivateKey::fromDER($this->_privateKeyData);
                 // NOTE: OpenSSL strips named curve from ECPrivateKey structure
@@ -190,7 +198,7 @@ class OneAsymmetricKey
                     $pk = $pk->withNamedCurve($algo->namedCurve());
                 }
                 return $pk;
-            // Ed25519
+                // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
@@ -200,21 +208,21 @@ class OneAsymmetricKey
                 return Ed25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
-            // X25519
+                // X25519
             case AlgorithmIdentifier::OID_X25519:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return X25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
-            // Ed448
+                // Ed448
             case AlgorithmIdentifier::OID_ED448:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
                 return Ed448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
-            // X448
+                // X448
             case AlgorithmIdentifier::OID_X448:
                 $pubkey = $this->_publicKeyData ?
                     $this->_publicKeyData->string() : null;
@@ -282,7 +290,7 @@ class OneAsymmetricKey
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer($this->version), $this->_algo->toASN1(), new OctetString($this->_privateKeyData)];
+        $elements = [new Integer($this->version), $this->_algo->toASN1(), OctetString::create($this->_privateKeyData)];
         if ($this->_attributes) {
             $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
         }

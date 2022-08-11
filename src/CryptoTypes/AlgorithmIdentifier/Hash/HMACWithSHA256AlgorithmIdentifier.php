@@ -15,7 +15,7 @@ final class HMACWithSHA256AlgorithmIdentifier extends RFC4231HMACAlgorithmIdenti
 {
     private function __construct()
     {
-        $this->oid = self::OID_HMAC_WITH_SHA256;
+        parent::__construct(self::OID_HMAC_WITH_SHA256);
     }
 
     public static function create(): self

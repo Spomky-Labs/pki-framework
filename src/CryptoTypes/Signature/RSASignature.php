@@ -45,6 +45,6 @@ final class RSASignature extends Signature
 
     public function bitString(): BitString
     {
-        return new BitString($this->_signature);
+        return BitString::create($this->_signature);
     }
 }

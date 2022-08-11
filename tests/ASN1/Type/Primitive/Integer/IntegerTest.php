@@ -90,7 +90,7 @@ final class IntegerTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('INTEGER expected, got primitive NULL');
         $wrap->asInteger();

@@ -17,7 +17,6 @@ use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
 use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
 use SpomkyLabs\Pki\ASN1\Util\BigInt;
-use function strval;
 
 /**
  * Implements *INTEGER* type.
@@ -35,11 +34,11 @@ class Integer extends Element
     /**
      * @param BigInteger|int|string $number Base 10 integer
      */
-    public function __construct(BigInteger|int|string $number)
+    public function __construct(BigInteger|int|string $number, ?int $typeTag = null)
     {
-        $this->typeTag = self::TYPE_INTEGER;
+        parent::__construct($typeTag ?? self::TYPE_INTEGER);
         if (! self::_validateNumber($number)) {
-            $var = is_scalar($number) ? strval($number) : gettype($number);
+            $var = is_scalar($number) ? (string) $number : gettype($number);
             throw new InvalidArgumentException("'{$var}' is not a valid number.");
         }
         $this->_number = new BigInt($number);

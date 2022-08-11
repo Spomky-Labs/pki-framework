@@ -64,8 +64,8 @@ final class PolicyMapping
     public function toASN1(): Sequence
     {
         return Sequence::create(
-            new ObjectIdentifier($this->_issuerDomainPolicy),
-            new ObjectIdentifier($this->_subjectDomainPolicy)
+            ObjectIdentifier::create($this->_issuerDomainPolicy),
+            ObjectIdentifier::create($this->_subjectDomainPolicy)
         );
     }
 }

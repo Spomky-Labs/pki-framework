@@ -47,6 +47,6 @@ final class DNSName extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag, new IA5String($this->_name));
+        return new ImplicitlyTaggedType($this->_tag, IA5String::create($this->_name));
     }
 }

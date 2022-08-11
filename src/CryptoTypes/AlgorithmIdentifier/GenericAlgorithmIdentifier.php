@@ -20,7 +20,7 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
         string $oid,
         protected ?UnspecifiedType $_params = null
     ) {
-        $this->oid = $oid;
+        parent::__construct($oid);
     }
 
     public function name(): string

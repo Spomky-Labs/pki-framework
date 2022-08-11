@@ -21,7 +21,7 @@ final class NumericStringTest extends TestCase
      */
     public function create()
     {
-        $el = new NumericString('');
+        $el = NumericString::create('');
         static::assertInstanceOf(NumericString::class, $el);
         return $el;
     }
@@ -89,7 +89,7 @@ final class NumericStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NumericString expected, got primitive NULL');
         $wrap->asNumericString();

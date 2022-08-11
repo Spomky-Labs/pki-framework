@@ -98,10 +98,9 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 
     final public const OID_SHA512 = '2.16.840.1.101.3.4.2.3';
 
-    /**
-     * Object identifier.
-     */
-    protected string $oid;
+    public function __construct(protected string $oid)
+    {
+    }
 
     /**
      * Initialize from ASN.1.
@@ -118,7 +117,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 
     public function toASN1(): Sequence
     {
-        $elements = [new ObjectIdentifier($this->oid)];
+        $elements = [ObjectIdentifier::create($this->oid)];
         $params = $this->paramsASN1();
         if (isset($params)) {
             $elements[] = $params;

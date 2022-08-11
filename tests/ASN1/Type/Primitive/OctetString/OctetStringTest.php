@@ -21,7 +21,7 @@ final class OctetStringTest extends TestCase
      */
     public function create()
     {
-        $el = new OctetString('');
+        $el = OctetString::create('');
         static::assertInstanceOf(OctetString::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class OctetStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('OCTET STRING expected, got primitive NULL');
         $wrap->asOctetString();

@@ -16,7 +16,7 @@ final class ECDSAWithSHA224AlgorithmIdentifier extends ECSignatureAlgorithmIdent
 {
     private function __construct()
     {
-        $this->oid = self::OID_ECDSA_WITH_SHA224;
+        parent::__construct(self::OID_ECDSA_WITH_SHA224);
     }
 
     public static function create(): self

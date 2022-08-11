@@ -28,7 +28,7 @@ final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->oid = self::OID_RSA_ENCRYPTION;
+        parent::__construct(self::OID_RSA_ENCRYPTION);
     }
 
     public function name(): string
@@ -53,6 +53,6 @@ final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
      */
     protected function paramsASN1(): ?Element
     {
-        return new NullType();
+        return NullType::create();
     }
 }

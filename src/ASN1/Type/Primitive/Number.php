@@ -31,7 +31,7 @@ abstract class Number extends Element
      */
     protected function __construct(int $tag, BigInteger|int|string $number)
     {
-        $this->typeTag = $tag;
+        parent::__construct($tag);
         if (! self::validateNumber($number)) {
             $var = is_scalar($number) ? strval($number) : gettype($number);
             throw new InvalidArgumentException(sprintf('"%s" is not a valid number.', $var));

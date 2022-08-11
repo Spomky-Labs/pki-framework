@@ -113,7 +113,7 @@ class SignatureFactoryTest_InvalidCryptoAlgo extends SpecificAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->oid = '1.3.6.1.3';
+        parent::__construct('1.3.6.1.3');
     }
 
     public function name(): string
@@ -136,7 +136,7 @@ class SignatureFactoryTest_InvalidHashAlgo extends SpecificAlgorithmIdentifier i
 {
     public function __construct()
     {
-        $this->oid = '1.3.6.1.3';
+        parent::__construct('1.3.6.1.3');
     }
 
     public function name(): string

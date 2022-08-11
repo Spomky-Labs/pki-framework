@@ -25,7 +25,7 @@ final class AttributeCastTest extends TestCase
     {
         self::$_attr = new Attribute(
             new AttributeType(AttributeType::OID_COMMON_NAME),
-            new UnknownAttributeValue(AttributeType::OID_COMMON_NAME, new UTF8String('name'))
+            new UnknownAttributeValue(AttributeType::OID_COMMON_NAME, UTF8String::create('name'))
         );
     }
 

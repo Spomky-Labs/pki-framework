@@ -21,7 +21,7 @@ final class EnumeratedTest extends TestCase
      */
     public function create()
     {
-        $el = new Enumerated(1);
+        $el = Enumerated::create(1);
         static::assertInstanceOf(Enumerated::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class EnumeratedTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('ENUMERATED expected, got primitive NULL');
         $wrap->asEnumerated();

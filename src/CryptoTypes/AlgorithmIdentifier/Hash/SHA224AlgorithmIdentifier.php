@@ -19,7 +19,7 @@ final class SHA224AlgorithmIdentifier extends SHA2AlgorithmIdentifier
 {
     private function __construct()
     {
-        $this->oid = self::OID_SHA224;
+        parent::__construct(self::OID_SHA224);
     }
 
     public static function create(): self

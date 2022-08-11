@@ -43,8 +43,8 @@ final class ConstructedStringTest extends TestCase
     {
         $cs = ConstructedString::createWithTag(
             Element::TYPE_OCTET_STRING,
-            new OctetString('Hello'),
-            new OctetString('World')
+            OctetString::create('Hello'),
+            OctetString::create('World')
         )->withIndefiniteLength();
         static::assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
@@ -142,7 +142,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function unspecifiedFail()
     {
-        $ut = UnspecifiedType::create(new NullType());
+        $ut = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Constructed String expected, got primitive NULL');
         $ut->asConstructedString();
@@ -153,7 +153,7 @@ final class ConstructedStringTest extends TestCase
      */
     public function createFromElements()
     {
-        $cs = ConstructedString::create(new OctetString('Hello'), new OctetString('World'));
+        $cs = ConstructedString::create(OctetString::create('Hello'), OctetString::create('World'));
         static::assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
@@ -185,7 +185,7 @@ final class ConstructedStringTest extends TestCase
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('All elements in constructed string must have the same type');
-        ConstructedString::create(new OctetString('Hello'), new BitString('World'));
+        ConstructedString::create(OctetString::create('Hello'), BitString::create('World'));
     }
 
     /**
@@ -207,21 +207,21 @@ final class ConstructedStringTest extends TestCase
     public function provideStringType(): iterable
     {
         static $str = 'test';
-        yield [new BitString($str)];
-        yield [new BMPString($str)];
-        yield [new CharacterString($str)];
-        yield [new GeneralString($str)];
+        yield [BitString::create($str)];
+        yield [BMPString::create($str)];
+        yield [CharacterString::create($str)];
+        yield [GeneralString::create($str)];
         yield [new GraphicString($str)];
-        yield [new IA5String($str)];
-        yield [new NumericString('1234')];
-        yield [new ObjectDescriptor($str)];
-        yield [new OctetString($str)];
-        yield [new PrintableString($str)];
-        yield [new T61String($str)];
-        yield [new UniversalString($str)];
-        yield [new UTF8String($str)];
-        yield [new VideotexString($str)];
-        yield [new VisibleString($str)];
+        yield [IA5String::create($str)];
+        yield [NumericString::create('1234')];
+        yield [ObjectDescriptor::create($str)];
+        yield [OctetString::create($str)];
+        yield [PrintableString::create($str)];
+        yield [T61String::create($str)];
+        yield [UniversalString::create($str)];
+        yield [UTF8String::create($str)];
+        yield [VideotexString::create($str)];
+        yield [VisibleString::create($str)];
         yield [GeneralizedTime::fromString('now')];
         yield [UTCTime::fromString('now')];
     }

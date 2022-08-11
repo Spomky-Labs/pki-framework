@@ -31,6 +31,6 @@ abstract class RFC8410PublicKey extends PublicKey
 
     public function subjectPublicKey(): BitString
     {
-        return new BitString($this->_publicKey);
+        return BitString::create($this->_publicKey);
     }
 }

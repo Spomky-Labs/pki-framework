@@ -159,12 +159,12 @@ final class ECPrivateKey extends PrivateKey
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer(1), new OctetString($this->_privateKey)];
+        $elements = [new Integer(1), OctetString::create($this->_privateKey)];
         if (isset($this->_namedCurve)) {
-            $elements[] = new ExplicitlyTaggedType(0, new ObjectIdentifier($this->_namedCurve));
+            $elements[] = new ExplicitlyTaggedType(0, ObjectIdentifier::create($this->_namedCurve));
         }
         if (isset($this->_publicKey)) {
-            $elements[] = new ExplicitlyTaggedType(1, new BitString($this->_publicKey));
+            $elements[] = new ExplicitlyTaggedType(1, BitString::create($this->_publicKey));
         }
         return Sequence::create(...$elements);
     }

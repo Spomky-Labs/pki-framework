@@ -24,7 +24,7 @@ final class DirectoryStringTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Type NULL is not valid DirectoryString');
-        DirectoryString::fromASN1(UnspecifiedType::create(new NullType()));
+        DirectoryString::fromASN1(UnspecifiedType::create(NullType::create()));
     }
 
     /**

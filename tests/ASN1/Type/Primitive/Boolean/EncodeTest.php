@@ -17,7 +17,7 @@ final class EncodeTest extends TestCase
      */
     public function true()
     {
-        $el = new Boolean(true);
+        $el = Boolean::create(true);
         static::assertEquals("\x1\x1\xff", $el->toDER());
     }
 
@@ -26,7 +26,7 @@ final class EncodeTest extends TestCase
      */
     public function false()
     {
-        $el = new Boolean(false);
+        $el = Boolean::create(false);
         static::assertEquals("\x1\x1\x00", $el->toDER());
     }
 }

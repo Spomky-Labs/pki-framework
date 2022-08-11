@@ -21,7 +21,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function create()
     {
-        $el = new ObjectIdentifier('1.3.6.1.3');
+        $el = ObjectIdentifier::create('1.3.6.1.3');
         static::assertInstanceOf(ObjectIdentifier::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('OBJECT IDENTIFIER expected, got primitive NULL');
         $wrap->asObjectIdentifier();
@@ -100,7 +100,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('OID must have at least two nodes');
-        new ObjectIdentifier('0');
+        ObjectIdentifier::create('0');
     }
 
     /**
@@ -110,7 +110,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Root arc must be in range of 0..2');
-        new ObjectIdentifier('3.0');
+        ObjectIdentifier::create('3.0');
     }
 
     /**
@@ -120,7 +120,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
-        new ObjectIdentifier('0.40');
+        ObjectIdentifier::create('0.40');
     }
 
     /**
@@ -130,7 +130,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Second node must be in 0..39 range for root arcs 0 and 1');
-        new ObjectIdentifier('1.40');
+        ObjectIdentifier::create('1.40');
     }
 
     /**
@@ -140,7 +140,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('"x" is not a number.');
-        new ObjectIdentifier('1.1.x');
+        ObjectIdentifier::create('1.1.x');
     }
 
     /**
@@ -152,7 +152,7 @@ final class ObjectIdentifierTest extends TestCase
      */
     public function oID($oid)
     {
-        $x = new ObjectIdentifier($oid);
+        $x = ObjectIdentifier::create($oid);
         $der = $x->toDER();
         static::assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier()->oid());
     }

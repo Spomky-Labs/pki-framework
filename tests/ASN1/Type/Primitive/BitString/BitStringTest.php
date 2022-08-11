@@ -23,7 +23,7 @@ final class BitStringTest extends TestCase
      */
     public function create()
     {
-        $el = new BitString('');
+        $el = BitString::create('');
         static::assertInstanceOf(BitString::class, $el);
         return $el;
     }
@@ -80,7 +80,7 @@ final class BitStringTest extends TestCase
      */
     public function range8(int $start, int $length, string $result)
     {
-        $bs = new BitString("\xff");
+        $bs = BitString::create("\xff");
         static::assertEquals($result, $bs->range($start, $length));
     }
 
@@ -96,7 +96,7 @@ final class BitStringTest extends TestCase
      */
     public function range16(int $start, int $length, string $result)
     {
-        $bs = new BitString("\xff\xff");
+        $bs = BitString::create("\xff\xff");
         static::assertEquals($result, $bs->range($start, $length));
     }
 
@@ -110,7 +110,7 @@ final class BitStringTest extends TestCase
      */
     public function emptyRange()
     {
-        $bs = new BitString("\0");
+        $bs = BitString::create("\0");
         static::assertEquals(0, $bs->range(0, 0));
     }
 
@@ -119,7 +119,7 @@ final class BitStringTest extends TestCase
      */
     public function rangeOOB()
     {
-        $bs = new BitString("\xff");
+        $bs = BitString::create("\xff");
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Not enough bits');
         $bs->range(7, 2);
@@ -141,7 +141,7 @@ final class BitStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('BIT STRING expected, got primitive NULL');
         $wrap->asBitString();

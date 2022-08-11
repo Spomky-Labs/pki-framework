@@ -31,7 +31,7 @@ final class I2OSTest extends TestCase
      */
     public function integerType()
     {
-        $num = ECConversion::octetStringToInteger(new OctetString("\x42"));
+        $num = ECConversion::octetStringToInteger(OctetString::create("\x42"));
         static::assertInstanceOf(Integer::class, $num);
     }
 
@@ -77,12 +77,12 @@ final class I2OSTest extends TestCase
 
     public function provideConvert(): Iterator
     {
-        yield [new Integer(0), 1, new OctetString("\0")];
-        yield [new Integer(0), 2, new OctetString("\0\0")];
-        yield [new Integer(1), 1, new OctetString("\1")];
-        yield [new Integer(1), 2, new OctetString("\0\1")];
-        yield [new Integer(1), 8, new OctetString("\0\0\0\0\0\0\0\1")];
-        yield [new Integer('4294967295'), 4, new OctetString("\xff\xff\xff\xff")];
+        yield [new Integer(0), 1, OctetString::create("\0")];
+        yield [new Integer(0), 2, OctetString::create("\0\0")];
+        yield [new Integer(1), 1, OctetString::create("\1")];
+        yield [new Integer(1), 2, OctetString::create("\0\1")];
+        yield [new Integer(1), 8, OctetString::create("\0\0\0\0\0\0\0\1")];
+        yield [new Integer('4294967295'), 4, OctetString::create("\xff\xff\xff\xff")];
     }
 
     /**

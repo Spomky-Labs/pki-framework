@@ -21,7 +21,7 @@ final class PolicyQualifierInfoTest extends TestCase
      */
     public function fromASN1UnknownTypeFail()
     {
-        $seq = Sequence::create(new ObjectIdentifier('1.3.6.1.3'), new NullType());
+        $seq = Sequence::create(ObjectIdentifier::create('1.3.6.1.3'), NullType::create());
         $this->expectException(UnexpectedValueException::class);
         PolicyQualifierInfo::fromASN1($seq);
     }

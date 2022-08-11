@@ -23,7 +23,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
      */
     public function create()
     {
-        $el = new ImplicitlyTaggedType(1, new NullType());
+        $el = new ImplicitlyTaggedType(1, NullType::create());
         static::assertInstanceOf(ImplicitTagging::class, $el);
         return $el;
     }

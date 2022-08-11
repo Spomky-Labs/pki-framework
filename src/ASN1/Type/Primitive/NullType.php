@@ -22,7 +22,12 @@ final class NullType extends Element
 
     public function __construct()
     {
-        $this->typeTag = self::TYPE_NULL;
+        parent::__construct(self::TYPE_NULL);
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     protected function encodedAsDER(): string

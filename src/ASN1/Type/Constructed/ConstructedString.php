@@ -10,7 +10,6 @@ use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
-use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\ASN1\Type\Structure;
 use Stringable;
@@ -44,11 +43,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
             throw new LogicException('No elements, unable to determine type tag.');
         }
         $tag = $elements[0]->tag();
-        foreach ($elements as $el) {
-            if ($el->tag() !== $tag) {
-                throw new LogicException('All elements in constructed string must have the same type.');
-            }
-        }
+
         return self::createWithTag($tag, ...$elements);
     }
 
@@ -59,14 +54,16 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      *
      * @param int $tag Type tag for the constructed string element
      * @param StringType ...$elements Any number of elements
-     *
-     * @return self
      */
-    public static function createWithTag(int $tag, StringType ...$elements)
+    public static function createWithTag(int $tag, StringType ...$elements): self
     {
-        $el = new self(...$elements);
-        $el->typeTag = $tag;
-        return $el;
+        foreach ($elements as $el) {
+            if ($el->tag() !== $tag) {
+                throw new LogicException('All elements in constructed string must have the same type.');
+            }
+        }
+
+        return new self($tag, ...$elements);
     }
 
     /**
@@ -89,10 +86,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
         return implode('', $this->strings());
     }
 
-    /**
-     * @return self
-     */
-    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): self
     {
         if (! $identifier->isConstructed()) {
             throw new DecodeException('Structured element must have constructed bit set.');
@@ -100,12 +94,11 @@ final class ConstructedString extends Structure implements StringType, Stringabl
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         if ($length->isIndefinite()) {
-            $type = self::decodeIndefiniteLength($data, $idx);
+            $type = self::decodeIndefiniteLength($identifier->intTag(), $data, $idx);
         } else {
-            $type = self::decodeDefiniteLength($data, $idx, $length->intLength());
+            $type = self::decodeDefiniteLength($identifier->intTag(), $data, $idx, $length->intLength());
         }
         $offset = $idx;
-        $type->typeTag = $identifier->intTag();
 
         return $type;
     }
@@ -117,7 +110,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      * @param int $offset Offset to data
      * @param int $length Number of bytes to decode
      */
-    protected static function decodeDefiniteLength(string $data, int &$offset, int $length): ElementBase
+    protected static function decodeDefiniteLength(int $typeTag, string $data, int &$offset, int $length): self
     {
         $idx = $offset;
         $end = $idx + $length;
@@ -131,7 +124,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
         }
         $offset = $idx;
         // return instance by static late binding
-        return new self(...$elements);
+        return self::createWithTag($typeTag, ...$elements);
     }
 
     /**
@@ -140,7 +133,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      * @param string $data DER data
      * @param int $offset Offset to data
      */
-    protected static function decodeIndefiniteLength(string $data, int &$offset): ElementBase
+    protected static function decodeIndefiniteLength(int $typeTag, string $data, int &$offset): self
     {
         $idx = $offset;
         $elements = [];
@@ -156,7 +149,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
             $elements[] = $el;
         }
         $offset = $idx;
-        $type = new self(...$elements);
+        $type = self::createWithTag($typeTag, ...$elements);
         $type->_indefiniteLength = true;
         return $type;
     }

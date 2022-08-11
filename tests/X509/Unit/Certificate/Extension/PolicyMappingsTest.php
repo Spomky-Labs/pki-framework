@@ -257,8 +257,8 @@ final class PolicyMappingsTest extends TestCase
     {
         $seq = Sequence::create();
         $ext_seq = Sequence::create(
-            new ObjectIdentifier(Extension::OID_POLICY_MAPPINGS),
-            new OctetString($seq->toDER())
+            ObjectIdentifier::create(Extension::OID_POLICY_MAPPINGS),
+            OctetString::create($seq->toDER())
         );
         $this->expectException(UnexpectedValueException::class);
         PolicyMappingsExtension::fromASN1($ext_seq);

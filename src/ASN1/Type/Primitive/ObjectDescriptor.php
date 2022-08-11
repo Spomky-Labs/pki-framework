@@ -16,8 +16,12 @@ final class ObjectDescriptor extends PrimitiveString
 
     public function __construct(string $descriptor)
     {
-        $this->_string = $descriptor;
-        $this->typeTag = self::TYPE_OBJECT_DESCRIPTOR;
+        parent::__construct(self::TYPE_OBJECT_DESCRIPTOR, $descriptor);
+    }
+
+    public static function create(string $descriptor): self
+    {
+        return new self($descriptor);
     }
 
     /**

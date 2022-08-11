@@ -33,7 +33,7 @@ final class HolderTest extends TestCase
         self::$_odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
-            new BitString('')
+            BitString::create('')
         );
     }
 

@@ -92,7 +92,7 @@ final class RealTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('REAL expected, got primitive NULL');
         $wrap->asReal();
@@ -203,7 +203,7 @@ final class RealTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Base must be 2 or 10');
-        new Real(1, 1, 3);
+        Real::create(1, 1, 3);
     }
 
     /**
@@ -293,7 +293,7 @@ final class RealTest extends TestCase
      */
     public function nr3ShiftZeroes()
     {
-        $real = new Real(100, 0, 10);
+        $real = Real::create(100, 0, 10);
         static::assertEquals('1.E2', $real->nr3Val());
     }
 
@@ -302,7 +302,7 @@ final class RealTest extends TestCase
      */
     public function nr3ZeroExponent()
     {
-        $real = new Real(1, 0, 10);
+        $real = Real::create(1, 0, 10);
         static::assertEquals('1.E+0', $real->nr3Val());
     }
 }

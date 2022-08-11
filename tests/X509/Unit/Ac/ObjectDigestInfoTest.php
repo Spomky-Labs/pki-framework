@@ -25,7 +25,7 @@ final class ObjectDigestInfoTest extends TestCase
         $odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
-            new BitString(hex2bin('ff'))
+            BitString::create(hex2bin('ff'))
         );
         static::assertInstanceOf(ObjectDigestInfo::class, $odi);
         return $odi;
@@ -75,10 +75,10 @@ final class ObjectDigestInfoTest extends TestCase
     {
         $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = Sequence::create(
-            new Enumerated(ObjectDigestInfo::TYPE_OTHER_OBJECT_TYPES),
-            new ObjectIdentifier('1.3.6.1.3'),
+            Enumerated::create(ObjectDigestInfo::TYPE_OTHER_OBJECT_TYPES),
+            ObjectIdentifier::create('1.3.6.1.3'),
             $algo->toASN1(),
-            new BitString('')
+            BitString::create('')
         );
         $odi = ObjectDigestInfo::fromASN1($seq);
         static::assertInstanceOf(ObjectDigestInfo::class, $odi);

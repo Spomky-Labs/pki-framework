@@ -18,7 +18,7 @@ final class EOCTest extends TestCase
      */
     public function create(): Element
     {
-        $el = new EOC();
+        $el = EOC::create();
         static::assertInstanceOf(EOC::class, $el);
         return $el;
     }

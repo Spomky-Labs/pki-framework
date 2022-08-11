@@ -139,6 +139,6 @@ final class Flags
     {
         $last_octet_bits = $this->_width % 8;
         $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
-        return new BitString($this->_flags, $unused_bits);
+        return BitString::create($this->_flags, $unused_bits);
     }
 }

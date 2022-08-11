@@ -21,7 +21,7 @@ final class CharacterStringTest extends TestCase
      */
     public function create()
     {
-        $el = new CharacterString('');
+        $el = CharacterString::create('');
         static::assertInstanceOf(CharacterString::class, $el);
         return $el;
     }
@@ -93,7 +93,7 @@ final class CharacterStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('CHARACTER STRING expected, got primitive NULL');
         $wrap->asCharacterString();

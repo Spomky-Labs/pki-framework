@@ -28,7 +28,7 @@ final class ElementTest extends TestCase
      */
     public function isTypeUniversalInvalidClass()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $cls = new ReflectionClass($el);
         $prop = $cls->getProperty('typeTag');
         $prop->setAccessible(true);
@@ -41,7 +41,7 @@ final class ElementTest extends TestCase
      */
     public function isPseudotypeFail()
     {
-        $el = new NullType();
+        $el = NullType::create();
         static::assertFalse($el->isType(-99));
     }
 
@@ -50,7 +50,7 @@ final class ElementTest extends TestCase
      */
     public function asElement()
     {
-        $el = new NullType();
+        $el = NullType::create();
         static::assertEquals($el, $el->asElement());
         return $el;
     }

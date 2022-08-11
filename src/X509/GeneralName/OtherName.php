@@ -71,7 +71,7 @@ final class OtherName extends GeneralName
     {
         return new ImplicitlyTaggedType(
             $this->_tag,
-            Sequence::create(new ObjectIdentifier($this->_type), new ExplicitlyTaggedType(0, $this->_element))
+            Sequence::create(ObjectIdentifier::create($this->_type), new ExplicitlyTaggedType(0, $this->_element))
         );
     }
 }

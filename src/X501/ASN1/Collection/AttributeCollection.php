@@ -12,7 +12,6 @@ use SpomkyLabs\Pki\ASN1\Type\Structure;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
 use SpomkyLabs\Pki\X501\ASN1\AttributeType;
-use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 use UnexpectedValueException;
 
 /**
@@ -37,16 +36,6 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
     public function __construct(Attribute ...$attribs)
     {
         $this->_attributes = $attribs;
-    }
-
-    /**
-     * Initialize from attribute values.
-     *
-     * @param AttributeValue ...$values List of attribute values
-     */
-    public static function fromAttributeValues(AttributeValue ...$values): self
-    {
-        return new static(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**

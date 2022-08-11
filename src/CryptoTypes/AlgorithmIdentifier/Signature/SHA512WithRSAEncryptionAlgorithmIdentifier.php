@@ -15,8 +15,7 @@ final class SHA512WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatu
 {
     private function __construct()
     {
-        parent::__construct();
-        $this->oid = self::OID_SHA512_WITH_RSA_ENCRYPTION;
+        parent::__construct(self::OID_SHA512_WITH_RSA_ENCRYPTION);
     }
 
     public static function create(): self

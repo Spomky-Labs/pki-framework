@@ -34,7 +34,7 @@ final class UniqueIdentifier
      */
     public static function fromString(string $str): self
     {
-        return new self(new BitString($str));
+        return new self(BitString::create($str));
     }
 
     /**

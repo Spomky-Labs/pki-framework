@@ -22,7 +22,7 @@ final class UTF8StringTest extends TestCase
      */
     public function create()
     {
-        $el = new UTF8String('');
+        $el = UTF8String::create('');
         static::assertInstanceOf(UTF8String::class, $el);
         return $el;
     }
@@ -81,7 +81,7 @@ final class UTF8StringTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid UTF8String string');
-        new UTF8String(hex2bin('ff'));
+        UTF8String::create(hex2bin('ff'));
     }
 
     /**
@@ -100,7 +100,7 @@ final class UTF8StringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UTF8String expected, got primitive NULL');
         $wrap->asUTF8String();

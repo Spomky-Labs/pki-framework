@@ -355,7 +355,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function withAdditionalExtensions(TBSCertificate $tc)
     {
-        $tc = $tc->withAdditionalExtensions(new UnknownExtension('1.3.6.1.3', false, new NullType()));
+        $tc = $tc->withAdditionalExtensions(new UnknownExtension('1.3.6.1.3', false, NullType::create()));
         static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 

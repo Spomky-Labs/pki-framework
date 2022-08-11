@@ -26,7 +26,7 @@ final class TargetTest extends TestCase
     public function decodeTargetCertUnsupportedFail()
     {
         $this->expectException(RuntimeException::class);
-        Target::fromASN1(new ImplicitlyTaggedType(Target::TYPE_CERT, new NullType()));
+        Target::fromASN1(new ImplicitlyTaggedType(Target::TYPE_CERT, NullType::create()));
     }
 
     /**
@@ -35,7 +35,7 @@ final class TargetTest extends TestCase
     public function decodeUnsupportedTagFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        Target::fromASN1(new ImplicitlyTaggedType(3, new NullType()));
+        Target::fromASN1(new ImplicitlyTaggedType(3, NullType::create()));
     }
 
     /**

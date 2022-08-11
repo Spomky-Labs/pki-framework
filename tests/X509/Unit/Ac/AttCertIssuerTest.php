@@ -32,7 +32,7 @@ final class AttCertIssuerTest extends TestCase
      */
     public function unsupportedType()
     {
-        $el = new ImplicitlyTaggedType(1, new NullType());
+        $el = new ImplicitlyTaggedType(1, NullType::create());
         $this->expectException(UnexpectedValueException::class);
         AttCertIssuer::fromASN1($el->asUnspecified());
     }

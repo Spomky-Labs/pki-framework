@@ -27,7 +27,7 @@ final class EncodeTest extends TestCase
      */
     public function single()
     {
-        $el = Sequence::create(new NullType());
+        $el = Sequence::create(NullType::create());
         static::assertEquals("\x30\x2\x5\x0", $el->toDER());
     }
 
@@ -36,7 +36,7 @@ final class EncodeTest extends TestCase
      */
     public function three()
     {
-        $el = Sequence::create(new NullType(), new NullType(), new NullType());
+        $el = Sequence::create(NullType::create(), NullType::create(), NullType::create());
         static::assertEquals("\x30\x6" . str_repeat("\x5\x0", 3), $el->toDER());
     }
 
@@ -45,7 +45,7 @@ final class EncodeTest extends TestCase
      */
     public function nested()
     {
-        $el = Sequence::create(Sequence::create(new NullType()));
+        $el = Sequence::create(Sequence::create(NullType::create()));
         static::assertEquals("\x30\x4\x30\x2\x5\x0", $el->toDER());
     }
 }

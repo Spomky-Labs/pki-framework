@@ -19,14 +19,24 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
  */
 final class PrivateKeyInfo extends OneAsymmetricKey
 {
-    public function __construct(
+    private function __construct(
+        AlgorithmIdentifierType $algo,
+        string $key,
+        ?OneAsymmetricKeyAttributes $attributes,
+        ?BitString $public_key,
+        int $version,
+    ) {
+        parent::__construct($algo, $key, $attributes, $public_key, $version);
+    }
+
+    // PrivateKeyInfo has version 1 by default
+    public static function create(
         AlgorithmIdentifierType $algo,
         string $key,
         ?OneAsymmetricKeyAttributes $attributes = null,
-        ?BitString $public_key = null
-    ) {
-        parent::__construct($algo, $key, $attributes, $public_key);
-        // PrivateKeyInfo has version 1 by default
-        $this->version = parent::VERSION_1;
+        ?BitString $public_key = null,
+        int $version = parent::VERSION_1,
+    ): self {
+        return new self($algo, $key, $attributes, $public_key, $version);
     }
 }

@@ -13,7 +13,7 @@ class PrivateKeyInfoTestInvalidECAlgo extends SpecificAlgorithmIdentifier
 {
     public function __construct()
     {
-        $this->oid = self::OID_EC_PUBLIC_KEY;
+        parent::__construct(self::OID_EC_PUBLIC_KEY);
     }
 
     public function name(): string

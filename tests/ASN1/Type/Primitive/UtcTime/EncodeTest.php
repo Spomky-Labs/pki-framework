@@ -18,7 +18,7 @@ final class EncodeTest extends TestCase
      */
     public function encode()
     {
-        $el = new UTCTime(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
+        $el = UTCTime::create(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
         static::assertEquals("\x17\x0d" . '060102220405Z', $el->toDER());
     }
 }

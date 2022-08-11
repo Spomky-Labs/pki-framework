@@ -79,6 +79,9 @@ final class AttCertValidityPeriod
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(new GeneralizedTime($this->_notBeforeTime), new GeneralizedTime($this->_notAfterTime));
+        return Sequence::create(
+            GeneralizedTime::create($this->_notBeforeTime),
+            GeneralizedTime::create($this->_notAfterTime)
+        );
     }
 }

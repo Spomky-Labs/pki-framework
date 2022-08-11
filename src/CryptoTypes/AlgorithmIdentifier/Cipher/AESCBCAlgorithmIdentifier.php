@@ -26,8 +26,9 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     /**
      * @param null|string $iv Initialization vector
      */
-    protected function __construct(?string $iv = null)
+    protected function __construct(string $iod, ?string $iv = null)
     {
+        parent::__construct($iod);
         $this->_checkIVSize($iv);
         $this->_initializationVector = $iv;
     }
@@ -50,6 +51,6 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if (! isset($this->_initializationVector)) {
             throw new LogicException('IV not set.');
         }
-        return new OctetString($this->_initializationVector);
+        return OctetString::create($this->_initializationVector);
     }
 }

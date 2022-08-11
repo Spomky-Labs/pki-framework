@@ -23,7 +23,10 @@ final class RFC4231HMACAITest extends TestCase
      */
     public function decodeWithParams()
     {
-        $seq = Sequence::create(new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256), new NullType());
+        $seq = Sequence::create(
+            ObjectIdentifier::create(AlgorithmIdentifier::OID_HMAC_WITH_SHA256),
+            NullType::create()
+        );
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(HMACWithSHA256AlgorithmIdentifier::class, $ai);
     }
@@ -33,7 +36,10 @@ final class RFC4231HMACAITest extends TestCase
      */
     public function decodeWithInvalidParamsFail()
     {
-        $seq = Sequence::create(new ObjectIdentifier(AlgorithmIdentifier::OID_HMAC_WITH_SHA256), new Boolean(true));
+        $seq = Sequence::create(
+            ObjectIdentifier::create(AlgorithmIdentifier::OID_HMAC_WITH_SHA256),
+            Boolean::create(true)
+        );
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
     }

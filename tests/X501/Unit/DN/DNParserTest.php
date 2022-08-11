@@ -149,7 +149,7 @@ final class DNParserTest extends TestCase
         yield [
             // hexstring
             'cn=#0101ff',
-            [[['cn', new Boolean(true)]]],
+            [[['cn', Boolean::create(true)]]],
         ];
         yield [
             // semicolon separator

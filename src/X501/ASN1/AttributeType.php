@@ -459,7 +459,7 @@ final class AttributeType
      */
     public function toASN1(): ObjectIdentifier
     {
-        return new ObjectIdentifier($this->_oid);
+        return ObjectIdentifier::create($this->_oid);
     }
 
     /**
@@ -492,10 +492,10 @@ final class AttributeType
     public static function asn1StringForType(string $oid, string $str): StringType
     {
         if (! array_key_exists($oid, self::MAP_ATTR_TO_STR_TYPE)) {
-            return new UTF8String($str);
+            return UTF8String::create($str);
         }
         return match (self::MAP_ATTR_TO_STR_TYPE[$oid]) {
-            Element::TYPE_PRINTABLE_STRING => new PrintableString($str),
+            Element::TYPE_PRINTABLE_STRING => PrintableString::create($str),
             default => throw new LogicException(),
         };
         // @codeCoverageIgnoreEnd

@@ -20,5 +20,5 @@ abstract class MatchingRule
      * @return null|bool True if value matches. Null shall be returned if match
      * evaluates to Undefined.
      */
-    abstract public function compare($assertion, $value): ?bool;
+    abstract public function compare(mixed $assertion, mixed $value): ?bool;
 }

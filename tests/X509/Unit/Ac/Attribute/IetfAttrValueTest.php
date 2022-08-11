@@ -23,7 +23,7 @@ final class IetfAttrValueTest extends TestCase
     public function fromUnsupportedTypeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        IetfAttrValue::fromASN1(UnspecifiedType::create(new NullType()));
+        IetfAttrValue::fromASN1(UnspecifiedType::create(NullType::create()));
     }
 
     /**

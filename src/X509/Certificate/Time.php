@@ -66,7 +66,7 @@ final class Time
         $dt = $this->_dt;
         switch ($this->_type) {
             case Element::TYPE_UTC_TIME:
-                return new UTCTime($dt);
+                return UTCTime::create($dt);
             case Element::TYPE_GENERALIZED_TIME:
                 // GeneralizedTime must not contain fractional seconds
                 // (rfc5280 4.1.2.5.2)
@@ -74,7 +74,7 @@ final class Time
                     // remove fractional seconds (round down)
                     $dt = self::_roundDownFractionalSeconds($dt);
                 }
-                return new GeneralizedTime($dt);
+                return GeneralizedTime::create($dt);
         }
         throw new UnexpectedValueException('Time type ' . Element::tagToName($this->_type) . ' not supported.');
     }

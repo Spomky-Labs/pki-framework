@@ -10,9 +10,19 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 class AIFactoryTestCustomAlgo extends SpecificAlgorithmIdentifier
 {
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    private function __construct()
+    {
+        parent::__construct(self::OID_HMAC_WITH_SHA384);
+    }
+
+    public static function create(): self
     {
         return new self();
+    }
+
+    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    {
+        return self::create();
     }
 
     public function name(): string

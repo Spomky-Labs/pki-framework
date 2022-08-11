@@ -141,7 +141,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
     {
         $elements = [];
         if (isset($this->_keyIdentifier)) {
-            $elements[] = new ImplicitlyTaggedType(0, new OctetString($this->_keyIdentifier));
+            $elements[] = new ImplicitlyTaggedType(0, OctetString::create($this->_keyIdentifier));
         }
         // if either issuer or serial is set, both must be set
         if (isset($this->_authorityCertIssuer) ||

@@ -19,7 +19,7 @@ final class EncodeTest extends TestCase
      */
     public function encode()
     {
-        $el = new GeneralizedTime(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
+        $el = GeneralizedTime::create(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
         static::assertEquals("\x18\x0f" . '20060102220405Z', $el->toDER());
     }
 
@@ -30,7 +30,7 @@ final class EncodeTest extends TestCase
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.5", new DateTimeZone('UTC'));
-        $el = new GeneralizedTime($dt);
+        $el = GeneralizedTime::create($dt);
         static::assertEquals("\x18\x11" . '20060102220405.5Z', $el->toDER());
     }
 
@@ -41,7 +41,7 @@ final class EncodeTest extends TestCase
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999", new DateTimeZone('UTC'));
-        $el = new GeneralizedTime($dt);
+        $el = GeneralizedTime::create($dt);
         static::assertEquals("\x18\x15" . '20060102220405.99999Z', $el->toDER());
     }
 
@@ -52,7 +52,7 @@ final class EncodeTest extends TestCase
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.000001", new DateTimeZone('UTC'));
-        $el = new GeneralizedTime($dt);
+        $el = GeneralizedTime::create($dt);
         static::assertEquals("\x18\x16" . '20060102220405.000001Z', $el->toDER());
     }
 
@@ -63,7 +63,7 @@ final class EncodeTest extends TestCase
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.000000", new DateTimeZone('UTC'));
-        $el = new GeneralizedTime($dt);
+        $el = GeneralizedTime::create($dt);
         static::assertEquals("\x18\x0f" . '20060102220405Z', $el->toDER());
     }
 
@@ -74,7 +74,7 @@ final class EncodeTest extends TestCase
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.100000", new DateTimeZone('UTC'));
-        $el = new GeneralizedTime($dt);
+        $el = GeneralizedTime::create($dt);
         static::assertEquals("\x18\x11" . '20060102220405.1Z', $el->toDER());
     }
 }

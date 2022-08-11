@@ -25,7 +25,12 @@ final class Boolean extends Element
     public function __construct(
         private readonly bool $_bool
     ) {
-        $this->typeTag = self::TYPE_BOOLEAN;
+        parent::__construct(self::TYPE_BOOLEAN);
+    }
+
+    public static function create(bool $_bool): self
+    {
+        return new self($_bool);
     }
 
     /**
@@ -52,6 +57,6 @@ final class Boolean extends Element
             }
         }
         $offset = $idx;
-        return new self($byte !== 0);
+        return self::create($byte !== 0);
     }
 }

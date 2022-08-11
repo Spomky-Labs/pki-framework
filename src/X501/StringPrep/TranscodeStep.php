@@ -59,16 +59,16 @@ final class TranscodeStep implements PrepareStep
                 // PrintableString maps directly to UTF-8
             case Element::TYPE_PRINTABLE_STRING:
                 return $string;
-            // UCS-2 to UTF-8
+                // UCS-2 to UTF-8
             case Element::TYPE_BMP_STRING:
                 return mb_convert_encoding($string, 'UTF-8', 'UCS-2BE');
-            // UCS-4 to UTF-8
+                // UCS-4 to UTF-8
             case Element::TYPE_UNIVERSAL_STRING:
                 return mb_convert_encoding($string, 'UTF-8', 'UCS-4BE');
-            // TeletexString mapping is a local matter.
-            // We take a shortcut here and encode it as a hexstring.
+                // TeletexString mapping is a local matter.
+                // We take a shortcut here and encode it as a hexstring.
             case Element::TYPE_T61_STRING:
-                $el = new T61String($string);
+                $el = T61String::create($string);
                 return '#' . bin2hex($el->toDER());
         }
         throw new LogicException(sprintf('Unsupported string type %s.', Element::tagToName($this->_type)));

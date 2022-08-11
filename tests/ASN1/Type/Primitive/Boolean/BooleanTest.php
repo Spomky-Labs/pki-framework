@@ -21,7 +21,7 @@ final class BooleanTest extends TestCase
      */
     public function create()
     {
-        $el = new Boolean(true);
+        $el = Boolean::create(true);
         static::assertInstanceOf(Boolean::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class BooleanTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('BOOLEAN expected, got primitive NULL');
         $wrap->asBoolean();

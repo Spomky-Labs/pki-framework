@@ -91,7 +91,7 @@ final class GeneralizedTimeTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('GeneralizedTime expected, got primitive NULL');
         $wrap->asGeneralizedTime();
@@ -128,7 +128,7 @@ final class GeneralizedTimeTest extends TestCase
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.05", new DateTimeZone('UTC'));
-        $el = new GeneralizedTime($dt);
+        $el = GeneralizedTime::create($dt);
         $str = $el->string();
         $der = $el->toDER();
         $el = GeneralizedTime::fromDER($der);

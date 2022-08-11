@@ -66,7 +66,7 @@ abstract class SvceAuthInfo extends AttributeValue
     {
         $elements = [$this->_service->toASN1(), $this->_ident->toASN1()];
         if (isset($this->_authInfo)) {
-            $elements[] = new OctetString($this->_authInfo);
+            $elements[] = OctetString::create($this->_authInfo);
         }
         return Sequence::create(...$elements);
     }

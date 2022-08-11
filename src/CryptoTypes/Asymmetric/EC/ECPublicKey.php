@@ -167,7 +167,7 @@ final class ECPublicKey extends PublicKey
      */
     public function toASN1(): OctetString
     {
-        return new OctetString($this->_ecPoint);
+        return OctetString::create($this->_ecPoint);
     }
 
     public function toDER(): string
@@ -182,7 +182,7 @@ final class ECPublicKey extends PublicKey
     public function subjectPublicKey(): BitString
     {
         // ECPoint is directly mapped to subjectPublicKey
-        return new BitString($this->_ecPoint);
+        return BitString::create($this->_ecPoint);
     }
 
     /**

@@ -74,9 +74,9 @@ final class ObjectDigestInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Enumerated($this->_digestedObjectType)];
+        $elements = [Enumerated::create($this->_digestedObjectType)];
         if (isset($this->_otherObjectTypeID)) {
-            $elements[] = new ObjectIdentifier($this->_otherObjectTypeID);
+            $elements[] = ObjectIdentifier::create($this->_otherObjectTypeID);
         }
         $elements[] = $this->_digestAlgorithm->toASN1();
         $elements[] = $this->_objectDigest;

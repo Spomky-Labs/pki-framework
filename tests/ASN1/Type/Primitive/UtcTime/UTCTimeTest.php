@@ -89,7 +89,7 @@ final class UTCTimeTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('UTCTime expected, got primitive NULL');
         $wrap->asUTCTime();

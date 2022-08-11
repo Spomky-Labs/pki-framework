@@ -24,7 +24,7 @@ final class SequenceTest extends TestCase
      */
     public function create()
     {
-        $seq = Sequence::create(new NullType(), new Boolean(true));
+        $seq = Sequence::create(NullType::create(), Boolean::create(true));
         static::assertInstanceOf(Structure::class, $seq);
         return $seq;
     }
@@ -162,7 +162,7 @@ final class SequenceTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('SEQUENCE expected, got primitive NULL');
         $wrap->asSequence();

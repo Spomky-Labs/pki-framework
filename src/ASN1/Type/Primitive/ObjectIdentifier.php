@@ -22,7 +22,7 @@ use UnexpectedValueException;
 /**
  * Implements *OBJECT IDENTIFIER* type.
  */
-class ObjectIdentifier extends Element
+final class ObjectIdentifier extends Element
 {
     use UniversalClass;
     use PrimitiveType;
@@ -37,8 +37,10 @@ class ObjectIdentifier extends Element
     /**
      * @param string $_oid OID in dotted format
      */
-    public function __construct(protected string $_oid)
-    {
+    public function __construct(
+        private readonly string $_oid,
+        ?int $typeTag = null
+    ) {
         $this->_subids = self::_explodeDottedOID($_oid);
         // if OID is non-empty
         if (count($this->_subids) > 0) {
@@ -55,7 +57,12 @@ class ObjectIdentifier extends Element
                 throw new UnexpectedValueException('Second node must be in 0..39 range for root arcs 0 and 1.');
             }
         }
-        $this->typeTag = self::TYPE_OBJECT_IDENTIFIER;
+        parent::__construct($typeTag ?? self::TYPE_OBJECT_IDENTIFIER);
+    }
+
+    public static function create(string $_oid, ?int $typeTag = null): self
+    {
+        return new self($_oid, $typeTag);
     }
 
     /**

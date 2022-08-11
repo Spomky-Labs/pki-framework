@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\X509\CertificationRequest;
 
 use LogicException;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 use SpomkyLabs\Pki\X501\ASN1\Collection\SetOfAttributes;
 use SpomkyLabs\Pki\X509\CertificationRequest\Attribute\ExtensionRequestValue;
 
@@ -26,6 +27,16 @@ final class Attributes extends SetOfAttributes
     private const MAP_OID_TO_CLASS = [
         ExtensionRequestValue::OID => ExtensionRequestValue::class,
     ];
+
+    /**
+     * Initialize from attribute values.
+     *
+     * @param AttributeValue ...$values List of attribute values
+     */
+    public static function fromAttributeValues(AttributeValue ...$values): self
+    {
+        return new self(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+    }
 
     /**
      * Check whether extension request attribute is present.

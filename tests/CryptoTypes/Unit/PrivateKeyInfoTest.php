@@ -239,7 +239,7 @@ final class PrivateKeyInfoTest extends TestCase
         $seq = $pki->toASN1();
         $ai = $seq->at(1)
             ->asSequence()
-            ->withReplaced(0, new ObjectIdentifier('1.3.6.1.3'));
+            ->withReplaced(0, ObjectIdentifier::create('1.3.6.1.3'));
         $seq = $seq->withReplaced(1, $ai);
         $this->expectException(RuntimeException::class);
         PrivateKeyInfo::fromASN1($seq)->privateKey();
@@ -255,7 +255,7 @@ final class PrivateKeyInfoTest extends TestCase
         $data = $seq->at(2)
             ->asOctetString()
             ->string();
-        $pki = new PrivateKeyInfo(new PrivateKeyInfoTestInvalidECAlgo(), $data);
+        $pki = PrivateKeyInfo::create(new PrivateKeyInfoTestInvalidECAlgo(), $data);
         $this->expectException(RuntimeException::class);
         $pki->privateKey();
     }
@@ -268,7 +268,7 @@ final class PrivateKeyInfoTest extends TestCase
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $ref = PrivateKeyInfo::fromPEM($pem);
         $attribs = OneAsymmetricKeyAttributes::fromAttributeValues(CommonNameValue::create('John Doe'));
-        $pki = new PrivateKeyInfo($ref->algorithmIdentifier(), $ref->privateKeyData(), $attribs);
+        $pki = PrivateKeyInfo::create($ref->algorithmIdentifier(), $ref->privateKeyData(), $attribs);
         $pem = $pki->toPEM();
         static::assertInstanceOf(PEM::class, $pem);
         return $pem;

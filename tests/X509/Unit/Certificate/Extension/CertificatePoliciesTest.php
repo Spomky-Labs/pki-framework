@@ -346,8 +346,8 @@ final class CertificatePoliciesTest extends TestCase
     {
         $seq = Sequence::create();
         $ext_seq = Sequence::create(
-            new ObjectIdentifier(Extension::OID_CERTIFICATE_POLICIES),
-            new OctetString($seq->toDER())
+            ObjectIdentifier::create(Extension::OID_CERTIFICATE_POLICIES),
+            OctetString::create($seq->toDER())
         );
         $this->expectException(UnexpectedValueException::class);
         CertificatePoliciesExtension::fromASN1($ext_seq);

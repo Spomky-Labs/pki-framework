@@ -80,7 +80,7 @@ final class BasicConstraintsExtension extends Extension
     {
         $elements = [];
         if ($this->_ca) {
-            $elements[] = new Boolean(true);
+            $elements[] = Boolean::create(true);
         }
         if (isset($this->_pathLen)) {
             $elements[] = new Integer($this->_pathLen);

@@ -10,7 +10,6 @@ use function is_string;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
-use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 
 /**
  * Base class for primitive strings.
@@ -23,12 +22,14 @@ abstract class PrimitiveString extends BaseString
 {
     use PrimitiveType;
 
+    abstract public static function create(string $string): self;
+
     protected function encodedAsDER(): string
     {
         return $this->_string;
     }
 
-    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
+    protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): static
     {
         $idx = $offset;
         if (! $identifier->isPrimitive()) {
@@ -41,7 +42,7 @@ abstract class PrimitiveString extends BaseString
         assert(is_string($str), new DecodeException('substr'));
         $offset = $idx + $length;
         try {
-            return new static($str);
+            return static::create($str);
         } catch (InvalidArgumentException $e) {
             throw new DecodeException($e->getMessage(), 0, $e);
         }

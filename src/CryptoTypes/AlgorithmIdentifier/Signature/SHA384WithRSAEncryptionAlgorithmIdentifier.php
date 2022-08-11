@@ -15,8 +15,7 @@ final class SHA384WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatu
 {
     protected function __construct()
     {
-        parent::__construct();
-        $this->oid = self::OID_SHA384_WITH_RSA_ENCRYPTION;
+        parent::__construct(self::OID_SHA384_WITH_RSA_ENCRYPTION);
     }
 
     public static function create(): self

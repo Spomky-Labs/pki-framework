@@ -40,8 +40,8 @@ final class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implement
 
     public function __construct()
     {
-        $this->oid = self::OID_MD5;
-        $this->_params = new NullType();
+        parent::__construct(self::OID_MD5);
+        $this->_params = NullType::create();
     }
 
     public function name(): string

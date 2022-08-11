@@ -29,12 +29,16 @@ final class BitString extends BaseString
      * @param string $string Content octets
      * @param int $_unusedBits Number of unused bits in the last octet
      */
-    public function __construct(
+    private function __construct(
         string $string,
         protected int $_unusedBits = 0
     ) {
-        $this->typeTag = self::TYPE_BIT_STRING;
-        parent::__construct($string);
+        parent::__construct(self::TYPE_BIT_STRING, $string);
+    }
+
+    public static function create(string $string, int $_unusedBits = 0): self
+    {
+        return new self($string, $_unusedBits);
     }
 
     /**
@@ -117,7 +121,7 @@ final class BitString extends BaseString
     {
         // if bit string was empty
         if (! mb_strlen($this->_string, '8bit')) {
-            return new self('');
+            return self::create('');
         }
         $bits = $this->_string;
         // count number of empty trailing octets
@@ -133,7 +137,7 @@ final class BitString extends BaseString
         }
         // if bit string was full of zeroes
         if (! mb_strlen($bits, '8bit')) {
-            return new self('');
+            return self::create('');
         }
         // count number of trailing zeroes in the last octet
         $unused_bits = 0;
@@ -142,7 +146,7 @@ final class BitString extends BaseString
             ++$unused_bits;
             $byte >>= 1;
         }
-        return new self($bits, $unused_bits);
+        return self::create($bits, $unused_bits);
     }
 
     protected function encodedAsDER(): string
@@ -182,6 +186,6 @@ final class BitString extends BaseString
             $str = '';
         }
         $offset = $idx + $str_len;
-        return new self($str, $unused_bits);
+        return self::create($str, $unused_bits);
     }
 }

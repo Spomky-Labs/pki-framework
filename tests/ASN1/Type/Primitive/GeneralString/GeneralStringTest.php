@@ -21,7 +21,7 @@ final class GeneralStringTest extends TestCase
      */
     public function create()
     {
-        $el = new GeneralString('');
+        $el = GeneralString::create('');
         static::assertInstanceOf(GeneralString::class, $el);
         return $el;
     }
@@ -87,7 +87,7 @@ final class GeneralStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('GeneralString expected, got primitive NULL');
         $wrap->asGeneralString();

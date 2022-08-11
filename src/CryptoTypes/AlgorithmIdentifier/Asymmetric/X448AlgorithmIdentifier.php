@@ -17,7 +17,7 @@ final class X448AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
 {
     private function __construct()
     {
-        $this->oid = self::OID_X448;
+        parent::__construct(self::OID_X448);
     }
 
     public static function create(): self

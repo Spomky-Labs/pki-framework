@@ -218,14 +218,13 @@ abstract class Element implements ElementBase
     ];
 
     /**
-     * Element's type tag.
-     */
-    protected int $typeTag;
-
-    /**
      * Whether type shall be encoded with indefinite length.
      */
     protected bool $_indefiniteLength = false;
+
+    public function __construct(protected int $typeTag)
+    {
+    }
 
     abstract public function typeClass(): int;
 
@@ -250,7 +249,7 @@ abstract class Element implements ElementBase
         // decode remaining element
         $element = $cls::decodeFromDER($identifier, $data, $idx);
         // if called in the context of a concrete class, check
-        // that decoded type matches the type of a calling class
+        // that decoded type matches the type of calling class
         $called_class = static::class;
         if ($called_class !== self::class) {
             if (! $element instanceof $called_class) {
@@ -274,7 +273,7 @@ abstract class Element implements ElementBase
         $content = $this->encodedAsDER();
         if ($this->_indefiniteLength) {
             $length = new Length(0, true);
-            $eoc = new EOC();
+            $eoc = EOC::create();
             return $identifier->toDER() . $length->toDER() . $content . $eoc->toDER();
         }
         $length = new Length(mb_strlen($content, '8bit'));

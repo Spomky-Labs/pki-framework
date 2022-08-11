@@ -127,7 +127,7 @@ final class FlagsTest extends TestCase
      */
     public function fromBitString(string $str, int $unused_bits, int $width, string $result)
     {
-        $flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
+        $flags = Flags::fromBitString(BitString::create($str, $unused_bits), $width);
         static::assertEquals($result, $flags->string());
     }
 
@@ -190,7 +190,7 @@ final class FlagsTest extends TestCase
      */
     public function bitStringToNumber($str, int $unused_bits, int $width, $number)
     {
-        $bs = new BitString($str, $unused_bits);
+        $bs = BitString::create($str, $unused_bits);
         $flags = Flags::fromBitString($bs, $width);
         static::assertEquals($number, $flags->number());
     }

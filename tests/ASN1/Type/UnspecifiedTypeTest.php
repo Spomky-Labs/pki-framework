@@ -23,7 +23,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function asElement()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         static::assertInstanceOf(ElementBase::class, $wrap->asElement());
         return $wrap;
     }
@@ -33,7 +33,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function asUnspecified()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         static::assertInstanceOf(UnspecifiedType::class, $wrap->asUnspecified());
     }
 
@@ -42,7 +42,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function fromElementBase()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::fromElementBase($el);
         static::assertInstanceOf(UnspecifiedType::class, $wrap);
     }
@@ -72,7 +72,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function asTaggedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Tagged element expected, got primitive NULL');
         $wrap->asTagged();
@@ -83,7 +83,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function asStringFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Any String expected, got primitive NULL');
         $wrap->asString();
@@ -94,7 +94,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function asTimeFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Any Time expected, got primitive NULL');
         $wrap->asTime();
@@ -117,7 +117,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function toDER()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertEquals($el->toDER(), $wrap->toDER());
     }
@@ -127,7 +127,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function typeClass()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertEquals($el->typeClass(), $wrap->typeClass());
     }
@@ -137,7 +137,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function isConstructed()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertEquals($el->isConstructed(), $wrap->isConstructed());
     }
@@ -147,7 +147,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function tag()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertEquals($el->tag(), $wrap->tag());
     }
@@ -157,7 +157,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function isTypeMethod()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertTrue($wrap->isType(Element::TYPE_NULL));
     }
@@ -167,7 +167,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function expectType()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(ElementBase::class, $wrap->expectType(Element::TYPE_NULL));
     }
@@ -177,7 +177,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function isTagged()
     {
-        $el = new NullType();
+        $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
         static::assertEquals($el->isTagged(), $wrap->isTagged());
     }
@@ -187,7 +187,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function expectTagged()
     {
-        $el = new ImplicitlyTaggedType(0, new NullType());
+        $el = new ImplicitlyTaggedType(0, NullType::create());
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(ElementBase::class, $wrap->expectTagged(0));
     }

@@ -44,6 +44,6 @@ final class UniformResourceIdentifier extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag, new IA5String($this->_uri));
+        return new ImplicitlyTaggedType($this->_tag, IA5String::create($this->_uri));
     }
 }

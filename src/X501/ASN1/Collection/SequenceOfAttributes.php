@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\X501\ASN1\Collection;
 
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
+use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 
 /**
  * Implements *Attributes* ASN.1 type as a *SEQUENCE OF Attribute*.
@@ -23,6 +24,16 @@ class SequenceOfAttributes extends AttributeCollection
     public static function fromASN1(Sequence $seq): self
     {
         return static::_fromASN1Structure($seq);
+    }
+
+    /**
+     * Initialize from attribute values.
+     *
+     * @param AttributeValue ...$values List of attribute values
+     */
+    public static function fromAttributeValues(AttributeValue ...$values): self
+    {
+        return new self(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**

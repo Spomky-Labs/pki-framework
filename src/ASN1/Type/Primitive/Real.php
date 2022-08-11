@@ -134,7 +134,7 @@ final class Real extends Element implements Stringable
         if ($base !== 10 && $base !== 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
-        $this->typeTag = self::TYPE_REAL;
+        parent::__construct(self::TYPE_REAL);
         $this->_strictDer = true;
         $this->_mantissa = new BigInt($mantissa);
         $this->_exponent = new BigInt($exponent);
@@ -144,6 +144,14 @@ final class Real extends Element implements Stringable
     public function __toString(): string
     {
         return sprintf('%g', $this->floatVal());
+    }
+
+    public static function create(
+        BigInteger|int|string $mantissa,
+        BigInteger|int|string $exponent,
+        int $base = 10
+    ): self {
+        return new self($mantissa, $exponent, $base);
     }
 
     /**

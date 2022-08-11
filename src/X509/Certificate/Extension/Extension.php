@@ -285,9 +285,9 @@ abstract class Extension implements Stringable
      */
     public function toASN1(): Sequence
     {
-        $elements = [new ObjectIdentifier($this->_oid)];
+        $elements = [ObjectIdentifier::create($this->_oid)];
         if ($this->_critical) {
-            $elements[] = new Boolean(true);
+            $elements[] = Boolean::create(true);
         }
         $elements[] = $this->_extnValue();
         return Sequence::create(...$elements);
@@ -322,6 +322,6 @@ abstract class Extension implements Stringable
      */
     protected function _extnValue(): OctetString
     {
-        return new OctetString($this->_valueASN1()->toDER());
+        return OctetString::create($this->_valueASN1()->toDER());
     }
 }

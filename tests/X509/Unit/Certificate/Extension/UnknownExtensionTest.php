@@ -23,7 +23,7 @@ final class UnknownExtensionTest extends TestCase
      */
     public function createWithDER()
     {
-        $ext = new UnknownExtension('1.3.6.1.3.1', true, new NullType());
+        $ext = new UnknownExtension('1.3.6.1.3.1', true, NullType::create());
         static::assertInstanceOf(UnknownExtension::class, $ext);
         return $ext;
     }
@@ -35,7 +35,7 @@ final class UnknownExtensionTest extends TestCase
      */
     public function extensionValueDER(UnknownExtension $ext)
     {
-        $expect = (new NullType())->toDER();
+        $expect = (NullType::create())->toDER();
         static::assertEquals($expect, $ext->extensionValue());
     }
 

@@ -17,8 +17,12 @@ final class Enumerated extends Integer
 {
     public function __construct(BigInteger|int|string $number)
     {
-        parent::__construct($number);
-        $this->typeTag = self::TYPE_ENUMERATED;
+        parent::__construct($number, self::TYPE_ENUMERATED);
+    }
+
+    public static function create(BigInteger|int|string $number): self
+    {
+        return new self($number);
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase

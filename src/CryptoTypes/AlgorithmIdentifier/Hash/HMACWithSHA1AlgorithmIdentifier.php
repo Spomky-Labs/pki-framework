@@ -29,7 +29,7 @@ final class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier 
 {
     private function __construct()
     {
-        $this->oid = self::OID_HMAC_WITH_SHA1;
+        parent::__construct(self::OID_HMAC_WITH_SHA1);
     }
 
     public static function create(): self

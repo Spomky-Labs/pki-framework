@@ -51,8 +51,7 @@ final class GeneralizedTime extends BaseTime
 
     public function __construct(DateTimeImmutable $dt)
     {
-        $this->typeTag = self::TYPE_GENERALIZED_TIME;
-        parent::__construct($dt);
+        parent::__construct(self::TYPE_GENERALIZED_TIME, $dt);
     }
 
     /**
@@ -61,6 +60,11 @@ final class GeneralizedTime extends BaseTime
     public function __clone()
     {
         $this->_formatted = null;
+    }
+
+    public static function create(DateTimeImmutable $dt): self
+    {
+        return new self($dt);
     }
 
     public static function fromString(string $time, ?string $tz = null): static

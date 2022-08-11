@@ -121,7 +121,7 @@ final class V2FormTest extends TestCase
         $odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
-            new BitString('')
+            BitString::create('')
         );
         $el = new ImplicitlyTaggedType(
             0,

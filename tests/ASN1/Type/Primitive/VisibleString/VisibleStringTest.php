@@ -21,7 +21,7 @@ final class VisibleStringTest extends TestCase
      */
     public function create()
     {
-        $el = new VisibleString('');
+        $el = VisibleString::create('');
         static::assertInstanceOf(VisibleString::class, $el);
         return $el;
     }
@@ -89,7 +89,7 @@ final class VisibleStringTest extends TestCase
      */
     public function wrappedFail()
     {
-        $wrap = UnspecifiedType::create(new NullType());
+        $wrap = UnspecifiedType::create(NullType::create());
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('VisibleString expected, got primitive NULL');
         $wrap->asVisibleString();

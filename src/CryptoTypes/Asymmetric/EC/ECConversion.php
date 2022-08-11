@@ -31,7 +31,7 @@ final class ECConversion
             // @todo pad string
             throw new RuntimeException('Unaligned bitstrings to supported');
         }
-        return new OctetString($str);
+        return OctetString::create($str);
     }
 
     /**
@@ -41,7 +41,7 @@ final class ECConversion
      */
     public static function octetStringToBitString(OctetString $os): BitString
     {
-        return new BitString($os->string());
+        return BitString::create($os->string());
     }
 
     /**
@@ -66,7 +66,7 @@ final class ECConversion
                 $str = str_repeat("\0", $mlen - $len) . $str;
             }
         }
-        return new OctetString($str);
+        return OctetString::create($str);
     }
 
     /**
@@ -107,6 +107,6 @@ final class ECConversion
      */
     public static function octetsToNumber(string $str): string
     {
-        return self::octetStringToInteger(new OctetString($str))->number();
+        return self::octetStringToInteger(OctetString::create($str))->number();
     }
 }

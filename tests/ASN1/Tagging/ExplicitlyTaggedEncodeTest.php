@@ -19,7 +19,7 @@ final class ExplicitlyTaggedEncodeTest extends TestCase
      */
     public function null()
     {
-        $el = new ExplicitlyTaggedType(0, new NullType());
+        $el = new ExplicitlyTaggedType(0, NullType::create());
         static::assertEquals("\xa0\x2\x5\x0", $el->toDER());
     }
 
@@ -28,7 +28,7 @@ final class ExplicitlyTaggedEncodeTest extends TestCase
      */
     public function nested()
     {
-        $el = new ExplicitlyTaggedType(1, new ExplicitlyTaggedType(2, new NullType()));
+        $el = new ExplicitlyTaggedType(1, new ExplicitlyTaggedType(2, NullType::create()));
         static::assertEquals("\xa1\x4\xa2\x2\x5\x0", $el->toDER());
     }
 
@@ -37,7 +37,7 @@ final class ExplicitlyTaggedEncodeTest extends TestCase
      */
     public function longTag()
     {
-        $el = new ExplicitlyTaggedType(255, new NullType());
+        $el = new ExplicitlyTaggedType(255, NullType::create());
         static::assertEquals("\xbf\x81\x7f\x2\x5\x0", $el->toDER());
     }
 
@@ -46,7 +46,7 @@ final class ExplicitlyTaggedEncodeTest extends TestCase
      */
     public function recode()
     {
-        $el = new ExplicitlyTaggedType(0, new Boolean(true));
+        $el = new ExplicitlyTaggedType(0, Boolean::create(true));
         static::assertInstanceOf(Boolean::class, $el->explicit()->asBoolean());
     }
 }
