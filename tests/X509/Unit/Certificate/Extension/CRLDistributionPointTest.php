@@ -49,7 +49,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function create(DistributionPoint $dp)
     {
-        $ext = new CRLDistributionPointsExtension(true, $dp, new DistributionPoint());
+        $ext = CRLDistributionPointsExtension::create(true, $dp, new DistributionPoint());
         static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }
@@ -209,7 +209,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function encodeEmptyFail()
     {
-        $ext = new CRLDistributionPointsExtension(false);
+        $ext = CRLDistributionPointsExtension::create(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }

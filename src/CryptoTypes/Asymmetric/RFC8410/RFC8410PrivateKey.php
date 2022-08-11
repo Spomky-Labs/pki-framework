@@ -94,8 +94,9 @@ abstract class RFC8410PrivateKey extends PrivateKey
     {
         $pub = $this->_publicKeyData ?
             BitString::create($this->_publicKeyData) : null;
-        $pki = OneAsymmetricKey::create($this->algorithmIdentifier(), $this->toDER(), $this->_attributes, $pub);
-        return $pki->withVersion($this->_version)
+
+        return OneAsymmetricKey::create($this->algorithmIdentifier(), $this->toDER(), $this->_attributes, $pub)
+            ->withVersion($this->_version)
             ->toPEM();
     }
 }

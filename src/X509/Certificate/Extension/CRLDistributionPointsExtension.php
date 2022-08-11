@@ -29,10 +29,15 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      */
     protected array $_distributionPoints;
 
-    public function __construct(bool $critical, DistributionPoint ...$distribution_points)
+    protected function __construct(string $oid, bool $critical, DistributionPoint ...$distribution_points)
     {
-        parent::__construct(self::OID_CRL_DISTRIBUTION_POINTS, $critical);
+        parent::__construct($oid, $critical);
         $this->_distributionPoints = $distribution_points;
+    }
+
+    public static function create(bool $critical, DistributionPoint ...$distribution_points): self
+    {
+        return new self(self::OID_CRL_DISTRIBUTION_POINTS, $critical, ...$distribution_points);
     }
 
     /**
@@ -75,7 +80,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
             throw new UnexpectedValueException('CRLDistributionPoints must have at least one DistributionPoint.');
         }
         // late static bound, extended by Freshest CRL extension
-        return new static($critical, ...$dps);
+        return static::create($critical, ...$dps);
     }
 
     protected function _valueASN1(): Element

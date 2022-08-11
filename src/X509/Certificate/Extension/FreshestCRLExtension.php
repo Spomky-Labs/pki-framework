@@ -13,9 +13,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\DistributionPoin
  */
 final class FreshestCRLExtension extends CRLDistributionPointsExtension
 {
-    public function __construct(bool $critical, DistributionPoint ...$distribution_points)
+    public static function create(bool $critical, DistributionPoint ...$distribution_points): self
     {
-        Extension::__construct(self::OID_FRESHEST_CRL, $critical);
-        $this->_distributionPoints = $distribution_points;
+        return new self(self::OID_FRESHEST_CRL, $critical, ...$distribution_points);
     }
+
 }

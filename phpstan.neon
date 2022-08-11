@@ -2,11 +2,11 @@ parameters:
     level: 0
     paths:
         - src
-    ignoreErrors:
-        -
-            message: '#.*\:\:__construct\(\) does not call parent constructor from .*.\.#'
-            path: src/X509/Certificate/Extension/FreshestCRLExtension.php
-            count: 1
+#    ignoreErrors:
+#        -
+#            message: '#.*\:\:__construct\(\) does not call parent constructor from .*.\.#'
+#            path: src/X509/Certificate/Extension/FreshestCRLExtension.php
+#            count: 1
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false
     checkUninitializedProperties: true

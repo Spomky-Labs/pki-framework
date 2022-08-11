@@ -40,7 +40,7 @@ final class FreshestCRLTest extends TestCase
      */
     public function create()
     {
-        $ext = new FreshestCRLExtension(false, self::$_dp);
+        $ext = FreshestCRLExtension::create(false, self::$_dp);
         static::assertInstanceOf(FreshestCRLExtension::class, $ext);
         return $ext;
     }

@@ -52,7 +52,7 @@ class OneAsymmetricKey
     /**
      * Version number.
      */
-    protected int $version;
+    private int $version;
 
     /**
      * @param AlgorithmIdentifierType $_algo Algorithm
@@ -80,9 +80,19 @@ class OneAsymmetricKey
     }
 
     /**
+     * Get self with version number.
+     */
+    public function withVersion(int $version): self
+    {
+        $obj = clone $this;
+        $obj->version = $version;
+        return $obj;
+    }
+
+    /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Sequence $seq): self
+    public static function fromASN1(Sequence $seq): static
     {
         $version = $seq->at(0)
             ->asInteger()
@@ -104,15 +114,15 @@ class OneAsymmetricKey
             $pubkey = $seq->getTagged(1)
                 ->asImplicit(Element::TYPE_BIT_STRING)->asBitString();
         }
-        return static::create($algo, $key, $attribs, $pubkey);
+        return static::create($algo, $key, $attribs, $pubkey)->withVersion($version);
     }
 
     /**
      * Initialize from DER data.
      */
-    public static function fromDER(string $data): self
+    public static function fromDER(string $data): static
     {
-        return self::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
+        return static::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
     }
 
     /**
@@ -138,16 +148,6 @@ class OneAsymmetricKey
             PEM::TYPE_EC_PRIVATE_KEY => self::fromPrivateKey(ECPrivateKey::fromDER($pem->data())),
             default => throw new UnexpectedValueException('Invalid PEM type.'),
         };
-    }
-
-    /**
-     * Get self with version set.
-     */
-    public function withVersion(int $version): self
-    {
-        $obj = clone $this;
-        $obj->version = $version;
-        return $obj;
     }
 
     /**
@@ -188,7 +188,7 @@ class OneAsymmetricKey
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 $pk = ECPrivateKey::fromDER($this->_privateKeyData);
                 // NOTE: OpenSSL strips named curve from ECPrivateKey structure
-                // when serializing into PrivateKeyInfo. However RFC 5915 dictates
+                // when serializing into PrivateKeyInfo. However, RFC 5915 dictates
                 // that parameters (NamedCurve) must always be included.
                 // If private key doesn't encode named curve, assign from parameters.
                 if (! $pk->hasNamedCurve()) {
@@ -200,8 +200,7 @@ class OneAsymmetricKey
                 return $pk;
                 // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
-                $pubkey = $this->_publicKeyData ?
-                    $this->_publicKeyData->string() : null;
+                $pubkey = $this->_publicKeyData?->string();
                 // RFC 8410 defines `CurvePrivateKey ::= OCTET STRING` that
                 // is encoded into private key data. So Ed25519 private key
                 // is doubly wrapped into octet string encodings.
@@ -210,22 +209,19 @@ class OneAsymmetricKey
                     ->withAttributes($this->_attributes);
                 // X25519
             case AlgorithmIdentifier::OID_X25519:
-                $pubkey = $this->_publicKeyData ?
-                    $this->_publicKeyData->string() : null;
+                $pubkey = $this->_publicKeyData?->string();
                 return X25519PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
                 // Ed448
             case AlgorithmIdentifier::OID_ED448:
-                $pubkey = $this->_publicKeyData ?
-                    $this->_publicKeyData->string() : null;
+                $pubkey = $this->_publicKeyData?->string();
                 return Ed448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
                 // X448
             case AlgorithmIdentifier::OID_X448:
-                $pubkey = $this->_publicKeyData ?
-                    $this->_publicKeyData->string() : null;
+                $pubkey = $this->_publicKeyData?->string();
                 return X448PrivateKey::fromOctetString(OctetString::fromDER($this->_privateKeyData), $pubkey)
                     ->withVersion($this->version)
                     ->withAttributes($this->_attributes);
