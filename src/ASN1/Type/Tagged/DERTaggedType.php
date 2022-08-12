@@ -29,7 +29,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
      * @param int $_valueOffset Offset to content
      * @param int $_valueLength Content length
      */
-    public function __construct(
+    final private function __construct(
         private readonly Identifier $_identifier,
         private readonly string $_data,
         private readonly int $_offset,
@@ -37,8 +37,18 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
         private readonly int $_valueLength,
         bool $indefinite_length
     ) {
-        parent::__construct($_identifier->intTag());
-        $this->_indefiniteLength = $indefinite_length;
+        parent::__construct($_identifier->intTag(), $indefinite_length);
+    }
+
+    public static function create(
+        Identifier $_identifier,
+        string $_data,
+        int $_offset,
+        int $_valueOffset,
+        int $_valueLength,
+        bool $indefinite_length
+    ): static {
+        return new static($_identifier, $_data, $_offset, $_valueOffset, $_valueLength, $indefinite_length);
     }
 
     public function typeClass(): int
@@ -85,7 +95,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
             $idx += $value_length;
         }
         // late static binding since ApplicationType and PrivateType extend this class
-        $type = new static($identifier, $data, $offset, $value_offset, $value_length, $length->isIndefinite());
+        $type = static::create($identifier, $data, $offset, $value_offset, $value_length, $length->isIndefinite());
         $offset = $idx;
         return $type;
     }

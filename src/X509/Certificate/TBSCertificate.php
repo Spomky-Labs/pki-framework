@@ -463,7 +463,7 @@ final class TBSCertificate
         if (isset($this->_subjectUniqueID)) {
             $elements[] = new ImplicitlyTaggedType(2, $this->_subjectUniqueID->toASN1());
         }
-        if (count($this->_extensions)) {
+        if (count($this->_extensions) !== 0) {
             $elements[] = new ExplicitlyTaggedType(3, $this->_extensions->toASN1());
         }
         return Sequence::create(...$elements);
@@ -502,7 +502,7 @@ final class TBSCertificate
     private function _determineVersion(): int
     {
         // if extensions are present
-        if (count($this->_extensions)) {
+        if (count($this->_extensions) !== 0) {
             return self::VERSION_3;
         }
         // if UniqueIdentifier is present

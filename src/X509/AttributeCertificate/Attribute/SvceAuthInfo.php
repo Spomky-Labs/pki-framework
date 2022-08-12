@@ -21,11 +21,13 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 abstract class SvceAuthInfo extends AttributeValue
 {
-    public function __construct(
+    protected function __construct(
+        string $oid,
         protected GeneralName $_service,
         protected GeneralName $_ident,
         protected ?string $_authInfo = null
     ) {
+        parent::__construct($oid);
     }
 
     abstract public static function fromASN1(UnspecifiedType $el): static;

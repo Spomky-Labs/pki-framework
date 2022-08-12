@@ -19,8 +19,11 @@ abstract class PrintableStringValue extends AttributeValue
     /**
      * @param string $_string String value
      */
-    protected function __construct(protected string $_string)
-    {
+    protected function __construct(
+        string $oid,
+        protected string $_string
+    ) {
+        parent::__construct($oid);
     }
 
     public function toASN1(): Element

@@ -44,11 +44,11 @@ abstract class AttributeValue implements Stringable
     ];
 
     /**
-     * OID of the attribute type.
-     *
-     * @var string
+     * @param string $oid OID of the attribute type.
      */
-    protected $_oid;
+    protected function __construct(protected string $oid)
+    {
+    }
 
     /**
      * Get attribute value as an UTF-8 encoded string.
@@ -117,7 +117,7 @@ abstract class AttributeValue implements Stringable
      */
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     /**

@@ -19,8 +19,12 @@ final class AccessIdentityAttributeValue extends SvceAuthInfo
 
     public function __construct(GeneralName $service, GeneralName $ident, ?string $_authInfo = null)
     {
-        parent::__construct($service, $ident, $_authInfo);
-        $this->_oid = self::OID;
+        parent::__construct(self::OID, $service, $ident, $_authInfo);
+    }
+
+    public static function create(GeneralName $service, GeneralName $ident, ?string $_authInfo = null): self
+    {
+        return new self($service, $ident, $_authInfo);
     }
 
     public static function fromASN1(UnspecifiedType $el): static

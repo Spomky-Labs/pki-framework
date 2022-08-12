@@ -58,7 +58,7 @@ final class PathValidationResult
      */
     public function policies(): array
     {
-        if (! $this->_policyTree) {
+        if ($this->_policyTree === null) {
             return [];
         }
         return $this->_policyTree->policiesAtDepth(count($this->_certificates));

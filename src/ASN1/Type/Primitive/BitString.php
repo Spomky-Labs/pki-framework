@@ -94,7 +94,7 @@ final class BitString extends BaseString
      */
     public function range(int $start, int $length): string
     {
-        if (! $length) {
+        if ($length === 0) {
             return '0';
         }
         if ($start + $length > $this->numBits()) {
@@ -120,7 +120,7 @@ final class BitString extends BaseString
     public function withoutTrailingZeroes(): self
     {
         // if bit string was empty
-        if (! mb_strlen($this->_string, '8bit')) {
+        if ($this->_string === '') {
             return self::create('');
         }
         $bits = $this->_string;
@@ -132,17 +132,17 @@ final class BitString extends BaseString
             }
         }
         // strip trailing octets
-        if ($unused_octets) {
+        if ($unused_octets !== 0) {
             $bits = mb_substr($bits, 0, -$unused_octets, '8bit');
         }
         // if bit string was full of zeroes
-        if (! mb_strlen($bits, '8bit')) {
+        if ($bits === '') {
             return self::create('');
         }
         // count number of trailing zeroes in the last octet
         $unused_bits = 0;
         $byte = ord($bits[mb_strlen($bits, '8bit') - 1]);
-        while (! ($byte & 0x01)) {
+        while (0 === ($byte & 0x01)) {
             ++$unused_bits;
             $byte >>= 1;
         }
@@ -153,7 +153,7 @@ final class BitString extends BaseString
     {
         $der = chr($this->_unusedBits);
         $der .= $this->_string;
-        if ($this->_unusedBits) {
+        if ($this->_unusedBits !== 0) {
             $octet = $der[mb_strlen($der, '8bit') - 1];
             // set unused bits to zero
             $octet &= chr(0xff & ~((1 << $this->_unusedBits) - 1));
@@ -174,11 +174,11 @@ final class BitString extends BaseString
             throw new DecodeException('Unused bits in a bit string must be less than 8.');
         }
         $str_len = $length->intLength() - 1;
-        if ($str_len) {
+        if ($str_len !== 0) {
             $str = mb_substr($data, $idx, $str_len, '8bit');
-            if ($unused_bits) {
+            if ($unused_bits !== 0) {
                 $mask = (1 << $unused_bits) - 1;
-                if (ord($str[mb_strlen($str, '8bit') - 1]) & $mask) {
+                if (($mask & ord($str[mb_strlen($str, '8bit') - 1])) !== 0) {
                     throw new DecodeException('DER encoded bit string must have zero padding.');
                 }
             }

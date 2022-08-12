@@ -100,7 +100,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function first(): PEM
     {
-        if (! count($this->_pems)) {
+        if (count($this->_pems) === 0) {
             throw new LogicException('No PEMs.');
         }
         return $this->_pems[0];
@@ -111,7 +111,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function last(): PEM
     {
-        if (! count($this->_pems)) {
+        if (count($this->_pems) === 0) {
             throw new LogicException('No PEMs.');
         }
         return $this->_pems[count($this->_pems) - 1];

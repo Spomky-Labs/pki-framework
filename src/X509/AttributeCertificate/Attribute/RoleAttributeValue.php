@@ -33,7 +33,7 @@ final class RoleAttributeValue extends AttributeValue
         protected GeneralName $_roleName,
         protected ?GeneralNames $_roleAuthority = null
     ) {
-        $this->_oid = AttributeType::OID_ROLE;
+        parent::__construct(AttributeType::OID_ROLE);
     }
 
     /**

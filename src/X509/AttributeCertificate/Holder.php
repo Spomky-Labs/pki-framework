@@ -190,16 +190,15 @@ final class Holder
     public function identifiesPKC(Certificate $cert): bool
     {
         // if neither baseCertificateID nor entityName are present
-        if (! $this->_baseCertificateID && ! $this->_entityName) {
+        if ($this->_baseCertificateID === null && $this->_entityName === null) {
             return false;
         }
         // if baseCertificateID is present, but doesn't match
-        if ($this->_baseCertificateID &&
-            ! $this->_baseCertificateID->identifiesPKC($cert)) {
+        if ($this->_baseCertificateID !== null && ! $this->_baseCertificateID->identifiesPKC($cert)) {
             return false;
         }
         // if entityName is present, but doesn't match
-        if ($this->_entityName && ! $this->_checkEntityName($cert)) {
+        if ($this->_entityName !== null && ! $this->_checkEntityName($cert)) {
             return false;
         }
         return true;

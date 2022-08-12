@@ -44,7 +44,7 @@ final class PathValidator
         protected PathValidationConfig $_config,
         Certificate ...$certificates
     ) {
-        if (! count($certificates)) {
+        if (count($certificates) === 0) {
             throw new LogicException('No certificates.');
         }
         $this->_certificates = $certificates;
@@ -244,10 +244,10 @@ final class PathValidator
         $refdt = $this->_config->dateTime();
         $validity = $cert->tbsCertificate()
             ->validity();
-        if ($validity->notBefore()->dateTime()->diff($refdt)->invert) {
+        if ($validity->notBefore()->dateTime()->diff($refdt)->invert !== 0) {
             throw new PathValidationException('Certificate validity period has not started.');
         }
-        if ($refdt->diff($validity->notAfter()->dateTime())->invert) {
+        if ($refdt->diff($validity->notAfter()->dateTime())->invert !== 0) {
             throw new PathValidationException('Certificate has expired.');
         }
     }

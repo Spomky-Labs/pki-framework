@@ -37,11 +37,14 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
      */
     protected array $_values;
 
-    public function __construct(IetfAttrValue ...$values)
+    protected function __construct(string $oid, IetfAttrValue ...$values)
     {
+        parent::__construct($oid);
         $this->_policyAuthority = null;
         $this->_values = $values;
     }
+
+    abstract public static function create(IetfAttrValue ...$values): self;
 
     /**
      * @return self
@@ -65,7 +68,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
                 ->asSequence()
                 ->elements()
         );
-        $obj = new static(...$values);
+        $obj = static::create(...$values);
         $obj->_policyAuthority = $authority;
         return $obj;
     }
@@ -114,7 +117,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
      */
     public function first(): IetfAttrValue
     {
-        if (! count($this->_values)) {
+        if (count($this->_values) === 0) {
             throw new LogicException('No values.');
         }
         return $this->_values[0];

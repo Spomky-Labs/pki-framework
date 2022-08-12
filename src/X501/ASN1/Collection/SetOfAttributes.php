@@ -21,7 +21,7 @@ class SetOfAttributes extends AttributeCollection
     /**
      * Initialize from ASN.1.
      */
-    public static function fromASN1(Set $set): self
+    public static function fromASN1(Set $set): static
     {
         return static::_fromASN1Structure($set);
     }
@@ -31,9 +31,9 @@ class SetOfAttributes extends AttributeCollection
      *
      * @param AttributeValue ...$values List of attribute values
      */
-    public static function fromAttributeValues(AttributeValue ...$values): self
+    public static function fromAttributeValues(AttributeValue ...$values): static
     {
-        return new self(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+        return static::create(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**

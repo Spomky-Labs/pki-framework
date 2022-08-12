@@ -17,5 +17,4 @@ final class FreshestCRLExtension extends CRLDistributionPointsExtension
     {
         return new self(self::OID_FRESHEST_CRL, $critical, ...$distribution_points);
     }
-
 }

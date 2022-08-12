@@ -102,7 +102,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
             fn (UnspecifiedType $el) => PolicyInformation::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        if (! count($policies)) {
+        if (count($policies) === 0) {
             throw new UnexpectedValueException('certificatePolicies must contain at least one PolicyInformation.');
         }
         return new self($critical, ...$policies);
@@ -110,7 +110,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
 
     protected function _valueASN1(): Element
     {
-        if (! count($this->_policies)) {
+        if (count($this->_policies) === 0) {
             throw new LogicException('No policies.');
         }
         $elements = array_map(fn (PolicyInformation $pi) => $pi->toASN1(), array_values($this->_policies));

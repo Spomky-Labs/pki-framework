@@ -143,7 +143,7 @@ abstract class Element implements ElementBase
      *
      * @internal
      *
-     * @var array<string, string>
+     * @var array<int, string>
      */
     private const MAP_TAG_TO_CLASS = [
         self::TYPE_EOC => EOC::class,
@@ -176,11 +176,11 @@ abstract class Element implements ElementBase
     ];
 
     /**
-     * Mapping from universal type tag to human readable name.
+     * Mapping from universal type tag to human-readable name.
      *
      * @internal
      *
-     * @var array<string, string>
+     * @var array<int, string>
      */
     private const MAP_TYPE_TO_NAME = [
         self::TYPE_EOC => 'EOC',
@@ -218,12 +218,12 @@ abstract class Element implements ElementBase
     ];
 
     /**
-     * Whether type shall be encoded with indefinite length.
+     * @param bool $_indefiniteLength Whether type shall be encoded with indefinite length.
      */
-    protected bool $_indefiniteLength = false;
-
-    public function __construct(protected int $typeTag)
-    {
+    public function __construct(
+        protected int $typeTag,
+        protected bool $_indefiniteLength = false
+    ) {
     }
 
     abstract public function typeClass(): int;
@@ -239,7 +239,7 @@ abstract class Element implements ElementBase
      * Variable is updated to the offset next to the
      * parsed element. If null, start from offset 0.
      */
-    public static function fromDER(string $data, int &$offset = null): ElementBase
+    public static function fromDER(string $data, int &$offset = null): static
     {
         $idx = $offset ?? 0;
         // decode identifier

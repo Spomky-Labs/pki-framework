@@ -88,7 +88,7 @@ final class AttributeTypeTest extends TestCase
     public function unknownName()
     {
         static $oid = '1.3.6.1.3';
-        $type = new AttributeType($oid);
+        $type = AttributeType::create($oid);
         static::assertEquals($oid, $type->typeName());
     }
 

@@ -31,7 +31,7 @@ final class ChargingIdentityTest extends TestCase
      */
     public function create()
     {
-        $value = new ChargingIdentityAttributeValue(
+        $value = ChargingIdentityAttributeValue::create(
             IetfAttrValue::fromOctets(self::OCTETS_VAL),
             IetfAttrValue::fromOID(self::OID_VAL),
             IetfAttrValue::fromString(self::UTF8_VAL)

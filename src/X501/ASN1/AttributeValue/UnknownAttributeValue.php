@@ -17,13 +17,20 @@ use SpomkyLabs\Pki\X501\StringPrep\TranscodeStep;
  */
 final class UnknownAttributeValue extends AttributeValue
 {
-    public function __construct(
-        string $oid, /**
-     * ASN.1 element.
+    /**
+     * @param Element $_element ASN.1 element.
      */
+    protected function __construct(
+        string $oid,
         protected Element $_element
     ) {
-        $this->_oid = $oid;
+        parent::__construct($oid);
+        $this->oid = $oid;
+    }
+
+    public static function create(string $oid, Element $_element): self
+    {
+        return new self($oid, $_element);
     }
 
     public function toASN1(): Element
@@ -67,7 +74,7 @@ final class UnknownAttributeValue extends AttributeValue
     {
         // if transcoding is defined for the value type
         if (TranscodeStep::isTypeSupported($this->_element->tag())) {
-            $step = new TranscodeStep($this->_element->tag());
+            $step = TranscodeStep::create($this->_element->tag());
             return $step->apply($this->stringValue());
         }
         return $this->stringValue();

@@ -33,7 +33,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
      */
     public function __construct(AttributeTypeAndValue ...$attribs)
     {
-        if (! count($attribs)) {
+        if (count($attribs) === 0) {
             throw new UnexpectedValueException('RDN must have at least one AttributeTypeAndValue.');
         }
         $this->_attribs = $attribs;
@@ -52,7 +52,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         $attribs = array_map(
-            fn (AttributeValue $value) => new AttributeTypeAndValue(new AttributeType($value->oid()), $value),
+            fn (AttributeValue $value) => new AttributeTypeAndValue(AttributeType::create($value->oid()), $value),
             $values
         );
         return new self(...$attribs);

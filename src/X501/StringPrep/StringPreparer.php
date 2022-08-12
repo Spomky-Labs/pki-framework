@@ -42,7 +42,7 @@ final class StringPreparer
     public static function forStringType(int $string_type): self
     {
         $steps = [
-            self::STEP_TRANSCODE => new TranscodeStep($string_type),
+            self::STEP_TRANSCODE => TranscodeStep::create($string_type),
             self::STEP_MAP => new MapStep(),
             self::STEP_NORMALIZE => new NormalizeStep(),
             self::STEP_PROHIBIT => new ProhibitStep(),

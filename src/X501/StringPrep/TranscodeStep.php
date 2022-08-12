@@ -19,7 +19,7 @@ final class TranscodeStep implements PrepareStep
     /**
      * Supported ASN.1 types.
      *
-     * @var array<string, string>
+     * @var array<int>
      */
     private const SUPPORTED_TYPES = [
         Element::TYPE_UTF8_STRING,
@@ -32,8 +32,13 @@ final class TranscodeStep implements PrepareStep
     /**
      * @param int $_type ASN.1 type tag of the string
      */
-    public function __construct(protected int $_type)
+    private function __construct(private readonly int $_type)
     {
+    }
+
+    public static function create(int $_type): self
+    {
+        return new self($_type);
     }
 
     /**

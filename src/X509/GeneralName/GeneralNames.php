@@ -44,7 +44,7 @@ final class GeneralNames implements Countable, IteratorAggregate
      */
     public static function fromASN1(Sequence $seq): self
     {
-        if (! count($seq)) {
+        if (count($seq) === 0) {
             throw new UnexpectedValueException('GeneralNames must have at least one GeneralName.');
         }
         $names = array_map(fn (UnspecifiedType $el) => GeneralName::fromASN1($el->asTagged()), $seq->elements());
@@ -69,7 +69,7 @@ final class GeneralNames implements Countable, IteratorAggregate
     public function firstOf(int $tag): GeneralName
     {
         $name = $this->_findFirst($tag);
-        if (! $name) {
+        if ($name === null) {
             throw new UnexpectedValueException("No GeneralName by tag {$tag}.");
         }
         return $name;
@@ -129,10 +129,10 @@ final class GeneralNames implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        if (! count($this->_names)) {
+        if (count($this->_names) === 0) {
             throw new LogicException('GeneralNames must have at least one GeneralName.');
         }
-        $elements = array_map(fn (GeneralName $name) => $name->toASN1(), $this->_names);
+        $elements = array_map(static fn (GeneralName $name) => $name->toASN1(), $this->_names);
         return Sequence::create(...$elements);
     }
 

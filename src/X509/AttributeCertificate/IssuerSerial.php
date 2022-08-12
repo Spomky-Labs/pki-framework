@@ -129,7 +129,7 @@ final class IssuerSerial
         if ($tbs->serialNumber() !== $this->_serial) {
             return false;
         }
-        if ($this->_issuerUID && ! $this->_checkUniqueID($cert)) {
+        if ($this->_issuerUID !== null && ! $this->_checkUniqueID($cert)) {
             return false;
         }
         return true;

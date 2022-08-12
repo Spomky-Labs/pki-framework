@@ -70,12 +70,12 @@ final class Attribute implements Countable, IteratorAggregate
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         // we need at least one value to determine OID
-        if (! count($values)) {
+        if (count($values) === 0) {
             throw new LogicException('No values.');
         }
         $oid = reset($values)
             ->oid();
-        return new self(new AttributeType($oid), ...$values);
+        return new self(AttributeType::create($oid), ...$values);
     }
 
     /**
@@ -83,7 +83,7 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function first(): AttributeValue
     {
-        if (! count($this->_values)) {
+        if (count($this->_values) === 0) {
             throw new LogicException('Attribute contains no values.');
         }
         return $this->_values[0];

@@ -51,7 +51,7 @@ final class AttributeTypeAndValue implements Stringable
      */
     public static function fromAttributeValue(AttributeValue $value): self
     {
-        return new self(new AttributeType($value->oid()), $value);
+        return new self(AttributeType::create($value->oid()), $value);
     }
 
     /**

@@ -66,7 +66,6 @@ final class UTCTime extends BaseTime
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
-        /** @var string[] $match */
         if (! preg_match(self::REGEX, $str, $match)) {
             throw new DecodeException('Invalid UTCTime format.');
         }

@@ -13,9 +13,8 @@ final class ChargingIdentityAttributeValue extends IetfAttrSyntax
 {
     final public const OID = '1.3.6.1.5.5.7.10.3';
 
-    public function __construct(IetfAttrValue ...$values)
+    public static function create(IetfAttrValue ...$values): self
     {
-        parent::__construct(...$values);
-        $this->_oid = self::OID;
+        return new self(self::OID, ...$values);
     }
 }

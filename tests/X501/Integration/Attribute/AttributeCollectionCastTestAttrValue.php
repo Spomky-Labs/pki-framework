@@ -8,14 +8,8 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString;
 
 final class AttributeCollectionCastTestAttrValue extends DirectoryString
 {
-    protected function __construct(string $str)
+    public static function create(string $value, int $string_tag = DirectoryString::UTF8): static
     {
-        $this->_oid = '1.3.6.1.3';
-        parent::__construct($str, self::UTF8);
-    }
-
-    public static function create(string $value, int $string_tag = DirectoryString::UTF8): self
-    {
-        return new self($value, $string_tag);
+        return new static('1.3.6.1.3', $value, $string_tag);
     }
 }

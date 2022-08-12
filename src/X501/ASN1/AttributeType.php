@@ -227,7 +227,7 @@ final class AttributeType
      *
      * @internal
      *
-     * @var array<string, string>
+     * @var array<string, int>
      */
     private const MAP_ATTR_TO_STR_TYPE = [
         self::OID_DN_QUALIFIER => Element::TYPE_PRINTABLE_STRING,
@@ -244,7 +244,7 @@ final class AttributeType
      *
      * @internal
      *
-     * @var array<string, string>
+     * @var array<string, array<string>>
      */
     private const MAP_OID_TO_NAME = [
         '0.9.2342.19200300.100.1.1' => ['uid', 'userid'],
@@ -412,8 +412,13 @@ final class AttributeType
     /**
      * @param string $_oid OID in dotted format
      */
-    public function __construct(protected string $_oid)
+    private function __construct(protected string $_oid)
     {
+    }
+
+    public static function create(string $oid): self
+    {
+        return new self($oid);
     }
 
     /**
@@ -421,7 +426,7 @@ final class AttributeType
      */
     public static function fromASN1(ObjectIdentifier $oi): self
     {
-        return new self($oi->oid());
+        return self::create($oi->oid());
     }
 
     /**
@@ -430,7 +435,7 @@ final class AttributeType
     public static function fromName(string $name): self
     {
         $oid = self::attrNameToOID($name);
-        return new self($oid);
+        return self::create($oid);
     }
 
     /**

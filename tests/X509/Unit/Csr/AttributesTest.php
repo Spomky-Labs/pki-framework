@@ -127,7 +127,7 @@ final class AttributesTest extends TestCase
      */
     public function noExtensionRequestFail()
     {
-        $attribs = new Attributes();
+        $attribs = Attributes::create();
         $this->expectException(LogicException::class);
         $attribs->extensionRequest();
     }

@@ -145,10 +145,6 @@ final class AlgorithmIdentifierFactory
         $params = $seq->has(1) ? $seq->at(1) : null;
         /** @var SpecificAlgorithmIdentifier $cls */
         $cls = $this->getClass($oid);
-        if ($cls) {
-            return $cls::fromASN1Params($params);
-        }
-        // fallback to generic algorithm identifier
-        return new GenericAlgorithmIdentifier($oid, $params);
+        return $cls::fromASN1Params($params);
     }
 }

@@ -134,7 +134,7 @@ final class CertificationRequestInfo
     {
         $obj = clone $this;
         if (! isset($obj->_attributes)) {
-            $obj->_attributes = new Attributes();
+            $obj->_attributes = Attributes::create();
         }
         $obj->_attributes = $obj->_attributes->withUnique(
             Attribute::fromAttributeValues(new ExtensionRequestValue($extensions))

@@ -66,7 +66,7 @@ abstract class DirectoryString extends AttributeValue
      *
      * @internal
      *
-     * @var array<string, string>
+     * @var array<int, string>
      */
     private const MAP_TAG_TO_CLASS = [
         self::TELETEX => T61String::class,
@@ -80,11 +80,15 @@ abstract class DirectoryString extends AttributeValue
      * @param string $_string String value
      * @param int $_stringTag Syntax choice
      */
-    protected function __construct(
+    final protected function __construct(
+        string $oid,
         protected string $_string,
         protected int $_stringTag
     ) {
+        parent::__construct($oid);
     }
+
+    abstract public static function create(string $value, int $string_tag = self::UTF8): static;
 
     /**
      * @return self
@@ -94,7 +98,7 @@ abstract class DirectoryString extends AttributeValue
         $tag = $el->tag();
         // validate tag
         self::_tagToASN1Class($tag);
-        return new static($el->asString()->string(), $tag);
+        return static::create($el->asString()->string(), $tag);
     }
 
     public function toASN1(): Element
@@ -124,8 +128,9 @@ abstract class DirectoryString extends AttributeValue
 
     protected function _transcodedString(): string
     {
-        $step = new TranscodeStep($this->_stringTag);
-        return $step->apply($this->_string);
+        return TranscodeStep::create($this->_stringTag)
+            ->apply($this->_string)
+        ;
     }
 
     /**

@@ -270,8 +270,6 @@ class OneAsymmetricKey
 
     /**
      * Get the explicit public key data.
-     *
-     * @return LogicException If public key is not present
      */
     public function publicKeyData(): BitString
     {
@@ -287,10 +285,10 @@ class OneAsymmetricKey
     public function toASN1(): Sequence
     {
         $elements = [new Integer($this->version), $this->_algo->toASN1(), OctetString::create($this->_privateKeyData)];
-        if ($this->_attributes) {
+        if ($this->_attributes !== null) {
             $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
         }
-        if ($this->_publicKeyData) {
+        if ($this->_publicKeyData !== null) {
             $elements[] = new ImplicitlyTaggedType(1, $this->_publicKeyData);
         }
         return Sequence::create(...$elements);

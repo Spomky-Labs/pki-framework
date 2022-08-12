@@ -33,7 +33,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
     public function __construct(bool $critical, Attribute ...$attribs)
     {
         parent::__construct(self::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $critical);
-        $this->_attributes = new SequenceOfAttributes(...$attribs);
+        $this->_attributes = SequenceOfAttributes::create(...$attribs);
     }
 
     /**
@@ -99,7 +99,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
     protected static function _fromDER(string $data, bool $critical): static
     {
         $attribs = SequenceOfAttributes::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
-        if (! count($attribs)) {
+        if (count($attribs) === 0) {
             throw new UnexpectedValueException('SubjectDirectoryAttributes must have at least one Attribute.');
         }
         return new self($critical, ...$attribs->all());
@@ -107,7 +107,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
 
     protected function _valueASN1(): Element
     {
-        if (! count($this->_attributes)) {
+        if (count($this->_attributes) === 0) {
             throw new LogicException('No attributes');
         }
         return $this->_attributes->toASN1();

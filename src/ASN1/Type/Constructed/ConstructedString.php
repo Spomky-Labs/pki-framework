@@ -39,7 +39,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
      */
     public static function create(StringType ...$elements): self
     {
-        if (! count($elements)) {
+        if (count($elements) === 0) {
             throw new LogicException('No elements, unable to determine type tag.');
         }
         $tag = $elements[0]->tag();

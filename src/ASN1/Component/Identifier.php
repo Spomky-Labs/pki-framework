@@ -36,7 +36,7 @@ final class Identifier implements Encodable
      *
      * @internal
      *
-     * @var array<string, string>
+     * @var array<int, string>
      */
     private const MAP_CLASS_TO_NAME = [
         self::CLASS_UNIVERSAL => 'UNIVERSAL',
@@ -263,7 +263,7 @@ final class Identifier implements Encodable
             $tag = $tag->shiftedLeft(7);
             $tag = $tag->or(0x7f & $byte);
             // last byte has bit 8 set to zero
-            if (! (0x80 & $byte)) {
+            if ((0x80 & $byte) === 0) {
                 break;
             }
         }

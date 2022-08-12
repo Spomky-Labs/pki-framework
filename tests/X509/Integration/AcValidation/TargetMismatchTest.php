@@ -50,7 +50,7 @@ final class TargetMismatchTest extends TestCase
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
-            new Attributes()
+            Attributes::create()
         );
         $aci = $aci->withAdditionalExtensions(
             TargetInformationExtension::fromTargets(new TargetName(new DNSName('test')))

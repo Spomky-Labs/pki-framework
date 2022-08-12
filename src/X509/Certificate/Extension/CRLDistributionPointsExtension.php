@@ -76,7 +76,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
             fn (UnspecifiedType $el) => DistributionPoint::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        if (! count($dps)) {
+        if (count($dps) === 0) {
             throw new UnexpectedValueException('CRLDistributionPoints must have at least one DistributionPoint.');
         }
         // late static bound, extended by Freshest CRL extension
@@ -85,7 +85,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
 
     protected function _valueASN1(): Element
     {
-        if (! count($this->_distributionPoints)) {
+        if (count($this->_distributionPoints) === 0) {
             throw new LogicException('No distribution points.');
         }
         $elements = array_map(fn (DistributionPoint $dp) => $dp->toASN1(), $this->_distributionPoints);

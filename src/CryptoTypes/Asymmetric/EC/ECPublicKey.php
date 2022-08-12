@@ -44,7 +44,7 @@ final class ECPublicKey extends PublicKey
     ) {
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
-        if (! mb_strlen($ec_point, '8bit') || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
+        if (($ec_point === '') || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
             throw new InvalidArgumentException('Invalid ECPoint.');
         }
         $this->_ecPoint = $ec_point;

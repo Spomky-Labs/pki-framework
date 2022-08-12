@@ -24,8 +24,8 @@ final class AttributeCastTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_attr = new Attribute(
-            new AttributeType(AttributeType::OID_COMMON_NAME),
-            new UnknownAttributeValue(AttributeType::OID_COMMON_NAME, UTF8String::create('name'))
+            AttributeType::create(AttributeType::OID_COMMON_NAME),
+            UnknownAttributeValue::create(AttributeType::OID_COMMON_NAME, UTF8String::create('name'))
         );
     }
 

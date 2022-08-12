@@ -42,7 +42,7 @@ final class Flags
 
         // calculate number of unused bits in last octet
         $last_octet_bits = $_width % 8;
-        $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
+        $unused_bits = $last_octet_bits !== 0 ? 8 - $last_octet_bits : 0;
         // mask bits outside bitfield width
         $num = BigInteger::of($flags);
         $mask = BigInteger::of(1)->shiftedLeft($_width)->minus(1);
@@ -116,7 +116,7 @@ final class Flags
     {
         $num = BigInteger::fromBytes($this->_flags, false);
         $last_octet_bits = $this->_width % 8;
-        $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
+        $unused_bits = $last_octet_bits !== 0 ? 8 - $last_octet_bits : 0;
         $num = $num->shiftedRight($unused_bits);
         return $num->toBase(10);
     }
@@ -138,7 +138,7 @@ final class Flags
     public function bitString(): BitString
     {
         $last_octet_bits = $this->_width % 8;
-        $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
+        $unused_bits = $last_octet_bits !== 0 ? 8 - $last_octet_bits : 0;
         return BitString::create($this->_flags, $unused_bits);
     }
 }

@@ -35,6 +35,6 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 
     protected function paramsASN1(): ?Element
     {
-        return $this->_params ? $this->_params->asElement() : null;
+        return $this->_params?->asElement();
     }
 }

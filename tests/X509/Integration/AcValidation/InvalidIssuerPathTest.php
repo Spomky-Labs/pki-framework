@@ -48,7 +48,7 @@ final class InvalidIssuerPathTest extends TestCase
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
-            new Attributes()
+            Attributes::create()
         );
         self::$_ac = $aci->sign(ECDSAWithSHA256AlgorithmIdentifier::create(), $issuer_pk);
     }

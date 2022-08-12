@@ -48,7 +48,7 @@ $holder = new Holder(
 );
 $issuer = new V2Form(new GeneralNames(new DirectoryName($issuer_cert->tbsCertificate()->subject())));
 $validity = AttCertValidityPeriod::fromStrings('2016-01-01 12:00:00', '2016-03-01 12:00:00', 'UTC');
-$authinfo_attr = new AuthenticationInfoAttributeValue(
+$authinfo_attr = AuthenticationInfoAttributeValue::create(
     new UniformResourceIdentifier('urn:service'),
     DirectoryName::fromDNString('cn=username'),
     'password'
@@ -57,9 +57,9 @@ $authid_attr = new AccessIdentityAttributeValue(
     new UniformResourceIdentifier('urn:service'),
     DirectoryName::fromDNString('cn=username')
 );
-$charge_attr = new ChargingIdentityAttributeValue(IetfAttrValue::fromString('ACME Ltd.'));
+$charge_attr = ChargingIdentityAttributeValue::create(IetfAttrValue::fromString('ACME Ltd.'));
 $charge_attr = $charge_attr->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString('cn=ACME Ltd.')));
-$group_attr = new GroupAttributeValue(IetfAttrValue::fromString('group1'), IetfAttrValue::fromString('group2'));
+$group_attr = GroupAttributeValue::create(IetfAttrValue::fromString('group1'), IetfAttrValue::fromString('group2'));
 $role_attr = Attribute::fromAttributeValues(
     new RoleAttributeValue(new UniformResourceIdentifier('urn:role1')),
     new RoleAttributeValue(new UniformResourceIdentifier('urn:role2'))

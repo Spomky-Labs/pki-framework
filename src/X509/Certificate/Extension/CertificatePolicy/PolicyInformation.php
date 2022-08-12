@@ -156,7 +156,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
     public function toASN1(): Sequence
     {
         $elements = [ObjectIdentifier::create($this->_oid)];
-        if (count($this->_qualifiers)) {
+        if (count($this->_qualifiers) !== 0) {
             $qualifiers = array_map(
                 fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
                 array_values($this->_qualifiers)

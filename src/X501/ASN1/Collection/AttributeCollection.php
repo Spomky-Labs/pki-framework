@@ -33,9 +33,14 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
     /**
      * @param Attribute ...$attribs List of attributes
      */
-    public function __construct(Attribute ...$attribs)
+    final private function __construct(Attribute ...$attribs)
     {
         $this->_attributes = $attribs;
+    }
+
+    public static function create(Attribute ...$attribs): static
+    {
+        return new static(...$attribs);
     }
 
     /**
@@ -56,7 +61,7 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
     public function firstOf(string $name): Attribute
     {
         $attr = $this->_findFirst($name);
-        if (! $attr) {
+        if ($attr === null) {
             throw new UnexpectedValueException("No {$name} attribute.");
         }
         return $attr;
@@ -157,10 +162,10 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      *
      * @param Structure $struct ASN.1 structure
      */
-    protected static function _fromASN1Structure(Structure $struct): self
+    protected static function _fromASN1Structure(Structure $struct): static
     {
-        return new static(...array_map(
-            fn (UnspecifiedType $el) => static::_castAttributeValues(
+        return static::create(...array_map(
+            static fn (UnspecifiedType $el) => static::_castAttributeValues(
                 Attribute::fromASN1($el->asSequence())
             ),
             $struct->elements()

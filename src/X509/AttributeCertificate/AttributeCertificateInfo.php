@@ -327,7 +327,7 @@ final class AttributeCertificateInfo
         if (isset($this->_issuerUniqueID)) {
             $elements[] = $this->_issuerUniqueID->toASN1();
         }
-        if (count($this->_extensions)) {
+        if (count($this->_extensions) !== 0) {
             $elements[] = $this->_extensions->toASN1();
         }
         return Sequence::create(...$elements);

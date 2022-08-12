@@ -27,7 +27,7 @@ final class ECConversion
     public static function bitStringToOctetString(BitString $bs): OctetString
     {
         $str = $bs->string();
-        if ($bs->unusedBits()) {
+        if ($bs->unusedBits() !== 0) {
             // @todo pad string
             throw new RuntimeException('Unaligned bitstrings to supported');
         }
@@ -49,7 +49,6 @@ final class ECConversion
      *
      * Defined in SEC 1 section 2.3.7.
      *
-     * @param int $num
      * @param null|int $mlen Optional desired output length
      */
     public static function integerToOctetString(Integer $num, ?int $mlen = null): OctetString
@@ -73,8 +72,6 @@ final class ECConversion
      * Perform Octet-String-to-Integer Conversion.
      *
      * Defined in SEC 1 section 2.3.8.
-     *
-     * @return int
      */
     public static function octetStringToInteger(OctetString $os): Integer
     {

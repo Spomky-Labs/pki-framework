@@ -27,7 +27,7 @@ final class GroupTest extends TestCase
      */
     public function create()
     {
-        $value = new GroupAttributeValue(IetfAttrValue::fromString(self::GROUP_NAME));
+        $value = GroupAttributeValue::create(IetfAttrValue::fromString(self::GROUP_NAME));
         $value = $value->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
         static::assertInstanceOf(GroupAttributeValue::class, $value);
         return $value;

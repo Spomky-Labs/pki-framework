@@ -21,7 +21,7 @@ final class IetfAttrSyntaxTest extends TestCase
      */
     public function createEmpty()
     {
-        $val = new GroupAttributeValue();
+        $val = GroupAttributeValue::create();
         static::assertInstanceOf(IetfAttrSyntax::class, $val);
         return $val;
     }

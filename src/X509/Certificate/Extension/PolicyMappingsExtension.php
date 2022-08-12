@@ -143,7 +143,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
             fn (UnspecifiedType $el) => PolicyMapping::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        if (! count($mappings)) {
+        if (count($mappings) === 0) {
             throw new UnexpectedValueException('PolicyMappings must have at least one mapping.');
         }
         return new self($critical, ...$mappings);
@@ -151,7 +151,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
 
     protected function _valueASN1(): Element
     {
-        if (! count($this->_mappings)) {
+        if (count($this->_mappings) === 0) {
             throw new LogicException('No mappings.');
         }
         $elements = array_map(fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->_mappings);

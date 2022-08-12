@@ -20,8 +20,7 @@ final class SerialNumberValue extends PrintableStringValue
      */
     protected function __construct(string $value)
     {
-        $this->_oid = AttributeType::OID_SERIAL_NUMBER;
-        parent::__construct($value);
+        parent::__construct(AttributeType::OID_SERIAL_NUMBER, $value);
     }
 
     public static function create(string $value): self

@@ -114,7 +114,7 @@ final class ObjectIdentifier extends Element
     protected static function _explodeDottedOID(string $oid): array
     {
         $subids = [];
-        if (mb_strlen($oid, '8bit')) {
+        if ($oid !== '') {
             foreach (explode('.', $oid) as $subid) {
                 try {
                     $n = BigInteger::of($subid);
@@ -180,7 +180,7 @@ final class ObjectIdentifier extends Element
                 $byte = ord($data[$idx++]);
                 $num = $num->or($byte & 0x7f);
                 // bit 8 of the last octet is zero
-                if (! ($byte & 0x80)) {
+                if (0 === ($byte & 0x80)) {
                     break;
                 }
                 $num = $num->shiftedLeft(7);

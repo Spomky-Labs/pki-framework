@@ -17,10 +17,14 @@ final class AuthenticationInfoAttributeValue extends SvceAuthInfo
 {
     final public const OID = '1.3.6.1.5.5.7.10.1';
 
-    public function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
+    protected function __construct(GeneralName $service, GeneralName $ident, ?string $auth_info = null)
     {
-        parent::__construct($service, $ident, $auth_info);
-        $this->_oid = self::OID;
+        parent::__construct(self::OID, $service, $ident, $auth_info);
+    }
+
+    public static function create(GeneralName $service, GeneralName $ident, ?string $auth_info = null): self
+    {
+        return new self($service, $ident, $auth_info);
     }
 
     public static function fromASN1(UnspecifiedType $el): static

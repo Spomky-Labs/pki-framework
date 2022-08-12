@@ -284,6 +284,7 @@ final class Real extends Element implements Stringable
     {
         /** @var BigInteger $m */
         /** @var BigInteger $e */
+        /** @var int $sign */
         [$base, $sign, $m, $e] = $this->_prepareBinaryEncoding();
         $zero = BigInteger::of(0);
         $byte = 0x80;
@@ -364,12 +365,12 @@ final class Real extends Element implements Stringable
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         // if length is zero, value is zero (spec 8.5.2)
-        if (! $length) {
+        if ($length === 0) {
             $obj = new self(0, 0, 10);
         } else {
             $bytes = mb_substr($data, $idx, $length, '8bit');
             $byte = ord($bytes[0]);
-            if (0x80 & $byte) { // bit 8 = 1
+            if ((0x80 & $byte) !== 0) { // bit 8 = 1
                 $obj = self::_decodeBinaryEncoding($bytes);
             } elseif ($byte >> 6 === 0x00) { // bit 8 = 0, bit 7 = 0
                 $obj = self::_decodeDecimalEncoding($bytes);

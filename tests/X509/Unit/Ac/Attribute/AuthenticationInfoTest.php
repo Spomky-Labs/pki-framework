@@ -27,7 +27,7 @@ final class AuthenticationInfoTest extends TestCase
      */
     public function create()
     {
-        $value = new AuthenticationInfoAttributeValue(
+        $value = AuthenticationInfoAttributeValue::create(
             new UniformResourceIdentifier(self::SERVICE_URI),
             new UniformResourceIdentifier(self::IDENT_URI),
             self::AUTH_INFO

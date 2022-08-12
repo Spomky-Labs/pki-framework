@@ -20,12 +20,13 @@ final class ExtensionRequestValue extends AttributeValue
 {
     final public const OID = '1.2.840.113549.1.9.14';
 
-    public function __construct(/**
-     * Extensions.
+    /**
+     * @param Extensions $_extensions Extensions.
      */
+    public function __construct(
         protected Extensions $_extensions
     ) {
-        $this->_oid = self::OID;
+        parent::__construct(self::OID);
     }
 
     /**

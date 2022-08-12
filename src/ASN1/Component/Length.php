@@ -56,8 +56,8 @@ final class Length implements Encodable
         // bits 7 to 1
         $length = (0x7f & $byte);
         // long form
-        if (0x80 & $byte) {
-            if (! $length) {
+        if ((0x80 & $byte) !== 0) {
+            if ($length === 0) {
                 $indefinite = true;
             } else {
                 if ($idx + $length > $datalen) {

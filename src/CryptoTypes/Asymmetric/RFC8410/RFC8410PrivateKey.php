@@ -92,8 +92,8 @@ abstract class RFC8410PrivateKey extends PrivateKey
 
     public function toPEM(): PEM
     {
-        $pub = $this->_publicKeyData ?
-            BitString::create($this->_publicKeyData) : null;
+        $pub = $this->_publicKeyData === null ? null :
+            BitString::create($this->_publicKeyData);
 
         return OneAsymmetricKey::create($this->algorithmIdentifier(), $this->toDER(), $this->_attributes, $pub)
             ->withVersion($this->_version)

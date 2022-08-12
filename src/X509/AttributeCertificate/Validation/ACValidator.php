@@ -134,10 +134,10 @@ final class ACValidator
         $t = $this->_config->evaluationTime();
         $validity = $this->_ac->acinfo()
             ->validityPeriod();
-        if ($validity->notBeforeTime()->diff($t)->invert) {
+        if ($validity->notBeforeTime()->diff($t)->invert === 1) {
             throw new ACValidationException('Validity period has not started.');
         }
-        if ($t->diff($validity->notAfterTime())->invert) {
+        if ($t->diff($validity->notAfterTime())->invert === 1) {
             throw new ACValidationException('Attribute certificate has expired.');
         }
     }

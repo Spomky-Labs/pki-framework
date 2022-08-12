@@ -138,7 +138,7 @@ final class AttributesTest extends TestCase
     public function withAdditional(Attributes $attribs)
     {
         $attribs = $attribs->withAdditional(
-            Attribute::fromAttributeValues(new GroupAttributeValue(IetfAttrValue::fromString('test')))
+            Attribute::fromAttributeValues(GroupAttributeValue::create(IetfAttrValue::fromString('test')))
         );
         static::assertInstanceOf(Attributes::class, $attribs);
     }
@@ -166,7 +166,7 @@ final class AttributesTest extends TestCase
     public function withUniqueAdded(Attributes $attribs)
     {
         $attribs = $attribs->withUnique(
-            Attribute::fromAttributeValues(new GroupAttributeValue(IetfAttrValue::fromString('test')))
+            Attribute::fromAttributeValues(GroupAttributeValue::create(IetfAttrValue::fromString('test')))
         );
         static::assertCount(4, $attribs);
     }
