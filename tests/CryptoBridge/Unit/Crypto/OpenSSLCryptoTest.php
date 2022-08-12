@@ -179,11 +179,11 @@ final class OpenSSLCryptoTest extends TestCase
         $key16 = str_repeat($key8, 2);
         $key24 = str_repeat($key8, 3);
         $key32 = str_repeat($key16, 2);
-        yield [$data8, new DESCBCAlgorithmIdentifier($iv8), $key8];
-        yield [$data8, new DESEDE3CBCAlgorithmIdentifier($iv8), $key24];
-        yield [$data8, new RC2CBCAlgorithmIdentifier(40, $iv8), $key5];
-        yield [$data8, new RC2CBCAlgorithmIdentifier(64, $iv8), $key8];
-        yield [$data8, new RC2CBCAlgorithmIdentifier(128, $iv8), $key16];
+        yield [$data8, DESCBCAlgorithmIdentifier::create($iv8), $key8];
+        yield [$data8, DESEDE3CBCAlgorithmIdentifier::create($iv8), $key24];
+        yield [$data8, RC2CBCAlgorithmIdentifier::create(40, $iv8), $key5];
+        yield [$data8, RC2CBCAlgorithmIdentifier::create(64, $iv8), $key8];
+        yield [$data8, RC2CBCAlgorithmIdentifier::create(128, $iv8), $key16];
         yield [$data16, AES128CBCAlgorithmIdentifier::create($iv16), $key16];
         yield [$data16, AES192CBCAlgorithmIdentifier::create($iv16), $key24];
         yield [$data16, AES256CBCAlgorithmIdentifier::create($iv16), $key32];
@@ -196,7 +196,7 @@ final class OpenSSLCryptoTest extends TestCase
     {
         $data = '12345678';
         $key = '12345678';
-        $algo = new RC2CBCAlgorithmIdentifier(1, '87654321');
+        $algo = RC2CBCAlgorithmIdentifier::create(1, '87654321');
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt($data, $key, $algo);
     }
@@ -208,7 +208,7 @@ final class OpenSSLCryptoTest extends TestCase
     {
         $data = '1234567';
         $key = '12345678';
-        $algo = new DESCBCAlgorithmIdentifier('87654321');
+        $algo = DESCBCAlgorithmIdentifier::create('87654321');
         $this->expectException(RuntimeException::class);
         self::$_crypto->encrypt($data, $key, $algo);
     }
@@ -220,7 +220,7 @@ final class OpenSSLCryptoTest extends TestCase
     {
         $data = '1234567';
         $key = '12345678';
-        $algo = new DESCBCAlgorithmIdentifier('87654321');
+        $algo = DESCBCAlgorithmIdentifier::create('87654321');
         $this->expectException(RuntimeException::class);
         self::$_crypto->decrypt($data, $key, $algo);
     }
@@ -249,7 +249,7 @@ final class OpenSSLCryptoTest extends TestCase
     public function unsupportedRC2KeySizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        self::$_crypto->encrypt(self::DATA, 'x', new RC2CBCAlgorithmIdentifier(8, '87654321'));
+        self::$_crypto->encrypt(self::DATA, 'x', RC2CBCAlgorithmIdentifier::create(8, '87654321'));
     }
 
     /**

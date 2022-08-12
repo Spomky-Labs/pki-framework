@@ -23,7 +23,7 @@ final class BigIntTest extends TestCase
      */
     public function maxInt()
     {
-        $int = new BigInt(BigInteger::of(PHP_INT_MAX));
+        $int = BigInt::create(BigInteger::of(PHP_INT_MAX));
         static::assertEquals(PHP_INT_MAX, $int->toInt());
     }
 
@@ -32,7 +32,7 @@ final class BigIntTest extends TestCase
      */
     public function minInt()
     {
-        $int = new BigInt(BigInteger::of(PHP_INT_MIN));
+        $int = BigInt::create(BigInteger::of(PHP_INT_MIN));
         static::assertEquals(PHP_INT_MIN, $int->toInt());
     }
 
@@ -41,7 +41,7 @@ final class BigIntTest extends TestCase
      */
     public function overflow()
     {
-        $int = new BigInt(BigInteger::of(PHP_INT_MAX)->plus(1));
+        $int = BigInt::create(BigInteger::of(PHP_INT_MAX)->plus(1));
         $this->expectException(IntegerOverflowException::class);
         $int->toInt();
     }
@@ -51,7 +51,7 @@ final class BigIntTest extends TestCase
      */
     public function underflow()
     {
-        $int = new BigInt(BigInteger::of(PHP_INT_MIN)->minus(1));
+        $int = BigInt::create(BigInteger::of(PHP_INT_MIN)->minus(1));
         $this->expectException(IntegerOverflowException::class);
         $int->toInt();
     }
@@ -61,7 +61,7 @@ final class BigIntTest extends TestCase
      */
     public function toStringMethod()
     {
-        $int = new BigInt(1);
+        $int = BigInt::create(1);
         static::assertSame('1', strval($int));
     }
 
@@ -70,7 +70,7 @@ final class BigIntTest extends TestCase
      */
     public function getBigIntegerObject()
     {
-        $int = new BigInt(1);
+        $int = BigInt::create(1);
         static::assertInstanceOf(BigInteger::class, $int->getValue());
     }
 
@@ -81,7 +81,7 @@ final class BigIntTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to convert');
-        new BigInt('fail');
+        BigInt::create('fail');
     }
 
     /**
@@ -127,7 +127,7 @@ final class BigIntTest extends TestCase
      */
     public function toUnsignedOctets()
     {
-        $int = new BigInt(255);
+        $int = BigInt::create(255);
         static::assertEquals(hex2bin('ff'), $int->unsignedOctets());
     }
 
@@ -136,7 +136,7 @@ final class BigIntTest extends TestCase
      */
     public function toSignedPositiveOctets()
     {
-        $int = new BigInt(127);
+        $int = BigInt::create(127);
         static::assertEquals(hex2bin('7f'), $int->signedOctets());
     }
 
@@ -145,7 +145,7 @@ final class BigIntTest extends TestCase
      */
     public function toSignedPositiveOctetsPrepend()
     {
-        $int = new BigInt(128);
+        $int = BigInt::create(128);
         static::assertEquals(hex2bin('0080'), $int->signedOctets());
     }
 
@@ -154,7 +154,7 @@ final class BigIntTest extends TestCase
      */
     public function toSignedNegativeOctets()
     {
-        $int = new BigInt(-128);
+        $int = BigInt::create(-128);
         static::assertEquals(hex2bin('80'), $int->signedOctets());
     }
 
@@ -163,7 +163,7 @@ final class BigIntTest extends TestCase
      */
     public function toSignedNegativeOctetsPrepend()
     {
-        $int = new BigInt(-32769);
+        $int = BigInt::create(-32769);
         static::assertEquals(hex2bin('ff7fff'), $int->signedOctets());
     }
 
@@ -172,7 +172,7 @@ final class BigIntTest extends TestCase
      */
     public function toSignedZeroOctets()
     {
-        $int = new BigInt(0);
+        $int = BigInt::create(0);
         static::assertEquals(hex2bin('00'), $int->signedOctets());
     }
 }

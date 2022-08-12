@@ -78,10 +78,10 @@ final class PolicyConstraintsExtension extends Extension
     {
         $elements = [];
         if (isset($this->_requireExplicitPolicy)) {
-            $elements[] = new ImplicitlyTaggedType(0, new Integer($this->_requireExplicitPolicy));
+            $elements[] = ImplicitlyTaggedType::create(0, Integer::create($this->_requireExplicitPolicy));
         }
         if (isset($this->_inhibitPolicyMapping)) {
-            $elements[] = new ImplicitlyTaggedType(1, new Integer($this->_inhibitPolicyMapping));
+            $elements[] = ImplicitlyTaggedType::create(1, Integer::create($this->_inhibitPolicyMapping));
         }
         return Sequence::create(...$elements);
     }

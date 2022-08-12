@@ -17,16 +17,11 @@ use UnexpectedValueException;
  * Implicit tagging changes the tag of the tagged type. This changes the DER encoding of the type, and hence the
  * abstract syntax must be known when decoding the data.
  */
-class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
+final class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
 {
-    /**
-     * @param int $tag Tag number
-     * @param Element $element Wrapped element
-     * @param int $class Type class
-     */
-    public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
+    public static function create(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC): self
     {
-        parent::__construct($element, $class, $tag);
+        return new self($element, $class, $tag);
     }
 
     public function isConstructed(): bool

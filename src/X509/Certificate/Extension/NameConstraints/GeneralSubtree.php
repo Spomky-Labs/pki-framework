@@ -77,10 +77,10 @@ final class GeneralSubtree
     {
         $elements = [$this->_base->toASN1()];
         if (isset($this->_min) && $this->_min !== 0) {
-            $elements[] = new ImplicitlyTaggedType(0, new Integer($this->_min));
+            $elements[] = ImplicitlyTaggedType::create(0, Integer::create($this->_min));
         }
         if (isset($this->_max)) {
-            $elements[] = new ImplicitlyTaggedType(1, new Integer($this->_max));
+            $elements[] = ImplicitlyTaggedType::create(1, Integer::create($this->_max));
         }
         return Sequence::create(...$elements);
     }

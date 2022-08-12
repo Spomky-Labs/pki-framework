@@ -176,6 +176,6 @@ final class PublicKeyInfo
      */
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_PUBLIC_KEY, $this->toDER());
+        return PEM::create(PEM::TYPE_PUBLIC_KEY, $this->toDER());
     }
 }

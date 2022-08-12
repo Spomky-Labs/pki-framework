@@ -86,7 +86,7 @@ final class ECSignature extends Signature
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(new Integer($this->_r), new Integer($this->_s));
+        return Sequence::create(Integer::create($this->_r), Integer::create($this->_s));
     }
 
     /**

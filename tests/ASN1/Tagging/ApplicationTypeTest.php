@@ -35,7 +35,7 @@ final class ApplicationTypeTest extends TestCase
      */
     public function createImplicit()
     {
-        $el = new ImplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_APPLICATION);
+        $el = ImplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_APPLICATION);
         static::assertEquals("\x41\x01\x2a", $el->toDER());
     }
 
@@ -79,7 +79,7 @@ final class ApplicationTypeTest extends TestCase
      */
     public function createExplicit()
     {
-        $el = new ExplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_APPLICATION);
+        $el = ExplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_APPLICATION);
         static::assertEquals("\x61\x03\x02\x01\x2a", $el->toDER());
     }
 

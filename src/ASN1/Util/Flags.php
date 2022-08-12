@@ -29,7 +29,7 @@ final class Flags
      * number of bits in $flags, zeroes are prepended
      * to flag field.
      */
-    public function __construct(
+    private function __construct(
         BigInteger|int|string $flags, /**
      * Number of flags.
      */
@@ -60,6 +60,11 @@ final class Flags
             $bits += 8;
         }
         $this->_flags = pack('C*', ...$octets);
+    }
+
+    public static function create(BigInteger|int|string $flags, int $_width): self
+    {
+        return new self($flags, $_width);
     }
 
     /**
@@ -126,7 +131,7 @@ final class Flags
      */
     public function intNumber(): int
     {
-        $num = new BigInt($this->number());
+        $num = BigInt::create($this->number());
         return $num->toInt();
     }
 

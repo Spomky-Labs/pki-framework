@@ -127,7 +127,7 @@ final class ECPrivateKeyTest extends TestCase
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         $seq = Sequence::fromDER($pem->data());
-        $seq = $seq->withReplaced(0, new Integer(0));
+        $seq = $seq->withReplaced(0, Integer::create(0));
         $this->expectException(UnexpectedValueException::class);
         ECPrivateKey::fromASN1($seq);
     }
@@ -137,7 +137,7 @@ final class ECPrivateKeyTest extends TestCase
      */
     public function invalidPEMType(): void
     {
-        $pem = new PEM('nope', '');
+        $pem = PEM::create('nope', '');
         $this->expectException(UnexpectedValueException::class);
         ECPrivateKey::fromPEM($pem);
     }

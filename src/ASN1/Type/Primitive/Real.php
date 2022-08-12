@@ -129,15 +129,15 @@ final class Real extends Element implements Stringable
      * @param BigInteger|int|string $exponent Integer exponent
      * @param int $base Base, 2 or 10
      */
-    public function __construct(BigInteger|int|string $mantissa, BigInteger|int|string $exponent, int $base = 10)
+    private function __construct(BigInteger|int|string $mantissa, BigInteger|int|string $exponent, int $base = 10)
     {
         if ($base !== 10 && $base !== 2) {
             throw new UnexpectedValueException('Base must be 2 or 10.');
         }
         parent::__construct(self::TYPE_REAL);
         $this->_strictDer = true;
-        $this->_mantissa = new BigInt($mantissa);
-        $this->_exponent = new BigInt($exponent);
+        $this->_mantissa = BigInt::create($mantissa);
+        $this->_exponent = BigInt::create($exponent);
         $this->_base = $base;
     }
 
@@ -321,7 +321,7 @@ final class Real extends Element implements Stringable
         }
         $byte |= ($scale & 0x03) << 2;
         // encode exponent
-        $exp_bytes = (new BigInt($e))->signedOctets();
+        $exp_bytes = (BigInt::create($e))->signedOctets();
         $exp_len = mb_strlen($exp_bytes, '8bit');
         if ($exp_len > 0xff) {
             throw new RangeException('Exponent encoding is too long.');
@@ -335,7 +335,7 @@ final class Real extends Element implements Stringable
         }
         $bytes .= $exp_bytes;
         // encode mantissa
-        $bytes .= (new BigInt($m))->unsignedOctets();
+        $bytes .= (BigInt::create($m))->unsignedOctets();
         return $bytes;
     }
 

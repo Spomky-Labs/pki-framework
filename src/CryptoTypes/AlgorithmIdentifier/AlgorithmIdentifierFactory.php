@@ -107,9 +107,14 @@ final class AlgorithmIdentifierFactory
     /**
      * @param AlgorithmIdentifierProvider ...$providers Additional providers
      */
-    public function __construct(AlgorithmIdentifierProvider ...$providers)
+    private function __construct(AlgorithmIdentifierProvider ...$providers)
     {
         $this->_additionalProviders = $providers;
+    }
+
+    public static function create(AlgorithmIdentifierProvider ...$providers): self
+    {
+        return new self(...$providers);
     }
 
     /**
@@ -143,8 +148,11 @@ final class AlgorithmIdentifierFactory
             ->asObjectIdentifier()
             ->oid();
         $params = $seq->has(1) ? $seq->at(1) : null;
-        /** @var SpecificAlgorithmIdentifier $cls */
         $cls = $this->getClass($oid);
-        return $cls::fromASN1Params($params);
+        if ($cls !== null) {
+            return $cls::fromASN1Params($params);
+        }
+
+        return GenericAlgorithmIdentifier::create($oid, $params);
     }
 }

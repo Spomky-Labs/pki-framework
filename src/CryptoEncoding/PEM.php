@@ -60,7 +60,7 @@ final class PEM implements Stringable
      * @param string $_type Content type
      * @param string $_data Payload
      */
-    public function __construct(
+    private function __construct(
         protected string $_type,
         protected string $_data
     ) {
@@ -69,6 +69,11 @@ final class PEM implements Stringable
     public function __toString(): string
     {
         return $this->string();
+    }
+
+    public static function create(string $_type, string $_data): self
+    {
+        return new self($_type, $_data);
     }
 
     /**

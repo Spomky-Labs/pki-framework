@@ -232,9 +232,9 @@ final class StructureTest extends TestCase
      */
     public function taggedAfterClone()
     {
-        $seq = Sequence::create(new ImplicitlyTaggedType(1, NullType::create()));
+        $seq = Sequence::create(ImplicitlyTaggedType::create(1, NullType::create()));
         $seq->hasTagged(1);
-        $seq = $seq->withAppended(new ImplicitlyTaggedType(2, NullType::create()));
+        $seq = $seq->withAppended(ImplicitlyTaggedType::create(2, NullType::create()));
         static::assertTrue($seq->hasTagged(2));
     }
 }

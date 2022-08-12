@@ -69,9 +69,9 @@ final class OtherName extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType(
+        return ImplicitlyTaggedType::create(
             $this->_tag,
-            Sequence::create(ObjectIdentifier::create($this->_type), new ExplicitlyTaggedType(0, $this->_element))
+            Sequence::create(ObjectIdentifier::create($this->_type), ExplicitlyTaggedType::create(0, $this->_element))
         );
     }
 }

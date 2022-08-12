@@ -17,14 +17,9 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
 {
-    /**
-     * @param int $tag Tag number
-     * @param Element $element Wrapped element
-     * @param int $class Type class
-     */
-    public function __construct(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
+    public static function create(int $tag, Element $element, int $class = Identifier::CLASS_CONTEXT_SPECIFIC): self
     {
-        parent::__construct($element, $class, $tag);
+        return new self($element, $class, $tag);
     }
 
     public function isConstructed(): bool

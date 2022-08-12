@@ -211,7 +211,7 @@ final class ConstructedStringTest extends TestCase
         yield [BMPString::create($str)];
         yield [CharacterString::create($str)];
         yield [GeneralString::create($str)];
-        yield [new GraphicString($str)];
+        yield [GraphicString::create($str)];
         yield [IA5String::create($str)];
         yield [NumericString::create('1234')];
         yield [ObjectDescriptor::create($str)];

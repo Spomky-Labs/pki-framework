@@ -104,7 +104,7 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $values = array_map(fn (AttributeValue $value) => $value->toASN1(), $this->_values);
+        $values = array_map(static fn (AttributeValue $value) => $value->toASN1(), $this->_values);
         $valueset = Set::create(...$values);
         return Sequence::create($this->_type->toASN1(), $valueset->sortedSetOf());
     }

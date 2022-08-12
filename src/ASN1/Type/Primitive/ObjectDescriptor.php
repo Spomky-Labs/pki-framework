@@ -14,7 +14,7 @@ final class ObjectDescriptor extends PrimitiveString
 {
     use UniversalClass;
 
-    public function __construct(string $descriptor)
+    private function __construct(string $descriptor)
     {
         parent::__construct(self::TYPE_OBJECT_DESCRIPTOR, $descriptor);
     }

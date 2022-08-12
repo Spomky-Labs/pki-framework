@@ -19,7 +19,7 @@ interface AlgorithmIdentifierType
     public function oid(): string;
 
     /**
-     * Get a human readable name of the algorithm.
+     * Get a human-readable name of the algorithm.
      */
     public function name(): string;
 

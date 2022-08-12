@@ -19,7 +19,7 @@ final class LengthEncodeTest extends TestCase
      */
     public function definite()
     {
-        $length = new Length(0, false);
+        $length = Length::create(0, false);
         static::assertEquals("\x0", $length->toDER());
     }
 
@@ -28,7 +28,7 @@ final class LengthEncodeTest extends TestCase
      */
     public function indefinite()
     {
-        $length = new Length(0, true);
+        $length = Length::create(0, true);
         static::assertEquals("\x80", $length->toDER());
     }
 
@@ -37,7 +37,7 @@ final class LengthEncodeTest extends TestCase
      */
     public function short()
     {
-        $length = new Length(0x7f);
+        $length = Length::create(0x7f);
         static::assertEquals("\x7f", $length->toDER());
     }
 
@@ -46,7 +46,7 @@ final class LengthEncodeTest extends TestCase
      */
     public function long()
     {
-        $length = new Length(0xff);
+        $length = Length::create(0xff);
         static::assertEquals("\x81\xff", $length->toDER());
     }
 
@@ -55,7 +55,7 @@ final class LengthEncodeTest extends TestCase
      */
     public function long2()
     {
-        $length = new Length(0xcafe);
+        $length = Length::create(0xcafe);
         static::assertEquals("\x82\xca\xfe", $length->toDER());
     }
 
@@ -65,7 +65,7 @@ final class LengthEncodeTest extends TestCase
     public function hugeLength()
     {
         $largenum = BigInteger::fromBase(str_repeat('ff', 126), 16);
-        $length = new Length($largenum);
+        $length = Length::create($largenum);
         $expected = "\xfe" . str_repeat("\xff", 126);
         static::assertEquals($expected, $length->toDER());
     }
@@ -76,7 +76,7 @@ final class LengthEncodeTest extends TestCase
     public function tooLong()
     {
         $largenum = BigInteger::fromBase(str_repeat('ff', 127), 16);
-        $length = new Length($largenum);
+        $length = Length::create($largenum);
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Too many length octets');
         $length->toDER();
@@ -88,7 +88,7 @@ final class LengthEncodeTest extends TestCase
     public function tooLong2()
     {
         $largenum = BigInteger::fromBase(str_repeat('ff', 128), 16);
-        $length = new Length($largenum);
+        $length = Length::create($largenum);
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Too many length octets');
         $length->toDER();

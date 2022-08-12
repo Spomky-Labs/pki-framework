@@ -31,9 +31,9 @@ final class EncodeTest extends TestCase
     public function setSort()
     {
         $set = Set::create(
-            new ImplicitlyTaggedType(1, NullType::create()),
-            new ImplicitlyTaggedType(2, NullType::create()),
-            new ImplicitlyTaggedType(0, NullType::create())
+            ImplicitlyTaggedType::create(1, NullType::create()),
+            ImplicitlyTaggedType::create(2, NullType::create()),
+            ImplicitlyTaggedType::create(0, NullType::create())
         );
         static::assertEquals("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet()->toDER());
     }
@@ -44,8 +44,8 @@ final class EncodeTest extends TestCase
     public function setSortClasses()
     {
         $set = Set::create(
-            new ExplicitlyTaggedType(5, NullType::create()),
-            new ImplicitlyTaggedType(6, NullType::create()),
+            ExplicitlyTaggedType::create(5, NullType::create()),
+            ImplicitlyTaggedType::create(6, NullType::create()),
             NullType::create()
         );
         static::assertEquals("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet()->toDER());

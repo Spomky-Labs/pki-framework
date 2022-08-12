@@ -46,7 +46,7 @@ final class PublicKeyInfoTest extends TestCase
      */
     public function algoObj(PublicKeyInfo $pki)
     {
-        $ref = new RSAEncryptionAlgorithmIdentifier();
+        $ref = RSAEncryptionAlgorithmIdentifier::create();
         $algo = $pki->algorithmIdentifier();
         static::assertEquals($ref, $algo);
         return $algo;
@@ -170,7 +170,7 @@ final class PublicKeyInfoTest extends TestCase
      */
     public function invalidPEMType()
     {
-        $pem = new PEM('nope', '');
+        $pem = PEM::create('nope', '');
         $this->expectException(UnexpectedValueException::class);
         PublicKeyInfo::fromPEM($pem);
     }

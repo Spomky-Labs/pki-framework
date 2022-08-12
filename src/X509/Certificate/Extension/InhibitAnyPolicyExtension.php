@@ -34,6 +34,6 @@ final class InhibitAnyPolicyExtension extends Extension
 
     protected function _valueASN1(): Element
     {
-        return new Integer($this->_skipCerts);
+        return Integer::create($this->_skipCerts);
     }
 }

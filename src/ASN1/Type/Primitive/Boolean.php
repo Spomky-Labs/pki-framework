@@ -22,7 +22,7 @@ final class Boolean extends Element
     use UniversalClass;
     use PrimitiveType;
 
-    public function __construct(
+    private function __construct(
         private readonly bool $_bool
     ) {
         parent::__construct(self::TYPE_BOOLEAN);

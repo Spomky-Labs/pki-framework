@@ -23,7 +23,7 @@ final class DERDataTest extends TestCase
      */
     public function create()
     {
-        $el = new DERData("\x5\x0");
+        $el = DERData::create("\x5\x0");
         static::assertEquals(Element::TYPE_NULL, $el->tag());
         return $el;
     }
@@ -63,7 +63,7 @@ final class DERDataTest extends TestCase
      */
     public function encodeIntoSequence()
     {
-        $el = new DERData("\x5\x0");
+        $el = DERData::create("\x5\x0");
         $seq = Sequence::create($el);
         static::assertEquals("\x30\x2\x5\x0", $seq->toDER());
     }
@@ -73,7 +73,7 @@ final class DERDataTest extends TestCase
      */
     public function encodeIntoSequenceWithOther()
     {
-        $el = new DERData("\x5\x0");
+        $el = DERData::create("\x5\x0");
         $seq = Sequence::create($el, Boolean::create(true));
         static::assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
@@ -83,7 +83,7 @@ final class DERDataTest extends TestCase
      */
     public function encodedContentEmpty()
     {
-        $el = new DERData("\x5\x0");
+        $el = DERData::create("\x5\x0");
         $cls = new ReflectionClass($el);
         $mtd = $cls->getMethod('encodedAsDER');
         $mtd->setAccessible(true);
@@ -96,7 +96,7 @@ final class DERDataTest extends TestCase
      */
     public function encodedContentValue()
     {
-        $el = new DERData((OctetString::create('test'))->toDER());
+        $el = DERData::create((OctetString::create('test'))->toDER());
         $cls = new ReflectionClass($el);
         $mtd = $cls->getMethod('encodedAsDER');
         $mtd->setAccessible(true);

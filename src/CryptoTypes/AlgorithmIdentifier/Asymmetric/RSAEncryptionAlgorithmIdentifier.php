@@ -26,9 +26,14 @@ From RFC 3447:
  */
 final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
 {
-    public function __construct()
+    private function __construct()
     {
         parent::__construct(self::OID_RSA_ENCRYPTION);
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function name(): string

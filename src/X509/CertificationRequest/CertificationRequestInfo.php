@@ -147,9 +147,9 @@ final class CertificationRequestInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer($this->_version), $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1()];
+        $elements = [Integer::create($this->_version), $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1()];
         if (isset($this->_attributes)) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(0, $this->_attributes->toASN1());
         }
         return Sequence::create(...$elements);
     }

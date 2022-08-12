@@ -25,7 +25,7 @@ final class DESCBCAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new DESCBCAlgorithmIdentifier(self::IV);
+        $ai = DESCBCAlgorithmIdentifier::create(self::IV);
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -81,7 +81,7 @@ final class DESCBCAITest extends TestCase
      */
     public function encodeNoIVFail()
     {
-        $ai = new DESCBCAlgorithmIdentifier();
+        $ai = DESCBCAlgorithmIdentifier::create();
         $this->expectException(LogicException::class);
         $ai->toASN1();
     }
@@ -112,7 +112,7 @@ final class DESCBCAITest extends TestCase
     public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        new DESCBCAlgorithmIdentifier('1234');
+        DESCBCAlgorithmIdentifier::create('1234');
     }
 
     /**

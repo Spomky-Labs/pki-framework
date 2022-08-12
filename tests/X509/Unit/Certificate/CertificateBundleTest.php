@@ -168,7 +168,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function withPEMBundle(CertificateBundle $bundle)
     {
-        $bundle = $bundle->withPEMBundle(new PEMBundle(self::$_pem3));
+        $bundle = $bundle->withPEMBundle(PEMBundle::create(self::$_pem3));
         static::assertCount(3, $bundle);
     }
 
@@ -188,7 +188,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function fromPEMBundle()
     {
-        $bundle = CertificateBundle::fromPEMBundle(new PEMBundle(self::$_pem1, self::$_pem2));
+        $bundle = CertificateBundle::fromPEMBundle(PEMBundle::create(self::$_pem1, self::$_pem2));
         static::assertInstanceOf(CertificateBundle::class, $bundle);
     }
 

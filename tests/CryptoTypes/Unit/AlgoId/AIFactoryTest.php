@@ -19,7 +19,7 @@ final class AIFactoryTest extends TestCase
      */
     public function provider()
     {
-        $factory = new AlgorithmIdentifierFactory(new AIFactoryTestProvider());
+        $factory = AlgorithmIdentifierFactory::create(new AIFactoryTestProvider());
         $seq = Sequence::create(ObjectIdentifier::create('1.3.6.1.3'));
         $ai = $factory->parse($seq);
         static::assertInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
@@ -30,7 +30,7 @@ final class AIFactoryTest extends TestCase
      */
     public function providerNoMatch()
     {
-        $factory = new AlgorithmIdentifierFactory(new AIFactoryTestProvider());
+        $factory = AlgorithmIdentifierFactory::create(new AIFactoryTestProvider());
         $seq = Sequence::create(ObjectIdentifier::create('1.3.6.1.3.1'));
         $ai = $factory->parse($seq);
         static::assertNotInstanceOf(AIFactoryTestCustomAlgo::class, $ai);

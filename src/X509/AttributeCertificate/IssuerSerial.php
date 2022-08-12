@@ -110,7 +110,7 @@ final class IssuerSerial
      */
     public function toASN1(): Sequence
     {
-        $elements = [$this->_issuer->toASN1(), new Integer($this->_serial)];
+        $elements = [$this->_issuer->toASN1(), Integer::create($this->_serial)];
         if (isset($this->_issuerUID)) {
             $elements[] = $this->_issuerUID->toASN1();
         }

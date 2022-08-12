@@ -14,7 +14,7 @@ final class CharacterString extends PrimitiveString
 {
     use UniversalClass;
 
-    public function __construct(string $string)
+    private function __construct(string $string)
     {
         parent::__construct(self::TYPE_CHARACTER_STRING, $string);
     }

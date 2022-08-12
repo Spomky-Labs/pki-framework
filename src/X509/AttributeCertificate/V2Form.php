@@ -107,12 +107,12 @@ final class V2Form extends AttCertIssuer
             $elements[] = $this->_issuerName->toASN1();
         }
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_baseCertificateID->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(0, $this->_baseCertificateID->toASN1());
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(1, $this->_objectDigestInfo->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_objectDigestInfo->toASN1());
         }
-        return new ImplicitlyTaggedType(0, Sequence::create(...$elements));
+        return ImplicitlyTaggedType::create(0, Sequence::create(...$elements));
     }
 
     public function identifiesPKC(Certificate $cert): bool

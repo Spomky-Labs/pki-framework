@@ -22,7 +22,7 @@ final class I2OSTest extends TestCase
      */
     public function oSType()
     {
-        $os = ECConversion::integerToOctetString(new Integer(42));
+        $os = ECConversion::integerToOctetString(Integer::create(42));
         static::assertInstanceOf(OctetString::class, $os);
     }
 
@@ -40,7 +40,7 @@ final class I2OSTest extends TestCase
      */
     public function length()
     {
-        $os = ECConversion::integerToOctetString(new Integer(256), 2);
+        $os = ECConversion::integerToOctetString(Integer::create(256), 2);
         static::assertEquals(2, mb_strlen($os->string(), '8bit'));
     }
 
@@ -49,7 +49,7 @@ final class I2OSTest extends TestCase
      */
     public function pad()
     {
-        $os = ECConversion::integerToOctetString(new Integer(256), 3);
+        $os = ECConversion::integerToOctetString(Integer::create(256), 3);
         static::assertEquals(3, mb_strlen($os->string(), '8bit'));
     }
 
@@ -59,7 +59,7 @@ final class I2OSTest extends TestCase
     public function tooLarge()
     {
         $this->expectException(RangeException::class);
-        ECConversion::integerToOctetString(new Integer(256), 1);
+        ECConversion::integerToOctetString(Integer::create(256), 1);
     }
 
     /**
@@ -77,12 +77,12 @@ final class I2OSTest extends TestCase
 
     public function provideConvert(): Iterator
     {
-        yield [new Integer(0), 1, OctetString::create("\0")];
-        yield [new Integer(0), 2, OctetString::create("\0\0")];
-        yield [new Integer(1), 1, OctetString::create("\1")];
-        yield [new Integer(1), 2, OctetString::create("\0\1")];
-        yield [new Integer(1), 8, OctetString::create("\0\0\0\0\0\0\0\1")];
-        yield [new Integer('4294967295'), 4, OctetString::create("\xff\xff\xff\xff")];
+        yield [Integer::create(0), 1, OctetString::create("\0")];
+        yield [Integer::create(0), 2, OctetString::create("\0\0")];
+        yield [Integer::create(1), 1, OctetString::create("\1")];
+        yield [Integer::create(1), 2, OctetString::create("\0\1")];
+        yield [Integer::create(1), 8, OctetString::create("\0\0\0\0\0\0\0\1")];
+        yield [Integer::create('4294967295'), 4, OctetString::create("\xff\xff\xff\xff")];
     }
 
     /**

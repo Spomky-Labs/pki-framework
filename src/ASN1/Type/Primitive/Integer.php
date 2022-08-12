@@ -34,14 +34,19 @@ class Integer extends Element
     /**
      * @param BigInteger|int|string $number Base 10 integer
      */
-    public function __construct(BigInteger|int|string $number, ?int $typeTag = null)
+    final protected function __construct(BigInteger|int|string $number, int $typeTag)
     {
-        parent::__construct($typeTag ?? self::TYPE_INTEGER);
+        parent::__construct($typeTag);
         if (! self::_validateNumber($number)) {
             $var = is_scalar($number) ? (string) $number : gettype($number);
             throw new InvalidArgumentException("'{$var}' is not a valid number.");
         }
-        $this->_number = new BigInt($number);
+        $this->_number = BigInt::create($number);
+    }
+
+    public static function create(BigInteger|int|string $number): static
+    {
+        return new static($number, self::TYPE_INTEGER);
     }
 
     /**
@@ -81,7 +86,7 @@ class Integer extends Element
         $num = BigInt::fromSignedOctets($bytes)->getValue();
         $offset = $idx;
         // late static binding since enumerated extends integer type
-        return new self($num);
+        return static::create($num);
     }
 
     /**

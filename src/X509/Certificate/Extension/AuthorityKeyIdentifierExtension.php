@@ -141,7 +141,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
     {
         $elements = [];
         if (isset($this->_keyIdentifier)) {
-            $elements[] = new ImplicitlyTaggedType(0, OctetString::create($this->_keyIdentifier));
+            $elements[] = ImplicitlyTaggedType::create(0, OctetString::create($this->_keyIdentifier));
         }
         // if either issuer or serial is set, both must be set
         if (isset($this->_authorityCertIssuer) ||
@@ -154,8 +154,8 @@ final class AuthorityKeyIdentifierExtension extends Extension
                     ' present or both absent.'
                 );
             }
-            $elements[] = new ImplicitlyTaggedType(1, $this->_authorityCertIssuer->toASN1());
-            $elements[] = new ImplicitlyTaggedType(2, new Integer($this->_authorityCertSerialNumber));
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_authorityCertIssuer->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(2, Integer::create($this->_authorityCertSerialNumber));
         }
         return Sequence::create(...$elements);
     }

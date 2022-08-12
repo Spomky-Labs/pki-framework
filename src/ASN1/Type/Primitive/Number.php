@@ -36,7 +36,7 @@ abstract class Number extends Element
             $var = is_scalar($number) ? strval($number) : gettype($number);
             throw new InvalidArgumentException(sprintf('"%s" is not a valid number.', $var));
         }
-        $this->number = new BigInt($number);
+        $this->number = BigInt::create($number);
     }
 
     abstract public static function create(BigInteger|int|string $number): self;

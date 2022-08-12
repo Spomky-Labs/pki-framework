@@ -105,7 +105,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function privateTypeFail()
     {
-        $el = new DERData("\xdf\x7f\x0");
+        $el = DERData::create("\xdf\x7f\x0");
         $wrap = UnspecifiedType::create($el);
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('NULL expected, got primitive PRIVATE TAG 127');
@@ -187,7 +187,7 @@ final class UnspecifiedTypeTest extends TestCase
      */
     public function expectTagged()
     {
-        $el = new ImplicitlyTaggedType(0, NullType::create());
+        $el = ImplicitlyTaggedType::create(0, NullType::create());
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(ElementBase::class, $wrap->expectTagged(0));
     }

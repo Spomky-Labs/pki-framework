@@ -31,35 +31,35 @@ abstract class DirectoryString extends AttributeValue
      *
      * @var int
      */
-    public const TELETEX = Element::TYPE_T61_STRING;
+    final public const TELETEX = Element::TYPE_T61_STRING;
 
     /**
      * Printable string syntax.
      *
      * @var int
      */
-    public const PRINTABLE = Element::TYPE_PRINTABLE_STRING;
+    final public const PRINTABLE = Element::TYPE_PRINTABLE_STRING;
 
     /**
      * BMP string syntax.
      *
      * @var int
      */
-    public const BMP = Element::TYPE_BMP_STRING;
+    final public const BMP = Element::TYPE_BMP_STRING;
 
     /**
      * Universal string syntax.
      *
      * @var int
      */
-    public const UNIVERSAL = Element::TYPE_UNIVERSAL_STRING;
+    final public const UNIVERSAL = Element::TYPE_UNIVERSAL_STRING;
 
     /**
      * UTF-8 string syntax.
      *
      * @var int
      */
-    public const UTF8 = Element::TYPE_UTF8_STRING;
+    final public const UTF8 = Element::TYPE_UTF8_STRING;
 
     /**
      * Mapping from syntax enumeration to ASN.1 class name.
@@ -104,7 +104,7 @@ abstract class DirectoryString extends AttributeValue
     public function toASN1(): Element
     {
         $cls = self::_tagToASN1Class($this->_stringTag);
-        return new $cls($this->_string);
+        return $cls::create($this->_string);
     }
 
     public function stringValue(): string

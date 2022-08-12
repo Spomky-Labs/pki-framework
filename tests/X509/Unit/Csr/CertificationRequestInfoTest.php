@@ -209,7 +209,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function invalidVersionFail()
     {
         $seq = Sequence::create(
-            new Integer(1),
+            Integer::create(1),
             self::$_subject->toASN1(),
             self::$_privateKeyInfo->publicKeyInfo()->toASN1()
         );

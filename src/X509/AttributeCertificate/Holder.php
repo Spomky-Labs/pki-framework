@@ -173,13 +173,13 @@ final class Holder
     {
         $elements = [];
         if (isset($this->_baseCertificateID)) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_baseCertificateID->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(0, $this->_baseCertificateID->toASN1());
         }
         if (isset($this->_entityName)) {
-            $elements[] = new ImplicitlyTaggedType(1, $this->_entityName->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_entityName->toASN1());
         }
         if (isset($this->_objectDigestInfo)) {
-            $elements[] = new ImplicitlyTaggedType(2, $this->_objectDigestInfo->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(2, $this->_objectDigestInfo->toASN1());
         }
         return Sequence::create(...$elements);
     }

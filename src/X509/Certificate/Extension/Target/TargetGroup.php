@@ -47,6 +47,6 @@ final class TargetGroup extends Target
 
     public function toASN1(): Element
     {
-        return new ExplicitlyTaggedType($this->_type, $this->_name->toASN1());
+        return ExplicitlyTaggedType::create($this->_type, $this->_name->toASN1());
     }
 }

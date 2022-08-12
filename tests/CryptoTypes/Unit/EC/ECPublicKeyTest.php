@@ -77,7 +77,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function invalidPEMType()
     {
-        $pem = new PEM('nope', '');
+        $pem = PEM::create('nope', '');
         $this->expectException(UnexpectedValueException::class);
         ECPublicKey::fromPEM($pem);
     }

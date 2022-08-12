@@ -140,7 +140,7 @@ final class CertificationRequestTest extends TestCase
     public function invalidAlgoFail(CertificationRequest $cr)
     {
         $seq = $cr->toASN1();
-        $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
+        $algo = GenericAlgorithmIdentifier::create('1.3.6.1.3');
         $seq = $seq->withReplaced(1, $algo->toASN1());
         $this->expectException(UnexpectedValueException::class);
         CertificationRequest::fromASN1($seq);
@@ -207,6 +207,6 @@ final class CertificationRequestTest extends TestCase
     public function fromInvalidPEMFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        CertificationRequest::fromPEM(new PEM('nope', ''));
+        CertificationRequest::fromPEM(PEM::create('nope', ''));
     }
 }

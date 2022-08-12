@@ -20,7 +20,7 @@ final class NullType extends Element
     use UniversalClass;
     use PrimitiveType;
 
-    public function __construct()
+    private function __construct()
     {
         parent::__construct(self::TYPE_NULL);
     }

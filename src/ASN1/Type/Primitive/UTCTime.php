@@ -39,7 +39,7 @@ final class UTCTime extends BaseTime
     'Z' . // TZ
     '$#';
 
-    public function __construct(DateTimeImmutable $dt)
+    private function __construct(DateTimeImmutable $dt)
     {
         parent::__construct(self::TYPE_UTC_TIME, $dt);
     }

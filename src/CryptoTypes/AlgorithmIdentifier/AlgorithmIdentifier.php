@@ -107,7 +107,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
      */
     public static function fromASN1(Sequence $seq): self
     {
-        return (new AlgorithmIdentifierFactory())->parse($seq);
+        return AlgorithmIdentifierFactory::create()->parse($seq);
     }
 
     public function oid(): string

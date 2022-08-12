@@ -23,7 +23,7 @@ final class GeneralNameTest extends TestCase
     public function invalidTagFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        GeneralName::fromASN1(new ImplicitlyTaggedType(9, NullType::create()));
+        GeneralName::fromASN1(ImplicitlyTaggedType::create(9, NullType::create()));
     }
 
     /**

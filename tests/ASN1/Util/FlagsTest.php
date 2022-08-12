@@ -22,7 +22,7 @@ final class FlagsTest extends TestCase
      */
     public function flags(BigInteger|int|string $num, int $width, string $result)
     {
-        $flags = new Flags($num, $width);
+        $flags = Flags::create($num, $width);
         static::assertEquals($result, $flags->string());
     }
 
@@ -55,7 +55,7 @@ final class FlagsTest extends TestCase
      */
     public function setBit(int $num, int $width, int $idx)
     {
-        $flags = new Flags($num, $width);
+        $flags = Flags::create($num, $width);
         static::assertTrue($flags->test($idx));
     }
 
@@ -81,7 +81,7 @@ final class FlagsTest extends TestCase
      */
     public function unsetBit(int $num, int $width, int $idx)
     {
-        $flags = new Flags($num, $width);
+        $flags = Flags::create($num, $width);
         static::assertFalse($flags->test($idx));
     }
 
@@ -99,7 +99,7 @@ final class FlagsTest extends TestCase
      */
     public function toBitString(int $num, int $width, $result, int $unused_bits)
     {
-        $flags = new Flags($num, $width);
+        $flags = Flags::create($num, $width);
         $bs = $flags->bitString();
         static::assertEquals($result, $bs->string());
         static::assertEquals($unused_bits, $bs->unusedBits());
@@ -153,7 +153,7 @@ final class FlagsTest extends TestCase
      */
     public function number(BigInteger|int|string $num, int $width, $result)
     {
-        $flags = new Flags($num, $width);
+        $flags = Flags::create($num, $width);
         static::assertEquals($result, $flags->number());
     }
 
@@ -205,7 +205,7 @@ final class FlagsTest extends TestCase
      */
     public function intNumber()
     {
-        $flags = new Flags(0x80, 16);
+        $flags = Flags::create(0x80, 16);
         static::assertSame($flags->intNumber(), 128);
     }
 
@@ -214,7 +214,7 @@ final class FlagsTest extends TestCase
      */
     public function testOOB()
     {
-        $flags = new Flags(0, 8);
+        $flags = Flags::create(0, 8);
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Index is out of bounds');
         $flags->test(8);

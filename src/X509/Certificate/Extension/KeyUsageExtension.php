@@ -132,7 +132,7 @@ final class KeyUsageExtension extends Extension
 
     protected function _valueASN1(): Element
     {
-        $flags = new Flags($this->_keyUsage, 9);
+        $flags = Flags::create($this->_keyUsage, 9);
         return $flags->bitString()
             ->withoutTrailingZeroes();
     }

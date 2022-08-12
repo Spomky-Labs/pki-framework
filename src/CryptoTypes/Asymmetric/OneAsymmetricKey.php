@@ -284,12 +284,16 @@ class OneAsymmetricKey
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer($this->version), $this->_algo->toASN1(), OctetString::create($this->_privateKeyData)];
+        $elements = [
+            Integer::create($this->version),
+            $this->_algo->toASN1(),
+            OctetString::create($this->_privateKeyData),
+        ];
         if ($this->_attributes !== null) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_attributes->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(0, $this->_attributes->toASN1());
         }
         if ($this->_publicKeyData !== null) {
-            $elements[] = new ImplicitlyTaggedType(1, $this->_publicKeyData);
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_publicKeyData);
         }
         return Sequence::create(...$elements);
     }
@@ -308,6 +312,6 @@ class OneAsymmetricKey
      */
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_PRIVATE_KEY, $this->toDER());
+        return PEM::create(PEM::TYPE_PRIVATE_KEY, $this->toDER());
     }
 }

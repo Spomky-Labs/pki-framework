@@ -126,7 +126,7 @@ final class CertificationRequest implements Stringable
      */
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_CERTIFICATE_REQUEST, $this->toDER());
+        return PEM::create(PEM::TYPE_CERTIFICATE_REQUEST, $this->toDER());
     }
 
     /**

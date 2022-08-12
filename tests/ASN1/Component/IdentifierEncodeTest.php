@@ -20,7 +20,7 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function universal()
     {
-        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL, Identifier::PRIMITIVE, Element::TYPE_BOOLEAN);
+        $identifier = Identifier::create(Identifier::CLASS_UNIVERSAL, Identifier::PRIMITIVE, Element::TYPE_BOOLEAN);
         static::assertEquals(chr(0b00000001), $identifier->toDER());
     }
 
@@ -29,7 +29,7 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function application()
     {
-        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::PRIMITIVE, Element::TYPE_BOOLEAN);
+        $identifier = Identifier::create(Identifier::CLASS_APPLICATION, Identifier::PRIMITIVE, Element::TYPE_BOOLEAN);
         static::assertEquals(chr(0b01000001), $identifier->toDER());
     }
 
@@ -38,7 +38,7 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function contextSpecific()
     {
-        $identifier = new Identifier(
+        $identifier = Identifier::create(
             Identifier::CLASS_CONTEXT_SPECIFIC,
             Identifier::PRIMITIVE,
             Element::TYPE_BOOLEAN
@@ -51,7 +51,7 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function private()
     {
-        $identifier = new Identifier(Identifier::CLASS_PRIVATE, Identifier::PRIMITIVE, Element::TYPE_BOOLEAN);
+        $identifier = Identifier::create(Identifier::CLASS_PRIVATE, Identifier::PRIMITIVE, Element::TYPE_BOOLEAN);
         static::assertEquals(chr(0b11000001), $identifier->toDER());
     }
 
@@ -60,7 +60,7 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function constructed()
     {
-        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL, Identifier::CONSTRUCTED, Element::TYPE_SEQUENCE);
+        $identifier = Identifier::create(Identifier::CLASS_UNIVERSAL, Identifier::CONSTRUCTED, Element::TYPE_SEQUENCE);
         static::assertEquals(chr(0b00110000), $identifier->toDER());
     }
 
@@ -69,7 +69,7 @@ final class IdentifierEncodeTest extends TestCase
      */
     public function longTag()
     {
-        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, (0x7f << 7) + 0x7f);
+        $identifier = Identifier::create(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, (0x7f << 7) + 0x7f);
         static::assertEquals(chr(0b01111111) . "\xff\x7f", $identifier->toDER());
     }
 
@@ -79,7 +79,7 @@ final class IdentifierEncodeTest extends TestCase
     public function hugeTag()
     {
         $num = BigInteger::fromBase(str_repeat('1111111', 100) . '1111111', 2);
-        $identifier = new Identifier(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, $num);
+        $identifier = Identifier::create(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, $num);
         static::assertEquals(chr(0b01111111) . str_repeat("\xff", 100) . "\x7f", $identifier->toDER());
     }
 }

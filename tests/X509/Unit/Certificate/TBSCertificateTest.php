@@ -448,7 +448,7 @@ final class TBSCertificateTest extends TestCase
     public function invalidAlgoFail(TBSCertificate $tc)
     {
         $seq = $tc->toASN1();
-        $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
+        $algo = GenericAlgorithmIdentifier::create('1.3.6.1.3');
         $seq = $seq->withReplaced(2, $algo->toASN1());
         $this->expectException(UnexpectedValueException::class);
         TBSCertificate::fromASN1($seq);

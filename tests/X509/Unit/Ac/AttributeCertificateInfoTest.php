@@ -348,7 +348,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function decodeInvalidVersion(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
-        $seq = $seq->withReplaced(0, new Integer(0));
+        $seq = $seq->withReplaced(0, Integer::create(0));
         $this->expectException(UnexpectedValueException::class);
         AttributeCertificateInfo::fromASN1($seq);
     }
@@ -405,7 +405,7 @@ final class AttributeCertificateInfoTest extends TestCase
     public function invalidAlgoFail(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
-        $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
+        $algo = GenericAlgorithmIdentifier::create('1.3.6.1.3');
         $seq = $seq->withReplaced(3, $algo->toASN1());
         $this->expectException(UnexpectedValueException::class);
         AttributeCertificateInfo::fromASN1($seq);

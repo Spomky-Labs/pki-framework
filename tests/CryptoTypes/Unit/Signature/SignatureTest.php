@@ -38,7 +38,7 @@ final class SignatureTest extends TestCase
      */
     public function fromECAlgo()
     {
-        $seq = Sequence::create(new Integer(1), new Integer(2));
+        $seq = Sequence::create(Integer::create(1), Integer::create(2));
         $sig = Signature::fromSignatureData($seq->toDER(), ECDSAWithSHA1AlgorithmIdentifier::create());
         static::assertInstanceOf(ECSignature::class, $sig);
     }
@@ -66,7 +66,7 @@ final class SignatureTest extends TestCase
      */
     public function fromUnknownAlgo()
     {
-        $sig = Signature::fromSignatureData('', new GenericAlgorithmIdentifier('1.3.6.1.3'));
+        $sig = Signature::fromSignatureData('', GenericAlgorithmIdentifier::create('1.3.6.1.3'));
         static::assertInstanceOf(GenericSignature::class, $sig);
     }
 }

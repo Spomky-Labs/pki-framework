@@ -77,7 +77,7 @@ final class ECConversion
     {
         $num = BigInteger::fromBytes($os->string(), false);
 
-        return new Integer($num);
+        return Integer::create($num);
     }
 
     /**
@@ -91,7 +91,7 @@ final class ECConversion
      */
     public static function numberToOctets(int|string $num, ?int $mlen = null): string
     {
-        return self::integerToOctetString(new Integer($num), $mlen)->string();
+        return self::integerToOctetString(Integer::create($num), $mlen)->string();
     }
 
     /**

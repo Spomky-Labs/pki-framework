@@ -25,7 +25,7 @@ final class DESEDE3CBCAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new DESEDE3CBCAlgorithmIdentifier(self::IV);
+        $ai = DESEDE3CBCAlgorithmIdentifier::create(self::IV);
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -70,7 +70,7 @@ final class DESEDE3CBCAITest extends TestCase
      */
     public function encodeNoIVFail()
     {
-        $ai = new DESEDE3CBCAlgorithmIdentifier();
+        $ai = DESEDE3CBCAlgorithmIdentifier::create();
         $this->expectException(LogicException::class);
         $ai->toASN1();
     }
@@ -101,7 +101,7 @@ final class DESEDE3CBCAITest extends TestCase
     public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        new DESEDE3CBCAlgorithmIdentifier('1234');
+        DESEDE3CBCAlgorithmIdentifier::create('1234');
     }
 
     /**

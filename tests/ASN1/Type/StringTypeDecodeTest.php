@@ -55,7 +55,7 @@ final class StringTypeDecodeTest extends TestCase
         $cls = new ReflectionClass(PrimitiveString::class);
         $mtd = $cls->getMethod('decodeFromDER');
         $mtd->setAccessible(true);
-        $identifier = new Identifier(
+        $identifier = Identifier::create(
             Identifier::CLASS_UNIVERSAL,
             Identifier::CONSTRUCTED,
             Element::TYPE_OCTET_STRING

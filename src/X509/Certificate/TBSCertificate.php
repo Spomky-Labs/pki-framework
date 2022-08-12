@@ -443,14 +443,14 @@ final class TBSCertificate
         $version = $this->version();
         // if version is not default
         if ($version !== self::VERSION_1) {
-            $elements[] = new ExplicitlyTaggedType(0, new Integer($version));
+            $elements[] = ExplicitlyTaggedType::create(0, Integer::create($version));
         }
         $serial = $this->serialNumber();
         $signature = $this->signature();
         // add required elements
         array_push(
             $elements,
-            new Integer($serial),
+            Integer::create($serial),
             $signature->toASN1(),
             $this->_issuer->toASN1(),
             $this->_validity->toASN1(),
@@ -458,13 +458,13 @@ final class TBSCertificate
             $this->_subjectPublicKeyInfo->toASN1()
         );
         if (isset($this->_issuerUniqueID)) {
-            $elements[] = new ImplicitlyTaggedType(1, $this->_issuerUniqueID->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_issuerUniqueID->toASN1());
         }
         if (isset($this->_subjectUniqueID)) {
-            $elements[] = new ImplicitlyTaggedType(2, $this->_subjectUniqueID->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(2, $this->_subjectUniqueID->toASN1());
         }
         if (count($this->_extensions) !== 0) {
-            $elements[] = new ExplicitlyTaggedType(3, $this->_extensions->toASN1());
+            $elements[] = ExplicitlyTaggedType::create(3, $this->_extensions->toASN1());
         }
         return Sequence::create(...$elements);
     }

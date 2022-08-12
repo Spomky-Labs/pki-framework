@@ -37,7 +37,7 @@ final class ObjectIdentifier extends Element
     /**
      * @param string $_oid OID in dotted format
      */
-    public function __construct(
+    private function __construct(
         private readonly string $_oid,
         ?int $typeTag = null
     ) {

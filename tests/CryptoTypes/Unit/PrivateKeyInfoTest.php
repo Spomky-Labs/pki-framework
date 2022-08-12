@@ -48,7 +48,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function algoObj(PrivateKeyInfo $pki)
     {
-        $ref = new RSAEncryptionAlgorithmIdentifier();
+        $ref = RSAEncryptionAlgorithmIdentifier::create();
         $algo = $pki->algorithmIdentifier();
         static::assertEquals($ref, $algo);
         return $algo;
@@ -214,7 +214,7 @@ final class PrivateKeyInfoTest extends TestCase
     public function invalidVersion(PrivateKeyInfo $pki)
     {
         $seq = $pki->toASN1();
-        $seq = $seq->withReplaced(0, new Integer(2));
+        $seq = $seq->withReplaced(0, Integer::create(2));
         $this->expectException(UnexpectedValueException::class);
         PrivateKeyInfo::fromASN1($seq);
     }
@@ -224,7 +224,7 @@ final class PrivateKeyInfoTest extends TestCase
      */
     public function invalidPEMType()
     {
-        $pem = new PEM('nope', '');
+        $pem = PEM::create('nope', '');
         $this->expectException(UnexpectedValueException::class);
         PrivateKeyInfo::fromPEM($pem);
     }

@@ -15,14 +15,9 @@ use SpomkyLabs\Pki\ASN1\Util\BigInt;
  */
 final class Enumerated extends Integer
 {
-    public function __construct(BigInteger|int|string $number)
+    public static function create(BigInteger|int|string $number): static
     {
-        parent::__construct($number, self::TYPE_ENUMERATED);
-    }
-
-    public static function create(BigInteger|int|string $number): self
-    {
-        return new self($number);
+        return new static($number, self::TYPE_ENUMERATED);
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
@@ -34,6 +29,6 @@ final class Enumerated extends Integer
         $num = BigInt::fromSignedOctets($bytes)->getValue();
         $offset = $idx;
         // late static binding since enumerated extends integer type
-        return new self($num);
+        return self::create($num);
     }
 }

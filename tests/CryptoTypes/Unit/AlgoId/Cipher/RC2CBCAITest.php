@@ -27,7 +27,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new RC2CBCAlgorithmIdentifier(64, self::IV);
+        $ai = RC2CBCAlgorithmIdentifier::create(64, self::IV);
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -95,7 +95,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function encodeNoIVFail()
     {
-        $ai = new RC2CBCAlgorithmIdentifier();
+        $ai = RC2CBCAlgorithmIdentifier::create();
         $this->expectException(LogicException::class);
         $ai->toASN1();
     }
@@ -125,7 +125,7 @@ final class RC2CBCAITest extends TestCase
      */
     public function encodeLargeKey()
     {
-        $ai = new RC2CBCAlgorithmIdentifier(512, self::IV);
+        $ai = RC2CBCAlgorithmIdentifier::create(512, self::IV);
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;
@@ -148,7 +148,7 @@ final class RC2CBCAITest extends TestCase
     public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        new RC2CBCAlgorithmIdentifier(64, '1234');
+        RC2CBCAlgorithmIdentifier::create(64, '1234');
     }
 
     /**

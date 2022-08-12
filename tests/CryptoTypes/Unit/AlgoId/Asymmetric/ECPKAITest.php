@@ -24,7 +24,7 @@ final class ECPKAITest extends TestCase
      */
     public function encode()
     {
-        $ai = new ECPublicKeyAlgorithmIdentifier(self::OID);
+        $ai = ECPublicKeyAlgorithmIdentifier::create(self::OID);
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

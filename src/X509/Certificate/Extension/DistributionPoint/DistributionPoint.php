@@ -169,13 +169,13 @@ final class DistributionPoint
     {
         $elements = [];
         if (isset($this->_distributionPoint)) {
-            $elements[] = new ExplicitlyTaggedType(0, $this->_distributionPoint->toASN1());
+            $elements[] = ExplicitlyTaggedType::create(0, $this->_distributionPoint->toASN1());
         }
         if (isset($this->_reasons)) {
-            $elements[] = new ImplicitlyTaggedType(1, $this->_reasons->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_reasons->toASN1());
         }
         if (isset($this->_issuer)) {
-            $elements[] = new ImplicitlyTaggedType(2, $this->_issuer->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(2, $this->_issuer->toASN1());
         }
         return Sequence::create(...$elements);
     }

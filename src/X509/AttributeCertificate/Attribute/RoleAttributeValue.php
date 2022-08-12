@@ -96,9 +96,9 @@ final class RoleAttributeValue extends AttributeValue
     {
         $elements = [];
         if (isset($this->_roleAuthority)) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_roleAuthority->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(0, $this->_roleAuthority->toASN1());
         }
-        $elements[] = new ExplicitlyTaggedType(1, $this->_roleName->toASN1());
+        $elements[] = ExplicitlyTaggedType::create(1, $this->_roleName->toASN1());
         return Sequence::create(...$elements);
     }
 

@@ -212,7 +212,7 @@ final class RSAPrivateKey extends PrivateKey
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new RSAEncryptionAlgorithmIdentifier();
+        return RSAEncryptionAlgorithmIdentifier::create();
     }
 
     /**
@@ -229,15 +229,15 @@ final class RSAPrivateKey extends PrivateKey
     public function toASN1(): Sequence
     {
         return Sequence::create(
-            new Integer(0),
-            new Integer($this->_modulus),
-            new Integer($this->_publicExponent),
-            new Integer($this->_privateExponent),
-            new Integer($this->_prime1),
-            new Integer($this->_prime2),
-            new Integer($this->_exponent1),
-            new Integer($this->_exponent2),
-            new Integer($this->_coefficient)
+            Integer::create(0),
+            Integer::create($this->_modulus),
+            Integer::create($this->_publicExponent),
+            Integer::create($this->_privateExponent),
+            Integer::create($this->_prime1),
+            Integer::create($this->_prime2),
+            Integer::create($this->_exponent1),
+            Integer::create($this->_exponent2),
+            Integer::create($this->_coefficient)
         );
     }
 
@@ -249,6 +249,6 @@ final class RSAPrivateKey extends PrivateKey
 
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_RSA_PRIVATE_KEY, $this->toDER());
+        return PEM::create(PEM::TYPE_RSA_PRIVATE_KEY, $this->toDER());
     }
 }

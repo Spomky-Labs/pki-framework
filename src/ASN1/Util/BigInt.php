@@ -34,7 +34,7 @@ final class BigInt implements Stringable
      */
     private ?int $_intNum = null;
 
-    public function __construct(BigInteger|int|string $num)
+    private function __construct(BigInteger|int|string $num)
     {
         // convert to BigInteger object
         if (! $num instanceof BigInteger) {
@@ -50,6 +50,11 @@ final class BigInt implements Stringable
     public function __toString(): string
     {
         return $this->base10();
+    }
+
+    public static function create(BigInteger|int|string $num): self
+    {
+        return new self($num);
     }
 
     /**

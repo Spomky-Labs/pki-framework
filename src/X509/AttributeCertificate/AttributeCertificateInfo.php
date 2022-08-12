@@ -318,10 +318,10 @@ final class AttributeCertificateInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer($this->_version), $this->_holder->toASN1(),
+        $elements = [Integer::create($this->_version), $this->_holder->toASN1(),
             $this->_issuer->toASN1(), $this->signature()
                 ->toASN1(),
-            new Integer($this->serialNumber()),
+            Integer::create($this->serialNumber()),
             $this->_attrCertValidityPeriod->toASN1(),
             $this->_attributes->toASN1(), ];
         if (isset($this->_issuerUniqueID)) {

@@ -131,7 +131,7 @@ final class AttributeCertificate implements Stringable
      */
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $this->toDER());
+        return PEM::create(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $this->toDER());
     }
 
     /**

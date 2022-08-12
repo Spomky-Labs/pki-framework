@@ -35,7 +35,7 @@ final class PrivateTypeTest extends TestCase
      */
     public function createImplicit()
     {
-        $el = new ImplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_PRIVATE);
+        $el = ImplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_PRIVATE);
         static::assertEquals("\xc1\x01\x2a", $el->toDER());
     }
 
@@ -79,7 +79,7 @@ final class PrivateTypeTest extends TestCase
      */
     public function createExplicit()
     {
-        $el = new ExplicitlyTaggedType(1, new Integer(42), Identifier::CLASS_PRIVATE);
+        $el = ExplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_PRIVATE);
         static::assertEquals("\xe1\x03\x02\x01\x2a", $el->toDER());
     }
 

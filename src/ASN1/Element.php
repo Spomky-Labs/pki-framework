@@ -220,7 +220,7 @@ abstract class Element implements ElementBase
     /**
      * @param bool $_indefiniteLength Whether type shall be encoded with indefinite length.
      */
-    public function __construct(
+    protected function __construct(
         protected int $typeTag,
         protected bool $_indefiniteLength = false
     ) {
@@ -265,18 +265,18 @@ abstract class Element implements ElementBase
 
     public function toDER(): string
     {
-        $identifier = new Identifier(
+        $identifier = Identifier::create(
             $this->typeClass(),
             $this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE,
             $this->typeTag
         );
         $content = $this->encodedAsDER();
         if ($this->_indefiniteLength) {
-            $length = new Length(0, true);
+            $length = Length::create(0, true);
             $eoc = EOC::create();
             return $identifier->toDER() . $length->toDER() . $content . $eoc->toDER();
         }
-        $length = new Length(mb_strlen($content, '8bit'));
+        $length = Length::create(mb_strlen($content, '8bit'));
         return $identifier->toDER() . $length->toDER() . $content;
     }
 

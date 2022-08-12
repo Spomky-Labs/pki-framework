@@ -95,13 +95,18 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      * @param int $_effectiveKeyBits Number of effective key bits
      * @param null|string $iv Initialization vector
      */
-    public function __construct(
-        protected int $_effectiveKeyBits = 64,
-        ?string $iv = null
+    private function __construct(
+        protected int $_effectiveKeyBits,
+        ?string $iv
     ) {
         parent::__construct(self::OID_RC2_CBC);
         $this->_checkIVSize($iv);
         $this->_initializationVector = $iv;
+    }
+
+    public static function create(int $_effectiveKeyBits = 64, ?string $iv = null): self
+    {
+        return new self($_effectiveKeyBits, $iv);
     }
 
     public function name(): string
@@ -176,7 +181,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         if (! isset($this->_initializationVector)) {
             throw new LogicException('IV not set.');
         }
-        return Sequence::create(new Integer($version), OctetString::create($this->_initializationVector));
+        return Sequence::create(Integer::create($version), OctetString::create($this->_initializationVector));
     }
 
     /**

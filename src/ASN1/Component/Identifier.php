@@ -65,11 +65,16 @@ final class Identifier implements Encodable
      * @param int $pc Primitive / Constructed
      * @param BigInteger|int $tag Type tag number
      */
-    public function __construct(int $class, int $pc, BigInteger|int $tag)
+    private function __construct(int $class, int $pc, BigInteger|int $tag)
     {
         $this->_class = 0b11 & $class;
         $this->_pc = 0b1 & $pc;
-        $this->_tag = new BigInt($tag);
+        $this->_tag = BigInt::create($tag);
+    }
+
+    public static function create(int $class, int $pc, BigInteger|int $tag): self
+    {
+        return new self($class, $pc, $tag);
     }
 
     /**
@@ -103,7 +108,7 @@ final class Identifier implements Encodable
         if (isset($offset)) {
             $offset = $idx;
         }
-        return new self($class, $pc, $tag);
+        return self::create($class, $pc, $tag);
     }
 
     public function toDER(): string
@@ -228,7 +233,7 @@ final class Identifier implements Encodable
     public function withTag(int $tag): self
     {
         $obj = clone $this;
-        $obj->_tag = new BigInt($tag);
+        $obj->_tag = BigInt::create($tag);
         return $obj;
     }
 

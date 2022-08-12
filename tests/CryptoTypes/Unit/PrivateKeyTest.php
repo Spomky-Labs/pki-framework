@@ -88,7 +88,7 @@ final class PrivateKeyTest extends TestCase
      */
     public function invalidPEMType()
     {
-        $pem = new PEM('nope', '');
+        $pem = PEM::create('nope', '');
         $this->expectException(UnexpectedValueException::class);
         PrivateKey::fromPEM($pem);
     }

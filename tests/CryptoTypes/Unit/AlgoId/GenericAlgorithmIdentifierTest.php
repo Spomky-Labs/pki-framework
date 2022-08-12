@@ -18,9 +18,9 @@ final class GenericAlgorithmIdentifierTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): GenericAlgorithmIdentifier
     {
-        $ai = new GenericAlgorithmIdentifier('1.3.6.1.3', UnspecifiedType::create(new Integer(42)));
+        $ai = GenericAlgorithmIdentifier::create('1.3.6.1.3', UnspecifiedType::create(Integer::create(42)));
         static::assertInstanceOf(GenericAlgorithmIdentifier::class, $ai);
         return $ai;
     }
@@ -30,7 +30,7 @@ final class GenericAlgorithmIdentifierTest extends TestCase
      *
      * @test
      */
-    public function name(GenericAlgorithmIdentifier $ai)
+    public function name(GenericAlgorithmIdentifier $ai): void
     {
         static::assertEquals('1.3.6.1.3', $ai->name());
     }
@@ -40,7 +40,7 @@ final class GenericAlgorithmIdentifierTest extends TestCase
      *
      * @test
      */
-    public function parameters(GenericAlgorithmIdentifier $ai)
+    public function parameters(GenericAlgorithmIdentifier $ai): void
     {
         static::assertInstanceOf(UnspecifiedType::class, $ai->parameters());
     }
@@ -50,7 +50,7 @@ final class GenericAlgorithmIdentifierTest extends TestCase
      *
      * @test
      */
-    public function encode(GenericAlgorithmIdentifier $ai)
+    public function encode(GenericAlgorithmIdentifier $ai): void
     {
         static::assertInstanceOf(Sequence::class, $ai->toASN1());
     }

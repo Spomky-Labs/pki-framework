@@ -24,7 +24,7 @@ final class IntegerTest extends TestCase
      */
     public function create(): Integer
     {
-        $el = new Integer(1);
+        $el = Integer::create(1);
         static::assertInstanceOf(Integer::class, $el);
         return $el;
     }
@@ -114,7 +114,7 @@ final class IntegerTest extends TestCase
     public function intNumberOverflow()
     {
         $num = BigInteger::of(PHP_INT_MAX)->plus(1);
-        $int = new Integer($num);
+        $int = Integer::create($num);
         $this->expectException(IntegerOverflowException::class);
         $int->intNumber();
     }

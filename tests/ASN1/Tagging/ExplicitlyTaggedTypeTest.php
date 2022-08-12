@@ -22,7 +22,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
      */
     public function create()
     {
-        $el = new ExplicitlyTaggedType(1, NullType::create());
+        $el = ExplicitlyTaggedType::create(1, NullType::create());
         static::assertInstanceOf(ExplicitTagging::class, $el);
         return $el;
     }

@@ -16,7 +16,7 @@ final class UTF8String extends PrimitiveString
 {
     use UniversalClass;
 
-    public function __construct(string $string)
+    private function __construct(string $string)
     {
         parent::__construct(self::TYPE_UTF8_STRING, $string);
     }

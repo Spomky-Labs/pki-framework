@@ -142,7 +142,7 @@ CODE_SAMPLE;
      */
     public function firstEmptyFail()
     {
-        $bundle = new PEMBundle();
+        $bundle = PEMBundle::create();
         $this->expectException(LogicException::class);
         $bundle->first();
     }
@@ -152,7 +152,7 @@ CODE_SAMPLE;
      */
     public function lastEmptyFail()
     {
-        $bundle = new PEMBundle();
+        $bundle = PEMBundle::create();
         $this->expectException(LogicException::class);
         $bundle->last();
     }
@@ -164,7 +164,7 @@ CODE_SAMPLE;
      */
     public function withPEMs(PEMBundle $bundle)
     {
-        $bundle = $bundle->withPEMs(new PEM('TEST', 'data'));
+        $bundle = $bundle->withPEMs(PEM::create('TEST', 'data'));
         static::assertCount(151, $bundle);
     }
 }

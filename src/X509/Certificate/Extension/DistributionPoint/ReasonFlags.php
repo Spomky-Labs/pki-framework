@@ -116,7 +116,7 @@ final class ReasonFlags
      */
     public function toASN1(): BitString
     {
-        $flags = new Flags($this->_flags, 9);
+        $flags = Flags::create($this->_flags, 9);
         return $flags->bitString()
             ->withoutTrailingZeroes();
     }

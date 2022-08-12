@@ -58,7 +58,7 @@ abstract class DistributionPointName
      */
     public function toASN1(): ImplicitlyTaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag, $this->_valueASN1());
+        return ImplicitlyTaggedType::create($this->_tag, $this->_valueASN1());
     }
 
     /**

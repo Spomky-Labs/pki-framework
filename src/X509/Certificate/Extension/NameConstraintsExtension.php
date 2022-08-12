@@ -92,10 +92,10 @@ final class NameConstraintsExtension extends Extension
     {
         $elements = [];
         if (isset($this->_permitted)) {
-            $elements[] = new ImplicitlyTaggedType(0, $this->_permitted->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(0, $this->_permitted->toASN1());
         }
         if (isset($this->_excluded)) {
-            $elements[] = new ImplicitlyTaggedType(1, $this->_excluded->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(1, $this->_excluded->toASN1());
         }
         return Sequence::create(...$elements);
     }

@@ -16,11 +16,16 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
      * @param string $oid Algorithm OID
      * @param null|UnspecifiedType $_params Parameters
      */
-    public function __construct(
+    private function __construct(
         string $oid,
         protected ?UnspecifiedType $_params = null
     ) {
         parent::__construct($oid);
+    }
+
+    public static function create(string $oid, ?UnspecifiedType $_params = null): self
+    {
+        return new self($oid, $_params);
     }
 
     public function name(): string

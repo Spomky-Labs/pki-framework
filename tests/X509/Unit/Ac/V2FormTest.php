@@ -123,12 +123,12 @@ final class V2FormTest extends TestCase
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
             BitString::create('')
         );
-        $el = new ImplicitlyTaggedType(
+        $el = ImplicitlyTaggedType::create(
             0,
             Sequence::create(
                 self::$_issuerName->toASN1(),
-                new ImplicitlyTaggedType(0, $iss_ser->toASN1()),
-                new ImplicitlyTaggedType(1, $odi->toASN1())
+                ImplicitlyTaggedType::create(0, $iss_ser->toASN1()),
+                ImplicitlyTaggedType::create(1, $odi->toASN1())
             )
         );
         $issuer = V2Form::fromASN1($el->asUnspecified());

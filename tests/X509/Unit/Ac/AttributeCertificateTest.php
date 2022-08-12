@@ -157,7 +157,7 @@ final class AttributeCertificateTest extends TestCase
     public function invalidAlgoFail(AttributeCertificate $ac)
     {
         $seq = $ac->toASN1();
-        $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
+        $algo = GenericAlgorithmIdentifier::create('1.3.6.1.3');
         $seq = $seq->withReplaced(1, $algo->toASN1());
         $this->expectException(UnexpectedValueException::class);
         AttributeCertificate::fromASN1($seq);
@@ -201,7 +201,7 @@ final class AttributeCertificateTest extends TestCase
     public function invalidPEMTypeFail()
     {
         $this->expectException(UnexpectedValueException::class);
-        AttributeCertificate::fromPEM(new PEM('fail', ''));
+        AttributeCertificate::fromPEM(PEM::create('fail', ''));
     }
 
     /**

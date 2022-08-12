@@ -55,6 +55,6 @@ final class DirectoryName extends GeneralName
     {
         // Name type is itself a CHOICE, so explicit tagging must be
         // employed to avoid ambiguities
-        return new ExplicitlyTaggedType($this->_tag, $this->_dn->toASN1());
+        return ExplicitlyTaggedType::create($this->_tag, $this->_dn->toASN1());
     }
 }

@@ -132,7 +132,7 @@ final class ECPrivateKey extends PrivateKey
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new ECPublicKeyAlgorithmIdentifier($this->namedCurve());
+        return ECPublicKeyAlgorithmIdentifier::create($this->namedCurve());
     }
 
     /**
@@ -159,12 +159,12 @@ final class ECPrivateKey extends PrivateKey
      */
     public function toASN1(): Sequence
     {
-        $elements = [new Integer(1), OctetString::create($this->_privateKey)];
+        $elements = [Integer::create(1), OctetString::create($this->_privateKey)];
         if (isset($this->_namedCurve)) {
-            $elements[] = new ExplicitlyTaggedType(0, ObjectIdentifier::create($this->_namedCurve));
+            $elements[] = ExplicitlyTaggedType::create(0, ObjectIdentifier::create($this->_namedCurve));
         }
         if (isset($this->_publicKey)) {
-            $elements[] = new ExplicitlyTaggedType(1, BitString::create($this->_publicKey));
+            $elements[] = ExplicitlyTaggedType::create(1, BitString::create($this->_publicKey));
         }
         return Sequence::create(...$elements);
     }
@@ -177,6 +177,6 @@ final class ECPrivateKey extends PrivateKey
 
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_EC_PRIVATE_KEY, $this->toDER());
+        return PEM::create(PEM::TYPE_EC_PRIVATE_KEY, $this->toDER());
     }
 }

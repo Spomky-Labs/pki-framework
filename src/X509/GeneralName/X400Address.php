@@ -47,6 +47,6 @@ final class X400Address extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag, $this->_element);
+        return ImplicitlyTaggedType::create($this->_tag, $this->_element);
     }
 }

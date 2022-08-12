@@ -107,7 +107,7 @@ final class RSAPublicKey extends PublicKey
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new RSAEncryptionAlgorithmIdentifier();
+        return RSAEncryptionAlgorithmIdentifier::create();
     }
 
     /**
@@ -115,7 +115,7 @@ final class RSAPublicKey extends PublicKey
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(new Integer($this->_modulus), new Integer($this->_publicExponent));
+        return Sequence::create(Integer::create($this->_modulus), Integer::create($this->_publicExponent));
     }
 
     public function toDER(): string
@@ -129,6 +129,6 @@ final class RSAPublicKey extends PublicKey
      */
     public function toPEM(): PEM
     {
-        return new PEM(PEM::TYPE_RSA_PUBLIC_KEY, $this->toDER());
+        return PEM::create(PEM::TYPE_RSA_PUBLIC_KEY, $this->toDER());
     }
 }

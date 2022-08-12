@@ -59,7 +59,7 @@ final class DifferentAlgoParamsTest extends TestCase
         $cls = new ReflectionClass($pubkey);
         $prop = $cls->getProperty('_algo');
         $prop->setAccessible(true);
-        $prop->setValue($pubkey, new RSAEncryptionAlgorithmIdentifier());
+        $prop->setValue($pubkey, RSAEncryptionAlgorithmIdentifier::create());
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
             $pubkey,

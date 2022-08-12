@@ -20,7 +20,7 @@ final class DistributionPointNameTest extends TestCase
      */
     public function decodeUnsupportedTypeFail()
     {
-        $el = new ImplicitlyTaggedType(2, NullType::create());
+        $el = ImplicitlyTaggedType::create(2, NullType::create());
         $this->expectException(UnexpectedValueException::class);
         DistributionPointName::fromTaggedType($el);
     }

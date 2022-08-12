@@ -23,7 +23,7 @@ final class X400AddressTest extends TestCase
      */
     public function create(): X400Address
     {
-        $name = X400Address::fromASN1(new ImplicitlyTaggedType(GeneralName::TAG_X400_ADDRESS, Sequence::create()));
+        $name = X400Address::fromASN1(ImplicitlyTaggedType::create(GeneralName::TAG_X400_ADDRESS, Sequence::create()));
         static::assertInstanceOf(X400Address::class, $name);
         return $name;
     }

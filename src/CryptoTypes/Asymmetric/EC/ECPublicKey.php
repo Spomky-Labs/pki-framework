@@ -72,8 +72,8 @@ final class ECPublicKey extends PublicKey
         if (isset($bits)) {
             $mlen = (int) ceil($bits / 8);
         }
-        $x_os = ECConversion::integerToOctetString(new Integer($x), $mlen)->string();
-        $y_os = ECConversion::integerToOctetString(new Integer($y), $mlen)->string();
+        $x_os = ECConversion::integerToOctetString(Integer::create($x), $mlen)->string();
+        $y_os = ECConversion::integerToOctetString(Integer::create($y), $mlen)->string();
         $ec_point = "\x4{$x_os}{$y_os}";
         return new self($ec_point, $named_curve);
     }
@@ -159,7 +159,7 @@ final class ECPublicKey extends PublicKey
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return new ECPublicKeyAlgorithmIdentifier($this->namedCurve());
+        return ECPublicKeyAlgorithmIdentifier::create($this->namedCurve());
     }
 
     /**

@@ -35,13 +35,18 @@ final class DERData extends Element
     /**
      * @param string $data DER encoded data
      */
-    public function __construct(string $data)
+    private function __construct(string $data)
     {
         $this->_identifier = Identifier::fromDER($data, $this->_contentOffset);
         // check that length encoding is valid
         Length::expectFromDER($data, $this->_contentOffset);
         $this->_der = $data;
         parent::__construct($this->_identifier->intTag());
+    }
+
+    public static function create(string $data): self
+    {
+        return new self($data);
     }
 
     public function typeClass(): int

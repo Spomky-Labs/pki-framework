@@ -65,7 +65,7 @@ abstract class SignatureAlgorithmIdentifierFactory
                 sprintf('Crypto algorithm %s not supported.', $crypto_algo->name())
             ),
         };
-        $cls = (new AlgorithmIdentifierFactory())->getClass($oid);
+        $cls = (AlgorithmIdentifierFactory::create())->getClass($oid);
 
         return $cls::create();
     }

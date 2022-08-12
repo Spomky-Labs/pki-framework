@@ -12,7 +12,7 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
  */
 abstract class TaggedTypeWrap extends TaggedType
 {
-    public function __construct(
+    protected function __construct(
         protected Element $_element,
         protected int $_class,
         int $typeTag

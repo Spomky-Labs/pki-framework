@@ -86,6 +86,6 @@ abstract class IPAddress extends GeneralName
 
     protected function _choiceASN1(): TaggedType
     {
-        return new ImplicitlyTaggedType($this->_tag, OctetString::create($this->_octets()));
+        return ImplicitlyTaggedType::create($this->_tag, OctetString::create($this->_octets()));
     }
 }

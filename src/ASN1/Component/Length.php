@@ -28,11 +28,16 @@ final class Length implements Encodable
      * @param BigInteger|int $length Length
      * @param bool $_indefinite Whether length is indefinite
      */
-    public function __construct(
+    private function __construct(
         BigInteger|int $length,
         private readonly bool $_indefinite = false
     ) {
-        $this->_length = new BigInt($length);
+        $this->_length = BigInt::create($length);
+    }
+
+    public static function create(BigInteger|int $length, bool $_indefinite = false): self
+    {
+        return new self($length, $_indefinite);
     }
 
     /**
@@ -69,7 +74,7 @@ final class Length implements Encodable
         if (isset($offset)) {
             $offset = $idx;
         }
-        return new self($length, $indefinite);
+        return self::create($length, $indefinite);
     }
 
     /**

@@ -74,7 +74,7 @@ final class PublicKeyTest extends TestCase
      */
     public function invalidPEM()
     {
-        $pem = new PEM('nope', '');
+        $pem = PEM::create('nope', '');
         $this->expectException(UnexpectedValueException::class);
         PublicKey::fromPEM($pem);
     }

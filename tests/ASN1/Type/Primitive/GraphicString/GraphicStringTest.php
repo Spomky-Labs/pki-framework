@@ -21,7 +21,7 @@ final class GraphicStringTest extends TestCase
      */
     public function create()
     {
-        $el = new GraphicString('');
+        $el = GraphicString::create('');
         static::assertInstanceOf(GraphicString::class, $el);
         return $el;
     }

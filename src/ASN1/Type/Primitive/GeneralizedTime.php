@@ -49,7 +49,7 @@ final class GeneralizedTime extends BaseTime
      */
     private ?string $_formatted = null;
 
-    public function __construct(DateTimeImmutable $dt)
+    private function __construct(DateTimeImmutable $dt)
     {
         parent::__construct(self::TYPE_GENERALIZED_TIME, $dt);
     }

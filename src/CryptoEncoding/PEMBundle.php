@@ -28,7 +28,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     private array $_pems;
 
-    public function __construct(PEM ...$pems)
+    private function __construct(PEM ...$pems)
     {
         $this->_pems = $pems;
     }
@@ -36,6 +36,11 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
     public function __toString(): string
     {
         return $this->string();
+    }
+
+    public static function create(PEM ...$pems): self
+    {
+        return new self(...$pems);
     }
 
     /**
@@ -53,7 +58,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
                 if ($data === false) {
                     throw new UnexpectedValueException('Failed to decode PEM data.');
                 }
-                return new PEM($match[1], $data);
+                return PEM::create($match[1], $data);
             },
             $matches
         );
