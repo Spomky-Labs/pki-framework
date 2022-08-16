@@ -36,10 +36,8 @@ final class AttributeCertificateInfo
 
     /**
      * Signature algorithm identifier.
-     *
-     * @var SignatureAlgorithmIdentifier
      */
-    private $_signature;
+    private ?SignatureAlgorithmIdentifier $_signature = null;
 
     /**
      * AC serial number as a base 10 integer.
@@ -243,7 +241,7 @@ final class AttributeCertificateInfo
      */
     public function hasSignature(): bool
     {
-        return isset($this->_signature);
+        return $this->_signature !== null;
     }
 
     /**

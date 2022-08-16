@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X501\ASN1;
 
 use function array_key_exists;
-use LogicException;
 use OutOfBoundsException;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -499,11 +498,7 @@ final class AttributeType
         if (! array_key_exists($oid, self::MAP_ATTR_TO_STR_TYPE)) {
             return UTF8String::create($str);
         }
-        return match (self::MAP_ATTR_TO_STR_TYPE[$oid]) {
-            Element::TYPE_PRINTABLE_STRING => PrintableString::create($str),
-            default => throw new LogicException(),
-        };
-        // @codeCoverageIgnoreEnd
+        return PrintableString::create($str);
     }
 
     /**

@@ -111,7 +111,7 @@ abstract class AttributeCollection implements Countable, IteratorAggregate
      *
      * @param Attribute $attr Attribute to add
      */
-    public function withUnique(Attribute $attr): self
+    public function withUnique(Attribute $attr): static
     {
         $attribs = array_values(array_filter($this->_attributes, fn (Attribute $a) => $a->oid() !== $attr->oid()));
         $attribs[] = $attr;

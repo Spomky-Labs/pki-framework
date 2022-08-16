@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Type;
 
-use function assert;
 use InvalidArgumentException;
-use function is_string;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -37,9 +35,6 @@ abstract class PrimitiveString extends BaseString
         }
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = $length === 0 ? '' : mb_substr($data, $idx, $length, '8bit');
-        // substr should never return false, since length is
-        // checked by Length::expectFromDER.
-        assert(is_string($str), new DecodeException('substr'));
         $offset = $idx + $length;
         try {
             return static::create($str);

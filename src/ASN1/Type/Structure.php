@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection ALL */
+
 declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\ASN1\Type;
@@ -33,7 +35,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     /**
      * Lookup table for the tagged elements.
      *
-     * @var null|TaggedType[]
+     * @var null|Element[]
      */
     private ?array $taggedMap = null;
 

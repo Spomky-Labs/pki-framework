@@ -35,10 +35,8 @@ final class CertificationRequestInfo
 
     /**
      * Attributes.
-     *
-     * @var null|Attributes
      */
-    private $_attributes;
+    private ?Attributes $_attributes = null;
 
     /**
      * @param Name $_subject Subject

@@ -1,12 +1,13 @@
 parameters:
-    level: 2
+    level: 4
     paths:
         - src
-#    ignoreErrors:
-#        -
-#            message: '#.*\:\:__construct\(\) does not call parent constructor from .*.\.#'
-#            path: src/X509/Certificate/Extension/FreshestCRLExtension.php
-#            count: 1
+    ignoreErrors:
+        - '#(Property|Method) SpomkyLabs\\.* should return .* but returns .*\.#'
+        -
+            message: '#Instanceof between string and SpomkyLabs\\Pki\\ASN1\\Element will always evaluate to false\.#'
+            path: src/X501/ASN1/Name.php
+            count: 1
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false
     checkUninitializedProperties: true
