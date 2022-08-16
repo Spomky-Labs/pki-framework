@@ -1,12 +1,17 @@
 parameters:
-    level: 4
+    level: 5
     paths:
         - src
     ignoreErrors:
         - '#(Property|Method) SpomkyLabs\\.* should return .* but returns .*\.#'
+        - '#(Parameter) .* of (class|method|static method) SpomkyLabs\\.* (constructor )?expects .*, .* given\.#'
         -
             message: '#Instanceof between string and SpomkyLabs\\Pki\\ASN1\\Element will always evaluate to false\.#'
             path: src/X501/ASN1/Name.php
+            count: 1
+        -
+            message: '#Call to an undefined method SpomkyLabs\\Pki\\ASN1\\Element\:\:string\(\)\.#'
+            path: src/ASN1/Type/Constructed/ConstructedString.php
             count: 1
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false

@@ -30,13 +30,13 @@ interface ElementBase extends Encodable
     /**
      * Get the tag of the element.
      *
-     * Interpretation of the tag depends on the context. For example it may represent a universal type tag or a tag of
+     * Interpretation of the tag depends on the context. For example, it may represent a universal type tag or a tag of
      * an implicitly or explicitly tagged type.
      */
     public function tag(): int;
 
     /**
-     * Check whether the element is a type of a given tag.
+     * Check whether the element is a type of given tag.
      *
      * @param int $tag Type tag
      */

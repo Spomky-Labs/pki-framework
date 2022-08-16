@@ -75,7 +75,7 @@ final class OpenSSLCrypto extends Crypto
         SignatureAlgorithmIdentifier $algo
     ): Signature {
         $this->_checkSignatureAlgoAndKey($algo, $privkey_info->algorithmIdentifier());
-        $result = openssl_sign($data, $signature, $privkey_info->toPEM(), $this->_algoToDigest($algo));
+        $result = openssl_sign($data, $signature, (string) $privkey_info->toPEM(), $this->_algoToDigest($algo));
         if ($result === false) {
             throw new RuntimeException('openssl_sign() failed: ' . $this->_getLastError());
         }
@@ -93,7 +93,7 @@ final class OpenSSLCrypto extends Crypto
             $data,
             $signature->bitString()
                 ->string(),
-            $pubkey_info->toPEM(),
+            (string) $pubkey_info->toPEM(),
             $this->_algoToDigest($algo)
         );
         if ($result === -1) {
