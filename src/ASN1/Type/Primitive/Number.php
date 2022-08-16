@@ -72,12 +72,12 @@ abstract class Number extends Element
     /**
      * Test that number is valid for this context.
      */
-    private static function validateNumber($num): bool
+    private static function validateNumber(mixed $num): bool
     {
         if (is_int($num)) {
             return true;
         }
-        if (is_string($num) && preg_match('/-?\d+/', $num)) {
+        if (is_string($num) && preg_match('/-?\d+/', $num) === 1) {
             return true;
         }
         if ($num instanceof BigInteger) {

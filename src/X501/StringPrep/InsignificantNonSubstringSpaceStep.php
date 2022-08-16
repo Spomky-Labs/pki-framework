@@ -19,7 +19,7 @@ final class InsignificantNonSubstringSpaceStep implements PrepareStep
     public function apply(string $string): string
     {
         // if value contains no non-space characters
-        if (preg_match('/^\p{Zs}*$/u', $string)) {
+        if (preg_match('/^\p{Zs}*$/u', $string) === 1) {
             return '  ';
         }
         // trim leading and trailing spaces

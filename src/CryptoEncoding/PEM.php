@@ -81,7 +81,7 @@ final class PEM implements Stringable
      */
     public static function fromString(string $str): self
     {
-        if (! preg_match(self::PEM_REGEX, $str, $match)) {
+        if (preg_match(self::PEM_REGEX, $str, $match) !== 1) {
             throw new UnexpectedValueException('Not a PEM formatted string.');
         }
         $payload = preg_replace('/\s+/', '', $match[2]);

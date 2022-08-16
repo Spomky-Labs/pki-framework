@@ -95,7 +95,7 @@ final class GeneralizedTime extends BaseTime
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
-        if (! preg_match(self::REGEX, $str, $match)) {
+        if (preg_match(self::REGEX, $str, $match) !== 1) {
             throw new DecodeException('Invalid GeneralizedTime format.');
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
@@ -112,7 +112,7 @@ final class GeneralizedTime extends BaseTime
         $time = $year . $month . $day . $hour . $minute . $second . '.' . $frac .
             self::TZ_UTC;
         $dt = DateTimeImmutable::createFromFormat('!YmdHis.uT', $time, new DateTimeZone('UTC'));
-        if (! $dt) {
+        if ($dt === false) {
             throw new DecodeException(
                 'Failed to decode GeneralizedTime: ' .
                 self::_getLastDateTimeImmutableErrorsStr()

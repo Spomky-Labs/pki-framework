@@ -385,7 +385,7 @@ final class Real extends Element implements Stringable
     /**
      * Decode binary encoding.
      */
-    protected static function _decodeBinaryEncoding(string $data)
+    protected static function _decodeBinaryEncoding(string $data): self
     {
         $byte = ord($data[0]);
         // bit 7 is set if mantissa is negative
@@ -563,16 +563,16 @@ final class Real extends Element implements Stringable
     private static function _parseString(string $str): array
     {
         // PHP exponent format
-        if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match)) {
+        if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match) === 1) {
             [$m, $e] = self::_parsePHPExponentMatch($match);
         } // NR3 format
-        elseif (preg_match(self::NR3_REGEX, $str, $match)) {
+        elseif (preg_match(self::NR3_REGEX, $str, $match) === 1) {
             [$m, $e] = self::_parseNR3Match($match);
         } // NR2 format
-        elseif (preg_match(self::NR2_REGEX, $str, $match)) {
+        elseif (preg_match(self::NR2_REGEX, $str, $match) === 1) {
             [$m, $e] = self::_parseNR2Match($match);
         } // NR1 format
-        elseif (preg_match(self::NR1_REGEX, $str, $match)) {
+        elseif (preg_match(self::NR1_REGEX, $str, $match) === 1) {
             [$m, $e] = self::_parseNR1Match($match);
         } // invalid number
         else {

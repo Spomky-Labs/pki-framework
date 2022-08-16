@@ -92,12 +92,12 @@ class Integer extends Element
     /**
      * Test that number is valid for this context.
      */
-    private static function _validateNumber($num): bool
+    private static function _validateNumber(mixed $num): bool
     {
         if (is_int($num)) {
             return true;
         }
-        if (is_string($num) && preg_match('/-?\d+/', $num)) {
+        if (is_string($num) && preg_match('/-?\d+/', $num) === 1) {
             return true;
         }
         if ($num instanceof BigInteger) {

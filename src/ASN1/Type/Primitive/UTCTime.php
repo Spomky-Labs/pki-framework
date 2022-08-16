@@ -66,13 +66,13 @@ final class UTCTime extends BaseTime
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
-        if (! preg_match(self::REGEX, $str, $match)) {
+        if (preg_match(self::REGEX, $str, $match) !== 1) {
             throw new DecodeException('Invalid UTCTime format.');
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
         $time = $year . $month . $day . $hour . $minute . $second . self::TZ_UTC;
         $dt = DateTimeImmutable::createFromFormat('!ymdHisT', $time, new DateTimeZone('UTC'));
-        if (! $dt) {
+        if ($dt === false) {
             throw new DecodeException('Failed to decode UTCTime: ' . self::_getLastDateTimeImmutableErrorsStr());
         }
         $offset = $idx;

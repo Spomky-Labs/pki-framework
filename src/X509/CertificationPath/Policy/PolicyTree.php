@@ -66,6 +66,8 @@ final class PolicyTree
 
     /**
      * Calculate policy intersection as specified in Wrap-Up Procedure 6.1.5.g.
+     *
+     * @param array<string> $policies
      */
     public function calculateIntersection(ValidatorState $state, array $policies): ValidatorState
     {
@@ -228,7 +230,7 @@ final class PolicyTree
      * Apply anyPolicy mapping to the policy tree as specified in 6.1.4 (b)(1).
      *
      * @param string $idp OID of the issuer domain policy
-     * @param array $sdps Array of subject domain policy OIDs
+     * @param array<string> $sdps Array of subject domain policy OIDs
      */
     private function _applyAnyPolicyMapping(
         Certificate $cert,

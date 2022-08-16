@@ -476,7 +476,7 @@ final class AttributeType
     public static function attrNameToOID(string $name): string
     {
         // if already in OID form
-        if (preg_match('/^[0-9]+(?:\.[0-9]+)*$/', $name)) {
+        if (preg_match('/^[0-9]+(?:\.[0-9]+)*$/', $name) === 1) {
             return $name;
         }
         $map = self::_oidReverseMap();
@@ -503,6 +503,8 @@ final class AttributeType
 
     /**
      * Get name to OID lookup map.
+     *
+     * @return array<string>
      */
     private static function _oidReverseMap(): array
     {

@@ -337,7 +337,7 @@ final class DNParser
     private function _regexMatch(string $pattern, int &$offset): ?string
     {
         $idx = $offset;
-        if (! preg_match($pattern, mb_substr($this->_dn, $idx, null, '8bit'), $match)) {
+        if (preg_match($pattern, mb_substr($this->_dn, $idx, null, '8bit'), $match) !== 1) {
             return null;
         }
         $idx += mb_strlen((string) $match[0], '8bit');

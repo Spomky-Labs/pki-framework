@@ -48,7 +48,8 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public static function fromString(string $str): self
     {
-        if (! preg_match_all(PEM::PEM_REGEX, $str, $matches, PREG_SET_ORDER)) {
+        $hasMatches = preg_match_all(PEM::PEM_REGEX, $str, $matches, PREG_SET_ORDER);
+        if ($hasMatches === false || $hasMatches === 0) {
             throw new UnexpectedValueException('No PEM blocks.');
         }
         $pems = array_map(

@@ -255,7 +255,7 @@ final class PathValidator
     /**
      * Check certificate revocation.
      */
-    private function _checkRevocation()
+    private function _checkRevocation(): void
     {
         // @todo Implement CRL handling
     }
@@ -270,13 +270,13 @@ final class PathValidator
         }
     }
 
-    private function _checkPermittedSubtrees(ValidatorState $state)
+    private function _checkPermittedSubtrees(ValidatorState $state): void
     {
         // @todo Implement
         $state->permittedSubtrees();
     }
 
-    private function _checkExcludedSubtrees(ValidatorState $state)
+    private function _checkExcludedSubtrees(ValidatorState $state): void
     {
         // @todo Implement
         $state->excludedSubtrees();
