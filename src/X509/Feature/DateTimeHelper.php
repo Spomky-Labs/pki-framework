@@ -33,12 +33,7 @@ trait DateTimeHelper
             $dt = new DateTimeImmutable($time, self::_createTimeZone($tz));
             return self::_roundDownFractionalSeconds($dt);
         } catch (Exception $e) {
-            throw new RuntimeException(
-                'Failed to create DateTime: ' .
-                self::_getLastDateTimeImmutableErrorsStr(),
-                0,
-                $e
-            );
+            throw new RuntimeException('Failed to create DateTime:', 0, $e);
         }
     }
 
@@ -60,14 +55,5 @@ trait DateTimeHelper
         } catch (Exception $e) {
             throw new UnexpectedValueException('Invalid timezone.', 0, $e);
         }
-    }
-
-    /**
-     * Get last error caused by DateTimeImmutable.
-     */
-    private static function _getLastDateTimeImmutableErrorsStr(): string
-    {
-        $errors = DateTimeImmutable::getLastErrors()['errors'];
-        return implode(', ', $errors);
     }
 }

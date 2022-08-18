@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\X509\Certificate\Extension\UnknownExtension;
@@ -73,19 +72,5 @@ final class UnknownExtensionTest extends TestCase
         $mtd->setAccessible(true);
         $result = $mtd->invoke($ext);
         static::assertInstanceOf(Element::class, $result);
-    }
-
-    /**
-     * @depends createFromString
-     *
-     * @test
-     */
-    public function extensionValueASN1Fail(UnknownExtension $ext)
-    {
-        $cls = new ReflectionClass(UnknownExtension::class);
-        $mtd = $cls->getMethod('_valueASN1');
-        $mtd->setAccessible(true);
-        $this->expectException(RuntimeException::class);
-        $mtd->invoke($ext);
     }
 }

@@ -113,10 +113,7 @@ final class GeneralizedTime extends BaseTime
             self::TZ_UTC;
         $dt = DateTimeImmutable::createFromFormat('!YmdHis.uT', $time, new DateTimeZone('UTC'));
         if ($dt === false) {
-            throw new DecodeException(
-                'Failed to decode GeneralizedTime: ' .
-                self::_getLastDateTimeImmutableErrorsStr()
-            );
+            throw new DecodeException('Failed to decode GeneralizedTime');
         }
         $offset = $idx;
         return new self($dt);

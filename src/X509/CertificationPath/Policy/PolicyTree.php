@@ -33,6 +33,7 @@ final class PolicyTree
         $tree = clone $this;
         // (d.1) for each policy P not equal to anyPolicy
         foreach ($policies as $policy) {
+            /** @var PolicyInformation $policy */
             if ($policy->isAnyPolicy()) {
                 $tree->_processAnyPolicy($policy, $cert, $state);
             } else {

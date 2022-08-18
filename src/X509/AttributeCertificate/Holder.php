@@ -209,8 +209,8 @@ final class Holder
      */
     private function _checkEntityName(Certificate $cert): bool
     {
-        $name = $this->_entityName->firstDN();
-        if ($cert->tbsCertificate()->subject()->equals($name)) {
+        $name = $this->_entityName?->firstDN();
+        if ($name !== null && $cert->tbsCertificate()->subject()->equals($name)) {
             return true;
         }
         $exts = $cert->tbsCertificate()
@@ -230,7 +230,10 @@ final class Holder
     private function _checkEntityAlternativeNames(GeneralNames $san): bool
     {
         // only directory names supported for now
-        $name = $this->_entityName->firstDN();
+        $name = $this->_entityName?->firstDN();
+        if ($name === null) {
+            return false;
+        }
         foreach ($san->allOf(GeneralName::TAG_DIRECTORY_NAME) as $dn) {
             if ($dn instanceof DirectoryName && $dn->dn()->equals($name)) {
                 return true;

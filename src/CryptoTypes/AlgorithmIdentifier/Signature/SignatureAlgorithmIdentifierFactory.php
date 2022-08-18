@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 use function array_key_exists;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
@@ -66,6 +67,9 @@ abstract class SignatureAlgorithmIdentifierFactory
             ),
         };
         $cls = (AlgorithmIdentifierFactory::create())->getClass($oid);
+        if ($cls === null || ! is_subclass_of($cls, AlgorithmIdentifierType::class)) {
+            throw new UnexpectedValueException(sprintf('Unsupported algorithm with OID %s not supported.', $oid));
+        }
 
         return $cls::create();
     }

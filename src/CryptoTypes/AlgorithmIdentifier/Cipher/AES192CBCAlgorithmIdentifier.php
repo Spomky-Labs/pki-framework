@@ -40,7 +40,7 @@ final class AES192CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
         }
         $iv = $params->asOctetString()
             ->string();
-        return new static($iv);
+        return self::create($iv);
     }
 
     public function name(): string

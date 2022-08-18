@@ -287,7 +287,7 @@ class UnsupportedCipher extends CipherAlgorithmIdentifier
 {
     public function __construct()
     {
-        parent::__construct('1.3.6.1.3');
+        parent::__construct('1.3.6.1.3', '');
     }
 
     public function name(): string
@@ -320,7 +320,7 @@ class InvalidRC2 extends CipherAlgorithmIdentifier
 {
     public function __construct()
     {
-        parent::__construct(AlgorithmIdentifier::OID_RC2_CBC);
+        parent::__construct(AlgorithmIdentifier::OID_RC2_CBC, '');
     }
 
     public function name(): string

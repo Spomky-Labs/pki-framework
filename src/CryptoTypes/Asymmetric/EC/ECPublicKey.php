@@ -125,7 +125,11 @@ final class ECPublicKey extends PublicKey
             throw new RuntimeException('EC point compression not supported.');
         }
         $str = mb_substr($this->_ecPoint, 1, null, '8bit');
-        [$x, $y] = mb_str_split($str, (int) floor(mb_strlen($str, '8bit') / 2), '8bit');
+        $length = (int) floor(mb_strlen($str, '8bit') / 2);
+        if ($length < 1) {
+            throw new RuntimeException('Invalid EC point.');
+        }
+        [$x, $y] = mb_str_split($str, $length, '8bit');
         return [$x, $y];
     }
 

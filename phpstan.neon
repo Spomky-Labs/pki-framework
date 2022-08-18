@@ -1,5 +1,5 @@
 parameters:
-    level: 7
+    level: 9
     paths:
         - src
     ignoreErrors:
@@ -12,6 +12,18 @@ parameters:
         -
             message: '#Call to an undefined method SpomkyLabs\\Pki\\ASN1\\Element\:\:string\(\)\.#'
             path: src/ASN1/Type/Constructed/ConstructedString.php
+            count: 1
+        -
+            message: '#Parameter \#3 \$subject of function (preg_replace|preg_replace_callback) expects array\|string, string\|null given\.#'
+            path: src/X501/DN/DNParser.php
+            count: 3
+        -
+            message: '#Parameter \#3 \$subject of function (preg_replace|preg_replace_callback) expects array\|string, string\|null given\.#'
+            path: src/X501/StringPrep/InsignificantNonSubstringSpaceStep.php
+            count: 2
+        -
+            message: '#Offset int does not exist on array\<SpomkyLabs\\Pki\\ASN1\\Element>\|null\.#'
+            path: src/ASN1/Type/Structure.php
             count: 1
     checkMissingIterableValueType: true
     checkGenericClassInNonGenericObjectType: false

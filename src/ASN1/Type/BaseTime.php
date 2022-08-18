@@ -56,13 +56,4 @@ abstract class BaseTime extends Element implements TimeType, Stringable
     {
         return $this->encodedAsDER();
     }
-
-    /**
-     * Get last error caused by `DateTimeImmutable`.
-     */
-    protected static function _getLastDateTimeImmutableErrorsStr(): string
-    {
-        $errors = DateTimeImmutable::getLastErrors()['errors'];
-        return implode(', ', $errors);
-    }
 }

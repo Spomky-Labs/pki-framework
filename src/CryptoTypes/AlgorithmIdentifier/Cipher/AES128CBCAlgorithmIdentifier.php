@@ -18,14 +18,14 @@ use UnexpectedValueException;
 final class AES128CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
 {
     /**
-     * @param null|string $iv Initialization vector
+     * @param string $iv Initialization vector
      */
-    protected function __construct(?string $iv = null)
+    protected function __construct(string $iv)
     {
         parent::__construct(self::OID_AES_128_CBC, $iv);
     }
 
-    public static function create(?string $iv = null): self
+    public static function create(string $iv): self
     {
         return new self($iv);
     }
@@ -40,7 +40,7 @@ final class AES128CBCAlgorithmIdentifier extends AESCBCAlgorithmIdentifier
         }
         $iv = $params->asOctetString()
             ->string();
-        return new static($iv);
+        return self::create($iv);
     }
 
     public function name(): string

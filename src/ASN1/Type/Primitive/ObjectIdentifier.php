@@ -7,8 +7,10 @@ namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 use Brick\Math\BigInteger;
 use function chr;
 use function count;
+use function is_int;
 use function mb_strlen;
 use function ord;
+use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -155,7 +157,11 @@ final class ObjectIdentifier extends Element
                 foreach (array_splice($bytes, 0, -1) as $byte) {
                     $data .= chr(0x80 | $byte);
                 }
-                $data .= chr(reset($bytes));
+                $byte = reset($bytes);
+                if (! is_int($byte)) {
+                    throw new RuntimeException('Encoding failed');
+                }
+                $data .= chr($byte);
             }
         }
         return $data;

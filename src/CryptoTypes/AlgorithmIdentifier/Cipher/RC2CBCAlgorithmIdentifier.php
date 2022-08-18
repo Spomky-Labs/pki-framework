@@ -99,9 +99,8 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         protected int $_effectiveKeyBits,
         ?string $iv
     ) {
-        parent::__construct(self::OID_RC2_CBC);
+        parent::__construct(self::OID_RC2_CBC, $iv);
         $this->_checkIVSize($iv);
-        $this->_initializationVector = $iv;
     }
 
     public static function create(int $_effectiveKeyBits = 64, ?string $iv = null): self

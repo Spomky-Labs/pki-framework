@@ -117,10 +117,7 @@ final class V2Form extends AttCertIssuer
 
     public function identifiesPKC(Certificate $cert): bool
     {
-        $name = $this->_issuerName->firstDN();
-        if (! $cert->tbsCertificate()->subject()->equals($name)) {
-            return false;
-        }
-        return true;
+        $name = $this->_issuerName?->firstDN();
+        return ! ($name === null || ! $cert->tbsCertificate()->subject()->equals($name));
     }
 }

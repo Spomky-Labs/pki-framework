@@ -13,12 +13,12 @@ use UnexpectedValueException;
  */
 abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
-    /**
-     * Initialization vector.
-     *
-     * @var null|string
-     */
-    protected $_initializationVector;
+    protected function __construct(
+        string $oid,
+        protected string $_initializationVector
+    ) {
+        parent::__construct($oid);
+    }
 
     /**
      * Get key size in bytes.
@@ -33,7 +33,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
     /**
      * Get initialization vector.
      */
-    public function initializationVector(): ?string
+    public function initializationVector(): string
     {
         return $this->_initializationVector;
     }
@@ -41,9 +41,9 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
     /**
      * Get copy of the object with given initialization vector.
      *
-     * @param null|string $iv Initialization vector or null to remove
+     * @param string $iv Initialization vector or null to remove
      */
-    public function withInitializationVector(?string $iv): self
+    public function withInitializationVector(string $iv): self
     {
         $this->_checkIVSize($iv);
         $obj = clone $this;
@@ -54,9 +54,9 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
     /**
      * Check that initialization vector size is valid for the cipher.
      */
-    protected function _checkIVSize(?string $iv): void
+    protected function _checkIVSize(string $iv): void
     {
-        if ($iv !== null && mb_strlen($iv, '8bit') !== $this->ivSize()) {
+        if (mb_strlen($iv, '8bit') !== $this->ivSize()) {
             throw new UnexpectedValueException('Invalid IV size.');
         }
     }

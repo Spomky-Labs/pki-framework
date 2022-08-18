@@ -24,13 +24,12 @@ The AlgorithmIdentifier parameters field MUST be present, and the parameter fiel
 abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
     /**
-     * @param null|string $iv Initialization vector
+     * @param string $iv Initialization vector
      */
-    protected function __construct(string $iod, ?string $iv = null)
+    protected function __construct(string $iod, string $iv)
     {
-        parent::__construct($iod);
         $this->_checkIVSize($iv);
-        $this->_initializationVector = $iv;
+        parent::__construct($iod, $iv);
     }
 
     public function blockSize(): int

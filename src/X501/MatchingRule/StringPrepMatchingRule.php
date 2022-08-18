@@ -19,7 +19,7 @@ abstract class StringPrepMatchingRule extends MatchingRule
     ) {
     }
 
-    public function compare($assertion, $value): ?bool
+    public function compare(mixed $assertion, mixed $value): ?bool
     {
         $assertion = $this->_prep->prepare($assertion);
         $value = $this->_prep->prepare($value);

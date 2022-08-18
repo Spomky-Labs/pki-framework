@@ -11,7 +11,7 @@ namespace SpomkyLabs\Pki\X501\MatchingRule;
  */
 final class BinaryMatch extends MatchingRule
 {
-    public function compare($assertion, $value): ?bool
+    public function compare(mixed $assertion, mixed $value): ?bool
     {
         return strcmp((string) $assertion, (string) $value) === 0;
     }

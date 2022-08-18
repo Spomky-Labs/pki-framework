@@ -21,18 +21,16 @@ final class Flags
     /**
      * Flag octets.
      */
-    private ?string $_flags = null;
+    private string $_flags;
 
     /**
-     * @param int|string $flags Flags
+     * @param BigInteger|int|string $flags Flags
      * @param int $_width The number of flags. If width is larger than
      * number of bits in $flags, zeroes are prepended
      * to flag field.
      */
     private function __construct(
-        BigInteger|int|string $flags, /**
-     * Number of flags.
-     */
+        BigInteger|int|string $flags,
         private readonly int $_width
     ) {
         if ($_width === 0) {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Cipher;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -88,16 +87,6 @@ final class RC2CBCAITest extends TestCase
         $seq = $seq->withoutElement(1);
         $this->expectException(UnexpectedValueException::class);
         AlgorithmIdentifier::fromASN1($seq);
-    }
-
-    /**
-     * @test
-     */
-    public function encodeNoIVFail()
-    {
-        $ai = RC2CBCAlgorithmIdentifier::create();
-        $this->expectException(LogicException::class);
-        $ai->toASN1();
     }
 
     /**

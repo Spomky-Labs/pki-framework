@@ -32,9 +32,8 @@ final class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      */
     private function __construct(?string $iv)
     {
-        parent::__construct(self::OID_DES_EDE3_CBC);
+        parent::__construct(self::OID_DES_EDE3_CBC, $iv);
         $this->_checkIVSize($iv);
-        $this->_initializationVector = $iv;
     }
 
     public static function create(?string $iv = null): self

@@ -146,9 +146,6 @@ final class IssuerSerial
         $uid = $cert->tbsCertificate()
             ->issuerUniqueID()
             ->string();
-        if ($this->_issuerUID->string() !== $uid) {
-            return false;
-        }
-        return true;
+        return $this->_issuerUID?->string() === $uid;
     }
 }
