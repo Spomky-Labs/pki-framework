@@ -92,12 +92,7 @@ final class AttributeTypeAndValue implements Stringable
             return false;
         }
         $matcher = $this->_value->equalityMatchingRule();
-        $result = $matcher->compare($this->_value->stringValue(), $other->_value->stringValue());
-        // match
-        if ($result === true) {
-            return true;
-        }
-        // no match or Undefined
-        return false;
+
+        return $matcher->compare($this->_value->stringValue(), $other->_value->stringValue()) === true;
     }
 }

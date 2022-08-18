@@ -14,11 +14,11 @@ abstract class MatchingRule
     /**
      * Compare attribute value to assertion.
      *
-     * @param mixed $assertion Value to assert
-     * @param mixed $value Attribute value
+     * @param string $assertion Value to assert
+     * @param string $value Attribute value
      *
      * @return null|bool True if value matches. Null shall be returned if match
      * evaluates to Undefined.
      */
-    abstract public function compare(mixed $assertion, mixed $value): ?bool;
+    abstract public function compare(string $assertion, string $value): ?bool;
 }
