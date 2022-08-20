@@ -56,11 +56,11 @@ final class AttributeCertificateTest extends TestCase
      */
     public function create(): AttributeCertificate
     {
-        $holder = new Holder(new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Issuer')), 42));
+        $holder = new Holder(new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString('cn=Issuer')), 42));
         $issuer = AttCertIssuer::fromName(Name::fromString('cn=Issuer'));
         $validity = AttCertValidityPeriod::fromStrings('2016-04-29 12:00:00', '2016-04-29 13:00:00');
         $attribs = Attributes::fromAttributeValues(
-            new RoleAttributeValue(new UniformResourceIdentifier('urn:admin'))
+            new RoleAttributeValue(UniformResourceIdentifier::create('urn:admin'))
         );
         $acinfo = new AttributeCertificateInfo($holder, $issuer, $validity, $attribs);
         $algo = SHA256WithRSAEncryptionAlgorithmIdentifier::create();

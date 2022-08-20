@@ -20,15 +20,18 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class OtherName extends GeneralName
 {
     /**
-     * @param string $_type OID
+     * @param string $type OID
      */
-    public function __construct(
-        protected string $_type, /**
-     * Value.
-     */
-        protected Element $_element
+    private function __construct(
+        private readonly string $type,
+        private readonly Element $element
     ) {
-        $this->_tag = self::TAG_OTHER_NAME;
+        parent::__construct(self::TAG_OTHER_NAME);
+    }
+
+    public static function create(string $type, Element $element): self
+    {
+        return new self($type, $element);
     }
 
     /**
@@ -43,12 +46,12 @@ final class OtherName extends GeneralName
         $value = $seq->getTagged(0)
             ->asExplicit()
             ->asElement();
-        return new self($type_id, $value);
+        return self::create($type_id, $value);
     }
 
     public function string(): string
     {
-        return $this->_type . '/#' . bin2hex($this->_element->toDER());
+        return $this->type . '/#' . bin2hex($this->element->toDER());
     }
 
     /**
@@ -56,7 +59,7 @@ final class OtherName extends GeneralName
      */
     public function type(): string
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -64,14 +67,14 @@ final class OtherName extends GeneralName
      */
     public function value(): Element
     {
-        return $this->_element;
+        return $this->element;
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
         return ImplicitlyTaggedType::create(
-            $this->_tag,
-            Sequence::create(ObjectIdentifier::create($this->_type), ExplicitlyTaggedType::create(0, $this->_element))
+            $this->tag,
+            Sequence::create(ObjectIdentifier::create($this->type), ExplicitlyTaggedType::create(0, $this->element))
         );
     }
 }

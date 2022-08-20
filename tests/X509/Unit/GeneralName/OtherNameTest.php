@@ -22,7 +22,7 @@ final class OtherNameTest extends TestCase
      */
     public function create()
     {
-        $name = new OtherName('1.3.6.1.3.1', NullType::create());
+        $name = OtherName::create('1.3.6.1.3.1', NullType::create());
         static::assertInstanceOf(OtherName::class, $name);
         return $name;
     }

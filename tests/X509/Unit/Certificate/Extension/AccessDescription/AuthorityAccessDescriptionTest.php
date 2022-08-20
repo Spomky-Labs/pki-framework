@@ -23,7 +23,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
     {
         $desc = new AuthorityAccessDescription(
             AuthorityAccessDescription::OID_METHOD_OSCP,
-            new UniformResourceIdentifier(self::URI)
+            UniformResourceIdentifier::create(self::URI)
         );
         static::assertInstanceOf(AuthorityAccessDescription::class, $desc);
         return $desc;

@@ -43,8 +43,8 @@ final class TargetTest extends TestCase
      */
     public function equals()
     {
-        $t1 = new TargetName(new DNSName('n1'));
-        $t2 = new TargetName(new DNSName('n1'));
+        $t1 = new TargetName(DNSName::create('n1'));
+        $t2 = new TargetName(DNSName::create('n1'));
         static::assertTrue($t1->equals($t2));
     }
 
@@ -53,8 +53,8 @@ final class TargetTest extends TestCase
      */
     public function notEquals()
     {
-        $t1 = new TargetName(new DNSName('n1'));
-        $t2 = new TargetName(new DNSName('n2'));
+        $t1 = new TargetName(DNSName::create('n1'));
+        $t2 = new TargetName(DNSName::create('n2'));
         static::assertFalse($t1->equals($t2));
     }
 
@@ -63,8 +63,8 @@ final class TargetTest extends TestCase
      */
     public function notEqualsDifferentEncoding()
     {
-        $t1 = new TargetName(new DNSName('n1'));
-        $t2 = new TargetName(new RFC822Name('n2'));
+        $t1 = new TargetName(DNSName::create('n1'));
+        $t2 = new TargetName(RFC822Name::create('n2'));
         static::assertFalse($t1->equals($t2));
     }
 
@@ -73,8 +73,8 @@ final class TargetTest extends TestCase
      */
     public function notEqualsDifferentType()
     {
-        $t1 = new TargetName(new DNSName('n1'));
-        $t2 = new TargetGroup(new DNSName('n1'));
+        $t1 = new TargetName(DNSName::create('n1'));
+        $t2 = new TargetGroup(DNSName::create('n1'));
         static::assertFalse($t1->equals($t2));
     }
 }

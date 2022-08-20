@@ -40,7 +40,7 @@ final class CertificationRequestInfoTest extends TestCase
         self::$_subject = Name::fromString('cn=Subject');
         self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
         $extensions = new Extensions(
-            new SubjectAlternativeNameExtension(true, new GeneralNames(DirectoryName::fromDNString(self::SAN_DN)))
+            new SubjectAlternativeNameExtension(true, GeneralNames::create(DirectoryName::fromDNString(self::SAN_DN)))
         );
         self::$_attribs = Attributes::fromAttributeValues(new ExtensionRequestValue($extensions));
     }

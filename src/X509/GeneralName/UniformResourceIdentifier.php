@@ -16,12 +16,15 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class UniformResourceIdentifier extends GeneralName
 {
-    public function __construct(/**
-     * URI.
-     */
-        protected string $_uri
+    private function __construct(
+        private readonly string $uri
     ) {
-        $this->_tag = self::TAG_URI;
+        parent::__construct(self::TAG_URI);
+    }
+
+    public static function create(string $uri): self
+    {
+        return new self($uri);
     }
 
     /**
@@ -29,21 +32,21 @@ final class UniformResourceIdentifier extends GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        return new self($el->asIA5String()->string());
+        return self::create($el->asIA5String()->string());
     }
 
     public function string(): string
     {
-        return $this->_uri;
+        return $this->uri;
     }
 
     public function uri(): string
     {
-        return $this->_uri;
+        return $this->uri;
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, IA5String::create($this->_uri));
+        return ImplicitlyTaggedType::create($this->tag, IA5String::create($this->uri));
     }
 }

@@ -36,7 +36,7 @@ final class ChargingIdentityTest extends TestCase
             IetfAttrValue::fromOID(self::OID_VAL),
             IetfAttrValue::fromString(self::UTF8_VAL)
         );
-        $value = $value->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString(self::AUTHORITY_DN)));
+        $value = $value->withPolicyAuthority(GeneralNames::create(DirectoryName::fromDNString(self::AUTHORITY_DN)));
         static::assertInstanceOf(ChargingIdentityAttributeValue::class, $value);
         return $value;
     }

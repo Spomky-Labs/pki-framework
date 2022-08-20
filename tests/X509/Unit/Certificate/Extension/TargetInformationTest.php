@@ -31,7 +31,7 @@ final class TargetInformationTest extends TestCase
     {
         $targets = new Targets(
             new TargetName(DirectoryName::fromDNString(self::NAME_DN)),
-            new TargetGroup(new DNSName(self::GROUP_DOMAIN))
+            new TargetGroup(DNSName::create(self::GROUP_DOMAIN))
         );
         static::assertInstanceOf(Targets::class, $targets);
         return $targets;

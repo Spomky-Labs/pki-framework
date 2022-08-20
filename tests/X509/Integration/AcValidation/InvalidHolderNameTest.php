@@ -47,7 +47,7 @@ final class InvalidHolderNameTest extends TestCase
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
         $aci = new AttributeCertificateInfo(
-            new Holder(new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Test')), 1)),
+            new Holder(new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString('cn=Test')), 1)),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
             Attributes::create()

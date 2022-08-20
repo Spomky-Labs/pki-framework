@@ -21,7 +21,7 @@ final class DNSNameTest extends TestCase
      */
     public function create()
     {
-        $name = new DNSName('test.example.com');
+        $name = DNSName::create('test.example.com');
         static::assertInstanceOf(DNSName::class, $name);
         return $name;
     }

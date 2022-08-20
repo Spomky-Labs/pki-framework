@@ -23,7 +23,7 @@ final class GeneralSubtreeTest extends TestCase
      */
     public function create()
     {
-        $subtree = new GeneralSubtree(new UniformResourceIdentifier(self::URI));
+        $subtree = new GeneralSubtree(UniformResourceIdentifier::create(self::URI));
         static::assertInstanceOf(GeneralSubtree::class, $subtree);
         return $subtree;
     }
@@ -81,7 +81,7 @@ final class GeneralSubtreeTest extends TestCase
      */
     public function createWithAll()
     {
-        $subtree = new GeneralSubtree(new UniformResourceIdentifier(self::URI), 1, 3);
+        $subtree = new GeneralSubtree(UniformResourceIdentifier::create(self::URI), 1, 3);
         static::assertInstanceOf(GeneralSubtree::class, $subtree);
         return $subtree;
     }
@@ -130,7 +130,7 @@ final class GeneralSubtreeTest extends TestCase
      */
     public function collidingTag()
     {
-        $subtree = new GeneralSubtree(new RFC822Name('test'));
+        $subtree = new GeneralSubtree(RFC822Name::create('test'));
         $asn1 = $subtree->toASN1();
         $result = GeneralSubtree::fromASN1($asn1);
         static::assertInstanceOf(GeneralSubtree::class, $result);

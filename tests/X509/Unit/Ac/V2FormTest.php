@@ -27,7 +27,7 @@ final class V2FormTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuerName = new GeneralNames(DirectoryName::fromDNString('cn=Test'));
+        self::$_issuerName = GeneralNames::create(DirectoryName::fromDNString('cn=Test'));
     }
 
     public static function tearDownAfterClass(): void

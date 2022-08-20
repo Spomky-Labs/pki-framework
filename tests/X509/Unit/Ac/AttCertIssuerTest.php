@@ -22,7 +22,7 @@ final class AttCertIssuerTest extends TestCase
      */
     public function v1FormFail()
     {
-        $v1 = new GeneralNames(DirectoryName::fromDNString('cn=Test'));
+        $v1 = GeneralNames::create(DirectoryName::fromDNString('cn=Test'));
         $this->expectException(UnexpectedValueException::class);
         AttCertIssuer::fromASN1($v1->toASN1()->asUnspecified());
     }

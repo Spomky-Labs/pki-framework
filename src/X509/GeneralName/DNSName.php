@@ -17,11 +17,16 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class DNSName extends GeneralName
 {
     /**
-     * @param string $_name Domain name
+     * @param string $name Domain name
      */
-    public function __construct(protected string $_name)
+    private function __construct(private readonly string $name)
     {
-        $this->_tag = self::TAG_DNS_NAME;
+        parent::__construct(self::TAG_DNS_NAME);
+    }
+
+    public static function create(string $name): self
+    {
+        return new self($name);
     }
 
     /**
@@ -29,12 +34,12 @@ final class DNSName extends GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        return new self($el->asIA5String()->string());
+        return self::create($el->asIA5String()->string());
     }
 
     public function string(): string
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -42,11 +47,11 @@ final class DNSName extends GeneralName
      */
     public function name(): string
     {
-        return $this->_name;
+        return $this->name;
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, IA5String::create($this->_name));
+        return ImplicitlyTaggedType::create($this->tag, IA5String::create($this->name));
     }
 }

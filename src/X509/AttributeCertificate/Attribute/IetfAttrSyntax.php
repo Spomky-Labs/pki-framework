@@ -129,7 +129,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
         if (isset($this->_policyAuthority)) {
             $elements[] = ImplicitlyTaggedType::create(0, $this->_policyAuthority->toASN1());
         }
-        $values = array_map(fn (IetfAttrValue $val) => $val->toASN1(), $this->_values);
+        $values = array_map(static fn (IetfAttrValue $val) => $val->toASN1(), $this->_values);
         $elements[] = Sequence::create(...$values);
         return Sequence::create(...$elements);
     }

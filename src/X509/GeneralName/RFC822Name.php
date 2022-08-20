@@ -16,12 +16,15 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class RFC822Name extends GeneralName
 {
-    public function __construct(/**
-     * Email.
-     */
-        protected string $_email
+    private function __construct(
+        private readonly string $email
     ) {
-        $this->_tag = self::TAG_RFC822_NAME;
+        parent::__construct(self::TAG_RFC822_NAME);
+    }
+
+    public static function create(string $email): self
+    {
+        return new self($email);
     }
 
     /**
@@ -29,21 +32,21 @@ final class RFC822Name extends GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        return new self($el->asIA5String()->string());
+        return self::create($el->asIA5String()->string());
     }
 
     public function string(): string
     {
-        return $this->_email;
+        return $this->email;
     }
 
     public function email(): string
     {
-        return $this->_email;
+        return $this->email;
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, IA5String::create($this->_email));
+        return ImplicitlyTaggedType::create($this->tag, IA5String::create($this->email));
     }
 }

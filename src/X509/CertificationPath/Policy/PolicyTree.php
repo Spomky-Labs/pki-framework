@@ -91,7 +91,7 @@ final class PolicyTree
             }
         );
         // array of valid policy OIDs
-        $valid_policy_set = array_map(fn (PolicyNode $node) => $node->validPolicy(), $valid_policy_node_set);
+        $valid_policy_set = array_map(static fn (PolicyNode $node) => $node->validPolicy(), $valid_policy_node_set);
         // 3. If the valid_policy_tree includes a node of depth n with
         // the valid_policy anyPolicy and the user-initial-policy-set
         // is not any-policy

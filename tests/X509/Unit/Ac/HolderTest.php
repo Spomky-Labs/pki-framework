@@ -28,8 +28,8 @@ final class HolderTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuerSerial = new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Test')), 1);
-        self::$_subject = new GeneralNames(DirectoryName::fromDNString('cn=Subject'));
+        self::$_issuerSerial = new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString('cn=Test')), 1);
+        self::$_subject = GeneralNames::create(DirectoryName::fromDNString('cn=Subject'));
         self::$_odi = new ObjectDigestInfo(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),

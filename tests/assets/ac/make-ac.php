@@ -44,25 +44,25 @@ $holder_cert = Certificate::fromPEM(PEM::fromFile(dirname(__DIR__) . '/certs/acm
 
 $holder = new Holder(
     IssuerSerial::fromPKC($holder_cert),
-    new GeneralNames(new DirectoryName($holder_cert->tbsCertificate()->subject()))
+    GeneralNames::create(DirectoryName::create($holder_cert->tbsCertificate()->subject()))
 );
-$issuer = new V2Form(new GeneralNames(new DirectoryName($issuer_cert->tbsCertificate()->subject())));
+$issuer = new V2Form(GeneralNames::create(DirectoryName::create($issuer_cert->tbsCertificate()->subject())));
 $validity = AttCertValidityPeriod::fromStrings('2016-01-01 12:00:00', '2016-03-01 12:00:00', 'UTC');
 $authinfo_attr = AuthenticationInfoAttributeValue::create(
-    new UniformResourceIdentifier('urn:service'),
+    UniformResourceIdentifier::create('urn:service'),
     DirectoryName::fromDNString('cn=username'),
     'password'
 );
 $authid_attr = new AccessIdentityAttributeValue(
-    new UniformResourceIdentifier('urn:service'),
+    UniformResourceIdentifier::create('urn:service'),
     DirectoryName::fromDNString('cn=username')
 );
 $charge_attr = ChargingIdentityAttributeValue::create(IetfAttrValue::fromString('ACME Ltd.'));
-$charge_attr = $charge_attr->withPolicyAuthority(new GeneralNames(DirectoryName::fromDNString('cn=ACME Ltd.')));
+$charge_attr = $charge_attr->withPolicyAuthority(GeneralNames::create(DirectoryName::fromDNString('cn=ACME Ltd.')));
 $group_attr = GroupAttributeValue::create(IetfAttrValue::fromString('group1'), IetfAttrValue::fromString('group2'));
 $role_attr = Attribute::fromAttributeValues(
-    new RoleAttributeValue(new UniformResourceIdentifier('urn:role1')),
-    new RoleAttributeValue(new UniformResourceIdentifier('urn:role2'))
+    new RoleAttributeValue(UniformResourceIdentifier::create('urn:role1')),
+    new RoleAttributeValue(UniformResourceIdentifier::create('urn:role2'))
 );
 $attribs = Attributes::fromAttributeValues(
     $authinfo_attr,
@@ -74,10 +74,10 @@ $aki_ext = new AuthorityKeyIdentifierExtension(false, $issuer_public_key->keyIde
 $ti_ext = new TargetInformationExtension(
     true,
     new Targets(
-        new TargetName(new UniformResourceIdentifier('urn:test')),
-        new TargetName(new DNSName('*.example.com'))
+        new TargetName(UniformResourceIdentifier::create('urn:test')),
+        new TargetName(DNSName::create('*.example.com'))
     ),
-    new Targets(new TargetName(new UniformResourceIdentifier('urn:another')))
+    new Targets(new TargetName(UniformResourceIdentifier::create('urn:another')))
 );
 $nra_ext = new NoRevocationAvailableExtension(false);
 $extensions = new Extensions($aki_ext, $nra_ext, $ti_ext);

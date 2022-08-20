@@ -146,6 +146,6 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function string(): string
     {
-        return implode("\n", array_map(fn (PEM $pem) => $pem->string(), $this->_pems));
+        return implode("\n", array_map(static fn (PEM $pem) => $pem->string(), $this->_pems));
     }
 }

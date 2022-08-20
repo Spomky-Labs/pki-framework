@@ -34,9 +34,9 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function createDistributionPoint()
     {
-        $name = new FullName(new GeneralNames(new UniformResourceIdentifier(self::DP_URI)));
+        $name = new FullName(GeneralNames::create(UniformResourceIdentifier::create(self::DP_URI)));
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
-        $issuer = new GeneralNames(DirectoryName::fromDNString(self::ISSUER_DN));
+        $issuer = GeneralNames::create(DirectoryName::fromDNString(self::ISSUER_DN));
         $dp = new DistributionPoint($name, $reasons, $issuer);
         static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;

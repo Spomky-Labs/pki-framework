@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\GeneralName;
 
-use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use SpomkyLabs\Pki\ASN1\Type\TaggedType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
@@ -20,33 +20,28 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class X400Address extends GeneralName
 {
-    /**
-     * @var Element
-     */
-    protected $_element;
-
-    protected function __construct()
+    protected function __construct(private readonly Sequence $element)
     {
-        $this->_tag = self::TAG_X400_ADDRESS;
+        parent::__construct(self::TAG_X400_ADDRESS);
     }
 
-    /**
-     * @return self
-     */
-    public static function fromChosenASN1(UnspecifiedType $el): GeneralName
+    public static function create(Sequence $element): self
     {
-        $obj = new self();
-        $obj->_element = $el->asSequence();
-        return $obj;
+        return new self($element);
+    }
+
+    public static function fromChosenASN1(UnspecifiedType $el): self
+    {
+        return self::create($el->asSequence());
     }
 
     public function string(): string
     {
-        return bin2hex($this->_element->toDER());
+        return bin2hex($this->element->toDER());
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, $this->_element);
+        return ImplicitlyTaggedType::create($this->tag, $this->element);
     }
 }

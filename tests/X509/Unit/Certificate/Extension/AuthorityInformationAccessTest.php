@@ -25,11 +25,11 @@ final class AuthorityInformationAccessTest extends TestCase
             false,
             new AuthorityAccessDescription(
                 AuthorityAccessDescription::OID_METHOD_CA_ISSUERS,
-                new UniformResourceIdentifier('urn:test')
+                UniformResourceIdentifier::create('urn:test')
             ),
             new AuthorityAccessDescription(
                 AuthorityAccessDescription::OID_METHOD_OSCP,
-                new UniformResourceIdentifier('https://oscp.example.com/')
+                UniformResourceIdentifier::create('https://oscp.example.com/')
             )
         );
         static::assertInstanceOf(AuthorityInformationAccessExtension::class, $ext);

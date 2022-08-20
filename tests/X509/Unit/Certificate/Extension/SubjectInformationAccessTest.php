@@ -25,11 +25,11 @@ final class SubjectInformationAccessTest extends TestCase
             false,
             new SubjectAccessDescription(
                 SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
-                new UniformResourceIdentifier('urn:test')
+                UniformResourceIdentifier::create('urn:test')
             ),
             new SubjectAccessDescription(
                 SubjectAccessDescription::OID_METHOD_TIME_STAMPING,
-                new UniformResourceIdentifier('https://ts.example.com/')
+                UniformResourceIdentifier::create('https://ts.example.com/')
             )
         );
         static::assertInstanceOf(SubjectInformationAccessExtension::class, $ext);

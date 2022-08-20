@@ -67,7 +67,7 @@ final class DNParser
             '/([\pC])/u',
             function ($m) {
                 $octets = mb_str_split(bin2hex($m[1]), 2, '8bit');
-                return implode('', array_map(fn ($octet) => '\\' . mb_strtoupper($octet, '8bit'), $octets));
+                return implode('', array_map(static fn ($octet) => '\\' . mb_strtoupper($octet, '8bit'), $octets));
             },
             $str
         );

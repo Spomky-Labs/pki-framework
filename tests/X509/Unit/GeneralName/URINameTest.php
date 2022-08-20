@@ -23,7 +23,7 @@ final class URINameTest extends TestCase
      */
     public function create()
     {
-        $uri = new UniformResourceIdentifier(self::URI);
+        $uri = UniformResourceIdentifier::create(self::URI);
         static::assertInstanceOf(UniformResourceIdentifier::class, $uri);
         return $uri;
     }

@@ -31,8 +31,8 @@ final class GeneralNameTest extends TestCase
      */
     public function equals()
     {
-        $n1 = new UniformResourceIdentifier('urn:1');
-        $n2 = new UniformResourceIdentifier('urn:1');
+        $n1 = UniformResourceIdentifier::create('urn:1');
+        $n2 = UniformResourceIdentifier::create('urn:1');
         static::assertTrue($n1->equals($n2));
     }
 
@@ -41,8 +41,8 @@ final class GeneralNameTest extends TestCase
      */
     public function notEquals()
     {
-        $n1 = new UniformResourceIdentifier('urn:1');
-        $n2 = new UniformResourceIdentifier('urn:2');
+        $n1 = UniformResourceIdentifier::create('urn:1');
+        $n2 = UniformResourceIdentifier::create('urn:2');
         static::assertFalse($n1->equals($n2));
     }
 
@@ -51,8 +51,8 @@ final class GeneralNameTest extends TestCase
      */
     public function notEqualsDifferentTypes()
     {
-        $n1 = new UniformResourceIdentifier('urn:1');
-        $n2 = new DNSName('test');
+        $n1 = UniformResourceIdentifier::create('urn:1');
+        $n2 = DNSName::create('test');
         static::assertFalse($n1->equals($n2));
     }
 }

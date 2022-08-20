@@ -29,7 +29,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function create()
     {
-        $gns = new GeneralNames(new DNSName('test1'), new DNSName('test2'));
+        $gns = GeneralNames::create(DNSName::create('test1'), DNSName::create('test2'));
         static::assertInstanceOf(GeneralNames::class, $gns);
         return $gns;
     }
@@ -161,7 +161,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function emptyToASN1Fail()
     {
-        $gn = new GeneralNames();
+        $gn = GeneralNames::create();
         $this->expectException(LogicException::class);
         $gn->toASN1();
     }
@@ -171,8 +171,8 @@ final class GeneralNamesTest extends TestCase
      */
     public function firstDNS()
     {
-        $name = new DNSName('example.com');
-        $gn = new GeneralNames($name);
+        $name = DNSName::create('example.com');
+        $gn = GeneralNames::create($name);
         static::assertEquals($name, $gn->firstDNS());
     }
 
@@ -182,7 +182,7 @@ final class GeneralNamesTest extends TestCase
     public function firstDN()
     {
         $name = DirectoryName::fromDNString('cn=Example');
-        $gn = new GeneralNames($name);
+        $gn = GeneralNames::create($name);
         static::assertEquals($name->dn(), $gn->firstDN());
     }
 
@@ -191,8 +191,8 @@ final class GeneralNamesTest extends TestCase
      */
     public function firstURI()
     {
-        $name = new UniformResourceIdentifier('urn:example');
-        $gn = new GeneralNames($name);
+        $name = UniformResourceIdentifier::create('urn:example');
+        $gn = GeneralNames::create($name);
         static::assertEquals($name, $gn->firstURI());
     }
 
@@ -201,7 +201,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function firstDNSFail()
     {
-        $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DNS_NAME));
+        $gn = GeneralNames::create(GeneralNamesTest_NameMockup::create(GeneralName::TAG_DNS_NAME));
         $this->expectException(RuntimeException::class);
         $gn->firstDNS();
     }
@@ -211,7 +211,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function firstDNFail()
     {
-        $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_DIRECTORY_NAME));
+        $gn = GeneralNames::create(GeneralNamesTest_NameMockup::create(GeneralName::TAG_DIRECTORY_NAME));
         $this->expectException(RuntimeException::class);
         $gn->firstDN();
     }
@@ -221,7 +221,7 @@ final class GeneralNamesTest extends TestCase
      */
     public function firstURIFail()
     {
-        $gn = new GeneralNames(new GeneralNamesTest_NameMockup(GeneralName::TAG_URI));
+        $gn = GeneralNames::create(GeneralNamesTest_NameMockup::create(GeneralName::TAG_URI));
         $this->expectException(RuntimeException::class);
         $gn->firstURI();
     }
@@ -229,9 +229,9 @@ final class GeneralNamesTest extends TestCase
 
 class GeneralNamesTest_NameMockup extends GeneralName
 {
-    public function __construct($tag)
+    public static function create(int $tag): self
     {
-        $this->_tag = $tag;
+        return new self($tag);
     }
 
     public function string(): string
@@ -244,7 +244,7 @@ class GeneralNamesTest_NameMockup extends GeneralName
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in the derived class.');
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
         return NullType::create();
     }

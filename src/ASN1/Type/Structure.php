@@ -52,7 +52,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     protected function __construct(int $typeTag, ElementBase ...$elements)
     {
         parent::__construct($typeTag);
-        $this->elements = array_map(fn (ElementBase $el) => $el->asElement(), $elements);
+        $this->elements = array_map(static fn (ElementBase $el) => $el->asElement(), $elements);
     }
 
     /**
@@ -182,7 +182,10 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
     public function elements(): array
     {
         if (! isset($this->unspecifiedTypes)) {
-            $this->unspecifiedTypes = array_map(fn (Element $el) => UnspecifiedType::create($el), $this->elements);
+            $this->unspecifiedTypes = array_map(
+                static fn (Element $el) => UnspecifiedType::create($el),
+                $this->elements
+            );
         }
         return $this->unspecifiedTypes;
     }

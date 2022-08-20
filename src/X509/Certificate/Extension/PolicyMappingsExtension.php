@@ -95,7 +95,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      */
     public function issuerDomainPolicies(): array
     {
-        $idps = array_map(fn (PolicyMapping $mapping) => $mapping->issuerDomainPolicy(), $this->_mappings);
+        $idps = array_map(static fn (PolicyMapping $mapping) => $mapping->issuerDomainPolicy(), $this->_mappings);
         return array_values(array_unique($idps));
     }
 
@@ -154,7 +154,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
         if (count($this->_mappings) === 0) {
             throw new LogicException('No mappings.');
         }
-        $elements = array_map(fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->_mappings);
+        $elements = array_map(static fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->_mappings);
         return Sequence::create(...$elements);
     }
 }

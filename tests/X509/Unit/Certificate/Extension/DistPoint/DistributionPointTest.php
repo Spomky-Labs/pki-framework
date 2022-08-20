@@ -31,7 +31,7 @@ final class DistributionPointTest extends TestCase
         $dp = new DistributionPoint(
             FullName::fromURI('urn:test'),
             new ReasonFlags(ReasonFlags::KEY_COMPROMISE),
-            new GeneralNames(DirectoryName::fromDNString('cn=Issuer'))
+            GeneralNames::create(DirectoryName::fromDNString('cn=Issuer'))
         );
         static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;

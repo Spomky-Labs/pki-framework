@@ -24,7 +24,7 @@ final class TargetGroupTest extends TestCase
      */
     public function create()
     {
-        $target = new TargetGroup(new UniformResourceIdentifier(self::URI));
+        $target = new TargetGroup(UniformResourceIdentifier::create(self::URI));
         static::assertInstanceOf(TargetGroup::class, $target);
         return $target;
     }

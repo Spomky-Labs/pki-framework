@@ -88,7 +88,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
         if (count($this->_distributionPoints) === 0) {
             throw new LogicException('No distribution points.');
         }
-        $elements = array_map(fn (DistributionPoint $dp) => $dp->toASN1(), $this->_distributionPoints);
+        $elements = array_map(static fn (DistributionPoint $dp) => $dp->toASN1(), $this->_distributionPoints);
         return Sequence::create(...$elements);
     }
 }

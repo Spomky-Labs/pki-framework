@@ -24,9 +24,9 @@ final class FreshestCRLTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $name = new FullName(new GeneralNames(new UniformResourceIdentifier('urn:test')));
+        $name = new FullName(GeneralNames::create(UniformResourceIdentifier::create('urn:test')));
         $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
-        $issuer = new GeneralNames(DirectoryName::fromDNString('cn=Issuer'));
+        $issuer = GeneralNames::create(DirectoryName::fromDNString('cn=Issuer'));
         self::$_dp = new DistributionPoint($name, $reasons, $issuer);
     }
 

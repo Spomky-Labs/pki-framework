@@ -43,7 +43,7 @@ final class HolderTest extends TestCase
      */
     public function identifiesPKCByEntityName()
     {
-        $gn = new GeneralNames(new DirectoryName(self::$_pkc->tbsCertificate()->subject()));
+        $gn = GeneralNames::create(DirectoryName::create(self::$_pkc->tbsCertificate()->subject()));
         $holder = new Holder(null, $gn);
         static::assertTrue($holder->identifiesPKC(self::$_pkc));
     }
@@ -53,7 +53,7 @@ final class HolderTest extends TestCase
      */
     public function identifiesPKCByEntityNameSANDirectoryName()
     {
-        $gn = new GeneralNames(DirectoryName::fromDNString('o=ACME Alternative Ltd., c=FI, cn=alt.example.com'));
+        $gn = GeneralNames::create(DirectoryName::fromDNString('o=ACME Alternative Ltd., c=FI, cn=alt.example.com'));
         $holder = new Holder(null, $gn);
         static::assertTrue($holder->identifiesPKC(self::$_pkc));
     }
@@ -72,7 +72,7 @@ final class HolderTest extends TestCase
      */
     public function identifiesPKCNoCertIdMatch()
     {
-        $is = new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Fail')), 1);
+        $is = new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString('cn=Fail')), 1);
         $holder = new Holder($is);
         static::assertFalse($holder->identifiesPKC(self::$_pkc));
     }
@@ -82,7 +82,7 @@ final class HolderTest extends TestCase
      */
     public function identifiesPKCNoEntityNameMatch()
     {
-        $gn = new GeneralNames(DirectoryName::fromDNString('cn=Fail'));
+        $gn = GeneralNames::create(DirectoryName::fromDNString('cn=Fail'));
         $holder = new Holder(null, $gn);
         static::assertFalse($holder->identifiesPKC(self::$_pkc));
     }

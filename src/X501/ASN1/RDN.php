@@ -52,7 +52,9 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         $attribs = array_map(
-            fn (AttributeValue $value) => new AttributeTypeAndValue(AttributeType::create($value->oid()), $value),
+            static fn (AttributeValue $value) => new AttributeTypeAndValue(AttributeType::create(
+                $value->oid()
+            ), $value),
             $values
         );
         return new self(...$attribs);
@@ -64,7 +66,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     public static function fromASN1(Set $set): self
     {
         $attribs = array_map(
-            fn (UnspecifiedType $el) => AttributeTypeAndValue::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => AttributeTypeAndValue::fromASN1($el->asSequence()),
             $set->elements()
         );
         return new self(...$attribs);
@@ -75,9 +77,8 @@ final class RDN implements Countable, IteratorAggregate, Stringable
      */
     public function toASN1(): Set
     {
-        $elements = array_map(fn (AttributeTypeAndValue $tv) => $tv->toASN1(), $this->_attribs);
-        $set = Set::create(...$elements);
-        return $set->sortedSetOf();
+        $elements = array_map(static fn (AttributeTypeAndValue $tv) => $tv->toASN1(), $this->_attribs);
+        return Set::create(...$elements)->sortedSetOf();
     }
 
     /**
@@ -87,7 +88,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
      */
     public function toString(): string
     {
-        $parts = array_map(fn (AttributeTypeAndValue $tv) => $tv->toString(), $this->_attribs);
+        $parts = array_map(static fn (AttributeTypeAndValue $tv) => $tv->toString(), $this->_attribs);
         return implode('+', $parts);
     }
 
@@ -139,7 +140,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     public function allOf(string $name): array
     {
         $oid = AttributeType::attrNameToOID($name);
-        $attribs = array_filter($this->_attribs, fn (AttributeTypeAndValue $tv) => $tv->oid() === $oid);
+        $attribs = array_filter($this->_attribs, static fn (AttributeTypeAndValue $tv) => $tv->oid() === $oid);
         return array_values($attribs);
     }
 

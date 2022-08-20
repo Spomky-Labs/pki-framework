@@ -44,7 +44,7 @@ final class Attributes extends SequenceOfAttributes
      */
     public static function fromAttributeValues(AttributeValue ...$values): static
     {
-        return static::create(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+        return static::create(...array_map(static fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**
@@ -136,7 +136,7 @@ final class Attributes extends SequenceOfAttributes
     {
         return array_merge(
             [],
-            ...array_map(fn (Attribute $attr) => $attr->values(), $this->allOf(AttributeType::OID_ROLE))
+            ...array_map(static fn (Attribute $attr) => $attr->values(), $this->allOf(AttributeType::OID_ROLE))
         );
     }
 

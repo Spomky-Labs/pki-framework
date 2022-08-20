@@ -24,7 +24,7 @@ final class GeneralSubtreesTest extends TestCase
     public function create()
     {
         $subtrees = new GeneralSubtrees(
-            new GeneralSubtree(new UniformResourceIdentifier('.example.com')),
+            new GeneralSubtree(UniformResourceIdentifier::create('.example.com')),
             new GeneralSubtree(DirectoryName::fromDNString('cn=Test'))
         );
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);

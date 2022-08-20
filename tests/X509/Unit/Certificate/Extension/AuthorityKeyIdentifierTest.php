@@ -34,7 +34,7 @@ final class AuthorityKeyIdentifierTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuer = new GeneralNames(new DirectoryName(Name::fromString('cn=Issuer')));
+        self::$_issuer = GeneralNames::create(DirectoryName::create(Name::fromString('cn=Issuer')));
     }
 
     public static function tearDownAfterClass(): void

@@ -26,8 +26,8 @@ final class AccessIdentityTest extends TestCase
     public function create()
     {
         $value = AccessIdentityAttributeValue::create(
-            new UniformResourceIdentifier(self::SERVICE_URI),
-            new UniformResourceIdentifier(self::IDENT_URI)
+            UniformResourceIdentifier::create(self::SERVICE_URI),
+            UniformResourceIdentifier::create(self::IDENT_URI)
         );
         static::assertInstanceOf(AccessIdentityAttributeValue::class, $value);
         return $value;

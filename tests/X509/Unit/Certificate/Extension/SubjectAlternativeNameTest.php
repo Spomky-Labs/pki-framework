@@ -24,7 +24,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function create()
     {
-        $ext = new SubjectAlternativeNameExtension(true, new GeneralNames(DirectoryName::fromDNString(self::DN)));
+        $ext = new SubjectAlternativeNameExtension(true, GeneralNames::create(DirectoryName::fromDNString(self::DN)));
         static::assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
         return $ext;
     }

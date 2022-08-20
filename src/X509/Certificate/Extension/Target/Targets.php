@@ -35,7 +35,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $targets = array_map(fn (UnspecifiedType $el) => Target::fromASN1($el->asTagged()), $seq->elements());
+        $targets = array_map(static fn (UnspecifiedType $el) => Target::fromASN1($el->asTagged()), $seq->elements());
         return new self(...$targets);
     }
 
@@ -87,7 +87,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(fn (Target $target) => $target->toASN1(), $this->_targets);
+        $elements = array_map(static fn (Target $target) => $target->toASN1(), $this->_targets);
         return Sequence::create(...$elements);
     }
 
@@ -116,6 +116,6 @@ final class Targets implements Countable, IteratorAggregate
      */
     private function _allOfType(int $type): array
     {
-        return array_values(array_filter($this->_targets, fn (Target $target) => $target->type() === $type));
+        return array_values(array_filter($this->_targets, static fn (Target $target) => $target->type() === $type));
     }
 }

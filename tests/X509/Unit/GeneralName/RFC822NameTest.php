@@ -21,7 +21,7 @@ final class RFC822NameTest extends TestCase
      */
     public function create()
     {
-        $name = new RFC822Name('test@example.com');
+        $name = RFC822Name::create('test@example.com');
         static::assertInstanceOf(RFC822Name::class, $name);
         return $name;
     }

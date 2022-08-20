@@ -16,10 +16,15 @@ use SpomkyLabs\Pki\X501\ASN1\Name;
  */
 final class DirectoryName extends GeneralName
 {
-    public function __construct(
-        protected Name $_dn
+    private function __construct(
+        private readonly Name $directoryName
     ) {
-        $this->_tag = self::TAG_DIRECTORY_NAME;
+        parent::__construct(self::TAG_DIRECTORY_NAME);
+    }
+
+    public static function create(Name $directoryName): self
+    {
+        return new self($directoryName);
     }
 
     /**
@@ -27,7 +32,7 @@ final class DirectoryName extends GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        return new self(Name::fromASN1($el->asSequence()));
+        return self::create(Name::fromASN1($el->asSequence()));
     }
 
     /**
@@ -35,12 +40,12 @@ final class DirectoryName extends GeneralName
      */
     public static function fromDNString(string $str): self
     {
-        return new self(Name::fromString($str));
+        return self::create(Name::fromString($str));
     }
 
     public function string(): string
     {
-        return $this->_dn->toString();
+        return $this->directoryName->toString();
     }
 
     /**
@@ -48,13 +53,13 @@ final class DirectoryName extends GeneralName
      */
     public function dn(): Name
     {
-        return $this->_dn;
+        return $this->directoryName;
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
         // Name type is itself a CHOICE, so explicit tagging must be
         // employed to avoid ambiguities
-        return ExplicitlyTaggedType::create($this->_tag, $this->_dn->toASN1());
+        return ExplicitlyTaggedType::create($this->tag, $this->directoryName->toASN1());
     }
 }

@@ -73,7 +73,9 @@ final class IssuerSerialTest extends TestCase
      */
     public function identifiesPKCSerialMismatch()
     {
-        $is = new IssuerSerial(new GeneralNames(new DirectoryName(self::$_cert->tbsCertificate()->issuer())), 1);
+        $is = new IssuerSerial(GeneralNames::create(
+            DirectoryName::create(self::$_cert->tbsCertificate()->issuer())
+        ), 1);
         static::assertFalse($is->identifiesPKC(self::$_cert));
     }
 
@@ -109,7 +111,7 @@ final class IssuerSerialTest extends TestCase
         $tbs = $tbs->withIssuerUniqueID(UniqueIdentifier::fromString('uid'));
         $cert = $tbs->sign(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privKey);
         $is = new IssuerSerial(
-            new GeneralNames(new DirectoryName($issuer)),
+            GeneralNames::create(DirectoryName::create($issuer)),
             $cert->tbsCertificate()
                 ->serialNumber(),
             UniqueIdentifier::fromString('fail')
@@ -123,7 +125,7 @@ final class IssuerSerialTest extends TestCase
     public function identifiesPKCNoUID()
     {
         $is = new IssuerSerial(
-            new GeneralNames(new DirectoryName(self::$_cert->tbsCertificate()->issuer())),
+            GeneralNames::create(DirectoryName::create(self::$_cert->tbsCertificate()->issuer())),
             self::$_cert->tbsCertificate()->serialNumber(),
             UniqueIdentifier::fromString('uid')
         );

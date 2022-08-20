@@ -34,9 +34,14 @@ final class GeneralNames implements Countable, IteratorAggregate
     /**
      * @param GeneralName ...$names One or more GeneralName objects
      */
-    public function __construct(GeneralName ...$names)
+    private function __construct(GeneralName ...$names)
     {
         $this->_names = $names;
+    }
+
+    public static function create(GeneralName ...$names): self
+    {
+        return new self(...$names);
     }
 
     /**
@@ -47,8 +52,8 @@ final class GeneralNames implements Countable, IteratorAggregate
         if (count($seq) === 0) {
             throw new UnexpectedValueException('GeneralNames must have at least one GeneralName.');
         }
-        $names = array_map(fn (UnspecifiedType $el) => GeneralName::fromASN1($el->asTagged()), $seq->elements());
-        return new self(...$names);
+        $names = array_map(static fn (UnspecifiedType $el) => GeneralName::fromASN1($el->asTagged()), $seq->elements());
+        return self::create(...$names);
     }
 
     /**
@@ -58,7 +63,7 @@ final class GeneralNames implements Countable, IteratorAggregate
      */
     public function has(int $tag): bool
     {
-        return $this->_findFirst($tag) !== null;
+        return $this->findFirst($tag) !== null;
     }
 
     /**
@@ -68,7 +73,7 @@ final class GeneralNames implements Countable, IteratorAggregate
      */
     public function firstOf(int $tag): GeneralName
     {
-        $name = $this->_findFirst($tag);
+        $name = $this->findFirst($tag);
         if ($name === null) {
             throw new UnexpectedValueException("No GeneralName by tag {$tag}.");
         }
@@ -157,7 +162,7 @@ final class GeneralNames implements Countable, IteratorAggregate
     /**
      * Find first GeneralName by given tag.
      */
-    private function _findFirst(int $tag): ?GeneralName
+    private function findFirst(int $tag): ?GeneralName
     {
         foreach ($this->_names as $name) {
             if ($name->tag() === $tag) {

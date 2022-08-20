@@ -126,7 +126,7 @@ final class TargetInformationExtension extends Extension implements Countable, I
 
     protected function _valueASN1(): Element
     {
-        $elements = array_map(fn (Targets $targets) => $targets->toASN1(), $this->_targets);
+        $elements = array_map(static fn (Targets $targets) => $targets->toASN1(), $this->_targets);
         return Sequence::create(...$elements);
     }
 }

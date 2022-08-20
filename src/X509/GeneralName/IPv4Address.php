@@ -10,6 +10,11 @@ use UnexpectedValueException;
 
 final class IPv4Address extends IPAddress
 {
+    public static function create(string $ip, ?string $mask = null): self
+    {
+        return new self($ip, $mask);
+    }
+
     /**
      * Initialize from octets.
      */
@@ -29,14 +34,14 @@ final class IPv4Address extends IPAddress
             default:
                 throw new UnexpectedValueException('Invalid IPv4 octet length.');
         }
-        return new self($ip, $mask);
+        return self::create($ip, $mask);
     }
 
-    protected function _octets(): string
+    protected function octets(): string
     {
-        $bytes = array_map('intval', explode('.', $this->_ip));
-        if (isset($this->_mask)) {
-            $bytes = array_merge($bytes, array_map('intval', explode('.', $this->_mask)));
+        $bytes = array_map('intval', explode('.', $this->ip));
+        if (isset($this->mask)) {
+            $bytes = array_merge($bytes, array_map('intval', explode('.', $this->mask)));
         }
         return pack('C*', ...$bytes);
     }

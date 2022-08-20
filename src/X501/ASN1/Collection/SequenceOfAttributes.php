@@ -33,7 +33,7 @@ class SequenceOfAttributes extends AttributeCollection
      */
     public static function fromAttributeValues(AttributeValue ...$values): static
     {
-        return static::create(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+        return static::create(...array_map(static fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**
@@ -41,6 +41,6 @@ class SequenceOfAttributes extends AttributeCollection
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(...array_map(fn (Attribute $attr) => $attr->toASN1(), $this->_attributes));
+        return Sequence::create(...array_map(static fn (Attribute $attr) => $attr->toASN1(), $this->_attributes));
     }
 }

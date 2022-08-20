@@ -38,7 +38,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public static function fromPEMs(PEM ...$pems): self
     {
-        $certs = array_map(fn (PEM $pem) => Certificate::fromPEM($pem), $pems);
+        $certs = array_map(static fn (PEM $pem) => Certificate::fromPEM($pem), $pems);
         return new self(...$certs);
     }
 
@@ -96,7 +96,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function toPEMString(): string
     {
-        return implode("\n", array_map(fn (Certificate $cert) => $cert->toPEM()->string(), $this->_certs));
+        return implode("\n", array_map(static fn (Certificate $cert) => $cert->toPEM()->string(), $this->_certs));
     }
 
     /**

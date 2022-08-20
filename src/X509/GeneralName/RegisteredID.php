@@ -17,11 +17,16 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class RegisteredID extends GeneralName
 {
     /**
-     * @param string $_oid OID in dotted format
+     * @param string $oid OID in dotted format
      */
-    public function __construct(protected string $_oid)
+    private function __construct(private readonly string $oid)
     {
-        $this->_tag = self::TAG_REGISTERED_ID;
+        parent::__construct(self::TAG_REGISTERED_ID);
+    }
+
+    public static function create(string $oid): self
+    {
+        return new self($oid);
     }
 
     /**
@@ -29,12 +34,12 @@ final class RegisteredID extends GeneralName
      */
     public static function fromChosenASN1(UnspecifiedType $el): GeneralName
     {
-        return new self($el->asObjectIdentifier()->oid());
+        return self::create($el->asObjectIdentifier()->oid());
     }
 
     public function string(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     /**
@@ -44,11 +49,11 @@ final class RegisteredID extends GeneralName
      */
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, ObjectIdentifier::create($this->_oid));
+        return ImplicitlyTaggedType::create($this->tag, ObjectIdentifier::create($this->oid));
     }
 }

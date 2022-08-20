@@ -39,7 +39,7 @@ abstract class AttCertIssuer
      */
     public static function fromName(Name $name): self
     {
-        return new V2Form(new GeneralNames(new DirectoryName($name)));
+        return new V2Form(GeneralNames::create(DirectoryName::create($name)));
     }
 
     /**

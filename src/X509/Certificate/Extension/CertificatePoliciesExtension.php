@@ -113,7 +113,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
         if (count($this->_policies) === 0) {
             throw new LogicException('No policies.');
         }
-        $elements = array_map(fn (PolicyInformation $pi) => $pi->toASN1(), array_values($this->_policies));
+        $elements = array_map(static fn (PolicyInformation $pi) => $pi->toASN1(), array_values($this->_policies));
         return Sequence::create(...$elements);
     }
 }

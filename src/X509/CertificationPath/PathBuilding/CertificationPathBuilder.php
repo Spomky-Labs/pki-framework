@@ -36,7 +36,7 @@ final class CertificationPathBuilder
     {
         $paths = $this->resolvePathsToTarget($target, $intermediate);
         // map paths to CertificationPath objects
-        return array_map(fn ($certs) => new CertificationPath(...$certs), $paths);
+        return array_map(static fn ($certs) => new CertificationPath(...$certs), $paths);
     }
 
     /**

@@ -61,7 +61,7 @@ final class Extensions implements Countable, IteratorAggregate
     public static function fromASN1(Sequence $seq): self
     {
         $extensions = array_map(
-            fn (UnspecifiedType $el) => Extension::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => Extension::fromASN1($el->asSequence()),
             $seq->elements()
         );
         return new self(...$extensions);
@@ -72,7 +72,7 @@ final class Extensions implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_values(array_map(fn ($ext) => $ext->toASN1(), $this->_extensions));
+        $elements = array_values(array_map(static fn ($ext) => $ext->toASN1(), $this->_extensions));
         return Sequence::create(...$elements);
     }
 

@@ -44,7 +44,7 @@ final class RoleAttributeValue extends AttributeValue
      */
     public static function fromString(string $role_name, ?GeneralNames $authority = null): self
     {
-        return new self(new UniformResourceIdentifier($role_name), $authority);
+        return new self(UniformResourceIdentifier::create($role_name), $authority);
     }
 
     /**

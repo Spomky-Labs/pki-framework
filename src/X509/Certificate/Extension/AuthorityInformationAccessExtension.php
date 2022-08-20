@@ -76,7 +76,7 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
 
     protected function _valueASN1(): Element
     {
-        $elements = array_map(fn (AccessDescription $access) => $access->toASN1(), $this->_accessDescriptions);
+        $elements = array_map(static fn (AccessDescription $access) => $access->toASN1(), $this->_accessDescriptions);
         return Sequence::create(...$elements);
     }
 }

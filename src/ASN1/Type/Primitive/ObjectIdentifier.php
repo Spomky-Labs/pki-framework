@@ -134,7 +134,7 @@ final class ObjectIdentifier extends Element
      */
     protected static function _implodeSubIDs(BigInteger ...$subids): string
     {
-        return implode('.', array_map(fn ($num) => $num->toBase(10), $subids));
+        return implode('.', array_map(static fn ($num) => $num->toBase(10), $subids));
     }
 
     /**

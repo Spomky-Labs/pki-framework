@@ -36,12 +36,9 @@ abstract class GeneralName implements Stringable
 
     public const TAG_REGISTERED_ID = 8;
 
-    /**
-     * Chosen tag.
-     *
-     * @var int
-     */
-    protected $_tag;
+    protected function __construct(protected int $tag)
+    {
+    }
 
     /**
      * Get general name as a string.
@@ -85,7 +82,7 @@ abstract class GeneralName implements Stringable
      */
     public function tag(): int
     {
-        return $this->_tag;
+        return $this->tag;
     }
 
     /**
@@ -93,11 +90,11 @@ abstract class GeneralName implements Stringable
      */
     public function toASN1(): Element
     {
-        return $this->_choiceASN1();
+        return $this->choiceASN1();
     }
 
     /**
-     * Check whether GeneralName is equal to other.
+     * Check whether GeneralName is equal to others.
      *
      * @param GeneralName $other GeneralName to compare to
      *
@@ -105,10 +102,10 @@ abstract class GeneralName implements Stringable
      */
     public function equals(self $other): bool
     {
-        if ($this->_tag !== $other->_tag) {
+        if ($this->tag !== $other->tag) {
             return false;
         }
-        if ($this->_choiceASN1()->toDER() !== $other->_choiceASN1()->toDER()) {
+        if ($this->choiceASN1()->toDER() !== $other->choiceASN1()->toDER()) {
             return false;
         }
         return true;
@@ -117,5 +114,5 @@ abstract class GeneralName implements Stringable
     /**
      * Get ASN.1 value in GeneralName CHOICE context.
      */
-    abstract protected function _choiceASN1(): TaggedType;
+    abstract protected function choiceASN1(): TaggedType;
 }

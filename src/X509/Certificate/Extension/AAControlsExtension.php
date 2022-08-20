@@ -137,7 +137,7 @@ final class AAControlsExtension extends Extension
                 ->asImplicit(Element::TYPE_SEQUENCE)
                 ->asSequence();
             $permitted = array_map(
-                fn (UnspecifiedType $el) => $el->asObjectIdentifier()
+                static fn (UnspecifiedType $el) => $el->asObjectIdentifier()
                     ->oid(),
                 $attr_seq->elements()
             );
@@ -148,7 +148,7 @@ final class AAControlsExtension extends Extension
                 ->asImplicit(Element::TYPE_SEQUENCE)
                 ->asSequence();
             $excluded = array_map(
-                fn (UnspecifiedType $el) => $el->asObjectIdentifier()
+                static fn (UnspecifiedType $el) => $el->asObjectIdentifier()
                     ->oid(),
                 $attr_seq->elements()
             );
@@ -169,11 +169,11 @@ final class AAControlsExtension extends Extension
             $elements[] = Integer::create($this->_pathLenConstraint);
         }
         if (isset($this->_permittedAttrs)) {
-            $oids = array_map(fn ($oid) => ObjectIdentifier::create($oid), $this->_permittedAttrs);
+            $oids = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->_permittedAttrs);
             $elements[] = ImplicitlyTaggedType::create(0, Sequence::create(...$oids));
         }
         if (isset($this->_excludedAttrs)) {
-            $oids = array_map(fn ($oid) => ObjectIdentifier::create($oid), $this->_excludedAttrs);
+            $oids = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->_excludedAttrs);
             $elements[] = ImplicitlyTaggedType::create(1, Sequence::create(...$oids));
         }
         if ($this->_permitUnSpecified !== true) {

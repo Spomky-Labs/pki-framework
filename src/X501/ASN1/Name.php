@@ -50,7 +50,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public static function fromASN1(Sequence $seq): self
     {
-        $rdns = array_map(fn (UnspecifiedType $el) => RDN::fromASN1($el->asSet()), $seq->elements());
+        $rdns = array_map(static fn (UnspecifiedType $el) => RDN::fromASN1($el->asSet()), $seq->elements());
         return new self(...$rdns);
     }
 
@@ -85,7 +85,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(fn (RDN $rdn) => $rdn->toASN1(), $this->_rdns);
+        $elements = array_map(static fn (RDN $rdn) => $rdn->toASN1(), $this->_rdns);
         return Sequence::create(...$elements);
     }
 
@@ -96,7 +96,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function toString(): string
     {
-        $parts = array_map(fn (RDN $rdn) => $rdn->toString(), array_reverse($this->_rdns));
+        $parts = array_map(static fn (RDN $rdn) => $rdn->toString(), array_reverse($this->_rdns));
         return implode(',', $parts);
     }
 
@@ -175,7 +175,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
     public function countOfType(string $name): int
     {
         $oid = AttributeType::attrNameToOID($name);
-        return array_sum(array_map(fn (RDN $rdn): int => count($rdn->allOf($oid)), $this->_rdns));
+        return array_sum(array_map(static fn (RDN $rdn): int => count($rdn->allOf($oid)), $this->_rdns));
     }
 
     /**

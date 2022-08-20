@@ -23,7 +23,7 @@ final class SubjectAccessDescriptionTest extends TestCase
     {
         $desc = new SubjectAccessDescription(
             SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
-            new UniformResourceIdentifier(self::URI)
+            UniformResourceIdentifier::create(self::URI)
         );
         static::assertInstanceOf(SubjectAccessDescription::class, $desc);
         return $desc;

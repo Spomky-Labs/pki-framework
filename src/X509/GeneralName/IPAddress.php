@@ -22,15 +22,10 @@ use UnexpectedValueException;
 abstract class IPAddress extends GeneralName
 {
     public function __construct(
-        /**
-         * IP address.
-         */
-        protected string $_ip, /**
-     * Subnet mask.
-     */
-        protected ?string $_mask = null
+        protected string $ip,
+        protected ?string $mask = null
     ) {
-        $this->_tag = self::TAG_IP_ADDRESS;
+        parent::__construct(self::TAG_IP_ADDRESS);
     }
 
     /**
@@ -49,7 +44,7 @@ abstract class IPAddress extends GeneralName
 
     public function string(): string
     {
-        return $this->_ip . (isset($this->_mask) ? '/' . $this->_mask : '');
+        return $this->ip . (isset($this->mask) ? '/' . $this->mask : '');
     }
 
     /**
@@ -57,7 +52,7 @@ abstract class IPAddress extends GeneralName
      */
     public function address(): string
     {
-        return $this->_ip;
+        return $this->ip;
     }
 
     /**
@@ -65,7 +60,7 @@ abstract class IPAddress extends GeneralName
      */
     public function hasMask(): bool
     {
-        return isset($this->_mask);
+        return isset($this->mask);
     }
 
     /**
@@ -76,16 +71,16 @@ abstract class IPAddress extends GeneralName
         if (! $this->hasMask()) {
             throw new LogicException('mask is not set.');
         }
-        return $this->_mask;
+        return $this->mask;
     }
 
     /**
      * Get octet representation of the IP address.
      */
-    abstract protected function _octets(): string;
+    abstract protected function octets(): string;
 
-    protected function _choiceASN1(): TaggedType
+    protected function choiceASN1(): TaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, OctetString::create($this->_octets()));
+        return ImplicitlyTaggedType::create($this->tag, OctetString::create($this->octets()));
     }
 }

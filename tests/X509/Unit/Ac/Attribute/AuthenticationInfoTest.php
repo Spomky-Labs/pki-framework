@@ -28,8 +28,8 @@ final class AuthenticationInfoTest extends TestCase
     public function create()
     {
         $value = AuthenticationInfoAttributeValue::create(
-            new UniformResourceIdentifier(self::SERVICE_URI),
-            new UniformResourceIdentifier(self::IDENT_URI),
+            UniformResourceIdentifier::create(self::SERVICE_URI),
+            UniformResourceIdentifier::create(self::IDENT_URI),
             self::AUTH_INFO
         );
         static::assertInstanceOf(AuthenticationInfoAttributeValue::class, $value);

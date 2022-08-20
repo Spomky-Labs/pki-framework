@@ -29,7 +29,7 @@ final class FullName extends DistributionPointName
      */
     public static function fromURI(string $uri): self
     {
-        return new self(new GeneralNames(new UniformResourceIdentifier($uri)));
+        return new self(GeneralNames::create(UniformResourceIdentifier::create($uri)));
     }
 
     public function names(): GeneralNames

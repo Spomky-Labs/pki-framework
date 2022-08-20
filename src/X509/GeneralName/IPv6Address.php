@@ -10,6 +10,11 @@ use UnexpectedValueException;
 
 final class IPv6Address extends IPAddress
 {
+    public static function create(string $ip, ?string $mask = null): self
+    {
+        return new self($ip, $mask);
+    }
+
     /**
      * Initialize from octets.
      */
@@ -20,16 +25,16 @@ final class IPv6Address extends IPAddress
         $words = $words === false ? [] : $words;
         switch (count($words)) {
             case 8:
-                $ip = self::_wordsToIPv6String($words);
+                $ip = self::wordsToIPv6String($words);
                 break;
             case 16:
-                $ip = self::_wordsToIPv6String(array_slice($words, 0, 8));
-                $mask = self::_wordsToIPv6String(array_slice($words, 8, 8));
+                $ip = self::wordsToIPv6String(array_slice($words, 0, 8));
+                $mask = self::wordsToIPv6String(array_slice($words, 8, 8));
                 break;
             default:
                 throw new UnexpectedValueException('Invalid IPv6 octet length.');
         }
-        return new self($ip, $mask);
+        return self::create($ip, $mask);
     }
 
     /**
@@ -37,17 +42,17 @@ final class IPv6Address extends IPAddress
      *
      * @param int[] $words
      */
-    protected static function _wordsToIPv6String(array $words): string
+    protected static function wordsToIPv6String(array $words): string
     {
-        $groups = array_map(fn ($word) => sprintf('%04x', $word), $words);
+        $groups = array_map(static fn ($word) => sprintf('%04x', $word), $words);
         return implode(':', $groups);
     }
 
-    protected function _octets(): string
+    protected function octets(): string
     {
-        $words = array_map('hexdec', explode(':', $this->_ip));
-        if (isset($this->_mask)) {
-            $words = array_merge($words, array_map('hexdec', explode(':', $this->_mask)));
+        $words = array_map('hexdec', explode(':', $this->ip));
+        if (isset($this->mask)) {
+            $words = array_merge($words, array_map('hexdec', explode(':', $this->mask)));
         }
         return pack('n*', ...$words);
     }

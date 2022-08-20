@@ -35,7 +35,7 @@ final class Attributes extends SetOfAttributes
      */
     public static function fromAttributeValues(AttributeValue ...$values): static
     {
-        return static::create(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+        return static::create(...array_map(static fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     /**

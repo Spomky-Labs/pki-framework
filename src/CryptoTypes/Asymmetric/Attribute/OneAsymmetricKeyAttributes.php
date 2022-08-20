@@ -19,7 +19,7 @@ final class OneAsymmetricKeyAttributes extends SetOfAttributes
      */
     public static function fromAttributeValues(AttributeValue ...$values): static
     {
-        return static::create(...array_map(fn (AttributeValue $value) => $value->toAttribute(), $values));
+        return static::create(...array_map(static fn (AttributeValue $value) => $value->toAttribute(), $values));
     }
 
     // Nothing yet. Extended from base class for future extensions.

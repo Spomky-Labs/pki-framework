@@ -64,7 +64,7 @@ final class IssuerSerial
     public static function fromPKC(Certificate $cert): self
     {
         $tbsCert = $cert->tbsCertificate();
-        $issuer = new GeneralNames(new DirectoryName($tbsCert->issuer()));
+        $issuer = GeneralNames::create(DirectoryName::create($tbsCert->issuer()));
         $serial = $tbsCert->serialNumber();
         $uid = $tbsCert->hasIssuerUniqueID() ? $tbsCert->issuerUniqueID() : null;
         return new self($issuer, $serial, $uid);
