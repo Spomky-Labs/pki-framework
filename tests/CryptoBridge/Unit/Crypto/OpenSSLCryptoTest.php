@@ -290,6 +290,11 @@ class UnsupportedCipher extends CipherAlgorithmIdentifier
         parent::__construct('1.3.6.1.3', '');
     }
 
+    public static function create(): self
+    {
+        return new self();
+    }
+
     public function name(): string
     {
         return '';
@@ -321,6 +326,11 @@ class InvalidRC2 extends CipherAlgorithmIdentifier
     public function __construct()
     {
         parent::__construct(AlgorithmIdentifier::OID_RC2_CBC, '');
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function name(): string

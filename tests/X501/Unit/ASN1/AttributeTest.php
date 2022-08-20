@@ -21,7 +21,7 @@ final class AttributeTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): Attribute
     {
         $attr = Attribute::fromAttributeValues(NameValue::create('one'), NameValue::create('two'));
         static::assertInstanceOf(Attribute::class, $attr);
@@ -33,7 +33,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function encode(Attribute $attr)
+    public function encode(Attribute $attr): string
     {
         $der = $attr->toASN1()
             ->toDER();
@@ -48,7 +48,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function decode($der)
+    public function decode($der): Attribute
     {
         $attr = Attribute::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(Attribute::class, $attr);
@@ -61,7 +61,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function recoded(Attribute $ref, Attribute $new)
+    public function recoded(Attribute $ref, Attribute $new): void
     {
         static::assertEquals($ref, $new);
     }
@@ -71,7 +71,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function type(Attribute $attr)
+    public function type(Attribute $attr): void
     {
         static::assertEquals(AttributeType::fromName('name'), $attr->type());
     }
@@ -81,7 +81,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function first(Attribute $attr)
+    public function first(Attribute $attr): void
     {
         static::assertEquals('one', $attr->first()->rfc2253String());
     }
@@ -91,7 +91,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function values(Attribute $attr)
+    public function values(Attribute $attr): void
     {
         static::assertContainsOnlyInstancesOf(AttributeValue::class, $attr->values());
     }
@@ -101,7 +101,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function countMethod(Attribute $attr)
+    public function countMethod(Attribute $attr): void
     {
         static::assertCount(2, $attr);
     }
@@ -111,7 +111,7 @@ final class AttributeTest extends TestCase
      *
      * @test
      */
-    public function iterable(Attribute $attr)
+    public function iterable(Attribute $attr): void
     {
         $values = [];
         foreach ($attr as $value) {
@@ -123,7 +123,7 @@ final class AttributeTest extends TestCase
     /**
      * @test
      */
-    public function createMismatch()
+    public function createMismatch(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute OID mismatch');
@@ -133,7 +133,7 @@ final class AttributeTest extends TestCase
     /**
      * @test
      */
-    public function emptyFromValuesFail()
+    public function emptyFromValuesFail(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No values');
@@ -143,20 +143,9 @@ final class AttributeTest extends TestCase
     /**
      * @test
      */
-    public function createEmpty()
+    public function emptyFirstFail(): void
     {
-        $attr = new Attribute(AttributeType::fromName('cn'));
-        static::assertInstanceOf(Attribute::class, $attr);
-        return $attr;
-    }
-
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
-    public function emptyFirstFail(Attribute $attr)
-    {
+        $attr = Attribute::create(AttributeType::fromName('cn'));
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Attribute contains no values');
         $attr->first();

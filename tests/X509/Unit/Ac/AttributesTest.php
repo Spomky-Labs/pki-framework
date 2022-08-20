@@ -24,7 +24,7 @@ final class AttributesTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): Attributes
     {
         $attribs = Attributes::fromAttributeValues(
             new AccessIdentityAttributeValue(
@@ -43,7 +43,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function encode(Attributes $attribs)
+    public function encode(Attributes $attribs): string
     {
         $seq = $attribs->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -70,7 +70,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function recoded(Attributes $ref, Attributes $new)
+    public function recoded(Attributes $ref, Attributes $new): void
     {
         static::assertEquals($ref, $new);
     }
@@ -80,7 +80,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function countMethod(Attributes $attribs)
+    public function countMethod(Attributes $attribs): void
     {
         static::assertCount(3, $attribs);
     }
@@ -90,7 +90,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function iterator(Attributes $attribs)
+    public function iterator(Attributes $attribs): void
     {
         $values = [];
         foreach ($attribs as $attr) {
@@ -105,7 +105,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function has(Attributes $attribs)
+    public function has(Attributes $attribs): void
     {
         static::assertTrue($attribs->has(AccessIdentityAttributeValue::OID));
     }
@@ -115,7 +115,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function firstOf(Attributes $attribs)
+    public function firstOf(Attributes $attribs): void
     {
         static::assertInstanceOf(Attribute::class, $attribs->firstOf(AccessIdentityAttributeValue::OID));
     }
@@ -125,7 +125,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function allOf(Attributes $attribs)
+    public function allOf(Attributes $attribs): void
     {
         static::assertCount(1, $attribs->allOf(AccessIdentityAttributeValue::OID));
     }
@@ -135,7 +135,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function withAdditional(Attributes $attribs)
+    public function withAdditional(Attributes $attribs): void
     {
         $attribs = $attribs->withAdditional(
             Attribute::fromAttributeValues(GroupAttributeValue::create(IetfAttrValue::fromString('test')))
@@ -148,7 +148,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function withUniqueReplace(Attributes $attribs)
+    public function withUniqueReplace(Attributes $attribs): void
     {
         $attribs = $attribs->withUnique(
             Attribute::fromAttributeValues(new RoleAttributeValue(new UniformResourceIdentifier('uri:new')))
@@ -163,7 +163,7 @@ final class AttributesTest extends TestCase
      *
      * @test
      */
-    public function withUniqueAdded(Attributes $attribs)
+    public function withUniqueAdded(Attributes $attribs): void
     {
         $attribs = $attribs->withUnique(
             Attribute::fromAttributeValues(GroupAttributeValue::create(IetfAttrValue::fromString('test')))

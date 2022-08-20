@@ -13,17 +13,18 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\DescriptionValue;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\UnknownAttributeValue;
+use stdClass;
 
 /**
  * @internal
  */
 final class AttributeCastTest extends TestCase
 {
-    private static $_attr;
+    private static ?Attribute $_attr = null;
 
     public static function setUpBeforeClass(): void
     {
-        self::$_attr = new Attribute(
+        self::$_attr = Attribute::create(
             AttributeType::create(AttributeType::OID_COMMON_NAME),
             UnknownAttributeValue::create(AttributeType::OID_COMMON_NAME, UTF8String::create('name'))
         );

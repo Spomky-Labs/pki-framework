@@ -35,7 +35,7 @@ final class Attribute implements Countable, IteratorAggregate
      * @param AttributeType $type Attribute type
      * @param AttributeValue ...$values Attribute values
      */
-    public function __construct(AttributeType $type, AttributeValue ...$values)
+    private function __construct(AttributeType $type, AttributeValue ...$values)
     {
         // check that attribute values have correct oid
         foreach ($values as $value) {
@@ -45,6 +45,11 @@ final class Attribute implements Countable, IteratorAggregate
         }
         $this->_type = $type;
         $this->_values = $values;
+    }
+
+    public static function create(AttributeType $type, AttributeValue ...$values): self
+    {
+        return new self($type, ...$values);
     }
 
     /**
@@ -59,7 +64,7 @@ final class Attribute implements Countable, IteratorAggregate
                 ->asSet()
                 ->elements()
         );
-        return new self($type, ...$values);
+        return self::create($type, ...$values);
     }
 
     /**
@@ -75,7 +80,7 @@ final class Attribute implements Countable, IteratorAggregate
         }
         $oid = reset($values)
             ->oid();
-        return new self(AttributeType::create($oid), ...$values);
+        return self::create(AttributeType::create($oid), ...$values);
     }
 
     /**

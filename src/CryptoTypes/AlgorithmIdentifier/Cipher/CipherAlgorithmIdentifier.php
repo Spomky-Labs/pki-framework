@@ -17,6 +17,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
         string $oid,
         protected string $_initializationVector
     ) {
+        $this->_checkIVSize($_initializationVector);
         parent::__construct($oid);
     }
 

@@ -13,10 +13,8 @@ trait TypedAttribute
 {
     /**
      * Attribute type.
-     *
-     * @var AttributeType
      */
-    protected $_type;
+    protected AttributeType $_type;
 
     /**
      * Get attribute type.

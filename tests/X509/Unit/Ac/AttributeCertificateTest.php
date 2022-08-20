@@ -11,6 +11,7 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use SpomkyLabs\Pki\X501\ASN1\Name;
@@ -34,9 +35,9 @@ use UnexpectedValueException;
  */
 final class AttributeCertificateTest extends TestCase
 {
-    private static $_acPem;
+    private static ?PEM $_acPem = null;
 
-    private static $_privateKeyInfo;
+    private static ?OneAsymmetricKey $_privateKeyInfo = null;
 
     public static function setUpBeforeClass(): void
     {
@@ -53,7 +54,7 @@ final class AttributeCertificateTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): AttributeCertificate
     {
         $holder = new Holder(new IssuerSerial(new GeneralNames(DirectoryName::fromDNString('cn=Issuer')), 42));
         $issuer = AttCertIssuer::fromName(Name::fromString('cn=Issuer'));
@@ -76,7 +77,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function encode(AttributeCertificate $ac)
+    public function encode(AttributeCertificate $ac): string
     {
         $seq = $ac->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -86,11 +87,9 @@ final class AttributeCertificateTest extends TestCase
     /**
      * @depends encode
      *
-     * @param string $der
-     *
      * @test
      */
-    public function decode($der)
+    public function decode(string $der): AttributeCertificate
     {
         $ac = AttributeCertificate::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(AttributeCertificate::class, $ac);
@@ -103,7 +102,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function recoded(AttributeCertificate $ref, AttributeCertificate $new)
+    public function recoded(AttributeCertificate $ref, AttributeCertificate $new): void
     {
         static::assertEquals($ref, $new);
     }
@@ -113,7 +112,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function attributeCertificateInfo(AttributeCertificate $ac)
+    public function attributeCertificateInfo(AttributeCertificate $ac): void
     {
         static::assertInstanceOf(AttributeCertificateInfo::class, $ac->acinfo());
     }
@@ -123,7 +122,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function signatureAlgo(AttributeCertificate $ac)
+    public function signatureAlgo(AttributeCertificate $ac): void
     {
         static::assertInstanceOf(SignatureAlgorithmIdentifier::class, $ac->signatureAlgorithm());
     }
@@ -133,7 +132,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function signatureValue(AttributeCertificate $ac)
+    public function signatureValue(AttributeCertificate $ac): void
     {
         static::assertInstanceOf(Signature::class, $ac->signatureValue());
     }
@@ -143,7 +142,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function verify(AttributeCertificate $ac)
+    public function verify(AttributeCertificate $ac): void
     {
         $pubkey_info = self::$_privateKeyInfo->publicKeyInfo();
         static::assertTrue($ac->verify($pubkey_info));
@@ -154,7 +153,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function invalidAlgoFail(AttributeCertificate $ac)
+    public function invalidAlgoFail(AttributeCertificate $ac): void
     {
         $seq = $ac->toASN1();
         $algo = GenericAlgorithmIdentifier::create('1.3.6.1.3');
@@ -166,7 +165,7 @@ final class AttributeCertificateTest extends TestCase
     /**
      * @test
      */
-    public function fromPEM()
+    public function fromPEM(): AttributeCertificate
     {
         $ac = AttributeCertificate::fromPEM(self::$_acPem);
         static::assertInstanceOf(AttributeCertificate::class, $ac);
@@ -178,7 +177,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function toPEM(AttributeCertificate $ac)
+    public function toPEM(AttributeCertificate $ac): PEM
     {
         $pem = $ac->toPEM();
         static::assertInstanceOf(PEM::class, $pem);
@@ -190,7 +189,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function pEMEquals(PEM $pem)
+    public function pEMEquals(PEM $pem): void
     {
         static::assertEquals(self::$_acPem, $pem);
     }
@@ -198,7 +197,7 @@ final class AttributeCertificateTest extends TestCase
     /**
      * @test
      */
-    public function invalidPEMTypeFail()
+    public function invalidPEMTypeFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         AttributeCertificate::fromPEM(PEM::create('fail', ''));
@@ -209,7 +208,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function toStringMethod(AttributeCertificate $ac)
+    public function toStringMethod(AttributeCertificate $ac): void
     {
         static::assertIsString(strval($ac));
     }
@@ -219,7 +218,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function isHeldBy(AttributeCertificate $ac)
+    public function isHeldBy(AttributeCertificate $ac): void
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
         static::assertTrue($ac->isHeldBy($cert));
@@ -230,7 +229,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function isHeldByFail(AttributeCertificate $ac)
+    public function isHeldByFail(AttributeCertificate $ac): void
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
         static::assertFalse($ac->isHeldBy($cert));
@@ -241,7 +240,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function isIssuedBy(AttributeCertificate $ac)
+    public function isIssuedBy(AttributeCertificate $ac): void
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));
         static::assertTrue($ac->isIssuedBy($cert));
@@ -252,7 +251,7 @@ final class AttributeCertificateTest extends TestCase
      *
      * @test
      */
-    public function isIssuedByFail(AttributeCertificate $ac)
+    public function isIssuedByFail(AttributeCertificate $ac): void
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'));
         static::assertFalse($ac->isIssuedBy($cert));

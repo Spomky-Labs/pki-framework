@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher;
 
 use LogicException;
-use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 
 /*
@@ -23,15 +22,6 @@ The AlgorithmIdentifier parameters field MUST be present, and the parameter fiel
  */
 abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
-    /**
-     * @param string $iv Initialization vector
-     */
-    protected function __construct(string $iod, string $iv)
-    {
-        $this->_checkIVSize($iv);
-        parent::__construct($iod, $iv);
-    }
-
     public function blockSize(): int
     {
         return 16;
@@ -42,10 +32,7 @@ abstract class AESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         return 16;
     }
 
-    /**
-     * @return OctetString
-     */
-    protected function paramsASN1(): ?Element
+    protected function paramsASN1(): OctetString
     {
         if (! isset($this->_initializationVector)) {
             throw new LogicException('IV not set.');

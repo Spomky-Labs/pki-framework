@@ -12,6 +12,7 @@ use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\ASN1\Type\Structure;
+use Stringable;
 
 /**
  * Implements constructed type of simple strings.
@@ -24,7 +25,7 @@ use SpomkyLabs\Pki\ASN1\Type\Structure;
  * From API standpoint this can also be seen as a string type (as it implements `StringType`), and thus
  * `UnspecifiedType::asString()` method may return `ConstructedString` instances.
  */
-final class ConstructedString extends Structure implements StringType
+final class ConstructedString extends Structure implements StringType, Stringable
 {
     public function __toString(): string
     {
