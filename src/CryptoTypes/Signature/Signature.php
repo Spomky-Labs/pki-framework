@@ -36,11 +36,11 @@ abstract class Signature
             return ECSignature::fromDER($data);
         }
         if ($algo instanceof Ed25519AlgorithmIdentifier) {
-            return new Ed25519Signature($data);
+            return Ed25519Signature::create($data);
         }
         if ($algo instanceof Ed448AlgorithmIdentifier) {
-            return new Ed448Signature($data);
+            return Ed448Signature::create($data);
         }
-        return new GenericSignature(BitString::create($data), $algo);
+        return GenericSignature::create(BitString::create($data), $algo);
     }
 }

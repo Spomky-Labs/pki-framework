@@ -40,7 +40,7 @@ final class V2FormTest extends TestCase
      */
     public function create()
     {
-        $issuer = new V2Form(self::$_issuerName);
+        $issuer = V2Form::create(self::$_issuerName);
         static::assertInstanceOf(AttCertIssuer::class, $issuer);
         return $issuer;
     }
@@ -97,7 +97,7 @@ final class V2FormTest extends TestCase
      */
     public function noIssuerNameFail()
     {
-        $issuer = new V2Form();
+        $issuer = V2Form::create();
         $this->expectException(LogicException::class);
         $issuer->issuerName();
     }
@@ -117,8 +117,8 @@ final class V2FormTest extends TestCase
      */
     public function decodeWithAll()
     {
-        $iss_ser = new IssuerSerial(self::$_issuerName, 1);
-        $odi = new ObjectDigestInfo(
+        $iss_ser = IssuerSerial::create(self::$_issuerName, '1');
+        $odi = ObjectDigestInfo::create(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
             BitString::create('')

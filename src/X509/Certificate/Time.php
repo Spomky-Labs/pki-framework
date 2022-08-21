@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X509\Certificate;
 
 use DateTimeImmutable;
-use function intval;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
@@ -50,7 +49,7 @@ final class Time
      */
     public static function fromString(?string $time, ?string $tz = null): self
     {
-        return new self(self::_createDateTime($time, $tz));
+        return new self(self::createDateTime($time, $tz));
     }
 
     public function dateTime(): DateTimeImmutable
@@ -70,9 +69,9 @@ final class Time
             case Element::TYPE_GENERALIZED_TIME:
                 // GeneralizedTime must not contain fractional seconds
                 // (rfc5280 4.1.2.5.2)
-                if (intval($dt->format('u')) !== 0) {
+                if ((int) $dt->format('u') !== 0) {
                     // remove fractional seconds (round down)
-                    $dt = self::_roundDownFractionalSeconds($dt);
+                    $dt = self::roundDownFractionalSeconds($dt);
                 }
                 return GeneralizedTime::create($dt);
         }

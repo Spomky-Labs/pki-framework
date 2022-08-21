@@ -46,7 +46,7 @@ final class TargetMismatchTest extends TestCase
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
-        $aci = new AttributeCertificateInfo(
+        $aci = AttributeCertificateInfo::create(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
@@ -70,9 +70,9 @@ final class TargetMismatchTest extends TestCase
      */
     public function validate()
     {
-        $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
+        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
         $config = $config->withTargets(TargetName::create(DNSName::create('nope')));
-        $validator = new ACValidator(self::$_ac, $config);
+        $validator = ACValidator::create(self::$_ac, $config);
         $this->expectException(X509ValidationException::class);
         $validator->validate();
     }

@@ -23,7 +23,7 @@ final class RelativeNameTest extends TestCase
     public function create()
     {
         $name = RelativeName::create(
-            new RDN(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test')))
+            RDN::create(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test')))
         );
         static::assertInstanceOf(RelativeName::class, $name);
         return $name;

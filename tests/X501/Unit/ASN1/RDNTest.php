@@ -156,6 +156,6 @@ final class RDNTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('RDN must have at least one AttributeTypeAndValue');
-        new RDN();
+        RDN::create();
     }
 }

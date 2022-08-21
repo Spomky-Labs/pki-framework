@@ -46,8 +46,8 @@ final class InvalidHolderNameTest extends TestCase
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
-        $aci = new AttributeCertificateInfo(
-            new Holder(new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString('cn=Test')), 1)),
+        $aci = AttributeCertificateInfo::create(
+            Holder::create(IssuerSerial::create(GeneralNames::create(DirectoryName::fromDNString('cn=Test')), '1')),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
             Attributes::create()
@@ -67,8 +67,8 @@ final class InvalidHolderNameTest extends TestCase
      */
     public function validate()
     {
-        $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $validator = new ACValidator(self::$_ac, $config);
+        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
+        $validator = ACValidator::create(self::$_ac, $config);
         $this->expectException(X509ValidationException::class);
         $validator->validate();
     }

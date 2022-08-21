@@ -20,21 +20,20 @@ use UnexpectedValueException;
  */
 final class IetfAttrValue implements Stringable
 {
-    public function __construct(
-        /**
-         * Value.
-         */
-        protected string $_value,
-        /**
-         * Element type tag.
-         */
-        protected int $_type
+    private function __construct(
+        private readonly string $value,
+        private readonly int $type
     ) {
     }
 
     public function __toString(): string
     {
-        return $this->_value;
+        return $this->value;
+    }
+
+    public static function create(string $value, int $type): self
+    {
+        return new self($value, $type);
     }
 
     /**
@@ -43,8 +42,12 @@ final class IetfAttrValue implements Stringable
     public static function fromASN1(UnspecifiedType $el): self
     {
         return match ($el->tag()) {
-            Element::TYPE_OCTET_STRING, Element::TYPE_UTF8_STRING => new self($el->asString()->string(), $el->tag()),
-            Element::TYPE_OBJECT_IDENTIFIER => new self($el->asObjectIdentifier()->oid(), $el->tag()),
+            Element::TYPE_OCTET_STRING, Element::TYPE_UTF8_STRING => self::create(
+                $el->asString()
+                    ->string(),
+                $el->tag()
+            ),
+            Element::TYPE_OBJECT_IDENTIFIER => self::create($el->asObjectIdentifier()->oid(), $el->tag()),
             default => throw new UnexpectedValueException('Type ' . Element::tagToName($el->tag()) . ' not supported.'),
         };
     }
@@ -54,7 +57,7 @@ final class IetfAttrValue implements Stringable
      */
     public static function fromOctets(string $octets): self
     {
-        return new self($octets, Element::TYPE_OCTET_STRING);
+        return self::create($octets, Element::TYPE_OCTET_STRING);
     }
 
     /**
@@ -62,7 +65,7 @@ final class IetfAttrValue implements Stringable
      */
     public static function fromString(string $str): self
     {
-        return new self($str, Element::TYPE_UTF8_STRING);
+        return self::create($str, Element::TYPE_UTF8_STRING);
     }
 
     /**
@@ -70,7 +73,7 @@ final class IetfAttrValue implements Stringable
      */
     public static function fromOID(string $oid): self
     {
-        return new self($oid, Element::TYPE_OBJECT_IDENTIFIER);
+        return self::create($oid, Element::TYPE_OBJECT_IDENTIFIER);
     }
 
     /**
@@ -78,7 +81,7 @@ final class IetfAttrValue implements Stringable
      */
     public function type(): int
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -86,7 +89,7 @@ final class IetfAttrValue implements Stringable
      */
     public function isOctets(): bool
     {
-        return $this->_type === Element::TYPE_OCTET_STRING;
+        return $this->type === Element::TYPE_OCTET_STRING;
     }
 
     /**
@@ -94,7 +97,7 @@ final class IetfAttrValue implements Stringable
      */
     public function isOID(): bool
     {
-        return $this->_type === Element::TYPE_OBJECT_IDENTIFIER;
+        return $this->type === Element::TYPE_OBJECT_IDENTIFIER;
     }
 
     /**
@@ -102,12 +105,12 @@ final class IetfAttrValue implements Stringable
      */
     public function isString(): bool
     {
-        return $this->_type === Element::TYPE_UTF8_STRING;
+        return $this->type === Element::TYPE_UTF8_STRING;
     }
 
     public function value(): string
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
@@ -115,11 +118,11 @@ final class IetfAttrValue implements Stringable
      */
     public function toASN1(): Element
     {
-        return match ($this->_type) {
-            Element::TYPE_OCTET_STRING => OctetString::create($this->_value),
-            Element::TYPE_UTF8_STRING => UTF8String::create($this->_value),
-            Element::TYPE_OBJECT_IDENTIFIER => ObjectIdentifier::create($this->_value),
-            default => throw new LogicException('Type ' . Element::tagToName($this->_type) . ' not supported.'),
+        return match ($this->type) {
+            Element::TYPE_OCTET_STRING => OctetString::create($this->value),
+            Element::TYPE_UTF8_STRING => UTF8String::create($this->value),
+            Element::TYPE_OBJECT_IDENTIFIER => ObjectIdentifier::create($this->value),
+            default => throw new LogicException('Type ' . Element::tagToName($this->type) . ' not supported.'),
         };
     }
 }

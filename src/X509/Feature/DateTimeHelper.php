@@ -21,7 +21,7 @@ trait DateTimeHelper
      * @param null|string $time Time string, default to 'now'
      * @param null|string $tz Timezone, default if omitted
      */
-    private static function _createDateTime(?string $time = null, ?string $tz = null): DateTimeImmutable
+    private static function createDateTime(?string $time = null, ?string $tz = null): DateTimeImmutable
     {
         if (! isset($time)) {
             $time = 'now';
@@ -30,8 +30,8 @@ trait DateTimeHelper
             $tz = date_default_timezone_get();
         }
         try {
-            $dt = new DateTimeImmutable($time, self::_createTimeZone($tz));
-            return self::_roundDownFractionalSeconds($dt);
+            $dt = new DateTimeImmutable($time, self::createTimeZone($tz));
+            return self::roundDownFractionalSeconds($dt);
         } catch (Exception $e) {
             throw new RuntimeException('Failed to create DateTime:', 0, $e);
         }
@@ -40,7 +40,7 @@ trait DateTimeHelper
     /**
      * Rounds a \DateTimeImmutable value such that fractional seconds are removed.
      */
-    private static function _roundDownFractionalSeconds(DateTimeImmutable $dt): DateTimeImmutable
+    private static function roundDownFractionalSeconds(DateTimeImmutable $dt): DateTimeImmutable
     {
         return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $dt->format('Y-m-d H:i:s'), $dt->getTimezone());
     }
@@ -48,7 +48,7 @@ trait DateTimeHelper
     /**
      * Create DateTimeZone object from string.
      */
-    private static function _createTimeZone(string $tz): DateTimeZone
+    private static function createTimeZone(string $tz): DateTimeZone
     {
         try {
             return new DateTimeZone($tz);

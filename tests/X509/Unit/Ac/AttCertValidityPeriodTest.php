@@ -32,9 +32,9 @@ final class AttCertValidityPeriodTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): AttCertValidityPeriod
     {
-        $validity = new AttCertValidityPeriod(self::$_nb, self::$_na);
+        $validity = AttCertValidityPeriod::create(self::$_nb, self::$_na);
         static::assertInstanceOf(AttCertValidityPeriod::class, $validity);
         return $validity;
     }
@@ -44,7 +44,7 @@ final class AttCertValidityPeriodTest extends TestCase
      *
      * @test
      */
-    public function encode(AttCertValidityPeriod $validity)
+    public function encode(AttCertValidityPeriod $validity): string
     {
         $seq = $validity->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -58,7 +58,7 @@ final class AttCertValidityPeriodTest extends TestCase
      *
      * @test
      */
-    public function decode($data)
+    public function decode($data): AttCertValidityPeriod
     {
         $iss_ser = AttCertValidityPeriod::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(AttCertValidityPeriod::class, $iss_ser);

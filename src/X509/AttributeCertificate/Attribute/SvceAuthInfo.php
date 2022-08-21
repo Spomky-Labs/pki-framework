@@ -23,9 +23,9 @@ abstract class SvceAuthInfo extends AttributeValue
 {
     protected function __construct(
         string $oid,
-        protected GeneralName $_service,
-        protected GeneralName $_ident,
-        protected ?string $_authInfo = null
+        private readonly GeneralName $service,
+        private readonly GeneralName $ident,
+        private readonly ?string $authInfo = null
     ) {
         parent::__construct($oid);
     }
@@ -37,12 +37,12 @@ abstract class SvceAuthInfo extends AttributeValue
      */
     public function service(): GeneralName
     {
-        return $this->_service;
+        return $this->service;
     }
 
     public function ident(): GeneralName
     {
-        return $this->_ident;
+        return $this->ident;
     }
 
     /**
@@ -50,7 +50,7 @@ abstract class SvceAuthInfo extends AttributeValue
      */
     public function hasAuthInfo(): bool
     {
-        return isset($this->_authInfo);
+        return isset($this->authInfo);
     }
 
     /**
@@ -61,14 +61,14 @@ abstract class SvceAuthInfo extends AttributeValue
         if (! $this->hasAuthInfo()) {
             throw new LogicException('authInfo not set.');
         }
-        return $this->_authInfo;
+        return $this->authInfo;
     }
 
     public function toASN1(): Element
     {
-        $elements = [$this->_service->toASN1(), $this->_ident->toASN1()];
-        if (isset($this->_authInfo)) {
-            $elements[] = OctetString::create($this->_authInfo);
+        $elements = [$this->service->toASN1(), $this->ident->toASN1()];
+        if (isset($this->authInfo)) {
+            $elements[] = OctetString::create($this->authInfo);
         }
         return Sequence::create(...$elements);
     }

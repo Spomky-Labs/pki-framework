@@ -53,13 +53,13 @@ final class AttributeCertificateInfoTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_holder = new Holder(
-            new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString(self::ISSUER_DN)), 42)
+        self::$_holder = Holder::create(
+            IssuerSerial::create(GeneralNames::create(DirectoryName::fromDNString(self::ISSUER_DN)), '42')
         );
         self::$_issuer = AttCertIssuer::fromName(Name::fromString(self::ISSUER_DN));
         self::$_validity = AttCertValidityPeriod::fromStrings('2016-04-29 12:00:00', '2016-04-29 13:00:00');
         self::$_attribs = Attributes::fromAttributeValues(
-            new RoleAttributeValue(UniformResourceIdentifier::create('urn:admin'))
+            RoleAttributeValue::create(UniformResourceIdentifier::create('urn:admin'))
         );
         self::$_extensions = Extensions::create(new AuthorityKeyIdentifierExtension(true, 'test'));
         self::$_privKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
@@ -80,7 +80,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function create()
     {
-        $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
+        $aci = AttributeCertificateInfo::create(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }
@@ -90,7 +90,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function createWithAll()
     {
-        $aci = new AttributeCertificateInfo(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
+        $aci = AttributeCertificateInfo::create(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
         $aci = $aci->withSignature(SHA256WithRSAEncryptionAlgorithmIdentifier::create())
             ->withSerialNumber(1)
             ->withExtensions(self::$_extensions)

@@ -14,10 +14,15 @@ use const MB_CASE_LOWER;
 final class MapStep implements PrepareStep
 {
     /**
-     * @param bool $_fold Whether to apply case folding
+     * @param bool $fold Whether to apply case folding
      */
-    public function __construct(protected bool $_fold = false)
+    private function __construct(protected bool $fold)
     {
+    }
+
+    public static function create(bool $fold = false): self
+    {
+        return new self($fold);
     }
 
     /**
@@ -26,7 +31,7 @@ final class MapStep implements PrepareStep
     public function apply(string $string): string
     {
         // @todo Implement character mappings
-        if ($this->_fold) {
+        if ($this->fold) {
             $string = mb_convert_case($string, MB_CASE_LOWER, 'UTF-8');
         }
         return $string;

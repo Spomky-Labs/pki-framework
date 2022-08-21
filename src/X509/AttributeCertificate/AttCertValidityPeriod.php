@@ -18,16 +18,15 @@ final class AttCertValidityPeriod
 {
     use DateTimeHelper;
 
-    public function __construct(
-        /**
-         * Not before time.
-         */
-        protected DateTimeImmutable $_notBeforeTime,
-        /**
-         * Not after time.
-         */
-        protected DateTimeImmutable $_notAfterTime
+    private function __construct(
+        private readonly DateTimeImmutable $notBeforeTime,
+        private readonly DateTimeImmutable $notAfterTime
     ) {
+    }
+
+    public static function create(DateTimeImmutable $notBeforeTime, DateTimeImmutable $notAfterTime): self
+    {
+        return new self($notBeforeTime, $notAfterTime);
     }
 
     /**
@@ -41,7 +40,7 @@ final class AttCertValidityPeriod
         $na = $seq->at(1)
             ->asGeneralizedTime()
             ->dateTime();
-        return new self($nb, $na);
+        return self::create($nb, $na);
     }
 
     /**
@@ -53,9 +52,9 @@ final class AttCertValidityPeriod
      */
     public static function fromStrings(?string $nb_date, ?string $na_date, ?string $tz = null): self
     {
-        $nb = self::_createDateTime($nb_date, $tz);
-        $na = self::_createDateTime($na_date, $tz);
-        return new self($nb, $na);
+        $nb = self::createDateTime($nb_date, $tz);
+        $na = self::createDateTime($na_date, $tz);
+        return self::create($nb, $na);
     }
 
     /**
@@ -63,7 +62,7 @@ final class AttCertValidityPeriod
      */
     public function notBeforeTime(): DateTimeImmutable
     {
-        return $this->_notBeforeTime;
+        return $this->notBeforeTime;
     }
 
     /**
@@ -71,7 +70,7 @@ final class AttCertValidityPeriod
      */
     public function notAfterTime(): DateTimeImmutable
     {
-        return $this->_notAfterTime;
+        return $this->notAfterTime;
     }
 
     /**
@@ -80,8 +79,8 @@ final class AttCertValidityPeriod
     public function toASN1(): Sequence
     {
         return Sequence::create(
-            GeneralizedTime::create($this->_notBeforeTime),
-            GeneralizedTime::create($this->_notAfterTime)
+            GeneralizedTime::create($this->notBeforeTime),
+            GeneralizedTime::create($this->notAfterTime)
         );
     }
 }

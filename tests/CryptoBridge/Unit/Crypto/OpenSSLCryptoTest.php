@@ -80,7 +80,7 @@ final class OpenSSLCryptoTest extends TestCase
      *
      * @test
      */
-    public function signAndVerifyRSA(SignatureAlgorithmIdentifier $algo)
+    public function signAndVerifyRSA(SignatureAlgorithmIdentifier $algo): void
     {
         $signature = self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
         static::assertInstanceOf(Signature::class, $signature);
@@ -105,7 +105,7 @@ final class OpenSSLCryptoTest extends TestCase
      *
      * @test
      */
-    public function signAndVerifyEC(SignatureAlgorithmIdentifier $algo)
+    public function signAndVerifyEC(SignatureAlgorithmIdentifier $algo): void
     {
         $signature = self::$_crypto->sign(self::DATA, self::$_ecPrivKeyInfo, $algo);
         static::assertInstanceOf(Signature::class, $signature);
@@ -122,7 +122,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function unsupportedDigestFail()
+    public function unsupportedDigestFail(): void
     {
         $algo = MD2WithRSAEncryptionAlgorithmIdentifier::create();
         $this->expectException(UnexpectedValueException::class);
@@ -132,9 +132,9 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function signInvalidKeyFails()
+    public function signInvalidKeyFails(): void
     {
-        $pk = new RSAPrivateKey(0, 0, 0, 0, 0, 0, 0, 0);
+        $pk = RSAPrivateKey::create('0', '0', '0', '0', '0', '0', '0', '0');
         $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $this->expectException(RuntimeException::class);
         self::$_crypto->sign(self::DATA, $pk->privateKeyInfo(), $algo);
@@ -143,7 +143,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function verifyInvalidKeyType()
+    public function verifyInvalidKeyType(): void
     {
         $signature = RSASignature::fromSignatureString('');
         $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
@@ -160,7 +160,7 @@ final class OpenSSLCryptoTest extends TestCase
      *
      * @test
      */
-    public function encryptAndDecrypt($data, CipherAlgorithmIdentifier $algo, $key)
+    public function encryptAndDecrypt($data, CipherAlgorithmIdentifier $algo, $key): void
     {
         $ciphertext = self::$_crypto->encrypt($data, $key, $algo);
         static::assertNotEquals($data, $ciphertext);
@@ -192,7 +192,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function unsupportedRC2KeySize()
+    public function unsupportedRC2KeySize(): void
     {
         $data = '12345678';
         $key = '12345678';
@@ -204,7 +204,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function encryptUnalignedFail()
+    public function encryptUnalignedFail(): void
     {
         $data = '1234567';
         $key = '12345678';
@@ -216,7 +216,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function decryptUnalignedFail()
+    public function decryptUnalignedFail(): void
     {
         $data = '1234567';
         $key = '12345678';
@@ -228,7 +228,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function unsupportedCipherFail()
+    public function unsupportedCipherFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, '', new UnsupportedCipher());
@@ -237,7 +237,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function invalidRC2AlgoFail()
+    public function invalidRC2AlgoFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, '', new InvalidRC2());
@@ -246,7 +246,7 @@ final class OpenSSLCryptoTest extends TestCase
     /**
      * @test
      */
-    public function unsupportedRC2KeySizeFail()
+    public function unsupportedRC2KeySizeFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, 'x', RC2CBCAlgorithmIdentifier::create(8, '87654321'));
@@ -257,7 +257,7 @@ final class OpenSSLCryptoTest extends TestCase
      *
      * @test
      */
-    public function signatureMethod(PrivateKeyInfo $pki, SignatureAlgorithmIdentifier $algo)
+    public function signatureMethod(PrivateKeyInfo $pki, SignatureAlgorithmIdentifier $algo): void
     {
         $signature = self::$_crypto->sign(self::DATA, $pki, $algo);
         $result = self::$_crypto->verify(self::DATA, $signature, $pki->publicKeyInfo(), $algo);

@@ -31,7 +31,7 @@ final class IetfAttrValueTest extends TestCase
      */
     public function toUnsupportedTypeFail()
     {
-        $val = new IetfAttrValue('', Element::TYPE_NULL);
+        $val = IetfAttrValue::create('', Element::TYPE_NULL);
         $this->expectException(LogicException::class);
         $val->toASN1();
     }

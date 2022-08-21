@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\X501\ASN1;
 
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
-use SpomkyLabs\Pki\X501\ASN1\Feature\TypedAttribute;
 use Stringable;
 
 /**
@@ -16,22 +15,24 @@ use Stringable;
  */
 final class AttributeTypeAndValue implements Stringable
 {
-    use TypedAttribute;
-
     /**
      * @param AttributeType $type Attribute type
-     * @param AttributeValue $_value Attribute value
+     * @param AttributeValue $value Attribute value
      */
-    public function __construct(
-        AttributeType $type,
-        protected AttributeValue $_value
+    private function __construct(
+        private readonly AttributeType $type,
+        private readonly AttributeValue $value
     ) {
-        $this->_type = $type;
     }
 
     public function __toString(): string
     {
         return $this->toString();
+    }
+
+    public static function create(AttributeType $type, AttributeValue $value): self
+    {
+        return new self($type, $value);
     }
 
     /**
@@ -41,7 +42,7 @@ final class AttributeTypeAndValue implements Stringable
     {
         $type = AttributeType::fromASN1($seq->at(0)->asObjectIdentifier());
         $value = AttributeValue::fromASN1ByOID($type->oid(), $seq->at(1));
-        return new self($type, $value);
+        return self::create($type, $value);
     }
 
     /**
@@ -51,7 +52,7 @@ final class AttributeTypeAndValue implements Stringable
      */
     public static function fromAttributeValue(AttributeValue $value): self
     {
-        return new self(AttributeType::create($value->oid()), $value);
+        return self::create(AttributeType::create($value->oid()), $value);
     }
 
     /**
@@ -59,7 +60,7 @@ final class AttributeTypeAndValue implements Stringable
      */
     public function value(): AttributeValue
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
@@ -67,7 +68,7 @@ final class AttributeTypeAndValue implements Stringable
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create($this->_type->toASN1(), $this->_value->toASN1());
+        return Sequence::create($this->type->toASN1(), $this->value->toASN1());
     }
 
     /**
@@ -77,7 +78,7 @@ final class AttributeTypeAndValue implements Stringable
      */
     public function toString(): string
     {
-        return $this->_type->typeName() . '=' . $this->_value->rfc2253String();
+        return $this->type->typeName() . '=' . $this->value->rfc2253String();
     }
 
     /**
@@ -91,8 +92,24 @@ final class AttributeTypeAndValue implements Stringable
         if ($this->oid() !== $other->oid()) {
             return false;
         }
-        $matcher = $this->_value->equalityMatchingRule();
+        $matcher = $this->value->equalityMatchingRule();
 
-        return $matcher->compare($this->_value->stringValue(), $other->_value->stringValue()) === true;
+        return $matcher->compare($this->value->stringValue(), $other->value->stringValue()) === true;
+    }
+
+    /**
+     * Get attribute type.
+     */
+    public function type(): AttributeType
+    {
+        return $this->type;
+    }
+
+    /**
+     * Get OID of the attribute.
+     */
+    public function oid(): string
+    {
+        return $this->type->oid();
     }
 }

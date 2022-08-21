@@ -144,7 +144,7 @@ final class TBSCertificate
     public static function fromCSR(CertificationRequest $cr): self
     {
         $cri = $cr->certificationRequestInfo();
-        $tbs_cert = new self($cri->subject(), $cri->subjectPKInfo(), new Name(), Validity::fromStrings(null, null));
+        $tbs_cert = new self($cri->subject(), $cri->subjectPKInfo(), Name::create(), Validity::fromStrings(null, null));
         // if CSR has Extension Request attribute
         if ($cri->hasAttributes()) {
             $attribs = $cri->attributes();

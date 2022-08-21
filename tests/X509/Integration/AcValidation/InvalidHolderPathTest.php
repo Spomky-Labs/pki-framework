@@ -44,7 +44,7 @@ final class InvalidHolderPathTest extends TestCase
         // intentionally missing intermediate certificate
         self::$_holderPath = CertificationPath::create($root_ca, $holder);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
-        $aci = new AttributeCertificateInfo(
+        $aci = AttributeCertificateInfo::create(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
@@ -65,8 +65,8 @@ final class InvalidHolderPathTest extends TestCase
      */
     public function validate()
     {
-        $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $validator = new ACValidator(self::$_ac, $config);
+        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
+        $validator = ACValidator::create(self::$_ac, $config);
         $this->expectException(X509ValidationException::class);
         $validator->validate();
     }

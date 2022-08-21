@@ -16,25 +16,30 @@ final class ACValidationConfig
     /**
      * Evaluation reference time.
      */
-    private DateTimeImmutable $_evalTime;
+    private DateTimeImmutable $evalTime;
 
     /**
      * Permitted targets.
      *
      * @var Target[]
      */
-    private array $_targets;
+    private array $targets;
 
     /**
-     * @param CertificationPath $_holderPath Certification path of the AC holder
-     * @param CertificationPath $_issuerPath Certification path of the AC issuer
+     * @param CertificationPath $holderPath Certification path of the AC holder
+     * @param CertificationPath $issuerPath Certification path of the AC issuer
      */
-    public function __construct(
-        protected CertificationPath $_holderPath,
-        protected CertificationPath $_issuerPath
+    private function __construct(
+        private readonly CertificationPath $holderPath,
+        private readonly CertificationPath $issuerPath
     ) {
-        $this->_evalTime = new DateTimeImmutable();
-        $this->_targets = [];
+        $this->evalTime = new DateTimeImmutable();
+        $this->targets = [];
+    }
+
+    public static function create(CertificationPath $holderPath, CertificationPath $issuerPath): self
+    {
+        return new self($holderPath, $issuerPath);
     }
 
     /**
@@ -42,7 +47,7 @@ final class ACValidationConfig
      */
     public function holderPath(): CertificationPath
     {
-        return $this->_holderPath;
+        return $this->holderPath;
     }
 
     /**
@@ -50,7 +55,7 @@ final class ACValidationConfig
      */
     public function issuerPath(): CertificationPath
     {
-        return $this->_issuerPath;
+        return $this->issuerPath;
     }
 
     /**
@@ -59,7 +64,7 @@ final class ACValidationConfig
     public function withEvaluationTime(DateTimeImmutable $dt): self
     {
         $obj = clone $this;
-        $obj->_evalTime = $dt;
+        $obj->evalTime = $dt;
         return $obj;
     }
 
@@ -68,7 +73,7 @@ final class ACValidationConfig
      */
     public function evaluationTime(): DateTimeImmutable
     {
-        return $this->_evalTime;
+        return $this->evalTime;
     }
 
     /**
@@ -77,7 +82,7 @@ final class ACValidationConfig
     public function withTargets(Target ...$targets): self
     {
         $obj = clone $this;
-        $obj->_targets = $targets;
+        $obj->targets = $targets;
         return $obj;
     }
 
@@ -88,6 +93,6 @@ final class ACValidationConfig
      */
     public function targets(): array
     {
-        return $this->_targets;
+        return $this->targets;
     }
 }

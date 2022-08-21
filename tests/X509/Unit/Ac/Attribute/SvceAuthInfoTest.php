@@ -22,7 +22,7 @@ final class SvceAuthInfoTest extends TestCase
      */
     public function createWithoutAuthInfo()
     {
-        $val = new AccessIdentityAttributeValue(
+        $val = AccessIdentityAttributeValue::create(
             DirectoryName::fromDNString('cn=Svc'),
             DirectoryName::fromDNString('cn=Ident')
         );

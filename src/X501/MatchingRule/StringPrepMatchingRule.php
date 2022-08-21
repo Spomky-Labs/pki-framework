@@ -11,18 +11,15 @@ use SpomkyLabs\Pki\X501\StringPrep\StringPreparer;
  */
 abstract class StringPrepMatchingRule extends MatchingRule
 {
-    public function __construct(
-        /**
-         * String preparer.
-         */
-        protected StringPreparer $_prep
+    protected function __construct(
+        private readonly StringPreparer $preparer
     ) {
     }
 
     public function compare(string $assertion, string $value): ?bool
     {
-        $assertion = $this->_prep->prepare($assertion);
-        $value = $this->_prep->prepare($value);
+        $assertion = $this->preparer->prepare($assertion);
+        $value = $this->preparer->prepare($value);
         return strcmp($assertion, $value) === 0;
     }
 }

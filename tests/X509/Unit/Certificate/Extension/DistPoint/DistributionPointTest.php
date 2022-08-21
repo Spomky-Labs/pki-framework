@@ -131,7 +131,9 @@ final class DistributionPointTest extends TestCase
     public function createWithRelativeName()
     {
         $dp = DistributionPoint::create(
-            RelativeName::create(new RDN(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test'))))
+            RelativeName::create(
+                RDN::create(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test')))
+            )
         );
         static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;

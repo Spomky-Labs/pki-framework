@@ -19,7 +19,7 @@ final class Ed25519SignatureTest extends TestCase
      */
     public function create(): Ed25519Signature
     {
-        $sig = new Ed25519Signature(str_repeat("\0", 64));
+        $sig = Ed25519Signature::create(str_repeat("\0", 64));
         static::assertInstanceOf(Ed25519Signature::class, $sig);
         return $sig;
     }
@@ -41,6 +41,6 @@ final class Ed25519SignatureTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/must be 64 octets/');
-        new Ed25519Signature('');
+        Ed25519Signature::create('');
     }
 }

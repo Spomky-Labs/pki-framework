@@ -26,14 +26,19 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 final class RoleAttributeValue extends AttributeValue
 {
     /**
-     * @param GeneralName $_roleName Role name
-     * @param null|GeneralNames $_roleAuthority Issuing authority
+     * @param GeneralName $roleName Role name
+     * @param null|GeneralNames $roleAuthority Issuing authority
      */
-    public function __construct(
-        protected GeneralName $_roleName,
-        protected ?GeneralNames $_roleAuthority = null
+    private function __construct(
+        private readonly GeneralName $roleName,
+        private readonly ?GeneralNames $roleAuthority
     ) {
         parent::__construct(AttributeType::OID_ROLE);
+    }
+
+    public static function create(GeneralName $roleName, ?GeneralNames $roleAuthority = null)
+    {
+        return new self($roleName, $roleAuthority);
     }
 
     /**
@@ -44,7 +49,7 @@ final class RoleAttributeValue extends AttributeValue
      */
     public static function fromString(string $role_name, ?GeneralNames $authority = null): self
     {
-        return new self(UniformResourceIdentifier::create($role_name), $authority);
+        return self::create(UniformResourceIdentifier::create($role_name), $authority);
     }
 
     /**
@@ -62,7 +67,7 @@ final class RoleAttributeValue extends AttributeValue
             );
         }
         $name = GeneralName::fromASN1($seq->getTagged(1)->asExplicit()->asTagged());
-        return new self($name, $authority);
+        return self::create($name, $authority);
     }
 
     /**
@@ -70,7 +75,7 @@ final class RoleAttributeValue extends AttributeValue
      */
     public function hasRoleAuthority(): bool
     {
-        return isset($this->_roleAuthority);
+        return isset($this->roleAuthority);
     }
 
     /**
@@ -81,7 +86,7 @@ final class RoleAttributeValue extends AttributeValue
         if (! $this->hasRoleAuthority()) {
             throw new LogicException('roleAuthority not set.');
         }
-        return $this->_roleAuthority;
+        return $this->roleAuthority;
     }
 
     /**
@@ -89,16 +94,16 @@ final class RoleAttributeValue extends AttributeValue
      */
     public function roleName(): GeneralName
     {
-        return $this->_roleName;
+        return $this->roleName;
     }
 
     public function toASN1(): Element
     {
         $elements = [];
-        if (isset($this->_roleAuthority)) {
-            $elements[] = ImplicitlyTaggedType::create(0, $this->_roleAuthority->toASN1());
+        if (isset($this->roleAuthority)) {
+            $elements[] = ImplicitlyTaggedType::create(0, $this->roleAuthority->toASN1());
         }
-        $elements[] = ExplicitlyTaggedType::create(1, $this->_roleName->toASN1());
+        $elements[] = ExplicitlyTaggedType::create(1, $this->roleName->toASN1());
         return Sequence::create(...$elements);
     }
 

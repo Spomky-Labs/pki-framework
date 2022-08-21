@@ -20,9 +20,9 @@ final class ObjectDigestInfoTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): ObjectDigestInfo
     {
-        $odi = new ObjectDigestInfo(
+        $odi = ObjectDigestInfo::create(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
             BitString::create(hex2bin('ff'))
@@ -36,7 +36,7 @@ final class ObjectDigestInfoTest extends TestCase
      *
      * @test
      */
-    public function encode(ObjectDigestInfo $odi)
+    public function encode(ObjectDigestInfo $odi): string
     {
         $seq = $odi->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -50,7 +50,7 @@ final class ObjectDigestInfoTest extends TestCase
      *
      * @test
      */
-    public function decode($data)
+    public function decode($data): ObjectDigestInfo
     {
         $odi = ObjectDigestInfo::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(ObjectDigestInfo::class, $odi);
@@ -63,7 +63,7 @@ final class ObjectDigestInfoTest extends TestCase
      *
      * @test
      */
-    public function recoded(ObjectDigestInfo $ref, ObjectDigestInfo $new)
+    public function recoded(ObjectDigestInfo $ref, ObjectDigestInfo $new): void
     {
         static::assertEquals($ref, $new);
     }
@@ -71,7 +71,7 @@ final class ObjectDigestInfoTest extends TestCase
     /**
      * @test
      */
-    public function decodeWithOtherObjectTypeID()
+    public function decodeWithOtherObjectTypeID(): ObjectDigestInfo
     {
         $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = Sequence::create(
@@ -90,7 +90,7 @@ final class ObjectDigestInfoTest extends TestCase
      *
      * @test
      */
-    public function encodeWithOtherObjectTypeID(ObjectDigestInfo $odi)
+    public function encodeWithOtherObjectTypeID(ObjectDigestInfo $odi): void
     {
         $seq = $odi->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);

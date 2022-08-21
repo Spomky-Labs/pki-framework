@@ -114,7 +114,7 @@ abstract class DirectoryString extends AttributeValue
 
     public function equalityMatchingRule(): MatchingRule
     {
-        return new CaseIgnoreMatch($this->_stringTag);
+        return CaseIgnoreMatch::create($this->_stringTag);
     }
 
     public function rfc2253String(): string

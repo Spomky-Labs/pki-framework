@@ -15,14 +15,11 @@ final class MapStepTest extends TestCase
     /**
      * @dataProvider provideApplyCaseFold
      *
-     * @param string $string
-     * @param string $expected
-     *
      * @test
      */
-    public function applyCaseFold($string, $expected)
+    public function applyCaseFold(string $string, string $expected): void
     {
-        $step = new MapStep(true);
+        $step = MapStep::create(true);
         static::assertEquals($expected, $step->apply($string));
     }
 

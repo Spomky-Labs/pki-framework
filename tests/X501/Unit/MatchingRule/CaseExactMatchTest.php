@@ -24,7 +24,7 @@ final class CaseExactMatchTest extends TestCase
      */
     public function match($assertion, $value, $expected)
     {
-        $rule = new CaseExactMatch(Element::TYPE_UTF8_STRING);
+        $rule = CaseExactMatch::create(Element::TYPE_UTF8_STRING);
         static::assertEquals($expected, $rule->compare($assertion, $value));
     }
 

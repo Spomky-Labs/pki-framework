@@ -43,7 +43,7 @@ final class StringPreparer
     {
         $steps = [
             self::STEP_TRANSCODE => TranscodeStep::create($string_type),
-            self::STEP_MAP => new MapStep(),
+            self::STEP_MAP => MapStep::create(),
             self::STEP_NORMALIZE => new NormalizeStep(),
             self::STEP_PROHIBIT => new ProhibitStep(),
             self::STEP_CHECK_BIDI => new CheckBidiStep(),
@@ -61,7 +61,7 @@ final class StringPreparer
     public function withCaseFolding(bool $fold): self
     {
         $obj = clone $this;
-        $obj->_steps[self::STEP_MAP] = new MapStep($fold);
+        $obj->_steps[self::STEP_MAP] = MapStep::create($fold);
         return $obj;
     }
 
