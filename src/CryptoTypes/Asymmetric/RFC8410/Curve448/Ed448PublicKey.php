@@ -18,14 +18,19 @@ use UnexpectedValueException;
 final class Ed448PublicKey extends RFC8410PublicKey
 {
     /**
-     * @param string $public_key Public key data
+     * @param string $publicKey Public key data
      */
-    public function __construct(string $public_key)
+    private function __construct(string $publicKey)
     {
-        if (mb_strlen($public_key, '8bit') !== 57) {
+        if (mb_strlen($publicKey, '8bit') !== 57) {
             throw new UnexpectedValueException('Ed448 public key must be exactly 57 bytes.');
         }
-        parent::__construct($public_key);
+        parent::__construct($publicKey);
+    }
+
+    public static function create(string $publicKey): self
+    {
+        return new self($publicKey);
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType

@@ -61,6 +61,6 @@ final class X448PrivateKey extends RFC8410PrivateKey
         if (! $this->hasPublicKey()) {
             throw new LogicException('Public key not set.');
         }
-        return new X448PublicKey($this->_publicKeyData);
+        return X448PublicKey::create($this->_publicKeyData);
     }
 }

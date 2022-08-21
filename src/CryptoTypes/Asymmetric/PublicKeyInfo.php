@@ -118,16 +118,16 @@ final class PublicKeyInfo
                 return ECPublicKey::create($this->publicKey->string(), $algo->namedCurve());
                 // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
-                return new Ed25519PublicKey($this->publicKey->string());
+                return Ed25519PublicKey::create($this->publicKey->string());
                 // X25519
             case AlgorithmIdentifier::OID_X25519:
-                return new X25519PublicKey($this->publicKey->string());
+                return X25519PublicKey::create($this->publicKey->string());
                 // Ed448
             case AlgorithmIdentifier::OID_ED448:
-                return new Ed448PublicKey($this->publicKey->string());
+                return Ed448PublicKey::create($this->publicKey->string());
                 // X448
             case AlgorithmIdentifier::OID_X448:
-                return new X448PublicKey($this->publicKey->string());
+                return X448PublicKey::create($this->publicKey->string());
         }
         throw new RuntimeException('Public key ' . $algo->name() . ' not supported.');
     }

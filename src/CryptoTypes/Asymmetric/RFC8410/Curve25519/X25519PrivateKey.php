@@ -43,6 +43,6 @@ final class X25519PrivateKey extends Curve25519PrivateKey
         if (! $this->hasPublicKey()) {
             throw new LogicException('Public key not set.');
         }
-        return new X25519PublicKey($this->_publicKeyData);
+        return X25519PublicKey::create($this->_publicKeyData);
     }
 }

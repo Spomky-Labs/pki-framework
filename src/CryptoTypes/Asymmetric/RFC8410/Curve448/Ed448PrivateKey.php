@@ -61,6 +61,6 @@ final class Ed448PrivateKey extends RFC8410PrivateKey
         if (! $this->hasPublicKey()) {
             throw new LogicException('Public key not set.');
         }
-        return new Ed448PublicKey($this->_publicKeyData);
+        return Ed448PublicKey::create($this->_publicKeyData);
     }
 }
