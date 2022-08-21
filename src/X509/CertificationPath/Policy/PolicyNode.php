@@ -34,7 +34,6 @@ final class PolicyNode implements IteratorAggregate, Countable
     private PolicyNode|null $parent = null;
 
     /**
-     * @param string $validPolicy Policy OID
      * @param PolicyQualifierInfo[] $qualifiers
      * @param string[] $expectedPolicies
      */
@@ -46,6 +45,10 @@ final class PolicyNode implements IteratorAggregate, Countable
         $this->children = [];
     }
 
+    /**
+     * @param PolicyQualifierInfo[] $qualifiers
+     * @param string[] $expectedPolicies
+     */
     public static function create(string $validPolicy, array $qualifiers, array $expectedPolicies): self
     {
         return new self($validPolicy, $qualifiers, $expectedPolicies);

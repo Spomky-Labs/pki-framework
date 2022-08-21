@@ -27,11 +27,7 @@ final class PathValidationResult
     private readonly array $certificates;
 
     /**
-     * @param Certificate[] $certificates Certificates in a certification path
-     * @param null|PolicyTree $policyTree Valid policy tree
-     * @param PublicKeyInfo $publicKeyInfo Public key of the end-entity certificate
-     * @param AlgorithmIdentifierType $publicKeyAlgo Public key algorithm of the end-entity certificate
-     * @param null|Element $publicKeyParameters Algorithm parameters
+     * @param Certificate[] $certificates
      */
     private function __construct(
         array $certificates,
@@ -43,6 +39,13 @@ final class PathValidationResult
         $this->certificates = array_values($certificates);
     }
 
+    /**
+     * @param Certificate[] $certificates Certificates in a certification path
+     * @param null|PolicyTree $policyTree Valid policy tree
+     * @param PublicKeyInfo $publicKeyInfo Public key of the end-entity certificate
+     * @param AlgorithmIdentifierType $publicKeyAlgo Public key algorithm of the end-entity certificate
+     * @param null|Element $publicKeyParameters Algorithm parameters
+     */
     public static function create(
         array $certificates,
         ?PolicyTree $policyTree,
