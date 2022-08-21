@@ -21,12 +21,17 @@ final class ExtensionRequestValue extends AttributeValue
     final public const OID = '1.2.840.113549.1.9.14';
 
     /**
-     * @param Extensions $_extensions Extensions.
+     * @param Extensions $extensions Extensions.
      */
-    public function __construct(
-        protected Extensions $_extensions
+    private function __construct(
+        protected Extensions $extensions
     ) {
         parent::__construct(self::OID);
+    }
+
+    public static function create(Extensions $extensions): self
+    {
+        return new self($extensions);
     }
 
     /**
@@ -34,7 +39,7 @@ final class ExtensionRequestValue extends AttributeValue
      */
     public static function fromASN1(UnspecifiedType $el): AttributeValue
     {
-        return new self(Extensions::fromASN1($el->asSequence()));
+        return self::create(Extensions::fromASN1($el->asSequence()));
     }
 
     /**
@@ -42,12 +47,12 @@ final class ExtensionRequestValue extends AttributeValue
      */
     public function extensions(): Extensions
     {
-        return $this->_extensions;
+        return $this->extensions;
     }
 
     public function toASN1(): Element
     {
-        return $this->_extensions->toASN1();
+        return $this->extensions->toASN1();
     }
 
     public function stringValue(): string

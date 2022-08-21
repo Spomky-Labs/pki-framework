@@ -75,7 +75,7 @@ final class RequestToCertTest extends TestCase
     {
         $subject = Name::fromString('cn=Subject');
         $pkinfo = self::$_subjectKey->publicKeyInfo();
-        $cri = new CertificationRequestInfo($subject, $pkinfo);
+        $cri = CertificationRequestInfo::create($subject, $pkinfo);
         $cri = $cri->withExtensionRequest(new Extensions(new BasicConstraintsExtension(true, false)));
         $algo = ECDSAWithSHA1AlgorithmIdentifier::create();
         $csr = $cri->sign($algo, self::$_subjectKey);

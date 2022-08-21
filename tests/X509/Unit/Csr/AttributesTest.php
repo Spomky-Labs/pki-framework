@@ -25,7 +25,7 @@ final class AttributesTest extends TestCase
      */
     public function create()
     {
-        $attribs = Attributes::fromAttributeValues(new ExtensionRequestValue(new Extensions()));
+        $attribs = Attributes::fromAttributeValues(ExtensionRequestValue::create(new Extensions()));
         static::assertInstanceOf(Attributes::class, $attribs);
         return $attribs;
     }
