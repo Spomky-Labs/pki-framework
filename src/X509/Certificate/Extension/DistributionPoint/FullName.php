@@ -16,12 +16,15 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class FullName extends DistributionPointName
 {
-    public function __construct(/**
-     * Names.
-     */
-        protected GeneralNames $_names
+    private function __construct(
+        private readonly GeneralNames $names
     ) {
-        $this->_tag = self::TAG_FULL_NAME;
+        parent::__construct(self::TAG_FULL_NAME);
+    }
+
+    public static function create(GeneralNames $names): self
+    {
+        return new self($names);
     }
 
     /**
@@ -29,16 +32,16 @@ final class FullName extends DistributionPointName
      */
     public static function fromURI(string $uri): self
     {
-        return new self(GeneralNames::create(UniformResourceIdentifier::create($uri)));
+        return self::create(GeneralNames::create(UniformResourceIdentifier::create($uri)));
     }
 
     public function names(): GeneralNames
     {
-        return $this->_names;
+        return $this->names;
     }
 
     protected function _valueASN1(): Element
     {
-        return $this->_names->toASN1();
+        return $this->names->toASN1();
     }
 }

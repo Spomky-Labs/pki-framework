@@ -59,7 +59,7 @@ final class NameConstraintsTest extends TestCase
             new BasicConstraintsExtension(true, true, 1),
             new NameConstraintsExtension(
                 true,
-                new GeneralSubtrees(new GeneralSubtree(DirectoryName::fromDNString('c=FI')))
+                GeneralSubtrees::create(GeneralSubtree::create(DirectoryName::fromDNString('c=FI')))
             )
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);

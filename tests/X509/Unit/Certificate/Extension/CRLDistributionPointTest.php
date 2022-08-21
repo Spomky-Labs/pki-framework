@@ -34,10 +34,10 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function createDistributionPoint()
     {
-        $name = new FullName(GeneralNames::create(UniformResourceIdentifier::create(self::DP_URI)));
-        $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
+        $name = FullName::create(GeneralNames::create(UniformResourceIdentifier::create(self::DP_URI)));
+        $reasons = ReasonFlags::create(ReasonFlags::PRIVILEGE_WITHDRAWN);
         $issuer = GeneralNames::create(DirectoryName::fromDNString(self::ISSUER_DN));
-        $dp = new DistributionPoint($name, $reasons, $issuer);
+        $dp = DistributionPoint::create($name, $reasons, $issuer);
         static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }
@@ -49,7 +49,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function create(DistributionPoint $dp)
     {
-        $ext = CRLDistributionPointsExtension::create(true, $dp, new DistributionPoint());
+        $ext = CRLDistributionPointsExtension::create(true, $dp, DistributionPoint::create());
         static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }

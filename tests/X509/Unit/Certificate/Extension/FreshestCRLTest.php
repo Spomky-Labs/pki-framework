@@ -24,10 +24,10 @@ final class FreshestCRLTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $name = new FullName(GeneralNames::create(UniformResourceIdentifier::create('urn:test')));
-        $reasons = new ReasonFlags(ReasonFlags::PRIVILEGE_WITHDRAWN);
+        $name = FullName::create(GeneralNames::create(UniformResourceIdentifier::create('urn:test')));
+        $reasons = ReasonFlags::create(ReasonFlags::PRIVILEGE_WITHDRAWN);
         $issuer = GeneralNames::create(DirectoryName::fromDNString('cn=Issuer'));
-        self::$_dp = new DistributionPoint($name, $reasons, $issuer);
+        self::$_dp = DistributionPoint::create($name, $reasons, $issuer);
     }
 
     public static function tearDownAfterClass(): void

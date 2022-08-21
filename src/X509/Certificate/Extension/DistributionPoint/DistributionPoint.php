@@ -18,20 +18,19 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class DistributionPoint
 {
-    public function __construct(
-        /**
-         * Distribution point name.
-         */
-        protected ?DistributionPointName $_distributionPoint = null,
-        /**
-         * Revocation reason.
-         */
-        protected ?ReasonFlags $_reasons = null,
-        /**
-         * CRL issuer.
-         */
-        protected ?GeneralNames $_issuer = null
+    private function __construct(
+        private readonly ?DistributionPointName $distributionPoint,
+        private readonly ?ReasonFlags $reasons,
+        private readonly ?GeneralNames $issuer
     ) {
+    }
+
+    public static function create(
+        ?DistributionPointName $distributionPoint = null,
+        ?ReasonFlags $reasons = null,
+        ?GeneralNames $issuer = null
+    ): self {
+        return new self($distributionPoint, $reasons, $issuer);
     }
 
     /**
@@ -68,7 +67,7 @@ final class DistributionPoint
      */
     public function hasDistributionPointName(): bool
     {
-        return isset($this->_distributionPoint);
+        return isset($this->distributionPoint);
     }
 
     /**
@@ -79,11 +78,11 @@ final class DistributionPoint
         if (! $this->hasDistributionPointName()) {
             throw new LogicException('distributionPoint not set.');
         }
-        return $this->_distributionPoint;
+        return $this->distributionPoint;
     }
 
     /**
-     * Check whether distribution point name is set and it's a full name.
+     * Check whether distribution point name is set, and it's a full name.
      */
     public function hasFullName(): bool
     {
@@ -97,10 +96,10 @@ final class DistributionPoint
      */
     public function fullName(): FullName
     {
-        if (! $this->hasFullName()) {
+        if (! $this->distributionPoint instanceof FullName || ! $this->hasFullName()) {
             throw new LogicException('fullName not set.');
         }
-        return $this->_distributionPoint;
+        return $this->distributionPoint;
     }
 
     /**
@@ -118,10 +117,10 @@ final class DistributionPoint
      */
     public function relativeName(): RelativeName
     {
-        if (! $this->hasRelativeName()) {
+        if (! $this->distributionPoint instanceof RelativeName || ! $this->hasRelativeName()) {
             throw new LogicException('nameRelativeToCRLIssuer not set.');
         }
-        return $this->_distributionPoint;
+        return $this->distributionPoint;
     }
 
     /**
@@ -129,7 +128,7 @@ final class DistributionPoint
      */
     public function hasReasons(): bool
     {
-        return isset($this->_reasons);
+        return isset($this->reasons);
     }
 
     /**
@@ -140,7 +139,7 @@ final class DistributionPoint
         if (! $this->hasReasons()) {
             throw new LogicException('reasons not set.');
         }
-        return $this->_reasons;
+        return $this->reasons;
     }
 
     /**
@@ -148,7 +147,7 @@ final class DistributionPoint
      */
     public function hasCRLIssuer(): bool
     {
-        return isset($this->_issuer);
+        return isset($this->issuer);
     }
 
     /**
@@ -159,7 +158,7 @@ final class DistributionPoint
         if (! $this->hasCRLIssuer()) {
             throw new LogicException('crlIssuer not set.');
         }
-        return $this->_issuer;
+        return $this->issuer;
     }
 
     /**
@@ -168,14 +167,14 @@ final class DistributionPoint
     public function toASN1(): Sequence
     {
         $elements = [];
-        if (isset($this->_distributionPoint)) {
-            $elements[] = ExplicitlyTaggedType::create(0, $this->_distributionPoint->toASN1());
+        if (isset($this->distributionPoint)) {
+            $elements[] = ExplicitlyTaggedType::create(0, $this->distributionPoint->toASN1());
         }
-        if (isset($this->_reasons)) {
-            $elements[] = ImplicitlyTaggedType::create(1, $this->_reasons->toASN1());
+        if (isset($this->reasons)) {
+            $elements[] = ImplicitlyTaggedType::create(1, $this->reasons->toASN1());
         }
-        if (isset($this->_issuer)) {
-            $elements[] = ImplicitlyTaggedType::create(2, $this->_issuer->toASN1());
+        if (isset($this->issuer)) {
+            $elements[] = ImplicitlyTaggedType::create(2, $this->issuer->toASN1());
         }
         return Sequence::create(...$elements);
     }

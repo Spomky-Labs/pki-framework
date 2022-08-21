@@ -22,7 +22,7 @@ final class PolicyMappingTest extends TestCase
      */
     public function create()
     {
-        $mapping = new PolicyMapping(self::ISSUER_POLICY, self::SUBJECT_POLICY);
+        $mapping = PolicyMapping::create(self::ISSUER_POLICY, self::SUBJECT_POLICY);
         static::assertInstanceOf(PolicyMapping::class, $mapping);
         return $mapping;
     }

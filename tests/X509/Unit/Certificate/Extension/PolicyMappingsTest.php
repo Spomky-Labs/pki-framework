@@ -31,8 +31,8 @@ final class PolicyMappingsTest extends TestCase
     public function createMappings()
     {
         $mappings = [
-            new PolicyMapping(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
-            new PolicyMapping('1.3.6.1.3.3', '1.3.6.1.3.4'), ];
+            PolicyMapping::create(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
+            PolicyMapping::create('1.3.6.1.3.3', '1.3.6.1.3.4'), ];
         static::assertInstanceOf(PolicyMapping::class, $mappings[0]);
         return $mappings;
     }
@@ -200,7 +200,7 @@ final class PolicyMappingsTest extends TestCase
     {
         $ext = new PolicyMappingsExtension(
             false,
-            new PolicyMapping(PolicyInformation::OID_ANY_POLICY, self::SUBJECT_POLICY_OID)
+            PolicyMapping::create(PolicyInformation::OID_ANY_POLICY, self::SUBJECT_POLICY_OID)
         );
         static::assertTrue($ext->hasAnyPolicyMapping());
     }
@@ -212,7 +212,7 @@ final class PolicyMappingsTest extends TestCase
     {
         $ext = new PolicyMappingsExtension(
             false,
-            new PolicyMapping(self::ISSUER_POLICY_OID, PolicyInformation::OID_ANY_POLICY)
+            PolicyMapping::create(self::ISSUER_POLICY_OID, PolicyInformation::OID_ANY_POLICY)
         );
         static::assertTrue($ext->hasAnyPolicyMapping());
     }

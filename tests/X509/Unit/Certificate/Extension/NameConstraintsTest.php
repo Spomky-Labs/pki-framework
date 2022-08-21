@@ -31,9 +31,9 @@ final class NameConstraintsTest extends TestCase
      */
     public function createPermitted()
     {
-        $subtrees = new GeneralSubtrees(
-            new GeneralSubtree(UniformResourceIdentifier::create(self::PERMITTED_URI)),
-            new GeneralSubtree(DirectoryName::fromDNString(self::PERMITTED_DN))
+        $subtrees = GeneralSubtrees::create(
+            GeneralSubtree::create(UniformResourceIdentifier::create(self::PERMITTED_URI)),
+            GeneralSubtree::create(DirectoryName::fromDNString(self::PERMITTED_DN))
         );
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
@@ -44,7 +44,9 @@ final class NameConstraintsTest extends TestCase
      */
     public function createExcluded()
     {
-        $subtrees = new GeneralSubtrees(new GeneralSubtree(UniformResourceIdentifier::create(self::EXCLUDED_URI)));
+        $subtrees = GeneralSubtrees::create(
+            GeneralSubtree::create(UniformResourceIdentifier::create(self::EXCLUDED_URI))
+        );
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }

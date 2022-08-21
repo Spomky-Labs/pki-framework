@@ -22,12 +22,9 @@ abstract class DistributionPointName
 
     public const TAG_RDN = 1;
 
-    /**
-     * Type.
-     *
-     * @var int
-     */
-    protected $_tag;
+    protected function __construct(protected int $tag)
+    {
+    }
 
     /**
      * Initialize from TaggedType.
@@ -35,10 +32,10 @@ abstract class DistributionPointName
     public static function fromTaggedType(TaggedType $el): self
     {
         return match ($el->tag()) {
-            self::TAG_FULL_NAME => new FullName(GeneralNames::fromASN1(
+            self::TAG_FULL_NAME => FullName::create(GeneralNames::fromASN1(
                 $el->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
             )),
-            self::TAG_RDN => new RelativeName(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet())),
+            self::TAG_RDN => RelativeName::create(RDN::fromASN1($el->asImplicit(Element::TYPE_SET)->asSet())),
             default => throw new UnexpectedValueException(
                 'DistributionPointName tag ' . $el->tag() . ' not supported.'
             ),
@@ -50,7 +47,7 @@ abstract class DistributionPointName
      */
     public function tag(): int
     {
-        return $this->_tag;
+        return $this->tag;
     }
 
     /**
@@ -58,7 +55,7 @@ abstract class DistributionPointName
      */
     public function toASN1(): ImplicitlyTaggedType
     {
-        return ImplicitlyTaggedType::create($this->_tag, $this->_valueASN1());
+        return ImplicitlyTaggedType::create($this->tag, $this->_valueASN1());
     }
 
     /**

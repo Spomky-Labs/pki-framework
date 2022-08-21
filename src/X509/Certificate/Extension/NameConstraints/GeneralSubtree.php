@@ -18,20 +18,31 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class GeneralSubtree
 {
-    public function __construct(
-        /**
-         * Constraint.
-         */
-        protected GeneralName $_base,
-        /**
-         * Not used, must be zero.
-         */
-        protected int $_min = 0,
-        /**
-         * Not used, must be null.
-         */
-        protected ?int $_max = null
+    private function __construct(
+        private readonly GeneralName $base,
+        private readonly int $min,
+        private readonly ?int $max
     ) {
+    }
+
+    public static function create(GeneralName $base, int $min = 0, ?int $max = null): self
+    {
+        return new self($base, $min, $max);
+    }
+
+    public function getBase(): GeneralName
+    {
+        return $this->base;
+    }
+
+    public function getMin(): int
+    {
+        return $this->min;
+    }
+
+    public function getMax(): ?int
+    {
+        return $this->max;
     }
 
     /**
@@ -62,12 +73,12 @@ final class GeneralSubtree
                     break;
             }
         }
-        return new self($base, $min, $max);
+        return self::create($base, $min, $max);
     }
 
     public function base(): GeneralName
     {
-        return $this->_base;
+        return $this->base;
     }
 
     /**
@@ -75,12 +86,12 @@ final class GeneralSubtree
      */
     public function toASN1(): Sequence
     {
-        $elements = [$this->_base->toASN1()];
-        if (isset($this->_min) && $this->_min !== 0) {
-            $elements[] = ImplicitlyTaggedType::create(0, Integer::create($this->_min));
+        $elements = [$this->base->toASN1()];
+        if (isset($this->min) && $this->min !== 0) {
+            $elements[] = ImplicitlyTaggedType::create(0, Integer::create($this->min));
         }
-        if (isset($this->_max)) {
-            $elements[] = ImplicitlyTaggedType::create(1, Integer::create($this->_max));
+        if (isset($this->max)) {
+            $elements[] = ImplicitlyTaggedType::create(1, Integer::create($this->max));
         }
         return Sequence::create(...$elements);
     }
