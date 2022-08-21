@@ -28,15 +28,20 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      *
      * @var PolicyMapping[]
      */
-    protected array $_mappings;
+    private readonly array $mappings;
 
     /**
      * @param PolicyMapping ...$mappings One or more PolicyMapping objects
      */
-    public function __construct(bool $critical, PolicyMapping ...$mappings)
+    private function __construct(bool $critical, PolicyMapping ...$mappings)
     {
         parent::__construct(self::OID_POLICY_MAPPINGS, $critical);
-        $this->_mappings = $mappings;
+        $this->mappings = $mappings;
+    }
+
+    public static function create(bool $critical, PolicyMapping ...$mappings): self
+    {
+        return new self($critical, ...$mappings);
     }
 
     /**
@@ -46,7 +51,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      */
     public function mappings(): array
     {
-        return $this->_mappings;
+        return $this->mappings;
     }
 
     /**
@@ -60,7 +65,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
     public function flattenedMappings(): array
     {
         $mappings = [];
-        foreach ($this->_mappings as $mapping) {
+        foreach ($this->mappings as $mapping) {
             $idp = $mapping->issuerDomainPolicy();
             if (! isset($mappings[$idp])) {
                 $mappings[$idp] = [];
@@ -80,7 +85,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
     public function issuerMappings(string $oid): array
     {
         $oids = [];
-        foreach ($this->_mappings as $mapping) {
+        foreach ($this->mappings as $mapping) {
             if ($mapping->issuerDomainPolicy() === $oid) {
                 $oids[] = $mapping->subjectDomainPolicy();
             }
@@ -95,7 +100,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      */
     public function issuerDomainPolicies(): array
     {
-        $idps = array_map(static fn (PolicyMapping $mapping) => $mapping->issuerDomainPolicy(), $this->_mappings);
+        $idps = array_map(static fn (PolicyMapping $mapping) => $mapping->issuerDomainPolicy(), $this->mappings);
         return array_values(array_unique($idps));
     }
 
@@ -106,7 +111,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      */
     public function hasAnyPolicyMapping(): bool
     {
-        foreach ($this->_mappings as $mapping) {
+        foreach ($this->mappings as $mapping) {
             if ($mapping->issuerDomainPolicy() === PolicyInformation::OID_ANY_POLICY) {
                 return true;
             }
@@ -124,7 +129,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      */
     public function count(): int
     {
-        return count($this->_mappings);
+        return count($this->mappings);
     }
 
     /**
@@ -134,13 +139,13 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_mappings);
+        return new ArrayIterator($this->mappings);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $mappings = array_map(
-            fn (UnspecifiedType $el) => PolicyMapping::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => PolicyMapping::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (count($mappings) === 0) {
@@ -149,12 +154,12 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
         return new self($critical, ...$mappings);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        if (count($this->_mappings) === 0) {
+        if (count($this->mappings) === 0) {
             throw new LogicException('No mappings.');
         }
-        $elements = array_map(static fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->_mappings);
+        $elements = array_map(static fn (PolicyMapping $mapping) => $mapping->toASN1(), $this->mappings);
         return Sequence::create(...$elements);
     }
 }

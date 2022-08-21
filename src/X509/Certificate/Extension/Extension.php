@@ -225,12 +225,12 @@ abstract class Extension implements Stringable
     ];
 
     /**
-     * @param string $_oid Extension OID
-     * @param bool $_critical Whether extension is critical
+     * @param string $oid Extension OID
+     * @param bool $critical Whether extension is critical
      */
     public function __construct(
-        protected string $_oid,
-        protected bool $_critical
+        private readonly string $oid,
+        private readonly bool $critical
     ) {
     }
 
@@ -259,7 +259,7 @@ abstract class Extension implements Stringable
             ->string();
         if (array_key_exists($extnID, self::MAP_OID_TO_CLASS)) {
             $cls = self::MAP_OID_TO_CLASS[$extnID];
-            return $cls::_fromDER($data, $critical);
+            return $cls::fromDER($data, $critical);
         }
         return UnknownExtension::fromRawString($extnID, $critical, $data);
     }
@@ -269,7 +269,7 @@ abstract class Extension implements Stringable
      */
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     /**
@@ -277,7 +277,7 @@ abstract class Extension implements Stringable
      */
     public function isCritical(): bool
     {
-        return $this->_critical;
+        return $this->critical;
     }
 
     /**
@@ -285,11 +285,11 @@ abstract class Extension implements Stringable
      */
     public function toASN1(): Sequence
     {
-        $elements = [ObjectIdentifier::create($this->_oid)];
-        if ($this->_critical) {
+        $elements = [ObjectIdentifier::create($this->oid)];
+        if ($this->critical) {
             $elements[] = Boolean::create(true);
         }
-        $elements[] = $this->_extnValue();
+        $elements[] = $this->extnValue();
         return Sequence::create(...$elements);
     }
 
@@ -298,8 +298,8 @@ abstract class Extension implements Stringable
      */
     public function extensionName(): string
     {
-        if (array_key_exists($this->_oid, self::MAP_OID_TO_NAME)) {
-            return self::MAP_OID_TO_NAME[$this->_oid];
+        if (array_key_exists($this->oid, self::MAP_OID_TO_NAME)) {
+            return self::MAP_OID_TO_NAME[$this->oid];
         }
         return $this->oid();
     }
@@ -307,7 +307,7 @@ abstract class Extension implements Stringable
     /**
      * Get ASN.1 structure of the extension value.
      */
-    abstract protected function _valueASN1(): Element;
+    abstract protected function valueASN1(): Element;
 
     /**
      * Parse extension value from DER.
@@ -315,13 +315,13 @@ abstract class Extension implements Stringable
      * @param string $data DER data
      * @param bool $critical Whether extension is critical
      */
-    abstract protected static function _fromDER(string $data, bool $critical): static;
+    abstract protected static function fromDER(string $data, bool $critical): static;
 
     /**
      * Get the extnValue element.
      */
-    protected function _extnValue(): OctetString
+    protected function extnValue(): OctetString
     {
-        return OctetString::create($this->_valueASN1()->toDER());
+        return OctetString::create($this->valueASN1()->toDER());
     }
 }

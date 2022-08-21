@@ -61,7 +61,7 @@ final class IntermediateTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new KeyUsageExtension(true, KeyUsageExtension::KEY_CERT_SIGN)
+            KeyUsageExtension::create(true, KeyUsageExtension::KEY_CERT_SIGN)
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create intermediate certificate

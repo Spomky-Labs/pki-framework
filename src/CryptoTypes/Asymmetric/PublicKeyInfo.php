@@ -30,13 +30,18 @@ use UnexpectedValueException;
 final class PublicKeyInfo
 {
     /**
-     * @param AlgorithmIdentifierType $_algo Algorithm
-     * @param BitString $_publicKey Public key data
+     * @param AlgorithmIdentifierType $algo Algorithm
+     * @param BitString $publicKey Public key data
      */
-    public function __construct(
-        protected AlgorithmIdentifierType $_algo,
-        protected BitString $_publicKey
+    private function __construct(
+        private readonly AlgorithmIdentifierType $algo,
+        private readonly BitString $publicKey
     ) {
+    }
+
+    public static function create(AlgorithmIdentifierType $algo, BitString $publicKey): self
+    {
+        return new self($algo, $publicKey);
     }
 
     /**
@@ -83,7 +88,7 @@ final class PublicKeyInfo
      */
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
-        return $this->_algo;
+        return $this->algo;
     }
 
     /**
@@ -91,7 +96,7 @@ final class PublicKeyInfo
      */
     public function publicKeyData(): BitString
     {
-        return $this->_publicKey;
+        return $this->publicKey;
     }
 
     /**
@@ -103,26 +108,26 @@ final class PublicKeyInfo
         switch ($algo->oid()) {
             // RSA
             case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
-                return RSAPublicKey::fromDER($this->_publicKey->string());
+                return RSAPublicKey::fromDER($this->publicKey->string());
                 // Elliptic Curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 if (! $algo instanceof ECPublicKeyAlgorithmIdentifier) {
                     throw new UnexpectedValueException('Not an EC algorithm.');
                 }
                 // ECPoint is directly mapped into public key data
-                return new ECPublicKey($this->_publicKey->string(), $algo->namedCurve());
+                return ECPublicKey::create($this->publicKey->string(), $algo->namedCurve());
                 // Ed25519
             case AlgorithmIdentifier::OID_ED25519:
-                return new Ed25519PublicKey($this->_publicKey->string());
+                return new Ed25519PublicKey($this->publicKey->string());
                 // X25519
             case AlgorithmIdentifier::OID_X25519:
-                return new X25519PublicKey($this->_publicKey->string());
+                return new X25519PublicKey($this->publicKey->string());
                 // Ed448
             case AlgorithmIdentifier::OID_ED448:
-                return new Ed448PublicKey($this->_publicKey->string());
+                return new Ed448PublicKey($this->publicKey->string());
                 // X448
             case AlgorithmIdentifier::OID_X448:
-                return new X448PublicKey($this->_publicKey->string());
+                return new X448PublicKey($this->publicKey->string());
         }
         throw new RuntimeException('Public key ' . $algo->name() . ' not supported.');
     }
@@ -136,7 +141,7 @@ final class PublicKeyInfo
      */
     public function keyIdentifier(): string
     {
-        return sha1($this->_publicKey->string(), true);
+        return sha1($this->publicKey->string(), true);
     }
 
     /**
@@ -159,7 +164,7 @@ final class PublicKeyInfo
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create($this->_algo->toASN1(), $this->_publicKey);
+        return Sequence::create($this->algo->toASN1(), $this->publicKey);
     }
 
     /**

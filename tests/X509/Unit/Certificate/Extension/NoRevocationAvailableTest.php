@@ -19,7 +19,7 @@ final class NoRevocationAvailableTest extends TestCase
      */
     public function create()
     {
-        $ext = new NoRevocationAvailableExtension(true);
+        $ext = NoRevocationAvailableExtension::create(true);
         static::assertInstanceOf(NoRevocationAvailableExtension::class, $ext);
         return $ext;
     }

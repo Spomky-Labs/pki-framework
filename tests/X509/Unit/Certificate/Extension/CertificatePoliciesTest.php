@@ -313,7 +313,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function extensions(CertificatePoliciesExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasCertificatePolicies());
         return $extensions;
     }

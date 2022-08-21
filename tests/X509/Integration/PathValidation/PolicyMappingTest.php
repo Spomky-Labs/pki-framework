@@ -58,7 +58,7 @@ final class PolicyMappingTest extends TestCase
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
             new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.1')),
-            new PolicyMappingsExtension(true, PolicyMapping::create('1.3.6.1.3.1', '1.3.6.1.3.2'))
+            PolicyMappingsExtension::create(true, PolicyMapping::create('1.3.6.1.3.1', '1.3.6.1.3.2'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate

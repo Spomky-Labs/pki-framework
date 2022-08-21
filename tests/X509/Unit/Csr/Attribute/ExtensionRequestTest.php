@@ -22,7 +22,7 @@ final class ExtensionRequestTest extends TestCase
      */
     public function create()
     {
-        $value = ExtensionRequestValue::create(new Extensions());
+        $value = ExtensionRequestValue::create(Extensions::create());
         static::assertInstanceOf(ExtensionRequestValue::class, $value);
         return $value;
     }

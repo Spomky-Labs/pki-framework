@@ -29,12 +29,12 @@ final class IssuerAlternativeNameExtension extends Extension
         return $this->_names;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         return new self($critical, GeneralNames::fromASN1(UnspecifiedType::fromDER($data)->asSequence()));
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         return $this->_names->toASN1();
     }

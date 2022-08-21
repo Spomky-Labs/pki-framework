@@ -71,7 +71,7 @@ $attribs = Attributes::fromAttributeValues(
     $group_attr
 )->withAdditional($role_attr);
 $aki_ext = new AuthorityKeyIdentifierExtension(false, $issuer_public_key->keyIdentifier());
-$ti_ext = new TargetInformationExtension(
+$ti_ext = TargetInformationExtension::create(
     true,
     Targets::create(
         TargetName::create(UniformResourceIdentifier::create('urn:test')),
@@ -79,8 +79,8 @@ $ti_ext = new TargetInformationExtension(
     ),
     Targets::create(TargetName::create(UniformResourceIdentifier::create('urn:another')))
 );
-$nra_ext = new NoRevocationAvailableExtension(false);
-$extensions = new Extensions($aki_ext, $nra_ext, $ti_ext);
+$nra_ext = NoRevocationAvailableExtension::create(false);
+$extensions = Extensions::create($aki_ext, $nra_ext, $ti_ext);
 $aci = new AttributeCertificateInfo($holder, $issuer, $validity, $attribs);
 $aci = $aci->withSerialNumber(0xbadcafe);
 $aci = $aci->withExtensions($extensions);

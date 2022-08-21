@@ -87,7 +87,7 @@ final class CertificateVersionTest extends TestCase
     public function version3()
     {
         $tbsCert = self::$_tbsCert->withExtensions(
-            new Extensions(new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE))
+            Extensions::create(KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE))
         );
         $cert = $tbsCert->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privateKeyInfo);
         static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_3);

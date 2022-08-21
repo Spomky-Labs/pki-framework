@@ -15,13 +15,16 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class SubjectKeyIdentifierExtension extends Extension
 {
-    public function __construct(
-        bool $critical, /**
-     * Key identifier.
-     */
-        protected string $_keyIdentifier
+    private function __construct(
+        bool $critical,
+        private readonly string $keyIdentifier
     ) {
         parent::__construct(self::OID_SUBJECT_KEY_IDENTIFIER, $critical);
+    }
+
+    public static function create(bool $critical, string $keyIdentifier): self
+    {
+        return new self($critical, $keyIdentifier);
     }
 
     /**
@@ -29,16 +32,16 @@ final class SubjectKeyIdentifierExtension extends Extension
      */
     public function keyIdentifier(): string
     {
-        return $this->_keyIdentifier;
+        return $this->keyIdentifier;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
-        return new self($critical, UnspecifiedType::fromDER($data)->asOctetString()->string());
+        return self::create($critical, UnspecifiedType::fromDER($data)->asOctetString()->string());
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        return OctetString::create($this->_keyIdentifier);
+        return OctetString::create($this->keyIdentifier);
     }
 }

@@ -75,7 +75,7 @@ final class GeneralizedTime extends BaseTime
     protected function encodedAsDER(): string
     {
         if (! isset($this->_formatted)) {
-            $dt = $this->_dateTime->setTimezone(new DateTimeZone('UTC'));
+            $dt = $this->dateTime->setTimezone(new DateTimeZone('UTC'));
             $this->_formatted = $dt->format('YmdHis');
             // if fractions were used
             $frac = $dt->format('u');

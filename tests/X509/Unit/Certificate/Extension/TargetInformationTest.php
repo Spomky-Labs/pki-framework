@@ -44,7 +44,7 @@ final class TargetInformationTest extends TestCase
      */
     public function create(Targets $targets)
     {
-        $ext = new TargetInformationExtension(true, $targets);
+        $ext = TargetInformationExtension::create(true, $targets);
         static::assertInstanceOf(TargetInformationExtension::class, $ext);
         return $ext;
     }

@@ -43,7 +43,7 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
     public static function fromASN1(Sequence $seq): self
     {
         $subtrees = array_map(
-            fn (UnspecifiedType $el) => GeneralSubtree::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => GeneralSubtree::fromASN1($el->asSequence()),
             $seq->elements()
         );
         if (count($subtrees) === 0) {

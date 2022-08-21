@@ -27,12 +27,12 @@ final class InhibitAnyPolicyExtension extends Extension
         return $this->_skipCerts;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         return new self($critical, UnspecifiedType::fromDER($data)->asInteger()->intNumber());
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         return Integer::create($this->_skipCerts);
     }

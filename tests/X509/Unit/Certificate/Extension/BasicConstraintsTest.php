@@ -110,7 +110,7 @@ final class BasicConstraintsTest extends TestCase
      */
     public function extensions(BasicConstraintsExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasBasicConstraints());
         return $extensions;
     }

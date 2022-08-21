@@ -33,7 +33,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
     {
         $cn = CommonNameValue::create(self::CN);
         $desc = DescriptionValue::create(self::DESC);
-        $ext = new SubjectDirectoryAttributesExtension(false, $cn->toAttribute(), $desc->toAttribute());
+        $ext = SubjectDirectoryAttributesExtension::create(false, $cn->toAttribute(), $desc->toAttribute());
         static::assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);
         return $ext;
     }
@@ -195,7 +195,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
      */
     public function encodeEmptyFail()
     {
-        $ext = new SubjectDirectoryAttributesExtension(false);
+        $ext = SubjectDirectoryAttributesExtension::create(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }

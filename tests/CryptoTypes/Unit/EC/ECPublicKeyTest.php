@@ -58,7 +58,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function noNamedCurve()
     {
-        $pk = new ECPublicKey("\x04\0\0");
+        $pk = ECPublicKey::create("\x04\0\0");
         $this->expectException(LogicException::class);
         $pk->publicKeyInfo();
     }
@@ -69,7 +69,7 @@ final class ECPublicKeyTest extends TestCase
     public function invalidECPoint()
     {
         $this->expectException(InvalidArgumentException::class);
-        new ECPublicKey("\x0");
+        ECPublicKey::create("\x0");
     }
 
     /**
@@ -139,7 +139,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function noCurveFail()
     {
-        $pk = new ECPublicKey("\x4\0\0");
+        $pk = ECPublicKey::create("\x4\0\0");
         $this->expectException(LogicException::class);
         $pk->namedCurve();
     }
@@ -149,7 +149,7 @@ final class ECPublicKeyTest extends TestCase
      */
     public function compressedFail()
     {
-        $pk = new ECPublicKey("\x3\0");
+        $pk = ECPublicKey::create("\x3\0");
         $this->expectException(RuntimeException::class);
         $pk->curvePoint();
     }

@@ -218,11 +218,11 @@ abstract class Element implements ElementBase
     ];
 
     /**
-     * @param bool $_indefiniteLength Whether type shall be encoded with indefinite length.
+     * @param bool $indefiniteLength Whether type shall be encoded with indefinite length.
      */
     protected function __construct(
-        protected int $typeTag,
-        protected bool $_indefiniteLength = false
+        protected readonly int $typeTag,
+        protected bool $indefiniteLength = false
     ) {
     }
 
@@ -271,7 +271,7 @@ abstract class Element implements ElementBase
             $this->typeTag
         );
         $content = $this->encodedAsDER();
-        if ($this->_indefiniteLength) {
+        if ($this->indefiniteLength) {
             $length = Length::create(0, true);
             $eoc = EOC::create();
             return $identifier->toDER() . $length->toDER() . $content . $eoc->toDER();
@@ -331,7 +331,7 @@ abstract class Element implements ElementBase
      */
     public function hasIndefiniteLength(): bool
     {
-        return $this->_indefiniteLength;
+        return $this->indefiniteLength;
     }
 
     /**
@@ -342,7 +342,7 @@ abstract class Element implements ElementBase
     public function withIndefiniteLength(bool $indefinite = true): self
     {
         $obj = clone $this;
-        $obj->_indefiniteLength = $indefinite;
+        $obj->indefiniteLength = $indefinite;
         return $obj;
     }
 

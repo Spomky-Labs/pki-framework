@@ -70,10 +70,10 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
         return new ArrayIterator($this->_distributionPoints);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $dps = array_map(
-            fn (UnspecifiedType $el) => DistributionPoint::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => DistributionPoint::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (count($dps) === 0) {
@@ -83,7 +83,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
         return static::create($critical, ...$dps);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         if (count($this->_distributionPoints) === 0) {
             throw new LogicException('No distribution points.');

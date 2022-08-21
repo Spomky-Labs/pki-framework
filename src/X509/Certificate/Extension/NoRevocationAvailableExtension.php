@@ -14,18 +14,23 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
  */
 final class NoRevocationAvailableExtension extends Extension
 {
-    public function __construct(bool $critical)
+    private function __construct(bool $critical)
     {
         parent::__construct(self::OID_NO_REV_AVAIL, $critical);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    public static function create(bool $critical): self
+    {
+        return new self($critical);
+    }
+
+    protected static function fromDER(string $data, bool $critical): static
     {
         NullType::fromDER($data);
         return new self($critical);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         return NullType::create();
     }

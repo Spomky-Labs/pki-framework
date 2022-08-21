@@ -57,7 +57,7 @@ final class NameConstraintsTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
-            new NameConstraintsExtension(
+            NameConstraintsExtension::create(
                 true,
                 GeneralSubtrees::create(GeneralSubtree::create(DirectoryName::fromDNString('c=FI')))
             )

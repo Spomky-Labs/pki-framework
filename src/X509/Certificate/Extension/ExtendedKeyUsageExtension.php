@@ -137,17 +137,17 @@ final class ExtendedKeyUsageExtension extends Extension implements Countable, It
         return new ArrayIterator($this->_purposes);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $purposes = array_map(
-            fn (UnspecifiedType $el) => $el->asObjectIdentifier()
+            static fn (UnspecifiedType $el) => $el->asObjectIdentifier()
                 ->oid(),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         return new self($critical, ...$purposes);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         $elements = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->_purposes);
         return Sequence::create(...$elements);

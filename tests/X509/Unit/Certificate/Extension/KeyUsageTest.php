@@ -20,7 +20,7 @@ final class KeyUsageTest extends TestCase
      */
     public function create()
     {
-        $ext = new KeyUsageExtension(
+        $ext = KeyUsageExtension::create(
             true,
             KeyUsageExtension::DIGITAL_SIGNATURE |
             KeyUsageExtension::KEY_ENCIPHERMENT
@@ -183,7 +183,7 @@ final class KeyUsageTest extends TestCase
      */
     public function extensions(KeyUsageExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasKeyUsage());
         return $extensions;
     }

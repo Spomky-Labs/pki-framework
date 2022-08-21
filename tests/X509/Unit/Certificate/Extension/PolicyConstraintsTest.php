@@ -21,7 +21,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function create()
     {
-        $ext = new PolicyConstraintsExtension(true, 2, 3);
+        $ext = PolicyConstraintsExtension::create(true, 2, 3);
         static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }
@@ -110,7 +110,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function extensions(PolicyConstraintsExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasPolicyConstraints());
         return $extensions;
     }
@@ -131,7 +131,7 @@ final class PolicyConstraintsTest extends TestCase
      */
     public function createEmpty()
     {
-        $ext = new PolicyConstraintsExtension(false);
+        $ext = PolicyConstraintsExtension::create(false);
         static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
         return $ext;
     }

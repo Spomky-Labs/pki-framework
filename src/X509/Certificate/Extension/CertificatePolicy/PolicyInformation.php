@@ -60,7 +60,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
         $qualifiers = [];
         if (count($seq) > 1) {
             $qualifiers = array_map(
-                fn (UnspecifiedType $el) => PolicyQualifierInfo::fromASN1($el->asSequence()),
+                static fn (UnspecifiedType $el) => PolicyQualifierInfo::fromASN1($el->asSequence()),
                 $seq->at(1)
                     ->asSequence()
                     ->elements()
@@ -160,7 +160,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
         $elements = [ObjectIdentifier::create($this->oid)];
         if (count($this->qualifiers) !== 0) {
             $qualifiers = array_map(
-                fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
+                static fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
                 array_values($this->qualifiers)
             );
             $elements[] = Sequence::create(...$qualifiers);

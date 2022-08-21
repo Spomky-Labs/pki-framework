@@ -39,8 +39,11 @@ final class CertificationRequestInfoTest extends TestCase
     {
         self::$_subject = Name::fromString('cn=Subject');
         self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
-        $extensions = new Extensions(
-            new SubjectAlternativeNameExtension(true, GeneralNames::create(DirectoryName::fromDNString(self::SAN_DN)))
+        $extensions = Extensions::create(
+            SubjectAlternativeNameExtension::create(
+                true,
+                GeneralNames::create(DirectoryName::fromDNString(self::SAN_DN))
+            )
         );
         self::$_attribs = Attributes::fromAttributeValues(ExtensionRequestValue::create($extensions));
     }
@@ -140,7 +143,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function withExtensionRequest(CertificationRequestInfo $cri)
     {
-        $cri = $cri->withExtensionRequest(new Extensions());
+        $cri = $cri->withExtensionRequest(Extensions::create());
         static::assertTrue($cri->attributes()->hasExtensionRequest());
     }
 
@@ -150,7 +153,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function withExtensionRequestWithoutAttributes()
     {
         $cri = CertificationRequestInfo::create(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
-        $cri = $cri->withExtensionRequest(new Extensions());
+        $cri = $cri->withExtensionRequest(Extensions::create());
         static::assertTrue($cri->attributes()->hasExtensionRequest());
     }
 

@@ -18,16 +18,20 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
  */
 final class NameConstraintsExtension extends Extension
 {
-    /**
-     * @param GeneralSubtrees $_permitted
-     * @param GeneralSubtrees $_excluded
-     */
-    public function __construct(
+    private function __construct(
         bool $critical,
-        protected ?GeneralSubtrees $_permitted = null,
-        protected ?GeneralSubtrees $_excluded = null
+        private readonly ?GeneralSubtrees $permitted,
+        private readonly ?GeneralSubtrees $excluded
     ) {
         parent::__construct(self::OID_NAME_CONSTRAINTS, $critical);
+    }
+
+    public static function create(
+        bool $critical,
+        ?GeneralSubtrees $permitted = null,
+        ?GeneralSubtrees $excluded = null
+    ): self {
+        return new self($critical, $permitted, $excluded);
     }
 
     /**
@@ -35,7 +39,7 @@ final class NameConstraintsExtension extends Extension
      */
     public function hasPermittedSubtrees(): bool
     {
-        return isset($this->_permitted);
+        return isset($this->permitted);
     }
 
     /**
@@ -46,7 +50,7 @@ final class NameConstraintsExtension extends Extension
         if (! $this->hasPermittedSubtrees()) {
             throw new LogicException('No permitted subtrees.');
         }
-        return $this->_permitted;
+        return $this->permitted;
     }
 
     /**
@@ -54,7 +58,7 @@ final class NameConstraintsExtension extends Extension
      */
     public function hasExcludedSubtrees(): bool
     {
-        return isset($this->_excluded);
+        return isset($this->excluded);
     }
 
     /**
@@ -65,10 +69,10 @@ final class NameConstraintsExtension extends Extension
         if (! $this->hasExcludedSubtrees()) {
             throw new LogicException('No excluded subtrees.');
         }
-        return $this->_excluded;
+        return $this->excluded;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $permitted = null;
@@ -85,17 +89,17 @@ final class NameConstraintsExtension extends Extension
                     ->asImplicit(Element::TYPE_SEQUENCE)->asSequence()
             );
         }
-        return new self($critical, $permitted, $excluded);
+        return self::create($critical, $permitted, $excluded);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         $elements = [];
-        if (isset($this->_permitted)) {
-            $elements[] = ImplicitlyTaggedType::create(0, $this->_permitted->toASN1());
+        if (isset($this->permitted)) {
+            $elements[] = ImplicitlyTaggedType::create(0, $this->permitted->toASN1());
         }
-        if (isset($this->_excluded)) {
-            $elements[] = ImplicitlyTaggedType::create(1, $this->_excluded->toASN1());
+        if (isset($this->excluded)) {
+            $elements[] = ImplicitlyTaggedType::create(1, $this->excluded->toASN1());
         }
         return Sequence::create(...$elements);
     }

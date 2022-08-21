@@ -96,10 +96,10 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
         return new ArrayIterator($this->_policies);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $policies = array_map(
-            fn (UnspecifiedType $el) => PolicyInformation::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => PolicyInformation::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
         if (count($policies) === 0) {
@@ -108,7 +108,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
         return new self($critical, ...$policies);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         if (count($this->_policies) === 0) {
             throw new LogicException('No policies.');

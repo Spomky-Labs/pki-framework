@@ -108,7 +108,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
         return $this->_authorityCertSerialNumber;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $keyIdentifier = null;
@@ -137,7 +137,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
         return new self($critical, $keyIdentifier, $issuer, $serial);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         $elements = [];
         if (isset($this->_keyIdentifier)) {

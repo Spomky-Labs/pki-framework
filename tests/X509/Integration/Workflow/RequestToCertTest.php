@@ -56,10 +56,10 @@ final class RequestToCertTest extends TestCase
         $pki = self::$_issuerKey->publicKeyInfo();
         $tbs_cert = new TBSCertificate($name, $pki, $name, $validity);
         $tbs_cert = $tbs_cert->withExtensions(
-            new Extensions(
+            Extensions::create(
                 new BasicConstraintsExtension(true, true),
-                new SubjectKeyIdentifierExtension(false, $pki->keyIdentifier()),
-                new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_CERT_SIGN)
+                SubjectKeyIdentifierExtension::create(false, $pki->keyIdentifier()),
+                KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_CERT_SIGN)
             )
         );
         $algo = SHA256WithRSAEncryptionAlgorithmIdentifier::create();
@@ -76,7 +76,7 @@ final class RequestToCertTest extends TestCase
         $subject = Name::fromString('cn=Subject');
         $pkinfo = self::$_subjectKey->publicKeyInfo();
         $cri = CertificationRequestInfo::create($subject, $pkinfo);
-        $cri = $cri->withExtensionRequest(new Extensions(new BasicConstraintsExtension(true, false)));
+        $cri = $cri->withExtensionRequest(Extensions::create(new BasicConstraintsExtension(true, false)));
         $algo = ECDSAWithSHA1AlgorithmIdentifier::create();
         $csr = $cri->sign($algo, self::$_subjectKey);
         static::assertInstanceOf(CertificationRequest::class, $csr);
@@ -95,7 +95,7 @@ final class RequestToCertTest extends TestCase
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-02 13:00:00');
         $tbs_cert = $tbs_cert->withValidity($validity);
         $tbs_cert = $tbs_cert->withAdditionalExtensions(
-            new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_ENCIPHERMENT),
+            KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_ENCIPHERMENT),
             new BasicConstraintsExtension(true, false)
         );
         $algo = SHA512WithRSAEncryptionAlgorithmIdentifier::create();

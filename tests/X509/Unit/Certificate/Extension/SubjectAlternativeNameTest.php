@@ -24,7 +24,10 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function create()
     {
-        $ext = new SubjectAlternativeNameExtension(true, GeneralNames::create(DirectoryName::fromDNString(self::DN)));
+        $ext = SubjectAlternativeNameExtension::create(
+            true,
+            GeneralNames::create(DirectoryName::fromDNString(self::DN))
+        );
         static::assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);
         return $ext;
     }
@@ -103,7 +106,7 @@ final class SubjectAlternativeNameTest extends TestCase
      */
     public function extensions(SubjectAlternativeNameExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasSubjectAlternativeName());
         return $extensions;
     }

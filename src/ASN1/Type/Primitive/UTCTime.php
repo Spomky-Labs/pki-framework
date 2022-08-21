@@ -56,7 +56,7 @@ final class UTCTime extends BaseTime
 
     protected function encodedAsDER(): string
     {
-        $dt = $this->_dateTime->setTimezone(new DateTimeZone('UTC'));
+        $dt = $this->dateTime->setTimezone(new DateTimeZone('UTC'));
         return $dt->format('ymdHis\\Z');
     }
 

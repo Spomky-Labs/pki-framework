@@ -55,7 +55,7 @@ final class InvalidKeyUsageTest extends TestCase
             Validity::fromStrings('now', 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate($issuer_ca);
-        $tbs = $tbs->withAdditionalExtensions(new KeyUsageExtension(true, 0));
+        $tbs = $tbs->withAdditionalExtensions(KeyUsageExtension::create(true, 0));
         $issuer = $tbs->sign(ECDSAWithSHA512AlgorithmIdentifier::create(), $issuer_ca_pk);
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);

@@ -103,7 +103,7 @@ final class IssuerAlternativeNameTest extends TestCase
      */
     public function extensions(IssuerAlternativeNameExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasIssuerAlternativeName());
         return $extensions;
     }

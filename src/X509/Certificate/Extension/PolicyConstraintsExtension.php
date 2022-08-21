@@ -18,12 +18,20 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class PolicyConstraintsExtension extends Extension
 {
-    public function __construct(
+    private function __construct(
         bool $critical,
-        protected ?int $_requireExplicitPolicy = null,
-        protected ?int $_inhibitPolicyMapping = null
+        private readonly ?int $requireExplicitPolicy,
+        private readonly ?int $inhibitPolicyMapping
     ) {
         parent::__construct(self::OID_POLICY_CONSTRAINTS, $critical);
+    }
+
+    public static function create(
+        bool $critical,
+        ?int $requireExplicitPolicy = null,
+        ?int $inhibitPolicyMapping = null
+    ): self {
+        return new self($critical, $requireExplicitPolicy, $inhibitPolicyMapping);
     }
 
     /**
@@ -31,7 +39,7 @@ final class PolicyConstraintsExtension extends Extension
      */
     public function hasRequireExplicitPolicy(): bool
     {
-        return isset($this->_requireExplicitPolicy);
+        return isset($this->requireExplicitPolicy);
     }
 
     public function requireExplicitPolicy(): int
@@ -39,7 +47,7 @@ final class PolicyConstraintsExtension extends Extension
         if (! $this->hasRequireExplicitPolicy()) {
             throw new LogicException('requireExplicitPolicy not set.');
         }
-        return $this->_requireExplicitPolicy;
+        return $this->requireExplicitPolicy;
     }
 
     /**
@@ -47,7 +55,7 @@ final class PolicyConstraintsExtension extends Extension
      */
     public function hasInhibitPolicyMapping(): bool
     {
-        return isset($this->_inhibitPolicyMapping);
+        return isset($this->inhibitPolicyMapping);
     }
 
     public function inhibitPolicyMapping(): int
@@ -55,10 +63,10 @@ final class PolicyConstraintsExtension extends Extension
         if (! $this->hasInhibitPolicyMapping()) {
             throw new LogicException('inhibitPolicyMapping not set.');
         }
-        return $this->_inhibitPolicyMapping;
+        return $this->inhibitPolicyMapping;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $require_explicit_policy = null;
@@ -71,17 +79,17 @@ final class PolicyConstraintsExtension extends Extension
             $inhibit_policy_mapping = $seq->getTagged(1)
                 ->asImplicit(Element::TYPE_INTEGER)->asInteger()->intNumber();
         }
-        return new self($critical, $require_explicit_policy, $inhibit_policy_mapping);
+        return self::create($critical, $require_explicit_policy, $inhibit_policy_mapping);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         $elements = [];
-        if (isset($this->_requireExplicitPolicy)) {
-            $elements[] = ImplicitlyTaggedType::create(0, Integer::create($this->_requireExplicitPolicy));
+        if (isset($this->requireExplicitPolicy)) {
+            $elements[] = ImplicitlyTaggedType::create(0, Integer::create($this->requireExplicitPolicy));
         }
-        if (isset($this->_inhibitPolicyMapping)) {
-            $elements[] = ImplicitlyTaggedType::create(1, Integer::create($this->_inhibitPolicyMapping));
+        if (isset($this->inhibitPolicyMapping)) {
+            $elements[] = ImplicitlyTaggedType::create(1, Integer::create($this->inhibitPolicyMapping));
         }
         return Sequence::create(...$elements);
     }

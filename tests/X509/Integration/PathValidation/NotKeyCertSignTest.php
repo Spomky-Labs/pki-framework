@@ -54,7 +54,7 @@ final class NotKeyCertSignTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE)
+            KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE)
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate

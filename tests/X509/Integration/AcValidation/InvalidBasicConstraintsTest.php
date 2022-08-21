@@ -57,7 +57,7 @@ final class InvalidBasicConstraintsTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate($issuer_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE),
+            KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE),
             new BasicConstraintsExtension(true, true)
         );
         $issuer = $tbs->sign(ECDSAWithSHA512AlgorithmIdentifier::create(), $issuer_ca_pk);

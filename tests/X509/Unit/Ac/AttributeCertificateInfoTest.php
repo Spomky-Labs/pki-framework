@@ -61,7 +61,7 @@ final class AttributeCertificateInfoTest extends TestCase
         self::$_attribs = Attributes::fromAttributeValues(
             new RoleAttributeValue(UniformResourceIdentifier::create('urn:admin'))
         );
-        self::$_extensions = new Extensions(new AuthorityKeyIdentifierExtension(true, 'test'));
+        self::$_extensions = Extensions::create(new AuthorityKeyIdentifierExtension(true, 'test'));
         self::$_privKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
     }
 

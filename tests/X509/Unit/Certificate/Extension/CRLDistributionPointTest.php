@@ -188,7 +188,7 @@ final class CRLDistributionPointTest extends TestCase
      */
     public function extensions(CRLDistributionPointsExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasCRLDistributionPoints());
         return $extensions;
     }

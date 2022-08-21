@@ -59,7 +59,7 @@ final class Attribute implements Countable, IteratorAggregate
     {
         $type = AttributeType::fromASN1($seq->at(0)->asObjectIdentifier());
         $values = array_map(
-            fn (UnspecifiedType $el) => AttributeValue::fromASN1ByOID($type->oid(), $el),
+            static fn (UnspecifiedType $el) => AttributeValue::fromASN1ByOID($type->oid(), $el),
             $seq->at(1)
                 ->asSet()
                 ->elements()

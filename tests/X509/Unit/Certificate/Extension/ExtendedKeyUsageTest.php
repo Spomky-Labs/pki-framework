@@ -149,7 +149,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function extensions(ExtendedKeyUsageExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasExtendedKeyUsage());
         return $extensions;
     }

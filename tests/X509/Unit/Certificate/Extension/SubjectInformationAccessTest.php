@@ -21,7 +21,7 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function create()
     {
-        $ext = new SubjectInformationAccessExtension(
+        $ext = SubjectInformationAccessExtension::create(
             false,
             SubjectAccessDescription::create(
                 SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,

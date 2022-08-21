@@ -150,7 +150,7 @@ final class ConstructedString extends Structure implements StringType, Stringabl
         }
         $offset = $idx;
         $type = self::createWithTag($typeTag, ...$elements);
-        $type->_indefiniteLength = true;
+        $type->indefiniteLength = true;
         return $type;
     }
 }

@@ -14,18 +14,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
  */
 final class UnknownExtension extends Extension
 {
-    /**
-     * Raw extension value.
-     */
-    protected string $_data;
-
-    public function __construct(
+    private function __construct(
         string $oid,
         bool $critical,
-        protected Element $_element
+        private readonly Element $element,
+        private readonly string $data
     ) {
         parent::__construct($oid, $critical);
-        $this->_data = $_element->toDER();
+    }
+
+    public static function create(string $oid, bool $critical, Element $element): self
+    {
+        return new self($oid, $critical, $element, $element->toDER());
     }
 
     /**
@@ -33,10 +33,7 @@ final class UnknownExtension extends Extension
      */
     public static function fromRawString(string $oid, bool $critical, string $data): self
     {
-        $obj = new self($oid, $critical, OctetString::create(''));
-        $obj->_element = NullType::create();
-        $obj->_data = $data;
-        return $obj;
+        return new self($oid, $critical, NullType::create(), $data);
     }
 
     /**
@@ -44,20 +41,20 @@ final class UnknownExtension extends Extension
      */
     public function extensionValue(): string
     {
-        return $this->_data;
+        return $this->data;
     }
 
-    protected function _extnValue(): OctetString
+    protected function extnValue(): OctetString
     {
-        return OctetString::create($this->_data);
+        return OctetString::create($this->data);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        return $this->_element;
+        return $this->element;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         throw new BadMethodCallException(__FUNCTION__ . ' must be implemented in derived class.');
     }

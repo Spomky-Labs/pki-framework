@@ -156,7 +156,7 @@ final class AuthorityKeyIdentifierTest extends TestCase
      */
     public function extensions(AuthorityKeyIdentifierExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasAuthorityKeyIdentifier());
         return $extensions;
     }

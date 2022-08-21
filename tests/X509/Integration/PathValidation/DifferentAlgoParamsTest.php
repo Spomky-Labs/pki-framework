@@ -6,9 +6,7 @@ namespace SpomkyLabs\Pki\Test\X509\Integration\PathValidation;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
-use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\X501\ASN1\Name;
@@ -56,10 +54,6 @@ final class DifferentAlgoParamsTest extends TestCase
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();
         // hack modified algorithm identifier into PublicKeyInfo
-        $cls = new ReflectionClass($pubkey);
-        $prop = $cls->getProperty('_algo');
-        $prop->setAccessible(true);
-        $prop->setValue($pubkey, RSAEncryptionAlgorithmIdentifier::create());
         $tbs = new TBSCertificate(
             Name::fromString(self::CERT_NAME),
             $pubkey,

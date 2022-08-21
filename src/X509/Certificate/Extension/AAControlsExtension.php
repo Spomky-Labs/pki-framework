@@ -119,7 +119,7 @@ final class AAControlsExtension extends Extension
         return $this->_permitUnSpecified;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $path_len = null;
@@ -162,7 +162,7 @@ final class AAControlsExtension extends Extension
         return new self($critical, $path_len, $permitted, $excluded, $permit_unspecified);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         $elements = [];
         if (isset($this->_pathLenConstraint)) {

@@ -22,7 +22,7 @@ final class UnknownExtensionTest extends TestCase
      */
     public function createWithDER()
     {
-        $ext = new UnknownExtension('1.3.6.1.3.1', true, NullType::create());
+        $ext = UnknownExtension::create('1.3.6.1.3.1', true, NullType::create());
         static::assertInstanceOf(UnknownExtension::class, $ext);
         return $ext;
     }
@@ -68,7 +68,7 @@ final class UnknownExtensionTest extends TestCase
     public function extensionValueASN1(UnknownExtension $ext)
     {
         $cls = new ReflectionClass(UnknownExtension::class);
-        $mtd = $cls->getMethod('_valueASN1');
+        $mtd = $cls->getMethod('valueASN1');
         $mtd->setAccessible(true);
         $result = $mtd->invoke($ext);
         static::assertInstanceOf(Element::class, $result);

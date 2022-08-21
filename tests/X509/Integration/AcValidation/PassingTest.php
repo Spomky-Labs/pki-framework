@@ -68,7 +68,7 @@ final class PassingTest extends TestCase
     /**
      * @test
      */
-    public function validate()
+    public function validate(): void
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
         $config = $config->withTargets(TargetName::create(DNSName::create('test')));

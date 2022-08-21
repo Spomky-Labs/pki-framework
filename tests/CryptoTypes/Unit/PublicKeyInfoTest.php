@@ -196,7 +196,7 @@ final class PublicKeyInfoTest extends TestCase
      */
     public function invalidECAlgoFail()
     {
-        $pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), BitString::create(''));
+        $pki = PublicKeyInfo::create(new PubliceKeyInfoTest_InvalidECAlgo(), BitString::create(''));
         $this->expectException(UnexpectedValueException::class);
         $pki->publicKey();
     }

@@ -32,7 +32,7 @@ final class AttributeCertificateInfo
     /**
      * AC version.
      */
-    private readonly int $_version;
+    private readonly int $version;
 
     /**
      * Signature algorithm identifier.
@@ -52,7 +52,7 @@ final class AttributeCertificateInfo
     /**
      * Extensions.
      */
-    private Extensions $_extensions;
+    private Extensions $extensions;
 
     /**
      * @param Holder $_holder AC holder
@@ -66,8 +66,8 @@ final class AttributeCertificateInfo
         protected AttCertValidityPeriod $_attrCertValidityPeriod,
         protected Attributes $_attributes
     ) {
-        $this->_version = self::VERSION_2;
-        $this->_extensions = new Extensions();
+        $this->version = self::VERSION_2;
+        $this->extensions = Extensions::create();
     }
 
     /**
@@ -100,7 +100,7 @@ final class AttributeCertificateInfo
             $obj->_issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++)->asBitString());
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
-            $obj->_extensions = Extensions::fromASN1($seq->at($idx++)->asSequence());
+            $obj->extensions = Extensions::fromASN1($seq->at($idx++)->asSequence());
         }
         return $obj;
     }
@@ -199,7 +199,7 @@ final class AttributeCertificateInfo
     public function withExtensions(Extensions $extensions): self
     {
         $obj = clone $this;
-        $obj->_extensions = $extensions;
+        $obj->extensions = $extensions;
         return $obj;
     }
 
@@ -211,13 +211,13 @@ final class AttributeCertificateInfo
     public function withAdditionalExtensions(Extension ...$exts): self
     {
         $obj = clone $this;
-        $obj->_extensions = $obj->_extensions->withExtensions(...$exts);
+        $obj->extensions = $obj->extensions->withExtensions(...$exts);
         return $obj;
     }
 
     public function version(): int
     {
-        return $this->_version;
+        return $this->version;
     }
 
     /**
@@ -308,7 +308,7 @@ final class AttributeCertificateInfo
 
     public function extensions(): Extensions
     {
-        return $this->_extensions;
+        return $this->extensions;
     }
 
     /**
@@ -316,7 +316,7 @@ final class AttributeCertificateInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [Integer::create($this->_version), $this->_holder->toASN1(),
+        $elements = [Integer::create($this->version), $this->_holder->toASN1(),
             $this->_issuer->toASN1(), $this->signature()
                 ->toASN1(),
             Integer::create($this->serialNumber()),
@@ -325,8 +325,8 @@ final class AttributeCertificateInfo
         if (isset($this->_issuerUniqueID)) {
             $elements[] = $this->_issuerUniqueID->toASN1();
         }
-        if (count($this->_extensions) !== 0) {
-            $elements[] = $this->_extensions->toASN1();
+        if (count($this->extensions) !== 0) {
+            $elements[] = $this->extensions->toASN1();
         }
         return Sequence::create(...$elements);
     }

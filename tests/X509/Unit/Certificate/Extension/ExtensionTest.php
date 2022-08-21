@@ -28,7 +28,7 @@ final class ExtensionTest extends TestCase
      */
     public function unknownExtensionName()
     {
-        $ext = new UnknownExtension('1.3.6.1.3', false, NullType::create());
+        $ext = UnknownExtension::create('1.3.6.1.3', false, NullType::create());
         static::assertEquals('1.3.6.1.3', $ext->extensionName());
     }
 

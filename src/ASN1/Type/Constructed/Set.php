@@ -129,7 +129,7 @@ final class Set extends Structure
         }
         $offset = $idx;
         $type = self::create(...$elements);
-        $type->_indefiniteLength = true;
+        $type->indefiniteLength = true;
         return $type;
     }
 }

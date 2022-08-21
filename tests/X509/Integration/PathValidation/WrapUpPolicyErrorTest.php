@@ -67,7 +67,7 @@ final class WrapUpPolicyErrorTest extends TestCase
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(new PolicyConstraintsExtension(true, 0));
+        $tbs = $tbs->withAdditionalExtensions(PolicyConstraintsExtension::create(true, 0));
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }
 
