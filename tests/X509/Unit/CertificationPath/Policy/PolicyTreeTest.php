@@ -21,9 +21,9 @@ final class PolicyTreeTest extends TestCase
      */
     public function nodesAtDepthNoRoot()
     {
-        $tree = new PolicyTree(PolicyNode::anyPolicyNode());
+        $tree = PolicyTree::create(PolicyNode::anyPolicyNode());
         $obj = new ReflectionClass($tree);
-        $prop = $obj->getProperty('_root');
+        $prop = $obj->getProperty('root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
         static::assertEmpty($tree->policiesAtDepth(1));
@@ -36,12 +36,12 @@ final class PolicyTreeTest extends TestCase
      */
     public function validPolicyNodeSetNoRoot()
     {
-        $tree = new PolicyTree(PolicyNode::anyPolicyNode());
+        $tree = PolicyTree::create(PolicyNode::anyPolicyNode());
         $obj = new ReflectionClass($tree);
-        $prop = $obj->getProperty('_root');
+        $prop = $obj->getProperty('root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
-        $mtd = $obj->getMethod('_validPolicyNodeSet');
+        $mtd = $obj->getMethod('validPolicyNodeSet');
         $mtd->setAccessible(true);
         static::assertEmpty($mtd->invoke($tree));
     }
@@ -53,12 +53,12 @@ final class PolicyTreeTest extends TestCase
      */
     public function pruneNoRoot()
     {
-        $tree = new PolicyTree(PolicyNode::anyPolicyNode());
+        $tree = PolicyTree::create(PolicyNode::anyPolicyNode());
         $obj = new ReflectionClass($tree);
-        $prop = $obj->getProperty('_root');
+        $prop = $obj->getProperty('root');
         $prop->setAccessible(true);
         $prop->setValue($tree, null);
-        $mtd = $obj->getMethod('_pruneTree');
+        $mtd = $obj->getMethod('pruneTree');
         $mtd->setAccessible(true);
         static::assertEquals(0, $mtd->invoke($tree, 0));
     }

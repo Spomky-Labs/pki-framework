@@ -33,15 +33,20 @@ final class CertificationPath implements Countable, IteratorAggregate
      *
      * @var Certificate[]
      */
-    private readonly array $_certificates;
+    private readonly array $certificates;
 
     /**
      * @param Certificate ...$certificates Certificates from the trust anchor
      * to the target end-entity certificate
      */
-    public function __construct(Certificate ...$certificates)
+    private function __construct(Certificate ...$certificates)
     {
-        $this->_certificates = $certificates;
+        $this->certificates = $certificates;
+    }
+
+    public static function create(Certificate ...$certificates): self
+    {
+        return new self(...$certificates);
     }
 
     /**
@@ -49,7 +54,7 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public static function fromCertificateChain(CertificateChain $chain): self
     {
-        return new self(...array_reverse($chain->certificates(), false));
+        return self::create(...array_reverse($chain->certificates(), false));
     }
 
     /**
@@ -64,8 +69,7 @@ final class CertificationPath implements Countable, IteratorAggregate
         CertificateBundle $trust_anchors,
         ?CertificateBundle $intermediate = null
     ): self {
-        $builder = new CertificationPathBuilder($trust_anchors);
-        return $builder->shortestPathToTarget($target, $intermediate);
+        return CertificationPathBuilder::create($trust_anchors)->shortestPathToTarget($target, $intermediate);
     }
 
     /**
@@ -91,7 +95,7 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function certificates(): array
     {
-        return $this->_certificates;
+        return $this->certificates;
     }
 
     /**
@@ -99,10 +103,10 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function trustAnchorCertificate(): Certificate
     {
-        if (count($this->_certificates) === 0) {
+        if (count($this->certificates) === 0) {
             throw new LogicException('No certificates.');
         }
-        return $this->_certificates[0];
+        return $this->certificates[0];
     }
 
     /**
@@ -110,10 +114,10 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function endEntityCertificate(): Certificate
     {
-        if (count($this->_certificates) === 0) {
+        if (count($this->certificates) === 0) {
             throw new LogicException('No certificates.');
         }
-        return $this->_certificates[count($this->_certificates) - 1];
+        return $this->certificates[count($this->certificates) - 1];
     }
 
     /**
@@ -121,7 +125,7 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function certificateChain(): CertificateChain
     {
-        return new CertificateChain(...array_reverse($this->_certificates, false));
+        return new CertificateChain(...array_reverse($this->certificates, false));
     }
 
     /**
@@ -132,11 +136,11 @@ final class CertificationPath implements Countable, IteratorAggregate
     public function startsWith(Certificate ...$certs): bool
     {
         $n = count($certs);
-        if ($n > count($this->_certificates)) {
+        if ($n > count($this->certificates)) {
             return false;
         }
         for ($i = 0; $i < $n; ++$i) {
-            if (! $certs[$i]->equals($this->_certificates[$i])) {
+            if (! $certs[$i]->equals($this->certificates[$i])) {
                 return false;
             }
         }
@@ -151,8 +155,7 @@ final class CertificationPath implements Countable, IteratorAggregate
     public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
     {
         $crypto ??= Crypto::getDefault();
-        $validator = new PathValidator($crypto, $config, ...$this->_certificates);
-        return $validator->validate();
+        return PathValidator::create($crypto, $config, ...$this->certificates)->validate();
     }
 
     /**
@@ -160,7 +163,7 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_certificates);
+        return count($this->certificates);
     }
 
     /**
@@ -170,6 +173,6 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_certificates);
+        return new ArrayIterator($this->certificates);
     }
 }

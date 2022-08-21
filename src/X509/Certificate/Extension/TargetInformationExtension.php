@@ -57,7 +57,7 @@ final class TargetInformationExtension extends Extension implements Countable, I
      */
     public static function fromTargets(Target ...$target): self
     {
-        return new self(true, new Targets(...$target));
+        return new self(true, Targets::create(...$target));
     }
 
     /**
@@ -70,7 +70,7 @@ final class TargetInformationExtension extends Extension implements Countable, I
             foreach ($this->_targets as $targets) {
                 $a = array_merge($a, $targets->all());
             }
-            $this->_merged = new Targets(...$a);
+            $this->_merged = Targets::create(...$a);
         }
         return $this->_merged;
     }

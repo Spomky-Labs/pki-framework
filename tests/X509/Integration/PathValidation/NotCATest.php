@@ -77,8 +77,8 @@ final class NotCATest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
         $this->expectException(PathValidationException::class);
-        $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
     }
 }

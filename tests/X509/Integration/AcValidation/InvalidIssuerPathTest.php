@@ -43,7 +43,7 @@ final class InvalidIssuerPathTest extends TestCase
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         // intentionally missing intermediate certificate
-        self::$_issuerPath = new CertificationPath($root_ca, $issuer);
+        self::$_issuerPath = CertificationPath::create($root_ca, $issuer);
         $aci = new AttributeCertificateInfo(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),

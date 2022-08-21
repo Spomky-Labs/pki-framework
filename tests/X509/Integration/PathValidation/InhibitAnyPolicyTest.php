@@ -81,8 +81,8 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
+        $result = $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
 }

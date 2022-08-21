@@ -16,12 +16,15 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class TargetGroup extends Target
 {
-    public function __construct(/**
-     * Group name.
-     */
-        protected GeneralName $_name
+    private function __construct(
+        private readonly GeneralName $name
     ) {
-        $this->_type = self::TYPE_GROUP;
+        parent::__construct(self::TYPE_GROUP);
+    }
+
+    public static function create(GeneralName $name): self
+    {
+        return new self($name);
     }
 
     /**
@@ -34,7 +37,7 @@ final class TargetGroup extends Target
 
     public function string(): string
     {
-        return $this->_name->string();
+        return $this->name->string();
     }
 
     /**
@@ -42,11 +45,11 @@ final class TargetGroup extends Target
      */
     public function name(): GeneralName
     {
-        return $this->_name;
+        return $this->name;
     }
 
     public function toASN1(): Element
     {
-        return ExplicitlyTaggedType::create($this->_type, $this->_name->toASN1());
+        return ExplicitlyTaggedType::create($this->type, $this->name->toASN1());
     }
 }

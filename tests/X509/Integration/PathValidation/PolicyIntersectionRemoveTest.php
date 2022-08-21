@@ -112,8 +112,8 @@ final class PolicyIntersectionRemoveTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_interm, self::$_cert);
-        $config = new PathValidationConfig(new DateTimeImmutable(), 3);
+        $path = CertificationPath::create(self::$_ca, self::$_interm, self::$_cert);
+        $config = PathValidationConfig::create(new DateTimeImmutable(), 3);
         $config = $config->withPolicySet('1.3.6.1.3.2');
         $result = $path->validate($config);
         static::assertCount(1, $result->policies());

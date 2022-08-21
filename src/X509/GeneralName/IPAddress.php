@@ -21,7 +21,7 @@ use UnexpectedValueException;
  */
 abstract class IPAddress extends GeneralName
 {
-    public function __construct(
+    protected function __construct(
         protected string $ip,
         protected ?string $mask = null
     ) {

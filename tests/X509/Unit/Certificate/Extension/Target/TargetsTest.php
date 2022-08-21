@@ -24,8 +24,8 @@ final class TargetsTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_name = new TargetName(UniformResourceIdentifier::create('urn:target'));
-        self::$_group = new TargetGroup(UniformResourceIdentifier::create('urn:group'));
+        self::$_name = TargetName::create(UniformResourceIdentifier::create('urn:target'));
+        self::$_group = TargetGroup::create(UniformResourceIdentifier::create('urn:group'));
     }
 
     public static function tearDownAfterClass(): void
@@ -39,7 +39,7 @@ final class TargetsTest extends TestCase
      */
     public function create()
     {
-        $targets = new Targets(self::$_name, self::$_group);
+        $targets = Targets::create(self::$_name, self::$_group);
         static::assertInstanceOf(Targets::class, $targets);
         return $targets;
     }
@@ -132,6 +132,6 @@ final class TargetsTest extends TestCase
      */
     public function hasNoTarget(Targets $targets)
     {
-        static::assertFalse($targets->hasTarget(new TargetName(DNSName::create('nope'))));
+        static::assertFalse($targets->hasTarget(TargetName::create(DNSName::create('nope'))));
     }
 }

@@ -40,7 +40,7 @@ final class CertificationPathTest extends TestCase
      */
     public function create()
     {
-        $path = new CertificationPath(...self::$_certs);
+        $path = CertificationPath::create(...self::$_certs);
         static::assertInstanceOf(CertificationPath::class, $path);
         return $path;
     }
@@ -132,7 +132,7 @@ final class CertificationPathTest extends TestCase
      */
     public function trustAnchorFail()
     {
-        $path = new CertificationPath();
+        $path = CertificationPath::create();
         $this->expectException(LogicException::class);
         $path->trustAnchorCertificate();
     }
@@ -153,7 +153,7 @@ final class CertificationPathTest extends TestCase
      */
     public function endEntityFail()
     {
-        $path = new CertificationPath();
+        $path = CertificationPath::create();
         $this->expectException(LogicException::class);
         $path->endEntityCertificate();
     }

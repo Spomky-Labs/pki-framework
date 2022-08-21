@@ -87,8 +87,8 @@ final class PolicyProcessPruneTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
-        $config = new PathValidationConfig(new DateTimeImmutable(), 3);
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
+        $config = PathValidationConfig::create(new DateTimeImmutable(), 3);
         $config = $config->withExplicitPolicy(true);
         $this->expectException(PathValidationException::class);
         $path->validate($config);

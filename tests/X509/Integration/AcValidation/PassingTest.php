@@ -53,7 +53,7 @@ final class PassingTest extends TestCase
             Attributes::create()
         );
         $aci = $aci->withAdditionalExtensions(
-            TargetInformationExtension::fromTargets(new TargetName(DNSName::create('test')))
+            TargetInformationExtension::fromTargets(TargetName::create(DNSName::create('test')))
         );
         self::$_ac = $aci->sign(ECDSAWithSHA256AlgorithmIdentifier::create(), $issuer_pk);
     }
@@ -71,7 +71,7 @@ final class PassingTest extends TestCase
     public function validate()
     {
         $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $config = $config->withTargets(new TargetName(DNSName::create('test')));
+        $config = $config->withTargets(TargetName::create(DNSName::create('test')));
         $validator = new ACValidator(self::$_ac, $config);
         static::assertInstanceOf(AttributeCertificate::class, $validator->validate());
     }

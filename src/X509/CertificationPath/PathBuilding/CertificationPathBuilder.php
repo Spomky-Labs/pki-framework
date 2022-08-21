@@ -18,10 +18,15 @@ use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathBuildingException;
 final class CertificationPathBuilder
 {
     /**
-     * @param CertificateBundle $_trustList List of trust anchors
+     * @param CertificateBundle $trustList List of trust anchors
      */
-    public function __construct(protected CertificateBundle $_trustList)
+    private function __construct(private readonly CertificateBundle $trustList)
     {
+    }
+
+    public static function create(CertificateBundle $trustList): self
+    {
+        return new self($trustList);
     }
 
     /**
@@ -36,11 +41,11 @@ final class CertificationPathBuilder
     {
         $paths = $this->resolvePathsToTarget($target, $intermediate);
         // map paths to CertificationPath objects
-        return array_map(static fn ($certs) => new CertificationPath(...$certs), $paths);
+        return array_map(static fn ($certs) => CertificationPath::create(...$certs), $paths);
     }
 
     /**
-     * Get shortest path to given target certificate from any trust anchor.
+     * Get the shortest path to given target certificate from any trust anchor.
      *
      * @param Certificate $target Target certificate
      * @param null|CertificateBundle $intermediate Optional intermediate certificates
@@ -65,7 +70,7 @@ final class CertificationPathBuilder
      *
      * @return Certificate[]
      */
-    private function _findIssuers(Certificate $target, CertificateBundle $bundle): array
+    private function findIssuers(Certificate $target, CertificateBundle $bundle): array
     {
         $issuers = [];
         $issuer_name = $target->tbsCertificate()
@@ -101,7 +106,7 @@ final class CertificationPathBuilder
         // array of possible paths
         $paths = [];
         // signed by certificate in the trust list
-        foreach ($this->_findIssuers($target, $this->_trustList) as $issuer) {
+        foreach ($this->findIssuers($target, $this->trustList) as $issuer) {
             // if target is self-signed, path consists of only
             // the target certificate
             if ($target->equals($issuer)) {
@@ -112,7 +117,7 @@ final class CertificationPathBuilder
         }
         if (isset($intermediate)) {
             // signed by intermediate certificate
-            foreach ($this->_findIssuers($target, $intermediate) as $issuer) {
+            foreach ($this->findIssuers($target, $intermediate) as $issuer) {
                 // intermediate certificate must not be self-signed
                 if ($issuer->isSelfIssued()) {
                     continue;

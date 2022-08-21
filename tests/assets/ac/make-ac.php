@@ -73,11 +73,11 @@ $attribs = Attributes::fromAttributeValues(
 $aki_ext = new AuthorityKeyIdentifierExtension(false, $issuer_public_key->keyIdentifier());
 $ti_ext = new TargetInformationExtension(
     true,
-    new Targets(
-        new TargetName(UniformResourceIdentifier::create('urn:test')),
-        new TargetName(DNSName::create('*.example.com'))
+    Targets::create(
+        TargetName::create(UniformResourceIdentifier::create('urn:test')),
+        TargetName::create(DNSName::create('*.example.com'))
     ),
-    new Targets(new TargetName(UniformResourceIdentifier::create('urn:another')))
+    Targets::create(TargetName::create(UniformResourceIdentifier::create('urn:another')))
 );
 $nra_ext = new NoRevocationAvailableExtension(false);
 $extensions = new Extensions($aki_ext, $nra_ext, $ti_ext);

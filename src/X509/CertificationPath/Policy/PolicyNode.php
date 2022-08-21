@@ -26,30 +26,29 @@ final class PolicyNode implements IteratorAggregate, Countable
      *
      * @var PolicyNode[]
      */
-    private array $_children;
+    private array $children;
 
     /**
      * Reference to the parent node.
-     *
-     * @var null|PolicyNode
      */
-    private $_parent;
+    private PolicyNode|null $parent = null;
 
     /**
-     * @param string $_validPolicy Policy OID
-     * @param PolicyQualifierInfo[] $_qualifiers
-     * @param string[] $_expectedPolicies
+     * @param string $validPolicy Policy OID
+     * @param PolicyQualifierInfo[] $qualifiers
+     * @param string[] $expectedPolicies
      */
-    public function __construct(
-        private readonly string $_validPolicy, /**
-     * List of qualifiers.
-     */
-        private readonly array $_qualifiers, /**
-     * List of expected policy OIDs.
-     */
-        private array $_expectedPolicies
+    private function __construct(
+        private readonly string $validPolicy,
+        private readonly array $qualifiers,
+        private array $expectedPolicies
     ) {
-        $this->_children = [];
+        $this->children = [];
+    }
+
+    public static function create(string $validPolicy, array $qualifiers, array $expectedPolicies): self
+    {
+        return new self($validPolicy, $qualifiers, $expectedPolicies);
     }
 
     /**
@@ -57,7 +56,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public static function anyPolicyNode(): self
     {
-        return new self(PolicyInformation::OID_ANY_POLICY, [], [PolicyInformation::OID_ANY_POLICY]);
+        return self::create(PolicyInformation::OID_ANY_POLICY, [], [PolicyInformation::OID_ANY_POLICY]);
     }
 
     /**
@@ -65,7 +64,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function validPolicy(): string
     {
-        return $this->_validPolicy;
+        return $this->validPolicy;
     }
 
     /**
@@ -73,7 +72,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function isAnyPolicy(): bool
     {
-        return $this->_validPolicy === PolicyInformation::OID_ANY_POLICY;
+        return $this->validPolicy === PolicyInformation::OID_ANY_POLICY;
     }
 
     /**
@@ -83,7 +82,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function qualifiers(): array
     {
-        return $this->_qualifiers;
+        return $this->qualifiers;
     }
 
     /**
@@ -91,7 +90,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function hasExpectedPolicy(string $oid): bool
     {
-        return in_array($oid, $this->_expectedPolicies, true);
+        return in_array($oid, $this->expectedPolicies, true);
     }
 
     /**
@@ -101,7 +100,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function expectedPolicies(): array
     {
-        return $this->_expectedPolicies;
+        return $this->expectedPolicies;
     }
 
     /**
@@ -111,7 +110,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function setExpectedPolicies(string ...$oids): void
     {
-        $this->_expectedPolicies = $oids;
+        $this->expectedPolicies = $oids;
     }
 
     /**
@@ -119,7 +118,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function hasChildWithValidPolicy(string $oid): bool
     {
-        foreach ($this->_children as $node) {
+        foreach ($this->children as $node) {
             if ($node->validPolicy() === $oid) {
                 return true;
             }
@@ -133,8 +132,8 @@ final class PolicyNode implements IteratorAggregate, Countable
     public function addChild(self $node): self
     {
         $id = spl_object_hash($node);
-        $node->_parent = $this;
-        $this->_children[$id] = $node;
+        $node->parent = $this;
+        $this->children[$id] = $node;
         return $this;
     }
 
@@ -145,7 +144,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function children(): array
     {
-        return array_values($this->_children);
+        return array_values($this->children);
     }
 
     /**
@@ -155,9 +154,9 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function remove(): self
     {
-        if ($this->_parent !== null) {
+        if ($this->parent !== null) {
             $id = spl_object_hash($this);
-            unset($this->_parent->_children[$id], $this->_parent);
+            unset($this->parent->children[$id], $this->parent);
         }
         return $this;
     }
@@ -167,7 +166,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function hasParent(): bool
     {
-        return isset($this->_parent);
+        return isset($this->parent);
     }
 
     /**
@@ -175,7 +174,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function parent(): ?self
     {
-        return $this->_parent;
+        return $this->parent;
     }
 
     /**
@@ -185,11 +184,11 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function parents(): array
     {
-        if ($this->_parent === null) {
+        if ($this->parent === null) {
             return [];
         }
-        $nodes = $this->_parent->parents();
-        $nodes[] = $this->_parent;
+        $nodes = $this->parent->parents();
+        $nodes[] = $this->parent;
         return array_reverse($nodes);
     }
 
@@ -200,7 +199,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function walkNodes(callable $fn): void
     {
-        foreach ($this->_children as $node) {
+        foreach ($this->children as $node) {
             $node->walkNodes($fn);
         }
         $fn($this);
@@ -212,7 +211,7 @@ final class PolicyNode implements IteratorAggregate, Countable
     public function nodeCount(): int
     {
         $c = 1;
-        foreach ($this->_children as $child) {
+        foreach ($this->children as $child) {
             $c += $child->nodeCount();
         }
         return $c;
@@ -225,7 +224,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function count(): int
     {
-        return count($this->_children);
+        return count($this->children);
     }
 
     /**
@@ -235,6 +234,6 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_children);
+        return new ArrayIterator($this->children);
     }
 }

@@ -23,11 +23,16 @@ final class Targets implements Countable, IteratorAggregate
      *
      * @var Target[]
      */
-    private readonly array $_targets;
+    private readonly array $targets;
 
-    public function __construct(Target ...$targets)
+    private function __construct(Target ...$targets)
     {
-        $this->_targets = $targets;
+        $this->targets = $targets;
+    }
+
+    public static function create(Target ...$targets): self
+    {
+        return new self(...$targets);
     }
 
     /**
@@ -46,7 +51,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function all(): array
     {
-        return $this->_targets;
+        return $this->targets;
     }
 
     /**
@@ -56,7 +61,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function nameTargets(): array
     {
-        return $this->_allOfType(Target::TYPE_NAME);
+        return $this->allOfType(Target::TYPE_NAME);
     }
 
     /**
@@ -66,7 +71,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function groupTargets(): array
     {
-        return $this->_allOfType(Target::TYPE_GROUP);
+        return $this->allOfType(Target::TYPE_GROUP);
     }
 
     /**
@@ -74,7 +79,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function hasTarget(Target $target): bool
     {
-        foreach ($this->_allOfType($target->type()) as $t) {
+        foreach ($this->allOfType($target->type()) as $t) {
             if ($target->equals($t)) {
                 return true;
             }
@@ -87,7 +92,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(static fn (Target $target) => $target->toASN1(), $this->_targets);
+        $elements = array_map(static fn (Target $target) => $target->toASN1(), $this->targets);
         return Sequence::create(...$elements);
     }
 
@@ -96,7 +101,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_targets);
+        return count($this->targets);
     }
 
     /**
@@ -106,7 +111,7 @@ final class Targets implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_targets);
+        return new ArrayIterator($this->targets);
     }
 
     /**
@@ -114,8 +119,8 @@ final class Targets implements Countable, IteratorAggregate
      *
      * @return Target[]
      */
-    private function _allOfType(int $type): array
+    private function allOfType(int $type): array
     {
-        return array_values(array_filter($this->_targets, static fn (Target $target) => $target->type() === $type));
+        return array_values(array_filter($this->targets, static fn (Target $target) => $target->type() === $type));
     }
 }

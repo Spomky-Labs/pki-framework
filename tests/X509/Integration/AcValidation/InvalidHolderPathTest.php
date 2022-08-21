@@ -42,7 +42,7 @@ final class InvalidHolderPathTest extends TestCase
         $issuer = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         // intentionally missing intermediate certificate
-        self::$_holderPath = new CertificationPath($root_ca, $holder);
+        self::$_holderPath = CertificationPath::create($root_ca, $holder);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
         $aci = new AttributeCertificateInfo(
             Holder::fromPKC($holder),

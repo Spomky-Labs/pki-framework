@@ -30,7 +30,7 @@ final class CertificationPathValidationTest extends TestCase
             Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-ecdsa.pem')),
             Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem')),
         ];
-        self::$_path = new CertificationPath(...$certs);
+        self::$_path = CertificationPath::create(...$certs);
     }
 
     public static function tearDownAfterClass(): void
@@ -97,7 +97,7 @@ final class CertificationPathValidationTest extends TestCase
     public function noCertsFail()
     {
         $this->expectException(LogicException::class);
-        new PathValidator(Crypto::getDefault(), PathValidationConfig::defaultConfig());
+        PathValidator::create(Crypto::getDefault(), PathValidationConfig::defaultConfig());
     }
 
     /**
@@ -106,7 +106,7 @@ final class CertificationPathValidationTest extends TestCase
     public function explicitTrustAnchor()
     {
         $config = PathValidationConfig::defaultConfig()->withTrustAnchor(self::$_path->certificates()[0]);
-        $validator = new PathValidator(Crypto::getDefault(), $config, ...self::$_path->certificates());
+        $validator = PathValidator::create(Crypto::getDefault(), $config, ...self::$_path->certificates());
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
 }
