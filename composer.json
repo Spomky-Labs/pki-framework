@@ -63,7 +63,7 @@
         "roave/security-advisories": "dev-latest",
         "symfony/phpunit-bridge": "^6.1",
         "symfony/var-dumper": "^6.1",
-        "symplify/easy-coding-standard": "^11.0",
+        "symplify/easy-coding-standard": "^11.1",
         "thecodingmachine/phpstan-safe-rule": "^1.2"
     },
     "autoload": {
