@@ -57,7 +57,7 @@ final class PolicyMappingTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
-            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3.1')),
+            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.1')),
             new PolicyMappingsExtension(true, PolicyMapping::create('1.3.6.1.3.1', '1.3.6.1.3.2'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
@@ -70,7 +70,7 @@ final class PolicyMappingTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3.2'))
+            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.2'))
         );
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }

@@ -25,7 +25,7 @@ final class PolicyInformationTest extends TestCase
      */
     public function createWithCPS()
     {
-        $pi = new PolicyInformation(self::OID, new CPSQualifier('urn:test'));
+        $pi = PolicyInformation::create(self::OID, CPSQualifier::create('urn:test'));
         static::assertInstanceOf(PolicyInformation::class, $pi);
         return $pi;
     }
@@ -144,7 +144,7 @@ final class PolicyInformationTest extends TestCase
      */
     public function createWithNotice()
     {
-        $pi = new PolicyInformation(self::OID, new UserNoticeQualifier(DisplayText::fromString('notice')));
+        $pi = PolicyInformation::create(self::OID, UserNoticeQualifier::create(DisplayText::fromString('notice')));
         static::assertInstanceOf(PolicyInformation::class, $pi);
         return $pi;
     }
@@ -175,10 +175,10 @@ final class PolicyInformationTest extends TestCase
      */
     public function createWithMultiple()
     {
-        $pi = new PolicyInformation(
+        $pi = PolicyInformation::create(
             self::OID,
-            new CPSQualifier('urn:test'),
-            new UserNoticeQualifier(DisplayText::fromString('notice'))
+            CPSQualifier::create('urn:test'),
+            UserNoticeQualifier::create(DisplayText::fromString('notice'))
         );
         static::assertInstanceOf(PolicyInformation::class, $pi);
         return $pi;
@@ -250,7 +250,7 @@ final class PolicyInformationTest extends TestCase
      */
     public function isAnyPolicy()
     {
-        $pi = new PolicyInformation(PolicyInformation::OID_ANY_POLICY);
+        $pi = PolicyInformation::create(PolicyInformation::OID_ANY_POLICY);
         static::assertTrue($pi->isAnyPolicy());
     }
 }

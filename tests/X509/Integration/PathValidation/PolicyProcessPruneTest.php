@@ -57,7 +57,7 @@ final class PolicyProcessPruneTest extends TestCase
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
             new InhibitAnyPolicyExtension(true, 0),
-            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
+            new CertificatePoliciesExtension(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
@@ -69,7 +69,7 @@ final class PolicyProcessPruneTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
+            new CertificatePoliciesExtension(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
         );
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }

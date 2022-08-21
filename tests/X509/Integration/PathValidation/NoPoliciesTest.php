@@ -54,7 +54,7 @@ final class NoPoliciesTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3.1'))
+            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.1'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
@@ -66,7 +66,7 @@ final class NoPoliciesTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3.1'))
+            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.1'))
         );
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }

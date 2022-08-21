@@ -55,7 +55,7 @@ final class PolicyIntersectionPruneTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY))
+            new CertificatePoliciesExtension(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
@@ -67,7 +67,7 @@ final class PolicyIntersectionPruneTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3.1'))
+            new CertificatePoliciesExtension(true, PolicyInformation::create('1.3.6.1.3.1'))
         );
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }

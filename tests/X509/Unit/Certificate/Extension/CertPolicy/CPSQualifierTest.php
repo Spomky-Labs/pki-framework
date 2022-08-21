@@ -20,7 +20,7 @@ final class CPSQualifierTest extends TestCase
      */
     public function create()
     {
-        $qual = new CPSQualifier(self::URI);
+        $qual = CPSQualifier::create(self::URI);
         static::assertInstanceOf(CPSQualifier::class, $qual);
         return $qual;
     }

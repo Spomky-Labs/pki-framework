@@ -83,7 +83,7 @@ final class DisplayTextTest extends TestCase
      */
     public function encodeIA5String()
     {
-        $dt = new DisplayText('', Element::TYPE_IA5_STRING);
+        $dt = DisplayText::create('', Element::TYPE_IA5_STRING);
         static::assertInstanceOf(IA5String::class, $dt->toASN1());
     }
 
@@ -92,7 +92,7 @@ final class DisplayTextTest extends TestCase
      */
     public function encodeVisibleString()
     {
-        $dt = new DisplayText('', Element::TYPE_VISIBLE_STRING);
+        $dt = DisplayText::create('', Element::TYPE_VISIBLE_STRING);
         static::assertInstanceOf(VisibleString::class, $dt->toASN1());
     }
 
@@ -101,7 +101,7 @@ final class DisplayTextTest extends TestCase
      */
     public function encodeBMPString()
     {
-        $dt = new DisplayText('', Element::TYPE_BMP_STRING);
+        $dt = DisplayText::create('', Element::TYPE_BMP_STRING);
         static::assertInstanceOf(BMPString::class, $dt->toASN1());
     }
 
@@ -110,7 +110,7 @@ final class DisplayTextTest extends TestCase
      */
     public function encodeUTF8String()
     {
-        $dt = new DisplayText('', Element::TYPE_UTF8_STRING);
+        $dt = DisplayText::create('', Element::TYPE_UTF8_STRING);
         static::assertInstanceOf(UTF8String::class, $dt->toASN1());
     }
 
@@ -119,7 +119,7 @@ final class DisplayTextTest extends TestCase
      */
     public function encodeUnsupportedTypeFail()
     {
-        $dt = new DisplayText('', Element::TYPE_NULL);
+        $dt = DisplayText::create('', Element::TYPE_NULL);
         $this->expectException(UnexpectedValueException::class);
         $dt->toASN1();
     }

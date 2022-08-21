@@ -146,7 +146,7 @@ final class PolicyTree
     {
         $policies = [];
         foreach ($this->nodesAtDepth($i) as $node) {
-            $policies[] = new PolicyInformation($node->validPolicy(), ...$node->qualifiers());
+            $policies[] = PolicyInformation::create($node->validPolicy(), ...$node->qualifiers());
         }
         return $policies;
     }

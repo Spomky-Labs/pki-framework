@@ -19,7 +19,7 @@ final class NoticeReferenceTest extends TestCase
      */
     public function create()
     {
-        $ref = new NoticeReference(DisplayText::fromString('org'), 1, 2, 3);
+        $ref = NoticeReference::create(DisplayText::fromString('org'), 1, 2, 3);
         static::assertInstanceOf(NoticeReference::class, $ref);
         return $ref;
     }

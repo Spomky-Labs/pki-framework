@@ -31,12 +31,9 @@ abstract class PolicyQualifierInfo
      */
     public const OID_UNOTICE = '1.3.6.1.5.5.7.2.2';
 
-    /**
-     * Qualifier identifier.
-     *
-     * @var string
-     */
-    protected $_oid;
+    protected function __construct(protected string $oid)
+    {
+    }
 
     /**
      * Initialize from qualifier ASN.1 element.
@@ -63,7 +60,7 @@ abstract class PolicyQualifierInfo
      */
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     /**
@@ -71,11 +68,11 @@ abstract class PolicyQualifierInfo
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(ObjectIdentifier::create($this->_oid), $this->_qualifierASN1());
+        return Sequence::create(ObjectIdentifier::create($this->oid), $this->qualifierASN1());
     }
 
     /**
      * Generate ASN.1 for the 'qualifier' field.
      */
-    abstract protected function _qualifierASN1(): Element;
+    abstract protected function qualifierASN1(): Element;
 }

@@ -56,7 +56,7 @@ final class WrapUpPolicyErrorTest extends TestCase
         );
         $tbs = $tbs->withAdditionalExtensions(
             new BasicConstraintsExtension(true, true, 1),
-            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3'))
+            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate

@@ -21,6 +21,11 @@ final class AuthorityAccessDescription extends AccessDescription
 
     final public const OID_METHOD_CA_ISSUERS = '1.3.6.1.5.5.7.48.2';
 
+    public static function create(string $accessMethod, GeneralName $accessLocation): self
+    {
+        return new self($accessMethod, $accessLocation);
+    }
+
     /**
      * Initialize from ASN.1.
      */
@@ -34,7 +39,7 @@ final class AuthorityAccessDescription extends AccessDescription
      */
     public function isOSCPMethod(): bool
     {
-        return $this->_accessMethod === self::OID_METHOD_OSCP;
+        return $this->accessMethod === self::OID_METHOD_OSCP;
     }
 
     /**
@@ -42,6 +47,6 @@ final class AuthorityAccessDescription extends AccessDescription
      */
     public function isCAIssuersMethod(): bool
     {
-        return $this->_accessMethod === self::OID_METHOD_CA_ISSUERS;
+        return $this->accessMethod === self::OID_METHOD_CA_ISSUERS;
     }
 }
