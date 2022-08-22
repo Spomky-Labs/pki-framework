@@ -43,7 +43,7 @@ final class ObjectIdentifier extends Element
         private readonly string $oid,
         ?int $typeTag
     ) {
-        $this->subids = self::_explodeDottedOID($oid);
+        $this->subids = self::explodeDottedOID($oid);
         // if OID is non-empty
         if (count($this->subids) > 0) {
             // check that at least two nodes are set
@@ -83,14 +83,14 @@ final class ObjectIdentifier extends Element
             $num = $subids[0]->multipliedBy(40)->plus($subids[1]);
             array_splice($subids, 0, 2, [$num]);
         }
-        return self::_encodeSubIDs(...$subids);
+        return self::encodeSubIDs(...$subids);
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
-        $subids = self::_decodeSubIDs(mb_substr($data, $idx, $len, '8bit'));
+        $subids = self::decodeSubIDs(mb_substr($data, $idx, $len, '8bit'));
         $idx += $len;
         // decode first subidentifier according to spec section 8.19.4
         if (isset($subids[0])) {
@@ -103,7 +103,7 @@ final class ObjectIdentifier extends Element
             array_splice($subids, 0, 1, [$x, $y]);
         }
         $offset = $idx;
-        return self::create(self::_implodeSubIDs(...$subids));
+        return self::create(self::implodeSubIDs(...$subids));
     }
 
     /**
@@ -113,7 +113,7 @@ final class ObjectIdentifier extends Element
      *
      * @return BigInteger[] Array of BigInteger numbers
      */
-    protected static function _explodeDottedOID(string $oid): array
+    protected static function explodeDottedOID(string $oid): array
     {
         $subids = [];
         if ($oid !== '') {
@@ -132,7 +132,7 @@ final class ObjectIdentifier extends Element
     /**
      * Implode an array of sub IDs to dotted OID format.
      */
-    protected static function _implodeSubIDs(BigInteger ...$subids): string
+    protected static function implodeSubIDs(BigInteger ...$subids): string
     {
         return implode('.', array_map(static fn ($num) => $num->toBase(10), $subids));
     }
@@ -140,7 +140,7 @@ final class ObjectIdentifier extends Element
     /**
      * Encode sub ID's to DER.
      */
-    protected static function _encodeSubIDs(BigInteger ...$subids): string
+    protected static function encodeSubIDs(BigInteger ...$subids): string
     {
         $data = '';
         foreach ($subids as $subid) {
@@ -172,7 +172,7 @@ final class ObjectIdentifier extends Element
      *
      * @return BigInteger[] Array of BigInteger numbers
      */
-    protected static function _decodeSubIDs(string $data): array
+    protected static function decodeSubIDs(string $data): array
     {
         $subids = [];
         $idx = 0;

@@ -27,7 +27,7 @@ final class BMPString extends PrimitiveString
         return new self($string);
     }
 
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         // UCS-2 has fixed with of 2 octets (16 bits)
         return mb_strlen($string, '8bit') % 2 === 0;

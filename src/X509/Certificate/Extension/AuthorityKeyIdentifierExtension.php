@@ -41,7 +41,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
         ?string $keyIdentifier,
         ?GeneralNames $authorityCertIssuer = null,
         null|string $authorityCertSerialNumber = null
-    ) {
+    ): self {
         return new self($critical, $keyIdentifier, $authorityCertIssuer, $authorityCertSerialNumber);
     }
 

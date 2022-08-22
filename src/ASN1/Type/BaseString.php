@@ -21,7 +21,7 @@ abstract class BaseString extends Element implements StringType, Stringable
     protected function __construct(int $typeTag, string $string)
     {
         parent::__construct($typeTag);
-        if (! $this->_validateString($string)) {
+        if (! $this->validateString($string)) {
             throw new InvalidArgumentException(sprintf('Not a valid %s string.', self::tagToName($this->typeTag)));
         }
         $this->string = $string;
@@ -48,7 +48,7 @@ abstract class BaseString extends Element implements StringType, Stringable
     /**
      * Check whether string is valid for the concrete type.
      */
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         // Override in derived classes
         return true;

@@ -103,7 +103,7 @@ final class Identifier implements Encodable
         $tag = (0b00011111 & $byte);
         // long-form identifier
         if ($tag === 0x1f) {
-            $tag = self::_decodeLongFormTag($data, $idx);
+            $tag = self::decodeLongFormTag($data, $idx);
         }
         if (isset($offset)) {
             $offset = $idx;
@@ -256,7 +256,7 @@ final class Identifier implements Encodable
      *
      * @return BigInteger Tag number
      */
-    private static function _decodeLongFormTag(string $data, int &$offset): BigInteger
+    private static function decodeLongFormTag(string $data, int &$offset): BigInteger
     {
         $datalen = mb_strlen($data, '8bit');
         $tag = BigInteger::of(0);

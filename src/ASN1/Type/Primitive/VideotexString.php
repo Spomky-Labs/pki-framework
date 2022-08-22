@@ -24,7 +24,7 @@ final class VideotexString extends PrimitiveString
         return new self($string);
     }
 
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         // allow everything
         return true;

@@ -69,7 +69,7 @@ final class GeneralizedTime extends BaseTime
 
     public static function fromString(string $time, ?string $tz = null): static
     {
-        return new static(new DateTimeImmutable($time, self::_createTimeZone($tz)));
+        return new static(new DateTimeImmutable($time, self::createTimeZone($tz)));
     }
 
     protected function encodedAsDER(): string
@@ -122,7 +122,7 @@ final class GeneralizedTime extends BaseTime
     /**
      * Create `DateTimeZone` object from string.
      */
-    private static function _createTimeZone(?string $tz): DateTimeZone
+    private static function createTimeZone(?string $tz): DateTimeZone
     {
         try {
             return new DateTimeZone($tz ?? 'UTC');
