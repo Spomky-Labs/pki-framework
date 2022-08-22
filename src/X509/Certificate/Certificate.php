@@ -22,19 +22,15 @@ use UnexpectedValueException;
  */
 final class Certificate implements Stringable
 {
-    public function __construct(
-        /**
-         * "To be signed" certificate information.
-         */
-        protected TBSCertificate $_tbsCertificate,
-        /**
-         * Signature algorithm.
-         */
-        protected SignatureAlgorithmIdentifier $_signatureAlgorithm,
-        /**
-         * Signature value.
-         */
-        protected Signature $_signatureValue
+    /**
+     * @param TBSCertificate $tbsCertificate "To be signed" certificate information.
+     * @param SignatureAlgorithmIdentifier $signatureAlgorithm Signature algorithm.
+     * @param Signature $signatureValue Signature value.
+     */
+    private function __construct(
+        private readonly TBSCertificate $tbsCertificate,
+        private readonly SignatureAlgorithmIdentifier $signatureAlgorithm,
+        private readonly Signature $signatureValue
     ) {
     }
 
@@ -45,6 +41,14 @@ final class Certificate implements Stringable
     {
         return $this->toPEM()
             ->string();
+    }
+
+    public static function create(
+        TBSCertificate $tbsCertificate,
+        SignatureAlgorithmIdentifier $signatureAlgorithm,
+        Signature $signatureValue
+    ): self {
+        return new self($tbsCertificate, $signatureAlgorithm, $signatureValue);
     }
 
     /**
@@ -58,7 +62,7 @@ final class Certificate implements Stringable
             throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
         $signature = Signature::fromSignatureData($seq->at(2)->asBitString()->string(), $algo);
-        return new self($tbsCert, $algo, $signature);
+        return self::create($tbsCert, $algo, $signature);
     }
 
     /**
@@ -85,7 +89,7 @@ final class Certificate implements Stringable
      */
     public function tbsCertificate(): TBSCertificate
     {
-        return $this->_tbsCertificate;
+        return $this->tbsCertificate;
     }
 
     /**
@@ -93,7 +97,7 @@ final class Certificate implements Stringable
      */
     public function signatureAlgorithm(): SignatureAlgorithmIdentifier
     {
-        return $this->_signatureAlgorithm;
+        return $this->signatureAlgorithm;
     }
 
     /**
@@ -101,7 +105,7 @@ final class Certificate implements Stringable
      */
     public function signatureValue(): Signature
     {
-        return $this->_signatureValue;
+        return $this->signatureValue;
     }
 
     /**
@@ -109,8 +113,8 @@ final class Certificate implements Stringable
      */
     public function isSelfIssued(): bool
     {
-        return $this->_tbsCertificate->subject()
-            ->equals($this->_tbsCertificate->issuer());
+        return $this->tbsCertificate->subject()
+            ->equals($this->tbsCertificate->issuer());
     }
 
     /**
@@ -130,9 +134,9 @@ final class Certificate implements Stringable
     public function toASN1(): Sequence
     {
         return Sequence::create(
-            $this->_tbsCertificate->toASN1(),
-            $this->_signatureAlgorithm->toASN1(),
-            $this->_signatureValue->bitString()
+            $this->tbsCertificate->toASN1(),
+            $this->signatureAlgorithm->toASN1(),
+            $this->signatureValue->bitString()
         );
     }
 
@@ -164,9 +168,9 @@ final class Certificate implements Stringable
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {
         $crypto ??= Crypto::getDefault();
-        $data = $this->_tbsCertificate->toASN1()
+        $data = $this->tbsCertificate->toASN1()
             ->toDER();
-        return $crypto->verify($data, $this->_signatureValue, $pubkey_info, $this->_signatureAlgorithm);
+        return $crypto->verify($data, $this->signatureValue, $pubkey_info, $this->signatureAlgorithm);
     }
 
     /**
@@ -174,8 +178,8 @@ final class Certificate implements Stringable
      */
     private function _hasEqualSerialNumber(self $cert): bool
     {
-        $sn1 = $this->_tbsCertificate->serialNumber();
-        $sn2 = $cert->_tbsCertificate->serialNumber();
+        $sn1 = $this->tbsCertificate->serialNumber();
+        $sn2 = $cert->tbsCertificate->serialNumber();
         return $sn1 === $sn2;
     }
 
@@ -184,9 +188,9 @@ final class Certificate implements Stringable
      */
     private function _hasEqualPublicKey(self $cert): bool
     {
-        $kid1 = $this->_tbsCertificate->subjectPublicKeyInfo()
+        $kid1 = $this->tbsCertificate->subjectPublicKeyInfo()
             ->keyIdentifier();
-        $kid2 = $cert->_tbsCertificate->subjectPublicKeyInfo()
+        $kid2 = $cert->tbsCertificate->subjectPublicKeyInfo()
             ->keyIdentifier();
         return $kid1 === $kid2;
     }
@@ -196,8 +200,8 @@ final class Certificate implements Stringable
      */
     private function _hasEqualSubject(self $cert): bool
     {
-        $dn1 = $this->_tbsCertificate->subject();
-        $dn2 = $cert->_tbsCertificate->subject();
+        $dn1 = $this->tbsCertificate->subject();
+        $dn2 = $cert->tbsCertificate->subject();
         return $dn1->equals($dn2);
     }
 }

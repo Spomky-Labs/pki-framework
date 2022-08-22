@@ -15,9 +15,9 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
     protected function __construct(
         string $oid,
-        protected string $_initializationVector
+        protected string $initializationVector
     ) {
-        $this->_checkIVSize($_initializationVector);
+        $this->_checkIVSize($initializationVector);
         parent::__construct($oid);
     }
 
@@ -36,7 +36,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
      */
     public function initializationVector(): string
     {
-        return $this->_initializationVector;
+        return $this->initializationVector;
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
     {
         $this->_checkIVSize($iv);
         $obj = clone $this;
-        $obj->_initializationVector = $iv;
+        $obj->initializationVector = $iv;
         return $obj;
     }
 

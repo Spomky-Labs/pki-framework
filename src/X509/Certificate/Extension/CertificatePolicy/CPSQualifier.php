@@ -31,7 +31,7 @@ final class CPSQualifier extends PolicyQualifierInfo
      */
     public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo
     {
-        return new self($el->asString()->string());
+        return self::create($el->asString()->string());
     }
 
     public function uri(): string

@@ -61,7 +61,7 @@ final class AttributeCertificateInfoTest extends TestCase
         self::$_attribs = Attributes::fromAttributeValues(
             RoleAttributeValue::create(UniformResourceIdentifier::create('urn:admin'))
         );
-        self::$_extensions = Extensions::create(new AuthorityKeyIdentifierExtension(true, 'test'));
+        self::$_extensions = Extensions::create(AuthorityKeyIdentifierExtension::create(true, 'test'));
         self::$_privKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
     }
 
@@ -335,7 +335,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     public function withAdditionalExtensions(AttributeCertificateInfo $aci)
     {
-        $aci = $aci->withAdditionalExtensions(new AuthorityKeyIdentifierExtension(true, 'test'));
+        $aci = $aci->withAdditionalExtensions(AuthorityKeyIdentifierExtension::create(true, 'test'));
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
         return $aci;
     }

@@ -27,12 +27,12 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      *
      * @var DistributionPoint[]
      */
-    protected array $_distributionPoints;
+    protected array $distributionPoints;
 
-    protected function __construct(string $oid, bool $critical, DistributionPoint ...$distribution_points)
+    protected function __construct(string $oid, bool $critical, DistributionPoint ...$distributionPoints)
     {
         parent::__construct($oid, $critical);
-        $this->_distributionPoints = $distribution_points;
+        $this->distributionPoints = $distributionPoints;
     }
 
     public static function create(bool $critical, DistributionPoint ...$distribution_points): self
@@ -47,7 +47,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      */
     public function distributionPoints(): array
     {
-        return $this->_distributionPoints;
+        return $this->distributionPoints;
     }
 
     /**
@@ -57,7 +57,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      */
     public function count(): int
     {
-        return count($this->_distributionPoints);
+        return count($this->distributionPoints);
     }
 
     /**
@@ -67,7 +67,7 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_distributionPoints);
+        return new ArrayIterator($this->distributionPoints);
     }
 
     protected static function fromDER(string $data, bool $critical): static
@@ -85,10 +85,10 @@ class CRLDistributionPointsExtension extends Extension implements Countable, Ite
 
     protected function valueASN1(): Element
     {
-        if (count($this->_distributionPoints) === 0) {
+        if (count($this->distributionPoints) === 0) {
             throw new LogicException('No distribution points.');
         }
-        $elements = array_map(static fn (DistributionPoint $dp) => $dp->toASN1(), $this->_distributionPoints);
+        $elements = array_map(static fn (DistributionPoint $dp) => $dp->toASN1(), $this->distributionPoints);
         return Sequence::create(...$elements);
     }
 }

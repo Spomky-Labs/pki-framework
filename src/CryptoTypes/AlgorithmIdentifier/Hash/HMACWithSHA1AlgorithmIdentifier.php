@@ -50,7 +50,7 @@ final class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier 
         if (isset($params)) {
             throw new UnexpectedValueException('Parameters must be omitted.');
         }
-        return new self();
+        return self::create();
     }
 
     protected function paramsASN1(): ?Element

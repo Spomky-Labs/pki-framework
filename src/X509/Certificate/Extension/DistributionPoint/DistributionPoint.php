@@ -59,7 +59,7 @@ final class DistributionPoint
                     ->asSequence()
             );
         }
-        return new self($name, $reasons, $issuer);
+        return self::create($name, $reasons, $issuer);
     }
 
     /**

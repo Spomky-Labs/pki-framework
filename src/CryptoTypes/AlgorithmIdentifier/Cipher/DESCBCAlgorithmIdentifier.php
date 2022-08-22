@@ -55,7 +55,7 @@ final class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
         }
         $iv = $params->asOctetString()
             ->string();
-        return new self($iv);
+        return self::create($iv);
     }
 
     public function blockSize(): int
@@ -78,9 +78,9 @@ final class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      */
     protected function paramsASN1(): ?Element
     {
-        if (! isset($this->_initializationVector)) {
+        if (! isset($this->initializationVector)) {
             throw new LogicException('IV not set.');
         }
-        return OctetString::create($this->_initializationVector);
+        return OctetString::create($this->initializationVector);
     }
 }

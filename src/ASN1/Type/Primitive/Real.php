@@ -166,7 +166,7 @@ final class Real extends Element implements Stringable
             throw new UnexpectedValueException('NaN values not supported.');
         }
         [$m, $e] = self::_parse754Double(pack('E', $number));
-        return new self($m, $e, 2);
+        return self::create($m, $e, 2);
     }
 
     /**
@@ -177,7 +177,7 @@ final class Real extends Element implements Stringable
     public static function fromString(string $number): self
     {
         [$m, $e] = self::_parseString($number);
-        return new self($m, $e, 10);
+        return self::create($m, $e, 10);
     }
 
     /**
@@ -366,7 +366,7 @@ final class Real extends Element implements Stringable
         $length = Length::expectFromDER($data, $idx)->intLength();
         // if length is zero, value is zero (spec 8.5.2)
         if ($length === 0) {
-            $obj = new self(0, 0, 10);
+            $obj = self::create(0, 0, 10);
         } else {
             $bytes = mb_substr($data, $idx, $length, '8bit');
             $byte = ord($bytes[0]);
@@ -430,7 +430,7 @@ final class Real extends Element implements Stringable
         if ($neg) {
             $n = $n->negated();
         }
-        return new self($n, $exp, 2);
+        return self::create($n, $exp, 2);
     }
 
     /**
@@ -499,7 +499,7 @@ final class Real extends Element implements Stringable
      */
     private static function _fromInfinite(float $inf): self
     {
-        return new self($inf === -INF ? -1 : 1, self::INF_EXPONENT, 2);
+        return self::create($inf === -INF ? -1 : 1, self::INF_EXPONENT, 2);
     }
 
     /**

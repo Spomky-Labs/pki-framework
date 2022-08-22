@@ -49,20 +49,20 @@ final class PolicyMappingTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true, 1),
-            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.1')),
+            BasicConstraintsExtension::create(true, true, 1),
+            CertificatePoliciesExtension::create(false, PolicyInformation::create('1.3.6.1.3.1')),
             PolicyMappingsExtension::create(true, PolicyMapping::create('1.3.6.1.3.1', '1.3.6.1.3.2'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -70,7 +70,7 @@ final class PolicyMappingTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(false, PolicyInformation::create('1.3.6.1.3.2'))
+            CertificatePoliciesExtension::create(false, PolicyInformation::create('1.3.6.1.3.2'))
         );
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }

@@ -34,37 +34,37 @@ final class ObjectIdentifier extends Element
      *
      * @var BigInteger[]
      */
-    protected array $_subids;
+    private readonly array $subids;
 
     /**
-     * @param string $_oid OID in dotted format
+     * @param string $oid OID in dotted format
      */
     private function __construct(
-        private readonly string $_oid,
-        ?int $typeTag = null
+        private readonly string $oid,
+        ?int $typeTag
     ) {
-        $this->_subids = self::_explodeDottedOID($_oid);
+        $this->subids = self::_explodeDottedOID($oid);
         // if OID is non-empty
-        if (count($this->_subids) > 0) {
+        if (count($this->subids) > 0) {
             // check that at least two nodes are set
-            if (count($this->_subids) < 2) {
+            if (count($this->subids) < 2) {
                 throw new UnexpectedValueException('OID must have at least two nodes.');
             }
             // check that root arc is in 0..2 range
-            if ($this->_subids[0]->isGreaterThan(2)) {
+            if ($this->subids[0]->isGreaterThan(2)) {
                 throw new UnexpectedValueException('Root arc must be in range of 0..2.');
             }
             // if root arc is 0 or 1, second node must be in 0..39 range
-            if ($this->_subids[0]->isLessThan(2) && $this->_subids[1]->isGreaterThanOrEqualTo(40)) {
+            if ($this->subids[0]->isLessThan(2) && $this->subids[1]->isGreaterThanOrEqualTo(40)) {
                 throw new UnexpectedValueException('Second node must be in 0..39 range for root arcs 0 and 1.');
             }
         }
         parent::__construct($typeTag ?? self::TYPE_OBJECT_IDENTIFIER);
     }
 
-    public static function create(string $_oid, ?int $typeTag = null): self
+    public static function create(string $oid, ?int $typeTag = null): self
     {
-        return new self($_oid, $typeTag);
+        return new self($oid, $typeTag);
     }
 
     /**
@@ -72,12 +72,12 @@ final class ObjectIdentifier extends Element
      */
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     protected function encodedAsDER(): string
     {
-        $subids = $this->_subids;
+        $subids = $this->subids;
         // encode first two subids to one according to spec section 8.19.4
         if (count($subids) >= 2) {
             $num = $subids[0]->multipliedBy(40)->plus($subids[1]);
@@ -103,7 +103,7 @@ final class ObjectIdentifier extends Element
             array_splice($subids, 0, 1, [$x, $y]);
         }
         $offset = $idx;
-        return new self(self::_implodeSubIDs(...$subids));
+        return self::create(self::_implodeSubIDs(...$subids));
     }
 
     /**

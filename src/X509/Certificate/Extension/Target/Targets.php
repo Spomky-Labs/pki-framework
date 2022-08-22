@@ -41,7 +41,7 @@ final class Targets implements Countable, IteratorAggregate
     public static function fromASN1(Sequence $seq): self
     {
         $targets = array_map(static fn (UnspecifiedType $el) => Target::fromASN1($el->asTagged()), $seq->elements());
-        return new self(...$targets);
+        return self::create(...$targets);
     }
 
     /**

@@ -13,12 +13,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
  */
 final class UniqueIdentifier
 {
-    public function __construct(
-        /**
-         * Identifier.
-         */
-        protected BitString $_uid
+    private function __construct(
+        private readonly BitString $uid
     ) {
+    }
+
+    public static function create(BitString $uid): self
+    {
+        return new self($uid);
     }
 
     /**
@@ -26,7 +28,7 @@ final class UniqueIdentifier
      */
     public static function fromASN1(BitString $bs): self
     {
-        return new self($bs);
+        return self::create($bs);
     }
 
     /**
@@ -34,7 +36,7 @@ final class UniqueIdentifier
      */
     public static function fromString(string $str): self
     {
-        return new self(BitString::create($str));
+        return self::create(BitString::create($str));
     }
 
     /**
@@ -42,7 +44,7 @@ final class UniqueIdentifier
      */
     public function string(): string
     {
-        return $this->_uid->string();
+        return $this->uid->string();
     }
 
     /**
@@ -50,7 +52,7 @@ final class UniqueIdentifier
      */
     public function bitString(): BitString
     {
-        return $this->_uid;
+        return $this->uid;
     }
 
     /**
@@ -58,6 +60,6 @@ final class UniqueIdentifier
      */
     public function toASN1(): BitString
     {
-        return $this->_uid;
+        return $this->uid;
     }
 }

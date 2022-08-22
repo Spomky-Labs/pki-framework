@@ -46,19 +46,19 @@ final class NotKeyCertSignTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true),
+            BasicConstraintsExtension::create(true, true),
             KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE)
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),

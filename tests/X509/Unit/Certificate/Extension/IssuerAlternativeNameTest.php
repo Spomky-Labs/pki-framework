@@ -24,7 +24,10 @@ final class IssuerAlternativeNameTest extends TestCase
      */
     public function create()
     {
-        $ext = new IssuerAlternativeNameExtension(true, GeneralNames::create(DirectoryName::fromDNString(self::DN)));
+        $ext = IssuerAlternativeNameExtension::create(
+            true,
+            GeneralNames::create(DirectoryName::fromDNString(self::DN))
+        );
         static::assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);
         return $ext;
     }

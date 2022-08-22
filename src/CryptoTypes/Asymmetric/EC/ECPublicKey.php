@@ -80,7 +80,7 @@ final class ECPublicKey extends PublicKey
         $x_os = ECConversion::integerToOctetString(Integer::create($x), $mlen)->string();
         $y_os = ECConversion::integerToOctetString(Integer::create($y), $mlen)->string();
         $ec_point = "\x4{$x_os}{$y_os}";
-        return new self($ec_point, $named_curve);
+        return self::create($ec_point, $named_curve);
     }
 
     /**
@@ -98,7 +98,7 @@ final class ECPublicKey extends PublicKey
             throw new UnexpectedValueException('Not an elliptic curve key.');
         }
         // ECPoint is directly mapped into public key data
-        return new self($pki->publicKeyData()->string(), $algo->namedCurve());
+        return self::create($pki->publicKeyData()->string(), $algo->namedCurve());
     }
 
     /**

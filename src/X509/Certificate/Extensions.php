@@ -47,7 +47,7 @@ final class Extensions implements Countable, IteratorAggregate
     /**
      * @param Extension ...$extensions Extension objects
      */
-    public function __construct(Extension ...$extensions)
+    private function __construct(Extension ...$extensions)
     {
         $this->extensions = [];
         foreach ($extensions as $ext) {
@@ -69,7 +69,7 @@ final class Extensions implements Countable, IteratorAggregate
             static fn (UnspecifiedType $el) => Extension::fromASN1($el->asSequence()),
             $seq->elements()
         );
-        return new self(...$extensions);
+        return self::create(...$extensions);
     }
 
     /**

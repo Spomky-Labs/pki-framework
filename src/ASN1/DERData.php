@@ -20,28 +20,28 @@ final class DERData extends Element
     /**
      * DER encoded data.
      */
-    protected string $_der;
+    private readonly string $der;
 
     /**
      * Identifier of the underlying type.
      */
-    protected Identifier $_identifier;
+    private readonly Identifier $identifier;
 
     /**
      * Offset to the content in DER data.
      */
-    protected int $_contentOffset = 0;
+    private int $contentOffset = 0;
 
     /**
      * @param string $data DER encoded data
      */
     private function __construct(string $data)
     {
-        $this->_identifier = Identifier::fromDER($data, $this->_contentOffset);
+        $this->identifier = Identifier::fromDER($data, $this->contentOffset);
         // check that length encoding is valid
-        Length::expectFromDER($data, $this->_contentOffset);
-        $this->_der = $data;
-        parent::__construct($this->_identifier->intTag());
+        Length::expectFromDER($data, $this->contentOffset);
+        $this->der = $data;
+        parent::__construct($this->identifier->intTag());
     }
 
     public static function create(string $data): self
@@ -51,26 +51,26 @@ final class DERData extends Element
 
     public function typeClass(): int
     {
-        return $this->_identifier->typeClass();
+        return $this->identifier->typeClass();
     }
 
     public function isConstructed(): bool
     {
-        return $this->_identifier->isConstructed();
+        return $this->identifier->isConstructed();
     }
 
     public function toDER(): string
     {
-        return $this->_der;
+        return $this->der;
     }
 
     protected function encodedAsDER(): string
     {
         // if there's no content payload
-        if (mb_strlen($this->_der, '8bit') === $this->_contentOffset) {
+        if (mb_strlen($this->der, '8bit') === $this->contentOffset) {
             return '';
         }
-        return mb_substr($this->_der, $this->_contentOffset, null, '8bit');
+        return mb_substr($this->der, $this->contentOffset, null, '8bit');
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase

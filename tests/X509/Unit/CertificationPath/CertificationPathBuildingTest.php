@@ -42,8 +42,8 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildPath()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca));
-        $path = $builder->shortestPathToTarget(self::$_cert, new CertificateBundle(self::$_interm));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
+        $path = $builder->shortestPathToTarget(self::$_cert, CertificateBundle::create(self::$_interm));
         static::assertInstanceOf(CertificationPath::class, $path);
         return $path;
     }
@@ -93,9 +93,9 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildPathFail()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
         $this->expectException(PathBuildingException::class);
-        $builder->shortestPathToTarget(self::$_cert, new CertificateBundle());
+        $builder->shortestPathToTarget(self::$_cert, CertificateBundle::create());
     }
 
     /**
@@ -103,7 +103,7 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildSelfSigned()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
         $path = $builder->shortestPathToTarget(self::$_ca);
         static::assertCount(1, $path);
     }
@@ -113,7 +113,7 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildLength2()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
         $path = $builder->shortestPathToTarget(self::$_interm);
         static::assertCount(2, $path);
     }
@@ -123,8 +123,8 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildWithCAInIntermediate()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca));
-        $path = $builder->shortestPathToTarget(self::$_cert, new CertificateBundle(self::$_ca, self::$_interm));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
+        $path = $builder->shortestPathToTarget(self::$_cert, CertificateBundle::create(self::$_ca, self::$_interm));
         static::assertCount(3, $path);
     }
 
@@ -133,8 +133,8 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildMultipleChoices()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca, self::$_interm));
-        $paths = $builder->allPathsToTarget(self::$_cert, new CertificateBundle(self::$_interm));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca, self::$_interm));
+        $paths = $builder->allPathsToTarget(self::$_cert, CertificateBundle::create(self::$_interm));
         static::assertCount(2, $paths);
         static::assertContainsOnlyInstancesOf(CertificationPath::class, $paths);
     }
@@ -144,8 +144,8 @@ final class CertificationPathBuildingTest extends TestCase
      */
     public function buildShortest()
     {
-        $builder = CertificationPathBuilder::create(new CertificateBundle(self::$_ca, self::$_interm));
-        $path = $builder->shortestPathToTarget(self::$_cert, new CertificateBundle(self::$_interm));
+        $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca, self::$_interm));
+        $path = $builder->shortestPathToTarget(self::$_cert, CertificateBundle::create(self::$_interm));
         static::assertCount(2, $path);
     }
 }

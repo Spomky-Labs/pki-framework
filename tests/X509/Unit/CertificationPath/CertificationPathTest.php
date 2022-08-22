@@ -89,7 +89,7 @@ final class CertificationPathTest extends TestCase
         $path = CertificationPath::fromTrustAnchorToTarget(
             self::$_certs[0],
             self::$_certs[2],
-            new CertificateBundle(...self::$_certs)
+            CertificateBundle::create(...self::$_certs)
         );
         static::assertInstanceOf(CertificationPath::class, $path);
     }
@@ -99,7 +99,7 @@ final class CertificationPathTest extends TestCase
      */
     public function fromCertificateChain()
     {
-        $chain = new CertificateChain(...array_reverse(self::$_certs, false));
+        $chain = CertificateChain::create(...array_reverse(self::$_certs, false));
         $path = CertificationPath::fromCertificateChain($chain);
         static::assertInstanceOf(CertificationPath::class, $path);
         return $path;

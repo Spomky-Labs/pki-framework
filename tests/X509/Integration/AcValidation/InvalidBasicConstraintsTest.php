@@ -13,6 +13,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate as AttributeCertificateAlias;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificateInfo;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Holder;
@@ -32,11 +33,11 @@ use SpomkyLabs\Pki\X509\Exception\X509ValidationException;
  */
 final class InvalidBasicConstraintsTest extends TestCase
 {
-    private static $_holderPath;
+    private static ?CertificationPath $_holderPath;
 
-    private static $_issuerPath;
+    private static ?CertificationPath $_issuerPath;
 
-    private static $_ac;
+    private static ?AttributeCertificateAlias $_ac;
 
     public static function setUpBeforeClass(): void
     {
@@ -49,7 +50,7 @@ final class InvalidBasicConstraintsTest extends TestCase
         $issuer_ca_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-ec.pem'));
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         // create issuer certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString('cn=AC CA'),
             $issuer_pk->publicKeyInfo(),
             Name::create(),
@@ -58,7 +59,7 @@ final class InvalidBasicConstraintsTest extends TestCase
         $tbs = $tbs->withIssuerCertificate($issuer_ca);
         $tbs = $tbs->withAdditionalExtensions(
             KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE),
-            new BasicConstraintsExtension(true, true)
+            BasicConstraintsExtension::create(true, true)
         );
         $issuer = $tbs->sign(ECDSAWithSHA512AlgorithmIdentifier::create(), $issuer_ca_pk);
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);

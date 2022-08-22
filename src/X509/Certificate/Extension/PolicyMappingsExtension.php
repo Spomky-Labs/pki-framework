@@ -151,7 +151,7 @@ final class PolicyMappingsExtension extends Extension implements Countable, Iter
         if (count($mappings) === 0) {
             throw new UnexpectedValueException('PolicyMappings must have at least one mapping.');
         }
-        return new self($critical, ...$mappings);
+        return self::create($critical, ...$mappings);
     }
 
     protected function valueASN1(): Element

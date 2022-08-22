@@ -44,7 +44,7 @@ final class IssuerMismatchTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -52,7 +52,7 @@ final class IssuerMismatchTest extends TestCase
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString('cn=Someone else'),

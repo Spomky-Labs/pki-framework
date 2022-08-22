@@ -30,7 +30,7 @@ final class X25519PrivateKey extends Curve25519PrivateKey
      */
     public static function fromOctetString(OctetString $str, ?string $public_key = null): self
     {
-        return new self($str->string(), $public_key);
+        return self::create($str->string(), $public_key);
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType

@@ -76,7 +76,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function create(PolicyInformation $info)
     {
-        $ext = new CertificatePoliciesExtension(true, $info, PolicyInformation::create('1.3.6.1.3.10'));
+        $ext = CertificatePoliciesExtension::create(true, $info, PolicyInformation::create('1.3.6.1.3.10'));
         static::assertInstanceOf(CertificatePoliciesExtension::class, $ext);
         return $ext;
     }
@@ -179,7 +179,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function hasAnyPolicy()
     {
-        $ext = new CertificatePoliciesExtension(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY));
+        $ext = CertificatePoliciesExtension::create(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY));
         static::assertTrue($ext->hasAnyPolicy());
     }
 
@@ -188,7 +188,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function anyPolicyFail()
     {
-        $ext = new CertificatePoliciesExtension(true, PolicyInformation::create('1.3.6.1.3'));
+        $ext = CertificatePoliciesExtension::create(true, PolicyInformation::create('1.3.6.1.3'));
         $this->expectException(LogicException::class);
         $ext->anyPolicy();
     }
@@ -334,7 +334,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function encodeEmptyFail()
     {
-        $ext = new CertificatePoliciesExtension(false);
+        $ext = CertificatePoliciesExtension::create(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }

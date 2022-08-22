@@ -53,29 +53,29 @@ final class IntermediateTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true),
+            BasicConstraintsExtension::create(true, true),
             KeyUsageExtension::create(true, KeyUsageExtension::KEY_CERT_SIGN)
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create intermediate certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::INTERM_NAME),
             self::$_intermKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true));
+        $tbs = $tbs->withAdditionalExtensions(BasicConstraintsExtension::create(true, true));
         self::$_interm = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::INTERM_NAME),

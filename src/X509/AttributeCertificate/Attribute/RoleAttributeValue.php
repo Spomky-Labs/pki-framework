@@ -36,7 +36,7 @@ final class RoleAttributeValue extends AttributeValue
         parent::__construct(AttributeType::OID_ROLE);
     }
 
-    public static function create(GeneralName $roleName, ?GeneralNames $roleAuthority = null)
+    public static function create(GeneralName $roleName, ?GeneralNames $roleAuthority = null): self
     {
         return new self($roleName, $roleAuthority);
     }

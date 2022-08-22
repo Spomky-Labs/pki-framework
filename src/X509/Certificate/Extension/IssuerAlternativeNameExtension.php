@@ -15,27 +15,30 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class IssuerAlternativeNameExtension extends Extension
 {
-    public function __construct(
-        bool $critical, /**
-     * Names.
-     */
-        protected GeneralNames $_names
+    private function __construct(
+        bool $critical,
+        private readonly GeneralNames $names
     ) {
         parent::__construct(self::OID_ISSUER_ALT_NAME, $critical);
     }
 
+    public static function create(bool $critical, GeneralNames $names): self
+    {
+        return new self($critical, $names);
+    }
+
     public function names(): GeneralNames
     {
-        return $this->_names;
+        return $this->names;
     }
 
     protected static function fromDER(string $data, bool $critical): static
     {
-        return new self($critical, GeneralNames::fromASN1(UnspecifiedType::fromDER($data)->asSequence()));
+        return self::create($critical, GeneralNames::fromASN1(UnspecifiedType::fromDER($data)->asSequence()));
     }
 
     protected function valueASN1(): Element
     {
-        return $this->_names->toASN1();
+        return $this->names->toASN1();
     }
 }

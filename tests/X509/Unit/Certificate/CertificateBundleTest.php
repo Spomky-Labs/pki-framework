@@ -57,7 +57,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function create()
     {
-        $bundle = new CertificateBundle(self::$_cert1, self::$_cert2);
+        $bundle = CertificateBundle::create(self::$_cert1, self::$_cert2);
         static::assertInstanceOf(CertificateBundle::class, $bundle);
         return $bundle;
     }
@@ -112,7 +112,7 @@ final class CertificateBundleTest extends TestCase
      */
     public function doesNotContain()
     {
-        $bundle = new CertificateBundle(self::$_cert1, self::$_cert2);
+        $bundle = CertificateBundle::create(self::$_cert1, self::$_cert2);
         static::assertFalse($bundle->contains(self::$_cert3));
     }
 
@@ -122,7 +122,7 @@ final class CertificateBundleTest extends TestCase
     public function containsSubjectMismatch()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
-        $tc = new TBSCertificate(
+        $tc = TBSCertificate::create(
             Name::fromString('cn=Subject'),
             $priv_key_info->publicKeyInfo(),
             Name::fromString('cn=Issuer 1'),
@@ -131,7 +131,7 @@ final class CertificateBundleTest extends TestCase
         $cert1 = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $priv_key_info);
         $tc = $tc->withSubject(Name::fromString('cn=Issuer 2'));
         $cert2 = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $priv_key_info);
-        $bundle = new CertificateBundle($cert1);
+        $bundle = CertificateBundle::create($cert1);
         static::assertFalse($bundle->contains($cert2));
     }
 
@@ -207,14 +207,14 @@ final class CertificateBundleTest extends TestCase
     public function searchBySubjectKeyHavingNoID()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
-        $tc = new TBSCertificate(
+        $tc = TBSCertificate::create(
             Name::fromString('cn=Subject'),
             $priv_key_info->publicKeyInfo(),
             Name::fromString('cn=Issuer'),
             Validity::fromStrings(null, null)
         );
         $cert = $tc->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), $priv_key_info);
-        $bundle = new CertificateBundle($cert);
+        $bundle = CertificateBundle::create($cert);
         static::assertEmpty($bundle->allBySubjectKeyIdentifier('nope'));
     }
 }

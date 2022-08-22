@@ -29,13 +29,18 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
      */
     protected array $_policies;
 
-    public function __construct(bool $critical, PolicyInformation ...$policies)
+    private function __construct(bool $critical, PolicyInformation ...$policies)
     {
         parent::__construct(Extension::OID_CERTIFICATE_POLICIES, $critical);
         $this->_policies = [];
         foreach ($policies as $policy) {
             $this->_policies[$policy->oid()] = $policy;
         }
+    }
+
+    public static function create(bool $critical, PolicyInformation ...$policies): self
+    {
+        return new self($critical, ...$policies);
     }
 
     /**
@@ -105,7 +110,7 @@ final class CertificatePoliciesExtension extends Extension implements Countable,
         if (count($policies) === 0) {
             throw new UnexpectedValueException('certificatePolicies must contain at least one PolicyInformation.');
         }
-        return new self($critical, ...$policies);
+        return self::create($critical, ...$policies);
     }
 
     protected function valueASN1(): Element

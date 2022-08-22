@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature;
 
 use SpomkyLabs\Pki\ASN1\Element;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 
 /*
 From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm
@@ -22,12 +21,11 @@ From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm
  */
 abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
 {
-    protected null|Element $params;
-
-    protected function __construct(string $oid)
-    {
+    protected function __construct(
+        string $oid,
+        protected null|Element $params
+    ) {
         parent::__construct($oid);
-        $this->params = NullType::create();
     }
 
     protected function paramsASN1(): ?Element

@@ -74,7 +74,7 @@ final class ECPrivateKey extends PrivateKey
                 ->asBitString()
                 ->string();
         }
-        return new self($private_key, $named_curve, $public_key);
+        return self::create($private_key, $named_curve, $public_key);
     }
 
     /**

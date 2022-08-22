@@ -44,6 +44,6 @@ final class NullType extends Element
         // null type has always zero length
         Length::expectFromDER($data, $idx, 0);
         $offset = $idx;
-        return new self();
+        return self::create();
     }
 }

@@ -70,7 +70,7 @@ $attribs = Attributes::fromAttributeValues(
     $charge_attr,
     $group_attr
 )->withAdditional($role_attr);
-$aki_ext = new AuthorityKeyIdentifierExtension(false, $issuer_public_key->keyIdentifier());
+$aki_ext = AuthorityKeyIdentifierExtension::create(false, $issuer_public_key->keyIdentifier());
 $ti_ext = TargetInformationExtension::create(
     true,
     Targets::create(

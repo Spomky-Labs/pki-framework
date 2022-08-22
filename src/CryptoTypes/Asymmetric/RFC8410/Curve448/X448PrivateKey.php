@@ -48,7 +48,7 @@ final class X448PrivateKey extends RFC8410PrivateKey
      */
     public static function fromOctetString(OctetString $str, ?string $public_key = null): self
     {
-        return new self($str->string(), $public_key);
+        return self::create($str->string(), $public_key);
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType

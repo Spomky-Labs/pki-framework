@@ -20,7 +20,7 @@ final class ExtendedKeyUsageTest extends TestCase
      */
     public function create()
     {
-        $ext = new ExtendedKeyUsageExtension(
+        $ext = ExtendedKeyUsageExtension::create(
             true,
             ExtendedKeyUsageExtension::OID_SERVER_AUTH,
             ExtendedKeyUsageExtension::OID_CLIENT_AUTH

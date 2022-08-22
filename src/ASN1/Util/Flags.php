@@ -77,7 +77,7 @@ final class Flags
         if ($num_bits < $width) {
             $num = $num->shiftedLeft($width - $num_bits);
         }
-        return new self($num, $width);
+        return self::create($num, $width);
     }
 
     /**

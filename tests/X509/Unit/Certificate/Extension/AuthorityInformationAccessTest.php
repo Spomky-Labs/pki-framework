@@ -21,7 +21,7 @@ final class AuthorityInformationAccessTest extends TestCase
      */
     public function create()
     {
-        $ext = new AuthorityInformationAccessExtension(
+        $ext = AuthorityInformationAccessExtension::create(
             false,
             AuthorityAccessDescription::create(
                 AuthorityAccessDescription::OID_METHOD_CA_ISSUERS,

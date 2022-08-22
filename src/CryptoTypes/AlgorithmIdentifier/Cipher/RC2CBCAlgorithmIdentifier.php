@@ -92,11 +92,11 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
     ];
 
     /**
-     * @param int $_effectiveKeyBits Number of effective key bits
+     * @param int $effectiveKeyBits Number of effective key bits
      * @param null|string $iv Initialization vector
      */
     private function __construct(
-        protected int $_effectiveKeyBits,
+        private readonly int $effectiveKeyBits,
         ?string $iv
     ) {
         parent::__construct(self::OID_RC2_CBC, $iv);
@@ -141,7 +141,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
                 ->asOctetString()
                 ->string();
         }
-        return new self($key_bits, $iv);
+        return self::create($key_bits, $iv);
     }
 
     /**
@@ -149,7 +149,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      */
     public function effectiveKeyBits(): int
     {
-        return $this->_effectiveKeyBits;
+        return $this->effectiveKeyBits;
     }
 
     public function blockSize(): int
@@ -159,7 +159,7 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 
     public function keySize(): int
     {
-        return (int) round($this->_effectiveKeyBits / 8);
+        return (int) round($this->effectiveKeyBits / 8);
     }
 
     public function ivSize(): int
@@ -172,15 +172,15 @@ final class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
      */
     protected function paramsASN1(): ?Element
     {
-        if ($this->_effectiveKeyBits >= 256) {
-            $version = $this->_effectiveKeyBits;
+        if ($this->effectiveKeyBits >= 256) {
+            $version = $this->effectiveKeyBits;
         } else {
-            $version = self::EKB_TABLE[$this->_effectiveKeyBits];
+            $version = self::EKB_TABLE[$this->effectiveKeyBits];
         }
-        if (! isset($this->_initializationVector)) {
+        if (! isset($this->initializationVector)) {
             throw new LogicException('IV not set.');
         }
-        return Sequence::create(Integer::create($version), OctetString::create($this->_initializationVector));
+        return Sequence::create(Integer::create($version), OctetString::create($this->initializationVector));
     }
 
     /**

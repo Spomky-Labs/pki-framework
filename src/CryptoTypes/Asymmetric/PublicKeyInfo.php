@@ -52,7 +52,7 @@ final class PublicKeyInfo
         $algo = AlgorithmIdentifier::fromASN1($seq->at(0)->asSequence());
         $key = $seq->at(1)
             ->asBitString();
-        return new self($algo, $key);
+        return self::create($algo, $key);
     }
 
     /**
@@ -60,7 +60,7 @@ final class PublicKeyInfo
      */
     public static function fromPublicKey(PublicKey $key): self
     {
-        return new self($key->algorithmIdentifier(), $key->subjectPublicKey());
+        return self::create($key->algorithmIdentifier(), $key->subjectPublicKey());
     }
 
     /**

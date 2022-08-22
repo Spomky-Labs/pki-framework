@@ -43,7 +43,7 @@ final class CertificateTest extends TestCase
     public function create()
     {
         $pki = self::$_privateKeyInfo->publicKeyInfo();
-        $tc = new TBSCertificate(
+        $tc = TBSCertificate::create(
             Name::fromString('cn=Subject'),
             $pki,
             Name::fromString('cn=Issuer'),
@@ -53,7 +53,7 @@ final class CertificateTest extends TestCase
             ->withSerialNumber(0)
             ->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         $signature = Crypto::getDefault()->sign($tc->toASN1()->toDER(), self::$_privateKeyInfo, $tc->signature());
-        $cert = new Certificate($tc, $tc->signature(), $signature);
+        $cert = Certificate::create($tc, $tc->signature(), $signature);
         static::assertInstanceOf(Certificate::class, $cert);
         return $cert;
     }

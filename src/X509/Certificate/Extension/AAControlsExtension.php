@@ -21,33 +21,33 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class AAControlsExtension extends Extension
 {
     /**
-     * @param null|string[] $_permittedAttrs
-     * @param null|string[] $_excludedAttrs
+     * @param null|string[] $permittedAttrs
+     * @param null|string[] $excludedAttrs
      */
-    public function __construct(
+    private function __construct(
         bool $critical,
-        /**
-         * Path length contraint.
-         */
-        protected ?int $_pathLenConstraint = null,
-        /**
-         * Permitted attributes.
-         *
-         * Array of OID's.
-         */
-        protected ?array $_permittedAttrs = null,
-        /**
-         * Excluded attributes.
-         *
-         * Array of OID's.
-         */
-        protected ?array $_excludedAttrs = null,
-        /**
-         * Whether to permit unspecified attributes.
-         */
-        protected bool $_permitUnSpecified = true
+        private readonly ?int $pathLenConstraint,
+        private readonly ?array $permittedAttrs,
+        private readonly ?array $excludedAttrs,
+        private readonly bool $permitUnSpecified
     ) {
         parent::__construct(self::OID_AA_CONTROLS, $critical);
+    }
+
+    /**
+     * @param bool $critical Path length contraint.
+     * @param null|string[] $permittedAttrs Permitted attributes.
+     * @param null|string[] $excludedAttrs Excluded attributes.
+     * @param bool $permitUnSpecified Whether to permit unspecified attributes.
+     */
+    public static function create(
+        bool $critical,
+        ?int $pathLenConstraint = null,
+        ?array $permittedAttrs = null,
+        ?array $excludedAttrs = null,
+        bool $permitUnSpecified = true
+    ): self {
+        return new self($critical, $pathLenConstraint, $permittedAttrs, $excludedAttrs, $permitUnSpecified);
     }
 
     /**
@@ -55,7 +55,7 @@ final class AAControlsExtension extends Extension
      */
     public function hasPathLen(): bool
     {
-        return isset($this->_pathLenConstraint);
+        return isset($this->pathLenConstraint);
     }
 
     /**
@@ -66,7 +66,7 @@ final class AAControlsExtension extends Extension
         if (! $this->hasPathLen()) {
             throw new LogicException('pathLen not set.');
         }
-        return $this->_pathLenConstraint;
+        return $this->pathLenConstraint;
     }
 
     /**
@@ -74,7 +74,7 @@ final class AAControlsExtension extends Extension
      */
     public function hasPermittedAttrs(): bool
     {
-        return isset($this->_permittedAttrs);
+        return isset($this->permittedAttrs);
     }
 
     /**
@@ -87,7 +87,7 @@ final class AAControlsExtension extends Extension
         if (! $this->hasPermittedAttrs()) {
             throw new LogicException('permittedAttrs not set.');
         }
-        return $this->_permittedAttrs;
+        return $this->permittedAttrs;
     }
 
     /**
@@ -95,7 +95,7 @@ final class AAControlsExtension extends Extension
      */
     public function hasExcludedAttrs(): bool
     {
-        return isset($this->_excludedAttrs);
+        return isset($this->excludedAttrs);
     }
 
     /**
@@ -108,7 +108,7 @@ final class AAControlsExtension extends Extension
         if (! $this->hasExcludedAttrs()) {
             throw new LogicException('excludedAttrs not set.');
         }
-        return $this->_excludedAttrs;
+        return $this->excludedAttrs;
     }
 
     /**
@@ -116,7 +116,7 @@ final class AAControlsExtension extends Extension
      */
     public function permitUnspecified(): bool
     {
-        return $this->_permitUnSpecified;
+        return $this->permitUnSpecified;
     }
 
     protected static function fromDER(string $data, bool $critical): static
@@ -159,24 +159,24 @@ final class AAControlsExtension extends Extension
                 ->asBoolean()
                 ->value();
         }
-        return new self($critical, $path_len, $permitted, $excluded, $permit_unspecified);
+        return self::create($critical, $path_len, $permitted, $excluded, $permit_unspecified);
     }
 
     protected function valueASN1(): Element
     {
         $elements = [];
-        if (isset($this->_pathLenConstraint)) {
-            $elements[] = Integer::create($this->_pathLenConstraint);
+        if (isset($this->pathLenConstraint)) {
+            $elements[] = Integer::create($this->pathLenConstraint);
         }
-        if (isset($this->_permittedAttrs)) {
-            $oids = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->_permittedAttrs);
+        if (isset($this->permittedAttrs)) {
+            $oids = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->permittedAttrs);
             $elements[] = ImplicitlyTaggedType::create(0, Sequence::create(...$oids));
         }
-        if (isset($this->_excludedAttrs)) {
-            $oids = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->_excludedAttrs);
+        if (isset($this->excludedAttrs)) {
+            $oids = array_map(static fn ($oid) => ObjectIdentifier::create($oid), $this->excludedAttrs);
             $elements[] = ImplicitlyTaggedType::create(1, Sequence::create(...$oids));
         }
-        if ($this->_permitUnSpecified !== true) {
+        if ($this->permitUnSpecified !== true) {
             $elements[] = Boolean::create(false);
         }
         return Sequence::create(...$elements);

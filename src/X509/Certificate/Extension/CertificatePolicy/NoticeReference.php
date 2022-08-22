@@ -47,7 +47,7 @@ final class NoticeReference
                 ->asSequence()
                 ->elements()
         );
-        return new self($org, ...$numbers);
+        return self::create($org, ...$numbers);
     }
 
     /**

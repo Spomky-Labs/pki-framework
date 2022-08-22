@@ -25,7 +25,7 @@ final class IssuerSerialTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_issuer = GeneralNames::create(DirectoryName::fromDNString('cn=Test'));
-        self::$_uid = new UniqueIdentifier(BitString::create(hex2bin('ff')));
+        self::$_uid = UniqueIdentifier::create(BitString::create(hex2bin('ff')));
     }
 
     public static function tearDownAfterClass(): void

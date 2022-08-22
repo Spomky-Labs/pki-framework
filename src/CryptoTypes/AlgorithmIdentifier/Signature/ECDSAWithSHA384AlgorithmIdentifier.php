@@ -34,6 +34,6 @@ final class ECDSAWithSHA384AlgorithmIdentifier extends ECSignatureAlgorithmIdent
         if ($params !== null) {
             throw new UnexpectedValueException('Parameters must be omitted.');
         }
-        return new self();
+        return self::create();
     }
 }

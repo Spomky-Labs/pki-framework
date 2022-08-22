@@ -21,7 +21,7 @@ final class BasicConstraintsTest extends TestCase
      */
     public function create()
     {
-        $ext = new BasicConstraintsExtension(true, true, 3);
+        $ext = BasicConstraintsExtension::create(true, true, 3);
         static::assertInstanceOf(BasicConstraintsExtension::class, $ext);
         return $ext;
     }
@@ -131,7 +131,7 @@ final class BasicConstraintsTest extends TestCase
      */
     public function noPathLenFail()
     {
-        $ext = new BasicConstraintsExtension(false, false);
+        $ext = BasicConstraintsExtension::create(false, false);
         $this->expectException(LogicException::class);
         $ext->pathLen();
     }

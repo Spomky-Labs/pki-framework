@@ -48,7 +48,7 @@ final class InvalidKeyUsageTest extends TestCase
         $issuer_ca_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-ec.pem'));
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         // create issuer certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString('cn=AC CA'),
             $issuer_pk->publicKeyInfo(),
             Name::create(),

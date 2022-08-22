@@ -116,7 +116,7 @@ final class GeneralizedTime extends BaseTime
             throw new DecodeException('Failed to decode GeneralizedTime');
         }
         $offset = $idx;
-        return new self($dt);
+        return self::create($dt);
     }
 
     /**

@@ -44,7 +44,7 @@ final class DifferentAlgoParamsTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -54,7 +54,7 @@ final class DifferentAlgoParamsTest extends TestCase
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();
         // hack modified algorithm identifier into PublicKeyInfo
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             $pubkey,
             Name::fromString(self::CA_NAME),

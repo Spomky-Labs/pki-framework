@@ -85,7 +85,7 @@ final class CertificationPath implements Countable, IteratorAggregate
         Certificate $target,
         ?CertificateBundle $intermediate = null
     ): self {
-        return self::toTarget($target, new CertificateBundle($trust_anchor), $intermediate);
+        return self::toTarget($target, CertificateBundle::create($trust_anchor), $intermediate);
     }
 
     /**
@@ -125,7 +125,7 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function certificateChain(): CertificateChain
     {
-        return new CertificateChain(...array_reverse($this->certificates, false));
+        return CertificateChain::create(...array_reverse($this->certificates, false));
     }
 
     /**

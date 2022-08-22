@@ -18,16 +18,21 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class BasicConstraintsExtension extends Extension
 {
-    public function __construct(
-        bool $critical, /**
-     * Whether certificate is a CA.
+    /**
+     * @param bool $ca Whether certificate is a CA.
+     * @param int|null $pathLen Maximum certification path length.
      */
-        protected bool $_ca, /**
-     * Maximum certification path length.
-     */
-        protected ?int $_pathLen = null
+    private function __construct(
+        bool $critical,
+        private readonly bool $ca,
+        private readonly ?int $pathLen
     ) {
         parent::__construct(self::OID_BASIC_CONSTRAINTS, $critical);
+    }
+
+    public static function create(bool $critical, bool $ca, ?int $pathLen = null): self
+    {
+        return new self($critical, $ca, $pathLen);
     }
 
     /**
@@ -35,7 +40,7 @@ final class BasicConstraintsExtension extends Extension
      */
     public function isCA(): bool
     {
-        return $this->_ca;
+        return $this->ca;
     }
 
     /**
@@ -43,7 +48,7 @@ final class BasicConstraintsExtension extends Extension
      */
     public function hasPathLen(): bool
     {
-        return isset($this->_pathLen);
+        return isset($this->pathLen);
     }
 
     /**
@@ -54,7 +59,7 @@ final class BasicConstraintsExtension extends Extension
         if (! $this->hasPathLen()) {
             throw new LogicException('pathLenConstraint not set.');
         }
-        return $this->_pathLen;
+        return $this->pathLen;
     }
 
     protected static function fromDER(string $data, bool $critical): static
@@ -73,17 +78,17 @@ final class BasicConstraintsExtension extends Extension
                 ->asInteger()
                 ->intNumber();
         }
-        return new self($critical, $ca, $path_len);
+        return self::create($critical, $ca, $path_len);
     }
 
     protected function valueASN1(): Element
     {
         $elements = [];
-        if ($this->_ca) {
+        if ($this->ca) {
             $elements[] = Boolean::create(true);
         }
-        if (isset($this->_pathLen)) {
-            $elements[] = Integer::create($this->_pathLen);
+        if (isset($this->pathLen)) {
+            $elements[] = Integer::create($this->pathLen);
         }
         return Sequence::create(...$elements);
     }

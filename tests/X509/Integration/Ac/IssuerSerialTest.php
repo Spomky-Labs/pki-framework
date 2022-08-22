@@ -84,7 +84,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function identifiesPKCWithIssuerUID()
     {
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString('cn=Sub'),
             self::$_privKey->publicKeyInfo(),
             Name::fromString('cn=Iss'),
@@ -102,7 +102,7 @@ final class IssuerSerialTest extends TestCase
     public function identifiesPKCIssuerUIDMismatch()
     {
         $issuer = Name::fromString('cn=Iss');
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString('cn=Sub'),
             self::$_privKey->publicKeyInfo(),
             $issuer,

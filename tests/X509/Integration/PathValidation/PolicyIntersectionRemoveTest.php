@@ -55,19 +55,19 @@ final class PolicyIntersectionRemoveTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
+            BasicConstraintsExtension::create(true, true),
+            CertificatePoliciesExtension::create(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create intermediate certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::INTERM_NAME),
             self::$_intermKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -75,12 +75,12 @@ final class PolicyIntersectionRemoveTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
+            BasicConstraintsExtension::create(true, true),
+            CertificatePoliciesExtension::create(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY))
         );
         self::$_interm = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::INTERM_NAME),
@@ -88,7 +88,7 @@ final class PolicyIntersectionRemoveTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_interm);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(
+            CertificatePoliciesExtension::create(
                 true,
                 PolicyInformation::create('1.3.6.1.3.1'),
                 PolicyInformation::create('1.3.6.1.3.2')

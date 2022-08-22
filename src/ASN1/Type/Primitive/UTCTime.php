@@ -76,6 +76,6 @@ final class UTCTime extends BaseTime
             throw new DecodeException('Failed to decode UTCTime');
         }
         $offset = $idx;
-        return new self($dt);
+        return self::create($dt);
     }
 }

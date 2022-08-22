@@ -27,28 +27,28 @@ final class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTaggi
     public function isConstructed(): bool
     {
         // depends on the underlying type
-        return $this->_element->isConstructed();
+        return $this->element->isConstructed();
     }
 
     public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
-        $this->_element->expectType($tag);
-        if ($this->_element->typeClass() !== $class) {
+        $this->element->expectType($tag);
+        if ($this->element->typeClass() !== $class) {
             throw new UnexpectedValueException(
                 sprintf(
                     'Type class %s expected, got %s.',
                     Identifier::classToName($class),
-                    Identifier::classToName($this->_element->typeClass())
+                    Identifier::classToName($this->element->typeClass())
                 )
             );
         }
-        return $this->_element->asUnspecified();
+        return $this->element->asUnspecified();
     }
 
     protected function encodedAsDER(): string
     {
         // get only the content of the wrapped element.
-        return $this->_element->encodedAsDER();
+        return $this->element->encodedAsDER();
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase

@@ -32,7 +32,7 @@ final class RelativeOID extends Element
      *
      * @var BigInteger[]
      */
-    protected array $_subids;
+    private readonly array $subids;
 
     /**
      * @param string $oid OID in dotted format
@@ -40,7 +40,7 @@ final class RelativeOID extends Element
     private function __construct(private readonly string $oid)
     {
         parent::__construct(self::TYPE_RELATIVE_OID);
-        $this->_subids = self::_explodeDottedOID($oid);
+        $this->subids = self::_explodeDottedOID($oid);
     }
 
     public static function create(string $oid): self
@@ -58,7 +58,7 @@ final class RelativeOID extends Element
 
     protected function encodedAsDER(): string
     {
-        return self::_encodeSubIDs(...$this->_subids);
+        return self::_encodeSubIDs(...$this->subids);
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase

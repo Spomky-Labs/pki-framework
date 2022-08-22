@@ -27,7 +27,7 @@ final class NoRevocationAvailableExtension extends Extension
     protected static function fromDER(string $data, bool $critical): static
     {
         NullType::fromDER($data);
-        return new self($critical);
+        return self::create($critical);
     }
 
     protected function valueASN1(): Element

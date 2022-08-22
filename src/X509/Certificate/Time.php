@@ -24,14 +24,18 @@ final class Time
     /**
      * Time ASN.1 type tag.
      */
-    protected int $_type;
+    private readonly int $type;
 
-    public function __construct(/**
-     * Datetime.
-     */
-        protected DateTimeImmutable $_dt
+    private function __construct(
+        protected DateTimeImmutable $dt,
+        ?int $type
     ) {
-        $this->_type = self::_determineType($_dt);
+        $this->type = $type ?? self::determineType($dt);
+    }
+
+    public static function create(DateTimeImmutable $dt): self
+    {
+        return new self($dt, null);
     }
 
     /**
@@ -39,9 +43,7 @@ final class Time
      */
     public static function fromASN1(TimeType $el): self
     {
-        $obj = new self($el->dateTime());
-        $obj->_type = $el->tag();
-        return $obj;
+        return self::create($el->dateTime());
     }
 
     /**
@@ -49,12 +51,12 @@ final class Time
      */
     public static function fromString(?string $time, ?string $tz = null): self
     {
-        return new self(self::createDateTime($time, $tz));
+        return self::create(self::createDateTime($time, $tz));
     }
 
     public function dateTime(): DateTimeImmutable
     {
-        return $this->_dt;
+        return $this->dt;
     }
 
     /**
@@ -62,8 +64,8 @@ final class Time
      */
     public function toASN1(): TimeType
     {
-        $dt = $this->_dt;
-        switch ($this->_type) {
+        $dt = $this->dt;
+        switch ($this->type) {
             case Element::TYPE_UTC_TIME:
                 return UTCTime::create($dt);
             case Element::TYPE_GENERALIZED_TIME:
@@ -75,7 +77,7 @@ final class Time
                 }
                 return GeneralizedTime::create($dt);
         }
-        throw new UnexpectedValueException('Time type ' . Element::tagToName($this->_type) . ' not supported.');
+        throw new UnexpectedValueException('Time type ' . Element::tagToName($this->type) . ' not supported.');
     }
 
     /**
@@ -83,7 +85,7 @@ final class Time
      *
      * @return int Type tag
      */
-    protected static function _determineType(DateTimeImmutable $dt): int
+    protected static function determineType(DateTimeImmutable $dt): int
     {
         if ($dt->format('Y') >= 2050) {
             return Element::TYPE_GENERALIZED_TIME;

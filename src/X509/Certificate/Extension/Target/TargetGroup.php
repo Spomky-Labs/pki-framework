@@ -32,7 +32,7 @@ final class TargetGroup extends Target
      */
     public static function fromChosenASN1(TaggedType $el): Target
     {
-        return new self(GeneralName::fromASN1($el));
+        return self::create(GeneralName::fromASN1($el));
     }
 
     public function string(): string

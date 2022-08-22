@@ -30,7 +30,7 @@ final class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignature
             throw new UnexpectedValueException('No parameters.');
         }
         $params->asNull();
-        return new self();
+        return self::create();
     }
 
     public function name(): string

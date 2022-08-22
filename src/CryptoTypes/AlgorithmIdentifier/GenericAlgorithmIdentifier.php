@@ -14,18 +14,18 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 {
     /**
      * @param string $oid Algorithm OID
-     * @param null|UnspecifiedType $_params Parameters
+     * @param null|UnspecifiedType $params Parameters
      */
     private function __construct(
         string $oid,
-        protected ?UnspecifiedType $_params = null
+        private readonly ?UnspecifiedType $params
     ) {
         parent::__construct($oid);
     }
 
-    public static function create(string $oid, ?UnspecifiedType $_params = null): self
+    public static function create(string $oid, ?UnspecifiedType $params = null): self
     {
-        return new self($oid, $_params);
+        return new self($oid, $params);
     }
 
     public function name(): string
@@ -35,11 +35,11 @@ final class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 
     public function parameters(): ?UnspecifiedType
     {
-        return $this->_params;
+        return $this->params;
     }
 
     protected function paramsASN1(): ?Element
     {
-        return $this->_params?->asElement();
+        return $this->params?->asElement();
     }
 }
