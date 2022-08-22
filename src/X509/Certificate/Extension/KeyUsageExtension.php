@@ -33,13 +33,16 @@ final class KeyUsageExtension extends Extension
 
     final public const DECIPHER_ONLY = 0x001;
 
-    public function __construct(
-        bool $critical, /**
-     * Key usage flags.
-     */
-        protected int $_keyUsage
+    private function __construct(
+        bool $critical,
+        private readonly int $keyUsage
     ) {
         parent::__construct(self::OID_KEY_USAGE, $critical);
+    }
+
+    public static function create(bool $critical, int $keyUsage): self
+    {
+        return new self($critical, $keyUsage);
     }
 
     /**
@@ -119,20 +122,20 @@ final class KeyUsageExtension extends Extension
      */
     protected function _flagSet(int $flag): bool
     {
-        return (bool) ($this->_keyUsage & $flag);
+        return (bool) ($this->keyUsage & $flag);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
-        return new self(
+        return self::create(
             $critical,
             Flags::fromBitString(UnspecifiedType::fromDER($data)->asBitString(), 9)->intNumber()
         );
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        $flags = Flags::create($this->_keyUsage, 9);
+        $flags = Flags::create($this->keyUsage, 9);
         return $flags->bitString()
             ->withoutTrailingZeroes();
     }

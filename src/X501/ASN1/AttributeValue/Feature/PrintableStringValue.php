@@ -39,7 +39,7 @@ abstract class PrintableStringValue extends AttributeValue
     public function equalityMatchingRule(): MatchingRule
     {
         // default to caseIgnoreMatch
-        return new CaseIgnoreMatch(Element::TYPE_PRINTABLE_STRING);
+        return CaseIgnoreMatch::create(Element::TYPE_PRINTABLE_STRING);
     }
 
     public function rfc2253String(): string

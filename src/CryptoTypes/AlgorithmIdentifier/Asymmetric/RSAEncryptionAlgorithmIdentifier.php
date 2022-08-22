@@ -50,7 +50,7 @@ final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
             throw new UnexpectedValueException('No parameters.');
         }
         $params->asNull();
-        return new self();
+        return self::create();
     }
 
     /**

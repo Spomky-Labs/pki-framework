@@ -54,12 +54,12 @@ final class RequestToCertTest extends TestCase
         $name = Name::fromString('cn=Issuer');
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-03 12:00:00');
         $pki = self::$_issuerKey->publicKeyInfo();
-        $tbs_cert = new TBSCertificate($name, $pki, $name, $validity);
+        $tbs_cert = TBSCertificate::create($name, $pki, $name, $validity);
         $tbs_cert = $tbs_cert->withExtensions(
-            new Extensions(
-                new BasicConstraintsExtension(true, true),
-                new SubjectKeyIdentifierExtension(false, $pki->keyIdentifier()),
-                new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_CERT_SIGN)
+            Extensions::create(
+                BasicConstraintsExtension::create(true, true),
+                SubjectKeyIdentifierExtension::create(false, $pki->keyIdentifier()),
+                KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_CERT_SIGN)
             )
         );
         $algo = SHA256WithRSAEncryptionAlgorithmIdentifier::create();
@@ -75,8 +75,8 @@ final class RequestToCertTest extends TestCase
     {
         $subject = Name::fromString('cn=Subject');
         $pkinfo = self::$_subjectKey->publicKeyInfo();
-        $cri = new CertificationRequestInfo($subject, $pkinfo);
-        $cri = $cri->withExtensionRequest(new Extensions(new BasicConstraintsExtension(true, false)));
+        $cri = CertificationRequestInfo::create($subject, $pkinfo);
+        $cri = $cri->withExtensionRequest(Extensions::create(BasicConstraintsExtension::create(true, false)));
         $algo = ECDSAWithSHA1AlgorithmIdentifier::create();
         $csr = $cri->sign($algo, self::$_subjectKey);
         static::assertInstanceOf(CertificationRequest::class, $csr);
@@ -95,8 +95,8 @@ final class RequestToCertTest extends TestCase
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-02 13:00:00');
         $tbs_cert = $tbs_cert->withValidity($validity);
         $tbs_cert = $tbs_cert->withAdditionalExtensions(
-            new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_ENCIPHERMENT),
-            new BasicConstraintsExtension(true, false)
+            KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE | KeyUsageExtension::KEY_ENCIPHERMENT),
+            BasicConstraintsExtension::create(true, false)
         );
         $algo = SHA512WithRSAEncryptionAlgorithmIdentifier::create();
         $cert = $tbs_cert->sign($algo, self::$_issuerKey);

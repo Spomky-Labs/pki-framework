@@ -25,19 +25,27 @@ final class ACValidator
     /**
      * Crypto engine.
      */
-    private readonly Crypto $_crypto;
+    private readonly Crypto $crypto;
 
     /**
-     * @param AttributeCertificate $_ac Attribute certificate to validate
-     * @param ACValidationConfig $_config Validation configuration
+     * @param AttributeCertificate $ac Attribute certificate to validate
+     * @param ACValidationConfig $config Validation configuration
      * @param null|Crypto $crypto Crypto engine, use default if not set
      */
-    public function __construct(
-        protected AttributeCertificate $_ac,
-        protected ACValidationConfig $_config,
-        ?Crypto $crypto = null
+    private function __construct(
+        private readonly AttributeCertificate $ac,
+        private readonly ACValidationConfig $config,
+        ?Crypto $crypto
     ) {
-        $this->_crypto = $crypto ?? Crypto::getDefault();
+        $this->crypto = $crypto ?? Crypto::getDefault();
+    }
+
+    public static function create(
+        AttributeCertificate $ac,
+        ACValidationConfig $config,
+        ?Crypto $crypto = null
+    ): self {
+        return new self($ac, $config, $crypto);
     }
 
     /**
@@ -47,12 +55,12 @@ final class ACValidator
      */
     public function validate(): AttributeCertificate
     {
-        $this->_validateHolder();
-        $issuer = $this->_verifyIssuer();
-        $this->_validateIssuerProfile($issuer);
-        $this->_validateTime();
-        $this->_validateTargeting();
-        return $this->_ac;
+        $this->validateHolder();
+        $issuer = $this->verifyIssuer();
+        $this->validateIssuerProfile($issuer);
+        $this->validateTime();
+        $this->validateTargeting();
+        return $this->ac;
     }
 
     /**
@@ -60,19 +68,19 @@ final class ACValidator
      *
      * @return Certificate Certificate of the AC's holder
      */
-    private function _validateHolder(): Certificate
+    private function validateHolder(): Certificate
     {
-        $path = $this->_config->holderPath();
+        $path = $this->config->holderPath();
         $config = PathValidationConfig::defaultConfig()
             ->withMaxLength(count($path))
-            ->withDateTime($this->_config->evaluationTime());
+            ->withDateTime($this->config->evaluationTime());
         try {
-            $holder = $path->validate($config, $this->_crypto)
+            $holder = $path->validate($config, $this->crypto)
                 ->certificate();
         } catch (PathValidationException $e) {
             throw new ACValidationException("Failed to validate holder PKC's certification path.", 0, $e);
         }
-        if (! $this->_ac->isHeldBy($holder)) {
+        if (! $this->ac->isHeldBy($holder)) {
             throw new ACValidationException("Name mismatch of AC's holder PKC.");
         }
         return $holder;
@@ -83,24 +91,24 @@ final class ACValidator
      *
      * @return Certificate Certificate of the AC's issuer
      */
-    private function _verifyIssuer(): Certificate
+    private function verifyIssuer(): Certificate
     {
-        $path = $this->_config->issuerPath();
+        $path = $this->config->issuerPath();
         $config = PathValidationConfig::defaultConfig()
             ->withMaxLength(count($path))
-            ->withDateTime($this->_config->evaluationTime());
+            ->withDateTime($this->config->evaluationTime());
         try {
-            $issuer = $path->validate($config, $this->_crypto)
+            $issuer = $path->validate($config, $this->crypto)
                 ->certificate();
         } catch (PathValidationException $e) {
             throw new ACValidationException("Failed to validate issuer PKC's certification path.", 0, $e);
         }
-        if (! $this->_ac->isIssuedBy($issuer)) {
+        if (! $this->ac->isIssuedBy($issuer)) {
             throw new ACValidationException("Name mismatch of AC's issuer PKC.");
         }
         $pubkey_info = $issuer->tbsCertificate()
             ->subjectPublicKeyInfo();
-        if (! $this->_ac->verify($pubkey_info, $this->_crypto)) {
+        if (! $this->ac->verify($pubkey_info, $this->crypto)) {
             throw new ACValidationException('Failed to verify signature.');
         }
         return $issuer;
@@ -111,7 +119,7 @@ final class ACValidator
      *
      * @see https://tools.ietf.org/html/rfc5755#section-4.5
      */
-    private function _validateIssuerProfile(Certificate $cert): void
+    private function validateIssuerProfile(Certificate $cert): void
     {
         $exts = $cert->tbsCertificate()
             ->extensions();
@@ -129,10 +137,10 @@ final class ACValidator
     /**
      * Validate AC's validity period.
      */
-    private function _validateTime(): void
+    private function validateTime(): void
     {
-        $t = $this->_config->evaluationTime();
-        $validity = $this->_ac->acinfo()
+        $t = $this->config->evaluationTime();
+        $validity = $this->ac->acinfo()
             ->validityPeriod();
         if ($validity->notBeforeTime()->diff($t)->invert === 1) {
             throw new ACValidationException('Validity period has not started.');
@@ -145,9 +153,9 @@ final class ACValidator
     /**
      * Validate AC's target information.
      */
-    private function _validateTargeting(): void
+    private function validateTargeting(): void
     {
-        $exts = $this->_ac->acinfo()
+        $exts = $this->ac->acinfo()
             ->extensions();
         // if target information extension is not present
         if (! $exts->has(Extension::OID_TARGET_INFORMATION)) {
@@ -167,7 +175,7 @@ final class ACValidator
      */
     private function _hasMatchingTarget(Targets $targets): bool
     {
-        foreach ($this->_config->targets() as $target) {
+        foreach ($this->config->targets() as $target) {
             if ($targets->hasTarget($target)) {
                 return true;
             }

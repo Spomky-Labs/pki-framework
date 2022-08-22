@@ -45,7 +45,7 @@ final class NoTargetingTest extends TestCase
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
-        $aci = new AttributeCertificateInfo(
+        $aci = AttributeCertificateInfo::create(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
@@ -66,9 +66,9 @@ final class NoTargetingTest extends TestCase
      */
     public function validate()
     {
-        $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $config = $config->withTargets(new TargetName(DNSName::create('test')));
-        $validator = new ACValidator(self::$_ac, $config);
+        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
+        $config = $config->withTargets(TargetName::create(DNSName::create('test')));
+        $validator = ACValidator::create(self::$_ac, $config);
         static::assertInstanceOf(AttributeCertificate::class, $validator->validate());
     }
 }

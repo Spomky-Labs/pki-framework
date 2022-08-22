@@ -42,48 +42,55 @@ final class TBSCertificate
     /**
      * Certificate version.
      */
-    private ?int $_version = null;
+    private ?int $version = null;
 
     /**
      * Serial number.
      */
-    private ?string $_serialNumber = null;
+    private ?string $serialNumber = null;
 
     /**
      * Signature algorithm.
-     *
-     * @var null|SignatureAlgorithmIdentifier
      */
-    private $_signature;
+    private ?SignatureAlgorithmIdentifier $signature = null;
 
     /**
      * Issuer unique identifier.
      */
-    private ?UniqueIdentifier $_issuerUniqueID = null;
+    private ?UniqueIdentifier $issuerUniqueID = null;
 
     /**
      * Subject unique identifier.
      */
-    private ?UniqueIdentifier $_subjectUniqueID = null;
+    private ?UniqueIdentifier $subjectUniqueID = null;
 
     /**
      * Extensions.
      */
-    private Extensions $_extensions;
+    private Extensions $extensions;
 
     /**
-     * @param Name $_subject Certificate subject
-     * @param PublicKeyInfo $_subjectPublicKeyInfo Subject public key
-     * @param Name $_issuer Certificate issuer
-     * @param Validity $_validity Validity period
+     * @param Name $subject Certificate subject
+     * @param PublicKeyInfo $subjectPublicKeyInfo Subject public key
+     * @param Name $issuer Certificate issuer
+     * @param Validity $validity Validity period
      */
-    public function __construct(
-        protected Name $_subject,
-        protected PublicKeyInfo $_subjectPublicKeyInfo,
-        protected Name $_issuer,
-        protected Validity $_validity
+    private function __construct(
+        private Name $subject,
+        private PublicKeyInfo $subjectPublicKeyInfo,
+        private Name $issuer,
+        private Validity $validity
     ) {
-        $this->_extensions = new Extensions();
+        $this->extensions = Extensions::create();
+    }
+
+    public static function create(
+        Name $subject,
+        PublicKeyInfo $subjectPublicKeyInfo,
+        Name $issuer,
+        Validity $validity
+    ): self {
+        return new self($subject, $subjectPublicKeyInfo, $issuer, $validity);
     }
 
     /**
@@ -112,26 +119,27 @@ final class TBSCertificate
         $validity = Validity::fromASN1($seq->at($idx++)->asSequence());
         $subject = Name::fromASN1($seq->at($idx++)->asSequence());
         $pki = PublicKeyInfo::fromASN1($seq->at($idx++)->asSequence());
-        $tbs_cert = new self($subject, $pki, $issuer, $validity);
-        $tbs_cert->_version = $version;
-        $tbs_cert->_serialNumber = $serial;
-        $tbs_cert->_signature = $algo;
+        $tbs_cert = self::create($subject, $pki, $issuer, $validity)
+            ->withVersion($version)
+            ->withSerialNumber($serial)
+            ->withSignature($algo)
+        ;
         if ($seq->hasTagged(1)) {
-            $tbs_cert->_issuerUniqueID = UniqueIdentifier::fromASN1(
+            $tbs_cert = $tbs_cert->withIssuerUniqueID(UniqueIdentifier::fromASN1(
                 $seq->getTagged(1)
                     ->asImplicit(Element::TYPE_BIT_STRING)
                     ->asBitString()
-            );
+            ));
         }
         if ($seq->hasTagged(2)) {
-            $tbs_cert->_subjectUniqueID = UniqueIdentifier::fromASN1(
+            $tbs_cert = $tbs_cert->withSubjectUniqueID(UniqueIdentifier::fromASN1(
                 $seq->getTagged(2)
                     ->asImplicit(Element::TYPE_BIT_STRING)
                     ->asBitString()
-            );
+            ));
         }
         if ($seq->hasTagged(3)) {
-            $tbs_cert->_extensions = Extensions::fromASN1($seq->getTagged(3)->asExplicit()->asSequence());
+            $tbs_cert = $tbs_cert->withExtensions(Extensions::fromASN1($seq->getTagged(3)->asExplicit()->asSequence()));
         }
         return $tbs_cert;
     }
@@ -144,7 +152,12 @@ final class TBSCertificate
     public static function fromCSR(CertificationRequest $cr): self
     {
         $cri = $cr->certificationRequestInfo();
-        $tbs_cert = new self($cri->subject(), $cri->subjectPKInfo(), new Name(), Validity::fromStrings(null, null));
+        $tbs_cert = self::create(
+            $cri->subject(),
+            $cri->subjectPKInfo(),
+            Name::create(),
+            Validity::fromStrings(null, null)
+        );
         // if CSR has Extension Request attribute
         if ($cri->hasAttributes()) {
             $attribs = $cri->attributes();
@@ -154,7 +167,7 @@ final class TBSCertificate
         }
         // add Subject Key Identifier extension
         return $tbs_cert->withAdditionalExtensions(
-            new SubjectKeyIdentifierExtension(false, $cri->subjectPKInfo()->keyIdentifier())
+            SubjectKeyIdentifierExtension::create(false, $cri->subjectPKInfo()->keyIdentifier())
         );
     }
 
@@ -170,13 +183,13 @@ final class TBSCertificate
     {
         $obj = clone $this;
         // set issuer DN from cert's subject
-        $obj->_issuer = $cert->tbsCertificate()
+        $obj->issuer = $cert->tbsCertificate()
             ->subject();
         // add authority key identifier extension
         $key_id = $cert->tbsCertificate()
             ->subjectPublicKeyInfo()
             ->keyIdentifier();
-        $obj->_extensions = $obj->_extensions->withExtensions(new AuthorityKeyIdentifierExtension(false, $key_id));
+        $obj->extensions = $obj->extensions->withExtensions(AuthorityKeyIdentifierExtension::create(false, $key_id));
         return $obj;
     }
 
@@ -188,7 +201,7 @@ final class TBSCertificate
     public function withVersion(int $version): self
     {
         $obj = clone $this;
-        $obj->_version = $version;
+        $obj->version = $version;
         return $obj;
     }
 
@@ -200,7 +213,7 @@ final class TBSCertificate
     public function withSerialNumber(int|string $serial): self
     {
         $obj = clone $this;
-        $obj->_serialNumber = strval($serial);
+        $obj->serialNumber = strval($serial);
         return $obj;
     }
 
@@ -226,7 +239,7 @@ final class TBSCertificate
     public function withSignature(SignatureAlgorithmIdentifier $algo): self
     {
         $obj = clone $this;
-        $obj->_signature = $algo;
+        $obj->signature = $algo;
         return $obj;
     }
 
@@ -236,7 +249,7 @@ final class TBSCertificate
     public function withIssuer(Name $issuer): self
     {
         $obj = clone $this;
-        $obj->_issuer = $issuer;
+        $obj->issuer = $issuer;
         return $obj;
     }
 
@@ -246,7 +259,7 @@ final class TBSCertificate
     public function withValidity(Validity $validity): self
     {
         $obj = clone $this;
-        $obj->_validity = $validity;
+        $obj->validity = $validity;
         return $obj;
     }
 
@@ -256,7 +269,7 @@ final class TBSCertificate
     public function withSubject(Name $subject): self
     {
         $obj = clone $this;
-        $obj->_subject = $subject;
+        $obj->subject = $subject;
         return $obj;
     }
 
@@ -266,7 +279,7 @@ final class TBSCertificate
     public function withSubjectPublicKeyInfo(PublicKeyInfo $pub_key_info): self
     {
         $obj = clone $this;
-        $obj->_subjectPublicKeyInfo = $pub_key_info;
+        $obj->subjectPublicKeyInfo = $pub_key_info;
         return $obj;
     }
 
@@ -276,7 +289,7 @@ final class TBSCertificate
     public function withIssuerUniqueID(UniqueIdentifier $id): self
     {
         $obj = clone $this;
-        $obj->_issuerUniqueID = $id;
+        $obj->issuerUniqueID = $id;
         return $obj;
     }
 
@@ -286,7 +299,7 @@ final class TBSCertificate
     public function withSubjectUniqueID(UniqueIdentifier $id): self
     {
         $obj = clone $this;
-        $obj->_subjectUniqueID = $id;
+        $obj->subjectUniqueID = $id;
         return $obj;
     }
 
@@ -296,7 +309,7 @@ final class TBSCertificate
     public function withExtensions(Extensions $extensions): self
     {
         $obj = clone $this;
-        $obj->_extensions = $extensions;
+        $obj->extensions = $extensions;
         return $obj;
     }
 
@@ -308,7 +321,7 @@ final class TBSCertificate
     public function withAdditionalExtensions(Extension ...$exts): self
     {
         $obj = clone $this;
-        $obj->_extensions = $obj->_extensions->withExtensions(...$exts);
+        $obj->extensions = $obj->extensions->withExtensions(...$exts);
         return $obj;
     }
 
@@ -317,7 +330,7 @@ final class TBSCertificate
      */
     public function hasVersion(): bool
     {
-        return isset($this->_version);
+        return isset($this->version);
     }
 
     /**
@@ -328,7 +341,7 @@ final class TBSCertificate
         if (! $this->hasVersion()) {
             throw new LogicException('version not set.');
         }
-        return $this->_version;
+        return $this->version;
     }
 
     /**
@@ -336,7 +349,7 @@ final class TBSCertificate
      */
     public function hasSerialNumber(): bool
     {
-        return isset($this->_serialNumber);
+        return isset($this->serialNumber);
     }
 
     /**
@@ -349,7 +362,7 @@ final class TBSCertificate
         if (! $this->hasSerialNumber()) {
             throw new LogicException('serialNumber not set.');
         }
-        return $this->_serialNumber;
+        return $this->serialNumber;
     }
 
     /**
@@ -357,7 +370,7 @@ final class TBSCertificate
      */
     public function hasSignature(): bool
     {
-        return isset($this->_signature);
+        return isset($this->signature);
     }
 
     /**
@@ -368,12 +381,12 @@ final class TBSCertificate
         if (! $this->hasSignature()) {
             throw new LogicException('signature not set.');
         }
-        return $this->_signature;
+        return $this->signature;
     }
 
     public function issuer(): Name
     {
-        return $this->_issuer;
+        return $this->issuer;
     }
 
     /**
@@ -381,12 +394,12 @@ final class TBSCertificate
      */
     public function validity(): Validity
     {
-        return $this->_validity;
+        return $this->validity;
     }
 
     public function subject(): Name
     {
-        return $this->_subject;
+        return $this->subject;
     }
 
     /**
@@ -394,7 +407,7 @@ final class TBSCertificate
      */
     public function subjectPublicKeyInfo(): PublicKeyInfo
     {
-        return $this->_subjectPublicKeyInfo;
+        return $this->subjectPublicKeyInfo;
     }
 
     /**
@@ -402,7 +415,7 @@ final class TBSCertificate
      */
     public function hasIssuerUniqueID(): bool
     {
-        return isset($this->_issuerUniqueID);
+        return isset($this->issuerUniqueID);
     }
 
     public function issuerUniqueID(): UniqueIdentifier
@@ -410,7 +423,7 @@ final class TBSCertificate
         if (! $this->hasIssuerUniqueID()) {
             throw new LogicException('issuerUniqueID not set.');
         }
-        return $this->_issuerUniqueID;
+        return $this->issuerUniqueID;
     }
 
     /**
@@ -418,7 +431,7 @@ final class TBSCertificate
      */
     public function hasSubjectUniqueID(): bool
     {
-        return isset($this->_subjectUniqueID);
+        return isset($this->subjectUniqueID);
     }
 
     public function subjectUniqueID(): UniqueIdentifier
@@ -426,12 +439,12 @@ final class TBSCertificate
         if (! $this->hasSubjectUniqueID()) {
             throw new LogicException('subjectUniqueID not set.');
         }
-        return $this->_subjectUniqueID;
+        return $this->subjectUniqueID;
     }
 
     public function extensions(): Extensions
     {
-        return $this->_extensions;
+        return $this->extensions;
     }
 
     /**
@@ -452,19 +465,19 @@ final class TBSCertificate
             $elements,
             Integer::create($serial),
             $signature->toASN1(),
-            $this->_issuer->toASN1(),
-            $this->_validity->toASN1(),
-            $this->_subject->toASN1(),
-            $this->_subjectPublicKeyInfo->toASN1()
+            $this->issuer->toASN1(),
+            $this->validity->toASN1(),
+            $this->subject->toASN1(),
+            $this->subjectPublicKeyInfo->toASN1()
         );
-        if (isset($this->_issuerUniqueID)) {
-            $elements[] = ImplicitlyTaggedType::create(1, $this->_issuerUniqueID->toASN1());
+        if (isset($this->issuerUniqueID)) {
+            $elements[] = ImplicitlyTaggedType::create(1, $this->issuerUniqueID->toASN1());
         }
-        if (isset($this->_subjectUniqueID)) {
-            $elements[] = ImplicitlyTaggedType::create(2, $this->_subjectUniqueID->toASN1());
+        if (isset($this->subjectUniqueID)) {
+            $elements[] = ImplicitlyTaggedType::create(2, $this->subjectUniqueID->toASN1());
         }
-        if (count($this->_extensions) !== 0) {
-            $elements[] = ExplicitlyTaggedType::create(3, $this->_extensions->toASN1());
+        if (count($this->extensions) !== 0) {
+            $elements[] = ExplicitlyTaggedType::create(3, $this->extensions->toASN1());
         }
         return Sequence::create(...$elements);
     }
@@ -483,17 +496,17 @@ final class TBSCertificate
     ): Certificate {
         $crypto ??= Crypto::getDefault();
         $tbs_cert = clone $this;
-        if (! isset($tbs_cert->_version)) {
-            $tbs_cert->_version = $tbs_cert->_determineVersion();
+        if (! isset($tbs_cert->version)) {
+            $tbs_cert->version = $tbs_cert->_determineVersion();
         }
-        if (! isset($tbs_cert->_serialNumber)) {
-            $tbs_cert->_serialNumber = strval(0);
+        if (! isset($tbs_cert->serialNumber)) {
+            $tbs_cert->serialNumber = '0';
         }
-        $tbs_cert->_signature = $algo;
+        $tbs_cert->signature = $algo;
         $data = $tbs_cert->toASN1()
             ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
-        return new Certificate($tbs_cert, $algo, $signature);
+        return Certificate::create($tbs_cert, $algo, $signature);
     }
 
     /**
@@ -502,11 +515,11 @@ final class TBSCertificate
     private function _determineVersion(): int
     {
         // if extensions are present
-        if (count($this->_extensions) !== 0) {
+        if (count($this->extensions) !== 0) {
             return self::VERSION_3;
         }
         // if UniqueIdentifier is present
-        if (isset($this->_issuerUniqueID) || isset($this->_subjectUniqueID)) {
+        if (isset($this->issuerUniqueID) || isset($this->subjectUniqueID)) {
             return self::VERSION_2;
         }
         return self::VERSION_1;

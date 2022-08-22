@@ -19,7 +19,7 @@ final class ExtensionTest extends TestCase
      */
     public function extensionName()
     {
-        $ext = new BasicConstraintsExtension(true, true);
+        $ext = BasicConstraintsExtension::create(true, true);
         static::assertEquals('basicConstraints', $ext->extensionName());
     }
 
@@ -28,7 +28,7 @@ final class ExtensionTest extends TestCase
      */
     public function unknownExtensionName()
     {
-        $ext = new UnknownExtension('1.3.6.1.3', false, NullType::create());
+        $ext = UnknownExtension::create('1.3.6.1.3', false, NullType::create());
         static::assertEquals('1.3.6.1.3', $ext->extensionName());
     }
 
@@ -37,7 +37,7 @@ final class ExtensionTest extends TestCase
      */
     public function toStringMethod()
     {
-        $ext = new BasicConstraintsExtension(true, true);
+        $ext = BasicConstraintsExtension::create(true, true);
         static::assertEquals('basicConstraints', $ext);
     }
 }

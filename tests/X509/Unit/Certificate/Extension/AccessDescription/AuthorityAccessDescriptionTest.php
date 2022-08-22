@@ -21,7 +21,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     public function create()
     {
-        $desc = new AuthorityAccessDescription(
+        $desc = AuthorityAccessDescription::create(
             AuthorityAccessDescription::OID_METHOD_OSCP,
             UniformResourceIdentifier::create(self::URI)
         );

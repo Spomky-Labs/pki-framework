@@ -22,11 +22,6 @@ abstract class PrimitiveString extends BaseString
 
     abstract public static function create(string $string): self;
 
-    protected function encodedAsDER(): string
-    {
-        return $this->_string;
-    }
-
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): static
     {
         $idx = $offset;

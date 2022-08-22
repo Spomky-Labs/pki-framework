@@ -30,6 +30,6 @@ final class CountryNameValue extends PrintableStringValue
 
     public static function fromASN1(UnspecifiedType $el): self
     {
-        return new self($el->asPrintableString()->string());
+        return self::create($el->asPrintableString()->string());
     }
 }

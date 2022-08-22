@@ -56,7 +56,7 @@ final class UTCTime extends BaseTime
 
     protected function encodedAsDER(): string
     {
-        $dt = $this->_dateTime->setTimezone(new DateTimeZone('UTC'));
+        $dt = $this->dateTime->setTimezone(new DateTimeZone('UTC'));
         return $dt->format('ymdHis\\Z');
     }
 
@@ -76,6 +76,6 @@ final class UTCTime extends BaseTime
             throw new DecodeException('Failed to decode UTCTime');
         }
         $offset = $idx;
-        return new self($dt);
+        return self::create($dt);
     }
 }

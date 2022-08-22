@@ -19,9 +19,9 @@ final class SubjectAccessDescriptionTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): SubjectAccessDescription
     {
-        $desc = new SubjectAccessDescription(
+        $desc = SubjectAccessDescription::create(
             SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
             UniformResourceIdentifier::create(self::URI)
         );

@@ -17,7 +17,7 @@ final class PolicyNodeTest extends TestCase
      */
     public function create()
     {
-        $node = new PolicyNode('1.3.6.1.3', [], []);
+        $node = PolicyNode::create('1.3.6.1.3', [], []);
         static::assertInstanceOf(PolicyNode::class, $node);
     }
 
@@ -26,7 +26,7 @@ final class PolicyNodeTest extends TestCase
      */
     public function hasChildWithPolicyMatch()
     {
-        $node = PolicyNode::anyPolicyNode()->addChild(new PolicyNode('1.3.6.1.3', [], []));
+        $node = PolicyNode::anyPolicyNode()->addChild(PolicyNode::create('1.3.6.1.3', [], []));
         static::assertTrue($node->hasChildWithValidPolicy('1.3.6.1.3'));
     }
 
@@ -36,7 +36,7 @@ final class PolicyNodeTest extends TestCase
     public function parent()
     {
         $root = PolicyNode::anyPolicyNode();
-        $child = new PolicyNode('1.3.6.1.3', [], []);
+        $child = PolicyNode::create('1.3.6.1.3', [], []);
         $root->addChild($child);
         static::assertEquals($root, $child->parent());
     }

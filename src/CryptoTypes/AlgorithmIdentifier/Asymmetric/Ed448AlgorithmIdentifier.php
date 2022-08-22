@@ -37,7 +37,7 @@ final class Ed448AlgorithmIdentifier extends RFC8410EdAlgorithmIdentifier
         if ($params !== null) {
             throw new UnexpectedValueException('Parameters must be absent.');
         }
-        return new self();
+        return self::create();
     }
 
     public function name(): string

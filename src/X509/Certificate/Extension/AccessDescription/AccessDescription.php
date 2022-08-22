@@ -17,12 +17,12 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 abstract class AccessDescription
 {
     /**
-     * @param string $_accessMethod Access method OID
-     * @param GeneralName $_accessLocation Access location
+     * @param string $accessMethod Access method OID
+     * @param GeneralName $accessLocation Access location
      */
-    public function __construct(
-        protected string $_accessMethod,
-        protected GeneralName $_accessLocation
+    protected function __construct(
+        protected readonly string $accessMethod,
+        protected readonly GeneralName $accessLocation
     ) {
     }
 
@@ -36,7 +36,7 @@ abstract class AccessDescription
      */
     public function accessMethod(): string
     {
-        return $this->_accessMethod;
+        return $this->accessMethod;
     }
 
     /**
@@ -44,7 +44,7 @@ abstract class AccessDescription
      */
     public function accessLocation(): GeneralName
     {
-        return $this->_accessLocation;
+        return $this->accessLocation;
     }
 
     /**
@@ -52,6 +52,6 @@ abstract class AccessDescription
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(ObjectIdentifier::create($this->_accessMethod), $this->_accessLocation->toASN1());
+        return Sequence::create(ObjectIdentifier::create($this->accessMethod), $this->accessLocation->toASN1());
     }
 }

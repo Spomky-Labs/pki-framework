@@ -48,26 +48,26 @@ final class WrapUpPolicyErrorTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true, 1),
-            new CertificatePoliciesExtension(false, new PolicyInformation('1.3.6.1.3'))
+            BasicConstraintsExtension::create(true, true, 1),
+            CertificatePoliciesExtension::create(false, PolicyInformation::create('1.3.6.1.3'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(new PolicyConstraintsExtension(true, 0));
+        $tbs = $tbs->withAdditionalExtensions(PolicyConstraintsExtension::create(true, 0));
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }
 
@@ -84,8 +84,8 @@ final class WrapUpPolicyErrorTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
         $this->expectException(PathValidationException::class);
-        $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
     }
 }

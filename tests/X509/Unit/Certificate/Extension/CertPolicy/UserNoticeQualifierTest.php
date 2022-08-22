@@ -21,9 +21,9 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function create()
     {
-        $qual = new UserNoticeQualifier(
+        $qual = UserNoticeQualifier::create(
             DisplayText::fromString('test'),
-            new NoticeReference(DisplayText::fromString('org'), 1, 2, 3)
+            NoticeReference::create(DisplayText::fromString('org'), 1, 2, 3)
         );
         static::assertInstanceOf(UserNoticeQualifier::class, $qual);
         return $qual;
@@ -91,7 +91,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     public function createEmpty()
     {
-        $qual = new UserNoticeQualifier();
+        $qual = UserNoticeQualifier::create();
         static::assertInstanceOf(UserNoticeQualifier::class, $qual);
         return $qual;
     }

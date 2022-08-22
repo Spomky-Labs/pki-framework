@@ -20,9 +20,9 @@ abstract class BaseTime extends Element implements TimeType, Stringable
      */
     public const TZ_UTC = 'UTC';
 
-    public function __construct(
+    protected function __construct(
         int $typeTag,
-        protected readonly DateTimeImmutable $_dateTime
+        protected readonly DateTimeImmutable $dateTime
     ) {
         parent::__construct($typeTag);
     }
@@ -46,7 +46,7 @@ abstract class BaseTime extends Element implements TimeType, Stringable
      */
     public function dateTime(): DateTimeImmutable
     {
-        return $this->_dateTime;
+        return $this->dateTime;
     }
 
     /**

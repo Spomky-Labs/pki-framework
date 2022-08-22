@@ -21,13 +21,13 @@ final class SubjectInformationAccessTest extends TestCase
      */
     public function create()
     {
-        $ext = new SubjectInformationAccessExtension(
+        $ext = SubjectInformationAccessExtension::create(
             false,
-            new SubjectAccessDescription(
+            SubjectAccessDescription::create(
                 SubjectAccessDescription::OID_METHOD_CA_REPOSITORY,
                 UniformResourceIdentifier::create('urn:test')
             ),
-            new SubjectAccessDescription(
+            SubjectAccessDescription::create(
                 SubjectAccessDescription::OID_METHOD_TIME_STAMPING,
                 UniformResourceIdentifier::create('https://ts.example.com/')
             )

@@ -16,15 +16,15 @@ abstract class BaseString extends Element implements StringType, Stringable
     /**
      * String value.
      */
-    protected string $_string;
+    private readonly string $string;
 
-    public function __construct(int $typeTag, string $string)
+    protected function __construct(int $typeTag, string $string)
     {
         parent::__construct($typeTag);
-        if (! $this->_validateString($string)) {
+        if (! $this->validateString($string)) {
             throw new InvalidArgumentException(sprintf('Not a valid %s string.', self::tagToName($this->typeTag)));
         }
-        $this->_string = $string;
+        $this->string = $string;
     }
 
     public function __toString(): string
@@ -37,13 +37,18 @@ abstract class BaseString extends Element implements StringType, Stringable
      */
     public function string(): string
     {
-        return $this->_string;
+        return $this->string;
+    }
+
+    protected function encodedAsDER(): string
+    {
+        return $this->string;
     }
 
     /**
      * Check whether string is valid for the concrete type.
      */
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         // Override in derived classes
         return true;

@@ -130,7 +130,7 @@ final class ValidatorState
         $state = new self();
         $state->_pathLength = $n;
         $state->_index = 1;
-        $state->_validPolicyTree = new PolicyTree(PolicyNode::anyPolicyNode());
+        $state->_validPolicyTree = PolicyTree::create(PolicyNode::anyPolicyNode());
         $state->_permittedSubtrees = null;
         $state->_excludedSubtrees = null;
         $state->_explicitPolicy = $config->explicitPolicy() ? 0 : $n + 1;
@@ -357,7 +357,7 @@ final class ValidatorState
      */
     public function getResult(array $certificates): PathValidationResult
     {
-        return new PathValidationResult(
+        return PathValidationResult::create(
             $certificates,
             $this->_validPolicyTree,
             $this->_workingPublicKey,

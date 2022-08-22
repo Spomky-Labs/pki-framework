@@ -24,7 +24,7 @@ final class PrintableString extends PrimitiveString
         return new self($string);
     }
 
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         $chars = preg_quote(" '()+,-./:=?]", '/');
         return preg_match('/[^A-Za-z0-9' . $chars . ']/', $string) !== 1;

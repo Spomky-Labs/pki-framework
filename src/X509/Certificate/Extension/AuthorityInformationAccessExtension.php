@@ -26,12 +26,17 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
      *
      * @var AuthorityAccessDescription[]
      */
-    private readonly array $_accessDescriptions;
+    private readonly array $accessDescriptions;
 
-    public function __construct(bool $critical, AuthorityAccessDescription ...$access)
+    private function __construct(bool $critical, AuthorityAccessDescription ...$access)
     {
         parent::__construct(self::OID_AUTHORITY_INFORMATION_ACCESS, $critical);
-        $this->_accessDescriptions = $access;
+        $this->accessDescriptions = $access;
+    }
+
+    public static function create(bool $critical, AuthorityAccessDescription ...$access): self
+    {
+        return new self($critical, ...$access);
     }
 
     /**
@@ -41,7 +46,7 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
      */
     public function accessDescriptions(): array
     {
-        return $this->_accessDescriptions;
+        return $this->accessDescriptions;
     }
 
     /**
@@ -51,7 +56,7 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
      */
     public function count(): int
     {
-        return count($this->_accessDescriptions);
+        return count($this->accessDescriptions);
     }
 
     /**
@@ -62,21 +67,21 @@ final class AuthorityInformationAccessExtension extends Extension implements Cou
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_accessDescriptions);
+        return new ArrayIterator($this->accessDescriptions);
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $access = array_map(
-            fn (UnspecifiedType $el) => AuthorityAccessDescription::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => AuthorityAccessDescription::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        return new self($critical, ...$access);
+        return self::create($critical, ...$access);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        $elements = array_map(static fn (AccessDescription $access) => $access->toASN1(), $this->_accessDescriptions);
+        $elements = array_map(static fn (AccessDescription $access) => $access->toASN1(), $this->accessDescriptions);
         return Sequence::create(...$elements);
     }
 }

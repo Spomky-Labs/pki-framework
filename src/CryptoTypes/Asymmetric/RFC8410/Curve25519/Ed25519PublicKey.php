@@ -14,6 +14,11 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierTy
  */
 final class Ed25519PublicKey extends Curve25519PublicKey
 {
+    public static function create(string $publicKey): self
+    {
+        return new self($publicKey);
+    }
+
     public function algorithmIdentifier(): AlgorithmIdentifierType
     {
         return Ed25519AlgorithmIdentifier::create();

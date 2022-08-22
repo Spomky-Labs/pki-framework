@@ -20,9 +20,9 @@ use UnexpectedValueException;
  */
 final class DisplayText implements Stringable
 {
-    public function __construct(
-        protected string $_text,
-        protected int $_tag
+    private function __construct(
+        private readonly string $text,
+        private readonly int $tag
     ) {
     }
 
@@ -31,12 +31,17 @@ final class DisplayText implements Stringable
         return $this->string();
     }
 
+    public static function create(string $text, int $tag): self
+    {
+        return new self($text, $tag);
+    }
+
     /**
      * Initialize from ASN.1.
      */
     public static function fromASN1(StringType $el): self
     {
-        return new self($el->string(), $el->tag());
+        return self::create($el->string(), $el->tag());
     }
 
     /**
@@ -44,7 +49,7 @@ final class DisplayText implements Stringable
      */
     public static function fromString(string $str): self
     {
-        return new self($str, Element::TYPE_UTF8_STRING);
+        return self::create($str, Element::TYPE_UTF8_STRING);
     }
 
     /**
@@ -52,7 +57,7 @@ final class DisplayText implements Stringable
      */
     public function string(): string
     {
-        return $this->_text;
+        return $this->text;
     }
 
     /**
@@ -60,13 +65,13 @@ final class DisplayText implements Stringable
      */
     public function toASN1(): StringType
     {
-        return match ($this->_tag) {
-            Element::TYPE_IA5_STRING => IA5String::create($this->_text),
-            Element::TYPE_VISIBLE_STRING => VisibleString::create($this->_text),
-            Element::TYPE_BMP_STRING => BMPString::create($this->_text),
-            Element::TYPE_UTF8_STRING => UTF8String::create($this->_text),
+        return match ($this->tag) {
+            Element::TYPE_IA5_STRING => IA5String::create($this->text),
+            Element::TYPE_VISIBLE_STRING => VisibleString::create($this->text),
+            Element::TYPE_BMP_STRING => BMPString::create($this->text),
+            Element::TYPE_UTF8_STRING => UTF8String::create($this->text),
             default => throw new UnexpectedValueException('Type ' . Element::tagToName(
-                $this->_tag
+                $this->tag
             ) . ' not supported.'),
         };
     }

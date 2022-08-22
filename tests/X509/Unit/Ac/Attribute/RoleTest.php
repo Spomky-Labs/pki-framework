@@ -31,7 +31,7 @@ final class RoleTest extends TestCase
      */
     public function create()
     {
-        $value = new RoleAttributeValue(
+        $value = RoleAttributeValue::create(
             UniformResourceIdentifier::create(self::ROLE_URI),
             GeneralNames::create(DirectoryName::fromDNString(self::AUTHORITY_DN))
         );
@@ -167,7 +167,7 @@ final class RoleTest extends TestCase
      */
     public function createWithoutAuthority()
     {
-        $value = new RoleAttributeValue(UniformResourceIdentifier::create(self::ROLE_URI));
+        $value = RoleAttributeValue::create(UniformResourceIdentifier::create(self::ROLE_URI));
         static::assertInstanceOf(RoleAttributeValue::class, $value);
         return $value;
     }

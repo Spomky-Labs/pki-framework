@@ -20,7 +20,7 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function create()
     {
-        $ext = new InhibitAnyPolicyExtension(true, 3);
+        $ext = InhibitAnyPolicyExtension::create(true, 3);
         static::assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);
         return $ext;
     }
@@ -99,7 +99,7 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function extensions(InhibitAnyPolicyExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasInhibitAnyPolicy());
         return $extensions;
     }

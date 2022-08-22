@@ -27,11 +27,11 @@ final class BitString extends BaseString
 
     /**
      * @param string $string Content octets
-     * @param int $_unusedBits Number of unused bits in the last octet
+     * @param int $unusedBits Number of unused bits in the last octet
      */
     private function __construct(
         string $string,
-        protected int $_unusedBits = 0
+        private readonly int $unusedBits = 0
     ) {
         parent::__construct(self::TYPE_BIT_STRING, $string);
     }
@@ -46,7 +46,7 @@ final class BitString extends BaseString
      */
     public function numBits(): int
     {
-        return mb_strlen($this->_string, '8bit') * 8 - $this->_unusedBits;
+        return mb_strlen($this->string(), '8bit') * 8 - $this->unusedBits;
     }
 
     /**
@@ -54,7 +54,7 @@ final class BitString extends BaseString
      */
     public function unusedBits(): int
     {
-        return $this->_unusedBits;
+        return $this->unusedBits;
     }
 
     /**
@@ -67,18 +67,18 @@ final class BitString extends BaseString
         // octet index
         $oi = (int) floor($idx / 8);
         // if octet is outside range
-        if ($oi < 0 || $oi >= mb_strlen($this->_string, '8bit')) {
+        if ($oi < 0 || $oi >= mb_strlen($this->string(), '8bit')) {
             throw new OutOfBoundsException('Index is out of bounds.');
         }
         // bit index
         $bi = $idx % 8;
         // if tested bit is last octet's unused bit
-        if ($oi === mb_strlen($this->_string, '8bit') - 1) {
-            if ($bi >= 8 - $this->_unusedBits) {
+        if ($oi === mb_strlen($this->string(), '8bit') - 1) {
+            if ($bi >= 8 - $this->unusedBits) {
                 throw new OutOfBoundsException('Index refers to an unused bit.');
             }
         }
-        $byte = $this->_string[$oi];
+        $byte = $this->string()[$oi];
         // index 0 is the most significant bit in byte
         $mask = 0x01 << (7 - $bi);
         return (ord($byte) & $mask) > 0;
@@ -120,10 +120,10 @@ final class BitString extends BaseString
     public function withoutTrailingZeroes(): self
     {
         // if bit string was empty
-        if ($this->_string === '') {
+        if ($this->string() === '') {
             return self::create('');
         }
-        $bits = $this->_string;
+        $bits = $this->string();
         // count number of empty trailing octets
         $unused_octets = 0;
         for ($idx = mb_strlen($bits, '8bit') - 1; $idx >= 0; --$idx, ++$unused_octets) {
@@ -151,12 +151,12 @@ final class BitString extends BaseString
 
     protected function encodedAsDER(): string
     {
-        $der = chr($this->_unusedBits);
-        $der .= $this->_string;
-        if ($this->_unusedBits !== 0) {
+        $der = chr($this->unusedBits);
+        $der .= $this->string();
+        if ($this->unusedBits !== 0) {
             $octet = $der[mb_strlen($der, '8bit') - 1];
             // set unused bits to zero
-            $octet &= chr(0xff & ~((1 << $this->_unusedBits) - 1));
+            $octet &= chr(0xff & ~((1 << $this->unusedBits) - 1));
             $der[mb_strlen($der, '8bit') - 1] = $octet;
         }
         return $der;

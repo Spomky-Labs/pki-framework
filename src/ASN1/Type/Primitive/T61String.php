@@ -24,7 +24,7 @@ final class T61String extends PrimitiveString
         return new self($string);
     }
 
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         // allow everything since there's literally
         // thousands of allowed characters (16 bit composed characters)

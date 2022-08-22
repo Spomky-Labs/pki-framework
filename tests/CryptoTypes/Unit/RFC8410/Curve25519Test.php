@@ -133,7 +133,7 @@ CODE_SAMPLE;
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
-        new Ed25519PublicKey('');
+        Ed25519PublicKey::create('');
     }
 
     /**

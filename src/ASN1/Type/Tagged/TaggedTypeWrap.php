@@ -13,8 +13,8 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
 abstract class TaggedTypeWrap extends TaggedType
 {
     protected function __construct(
-        protected Element $_element,
-        protected int $_class,
+        protected readonly Element $element,
+        private readonly int $class,
         int $typeTag
     ) {
         parent::__construct($typeTag);
@@ -22,6 +22,6 @@ abstract class TaggedTypeWrap extends TaggedType
 
     public function typeClass(): int
     {
-        return $this->_class;
+        return $this->class;
     }
 }

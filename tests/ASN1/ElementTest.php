@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1;
 
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
@@ -18,7 +17,7 @@ final class ElementTest extends TestCase
     /**
      * @test
      */
-    public function unknownTagToName()
+    public function unknownTagToName(): void
     {
         static::assertEquals('TAG 100', Element::tagToName(100));
     }
@@ -26,20 +25,7 @@ final class ElementTest extends TestCase
     /**
      * @test
      */
-    public function isTypeUniversalInvalidClass()
-    {
-        $el = NullType::create();
-        $cls = new ReflectionClass($el);
-        $prop = $cls->getProperty('typeTag');
-        $prop->setAccessible(true);
-        $prop->setValue($el, Element::TYPE_BOOLEAN);
-        static::assertFalse($el->isType(Element::TYPE_BOOLEAN));
-    }
-
-    /**
-     * @test
-     */
-    public function isPseudotypeFail()
+    public function isPseudotypeFail(): void
     {
         $el = NullType::create();
         static::assertFalse($el->isType(-99));
@@ -48,7 +34,7 @@ final class ElementTest extends TestCase
     /**
      * @test
      */
-    public function asElement()
+    public function asElement(): NullType
     {
         $el = NullType::create();
         static::assertEquals($el, $el->asElement());
@@ -60,7 +46,7 @@ final class ElementTest extends TestCase
      *
      * @test
      */
-    public function asUnspecified(Element $el)
+    public function asUnspecified(Element $el): void
     {
         $type = $el->asUnspecified();
         static::assertInstanceOf(UnspecifiedType::class, $type);
@@ -69,7 +55,7 @@ final class ElementTest extends TestCase
     /**
      * @test
      */
-    public function isIndefinite()
+    public function isIndefinite(): void
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
         static::assertTrue($el->hasIndefiniteLength());
@@ -78,7 +64,7 @@ final class ElementTest extends TestCase
     /**
      * @test
      */
-    public function setDefinite()
+    public function setDefinite(): void
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
         $el = $el->withIndefiniteLength(false);

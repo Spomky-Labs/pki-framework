@@ -218,11 +218,11 @@ abstract class Element implements ElementBase
     ];
 
     /**
-     * @param bool $_indefiniteLength Whether type shall be encoded with indefinite length.
+     * @param bool $indefiniteLength Whether type shall be encoded with indefinite length.
      */
     protected function __construct(
-        protected int $typeTag,
-        protected bool $_indefiniteLength = false
+        protected readonly int $typeTag,
+        protected bool $indefiniteLength = false
     ) {
     }
 
@@ -245,7 +245,7 @@ abstract class Element implements ElementBase
         // decode identifier
         $identifier = Identifier::fromDER($data, $idx);
         // determine class that implements type specific decoding
-        $cls = self::_determineImplClass($identifier);
+        $cls = self::determineImplClass($identifier);
         // decode remaining element
         $element = $cls::decodeFromDER($identifier, $data, $idx);
         // if called in the context of a concrete class, check
@@ -271,7 +271,7 @@ abstract class Element implements ElementBase
             $this->typeTag
         );
         $content = $this->encodedAsDER();
-        if ($this->_indefiniteLength) {
+        if ($this->indefiniteLength) {
             $length = Length::create(0, true);
             $eoc = EOC::create();
             return $identifier->toDER() . $length->toDER() . $content . $eoc->toDER();
@@ -293,16 +293,16 @@ abstract class Element implements ElementBase
         }
         // negative tags identify an abstract pseudotype
         if ($tag < 0) {
-            return $this->_isPseudoType($tag);
+            return $this->isPseudoType($tag);
         }
-        return $this->_isConcreteType($tag);
+        return $this->isConcreteType($tag);
     }
 
     public function expectType(int $tag): ElementBase
     {
         if (! $this->isType($tag)) {
             throw new UnexpectedValueException(
-                sprintf('%s expected, got %s.', self::tagToName($tag), $this->_typeDescriptorString())
+                sprintf('%s expected, got %s.', self::tagToName($tag), $this->typeDescriptorString())
             );
         }
         return $this;
@@ -331,7 +331,7 @@ abstract class Element implements ElementBase
      */
     public function hasIndefiniteLength(): bool
     {
-        return $this->_indefiniteLength;
+        return $this->indefiniteLength;
     }
 
     /**
@@ -342,7 +342,7 @@ abstract class Element implements ElementBase
     public function withIndefiniteLength(bool $indefinite = true): self
     {
         $obj = clone $this;
-        $obj->_indefiniteLength = $indefinite;
+        $obj->indefiniteLength = $indefinite;
         return $obj;
     }
 
@@ -391,11 +391,11 @@ abstract class Element implements ElementBase
      *
      * @return string Class name
      */
-    protected static function _determineImplClass(Identifier $identifier): string
+    protected static function determineImplClass(Identifier $identifier): string
     {
         switch ($identifier->typeClass()) {
             case Identifier::CLASS_UNIVERSAL:
-                $cls = self::_determineUniversalImplClass($identifier->intTag());
+                $cls = self::determineUniversalImplClass($identifier->intTag());
                 // constructed strings may be present in BER
                 if ($identifier->isConstructed()
                     && is_subclass_of($cls, StringType::class)) {
@@ -421,7 +421,7 @@ abstract class Element implements ElementBase
      *
      * @return string Class name
      */
-    protected static function _determineUniversalImplClass(int $tag): string
+    protected static function determineUniversalImplClass(int $tag): string
     {
         if (! array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new UnexpectedValueException("Universal tag {$tag} not implemented.");
@@ -432,7 +432,7 @@ abstract class Element implements ElementBase
     /**
      * Get textual description of the type for debugging purposes.
      */
-    protected function _typeDescriptorString(): string
+    protected function typeDescriptorString(): string
     {
         if ($this->typeClass() === Identifier::CLASS_UNIVERSAL) {
             return self::tagToName($this->typeTag);
@@ -441,9 +441,9 @@ abstract class Element implements ElementBase
     }
 
     /**
-     * Check whether the element is a concrete type of a given tag.
+     * Check whether the element is a concrete type of given tag.
      */
-    private function _isConcreteType(int $tag): bool
+    private function isConcreteType(int $tag): bool
     {
         // if tag doesn't match
         if ($this->tag() !== $tag) {
@@ -451,7 +451,7 @@ abstract class Element implements ElementBase
         }
         // if type is universal check that instance is of a correct class
         if ($this->typeClass() === Identifier::CLASS_UNIVERSAL) {
-            $cls = self::_determineUniversalImplClass($tag);
+            $cls = self::determineUniversalImplClass($tag);
             if (! $this instanceof $cls) {
                 return false;
             }
@@ -462,7 +462,7 @@ abstract class Element implements ElementBase
     /**
      * Check whether the element is a pseudotype.
      */
-    private function _isPseudoType(int $tag): bool
+    private function isPseudoType(int $tag): bool
     {
         return match ($tag) {
             self::TYPE_STRING => $this instanceof StringType,

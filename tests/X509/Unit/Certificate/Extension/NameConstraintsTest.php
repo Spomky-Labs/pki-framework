@@ -31,9 +31,9 @@ final class NameConstraintsTest extends TestCase
      */
     public function createPermitted()
     {
-        $subtrees = new GeneralSubtrees(
-            new GeneralSubtree(UniformResourceIdentifier::create(self::PERMITTED_URI)),
-            new GeneralSubtree(DirectoryName::fromDNString(self::PERMITTED_DN))
+        $subtrees = GeneralSubtrees::create(
+            GeneralSubtree::create(UniformResourceIdentifier::create(self::PERMITTED_URI)),
+            GeneralSubtree::create(DirectoryName::fromDNString(self::PERMITTED_DN))
         );
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
@@ -44,7 +44,9 @@ final class NameConstraintsTest extends TestCase
      */
     public function createExcluded()
     {
-        $subtrees = new GeneralSubtrees(new GeneralSubtree(UniformResourceIdentifier::create(self::EXCLUDED_URI)));
+        $subtrees = GeneralSubtrees::create(
+            GeneralSubtree::create(UniformResourceIdentifier::create(self::EXCLUDED_URI))
+        );
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
     }
@@ -57,7 +59,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function create(GeneralSubtrees $permitted, GeneralSubtrees $excluded)
     {
-        $ext = new NameConstraintsExtension(true, $permitted, $excluded);
+        $ext = NameConstraintsExtension::create(true, $permitted, $excluded);
         static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }
@@ -205,7 +207,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function extensions(NameConstraintsExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasNameConstraints());
         return $extensions;
     }
@@ -226,7 +228,7 @@ final class NameConstraintsTest extends TestCase
      */
     public function createEmpty()
     {
-        $ext = new NameConstraintsExtension(false);
+        $ext = NameConstraintsExtension::create(false);
         static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }

@@ -63,7 +63,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
             },
             $matches
         );
-        return new self(...$pems);
+        return self::create(...$pems);
     }
 
     /**

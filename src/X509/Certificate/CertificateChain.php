@@ -23,14 +23,19 @@ final class CertificateChain implements Countable, IteratorAggregate
      *
      * @var Certificate[]
      */
-    private readonly array $_certs;
+    private readonly array $certs;
 
     /**
      * @param Certificate ...$certs List of certificates, end-entity first
      */
-    public function __construct(Certificate ...$certs)
+    private function __construct(Certificate ...$certs)
     {
-        $this->_certs = $certs;
+        $this->certs = $certs;
+    }
+
+    public static function create(Certificate ...$certs): self
+    {
+        return new self(...$certs);
     }
 
     /**
@@ -39,7 +44,7 @@ final class CertificateChain implements Countable, IteratorAggregate
     public static function fromPEMs(PEM ...$pems): self
     {
         $certs = array_map(static fn (PEM $pem) => Certificate::fromPEM($pem), $pems);
-        return new self(...$certs);
+        return self::create(...$certs);
     }
 
     /**
@@ -58,7 +63,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function certificates(): array
     {
-        return $this->_certs;
+        return $this->certs;
     }
 
     /**
@@ -66,10 +71,10 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function endEntityCertificate(): Certificate
     {
-        if (count($this->_certs) === 0) {
+        if (count($this->certs) === 0) {
             throw new LogicException('No certificates.');
         }
-        return $this->_certs[0];
+        return $this->certs[0];
     }
 
     /**
@@ -77,10 +82,10 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function trustAnchorCertificate(): Certificate
     {
-        if (count($this->_certs) === 0) {
+        if (count($this->certs) === 0) {
             throw new LogicException('No certificates.');
         }
-        return $this->_certs[count($this->_certs) - 1];
+        return $this->certs[count($this->certs) - 1];
     }
 
     /**
@@ -96,7 +101,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function toPEMString(): string
     {
-        return implode("\n", array_map(static fn (Certificate $cert) => $cert->toPEM()->string(), $this->_certs));
+        return implode("\n", array_map(static fn (Certificate $cert) => $cert->toPEM()->string(), $this->certs));
     }
 
     /**
@@ -104,7 +109,7 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_certs);
+        return count($this->certs);
     }
 
     /**
@@ -114,6 +119,6 @@ final class CertificateChain implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_certs);
+        return new ArrayIterator($this->certs);
     }
 }

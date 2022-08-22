@@ -15,13 +15,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 final class PolicyMapping
 {
     /**
-     * @param string $_issuerDomainPolicy OID of the issuer policy
-     * @param string $_subjectDomainPolicy OID of the subject policy
+     * @param string $issuerDomainPolicy OID of the issuer policy
+     * @param string $subjectDomainPolicy OID of the subject policy
      */
-    public function __construct(
-        protected string $_issuerDomainPolicy,
-        protected string $_subjectDomainPolicy
+    private function __construct(
+        private readonly string $issuerDomainPolicy,
+        private readonly string $subjectDomainPolicy
     ) {
+    }
+
+    public static function create(string $issuerDomainPolicy, string $subjectDomainPolicy): self
+    {
+        return new self($issuerDomainPolicy, $subjectDomainPolicy);
     }
 
     /**
@@ -35,7 +40,7 @@ final class PolicyMapping
         $subject_policy = $seq->at(1)
             ->asObjectIdentifier()
             ->oid();
-        return new self($issuer_policy, $subject_policy);
+        return self::create($issuer_policy, $subject_policy);
     }
 
     /**
@@ -45,7 +50,7 @@ final class PolicyMapping
      */
     public function issuerDomainPolicy(): string
     {
-        return $this->_issuerDomainPolicy;
+        return $this->issuerDomainPolicy;
     }
 
     /**
@@ -55,7 +60,7 @@ final class PolicyMapping
      */
     public function subjectDomainPolicy(): string
     {
-        return $this->_subjectDomainPolicy;
+        return $this->subjectDomainPolicy;
     }
 
     /**
@@ -64,8 +69,8 @@ final class PolicyMapping
     public function toASN1(): Sequence
     {
         return Sequence::create(
-            ObjectIdentifier::create($this->_issuerDomainPolicy),
-            ObjectIdentifier::create($this->_subjectDomainPolicy)
+            ObjectIdentifier::create($this->issuerDomainPolicy),
+            ObjectIdentifier::create($this->subjectDomainPolicy)
         );
     }
 }

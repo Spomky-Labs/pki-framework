@@ -31,7 +31,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     /**
      * @param AttributeTypeAndValue ...$attribs One or more attributes
      */
-    public function __construct(AttributeTypeAndValue ...$attribs)
+    private function __construct(AttributeTypeAndValue ...$attribs)
     {
         if (count($attribs) === 0) {
             throw new UnexpectedValueException('RDN must have at least one AttributeTypeAndValue.');
@@ -44,6 +44,11 @@ final class RDN implements Countable, IteratorAggregate, Stringable
         return $this->toString();
     }
 
+    public static function create(AttributeTypeAndValue ...$attribs): self
+    {
+        return new self(...$attribs);
+    }
+
     /**
      * Convenience method to initialize RDN from AttributeValue objects.
      *
@@ -52,12 +57,12 @@ final class RDN implements Countable, IteratorAggregate, Stringable
     public static function fromAttributeValues(AttributeValue ...$values): self
     {
         $attribs = array_map(
-            static fn (AttributeValue $value) => new AttributeTypeAndValue(AttributeType::create(
+            static fn (AttributeValue $value) => AttributeTypeAndValue::create(AttributeType::create(
                 $value->oid()
             ), $value),
             $values
         );
-        return new self(...$attribs);
+        return self::create(...$attribs);
     }
 
     /**
@@ -69,7 +74,7 @@ final class RDN implements Countable, IteratorAggregate, Stringable
             static fn (UnspecifiedType $el) => AttributeTypeAndValue::fromASN1($el->asSequence()),
             $set->elements()
         );
-        return new self(...$attribs);
+        return self::create(...$attribs);
     }
 
     /**

@@ -31,12 +31,14 @@ final class ReasonFlags
 
     final public const AA_COMPROMISE = 0x001;
 
-    public function __construct(
-        /**
-         * Flags.
-         */
-        protected int $_flags
+    private function __construct(
+        private readonly int $flags
     ) {
+    }
+
+    public static function create(int $flags): self
+    {
+        return new self($flags);
     }
 
     /**
@@ -44,7 +46,7 @@ final class ReasonFlags
      */
     public static function fromASN1(BitString $bs): self
     {
-        return new self(Flags::fromBitString($bs, 9)->intNumber());
+        return self::create(Flags::fromBitString($bs, 9)->intNumber());
     }
 
     /**
@@ -52,7 +54,7 @@ final class ReasonFlags
      */
     public function isKeyCompromise(): bool
     {
-        return $this->_flagSet(self::KEY_COMPROMISE);
+        return $this->flagSet(self::KEY_COMPROMISE);
     }
 
     /**
@@ -60,7 +62,7 @@ final class ReasonFlags
      */
     public function isCACompromise(): bool
     {
-        return $this->_flagSet(self::CA_COMPROMISE);
+        return $this->flagSet(self::CA_COMPROMISE);
     }
 
     /**
@@ -68,7 +70,7 @@ final class ReasonFlags
      */
     public function isAffiliationChanged(): bool
     {
-        return $this->_flagSet(self::AFFILIATION_CHANGED);
+        return $this->flagSet(self::AFFILIATION_CHANGED);
     }
 
     /**
@@ -76,7 +78,7 @@ final class ReasonFlags
      */
     public function isSuperseded(): bool
     {
-        return $this->_flagSet(self::SUPERSEDED);
+        return $this->flagSet(self::SUPERSEDED);
     }
 
     /**
@@ -84,7 +86,7 @@ final class ReasonFlags
      */
     public function isCessationOfOperation(): bool
     {
-        return $this->_flagSet(self::CESSATION_OF_OPERATION);
+        return $this->flagSet(self::CESSATION_OF_OPERATION);
     }
 
     /**
@@ -92,7 +94,7 @@ final class ReasonFlags
      */
     public function isCertificateHold(): bool
     {
-        return $this->_flagSet(self::CERTIFICATE_HOLD);
+        return $this->flagSet(self::CERTIFICATE_HOLD);
     }
 
     /**
@@ -100,7 +102,7 @@ final class ReasonFlags
      */
     public function isPrivilegeWithdrawn(): bool
     {
-        return $this->_flagSet(self::PRIVILEGE_WITHDRAWN);
+        return $this->flagSet(self::PRIVILEGE_WITHDRAWN);
     }
 
     /**
@@ -108,7 +110,7 @@ final class ReasonFlags
      */
     public function isAACompromise(): bool
     {
-        return $this->_flagSet(self::AA_COMPROMISE);
+        return $this->flagSet(self::AA_COMPROMISE);
     }
 
     /**
@@ -116,7 +118,7 @@ final class ReasonFlags
      */
     public function toASN1(): BitString
     {
-        $flags = Flags::create($this->_flags, 9);
+        $flags = Flags::create($this->flags, 9);
         return $flags->bitString()
             ->withoutTrailingZeroes();
     }
@@ -124,8 +126,8 @@ final class ReasonFlags
     /**
      * Check whether given flag is set.
      */
-    private function _flagSet(int $flag): bool
+    private function flagSet(int $flag): bool
     {
-        return (bool) ($this->_flags & $flag);
+        return (bool) ($this->flags & $flag);
     }
 }

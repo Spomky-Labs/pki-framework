@@ -16,13 +16,13 @@ use UnexpectedValueException;
 abstract class Curve25519PublicKey extends RFC8410PublicKey
 {
     /**
-     * @param string $public_key Public key data
+     * @param string $publicKey Public key data
      */
-    public function __construct(string $public_key)
+    protected function __construct(string $publicKey)
     {
-        if (mb_strlen($public_key, '8bit') !== 32) {
+        if (mb_strlen($publicKey, '8bit') !== 32) {
             throw new UnexpectedValueException('Curve25519 public key must be exactly 32 bytes.');
         }
-        parent::__construct($public_key);
+        parent::__construct($publicKey);
     }
 }

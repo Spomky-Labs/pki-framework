@@ -12,7 +12,6 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
 use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
-use function strval;
 
 /**
  * Implements *IssuerSerial* ASN.1 type.
@@ -21,25 +20,16 @@ use function strval;
  */
 final class IssuerSerial
 {
-    /**
-     * Serial number as a base 10 integer.
-     */
-    private readonly string $_serial;
-
-    /**
-     * @param int|string $serial
-     */
-    public function __construct(
-        /**
-         * Issuer name.
-         */
-        protected GeneralNames $_issuer,
-        $serial, /**
-     * Issuer unique ID.
-     */
-        protected ?UniqueIdentifier $_issuerUID = null
+    private function __construct(
+        private readonly GeneralNames $issuer,
+        private readonly string $serial,
+        private readonly ?UniqueIdentifier $issuerUID
     ) {
-        $this->_serial = strval($serial);
+    }
+
+    public static function create(GeneralNames $issuer, string $serial, ?UniqueIdentifier $issuerUID = null): self
+    {
+        return new self($issuer, $serial, $issuerUID);
     }
 
     /**
@@ -55,7 +45,7 @@ final class IssuerSerial
         if ($seq->has(2, Element::TYPE_BIT_STRING)) {
             $uid = UniqueIdentifier::fromASN1($seq->at(2)->asBitString());
         }
-        return new self($issuer, $serial, $uid);
+        return self::create($issuer, $serial, $uid);
     }
 
     /**
@@ -67,7 +57,7 @@ final class IssuerSerial
         $issuer = GeneralNames::create(DirectoryName::create($tbsCert->issuer()));
         $serial = $tbsCert->serialNumber();
         $uid = $tbsCert->hasIssuerUniqueID() ? $tbsCert->issuerUniqueID() : null;
-        return new self($issuer, $serial, $uid);
+        return self::create($issuer, $serial, $uid);
     }
 
     /**
@@ -75,7 +65,7 @@ final class IssuerSerial
      */
     public function issuer(): GeneralNames
     {
-        return $this->_issuer;
+        return $this->issuer;
     }
 
     /**
@@ -83,7 +73,7 @@ final class IssuerSerial
      */
     public function serial(): string
     {
-        return $this->_serial;
+        return $this->serial;
     }
 
     /**
@@ -91,7 +81,7 @@ final class IssuerSerial
      */
     public function hasIssuerUID(): bool
     {
-        return isset($this->_issuerUID);
+        return isset($this->issuerUID);
     }
 
     /**
@@ -102,7 +92,7 @@ final class IssuerSerial
         if (! $this->hasIssuerUID()) {
             throw new LogicException('issuerUID not set.');
         }
-        return $this->_issuerUID;
+        return $this->issuerUID;
     }
 
     /**
@@ -110,9 +100,9 @@ final class IssuerSerial
      */
     public function toASN1(): Sequence
     {
-        $elements = [$this->_issuer->toASN1(), Integer::create($this->_serial)];
-        if (isset($this->_issuerUID)) {
-            $elements[] = $this->_issuerUID->toASN1();
+        $elements = [$this->issuer->toASN1(), Integer::create($this->serial)];
+        if (isset($this->issuerUID)) {
+            $elements[] = $this->issuerUID->toASN1();
         }
         return Sequence::create(...$elements);
     }
@@ -123,13 +113,13 @@ final class IssuerSerial
     public function identifiesPKC(Certificate $cert): bool
     {
         $tbs = $cert->tbsCertificate();
-        if (! $tbs->issuer()->equals($this->_issuer->firstDN())) {
+        if (! $tbs->issuer()->equals($this->issuer->firstDN())) {
             return false;
         }
-        if ($tbs->serialNumber() !== $this->_serial) {
+        if ($tbs->serialNumber() !== $this->serial) {
             return false;
         }
-        if ($this->_issuerUID !== null && ! $this->_checkUniqueID($cert)) {
+        if ($this->issuerUID !== null && ! $this->_checkUniqueID($cert)) {
             return false;
         }
         return true;
@@ -146,6 +136,6 @@ final class IssuerSerial
         $uid = $cert->tbsCertificate()
             ->issuerUniqueID()
             ->string();
-        return $this->_issuerUID?->string() === $uid;
+        return $this->issuerUID?->string() === $uid;
     }
 }

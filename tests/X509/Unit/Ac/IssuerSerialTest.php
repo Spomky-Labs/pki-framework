@@ -25,7 +25,7 @@ final class IssuerSerialTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$_issuer = GeneralNames::create(DirectoryName::fromDNString('cn=Test'));
-        self::$_uid = new UniqueIdentifier(BitString::create(hex2bin('ff')));
+        self::$_uid = UniqueIdentifier::create(BitString::create(hex2bin('ff')));
     }
 
     public static function tearDownAfterClass(): void
@@ -39,7 +39,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function create()
     {
-        $iss_ser = new IssuerSerial(self::$_issuer, 1, self::$_uid);
+        $iss_ser = IssuerSerial::create(self::$_issuer, '1', self::$_uid);
         static::assertInstanceOf(IssuerSerial::class, $iss_ser);
         return $iss_ser;
     }
@@ -116,7 +116,7 @@ final class IssuerSerialTest extends TestCase
      */
     public function noIssuerUIDFail()
     {
-        $is = new IssuerSerial(self::$_issuer, 1);
+        $is = IssuerSerial::create(self::$_issuer, '1');
         $this->expectException(LogicException::class);
         $is->issuerUID();
     }

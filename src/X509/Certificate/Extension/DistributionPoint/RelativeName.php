@@ -15,21 +15,24 @@ use SpomkyLabs\Pki\X501\ASN1\RDN;
  */
 final class RelativeName extends DistributionPointName
 {
-    public function __construct(/**
-     * Relative distinguished name.
-     */
-        protected RDN $_rdn
+    private function __construct(
+        private readonly RDN $rdn
     ) {
-        $this->_tag = self::TAG_RDN;
+        parent::__construct(self::TAG_RDN);
+    }
+
+    public static function create(RDN $rdn): self
+    {
+        return new self($rdn);
     }
 
     public function rdn(): RDN
     {
-        return $this->_rdn;
+        return $this->rdn;
     }
 
     protected function _valueASN1(): Element
     {
-        return $this->_rdn->toASN1();
+        return $this->rdn->toASN1();
     }
 }

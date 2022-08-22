@@ -65,7 +65,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
     {
         $identifier = $this->_identifier->withClass($class)
             ->withTag($tag);
-        $cls = self::_determineImplClass($identifier);
+        $cls = self::determineImplClass($identifier);
         $idx = $this->_offset;
         /** @var ElementBase $element */
         $element = $cls::decodeFromDER($identifier, $this->_data, $idx);

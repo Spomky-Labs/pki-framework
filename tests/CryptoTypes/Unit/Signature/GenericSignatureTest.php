@@ -16,13 +16,11 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\GenericSignature;
 final class GenericSignatureTest extends TestCase
 {
     /**
-     * @return GenericSignature
-     *
      * @test
      */
-    public function create()
+    public function create(): GenericSignature
     {
-        $sig = new GenericSignature(BitString::create('test'), SHA1WithRSAEncryptionAlgorithmIdentifier::create());
+        $sig = GenericSignature::create(BitString::create('test'), SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         static::assertInstanceOf(GenericSignature::class, $sig);
         return $sig;
     }

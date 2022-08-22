@@ -29,8 +29,7 @@ final class MD4WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureA
         if (! isset($params)) {
             throw new UnexpectedValueException('No parameters.');
         }
-        $params->asNull();
-        return new self();
+        return self::create();
     }
 
     public function name(): string

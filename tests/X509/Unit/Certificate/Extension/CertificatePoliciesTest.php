@@ -38,7 +38,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function createCPS()
     {
-        $qual = new CPSQualifier('urn:test');
+        $qual = CPSQualifier::create('urn:test');
         static::assertInstanceOf(PolicyQualifierInfo::class, $qual);
         return $qual;
     }
@@ -48,9 +48,9 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function createNotice()
     {
-        $qual = new UserNoticeQualifier(
+        $qual = UserNoticeQualifier::create(
             DisplayText::fromString('Notice'),
-            new NoticeReference(DisplayText::fromString(self::REF_ORG), 1, 2, 3)
+            NoticeReference::create(DisplayText::fromString(self::REF_ORG), 1, 2, 3)
         );
         static::assertInstanceOf(PolicyQualifierInfo::class, $qual);
         return $qual;
@@ -64,7 +64,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function createPolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2)
     {
-        $info = new PolicyInformation(self::INFO_OID, $q1, $q2);
+        $info = PolicyInformation::create(self::INFO_OID, $q1, $q2);
         static::assertInstanceOf(PolicyInformation::class, $info);
         return $info;
     }
@@ -76,7 +76,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function create(PolicyInformation $info)
     {
-        $ext = new CertificatePoliciesExtension(true, $info, new PolicyInformation('1.3.6.1.3.10'));
+        $ext = CertificatePoliciesExtension::create(true, $info, PolicyInformation::create('1.3.6.1.3.10'));
         static::assertInstanceOf(CertificatePoliciesExtension::class, $ext);
         return $ext;
     }
@@ -179,7 +179,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function hasAnyPolicy()
     {
-        $ext = new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY));
+        $ext = CertificatePoliciesExtension::create(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY));
         static::assertTrue($ext->hasAnyPolicy());
     }
 
@@ -188,7 +188,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function anyPolicyFail()
     {
-        $ext = new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3'));
+        $ext = CertificatePoliciesExtension::create(true, PolicyInformation::create('1.3.6.1.3'));
         $this->expectException(LogicException::class);
         $ext->anyPolicy();
     }
@@ -313,7 +313,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function extensions(CertificatePoliciesExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasCertificatePolicies());
         return $extensions;
     }
@@ -334,7 +334,7 @@ final class CertificatePoliciesTest extends TestCase
      */
     public function encodeEmptyFail()
     {
-        $ext = new CertificatePoliciesExtension(false);
+        $ext = CertificatePoliciesExtension::create(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }

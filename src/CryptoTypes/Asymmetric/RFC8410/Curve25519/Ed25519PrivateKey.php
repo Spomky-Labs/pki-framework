@@ -30,7 +30,7 @@ final class Ed25519PrivateKey extends Curve25519PrivateKey
      */
     public static function fromOctetString(OctetString $str, ?string $public_key = null): self
     {
-        return new self($str->string(), $public_key);
+        return self::create($str->string(), $public_key);
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
@@ -43,6 +43,6 @@ final class Ed25519PrivateKey extends Curve25519PrivateKey
         if (! $this->hasPublicKey()) {
             throw new LogicException('Public key not set.');
         }
-        return new Ed25519PublicKey($this->_publicKeyData);
+        return Ed25519PublicKey::create($this->_publicKeyData);
     }
 }

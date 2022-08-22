@@ -28,9 +28,9 @@ final class HolderTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_issuerSerial = new IssuerSerial(GeneralNames::create(DirectoryName::fromDNString('cn=Test')), 1);
+        self::$_issuerSerial = IssuerSerial::create(GeneralNames::create(DirectoryName::fromDNString('cn=Test')), '1');
         self::$_subject = GeneralNames::create(DirectoryName::fromDNString('cn=Subject'));
-        self::$_odi = new ObjectDigestInfo(
+        self::$_odi = ObjectDigestInfo::create(
             ObjectDigestInfo::TYPE_PUBLIC_KEY,
             SHA1WithRSAEncryptionAlgorithmIdentifier::create(),
             BitString::create('')
@@ -49,7 +49,7 @@ final class HolderTest extends TestCase
      */
     public function create()
     {
-        $holder = new Holder(self::$_issuerSerial, self::$_subject);
+        $holder = Holder::create(self::$_issuerSerial, self::$_subject);
         $holder = $holder->withObjectDigestInfo(self::$_odi);
         static::assertInstanceOf(Holder::class, $holder);
         return $holder;
@@ -127,7 +127,7 @@ final class HolderTest extends TestCase
      */
     public function withBaseCertificateID()
     {
-        $holder = new Holder();
+        $holder = Holder::create();
         $holder = $holder->withBaseCertificateID(self::$_issuerSerial);
         static::assertInstanceOf(Holder::class, $holder);
     }
@@ -137,7 +137,7 @@ final class HolderTest extends TestCase
      */
     public function withEntityName()
     {
-        $holder = new Holder();
+        $holder = Holder::create();
         $holder = $holder->withEntityName(self::$_subject);
         static::assertInstanceOf(Holder::class, $holder);
     }
@@ -147,7 +147,7 @@ final class HolderTest extends TestCase
      */
     public function withObjectDigestInfo()
     {
-        $holder = new Holder();
+        $holder = Holder::create();
         $holder = $holder->withObjectDigestInfo(self::$_odi);
         static::assertInstanceOf(Holder::class, $holder);
     }
@@ -157,7 +157,7 @@ final class HolderTest extends TestCase
      */
     public function noBaseCertificateIDFail()
     {
-        $holder = new Holder();
+        $holder = Holder::create();
         $this->expectException(LogicException::class);
         $holder->baseCertificateID();
     }
@@ -167,7 +167,7 @@ final class HolderTest extends TestCase
      */
     public function noEntityNameFail()
     {
-        $holder = new Holder();
+        $holder = Holder::create();
         $this->expectException(LogicException::class);
         $holder->entityName();
     }
@@ -177,7 +177,7 @@ final class HolderTest extends TestCase
      */
     public function noObjectDigestInfoFail()
     {
-        $holder = new Holder();
+        $holder = Holder::create();
         $this->expectException(LogicException::class);
         $holder->objectDigestInfo();
     }

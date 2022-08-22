@@ -50,20 +50,20 @@ final class PolicyMappingMapAnyTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true),
-            new CertificatePoliciesExtension(true, new PolicyInformation(PolicyInformation::OID_ANY_POLICY)),
-            new PolicyMappingsExtension(true, new PolicyMapping('1.3.6.1.3.1', '1.3.6.1.3.2'))
+            BasicConstraintsExtension::create(true, true),
+            CertificatePoliciesExtension::create(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY)),
+            PolicyMappingsExtension::create(true, PolicyMapping::create('1.3.6.1.3.1', '1.3.6.1.3.2'))
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -71,7 +71,7 @@ final class PolicyMappingMapAnyTest extends TestCase
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new CertificatePoliciesExtension(true, new PolicyInformation('1.3.6.1.3.2'))
+            CertificatePoliciesExtension::create(true, PolicyInformation::create('1.3.6.1.3.2'))
         );
         self::$_cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
     }
@@ -89,8 +89,8 @@ final class PolicyMappingMapAnyTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
-        $config = new PathValidationConfig(new DateTimeImmutable(), 3);
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
+        $config = PathValidationConfig::create(new DateTimeImmutable(), 3);
         $config = $config->withExplicitPolicy(true);
         $result = $path->validate($config);
         static::assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
@@ -101,7 +101,7 @@ final class PolicyMappingMapAnyTest extends TestCase
      */
     public function coverLogicException()
     {
-        $tree = new PolicyTree(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));
+        $tree = PolicyTree::create(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));
         $refl = new ReflectionClass($tree);
         $mtd = $refl->getMethod('_applyAnyPolicyMapping');
         $mtd->setAccessible(true);

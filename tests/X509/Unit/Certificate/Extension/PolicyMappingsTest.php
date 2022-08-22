@@ -31,8 +31,8 @@ final class PolicyMappingsTest extends TestCase
     public function createMappings()
     {
         $mappings = [
-            new PolicyMapping(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
-            new PolicyMapping('1.3.6.1.3.3', '1.3.6.1.3.4'), ];
+            PolicyMapping::create(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
+            PolicyMapping::create('1.3.6.1.3.3', '1.3.6.1.3.4'), ];
         static::assertInstanceOf(PolicyMapping::class, $mappings[0]);
         return $mappings;
     }
@@ -44,7 +44,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function create(array $mappings)
     {
-        $ext = new PolicyMappingsExtension(true, ...$mappings);
+        $ext = PolicyMappingsExtension::create(true, ...$mappings);
         static::assertInstanceOf(PolicyMappingsExtension::class, $ext);
         return $ext;
     }
@@ -198,9 +198,9 @@ final class PolicyMappingsTest extends TestCase
      */
     public function hasAnyPolicyIssuer()
     {
-        $ext = new PolicyMappingsExtension(
+        $ext = PolicyMappingsExtension::create(
             false,
-            new PolicyMapping(PolicyInformation::OID_ANY_POLICY, self::SUBJECT_POLICY_OID)
+            PolicyMapping::create(PolicyInformation::OID_ANY_POLICY, self::SUBJECT_POLICY_OID)
         );
         static::assertTrue($ext->hasAnyPolicyMapping());
     }
@@ -210,9 +210,9 @@ final class PolicyMappingsTest extends TestCase
      */
     public function hasAnyPolicySubject()
     {
-        $ext = new PolicyMappingsExtension(
+        $ext = PolicyMappingsExtension::create(
             false,
-            new PolicyMapping(self::ISSUER_POLICY_OID, PolicyInformation::OID_ANY_POLICY)
+            PolicyMapping::create(self::ISSUER_POLICY_OID, PolicyInformation::OID_ANY_POLICY)
         );
         static::assertTrue($ext->hasAnyPolicyMapping());
     }
@@ -224,7 +224,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function extensions(PolicyMappingsExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasPolicyMappings());
         return $extensions;
     }
@@ -245,7 +245,7 @@ final class PolicyMappingsTest extends TestCase
      */
     public function encodeEmptyFail()
     {
-        $ext = new PolicyMappingsExtension(false);
+        $ext = PolicyMappingsExtension::create(false);
         $this->expectException(LogicException::class);
         $ext->toASN1();
     }

@@ -44,7 +44,7 @@ final class SignatureMismatchTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -52,7 +52,7 @@ final class SignatureMismatchTest extends TestCase
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -75,8 +75,8 @@ final class SignatureMismatchTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
         $this->expectException(PathValidationException::class);
-        $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
     }
 }

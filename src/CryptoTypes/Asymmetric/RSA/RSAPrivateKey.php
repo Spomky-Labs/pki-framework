@@ -12,7 +12,6 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgor
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
-use function strval;
 use UnexpectedValueException;
 
 /**
@@ -23,65 +22,38 @@ use UnexpectedValueException;
 final class RSAPrivateKey extends PrivateKey
 {
     /**
-     * Modulus as a base 10 integer.
+     * @param string $modulus Modulus
+     * @param string $publicExponent Public exponent
+     * @param string $privateExponent Private exponent
+     * @param string $prime1 First prime factor
+     * @param string $prime2 Second prime factor
+     * @param string $exponent1 First factor exponent
+     * @param string $exponent2 Second factor exponent
+     * @param string $coefficient CRT coefficient of the second factor
      */
-    protected string $_modulus;
+    private function __construct(
+        private readonly string $modulus,
+        private readonly string $publicExponent,
+        private readonly string $privateExponent,
+        private readonly string $prime1,
+        private readonly string $prime2,
+        private readonly string $exponent1,
+        private readonly string $exponent2,
+        private readonly string $coefficient
+    ) {
+    }
 
-    /**
-     * Public exponent as a base 10 integer.
-     */
-    protected string $_publicExponent;
-
-    /**
-     * Private exponent as a base 10 integer.
-     */
-    protected string $_privateExponent;
-
-    /**
-     * First prime factor as a base 10 integer.
-     */
-    protected string $_prime1;
-
-    /**
-     * Second prime factor as a base 10 integer.
-     */
-    protected string $_prime2;
-
-    /**
-     * First factor exponent as a base 10 integer.
-     */
-    protected string $_exponent1;
-
-    /**
-     * Second factor exponent as a base 10 integer.
-     */
-    protected string $_exponent2;
-
-    /**
-     * CRT coefficient of the second factor as a base 10 integer.
-     */
-    protected string $_coefficient;
-
-    /**
-     * @param int|string $n Modulus
-     * @param int|string $e Public exponent
-     * @param int|string $d Private exponent
-     * @param int|string $p First prime factor
-     * @param int|string $q Second prime factor
-     * @param int|string $dp First factor exponent
-     * @param int|string $dq Second factor exponent
-     * @param int|string $qi CRT coefficient of the second factor
-     */
-    public function __construct($n, $e, $d, $p, $q, $dp, $dq, $qi)
-    {
-        $this->_modulus = strval($n);
-        $this->_publicExponent = strval($e);
-        $this->_privateExponent = strval($d);
-        $this->_prime1 = strval($p);
-        $this->_prime2 = strval($q);
-        $this->_exponent1 = strval($dp);
-        $this->_exponent2 = strval($dq);
-        $this->_coefficient = strval($qi);
+    public static function create(
+        string $n,
+        string $e,
+        string $d,
+        string $p,
+        string $q,
+        string $dp,
+        string $dq,
+        string $qi
+    ): self {
+        return new self($n, $e, $d, $p, $q, $dp, $dq, $qi);
     }
 
     /**
@@ -96,7 +68,7 @@ final class RSAPrivateKey extends PrivateKey
             throw new UnexpectedValueException('Version must be 0.');
         }
         // helper function get integer from given index
-        $get_int = fn ($idx) => $seq->at($idx)
+        $get_int = static fn ($idx) => $seq->at($idx)
             ->asInteger()
             ->number();
         $n = $get_int(1);
@@ -107,7 +79,7 @@ final class RSAPrivateKey extends PrivateKey
         $dp = $get_int(6);
         $dq = $get_int(7);
         $qi = $get_int(8);
-        return new self($n, $e, $d, $p, $q, $dp, $dq, $qi);
+        return self::create($n, $e, $d, $p, $q, $dp, $dq, $qi);
     }
 
     /**
@@ -137,7 +109,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function modulus(): string
     {
-        return $this->_modulus;
+        return $this->modulus;
     }
 
     /**
@@ -147,7 +119,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function publicExponent(): string
     {
-        return $this->_publicExponent;
+        return $this->publicExponent;
     }
 
     /**
@@ -157,7 +129,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function privateExponent(): string
     {
-        return $this->_privateExponent;
+        return $this->privateExponent;
     }
 
     /**
@@ -167,7 +139,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function prime1(): string
     {
-        return $this->_prime1;
+        return $this->prime1;
     }
 
     /**
@@ -177,7 +149,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function prime2(): string
     {
-        return $this->_prime2;
+        return $this->prime2;
     }
 
     /**
@@ -187,7 +159,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function exponent1(): string
     {
-        return $this->_exponent1;
+        return $this->exponent1;
     }
 
     /**
@@ -197,7 +169,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function exponent2(): string
     {
-        return $this->_exponent2;
+        return $this->exponent2;
     }
 
     /**
@@ -207,7 +179,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function coefficient(): string
     {
-        return $this->_coefficient;
+        return $this->coefficient;
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
@@ -220,7 +192,7 @@ final class RSAPrivateKey extends PrivateKey
      */
     public function publicKey(): PublicKey
     {
-        return new RSAPublicKey($this->_modulus, $this->_publicExponent);
+        return RSAPublicKey::create($this->modulus, $this->publicExponent);
     }
 
     /**
@@ -230,14 +202,14 @@ final class RSAPrivateKey extends PrivateKey
     {
         return Sequence::create(
             Integer::create(0),
-            Integer::create($this->_modulus),
-            Integer::create($this->_publicExponent),
-            Integer::create($this->_privateExponent),
-            Integer::create($this->_prime1),
-            Integer::create($this->_prime2),
-            Integer::create($this->_exponent1),
-            Integer::create($this->_exponent2),
-            Integer::create($this->_coefficient)
+            Integer::create($this->modulus),
+            Integer::create($this->publicExponent),
+            Integer::create($this->privateExponent),
+            Integer::create($this->prime1),
+            Integer::create($this->prime2),
+            Integer::create($this->exponent1),
+            Integer::create($this->exponent2),
+            Integer::create($this->coefficient)
         );
     }
 

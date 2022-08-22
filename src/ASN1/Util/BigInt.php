@@ -65,7 +65,7 @@ final class BigInt implements Stringable
         if (mb_strlen($octets, '8bit') === 0) {
             throw new InvalidArgumentException('Empty octets.');
         }
-        return new self(BigInteger::fromBytes($octets, false));
+        return self::create(BigInteger::fromBytes($octets, false));
     }
 
     /**
@@ -77,7 +77,7 @@ final class BigInt implements Stringable
             throw new InvalidArgumentException('Empty octets.');
         }
 
-        return new self(BigInteger::fromBytes($octets));
+        return self::create(BigInteger::fromBytes($octets));
     }
 
     /**

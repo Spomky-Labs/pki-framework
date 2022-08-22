@@ -22,7 +22,7 @@ final class SubjectKeyIdentifierTest extends TestCase
      */
     public function create()
     {
-        $ext = new SubjectKeyIdentifierExtension(true, self::KEY_ID);
+        $ext = SubjectKeyIdentifierExtension::create(true, self::KEY_ID);
         static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);
         return $ext;
     }
@@ -101,7 +101,7 @@ final class SubjectKeyIdentifierTest extends TestCase
      */
     public function extensions(SubjectKeyIdentifierExtension $ext)
     {
-        $extensions = new Extensions($ext);
+        $extensions = Extensions::create($ext);
         static::assertTrue($extensions->hasSubjectKeyIdentifier());
         return $extensions;
     }

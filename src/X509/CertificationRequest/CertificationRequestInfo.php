@@ -31,22 +31,27 @@ final class CertificationRequestInfo
     /**
      * Version.
      */
-    private readonly int $_version;
+    private readonly int $version;
 
     /**
      * Attributes.
      */
-    private ?Attributes $_attributes = null;
+    private ?Attributes $attributes = null;
 
     /**
-     * @param Name $_subject Subject
-     * @param PublicKeyInfo $_subjectPKInfo Public key info
+     * @param Name $subject Subject
+     * @param PublicKeyInfo $subjectPKInfo Public key info
      */
-    public function __construct(
-        protected Name $_subject,
-        protected PublicKeyInfo $_subjectPKInfo
+    private function __construct(
+        private Name $subject,
+        private readonly PublicKeyInfo $subjectPKInfo
     ) {
-        $this->_version = self::VERSION_1;
+        $this->version = self::VERSION_1;
+    }
+
+    public static function create(Name $subject, PublicKeyInfo $subjectPKInfo): self
+    {
+        return new self($subject, $subjectPKInfo);
     }
 
     /**
@@ -62,16 +67,19 @@ final class CertificationRequestInfo
         }
         $subject = Name::fromASN1($seq->at(1)->asSequence());
         $pkinfo = PublicKeyInfo::fromASN1($seq->at(2)->asSequence());
-        $obj = new self($subject, $pkinfo);
+        $obj = self::create($subject, $pkinfo);
         if ($seq->hasTagged(0)) {
-            $obj->_attributes = Attributes::fromASN1($seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet());
+            $obj = $obj->withAttributes(
+                Attributes::fromASN1($seq->getTagged(0)->asImplicit(Element::TYPE_SET)->asSet())
+            );
         }
+
         return $obj;
     }
 
     public function version(): int
     {
-        return $this->_version;
+        return $this->version;
     }
 
     /**
@@ -80,13 +88,13 @@ final class CertificationRequestInfo
     public function withSubject(Name $subject): self
     {
         $obj = clone $this;
-        $obj->_subject = $subject;
+        $obj->subject = $subject;
         return $obj;
     }
 
     public function subject(): Name
     {
-        return $this->_subject;
+        return $this->subject;
     }
 
     /**
@@ -94,7 +102,7 @@ final class CertificationRequestInfo
      */
     public function subjectPKInfo(): PublicKeyInfo
     {
-        return $this->_subjectPKInfo;
+        return $this->subjectPKInfo;
     }
 
     /**
@@ -102,7 +110,7 @@ final class CertificationRequestInfo
      */
     public function hasAttributes(): bool
     {
-        return isset($this->_attributes);
+        return isset($this->attributes);
     }
 
     public function attributes(): Attributes
@@ -110,7 +118,7 @@ final class CertificationRequestInfo
         if (! $this->hasAttributes()) {
             throw new LogicException('No attributes.');
         }
-        return $this->_attributes;
+        return $this->attributes;
     }
 
     /**
@@ -119,7 +127,7 @@ final class CertificationRequestInfo
     public function withAttributes(Attributes $attribs): self
     {
         $obj = clone $this;
-        $obj->_attributes = $attribs;
+        $obj->attributes = $attribs;
         return $obj;
     }
 
@@ -131,11 +139,11 @@ final class CertificationRequestInfo
     public function withExtensionRequest(Extensions $extensions): self
     {
         $obj = clone $this;
-        if (! isset($obj->_attributes)) {
-            $obj->_attributes = Attributes::create();
+        if (! isset($obj->attributes)) {
+            $obj->attributes = Attributes::create();
         }
-        $obj->_attributes = $obj->_attributes->withUnique(
-            Attribute::fromAttributeValues(new ExtensionRequestValue($extensions))
+        $obj->attributes = $obj->attributes->withUnique(
+            Attribute::fromAttributeValues(ExtensionRequestValue::create($extensions))
         );
         return $obj;
     }
@@ -145,9 +153,9 @@ final class CertificationRequestInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [Integer::create($this->_version), $this->_subject->toASN1(), $this->_subjectPKInfo->toASN1()];
-        if (isset($this->_attributes)) {
-            $elements[] = ImplicitlyTaggedType::create(0, $this->_attributes->toASN1());
+        $elements = [Integer::create($this->version), $this->subject->toASN1(), $this->subjectPKInfo->toASN1()];
+        if (isset($this->attributes)) {
+            $elements[] = ImplicitlyTaggedType::create(0, $this->attributes->toASN1());
         }
         return Sequence::create(...$elements);
     }
@@ -168,6 +176,6 @@ final class CertificationRequestInfo
         $data = $this->toASN1()
             ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
-        return new CertificationRequest($this, $algo, $signature);
+        return CertificationRequest::create($this, $algo, $signature);
     }
 }

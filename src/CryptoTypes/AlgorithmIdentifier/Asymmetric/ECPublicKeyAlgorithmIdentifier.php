@@ -242,16 +242,16 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
     ];
 
     /**
-     * @param string $_namedCurve Curve identifier
+     * @param string $namedCurve Curve identifier
      */
-    private function __construct(protected string $_namedCurve)
+    private function __construct(private readonly string $namedCurve)
     {
         parent::__construct(self::OID_EC_PUBLIC_KEY);
     }
 
-    public static function create(string $_namedCurve): self
+    public static function create(string $namedCurve): self
     {
-        return new self($_namedCurve);
+        return new self($namedCurve);
     }
 
     public function name(): string
@@ -269,7 +269,7 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
         }
         $named_curve = $params->asObjectIdentifier()
             ->oid();
-        return new self($named_curve);
+        return self::create($named_curve);
     }
 
     /**
@@ -277,7 +277,7 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
      */
     public function namedCurve(): string
     {
-        return $this->_namedCurve;
+        return $this->namedCurve;
     }
 
     /**
@@ -285,6 +285,6 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
      */
     protected function paramsASN1(): ?Element
     {
-        return ObjectIdentifier::create($this->_namedCurve);
+        return ObjectIdentifier::create($this->namedCurve);
     }
 }

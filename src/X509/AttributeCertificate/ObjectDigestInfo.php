@@ -26,24 +26,21 @@ final class ObjectDigestInfo
 
     final public const TYPE_OTHER_OBJECT_TYPES = 2;
 
-    /**
-     * OID of other object type.
-     */
-    private ?string $_otherObjectTypeID;
-
-    public function __construct(
-        /**
-         * Object type.
-         */
-        protected int $_digestedObjectType, /**
-     * Digest algorithm.
-     */
-        protected AlgorithmIdentifierType $_digestAlgorithm, /**
-     * Object digest.
-     */
-        protected BitString $_objectDigest
+    private function __construct(
+        private readonly int $digestedObjectType,
+        private readonly AlgorithmIdentifierType $digestAlgorithm,
+        private readonly BitString $objectDigest,
+        private readonly ?string $otherObjectTypeID
     ) {
-        $this->_otherObjectTypeID = null;
+    }
+
+    public static function create(
+        int $digestedObjectType,
+        AlgorithmIdentifierType $digestAlgorithm,
+        BitString $objectDigest,
+        ?string $otherObjectTypeID = null
+    ): self {
+        return new self($digestedObjectType, $digestAlgorithm, $objectDigest, $otherObjectTypeID);
     }
 
     /**
@@ -64,9 +61,7 @@ final class ObjectDigestInfo
         $algo = AlgorithmIdentifier::fromASN1($seq->at($idx++)->asSequence());
         $digest = $seq->at($idx)
             ->asBitString();
-        $obj = new self($type, $algo, $digest);
-        $obj->_otherObjectTypeID = $oid;
-        return $obj;
+        return self::create($type, $algo, $digest, $oid);
     }
 
     /**
@@ -74,12 +69,12 @@ final class ObjectDigestInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [Enumerated::create($this->_digestedObjectType)];
-        if (isset($this->_otherObjectTypeID)) {
-            $elements[] = ObjectIdentifier::create($this->_otherObjectTypeID);
+        $elements = [Enumerated::create($this->digestedObjectType)];
+        if (isset($this->otherObjectTypeID)) {
+            $elements[] = ObjectIdentifier::create($this->otherObjectTypeID);
         }
-        $elements[] = $this->_digestAlgorithm->toASN1();
-        $elements[] = $this->_objectDigest;
+        $elements[] = $this->digestAlgorithm->toASN1();
+        $elements[] = $this->objectDigest;
         return Sequence::create(...$elements);
     }
 }

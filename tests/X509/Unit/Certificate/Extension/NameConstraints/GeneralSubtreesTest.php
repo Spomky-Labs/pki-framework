@@ -23,9 +23,9 @@ final class GeneralSubtreesTest extends TestCase
      */
     public function create()
     {
-        $subtrees = new GeneralSubtrees(
-            new GeneralSubtree(UniformResourceIdentifier::create('.example.com')),
-            new GeneralSubtree(DirectoryName::fromDNString('cn=Test'))
+        $subtrees = GeneralSubtrees::create(
+            GeneralSubtree::create(UniformResourceIdentifier::create('.example.com')),
+            GeneralSubtree::create(DirectoryName::fromDNString('cn=Test'))
         );
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);
         return $subtrees;
@@ -116,7 +116,7 @@ final class GeneralSubtreesTest extends TestCase
      */
     public function encodeEmptyFail()
     {
-        $subtrees = new GeneralSubtrees();
+        $subtrees = GeneralSubtrees::create();
         $this->expectException(LogicException::class);
         $subtrees->toASN1();
     }

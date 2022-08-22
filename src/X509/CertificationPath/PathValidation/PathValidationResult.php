@@ -24,23 +24,56 @@ final class PathValidationResult
      *
      * @var Certificate[]
      */
-    private readonly array $_certificates;
+    private readonly array $certificates;
+
+    /**
+     * @param Certificate[] $certificates
+     */
+    private function __construct(
+        array $certificates,
+        private readonly ?PolicyTree $policyTree,
+        private readonly PublicKeyInfo $publicKeyInfo,
+        private readonly AlgorithmIdentifierType $publicKeyAlgo,
+        private readonly ?Element $publicKeyParameters
+    ) {
+        $this->certificates = array_values($certificates);
+    }
 
     /**
      * @param Certificate[] $certificates Certificates in a certification path
-     * @param null|PolicyTree $_policyTree Valid policy tree
-     * @param PublicKeyInfo $_publicKeyInfo Public key of the end-entity certificate
-     * @param AlgorithmIdentifierType $_publicKeyAlgo Public key algorithm of the end-entity certificate
-     * @param null|Element $_publicKeyParameters Algorithm parameters
+     * @param null|PolicyTree $policyTree Valid policy tree
+     * @param PublicKeyInfo $publicKeyInfo Public key of the end-entity certificate
+     * @param AlgorithmIdentifierType $publicKeyAlgo Public key algorithm of the end-entity certificate
+     * @param null|Element $publicKeyParameters Algorithm parameters
      */
-    public function __construct(
+    public static function create(
         array $certificates,
-        protected ?PolicyTree $_policyTree,
-        protected PublicKeyInfo $_publicKeyInfo,
-        protected AlgorithmIdentifierType $_publicKeyAlgo,
-        protected ?Element $_publicKeyParameters = null
-    ) {
-        $this->_certificates = array_values($certificates);
+        ?PolicyTree $policyTree,
+        PublicKeyInfo $publicKeyInfo,
+        AlgorithmIdentifierType $publicKeyAlgo,
+        ?Element $publicKeyParameters = null
+    ): self {
+        return new self($certificates, $policyTree, $publicKeyInfo, $publicKeyAlgo, $publicKeyParameters);
+    }
+
+    public function getPolicyTree(): ?PolicyTree
+    {
+        return $this->policyTree;
+    }
+
+    public function getPublicKeyInfo(): PublicKeyInfo
+    {
+        return $this->publicKeyInfo;
+    }
+
+    public function getPublicKeyAlgo(): AlgorithmIdentifierType
+    {
+        return $this->publicKeyAlgo;
+    }
+
+    public function getPublicKeyParameters(): ?Element
+    {
+        return $this->publicKeyParameters;
     }
 
     /**
@@ -48,7 +81,7 @@ final class PathValidationResult
      */
     public function certificate(): Certificate
     {
-        return $this->_certificates[count($this->_certificates) - 1];
+        return $this->certificates[count($this->certificates) - 1];
     }
 
     /**
@@ -58,9 +91,9 @@ final class PathValidationResult
      */
     public function policies(): array
     {
-        if ($this->_policyTree === null) {
+        if ($this->policyTree === null) {
             return [];
         }
-        return $this->_policyTree->policiesAtDepth(count($this->_certificates));
+        return $this->policyTree->policiesAtDepth(count($this->certificates));
     }
 }

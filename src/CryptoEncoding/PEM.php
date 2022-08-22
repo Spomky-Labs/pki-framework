@@ -57,12 +57,12 @@ final class PEM implements Stringable
     '/ms';
 
     /**
-     * @param string $_type Content type
-     * @param string $_data Payload
+     * @param string $type Content type
+     * @param string $data Payload
      */
     private function __construct(
-        protected string $_type,
-        protected string $_data
+        private readonly string $type,
+        private readonly string $data
     ) {
     }
 
@@ -89,7 +89,7 @@ final class PEM implements Stringable
         if ($data === false) {
             throw new UnexpectedValueException('Failed to decode PEM data.');
         }
-        return new self($match[1], $data);
+        return self::create($match[1], $data);
     }
 
     /**
@@ -114,12 +114,12 @@ final class PEM implements Stringable
      */
     public function type(): string
     {
-        return $this->_type;
+        return $this->type;
     }
 
     public function data(): string
     {
-        return $this->_data;
+        return $this->data;
     }
 
     /**
@@ -127,8 +127,8 @@ final class PEM implements Stringable
      */
     public function string(): string
     {
-        return "-----BEGIN {$this->_type}-----\n" .
-            trim(chunk_split(base64_encode($this->_data), 64, "\n")) . "\n" .
-            "-----END {$this->_type}-----";
+        return "-----BEGIN {$this->type}-----\n" .
+            trim(chunk_split(base64_encode($this->data), 64, "\n")) . "\n" .
+            "-----END {$this->type}-----";
     }
 }

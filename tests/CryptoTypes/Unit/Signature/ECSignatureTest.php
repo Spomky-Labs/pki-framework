@@ -15,13 +15,11 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\ECSignature;
 final class ECSignatureTest extends TestCase
 {
     /**
-     * @return ECSignature
-     *
      * @test
      */
-    public function create()
+    public function create(): ECSignature
     {
-        $sig = new ECSignature('123456789', '987654321');
+        $sig = ECSignature::create('123456789', '987654321');
         static::assertInstanceOf(ECSignature::class, $sig);
         return $sig;
     }
@@ -31,7 +29,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function encode(ECSignature $sig)
+    public function encode(ECSignature $sig): void
     {
         $el = $sig->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -42,7 +40,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function toDER(ECSignature $sig)
+    public function toDER(ECSignature $sig): string
     {
         $der = $sig->toDER();
         static::assertIsString($der);
@@ -56,7 +54,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function decode($data)
+    public function decode($data): ECSignature
     {
         $sig = ECSignature::fromDER($data);
         static::assertInstanceOf(ECSignature::class, $sig);
@@ -69,7 +67,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function recoded(ECSignature $ref, ECSignature $sig)
+    public function recoded(ECSignature $ref, ECSignature $sig): void
     {
         static::assertEquals($ref, $sig);
     }
@@ -79,7 +77,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function rValue(ECSignature $sig)
+    public function rValue(ECSignature $sig): void
     {
         static::assertEquals('123456789', $sig->r());
     }
@@ -89,7 +87,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function sValue(ECSignature $sig)
+    public function sValue(ECSignature $sig): void
     {
         static::assertEquals('987654321', $sig->s());
     }
@@ -99,7 +97,7 @@ final class ECSignatureTest extends TestCase
      *
      * @test
      */
-    public function bitString(ECSignature $sig)
+    public function bitString(ECSignature $sig): void
     {
         static::assertInstanceOf(BitString::class, $sig->bitString());
     }

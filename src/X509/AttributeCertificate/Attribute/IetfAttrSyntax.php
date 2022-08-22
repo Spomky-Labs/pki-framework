@@ -63,7 +63,7 @@ abstract class IetfAttrSyntax extends AttributeValue implements Countable, Itera
             ++$idx;
         }
         $values = array_map(
-            fn (UnspecifiedType $el) => IetfAttrValue::fromASN1($el),
+            static fn (UnspecifiedType $el) => IetfAttrValue::fromASN1($el),
             $seq->at($idx)
                 ->asSequence()
                 ->elements()

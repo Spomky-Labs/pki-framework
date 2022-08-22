@@ -68,7 +68,7 @@ final class Length implements Encodable
                 if ($idx + $length > $datalen) {
                     throw new DecodeException('Unexpected end of data while decoding long form length.');
                 }
-                $length = self::_decodeLongFormLength($length, $data, $idx);
+                $length = self::decodeLongFormLength($length, $data, $idx);
             }
         }
         if (isset($offset)) {
@@ -186,7 +186,7 @@ final class Length implements Encodable
      * @param string $data Data
      * @param int $offset reference to the variable containing offset to the data
      */
-    private static function _decodeLongFormLength(int $length, string $data, int &$offset): BigInteger
+    private static function decodeLongFormLength(int $length, string $data, int &$offset): BigInteger
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if ($length === 127) {

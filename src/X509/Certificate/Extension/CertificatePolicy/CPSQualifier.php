@@ -15,10 +15,15 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class CPSQualifier extends PolicyQualifierInfo
 {
-    public function __construct(
-        protected string $_uri
+    private function __construct(
+        private readonly string $uri
     ) {
-        $this->_oid = self::OID_CPS;
+        parent::__construct(self::OID_CPS);
+    }
+
+    public static function create(string $uri): self
+    {
+        return new self($uri);
     }
 
     /**
@@ -26,16 +31,16 @@ final class CPSQualifier extends PolicyQualifierInfo
      */
     public static function fromQualifierASN1(UnspecifiedType $el): PolicyQualifierInfo
     {
-        return new self($el->asString()->string());
+        return self::create($el->asString()->string());
     }
 
     public function uri(): string
     {
-        return $this->_uri;
+        return $this->uri;
     }
 
-    protected function _qualifierASN1(): Element
+    protected function qualifierASN1(): Element
     {
-        return IA5String::create($this->_uri);
+        return IA5String::create($this->uri);
     }
 }

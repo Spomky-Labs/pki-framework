@@ -25,11 +25,16 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
      *
      * @var GeneralSubtree[]
      */
-    private readonly array $_subtrees;
+    private readonly array $subtrees;
 
-    public function __construct(GeneralSubtree ...$subtrees)
+    private function __construct(GeneralSubtree ...$subtrees)
     {
-        $this->_subtrees = $subtrees;
+        $this->subtrees = $subtrees;
+    }
+
+    public static function create(GeneralSubtree ...$subtrees): self
+    {
+        return new self(...$subtrees);
     }
 
     /**
@@ -38,13 +43,13 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
     public static function fromASN1(Sequence $seq): self
     {
         $subtrees = array_map(
-            fn (UnspecifiedType $el) => GeneralSubtree::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => GeneralSubtree::fromASN1($el->asSequence()),
             $seq->elements()
         );
         if (count($subtrees) === 0) {
             throw new UnexpectedValueException('GeneralSubtrees must contain at least one GeneralSubtree.');
         }
-        return new self(...$subtrees);
+        return self::create(...$subtrees);
     }
 
     /**
@@ -54,7 +59,7 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
      */
     public function all(): array
     {
-        return $this->_subtrees;
+        return $this->subtrees;
     }
 
     /**
@@ -62,10 +67,10 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        if (count($this->_subtrees) === 0) {
+        if (count($this->subtrees) === 0) {
             throw new LogicException('No subtrees.');
         }
-        $elements = array_map(static fn (GeneralSubtree $gs) => $gs->toASN1(), $this->_subtrees);
+        $elements = array_map(static fn (GeneralSubtree $gs) => $gs->toASN1(), $this->subtrees);
         return Sequence::create(...$elements);
     }
 
@@ -74,7 +79,7 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_subtrees);
+        return count($this->subtrees);
     }
 
     /**
@@ -84,6 +89,6 @@ final class GeneralSubtrees implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_subtrees);
+        return new ArrayIterator($this->subtrees);
     }
 }

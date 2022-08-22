@@ -30,19 +30,24 @@ final class Name implements Countable, IteratorAggregate, Stringable
      *
      * @var RDN[]
      */
-    private readonly array $_rdns;
+    private readonly array $rdns;
 
     /**
      * @param RDN ...$rdns RDN components
      */
-    public function __construct(RDN ...$rdns)
+    private function __construct(RDN ...$rdns)
     {
-        $this->_rdns = $rdns;
+        $this->rdns = $rdns;
     }
 
     public function __toString(): string
     {
         return $this->toString();
+    }
+
+    public static function create(RDN ...$rdns): self
+    {
+        return new self(...$rdns);
     }
 
     /**
@@ -51,7 +56,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
     public static function fromASN1(Sequence $seq): self
     {
         $rdns = array_map(static fn (UnspecifiedType $el) => RDN::fromASN1($el->asSet()), $seq->elements());
-        return new self(...$rdns);
+        return self::create(...$rdns);
     }
 
     /**
@@ -73,11 +78,11 @@ final class Name implements Countable, IteratorAggregate, Stringable
                     $el = AttributeType::asn1StringForType($type->oid(), $val);
                 }
                 $value = AttributeValue::fromASN1ByOID($type->oid(), $el->asUnspecified());
-                $attribs[] = new AttributeTypeAndValue($type, $value);
+                $attribs[] = AttributeTypeAndValue::create($type, $value);
             }
-            $rdns[] = new RDN(...$attribs);
+            $rdns[] = RDN::create(...$attribs);
         }
-        return new self(...$rdns);
+        return self::create(...$rdns);
     }
 
     /**
@@ -85,7 +90,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function toASN1(): Sequence
     {
-        $elements = array_map(static fn (RDN $rdn) => $rdn->toASN1(), $this->_rdns);
+        $elements = array_map(static fn (RDN $rdn) => $rdn->toASN1(), $this->rdns);
         return Sequence::create(...$elements);
     }
 
@@ -96,7 +101,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function toString(): string
     {
-        $parts = array_map(static fn (RDN $rdn) => $rdn->toString(), array_reverse($this->_rdns));
+        $parts = array_map(static fn (RDN $rdn) => $rdn->toString(), array_reverse($this->rdns));
         return implode(',', $parts);
     }
 
@@ -116,8 +121,8 @@ final class Name implements Countable, IteratorAggregate, Stringable
             return false;
         }
         for ($i = count($this) - 1; $i >= 0; --$i) {
-            $rdn1 = $this->_rdns[$i];
-            $rdn2 = $other->_rdns[$i];
+            $rdn1 = $this->rdns[$i];
+            $rdn2 = $other->rdns[$i];
             if (! $rdn1->equals($rdn2)) {
                 return false;
             }
@@ -132,7 +137,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function all(): array
     {
-        return $this->_rdns;
+        return $this->rdns;
     }
 
     /**
@@ -147,7 +152,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
     public function firstValueOf(string $name): AttributeValue
     {
         $oid = AttributeType::attrNameToOID($name);
-        foreach ($this->_rdns as $rdn) {
+        foreach ($this->rdns as $rdn) {
             $tvs = $rdn->allOf($oid);
             if (count($tvs) > 1) {
                 throw new RangeException("RDN with multiple {$name} attributes.");
@@ -164,7 +169,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function count(): int
     {
-        return count($this->_rdns);
+        return count($this->rdns);
     }
 
     /**
@@ -175,7 +180,7 @@ final class Name implements Countable, IteratorAggregate, Stringable
     public function countOfType(string $name): int
     {
         $oid = AttributeType::attrNameToOID($name);
-        return array_sum(array_map(static fn (RDN $rdn): int => count($rdn->allOf($oid)), $this->_rdns));
+        return array_sum(array_map(static fn (RDN $rdn): int => count($rdn->allOf($oid)), $this->rdns));
     }
 
     /**
@@ -183,6 +188,6 @@ final class Name implements Countable, IteratorAggregate, Stringable
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_rdns);
+        return new ArrayIterator($this->rdns);
     }
 }

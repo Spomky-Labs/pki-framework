@@ -8,7 +8,6 @@ use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use function strval;
 
 /**
  * Implements ECDSA signature value.
@@ -19,24 +18,15 @@ use function strval;
  */
 final class ECSignature extends Signature
 {
-    /**
-     * r-value as a base 10 integer.
-     */
-    protected string $_r;
+    private function __construct(
+        private readonly string $r,
+        private readonly string $s
+    ) {
+    }
 
-    /**
-     * s-value as a base 10 integer.
-     */
-    protected string $_s;
-
-    /**
-     * @param int|string $r Signature's `r` value
-     * @param int|string $s Signature's `s` value
-     */
-    public function __construct($r, $s)
+    public static function create(string $r, string $s): self
     {
-        $this->_r = strval($r);
-        $this->_s = strval($s);
+        return new self($r, $s);
     }
 
     /**
@@ -50,7 +40,7 @@ final class ECSignature extends Signature
         $s = $seq->at(1)
             ->asInteger()
             ->number();
-        return new self($r, $s);
+        return self::create($r, $s);
     }
 
     /**
@@ -68,7 +58,7 @@ final class ECSignature extends Signature
      */
     public function r(): string
     {
-        return $this->_r;
+        return $this->r;
     }
 
     /**
@@ -78,7 +68,7 @@ final class ECSignature extends Signature
      */
     public function s(): string
     {
-        return $this->_s;
+        return $this->s;
     }
 
     /**
@@ -86,7 +76,7 @@ final class ECSignature extends Signature
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(Integer::create($this->_r), Integer::create($this->_s));
+        return Sequence::create(Integer::create($this->r), Integer::create($this->s));
     }
 
     /**

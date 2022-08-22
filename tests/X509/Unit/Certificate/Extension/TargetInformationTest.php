@@ -29,9 +29,9 @@ final class TargetInformationTest extends TestCase
      */
     public function createTargets()
     {
-        $targets = new Targets(
-            new TargetName(DirectoryName::fromDNString(self::NAME_DN)),
-            new TargetGroup(DNSName::create(self::GROUP_DOMAIN))
+        $targets = Targets::create(
+            TargetName::create(DirectoryName::fromDNString(self::NAME_DN)),
+            TargetGroup::create(DNSName::create(self::GROUP_DOMAIN))
         );
         static::assertInstanceOf(Targets::class, $targets);
         return $targets;
@@ -44,7 +44,7 @@ final class TargetInformationTest extends TestCase
      */
     public function create(Targets $targets)
     {
-        $ext = new TargetInformationExtension(true, $targets);
+        $ext = TargetInformationExtension::create(true, $targets);
         static::assertInstanceOf(TargetInformationExtension::class, $ext);
         return $ext;
     }
@@ -168,7 +168,7 @@ final class TargetInformationTest extends TestCase
      */
     public function fromTargets()
     {
-        $ext = TargetInformationExtension::fromTargets(new TargetName(DirectoryName::fromDNString(self::NAME_DN)));
+        $ext = TargetInformationExtension::fromTargets(TargetName::create(DirectoryName::fromDNString(self::NAME_DN)));
         static::assertInstanceOf(TargetInformationExtension::class, $ext);
     }
 }

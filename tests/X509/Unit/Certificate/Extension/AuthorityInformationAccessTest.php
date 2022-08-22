@@ -21,13 +21,13 @@ final class AuthorityInformationAccessTest extends TestCase
      */
     public function create()
     {
-        $ext = new AuthorityInformationAccessExtension(
+        $ext = AuthorityInformationAccessExtension::create(
             false,
-            new AuthorityAccessDescription(
+            AuthorityAccessDescription::create(
                 AuthorityAccessDescription::OID_METHOD_CA_ISSUERS,
                 UniformResourceIdentifier::create('urn:test')
             ),
-            new AuthorityAccessDescription(
+            AuthorityAccessDescription::create(
                 AuthorityAccessDescription::OID_METHOD_OSCP,
                 UniformResourceIdentifier::create('https://oscp.example.com/')
             )

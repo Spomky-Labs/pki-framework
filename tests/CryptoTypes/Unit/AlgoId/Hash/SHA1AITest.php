@@ -22,7 +22,7 @@ final class SHA1AITest extends TestCase
      */
     public function encode()
     {
-        $ai = new SHA1AlgorithmIdentifier();
+        $ai = SHA1AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq;

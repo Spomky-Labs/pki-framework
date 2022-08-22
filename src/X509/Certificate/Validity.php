@@ -13,16 +13,15 @@ use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
  */
 final class Validity
 {
-    public function __construct(
-        /**
-         * Not before time.
-         */
-        protected Time $_notBefore,
-        /**
-         * Not after time.
-         */
-        protected Time $_notAfter
+    private function __construct(
+        private readonly Time $notBefore,
+        private readonly Time $notAfter
     ) {
+    }
+
+    public static function create(Time $notBefore, Time $notAfter): self
+    {
+        return new self($notBefore, $notAfter);
     }
 
     /**
@@ -32,7 +31,7 @@ final class Validity
     {
         $nb = Time::fromASN1($seq->at(0)->asTime());
         $na = Time::fromASN1($seq->at(1)->asTime());
-        return new self($nb, $na);
+        return self::create($nb, $na);
     }
 
     /**
@@ -44,7 +43,7 @@ final class Validity
      */
     public static function fromStrings(?string $nb_date, ?string $na_date, ?string $tz = null): self
     {
-        return new self(Time::fromString($nb_date, $tz), Time::fromString($na_date, $tz));
+        return self::create(Time::fromString($nb_date, $tz), Time::fromString($na_date, $tz));
     }
 
     /**
@@ -52,7 +51,7 @@ final class Validity
      */
     public function notBefore(): Time
     {
-        return $this->_notBefore;
+        return $this->notBefore;
     }
 
     /**
@@ -60,7 +59,7 @@ final class Validity
      */
     public function notAfter(): Time
     {
-        return $this->_notAfter;
+        return $this->notAfter;
     }
 
     /**
@@ -68,6 +67,6 @@ final class Validity
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create($this->_notBefore->toASN1(), $this->_notAfter->toASN1());
+        return Sequence::create($this->notBefore->toASN1(), $this->notAfter->toASN1());
     }
 }

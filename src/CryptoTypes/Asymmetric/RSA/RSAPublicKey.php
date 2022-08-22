@@ -13,7 +13,6 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgor
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
-use function strval;
 use UnexpectedValueException;
 
 /**
@@ -23,24 +22,15 @@ use UnexpectedValueException;
  */
 final class RSAPublicKey extends PublicKey
 {
-    /**
-     * Modulus as a base 10 integer.
-     */
-    protected string $_modulus;
+    private function __construct(
+        private readonly string $modulus,
+        private readonly string $publicExponent
+    ) {
+    }
 
-    /**
-     * Public exponent as a base 10 integer.
-     */
-    protected string $_publicExponent;
-
-    /**
-     * @param int|string $n Modulus
-     * @param int|string $e Public exponent
-     */
-    public function __construct($n, $e)
+    public static function create(string $modulus, string $publicExponent): self
     {
-        $this->_modulus = strval($n);
-        $this->_publicExponent = strval($e);
+        return new self($modulus, $publicExponent);
     }
 
     /**
@@ -54,7 +44,7 @@ final class RSAPublicKey extends PublicKey
         $e = $seq->at(1)
             ->asInteger()
             ->number();
-        return new self($n, $e);
+        return self::create($n, $e);
     }
 
     /**
@@ -92,7 +82,7 @@ final class RSAPublicKey extends PublicKey
      */
     public function modulus(): string
     {
-        return $this->_modulus;
+        return $this->modulus;
     }
 
     /**
@@ -102,7 +92,7 @@ final class RSAPublicKey extends PublicKey
      */
     public function publicExponent(): string
     {
-        return $this->_publicExponent;
+        return $this->publicExponent;
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
@@ -115,7 +105,7 @@ final class RSAPublicKey extends PublicKey
      */
     public function toASN1(): Sequence
     {
-        return Sequence::create(Integer::create($this->_modulus), Integer::create($this->_publicExponent));
+        return Sequence::create(Integer::create($this->modulus), Integer::create($this->publicExponent));
     }
 
     public function toDER(): string

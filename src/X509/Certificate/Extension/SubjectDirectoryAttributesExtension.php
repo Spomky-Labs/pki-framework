@@ -25,15 +25,20 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
     /**
      * Attributes.
      */
-    private readonly SequenceOfAttributes $_attributes;
+    private readonly SequenceOfAttributes $attributes;
 
     /**
      * @param Attribute ...$attribs One or more Attribute objects
      */
-    public function __construct(bool $critical, Attribute ...$attribs)
+    private function __construct(bool $critical, Attribute ...$attribs)
     {
         parent::__construct(self::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $critical);
-        $this->_attributes = SequenceOfAttributes::create(...$attribs);
+        $this->attributes = SequenceOfAttributes::create(...$attribs);
+    }
+
+    public static function create(bool $critical, Attribute ...$attribs): self
+    {
+        return new self($critical, ...$attribs);
     }
 
     /**
@@ -43,7 +48,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
      */
     public function has(string $name): bool
     {
-        return $this->_attributes->has($name);
+        return $this->attributes->has($name);
     }
 
     /**
@@ -53,7 +58,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
      */
     public function firstOf(string $name): Attribute
     {
-        return $this->_attributes->firstOf($name);
+        return $this->attributes->firstOf($name);
     }
 
     /**
@@ -65,7 +70,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
      */
     public function allOf(string $name): array
     {
-        return $this->_attributes->allOf($name);
+        return $this->attributes->allOf($name);
     }
 
     /**
@@ -75,7 +80,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
      */
     public function all(): array
     {
-        return $this->_attributes->all();
+        return $this->attributes->all();
     }
 
     /**
@@ -83,7 +88,7 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
      */
     public function count(): int
     {
-        return count($this->_attributes);
+        return count($this->attributes);
     }
 
     /**
@@ -93,23 +98,23 @@ final class SubjectDirectoryAttributesExtension extends Extension implements Cou
      */
     public function getIterator(): ArrayIterator
     {
-        return $this->_attributes->getIterator();
+        return $this->attributes->getIterator();
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $attribs = SequenceOfAttributes::fromASN1(UnspecifiedType::fromDER($data)->asSequence());
         if (count($attribs) === 0) {
             throw new UnexpectedValueException('SubjectDirectoryAttributes must have at least one Attribute.');
         }
-        return new self($critical, ...$attribs->all());
+        return self::create($critical, ...$attribs->all());
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        if (count($this->_attributes) === 0) {
+        if (count($this->attributes) === 0) {
             throw new LogicException('No attributes');
         }
-        return $this->_attributes->toASN1();
+        return $this->attributes->toASN1();
     }
 }

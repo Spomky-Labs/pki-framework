@@ -22,12 +22,9 @@ abstract class Target
 
     public const TYPE_CERT = 2;
 
-    /**
-     * Type tag.
-     *
-     * @var int
-     */
-    protected $_type;
+    protected function __construct(protected int $type)
+    {
+    }
 
     /**
      * Generate ASN.1 element.
@@ -62,7 +59,7 @@ abstract class Target
      */
     public function type(): int
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -70,7 +67,7 @@ abstract class Target
      */
     public function equals(self $other): bool
     {
-        if ($this->_type !== $other->_type) {
+        if ($this->type !== $other->type) {
             return false;
         }
         if ($this->toASN1()->toDER() !== $other->toASN1()->toDER()) {

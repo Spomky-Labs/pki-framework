@@ -13,6 +13,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate as AttributeCertificateAlias;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificateInfo;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Holder;
@@ -32,11 +33,11 @@ use SpomkyLabs\Pki\X509\Exception\X509ValidationException;
  */
 final class InvalidBasicConstraintsTest extends TestCase
 {
-    private static $_holderPath;
+    private static ?CertificationPath $_holderPath;
 
-    private static $_issuerPath;
+    private static ?CertificationPath $_issuerPath;
 
-    private static $_ac;
+    private static ?AttributeCertificateAlias $_ac;
 
     public static function setUpBeforeClass(): void
     {
@@ -49,21 +50,21 @@ final class InvalidBasicConstraintsTest extends TestCase
         $issuer_ca_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-ec.pem'));
         $issuer_pk = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-ec.pem'));
         // create issuer certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString('cn=AC CA'),
             $issuer_pk->publicKeyInfo(),
-            new Name(),
+            Name::create(),
             Validity::fromStrings('now', 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate($issuer_ca);
         $tbs = $tbs->withAdditionalExtensions(
-            new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE),
-            new BasicConstraintsExtension(true, true)
+            KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE),
+            BasicConstraintsExtension::create(true, true)
         );
         $issuer = $tbs->sign(ECDSAWithSHA512AlgorithmIdentifier::create(), $issuer_ca_pk);
         self::$_holderPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $holder, $interms);
         self::$_issuerPath = CertificationPath::fromTrustAnchorToTarget($root_ca, $issuer, $interms);
-        $aci = new AttributeCertificateInfo(
+        $aci = AttributeCertificateInfo::create(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
             AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
@@ -84,8 +85,8 @@ final class InvalidBasicConstraintsTest extends TestCase
      */
     public function validate()
     {
-        $config = new ACValidationConfig(self::$_holderPath, self::$_issuerPath);
-        $validator = new ACValidator(self::$_ac, $config);
+        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
+        $validator = ACValidator::create(self::$_ac, $config);
         $this->expectException(X509ValidationException::class);
         $validator->validate();
     }

@@ -39,10 +39,13 @@ final class CertificationRequestInfoTest extends TestCase
     {
         self::$_subject = Name::fromString('cn=Subject');
         self::$_privateKeyInfo = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
-        $extensions = new Extensions(
-            new SubjectAlternativeNameExtension(true, GeneralNames::create(DirectoryName::fromDNString(self::SAN_DN)))
+        $extensions = Extensions::create(
+            SubjectAlternativeNameExtension::create(
+                true,
+                GeneralNames::create(DirectoryName::fromDNString(self::SAN_DN))
+            )
         );
-        self::$_attribs = Attributes::fromAttributeValues(new ExtensionRequestValue($extensions));
+        self::$_attribs = Attributes::fromAttributeValues(ExtensionRequestValue::create($extensions));
     }
 
     public static function tearDownAfterClass(): void
@@ -58,7 +61,7 @@ final class CertificationRequestInfoTest extends TestCase
     public function create()
     {
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
-        $cri = new CertificationRequestInfo(self::$_subject, $pkinfo);
+        $cri = CertificationRequestInfo::create(self::$_subject, $pkinfo);
         $cri = $cri->withAttributes(self::$_attribs);
         static::assertInstanceOf(CertificationRequestInfo::class, $cri);
         return $cri;
@@ -140,7 +143,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function withExtensionRequest(CertificationRequestInfo $cri)
     {
-        $cri = $cri->withExtensionRequest(new Extensions());
+        $cri = $cri->withExtensionRequest(Extensions::create());
         static::assertTrue($cri->attributes()->hasExtensionRequest());
     }
 
@@ -149,8 +152,8 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function withExtensionRequestWithoutAttributes()
     {
-        $cri = new CertificationRequestInfo(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
-        $cri = $cri->withExtensionRequest(new Extensions());
+        $cri = CertificationRequestInfo::create(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
+        $cri = $cri->withExtensionRequest(Extensions::create());
         static::assertTrue($cri->attributes()->hasExtensionRequest());
     }
 
@@ -182,7 +185,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     public function noAttributesFail()
     {
-        $cri = new CertificationRequestInfo(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
+        $cri = CertificationRequestInfo::create(self::$_subject, self::$_privateKeyInfo->publicKeyInfo());
         $this->expectException(LogicException::class);
         $cri->attributes();
     }

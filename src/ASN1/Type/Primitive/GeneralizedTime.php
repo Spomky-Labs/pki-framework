@@ -69,13 +69,13 @@ final class GeneralizedTime extends BaseTime
 
     public static function fromString(string $time, ?string $tz = null): static
     {
-        return new static(new DateTimeImmutable($time, self::_createTimeZone($tz)));
+        return new static(new DateTimeImmutable($time, self::createTimeZone($tz)));
     }
 
     protected function encodedAsDER(): string
     {
         if (! isset($this->_formatted)) {
-            $dt = $this->_dateTime->setTimezone(new DateTimeZone('UTC'));
+            $dt = $this->dateTime->setTimezone(new DateTimeZone('UTC'));
             $this->_formatted = $dt->format('YmdHis');
             // if fractions were used
             $frac = $dt->format('u');
@@ -116,13 +116,13 @@ final class GeneralizedTime extends BaseTime
             throw new DecodeException('Failed to decode GeneralizedTime');
         }
         $offset = $idx;
-        return new self($dt);
+        return self::create($dt);
     }
 
     /**
      * Create `DateTimeZone` object from string.
      */
-    private static function _createTimeZone(?string $tz): DateTimeZone
+    private static function createTimeZone(?string $tz): DateTimeZone
     {
         try {
             return new DateTimeZone($tz ?? 'UTC');

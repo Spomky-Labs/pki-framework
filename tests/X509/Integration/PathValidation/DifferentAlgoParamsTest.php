@@ -6,9 +6,7 @@ namespace SpomkyLabs\Pki\Test\X509\Integration\PathValidation;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
-use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\X501\ASN1\Name;
@@ -46,7 +44,7 @@ final class DifferentAlgoParamsTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -56,11 +54,7 @@ final class DifferentAlgoParamsTest extends TestCase
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();
         // hack modified algorithm identifier into PublicKeyInfo
-        $cls = new ReflectionClass($pubkey);
-        $prop = $cls->getProperty('_algo');
-        $prop->setAccessible(true);
-        $prop->setValue($pubkey, RSAEncryptionAlgorithmIdentifier::create());
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             $pubkey,
             Name::fromString(self::CA_NAME),
@@ -83,8 +77,8 @@ final class DifferentAlgoParamsTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
+        $result = $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
 }

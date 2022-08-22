@@ -40,7 +40,7 @@ final class CertificateChainTest extends TestCase
      */
     public function createChain()
     {
-        $chain = new CertificateChain(...self::$_certs);
+        $chain = CertificateChain::create(...self::$_certs);
         static::assertInstanceOf(CertificateChain::class, $chain);
         return $chain;
     }
@@ -71,7 +71,7 @@ final class CertificateChainTest extends TestCase
      */
     public function endEntityCertFail()
     {
-        $chain = new CertificateChain();
+        $chain = CertificateChain::create();
         $this->expectException(LogicException::class);
         $chain->endEntityCertificate();
     }
@@ -91,7 +91,7 @@ final class CertificateChainTest extends TestCase
      */
     public function trustAnchorCertFail()
     {
-        $chain = new CertificateChain();
+        $chain = CertificateChain::create();
         $this->expectException(LogicException::class);
         $chain->trustAnchorCertificate();
     }

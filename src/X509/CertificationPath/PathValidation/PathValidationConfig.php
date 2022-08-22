@@ -21,46 +21,51 @@ final class PathValidationConfig
      *
      * @var string[]
      */
-    private array $_policySet;
+    private array $policySet;
 
     /**
      * Trust anchor certificate.
      *
      * If not set, path validation uses the first certificate of the path.
      */
-    private ?Certificate $_trustAnchor = null;
+    private ?Certificate $trustAnchor = null;
 
     /**
      * Whether policy mapping in inhibited.
      *
      * Setting this to true disallows policy mapping.
      */
-    private bool $_policyMappingInhibit;
+    private bool $policyMappingInhibit;
 
     /**
      * Whether the path must be valid for at least one policy in the initial policy set.
      */
-    private bool $_explicitPolicy;
+    private bool $explicitPolicy;
 
     /**
      * Whether anyPolicy OID processing should be inhibited.
      *
      * Setting this to true disallows the usage of anyPolicy.
      */
-    private bool $_anyPolicyInhibit;
+    private bool $anyPolicyInhibit;
 
     /**
-     * @param DateTimeImmutable $_dateTime Reference date and time
-     * @param int $_maxLength Maximum certification path length
+     * @param DateTimeImmutable $dateTime Reference date and time
+     * @param int $maxLength Maximum certification path length
      */
-    public function __construct(
-        protected DateTimeImmutable $_dateTime,
-        protected int $_maxLength
+    private function __construct(
+        private DateTimeImmutable $dateTime,
+        private int $maxLength
     ) {
-        $this->_policySet = [PolicyInformation::OID_ANY_POLICY];
-        $this->_policyMappingInhibit = false;
-        $this->_explicitPolicy = false;
-        $this->_anyPolicyInhibit = false;
+        $this->policySet = [PolicyInformation::OID_ANY_POLICY];
+        $this->policyMappingInhibit = false;
+        $this->explicitPolicy = false;
+        $this->anyPolicyInhibit = false;
+    }
+
+    public static function create(DateTimeImmutable $dateTime, int $maxLength): self
+    {
+        return new self($dateTime, $maxLength);
     }
 
     /**
@@ -68,7 +73,7 @@ final class PathValidationConfig
      */
     public static function defaultConfig(): self
     {
-        return new self(new DateTimeImmutable(), 3);
+        return self::create(new DateTimeImmutable(), 3);
     }
 
     /**
@@ -77,7 +82,7 @@ final class PathValidationConfig
     public function withMaxLength(int $length): self
     {
         $obj = clone $this;
-        $obj->_maxLength = $length;
+        $obj->maxLength = $length;
         return $obj;
     }
 
@@ -87,7 +92,7 @@ final class PathValidationConfig
     public function withDateTime(DateTimeImmutable $dt): self
     {
         $obj = clone $this;
-        $obj->_dateTime = $dt;
+        $obj->dateTime = $dt;
         return $obj;
     }
 
@@ -97,7 +102,7 @@ final class PathValidationConfig
     public function withTrustAnchor(Certificate $ca): self
     {
         $obj = clone $this;
-        $obj->_trustAnchor = $ca;
+        $obj->trustAnchor = $ca;
         return $obj;
     }
 
@@ -107,7 +112,7 @@ final class PathValidationConfig
     public function withPolicyMappingInhibit(bool $flag): self
     {
         $obj = clone $this;
-        $obj->_policyMappingInhibit = $flag;
+        $obj->policyMappingInhibit = $flag;
         return $obj;
     }
 
@@ -117,7 +122,7 @@ final class PathValidationConfig
     public function withExplicitPolicy(bool $flag): self
     {
         $obj = clone $this;
-        $obj->_explicitPolicy = $flag;
+        $obj->explicitPolicy = $flag;
         return $obj;
     }
 
@@ -127,7 +132,7 @@ final class PathValidationConfig
     public function withAnyPolicyInhibit(bool $flag): self
     {
         $obj = clone $this;
-        $obj->_anyPolicyInhibit = $flag;
+        $obj->anyPolicyInhibit = $flag;
         return $obj;
     }
 
@@ -139,7 +144,7 @@ final class PathValidationConfig
     public function withPolicySet(string ...$policies): self
     {
         $obj = clone $this;
-        $obj->_policySet = $policies;
+        $obj->policySet = $policies;
         return $obj;
     }
 
@@ -148,7 +153,7 @@ final class PathValidationConfig
      */
     public function maxLength(): int
     {
-        return $this->_maxLength;
+        return $this->maxLength;
     }
 
     /**
@@ -156,7 +161,7 @@ final class PathValidationConfig
      */
     public function dateTime(): DateTimeImmutable
     {
-        return $this->_dateTime;
+        return $this->dateTime;
     }
 
     /**
@@ -166,7 +171,7 @@ final class PathValidationConfig
      */
     public function policySet(): array
     {
-        return $this->_policySet;
+        return $this->policySet;
     }
 
     /**
@@ -174,7 +179,7 @@ final class PathValidationConfig
      */
     public function hasTrustAnchor(): bool
     {
-        return isset($this->_trustAnchor);
+        return isset($this->trustAnchor);
     }
 
     /**
@@ -185,21 +190,21 @@ final class PathValidationConfig
         if (! $this->hasTrustAnchor()) {
             throw new LogicException('No trust anchor.');
         }
-        return $this->_trustAnchor;
+        return $this->trustAnchor;
     }
 
     public function policyMappingInhibit(): bool
     {
-        return $this->_policyMappingInhibit;
+        return $this->policyMappingInhibit;
     }
 
     public function explicitPolicy(): bool
     {
-        return $this->_explicitPolicy;
+        return $this->explicitPolicy;
     }
 
     public function anyPolicyInhibit(): bool
     {
-        return $this->_anyPolicyInhibit;
+        return $this->anyPolicyInhibit;
     }
 }

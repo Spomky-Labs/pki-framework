@@ -18,9 +18,9 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 abstract class RFC8410PublicKey extends PublicKey
 {
     /**
-     * @param string $_publicKey Public key data
+     * @param string $publicKey Public key data
      */
-    public function __construct(protected string $_publicKey)
+    protected function __construct(private readonly string $publicKey)
     {
     }
 
@@ -31,6 +31,6 @@ abstract class RFC8410PublicKey extends PublicKey
 
     public function subjectPublicKey(): BitString
     {
-        return BitString::create($this->_publicKey);
+        return BitString::create($this->publicKey);
     }
 }

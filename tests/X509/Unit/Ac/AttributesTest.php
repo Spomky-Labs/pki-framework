@@ -27,11 +27,11 @@ final class AttributesTest extends TestCase
     public function create(): Attributes
     {
         $attribs = Attributes::fromAttributeValues(
-            new AccessIdentityAttributeValue(
+            AccessIdentityAttributeValue::create(
                 UniformResourceIdentifier::create('urn:service'),
                 UniformResourceIdentifier::create('urn:ident')
             ),
-            new RoleAttributeValue(UniformResourceIdentifier::create('urn:admin')),
+            RoleAttributeValue::create(UniformResourceIdentifier::create('urn:admin')),
             DescriptionValue::create('test')
         );
         static::assertInstanceOf(Attributes::class, $attribs);
@@ -151,7 +151,7 @@ final class AttributesTest extends TestCase
     public function withUniqueReplace(Attributes $attribs): void
     {
         $attribs = $attribs->withUnique(
-            Attribute::fromAttributeValues(new RoleAttributeValue(UniformResourceIdentifier::create('uri:new')))
+            Attribute::fromAttributeValues(RoleAttributeValue::create(UniformResourceIdentifier::create('uri:new')))
         );
         static::assertInstanceOf(Attributes::class, $attribs);
         static::assertCount(3, $attribs);

@@ -26,7 +26,7 @@ final class UTF8String extends PrimitiveString
         return new self($string);
     }
 
-    protected function _validateString(string $string): bool
+    protected function validateString(string $string): bool
     {
         return mb_check_encoding($string, 'UTF-8');
     }

@@ -29,17 +29,17 @@ final class TargetInformationExtension extends Extension implements Countable, I
      *
      * @var Targets[]
      */
-    protected array $_targets;
+    protected array $targets;
 
     /**
      * Targets[] merged to single Targets.
      */
-    private ?Targets $_merged = null;
+    private ?Targets $merged = null;
 
-    public function __construct(bool $critical, Targets ...$targets)
+    private function __construct(bool $critical, Targets ...$targets)
     {
         parent::__construct(self::OID_TARGET_INFORMATION, $critical);
-        $this->_targets = $targets;
+        $this->targets = $targets;
     }
 
     /**
@@ -47,7 +47,12 @@ final class TargetInformationExtension extends Extension implements Countable, I
      */
     public function __clone()
     {
-        $this->_merged = null;
+        $this->merged = null;
+    }
+
+    public static function create(bool $critical, Targets ...$targets): self
+    {
+        return new self($critical, ...$targets);
     }
 
     /**
@@ -57,7 +62,7 @@ final class TargetInformationExtension extends Extension implements Countable, I
      */
     public static function fromTargets(Target ...$target): self
     {
-        return new self(true, new Targets(...$target));
+        return self::create(true, Targets::create(...$target));
     }
 
     /**
@@ -65,14 +70,14 @@ final class TargetInformationExtension extends Extension implements Countable, I
      */
     public function targets(): Targets
     {
-        if (! isset($this->_merged)) {
+        if ($this->merged === null) {
             $a = [];
-            foreach ($this->_targets as $targets) {
+            foreach ($this->targets as $targets) {
                 $a = array_merge($a, $targets->all());
             }
-            $this->_merged = new Targets(...$a);
+            $this->merged = Targets::create(...$a);
         }
-        return $this->_merged;
+        return $this->merged;
     }
 
     /**
@@ -115,18 +120,18 @@ final class TargetInformationExtension extends Extension implements Countable, I
         return new ArrayIterator($this->targets()->all());
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $targets = array_map(
-            fn (UnspecifiedType $el) => Targets::fromASN1($el->asSequence()),
+            static fn (UnspecifiedType $el) => Targets::fromASN1($el->asSequence()),
             UnspecifiedType::fromDER($data)->asSequence()->elements()
         );
-        return new self($critical, ...$targets);
+        return self::create($critical, ...$targets);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        $elements = array_map(static fn (Targets $targets) => $targets->toASN1(), $this->_targets);
+        $elements = array_map(static fn (Targets $targets) => $targets->toASN1(), $this->targets);
         return Sequence::create(...$elements);
     }
 }

@@ -20,7 +20,7 @@ final class ReasonFlagsTest extends TestCase
      */
     public function create()
     {
-        $reasons = new ReasonFlags(
+        $reasons = ReasonFlags::create(
             ReasonFlags::KEY_COMPROMISE | ReasonFlags::AFFILIATION_CHANGED |
             ReasonFlags::CESSATION_OF_OPERATION |
             ReasonFlags::PRIVILEGE_WITHDRAWN

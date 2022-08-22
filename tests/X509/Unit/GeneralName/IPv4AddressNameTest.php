@@ -26,9 +26,9 @@ final class IPv4AddressNameTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function create(): IPv4Address
     {
-        $ip = new IPv4Address(self::ADDR);
+        $ip = IPv4Address::create(self::ADDR);
         static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }
@@ -98,7 +98,7 @@ final class IPv4AddressNameTest extends TestCase
      */
     public function createWithMask()
     {
-        $ip = new IPv4Address(self::ADDR, self::MASK);
+        $ip = IPv4Address::create(self::ADDR, self::MASK);
         static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }

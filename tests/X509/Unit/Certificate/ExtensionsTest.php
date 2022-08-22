@@ -22,9 +22,9 @@ final class ExtensionsTest extends TestCase
      */
     public function create()
     {
-        $exts = new Extensions(
-            new UnknownExtension('1.3.6.1.3.1', true, DERData::create("\x05\x00")),
-            new UnknownExtension('1.3.6.1.3.2', true, DERData::create("\x05\x00"))
+        $exts = Extensions::create(
+            UnknownExtension::create('1.3.6.1.3.1', true, DERData::create("\x05\x00")),
+            UnknownExtension::create('1.3.6.1.3.2', true, DERData::create("\x05\x00"))
         );
         static::assertInstanceOf(Extensions::class, $exts);
         return $exts;
@@ -141,7 +141,7 @@ final class ExtensionsTest extends TestCase
     public function withExtensions(Extensions $exts)
     {
         static $oid = '1.3.6.1.3.3';
-        $exts = $exts->withExtensions(new UnknownExtension($oid, true, DERData::create("\x05\x00")));
+        $exts = $exts->withExtensions(UnknownExtension::create($oid, true, DERData::create("\x05\x00")));
         static::assertTrue($exts->has($oid));
     }
 }

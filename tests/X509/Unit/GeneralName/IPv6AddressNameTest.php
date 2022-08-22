@@ -28,7 +28,7 @@ final class IPv6AddressNameTest extends TestCase
     public function create()
     {
         // @todo implement compressed form handling
-        $ip = new IPv6Address(self::ADDR);
+        $ip = IPv6Address::create(self::ADDR);
         static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }
@@ -98,7 +98,7 @@ final class IPv6AddressNameTest extends TestCase
      */
     public function createWithMask()
     {
-        $ip = new IPv6Address(self::ADDR, self::MASK);
+        $ip = IPv6Address::create(self::ADDR, self::MASK);
         static::assertInstanceOf(IPAddress::class, $ip);
         return $ip;
     }

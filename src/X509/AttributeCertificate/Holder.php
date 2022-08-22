@@ -23,18 +23,17 @@ final class Holder
     /**
      * Linked object.
      */
-    private ?ObjectDigestInfo $_objectDigestInfo = null;
+    private ?ObjectDigestInfo $objectDigestInfo = null;
 
-    public function __construct(
-        /**
-         * Holder PKC's issuer and serial.
-         */
-        protected ?IssuerSerial $_baseCertificateID = null,
-        /**
-         * Holder PKC's subject.
-         */
-        protected ?GeneralNames $_entityName = null
+    private function __construct(
+        private ?IssuerSerial $baseCertificateID,
+        private ?GeneralNames $entityName
     ) {
+    }
+
+    public static function create(?IssuerSerial $baseCertificateID = null, ?GeneralNames $entityName = null): self
+    {
+        return new self($baseCertificateID, $entityName);
     }
 
     /**
@@ -42,7 +41,7 @@ final class Holder
      */
     public static function fromPKC(Certificate $cert): self
     {
-        return new self(IssuerSerial::fromPKC($cert));
+        return self::create(IssuerSerial::fromPKC($cert));
     }
 
     /**
@@ -74,9 +73,8 @@ final class Holder
                     ->asSequence()
             );
         }
-        $obj = new self($cert_id, $entity_name);
-        $obj->_objectDigestInfo = $digest_info;
-        return $obj;
+        return self::create($cert_id, $entity_name)
+            ->withObjectDigestInfo($digest_info);
     }
 
     /**
@@ -85,7 +83,7 @@ final class Holder
     public function withBaseCertificateID(IssuerSerial $issuer): self
     {
         $obj = clone $this;
-        $obj->_baseCertificateID = $issuer;
+        $obj->baseCertificateID = $issuer;
         return $obj;
     }
 
@@ -95,17 +93,17 @@ final class Holder
     public function withEntityName(GeneralNames $names): self
     {
         $obj = clone $this;
-        $obj->_entityName = $names;
+        $obj->entityName = $names;
         return $obj;
     }
 
     /**
      * Get self with object digest info.
      */
-    public function withObjectDigestInfo(ObjectDigestInfo $odi): self
+    public function withObjectDigestInfo(?ObjectDigestInfo $odi): self
     {
         $obj = clone $this;
-        $obj->_objectDigestInfo = $odi;
+        $obj->objectDigestInfo = $odi;
         return $obj;
     }
 
@@ -114,7 +112,7 @@ final class Holder
      */
     public function hasBaseCertificateID(): bool
     {
-        return isset($this->_baseCertificateID);
+        return isset($this->baseCertificateID);
     }
 
     /**
@@ -125,7 +123,7 @@ final class Holder
         if (! $this->hasBaseCertificateID()) {
             throw new LogicException('baseCertificateID not set.');
         }
-        return $this->_baseCertificateID;
+        return $this->baseCertificateID;
     }
 
     /**
@@ -133,7 +131,7 @@ final class Holder
      */
     public function hasEntityName(): bool
     {
-        return isset($this->_entityName);
+        return isset($this->entityName);
     }
 
     /**
@@ -144,7 +142,7 @@ final class Holder
         if (! $this->hasEntityName()) {
             throw new LogicException('entityName not set.');
         }
-        return $this->_entityName;
+        return $this->entityName;
     }
 
     /**
@@ -152,7 +150,7 @@ final class Holder
      */
     public function hasObjectDigestInfo(): bool
     {
-        return isset($this->_objectDigestInfo);
+        return isset($this->objectDigestInfo);
     }
 
     /**
@@ -163,7 +161,7 @@ final class Holder
         if (! $this->hasObjectDigestInfo()) {
             throw new LogicException('objectDigestInfo not set.');
         }
-        return $this->_objectDigestInfo;
+        return $this->objectDigestInfo;
     }
 
     /**
@@ -172,14 +170,14 @@ final class Holder
     public function toASN1(): Sequence
     {
         $elements = [];
-        if (isset($this->_baseCertificateID)) {
-            $elements[] = ImplicitlyTaggedType::create(0, $this->_baseCertificateID->toASN1());
+        if (isset($this->baseCertificateID)) {
+            $elements[] = ImplicitlyTaggedType::create(0, $this->baseCertificateID->toASN1());
         }
-        if (isset($this->_entityName)) {
-            $elements[] = ImplicitlyTaggedType::create(1, $this->_entityName->toASN1());
+        if (isset($this->entityName)) {
+            $elements[] = ImplicitlyTaggedType::create(1, $this->entityName->toASN1());
         }
-        if (isset($this->_objectDigestInfo)) {
-            $elements[] = ImplicitlyTaggedType::create(2, $this->_objectDigestInfo->toASN1());
+        if (isset($this->objectDigestInfo)) {
+            $elements[] = ImplicitlyTaggedType::create(2, $this->objectDigestInfo->toASN1());
         }
         return Sequence::create(...$elements);
     }
@@ -190,15 +188,15 @@ final class Holder
     public function identifiesPKC(Certificate $cert): bool
     {
         // if neither baseCertificateID nor entityName are present
-        if ($this->_baseCertificateID === null && $this->_entityName === null) {
+        if ($this->baseCertificateID === null && $this->entityName === null) {
             return false;
         }
         // if baseCertificateID is present, but doesn't match
-        if ($this->_baseCertificateID !== null && ! $this->_baseCertificateID->identifiesPKC($cert)) {
+        if ($this->baseCertificateID !== null && ! $this->baseCertificateID->identifiesPKC($cert)) {
             return false;
         }
         // if entityName is present, but doesn't match
-        if ($this->_entityName !== null && ! $this->_checkEntityName($cert)) {
+        if ($this->entityName !== null && ! $this->_checkEntityName($cert)) {
             return false;
         }
         return true;
@@ -209,7 +207,7 @@ final class Holder
      */
     private function _checkEntityName(Certificate $cert): bool
     {
-        $name = $this->_entityName?->firstDN();
+        $name = $this->entityName?->firstDN();
         if ($name !== null && $cert->tbsCertificate()->subject()->equals($name)) {
             return true;
         }
@@ -230,7 +228,7 @@ final class Holder
     private function _checkEntityAlternativeNames(GeneralNames $san): bool
     {
         // only directory names supported for now
-        $name = $this->_entityName?->firstDN();
+        $name = $this->entityName?->firstDN();
         if ($name === null) {
             return false;
         }

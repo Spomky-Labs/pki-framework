@@ -19,23 +19,19 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class V2Form extends AttCertIssuer
 {
-    /**
-     * Issuer PKC's issuer and serial.
-     */
-    protected ?IssuerSerial $_baseCertificateID;
-
-    /**
-     * Linked object.
-     */
-    protected ?ObjectDigestInfo $_objectDigestInfo;
-
-    public function __construct(/**
-     * Issuer name.
-     */
-        protected ?GeneralNames $_issuerName = null
+    private function __construct(
+        private readonly ?GeneralNames $issuerName,
+        private readonly ?IssuerSerial $baseCertificateID,
+        private readonly ?ObjectDigestInfo $objectDigestInfo
     ) {
-        $this->_baseCertificateID = null;
-        $this->_objectDigestInfo = null;
+    }
+
+    public static function create(
+        ?GeneralNames $issuerName = null,
+        ?IssuerSerial $baseCertificateID = null,
+        ?ObjectDigestInfo $objectDigestInfo = null
+    ): self {
+        return new self($issuerName, $baseCertificateID, $objectDigestInfo);
     }
 
     /**
@@ -63,10 +59,7 @@ final class V2Form extends AttCertIssuer
                     ->asSequence()
             );
         }
-        $obj = new self($issuer);
-        $obj->_baseCertificateID = $cert_id;
-        $obj->_objectDigestInfo = $digest_info;
-        return $obj;
+        return self::create($issuer, $cert_id, $digest_info);
     }
 
     /**
@@ -74,7 +67,7 @@ final class V2Form extends AttCertIssuer
      */
     public function hasIssuerName(): bool
     {
-        return isset($this->_issuerName);
+        return isset($this->issuerName);
     }
 
     /**
@@ -85,7 +78,7 @@ final class V2Form extends AttCertIssuer
         if (! $this->hasIssuerName()) {
             throw new LogicException('issuerName not set.');
         }
-        return $this->_issuerName;
+        return $this->issuerName;
     }
 
     /**
@@ -103,21 +96,21 @@ final class V2Form extends AttCertIssuer
     public function toASN1(): Element
     {
         $elements = [];
-        if (isset($this->_issuerName)) {
-            $elements[] = $this->_issuerName->toASN1();
+        if (isset($this->issuerName)) {
+            $elements[] = $this->issuerName->toASN1();
         }
-        if (isset($this->_baseCertificateID)) {
-            $elements[] = ImplicitlyTaggedType::create(0, $this->_baseCertificateID->toASN1());
+        if (isset($this->baseCertificateID)) {
+            $elements[] = ImplicitlyTaggedType::create(0, $this->baseCertificateID->toASN1());
         }
-        if (isset($this->_objectDigestInfo)) {
-            $elements[] = ImplicitlyTaggedType::create(1, $this->_objectDigestInfo->toASN1());
+        if (isset($this->objectDigestInfo)) {
+            $elements[] = ImplicitlyTaggedType::create(1, $this->objectDigestInfo->toASN1());
         }
         return ImplicitlyTaggedType::create(0, Sequence::create(...$elements));
     }
 
     public function identifiesPKC(Certificate $cert): bool
     {
-        $name = $this->_issuerName?->firstDN();
+        $name = $this->issuerName?->firstDN();
         return ! ($name === null || ! $cert->tbsCertificate()->subject()->equals($name));
     }
 }

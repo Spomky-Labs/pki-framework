@@ -13,7 +13,6 @@ use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
-use SpomkyLabs\Pki\X501\ASN1\Feature\TypedAttribute;
 
 /**
  * Implements *Attribute* ASN.1 type.
@@ -22,14 +21,17 @@ use SpomkyLabs\Pki\X501\ASN1\Feature\TypedAttribute;
  */
 final class Attribute implements Countable, IteratorAggregate
 {
-    use TypedAttribute;
+    /**
+     * Attribute type.
+     */
+    private readonly AttributeType $type;
 
     /**
      * Attribute values.
      *
      * @var AttributeValue[]
      */
-    protected array $_values;
+    private readonly array $values;
 
     /**
      * @param AttributeType $type Attribute type
@@ -43,8 +45,8 @@ final class Attribute implements Countable, IteratorAggregate
                 throw new LogicException('Attribute OID mismatch.');
             }
         }
-        $this->_type = $type;
-        $this->_values = $values;
+        $this->type = $type;
+        $this->values = $values;
     }
 
     public static function create(AttributeType $type, AttributeValue ...$values): self
@@ -59,7 +61,7 @@ final class Attribute implements Countable, IteratorAggregate
     {
         $type = AttributeType::fromASN1($seq->at(0)->asObjectIdentifier());
         $values = array_map(
-            fn (UnspecifiedType $el) => AttributeValue::fromASN1ByOID($type->oid(), $el),
+            static fn (UnspecifiedType $el) => AttributeValue::fromASN1ByOID($type->oid(), $el),
             $seq->at(1)
                 ->asSet()
                 ->elements()
@@ -88,10 +90,10 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function first(): AttributeValue
     {
-        if (count($this->_values) === 0) {
+        if (count($this->values) === 0) {
             throw new LogicException('Attribute contains no values.');
         }
-        return $this->_values[0];
+        return $this->values[0];
     }
 
     /**
@@ -101,7 +103,7 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function values(): array
     {
-        return $this->_values;
+        return $this->values;
     }
 
     /**
@@ -109,9 +111,9 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $values = array_map(static fn (AttributeValue $value) => $value->toASN1(), $this->_values);
+        $values = array_map(static fn (AttributeValue $value) => $value->toASN1(), $this->values);
         $valueset = Set::create(...$values);
-        return Sequence::create($this->_type->toASN1(), $valueset->sortedSetOf());
+        return Sequence::create($this->type->toASN1(), $valueset->sortedSetOf());
     }
 
     /**
@@ -139,7 +141,7 @@ final class Attribute implements Countable, IteratorAggregate
                 }
                 return $value;
             },
-            $this->_values
+            $this->values
         );
         return self::fromAttributeValues(...$values);
     }
@@ -149,7 +151,7 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_values);
+        return count($this->values);
     }
 
     /**
@@ -157,6 +159,22 @@ final class Attribute implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_values);
+        return new ArrayIterator($this->values);
+    }
+
+    /**
+     * Get attribute type.
+     */
+    public function type(): AttributeType
+    {
+        return $this->type;
+    }
+
+    /**
+     * Get OID of the attribute.
+     */
+    public function oid(): string
+    {
+        return $this->type->oid();
     }
 }

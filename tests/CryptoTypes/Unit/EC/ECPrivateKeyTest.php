@@ -169,7 +169,7 @@ final class ECPrivateKeyTest extends TestCase
      */
     public function publicKeyNotSet()
     {
-        $pk = new ECPrivateKey("\0");
+        $pk = ECPrivateKey::create("\0");
         $this->expectException(LogicException::class);
         $pk->publicKey();
     }

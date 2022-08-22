@@ -29,6 +29,6 @@ final class ObjectDescriptor extends PrimitiveString
      */
     public function descriptor(): string
     {
-        return $this->_string;
+        return $this->string();
     }
 }

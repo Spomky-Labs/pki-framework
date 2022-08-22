@@ -19,7 +19,7 @@ final class Ed448SignatureTest extends TestCase
      */
     public function create(): Ed448Signature
     {
-        $sig = new Ed448Signature(str_repeat("\0", 114));
+        $sig = Ed448Signature::create(str_repeat("\0", 114));
         static::assertInstanceOf(Ed448Signature::class, $sig);
         return $sig;
     }
@@ -29,7 +29,7 @@ final class Ed448SignatureTest extends TestCase
      *
      * @test
      */
-    public function bitString(Ed448Signature $sig)
+    public function bitString(Ed448Signature $sig): void
     {
         static::assertInstanceOf(BitString::class, $sig->bitString());
     }
@@ -37,10 +37,10 @@ final class Ed448SignatureTest extends TestCase
     /**
      * @test
      */
-    public function invalid()
+    public function invalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/must be 114 octets/');
-        new Ed448Signature('');
+        Ed448Signature::create('');
     }
 }

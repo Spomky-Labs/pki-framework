@@ -13,7 +13,6 @@ use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
-use function strval;
 use UnexpectedValueException;
 
 /**
@@ -23,25 +22,27 @@ use UnexpectedValueException;
  */
 final class AuthorityKeyIdentifierExtension extends Extension
 {
-    /**
-     * Issuer serial number as a base 10 integer.
-     */
-    protected ?string $_authorityCertSerialNumber;
+    private function __construct(
+        bool $critical,
+        private readonly ?string $keyIdentifier,
+        private readonly ?GeneralNames $authorityCertIssuer,
+        private readonly null|string $authorityCertSerialNumber
+    ) {
+        parent::__construct(self::OID_AUTHORITY_KEY_IDENTIFIER, $critical);
+    }
 
     /**
      * @param bool $critical Conforming CA's must mark as non-critical (false)
-     * @param null|string $_keyIdentifier Key identifier
-     * @param null|GeneralNames $_authorityCertIssuer Issuer name
-     * @param null|int|string $serial Issuer serial number as a base 10 integer
+     * @param null|string $keyIdentifier Key identifier
+     * @param null|GeneralNames $authorityCertIssuer Issuer name
      */
-    public function __construct(
+    public static function create(
         bool $critical,
-        protected ?string $_keyIdentifier,
-        protected ?GeneralNames $_authorityCertIssuer = null,
-        $serial = null
-    ) {
-        parent::__construct(self::OID_AUTHORITY_KEY_IDENTIFIER, $critical);
-        $this->_authorityCertSerialNumber = isset($serial) ? strval($serial) : null;
+        ?string $keyIdentifier,
+        ?GeneralNames $authorityCertIssuer = null,
+        null|string $authorityCertSerialNumber = null
+    ): self {
+        return new self($critical, $keyIdentifier, $authorityCertIssuer, $authorityCertSerialNumber);
     }
 
     /**
@@ -49,7 +50,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
      */
     public static function fromPublicKeyInfo(PublicKeyInfo $pki): self
     {
-        return new self(false, $pki->keyIdentifier());
+        return self::create(false, $pki->keyIdentifier());
     }
 
     /**
@@ -57,7 +58,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
      */
     public function hasKeyIdentifier(): bool
     {
-        return isset($this->_keyIdentifier);
+        return isset($this->keyIdentifier);
     }
 
     /**
@@ -68,7 +69,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
         if (! $this->hasKeyIdentifier()) {
             throw new LogicException('keyIdentifier not set.');
         }
-        return $this->_keyIdentifier;
+        return $this->keyIdentifier;
     }
 
     /**
@@ -76,7 +77,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
      */
     public function hasIssuer(): bool
     {
-        return isset($this->_authorityCertIssuer);
+        return isset($this->authorityCertIssuer);
     }
 
     public function issuer(): GeneralNames
@@ -84,7 +85,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
         if (! $this->hasIssuer()) {
             throw new LogicException('authorityCertIssuer not set.');
         }
-        return $this->_authorityCertIssuer;
+        return $this->authorityCertIssuer;
     }
 
     /**
@@ -92,7 +93,7 @@ final class AuthorityKeyIdentifierExtension extends Extension
      */
     public function hasSerial(): bool
     {
-        return isset($this->_authorityCertSerialNumber);
+        return isset($this->authorityCertSerialNumber);
     }
 
     /**
@@ -105,10 +106,10 @@ final class AuthorityKeyIdentifierExtension extends Extension
         if (! $this->hasSerial()) {
             throw new LogicException('authorityCertSerialNumber not set.');
         }
-        return $this->_authorityCertSerialNumber;
+        return $this->authorityCertSerialNumber;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
         $seq = UnspecifiedType::fromDER($data)->asSequence();
         $keyIdentifier = null;
@@ -134,28 +135,28 @@ final class AuthorityKeyIdentifierExtension extends Extension
                 ->asInteger()
                 ->number();
         }
-        return new self($critical, $keyIdentifier, $issuer, $serial);
+        return self::create($critical, $keyIdentifier, $issuer, $serial);
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
         $elements = [];
-        if (isset($this->_keyIdentifier)) {
-            $elements[] = ImplicitlyTaggedType::create(0, OctetString::create($this->_keyIdentifier));
+        if (isset($this->keyIdentifier)) {
+            $elements[] = ImplicitlyTaggedType::create(0, OctetString::create($this->keyIdentifier));
         }
         // if either issuer or serial is set, both must be set
-        if (isset($this->_authorityCertIssuer) ||
-            isset($this->_authorityCertSerialNumber)) {
-            if (! isset($this->_authorityCertIssuer,
-                $this->_authorityCertSerialNumber)) {
+        if (isset($this->authorityCertIssuer) ||
+            isset($this->authorityCertSerialNumber)) {
+            if (! isset($this->authorityCertIssuer,
+                $this->authorityCertSerialNumber)) {
                 throw new LogicException(
                     'AuthorityKeyIdentifier must have both' .
                     ' authorityCertIssuer and authorityCertSerialNumber' .
                     ' present or both absent.'
                 );
             }
-            $elements[] = ImplicitlyTaggedType::create(1, $this->_authorityCertIssuer->toASN1());
-            $elements[] = ImplicitlyTaggedType::create(2, Integer::create($this->_authorityCertSerialNumber));
+            $elements[] = ImplicitlyTaggedType::create(1, $this->authorityCertIssuer->toASN1());
+            $elements[] = ImplicitlyTaggedType::create(2, Integer::create($this->authorityCertSerialNumber));
         }
         return Sequence::create(...$elements);
     }

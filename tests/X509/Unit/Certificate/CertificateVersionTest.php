@@ -31,7 +31,7 @@ final class CertificateVersionTest extends TestCase
         $issuer = Name::fromString('cn=Test Issuer');
         $pki = self::$_privateKeyInfo->publicKeyInfo();
         $validity = Validity::fromStrings('now', 'now + 1 day', 'UTC');
-        self::$_tbsCert = new TBSCertificate($subject, $pki, $issuer, $validity);
+        self::$_tbsCert = TBSCertificate::create($subject, $pki, $issuer, $validity);
     }
 
     public static function tearDownAfterClass(): void
@@ -87,7 +87,7 @@ final class CertificateVersionTest extends TestCase
     public function version3()
     {
         $tbsCert = self::$_tbsCert->withExtensions(
-            new Extensions(new KeyUsageExtension(true, KeyUsageExtension::DIGITAL_SIGNATURE))
+            Extensions::create(KeyUsageExtension::create(true, KeyUsageExtension::DIGITAL_SIGNATURE))
         );
         $cert = $tbsCert->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privateKeyInfo);
         static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_3);

@@ -20,16 +20,18 @@ final class NoticeReference
      *
      * @var int[]
      */
-    private readonly array $_numbers;
+    private readonly array $numbers;
 
-    public function __construct(
-        /**
-         * Organization.
-         */
-        protected DisplayText $_organization,
+    private function __construct(
+        private readonly DisplayText $organization,
         int ...$numbers
     ) {
-        $this->_numbers = $numbers;
+        $this->numbers = $numbers;
+    }
+
+    public static function create(DisplayText $organization, int ...$numbers): self
+    {
+        return new self($organization, ...$numbers);
     }
 
     /**
@@ -39,13 +41,13 @@ final class NoticeReference
     {
         $org = DisplayText::fromASN1($seq->at(0)->asString());
         $numbers = array_map(
-            fn (UnspecifiedType $el) => $el->asInteger()
+            static fn (UnspecifiedType $el) => $el->asInteger()
                 ->intNumber(),
             $seq->at(1)
                 ->asSequence()
                 ->elements()
         );
-        return new self($org, ...$numbers);
+        return self::create($org, ...$numbers);
     }
 
     /**
@@ -53,7 +55,7 @@ final class NoticeReference
      */
     public function organization(): DisplayText
     {
-        return $this->_organization;
+        return $this->organization;
     }
 
     /**
@@ -63,7 +65,7 @@ final class NoticeReference
      */
     public function numbers(): array
     {
-        return $this->_numbers;
+        return $this->numbers;
     }
 
     /**
@@ -71,8 +73,8 @@ final class NoticeReference
      */
     public function toASN1(): Sequence
     {
-        $org = $this->_organization->toASN1();
-        $nums = array_map(static fn ($number) => Integer::create($number), $this->_numbers);
+        $org = $this->organization->toASN1();
+        $nums = array_map(static fn ($number) => Integer::create($number), $this->numbers);
         return Sequence::create($org, Sequence::create(...$nums));
     }
 }

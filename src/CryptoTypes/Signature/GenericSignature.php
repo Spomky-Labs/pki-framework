@@ -13,13 +13,18 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierTy
 final class GenericSignature extends Signature
 {
     /**
-     * @param BitString $_signature Signature value
-     * @param AlgorithmIdentifierType $_signatureAlgorithm Algorithm identifier
+     * @param BitString $signature Signature value
+     * @param AlgorithmIdentifierType $signatureAlgorithm Algorithm identifier
      */
-    public function __construct(
-        private readonly BitString $_signature,
-        private readonly AlgorithmIdentifierType $_signatureAlgorithm
+    private function __construct(
+        private readonly BitString $signature,
+        private readonly AlgorithmIdentifierType $signatureAlgorithm
     ) {
+    }
+
+    public static function create(BitString $signature, AlgorithmIdentifierType $signatureAlgorithm): self
+    {
+        return new self($signature, $signatureAlgorithm);
     }
 
     /**
@@ -27,11 +32,11 @@ final class GenericSignature extends Signature
      */
     public function signatureAlgorithm(): AlgorithmIdentifierType
     {
-        return $this->_signatureAlgorithm;
+        return $this->signatureAlgorithm;
     }
 
     public function bitString(): BitString
     {
-        return $this->_signature;
+        return $this->signature;
     }
 }

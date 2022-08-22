@@ -46,19 +46,19 @@ final class InhibitAnyPolicyTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withAdditionalExtensions(
-            new BasicConstraintsExtension(true, true, 1),
-            new InhibitAnyPolicyExtension(true, 0)
+            BasicConstraintsExtension::create(true, true, 1),
+            InhibitAnyPolicyExtension::create(true, 0)
         );
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
@@ -81,8 +81,8 @@ final class InhibitAnyPolicyTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_cert);
-        $result = $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path = CertificationPath::create(self::$_ca, self::$_cert);
+        $result = $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
 }

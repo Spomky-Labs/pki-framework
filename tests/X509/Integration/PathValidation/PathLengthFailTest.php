@@ -54,26 +54,26 @@ final class PathLengthFailTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem')
         )->privateKeyInfo();
         // create CA certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CA_NAME),
             self::$_caKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
-        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true, 0));
+        $tbs = $tbs->withAdditionalExtensions(BasicConstraintsExtension::create(true, true, 0));
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create intermediate certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::INTERM_NAME),
             self::$_intermKey->publicKeyInfo(),
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
         $tbs = $tbs->withIssuerCertificate(self::$_ca);
-        $tbs = $tbs->withAdditionalExtensions(new BasicConstraintsExtension(true, true));
+        $tbs = $tbs->withAdditionalExtensions(BasicConstraintsExtension::create(true, true));
         self::$_interm = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
-        $tbs = new TBSCertificate(
+        $tbs = TBSCertificate::create(
             Name::fromString(self::CERT_NAME),
             self::$_certKey->publicKeyInfo(),
             Name::fromString(self::INTERM_NAME),
@@ -98,8 +98,8 @@ final class PathLengthFailTest extends TestCase
      */
     public function validate()
     {
-        $path = new CertificationPath(self::$_ca, self::$_interm, self::$_cert);
+        $path = CertificationPath::create(self::$_ca, self::$_interm, self::$_cert);
         $this->expectException(PathValidationException::class);
-        $path->validate(new PathValidationConfig(new DateTimeImmutable(), 3));
+        $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
     }
 }

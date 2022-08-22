@@ -27,15 +27,23 @@ use UnexpectedValueException;
 final class ECPrivateKey extends PrivateKey
 {
     /**
-     * @param string $_privateKey Private key
-     * @param null|string $_namedCurve OID of the named curve
-     * @param null|string $_publicKey ECPoint value
+     * @param string $privateKey Private key
+     * @param null|string $namedCurve OID of the named curve
+     * @param null|string $publicKey ECPoint value
      */
-    public function __construct(
-        protected string $_privateKey,
-        protected ?string $_namedCurve = null,
-        protected ?string $_publicKey = null
+    private function __construct(
+        private readonly string $privateKey,
+        private ?string $namedCurve,
+        private readonly ?string $publicKey
     ) {
+    }
+
+    public static function create(
+        string $privateKey,
+        ?string $namedCurve = null,
+        ?string $publicKey = null
+    ): self {
+        return new self($privateKey, $namedCurve, $publicKey);
     }
 
     /**
@@ -66,7 +74,7 @@ final class ECPrivateKey extends PrivateKey
                 ->asBitString()
                 ->string();
         }
-        return new self($private_key, $named_curve, $public_key);
+        return self::create($private_key, $named_curve, $public_key);
     }
 
     /**
@@ -96,7 +104,7 @@ final class ECPrivateKey extends PrivateKey
      */
     public function privateKeyOctets(): string
     {
-        return $this->_privateKey;
+        return $this->privateKey;
     }
 
     /**
@@ -104,7 +112,7 @@ final class ECPrivateKey extends PrivateKey
      */
     public function hasNamedCurve(): bool
     {
-        return isset($this->_namedCurve);
+        return isset($this->namedCurve);
     }
 
     /**
@@ -115,7 +123,7 @@ final class ECPrivateKey extends PrivateKey
         if (! $this->hasNamedCurve()) {
             throw new LogicException('namedCurve not set.');
         }
-        return $this->_namedCurve;
+        return $this->namedCurve;
     }
 
     /**
@@ -126,7 +134,7 @@ final class ECPrivateKey extends PrivateKey
     public function withNamedCurve(?string $named_curve): self
     {
         $obj = clone $this;
-        $obj->_namedCurve = $named_curve;
+        $obj->namedCurve = $named_curve;
         return $obj;
     }
 
@@ -140,7 +148,7 @@ final class ECPrivateKey extends PrivateKey
      */
     public function hasPublicKey(): bool
     {
-        return isset($this->_publicKey);
+        return isset($this->publicKey);
     }
 
     /**
@@ -151,7 +159,7 @@ final class ECPrivateKey extends PrivateKey
         if (! $this->hasPublicKey()) {
             throw new LogicException('publicKey not set.');
         }
-        return new ECPublicKey($this->_publicKey, $this->namedCurve());
+        return ECPublicKey::create($this->publicKey, $this->namedCurve());
     }
 
     /**
@@ -159,12 +167,12 @@ final class ECPrivateKey extends PrivateKey
      */
     public function toASN1(): Sequence
     {
-        $elements = [Integer::create(1), OctetString::create($this->_privateKey)];
-        if (isset($this->_namedCurve)) {
-            $elements[] = ExplicitlyTaggedType::create(0, ObjectIdentifier::create($this->_namedCurve));
+        $elements = [Integer::create(1), OctetString::create($this->privateKey)];
+        if (isset($this->namedCurve)) {
+            $elements[] = ExplicitlyTaggedType::create(0, ObjectIdentifier::create($this->namedCurve));
         }
-        if (isset($this->_publicKey)) {
-            $elements[] = ExplicitlyTaggedType::create(1, BitString::create($this->_publicKey));
+        if (isset($this->publicKey)) {
+            $elements[] = ExplicitlyTaggedType::create(1, BitString::create($this->publicKey));
         }
         return Sequence::create(...$elements);
     }

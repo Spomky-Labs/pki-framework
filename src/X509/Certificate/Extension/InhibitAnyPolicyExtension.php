@@ -15,25 +15,30 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class InhibitAnyPolicyExtension extends Extension
 {
-    public function __construct(
+    private function __construct(
         bool $critical,
-        protected int $_skipCerts
+        private readonly int $skipCerts
     ) {
         parent::__construct(self::OID_INHIBIT_ANY_POLICY, $critical);
     }
 
+    public static function create(bool $critical, int $skipCerts): self
+    {
+        return new self($critical, $skipCerts);
+    }
+
     public function skipCerts(): int
     {
-        return $this->_skipCerts;
+        return $this->skipCerts;
     }
 
-    protected static function _fromDER(string $data, bool $critical): static
+    protected static function fromDER(string $data, bool $critical): static
     {
-        return new self($critical, UnspecifiedType::fromDER($data)->asInteger()->intNumber());
+        return self::create($critical, UnspecifiedType::fromDER($data)->asInteger()->intNumber());
     }
 
-    protected function _valueASN1(): Element
+    protected function valueASN1(): Element
     {
-        return Integer::create($this->_skipCerts);
+        return Integer::create($this->skipCerts);
     }
 }

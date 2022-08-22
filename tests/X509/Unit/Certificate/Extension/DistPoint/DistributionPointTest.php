@@ -28,9 +28,9 @@ final class DistributionPointTest extends TestCase
      */
     public function createWithFullName()
     {
-        $dp = new DistributionPoint(
+        $dp = DistributionPoint::create(
             FullName::fromURI('urn:test'),
-            new ReasonFlags(ReasonFlags::KEY_COMPROMISE),
+            ReasonFlags::create(ReasonFlags::KEY_COMPROMISE),
             GeneralNames::create(DirectoryName::fromDNString('cn=Issuer'))
         );
         static::assertInstanceOf(DistributionPoint::class, $dp);
@@ -130,8 +130,10 @@ final class DistributionPointTest extends TestCase
      */
     public function createWithRelativeName()
     {
-        $dp = new DistributionPoint(
-            new RelativeName(new RDN(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test'))))
+        $dp = DistributionPoint::create(
+            RelativeName::create(
+                RDN::create(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test')))
+            )
         );
         static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
@@ -200,7 +202,7 @@ final class DistributionPointTest extends TestCase
      */
     public function createEmpty()
     {
-        $dp = new DistributionPoint();
+        $dp = DistributionPoint::create();
         static::assertInstanceOf(DistributionPoint::class, $dp);
         return $dp;
     }

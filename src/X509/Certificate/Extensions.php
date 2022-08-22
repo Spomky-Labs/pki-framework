@@ -42,17 +42,22 @@ final class Extensions implements Countable, IteratorAggregate
      *
      * @var Extension[]
      */
-    private array $_extensions;
+    private array $extensions;
 
     /**
      * @param Extension ...$extensions Extension objects
      */
-    public function __construct(Extension ...$extensions)
+    private function __construct(Extension ...$extensions)
     {
-        $this->_extensions = [];
+        $this->extensions = [];
         foreach ($extensions as $ext) {
-            $this->_extensions[$ext->oid()] = $ext;
+            $this->extensions[$ext->oid()] = $ext;
         }
+    }
+
+    public static function create(Extension ...$extensions): self
+    {
+        return new self(...$extensions);
     }
 
     /**
@@ -64,7 +69,7 @@ final class Extensions implements Countable, IteratorAggregate
             static fn (UnspecifiedType $el) => Extension::fromASN1($el->asSequence()),
             $seq->elements()
         );
-        return new self(...$extensions);
+        return self::create(...$extensions);
     }
 
     /**
@@ -72,7 +77,7 @@ final class Extensions implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = array_values(array_map(static fn ($ext) => $ext->toASN1(), $this->_extensions));
+        $elements = array_values(array_map(static fn ($ext) => $ext->toASN1(), $this->extensions));
         return Sequence::create(...$elements);
     }
 
@@ -85,7 +90,7 @@ final class Extensions implements Countable, IteratorAggregate
     {
         $obj = clone $this;
         foreach ($exts as $ext) {
-            $obj->_extensions[$ext->oid()] = $ext;
+            $obj->extensions[$ext->oid()] = $ext;
         }
         return $obj;
     }
@@ -97,7 +102,7 @@ final class Extensions implements Countable, IteratorAggregate
      */
     public function has(string $oid): bool
     {
-        return isset($this->_extensions[$oid]);
+        return isset($this->extensions[$oid]);
     }
 
     /**
@@ -108,7 +113,7 @@ final class Extensions implements Countable, IteratorAggregate
         if (! $this->has($oid)) {
             throw new LogicException("No extension by OID {$oid}.");
         }
-        return $this->_extensions[$oid];
+        return $this->extensions[$oid];
     }
 
     /**
@@ -324,7 +329,7 @@ final class Extensions implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_extensions);
+        return count($this->extensions);
     }
 
     /**
@@ -334,6 +339,6 @@ final class Extensions implements Countable, IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->_extensions);
+        return new ArrayIterator($this->extensions);
     }
 }

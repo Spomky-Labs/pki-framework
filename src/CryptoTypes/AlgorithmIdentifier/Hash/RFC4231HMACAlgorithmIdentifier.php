@@ -18,9 +18,14 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 abstract class RFC4231HMACAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements HashAlgorithmIdentifier, PRFAlgorithmIdentifier
 {
     /**
-     * Parameters stored for re-encoding.
+     * @param Element|null $params Parameters stored for re-encoding.
      */
-    protected ?NullType $params = null;
+    protected function __construct(
+        string $oid,
+        protected ?Element $params
+    ) {
+        parent::__construct($oid);
+    }
 
     /**
      * @return null|NullType

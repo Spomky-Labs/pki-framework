@@ -92,7 +92,7 @@ final class Curve448Test extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
-        new Ed448PublicKey('');
+        Ed448PublicKey::create('');
     }
 
     /**
@@ -188,7 +188,7 @@ final class Curve448Test extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageMatches('/public key/');
-        new X448PublicKey('');
+        X448PublicKey::create('');
     }
 
     /**

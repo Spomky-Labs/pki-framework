@@ -21,6 +21,11 @@ final class SubjectAccessDescription extends AccessDescription
 
     final public const OID_METHOD_CA_REPOSITORY = '1.3.6.1.5.5.7.48.5';
 
+    public static function create(string $accessMethod, GeneralName $accessLocation): self
+    {
+        return new self($accessMethod, $accessLocation);
+    }
+
     /**
      * Initialize from ASN.1.
      */
@@ -34,7 +39,7 @@ final class SubjectAccessDescription extends AccessDescription
      */
     public function isTimeStampingMethod(): bool
     {
-        return $this->_accessMethod === self::OID_METHOD_TIME_STAMPING;
+        return $this->accessMethod === self::OID_METHOD_TIME_STAMPING;
     }
 
     /**
@@ -42,6 +47,6 @@ final class SubjectAccessDescription extends AccessDescription
      */
     public function isCARepositoryMethod(): bool
     {
-        return $this->_accessMethod === self::OID_METHOD_CA_REPOSITORY;
+        return $this->accessMethod === self::OID_METHOD_CA_REPOSITORY;
     }
 }

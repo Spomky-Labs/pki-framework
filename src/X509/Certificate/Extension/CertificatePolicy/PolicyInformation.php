@@ -32,19 +32,21 @@ final class PolicyInformation implements Countable, IteratorAggregate
      *
      * @var PolicyQualifierInfo[]
      */
-    private array $_qualifiers;
+    private array $qualifiers;
 
-    public function __construct(
-        /**
-         * Policy identifier.
-         */
-        protected string $_oid,
+    private function __construct(
+        private readonly string $oid,
         PolicyQualifierInfo ...$qualifiers
     ) {
-        $this->_qualifiers = [];
-        foreach ($qualifiers as $qual) {
-            $this->_qualifiers[$qual->oid()] = $qual;
+        $this->qualifiers = [];
+        foreach ($qualifiers as $qualifier) {
+            $this->qualifiers[$qualifier->oid()] = $qualifier;
         }
+    }
+
+    public static function create(string $oid, PolicyQualifierInfo ...$qualifiers): self
+    {
+        return new self($oid, ...$qualifiers);
     }
 
     /**
@@ -58,13 +60,13 @@ final class PolicyInformation implements Countable, IteratorAggregate
         $qualifiers = [];
         if (count($seq) > 1) {
             $qualifiers = array_map(
-                fn (UnspecifiedType $el) => PolicyQualifierInfo::fromASN1($el->asSequence()),
+                static fn (UnspecifiedType $el) => PolicyQualifierInfo::fromASN1($el->asSequence()),
                 $seq->at(1)
                     ->asSequence()
                     ->elements()
             );
         }
-        return new self($oid, ...$qualifiers);
+        return self::create($oid, ...$qualifiers);
     }
 
     /**
@@ -72,7 +74,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function oid(): string
     {
-        return $this->_oid;
+        return $this->oid;
     }
 
     /**
@@ -80,7 +82,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function isAnyPolicy(): bool
     {
-        return $this->_oid === self::OID_ANY_POLICY;
+        return $this->oid === self::OID_ANY_POLICY;
     }
 
     /**
@@ -90,7 +92,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function qualifiers(): array
     {
-        return array_values($this->_qualifiers);
+        return array_values($this->qualifiers);
     }
 
     /**
@@ -98,7 +100,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function has(string $oid): bool
     {
-        return isset($this->_qualifiers[$oid]);
+        return isset($this->qualifiers[$oid]);
     }
 
     /**
@@ -109,7 +111,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
         if (! $this->has($oid)) {
             throw new LogicException("No {$oid} qualifier.");
         }
-        return $this->_qualifiers[$oid];
+        return $this->qualifiers[$oid];
     }
 
     /**
@@ -155,11 +157,11 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function toASN1(): Sequence
     {
-        $elements = [ObjectIdentifier::create($this->_oid)];
-        if (count($this->_qualifiers) !== 0) {
+        $elements = [ObjectIdentifier::create($this->oid)];
+        if (count($this->qualifiers) !== 0) {
             $qualifiers = array_map(
-                fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
-                array_values($this->_qualifiers)
+                static fn (PolicyQualifierInfo $pqi) => $pqi->toASN1(),
+                array_values($this->qualifiers)
             );
             $elements[] = Sequence::create(...$qualifiers);
         }
@@ -173,7 +175,7 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_qualifiers);
+        return count($this->qualifiers);
     }
 
     /**
@@ -183,6 +185,6 @@ final class PolicyInformation implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_qualifiers);
+        return new ArrayIterator($this->qualifiers);
     }
 }

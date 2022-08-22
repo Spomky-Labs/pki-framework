@@ -23,19 +23,10 @@ use UnexpectedValueException;
  */
 final class AttributeCertificate implements Stringable
 {
-    public function __construct(
-        /**
-         * Attribute certificate info.
-         */
-        protected AttributeCertificateInfo $_acinfo,
-        /**
-         * Signature algorithm identifier.
-         */
-        protected SignatureAlgorithmIdentifier $_signatureAlgorithm,
-        /**
-         * Signature value.
-         */
-        protected Signature $_signatureValue
+    private function __construct(
+        private readonly AttributeCertificateInfo $acInfo,
+        private readonly SignatureAlgorithmIdentifier $signatureAlgorithm,
+        private readonly Signature $signatureValue
     ) {
     }
 
@@ -46,6 +37,14 @@ final class AttributeCertificate implements Stringable
     {
         return $this->toPEM()
             ->string();
+    }
+
+    public static function create(
+        AttributeCertificateInfo $acInfo,
+        SignatureAlgorithmIdentifier $signatureAlgorithm,
+        Signature $signatureValue
+    ): self {
+        return new self($acInfo, $signatureAlgorithm, $signatureValue);
     }
 
     /**
@@ -59,7 +58,7 @@ final class AttributeCertificate implements Stringable
             throw new UnexpectedValueException('Unsupported signature algorithm ' . $algo->oid() . '.');
         }
         $signature = Signature::fromSignatureData($seq->at(2)->asBitString()->string(), $algo);
-        return new self($acinfo, $algo, $signature);
+        return self::create($acinfo, $algo, $signature);
     }
 
     /**
@@ -86,7 +85,7 @@ final class AttributeCertificate implements Stringable
      */
     public function acinfo(): AttributeCertificateInfo
     {
-        return $this->_acinfo;
+        return $this->acInfo;
     }
 
     /**
@@ -94,7 +93,7 @@ final class AttributeCertificate implements Stringable
      */
     public function signatureAlgorithm(): SignatureAlgorithmIdentifier
     {
-        return $this->_signatureAlgorithm;
+        return $this->signatureAlgorithm;
     }
 
     /**
@@ -102,7 +101,7 @@ final class AttributeCertificate implements Stringable
      */
     public function signatureValue(): Signature
     {
-        return $this->_signatureValue;
+        return $this->signatureValue;
     }
 
     /**
@@ -111,9 +110,9 @@ final class AttributeCertificate implements Stringable
     public function toASN1(): Sequence
     {
         return Sequence::create(
-            $this->_acinfo->toASN1(),
-            $this->_signatureAlgorithm->toASN1(),
-            $this->_signatureValue->bitString()
+            $this->acInfo->toASN1(),
+            $this->signatureAlgorithm->toASN1(),
+            $this->signatureValue->bitString()
         );
     }
 
@@ -141,7 +140,7 @@ final class AttributeCertificate implements Stringable
      */
     public function isHeldBy(Certificate $cert): bool
     {
-        if (! $this->_acinfo->holder()->identifiesPKC($cert)) {
+        if (! $this->acInfo->holder()->identifiesPKC($cert)) {
             return false;
         }
         return true;
@@ -154,7 +153,7 @@ final class AttributeCertificate implements Stringable
      */
     public function isIssuedBy(Certificate $cert): bool
     {
-        if (! $this->_acinfo->issuer()->identifiesPKC($cert)) {
+        if (! $this->acInfo->issuer()->identifiesPKC($cert)) {
             return false;
         }
         return true;
@@ -169,8 +168,8 @@ final class AttributeCertificate implements Stringable
     public function verify(PublicKeyInfo $pubkey_info, ?Crypto $crypto = null): bool
     {
         $crypto ??= Crypto::getDefault();
-        $data = $this->_acinfo->toASN1()
+        $data = $this->acInfo->toASN1()
             ->toDER();
-        return $crypto->verify($data, $this->_signatureValue, $pubkey_info, $this->_signatureAlgorithm);
+        return $crypto->verify($data, $this->signatureValue, $pubkey_info, $this->signatureAlgorithm);
     }
 }

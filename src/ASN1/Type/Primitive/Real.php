@@ -160,13 +160,13 @@ final class Real extends Element implements Stringable
     public static function fromFloat(float $number): self
     {
         if (is_infinite($number)) {
-            return self::_fromInfinite($number);
+            return self::fromInfinite($number);
         }
         if (is_nan($number)) {
             throw new UnexpectedValueException('NaN values not supported.');
         }
-        [$m, $e] = self::_parse754Double(pack('E', $number));
-        return new self($m, $e, 2);
+        [$m, $e] = self::parse754Double(pack('E', $number));
+        return self::create($m, $e, 2);
     }
 
     /**
@@ -176,8 +176,8 @@ final class Real extends Element implements Stringable
      */
     public static function fromString(string $number): self
     {
-        [$m, $e] = self::_parseString($number);
-        return new self($m, $e, 10);
+        [$m, $e] = self::parseString($number);
+        return self::create($m, $e, 10);
     }
 
     /**
@@ -236,7 +236,7 @@ final class Real extends Element implements Stringable
     {
         // convert to base 10
         if ($this->_base === 2) {
-            [$m, $e] = self::_parseString(sprintf('%15E', $this->floatVal()));
+            [$m, $e] = self::parseString(sprintf('%15E', $this->floatVal()));
         } else {
             $m = $this->_mantissa->getValue();
             $e = $this->_exponent->getValue();
@@ -264,7 +264,7 @@ final class Real extends Element implements Stringable
     {
         $infExponent = BigInteger::of(self::INF_EXPONENT);
         if ($this->_exponent->getValue()->isEqualTo($infExponent)) {
-            return $this->_encodeSpecial();
+            return $this->encodeSpecial();
         }
         // if the real value is the value zero, there shall be no contents
         // octets in the encoding. (X.690 07-2002, section 8.5.2)
@@ -272,20 +272,20 @@ final class Real extends Element implements Stringable
             return '';
         }
         if ($this->_base === 10) {
-            return $this->_encodeDecimal();
+            return $this->encodeDecimal();
         }
-        return $this->_encodeBinary();
+        return $this->encodeBinary();
     }
 
     /**
      * Encode in binary format.
      */
-    protected function _encodeBinary(): string
+    protected function encodeBinary(): string
     {
         /** @var BigInteger $m */
         /** @var BigInteger $e */
         /** @var int $sign */
-        [$base, $sign, $m, $e] = $this->_prepareBinaryEncoding();
+        [$base, $sign, $m, $e] = $this->prepareBinaryEncoding();
         $zero = BigInteger::of(0);
         $byte = 0x80;
         if ($sign < 0) {
@@ -342,7 +342,7 @@ final class Real extends Element implements Stringable
     /**
      * Encode in decimal format.
      */
-    protected function _encodeDecimal(): string
+    protected function encodeDecimal(): string
     {
         // encode in NR3 decimal encoding
         return chr(0x03) . $this->nr3Val();
@@ -351,7 +351,7 @@ final class Real extends Element implements Stringable
     /**
      * Encode special value.
      */
-    protected function _encodeSpecial(): string
+    protected function encodeSpecial(): string
     {
         return match ($this->_mantissa->toInt()) {
             1 => chr(0x40),
@@ -366,16 +366,16 @@ final class Real extends Element implements Stringable
         $length = Length::expectFromDER($data, $idx)->intLength();
         // if length is zero, value is zero (spec 8.5.2)
         if ($length === 0) {
-            $obj = new self(0, 0, 10);
+            $obj = self::create(0, 0, 10);
         } else {
             $bytes = mb_substr($data, $idx, $length, '8bit');
             $byte = ord($bytes[0]);
             if ((0x80 & $byte) !== 0) { // bit 8 = 1
-                $obj = self::_decodeBinaryEncoding($bytes);
+                $obj = self::decodeBinaryEncoding($bytes);
             } elseif ($byte >> 6 === 0x00) { // bit 8 = 0, bit 7 = 0
-                $obj = self::_decodeDecimalEncoding($bytes);
+                $obj = self::decodeDecimalEncoding($bytes);
             } else { // bit 8 = 0, bit 7 = 1
-                $obj = self::_decodeSpecialRealValue($bytes);
+                $obj = self::decodeSpecialRealValue($bytes);
             }
         }
         $offset = $idx + $length;
@@ -385,7 +385,7 @@ final class Real extends Element implements Stringable
     /**
      * Decode binary encoding.
      */
-    protected static function _decodeBinaryEncoding(string $data): self
+    protected static function decodeBinaryEncoding(string $data): self
     {
         $byte = ord($data[0]);
         // bit 7 is set if mantissa is negative
@@ -430,13 +430,13 @@ final class Real extends Element implements Stringable
         if ($neg) {
             $n = $n->negated();
         }
-        return new self($n, $exp, 2);
+        return self::create($n, $exp, 2);
     }
 
     /**
      * Decode decimal encoding.
      */
-    protected static function _decodeDecimalEncoding(string $data): self
+    protected static function decodeDecimalEncoding(string $data): self
     {
         $nr = ord($data[0]) & 0x3f;
         if (! in_array($nr, [1, 2, 3], true)) {
@@ -449,17 +449,17 @@ final class Real extends Element implements Stringable
     /**
      * Decode special encoding.
      */
-    protected static function _decodeSpecialRealValue(string $data): self
+    protected static function decodeSpecialRealValue(string $data): self
     {
         if (mb_strlen($data, '8bit') !== 1) {
             throw new DecodeException('SpecialRealValue must have one content octet.');
         }
         $byte = ord($data[0]);
         if ($byte === 0x40) {   // positive infinity
-            return self::_fromInfinite(INF);
+            return self::fromInfinite(INF);
         }
         if ($byte === 0x41) {   // negative infinity
-            return self::_fromInfinite(-INF);
+            return self::fromInfinite(-INF);
         }
         throw new DecodeException('Invalid SpecialRealValue encoding.');
     }
@@ -469,7 +469,7 @@ final class Real extends Element implements Stringable
      *
      * @return array<int|BigInteger> (int) base, (int) sign, (BigInteger) mantissa and (BigInteger) exponent
      */
-    protected function _prepareBinaryEncoding(): array
+    protected function prepareBinaryEncoding(): array
     {
         $base = 2;
         $m = $this->_mantissa->getValue();
@@ -497,9 +497,9 @@ final class Real extends Element implements Stringable
     /**
      * Initialize from INF or -INF.
      */
-    private static function _fromInfinite(float $inf): self
+    private static function fromInfinite(float $inf): self
     {
-        return new self($inf === -INF ? -1 : 1, self::INF_EXPONENT, 2);
+        return self::create($inf === -INF ? -1 : 1, self::INF_EXPONENT, 2);
     }
 
     /**
@@ -509,7 +509,7 @@ final class Real extends Element implements Stringable
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
-    private static function _parse754Double(string $octets): array
+    private static function parse754Double(string $octets): array
     {
         $n = BigInteger::fromBytes($octets, false);
         // sign bit
@@ -560,20 +560,20 @@ final class Real extends Element implements Stringable
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
-    private static function _parseString(string $str): array
+    private static function parseString(string $str): array
     {
         // PHP exponent format
         if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match) === 1) {
-            [$m, $e] = self::_parsePHPExponentMatch($match);
+            [$m, $e] = self::parsePHPExponentMatch($match);
         } // NR3 format
         elseif (preg_match(self::NR3_REGEX, $str, $match) === 1) {
-            [$m, $e] = self::_parseNR3Match($match);
+            [$m, $e] = self::parseNR3Match($match);
         } // NR2 format
         elseif (preg_match(self::NR2_REGEX, $str, $match) === 1) {
-            [$m, $e] = self::_parseNR2Match($match);
+            [$m, $e] = self::parseNR2Match($match);
         } // NR1 format
         elseif (preg_match(self::NR1_REGEX, $str, $match) === 1) {
-            [$m, $e] = self::_parseNR1Match($match);
+            [$m, $e] = self::parseNR1Match($match);
         } // invalid number
         else {
             throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
@@ -595,7 +595,7 @@ final class Real extends Element implements Stringable
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
-    private static function _parsePHPExponentMatch(array $match): array
+    private static function parsePHPExponentMatch(array $match): array
     {
         // mantissa sign
         $ms = $match['ms'] === '-' ? -1 : 1;
@@ -623,7 +623,7 @@ final class Real extends Element implements Stringable
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
-    private static function _parseNR3Match(array $match): array
+    private static function parseNR3Match(array $match): array
     {
         // mantissa sign
         $ms = $match['ms'] === '-' ? -1 : 1;
@@ -653,7 +653,7 @@ final class Real extends Element implements Stringable
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
-    private static function _parseNR2Match(array $match): array
+    private static function parseNR2Match(array $match): array
     {
         $sign = $match['s'] === '-' ? -1 : 1;
         // explode decimal number to integer and fraction parts
@@ -679,7 +679,7 @@ final class Real extends Element implements Stringable
      *
      * @return BigInteger[] Tuple of mantissa and exponent
      */
-    private static function _parseNR1Match(array $match): array
+    private static function parseNR1Match(array $match): array
     {
         $sign = $match['s'] === '-' ? -1 : 1;
         $int = ltrim($match['i'], '0');

@@ -20,7 +20,7 @@ final class AAControlsTest extends TestCase
      */
     public function create()
     {
-        $ext = new AAControlsExtension(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
+        $ext = AAControlsExtension::create(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
         static::assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }
@@ -127,7 +127,7 @@ final class AAControlsTest extends TestCase
      */
     public function createEmpty()
     {
-        $ext = new AAControlsExtension(false);
+        $ext = AAControlsExtension::create(false);
         static::assertInstanceOf(AAControlsExtension::class, $ext);
         return $ext;
     }

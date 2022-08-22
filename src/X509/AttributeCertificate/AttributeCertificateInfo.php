@@ -32,42 +32,51 @@ final class AttributeCertificateInfo
     /**
      * AC version.
      */
-    private readonly int $_version;
+    private readonly int $version;
 
     /**
      * Signature algorithm identifier.
      */
-    private ?SignatureAlgorithmIdentifier $_signature = null;
+    private ?SignatureAlgorithmIdentifier $signature = null;
 
     /**
      * AC serial number as a base 10 integer.
      */
-    private ?string $_serialNumber = null;
+    private ?string $serialNumber = null;
 
     /**
      * Issuer unique identifier.
      */
-    private ?UniqueIdentifier $_issuerUniqueID = null;
+    private ?UniqueIdentifier $issuerUniqueID = null;
 
     /**
      * Extensions.
      */
-    private Extensions $_extensions;
+    private Extensions $extensions;
 
     /**
-     * @param Holder $_holder AC holder
-     * @param AttCertIssuer $_issuer AC issuer
-     * @param AttCertValidityPeriod $_attrCertValidityPeriod Validity
-     * @param Attributes $_attributes Attributes
+     * @param Holder $holder AC holder
+     * @param AttCertIssuer $issuer AC issuer
+     * @param AttCertValidityPeriod $attrCertValidityPeriod Validity
+     * @param Attributes $attributes Attributes
      */
-    public function __construct(
-        protected Holder $_holder,
-        protected AttCertIssuer $_issuer,
-        protected AttCertValidityPeriod $_attrCertValidityPeriod,
-        protected Attributes $_attributes
+    private function __construct(
+        private Holder $holder,
+        private AttCertIssuer $issuer,
+        private AttCertValidityPeriod $attrCertValidityPeriod,
+        private Attributes $attributes
     ) {
-        $this->_version = self::VERSION_2;
-        $this->_extensions = new Extensions();
+        $this->version = self::VERSION_2;
+        $this->extensions = Extensions::create();
+    }
+
+    public static function create(
+        Holder $holder,
+        AttCertIssuer $issuer,
+        AttCertValidityPeriod $attrCertValidityPeriod,
+        Attributes $attributes
+    ): self {
+        return new self($holder, $issuer, $attrCertValidityPeriod, $attributes);
     }
 
     /**
@@ -93,14 +102,14 @@ final class AttributeCertificateInfo
             ->number();
         $validity = AttCertValidityPeriod::fromASN1($seq->at($idx++)->asSequence());
         $attribs = Attributes::fromASN1($seq->at($idx++)->asSequence());
-        $obj = new self($holder, $issuer, $validity, $attribs);
-        $obj->_signature = $signature;
-        $obj->_serialNumber = $serial;
+        $obj = self::create($holder, $issuer, $validity, $attribs);
+        $obj->signature = $signature;
+        $obj->serialNumber = $serial;
         if ($seq->has($idx, Element::TYPE_BIT_STRING)) {
-            $obj->_issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++)->asBitString());
+            $obj->issuerUniqueID = UniqueIdentifier::fromASN1($seq->at($idx++)->asBitString());
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
-            $obj->_extensions = Extensions::fromASN1($seq->at($idx++)->asSequence());
+            $obj->extensions = Extensions::fromASN1($seq->at($idx++)->asSequence());
         }
         return $obj;
     }
@@ -111,7 +120,7 @@ final class AttributeCertificateInfo
     public function withHolder(Holder $holder): self
     {
         $obj = clone $this;
-        $obj->_holder = $holder;
+        $obj->holder = $holder;
         return $obj;
     }
 
@@ -121,7 +130,7 @@ final class AttributeCertificateInfo
     public function withIssuer(AttCertIssuer $issuer): self
     {
         $obj = clone $this;
-        $obj->_issuer = $issuer;
+        $obj->issuer = $issuer;
         return $obj;
     }
 
@@ -131,7 +140,7 @@ final class AttributeCertificateInfo
     public function withSignature(SignatureAlgorithmIdentifier $algo): self
     {
         $obj = clone $this;
-        $obj->_signature = $algo;
+        $obj->signature = $algo;
         return $obj;
     }
 
@@ -143,7 +152,7 @@ final class AttributeCertificateInfo
     public function withSerialNumber(int|string $serial): self
     {
         $obj = clone $this;
-        $obj->_serialNumber = strval($serial);
+        $obj->serialNumber = strval($serial);
         return $obj;
     }
 
@@ -169,7 +178,7 @@ final class AttributeCertificateInfo
     public function withValidity(AttCertValidityPeriod $validity): self
     {
         $obj = clone $this;
-        $obj->_attrCertValidityPeriod = $validity;
+        $obj->attrCertValidityPeriod = $validity;
         return $obj;
     }
 
@@ -179,7 +188,7 @@ final class AttributeCertificateInfo
     public function withAttributes(Attributes $attribs): self
     {
         $obj = clone $this;
-        $obj->_attributes = $attribs;
+        $obj->attributes = $attribs;
         return $obj;
     }
 
@@ -189,7 +198,7 @@ final class AttributeCertificateInfo
     public function withIssuerUniqueID(UniqueIdentifier $uid): self
     {
         $obj = clone $this;
-        $obj->_issuerUniqueID = $uid;
+        $obj->issuerUniqueID = $uid;
         return $obj;
     }
 
@@ -199,7 +208,7 @@ final class AttributeCertificateInfo
     public function withExtensions(Extensions $extensions): self
     {
         $obj = clone $this;
-        $obj->_extensions = $extensions;
+        $obj->extensions = $extensions;
         return $obj;
     }
 
@@ -211,13 +220,13 @@ final class AttributeCertificateInfo
     public function withAdditionalExtensions(Extension ...$exts): self
     {
         $obj = clone $this;
-        $obj->_extensions = $obj->_extensions->withExtensions(...$exts);
+        $obj->extensions = $obj->extensions->withExtensions(...$exts);
         return $obj;
     }
 
     public function version(): int
     {
-        return $this->_version;
+        return $this->version;
     }
 
     /**
@@ -225,7 +234,7 @@ final class AttributeCertificateInfo
      */
     public function holder(): Holder
     {
-        return $this->_holder;
+        return $this->holder;
     }
 
     /**
@@ -233,7 +242,7 @@ final class AttributeCertificateInfo
      */
     public function issuer(): AttCertIssuer
     {
-        return $this->_issuer;
+        return $this->issuer;
     }
 
     /**
@@ -241,7 +250,7 @@ final class AttributeCertificateInfo
      */
     public function hasSignature(): bool
     {
-        return $this->_signature !== null;
+        return $this->signature !== null;
     }
 
     /**
@@ -252,7 +261,7 @@ final class AttributeCertificateInfo
         if (! $this->hasSignature()) {
             throw new LogicException('signature not set.');
         }
-        return $this->_signature;
+        return $this->signature;
     }
 
     /**
@@ -260,7 +269,7 @@ final class AttributeCertificateInfo
      */
     public function hasSerialNumber(): bool
     {
-        return isset($this->_serialNumber);
+        return isset($this->serialNumber);
     }
 
     /**
@@ -271,7 +280,7 @@ final class AttributeCertificateInfo
         if (! $this->hasSerialNumber()) {
             throw new LogicException('serialNumber not set.');
         }
-        return $this->_serialNumber;
+        return $this->serialNumber;
     }
 
     /**
@@ -279,12 +288,12 @@ final class AttributeCertificateInfo
      */
     public function validityPeriod(): AttCertValidityPeriod
     {
-        return $this->_attrCertValidityPeriod;
+        return $this->attrCertValidityPeriod;
     }
 
     public function attributes(): Attributes
     {
-        return $this->_attributes;
+        return $this->attributes;
     }
 
     /**
@@ -292,7 +301,7 @@ final class AttributeCertificateInfo
      */
     public function hasIssuerUniqueID(): bool
     {
-        return isset($this->_issuerUniqueID);
+        return isset($this->issuerUniqueID);
     }
 
     /**
@@ -303,12 +312,12 @@ final class AttributeCertificateInfo
         if (! $this->hasIssuerUniqueID()) {
             throw new LogicException('issuerUniqueID not set.');
         }
-        return $this->_issuerUniqueID;
+        return $this->issuerUniqueID;
     }
 
     public function extensions(): Extensions
     {
-        return $this->_extensions;
+        return $this->extensions;
     }
 
     /**
@@ -316,17 +325,17 @@ final class AttributeCertificateInfo
      */
     public function toASN1(): Sequence
     {
-        $elements = [Integer::create($this->_version), $this->_holder->toASN1(),
-            $this->_issuer->toASN1(), $this->signature()
+        $elements = [Integer::create($this->version), $this->holder->toASN1(),
+            $this->issuer->toASN1(), $this->signature()
                 ->toASN1(),
             Integer::create($this->serialNumber()),
-            $this->_attrCertValidityPeriod->toASN1(),
-            $this->_attributes->toASN1(), ];
-        if (isset($this->_issuerUniqueID)) {
-            $elements[] = $this->_issuerUniqueID->toASN1();
+            $this->attrCertValidityPeriod->toASN1(),
+            $this->attributes->toASN1(), ];
+        if (isset($this->issuerUniqueID)) {
+            $elements[] = $this->issuerUniqueID->toASN1();
         }
-        if (count($this->_extensions) !== 0) {
-            $elements[] = $this->_extensions->toASN1();
+        if (count($this->extensions) !== 0) {
+            $elements[] = $this->extensions->toASN1();
         }
         return Sequence::create(...$elements);
     }
@@ -345,13 +354,13 @@ final class AttributeCertificateInfo
     ): AttributeCertificate {
         $crypto ??= Crypto::getDefault();
         $aci = clone $this;
-        if (! isset($aci->_serialNumber)) {
-            $aci->_serialNumber = '0';
+        if (! isset($aci->serialNumber)) {
+            $aci->serialNumber = '0';
         }
-        $aci->_signature = $algo;
+        $aci->signature = $algo;
         $data = $aci->toASN1()
             ->toDER();
         $signature = $crypto->sign($data, $privkey_info, $algo);
-        return new AttributeCertificate($aci, $algo, $signature);
+        return AttributeCertificate::create($aci, $algo, $signature);
     }
 }

@@ -16,16 +16,16 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class UserNoticeQualifier extends PolicyQualifierInfo
 {
-    public function __construct(
-        /**
-         * Explicit notice text.
-         */
-        protected ?DisplayText $_text = null, /**
-     * Notice reference.
-     */
-        protected ?NoticeReference $_ref = null
+    private function __construct(
+        private readonly ?DisplayText $text,
+        private readonly ?NoticeReference $ref
     ) {
-        $this->_oid = self::OID_UNOTICE;
+        parent::__construct(self::OID_UNOTICE);
+    }
+
+    public static function create(?DisplayText $text = null, ?NoticeReference $ref = null): self
+    {
+        return new self($text, $ref);
     }
 
     /**
@@ -43,7 +43,7 @@ final class UserNoticeQualifier extends PolicyQualifierInfo
         if ($seq->has($idx, Element::TYPE_STRING)) {
             $text = DisplayText::fromASN1($seq->at($idx)->asString());
         }
-        return new self($text, $ref);
+        return self::create($text, $ref);
     }
 
     /**
@@ -51,7 +51,7 @@ final class UserNoticeQualifier extends PolicyQualifierInfo
      */
     public function hasExplicitText(): bool
     {
-        return isset($this->_text);
+        return isset($this->text);
     }
 
     /**
@@ -62,7 +62,7 @@ final class UserNoticeQualifier extends PolicyQualifierInfo
         if (! $this->hasExplicitText()) {
             throw new LogicException('explicitText not set.');
         }
-        return $this->_text;
+        return $this->text;
     }
 
     /**
@@ -70,7 +70,7 @@ final class UserNoticeQualifier extends PolicyQualifierInfo
      */
     public function hasNoticeRef(): bool
     {
-        return isset($this->_ref);
+        return isset($this->ref);
     }
 
     /**
@@ -81,17 +81,17 @@ final class UserNoticeQualifier extends PolicyQualifierInfo
         if (! $this->hasNoticeRef()) {
             throw new LogicException('noticeRef not set.');
         }
-        return $this->_ref;
+        return $this->ref;
     }
 
-    protected function _qualifierASN1(): Element
+    protected function qualifierASN1(): Element
     {
         $elements = [];
-        if (isset($this->_ref)) {
-            $elements[] = $this->_ref->toASN1();
+        if (isset($this->ref)) {
+            $elements[] = $this->ref->toASN1();
         }
-        if (isset($this->_text)) {
-            $elements[] = $this->_text->toASN1();
+        if (isset($this->text)) {
+            $elements[] = $this->text->toASN1();
         }
         return Sequence::create(...$elements);
     }

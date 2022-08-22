@@ -37,7 +37,7 @@ class Integer extends Element
     final protected function __construct(BigInteger|int|string $number, int $typeTag)
     {
         parent::__construct($typeTag);
-        if (! self::_validateNumber($number)) {
+        if (! self::validateNumber($number)) {
             $var = is_scalar($number) ? (string) $number : gettype($number);
             throw new InvalidArgumentException("'{$var}' is not a valid number.");
         }
@@ -92,7 +92,7 @@ class Integer extends Element
     /**
      * Test that number is valid for this context.
      */
-    private static function _validateNumber(mixed $num): bool
+    private static function validateNumber(mixed $num): bool
     {
         if (is_int($num)) {
             return true;

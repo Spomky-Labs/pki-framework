@@ -29,13 +29,13 @@ final class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTaggi
 
     public function explicit(): UnspecifiedType
     {
-        return $this->_element->asUnspecified();
+        return $this->element->asUnspecified();
     }
 
     protected function encodedAsDER(): string
     {
         // get the full encoding of the wrapped element
-        return $this->_element->toDER();
+        return $this->element->toDER();
     }
 
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase

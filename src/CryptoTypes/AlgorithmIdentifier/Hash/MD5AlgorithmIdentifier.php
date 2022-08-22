@@ -36,12 +36,17 @@ final class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implement
     /**
      * Parameters.
      */
-    protected ?NullType $_params;
+    private ?NullType $params;
 
-    public function __construct()
+    private function __construct()
     {
         parent::__construct(self::OID_MD5);
-        $this->_params = NullType::create();
+        $this->params = NullType::create();
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function name(): string
@@ -49,15 +54,12 @@ final class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implement
         return 'md5';
     }
 
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): static
     {
-        $obj = new static();
+        $obj = static::create();
         // if parameters field is present, it must be null type
         if (isset($params)) {
-            $obj->_params = $params->asNull();
+            $obj->params = $params->asNull();
         }
         return $obj;
     }
@@ -67,6 +69,6 @@ final class MD5AlgorithmIdentifier extends SpecificAlgorithmIdentifier implement
      */
     protected function paramsASN1(): ?Element
     {
-        return $this->_params;
+        return $this->params;
     }
 }

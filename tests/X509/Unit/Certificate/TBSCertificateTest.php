@@ -58,7 +58,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function create()
     {
-        $tc = new TBSCertificate(
+        $tc = TBSCertificate::create(
             self::$_subject,
             self::$_privateKeyInfo->publicKeyInfo(),
             self::$_issuer,
@@ -73,7 +73,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function createWithAll()
     {
-        $tc = new TBSCertificate(
+        $tc = TBSCertificate::create(
             self::$_subject,
             self::$_privateKeyInfo->publicKeyInfo(),
             self::$_issuer,
@@ -84,7 +84,7 @@ final class TBSCertificateTest extends TestCase
             ->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create())
             ->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'))
             ->withSubjectUniqueID(UniqueIdentifier::fromString('subject'))
-            ->withAdditionalExtensions(new BasicConstraintsExtension(true, false));
+            ->withAdditionalExtensions(BasicConstraintsExtension::create(true, false));
         static::assertInstanceOf(TBSCertificate::class, $tc);
         return $tc;
     }
@@ -344,7 +344,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function withExtensions(TBSCertificate $tc)
     {
-        $tc = $tc->withExtensions(new Extensions());
+        $tc = $tc->withExtensions(Extensions::create());
         static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 
@@ -355,7 +355,7 @@ final class TBSCertificateTest extends TestCase
      */
     public function withAdditionalExtensions(TBSCertificate $tc)
     {
-        $tc = $tc->withAdditionalExtensions(new UnknownExtension('1.3.6.1.3', false, NullType::create()));
+        $tc = $tc->withAdditionalExtensions(UnknownExtension::create('1.3.6.1.3', false, NullType::create()));
         static::assertInstanceOf(TBSCertificate::class, $tc);
     }
 

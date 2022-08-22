@@ -21,21 +21,21 @@ final class CertificateBundle implements Countable, IteratorAggregate
      *
      * @var Certificate[]
      */
-    private array $_certs;
+    private array $certs;
 
     /**
      * Mapping from public key id to array of certificates.
      *
      * @var null|(Certificate[])[]
      */
-    private $_keyIdMap;
+    private ?array $keyIdMap = null;
 
     /**
      * @param Certificate ...$certs Certificate objects
      */
-    public function __construct(Certificate ...$certs)
+    private function __construct(Certificate ...$certs)
     {
-        $this->_certs = $certs;
+        $this->certs = $certs;
     }
 
     /**
@@ -43,7 +43,12 @@ final class CertificateBundle implements Countable, IteratorAggregate
      */
     public function __clone()
     {
-        $this->_keyIdMap = null;
+        $this->keyIdMap = null;
+    }
+
+    public static function create(Certificate ...$certs): self
+    {
+        return new self(...$certs);
     }
 
     /**
@@ -54,7 +59,7 @@ final class CertificateBundle implements Countable, IteratorAggregate
     public static function fromPEMs(PEM ...$pems): self
     {
         $certs = array_map(static fn ($pem) => Certificate::fromPEM($pem), $pems);
-        return new self(...$certs);
+        return self::create(...$certs);
     }
 
     /**
@@ -71,7 +76,7 @@ final class CertificateBundle implements Countable, IteratorAggregate
     public function withCertificates(Certificate ...$cert): self
     {
         $obj = clone $this;
-        $obj->_certs = array_merge($obj->_certs, $cert);
+        $obj->certs = array_merge($obj->certs, $cert);
         return $obj;
     }
 
@@ -80,11 +85,11 @@ final class CertificateBundle implements Countable, IteratorAggregate
      */
     public function withPEMBundle(PEMBundle $pem_bundle): self
     {
-        $certs = $this->_certs;
+        $certs = $this->certs;
         foreach ($pem_bundle as $pem) {
             $certs[] = Certificate::fromPEM($pem);
         }
-        return new self(...$certs);
+        return self::create(...$certs);
     }
 
     /**
@@ -92,9 +97,9 @@ final class CertificateBundle implements Countable, IteratorAggregate
      */
     public function withPEM(PEM $pem): self
     {
-        $certs = $this->_certs;
+        $certs = $this->certs;
         $certs[] = Certificate::fromPEM($pem);
-        return new self(...$certs);
+        return self::create(...$certs);
     }
 
     /**
@@ -137,7 +142,7 @@ final class CertificateBundle implements Countable, IteratorAggregate
      */
     public function all(): array
     {
-        return $this->_certs;
+        return $this->certs;
     }
 
     /**
@@ -145,7 +150,7 @@ final class CertificateBundle implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->_certs);
+        return count($this->certs);
     }
 
     /**
@@ -155,7 +160,7 @@ final class CertificateBundle implements Countable, IteratorAggregate
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_certs);
+        return new ArrayIterator($this->certs);
     }
 
     /**
@@ -166,17 +171,17 @@ final class CertificateBundle implements Countable, IteratorAggregate
     private function _getKeyIdMap(): array
     {
         // lazily build mapping
-        if (! isset($this->_keyIdMap)) {
-            $this->_keyIdMap = [];
-            foreach ($this->_certs as $cert) {
+        if (! isset($this->keyIdMap)) {
+            $this->keyIdMap = [];
+            foreach ($this->certs as $cert) {
                 $id = self::_getCertKeyId($cert);
-                if (! isset($this->_keyIdMap[$id])) {
-                    $this->_keyIdMap[$id] = [];
+                if (! isset($this->keyIdMap[$id])) {
+                    $this->keyIdMap[$id] = [];
                 }
-                array_push($this->_keyIdMap[$id], $cert);
+                array_push($this->keyIdMap[$id], $cert);
             }
         }
-        return $this->_keyIdMap;
+        return $this->keyIdMap;
     }
 
     /**

@@ -24,7 +24,7 @@ final class TargetNameTest extends TestCase
      */
     public function create()
     {
-        $target = new TargetName(UniformResourceIdentifier::create(self::URI));
+        $target = TargetName::create(UniformResourceIdentifier::create(self::URI));
         static::assertInstanceOf(TargetName::class, $target);
         return $target;
     }

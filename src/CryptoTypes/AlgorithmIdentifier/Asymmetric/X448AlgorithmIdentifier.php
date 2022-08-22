@@ -33,7 +33,7 @@ final class X448AlgorithmIdentifier extends RFC8410XAlgorithmIdentifier
         if ($params !== null) {
             throw new UnexpectedValueException('Parameters must be absent.');
         }
-        return new self();
+        return self::create();
     }
 
     public function name(): string

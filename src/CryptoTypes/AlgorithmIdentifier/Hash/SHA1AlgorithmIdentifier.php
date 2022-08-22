@@ -32,12 +32,17 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
     /**
      * Parameters.
      */
-    protected ?NullType $_params;
+    private ?NullType $params;
 
-    public function __construct()
+    private function __construct()
     {
         parent::__construct(self::OID_SHA1);
-        $this->_params = null;
+        $this->params = null;
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function name(): string
@@ -45,15 +50,12 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
         return 'sha1';
     }
 
-    /**
-     * @return self
-     */
-    public static function fromASN1Params(?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
+    public static function fromASN1Params(?UnspecifiedType $params = null): static
     {
-        $obj = new static();
+        $obj = static::create();
         // if parameters field is present, it must be null type
         if (isset($params)) {
-            $obj->_params = $params->asNull();
+            $obj->params = $params->asNull();
         }
         return $obj;
     }
@@ -63,6 +65,6 @@ final class SHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implemen
      */
     protected function paramsASN1(): ?Element
     {
-        return $this->_params;
+        return $this->params;
     }
 }

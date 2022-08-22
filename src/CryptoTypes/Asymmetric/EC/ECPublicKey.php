@@ -32,22 +32,27 @@ final class ECPublicKey extends PublicKey
     /**
      * Elliptic curve public key.
      */
-    protected string $_ecPoint;
+    private readonly string $ecPoint;
 
     /**
-     * @param string $ec_point ECPoint
-     * @param null|string $_namedCurve Named curve OID
+     * @param string $ecPoint ECPoint
+     * @param null|string $namedCurve Named curve OID
      */
-    public function __construct(
-        string $ec_point,
-        protected ?string $_namedCurve = null
+    private function __construct(
+        string $ecPoint,
+        private readonly ?string $namedCurve
     ) {
         // first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
         // for compressed form.
-        if (($ec_point === '') || ! in_array(ord($ec_point[0]), [2, 3, 4], true)) {
+        if (($ecPoint === '') || ! in_array(ord($ecPoint[0]), [2, 3, 4], true)) {
             throw new InvalidArgumentException('Invalid ECPoint.');
         }
-        $this->_ecPoint = $ec_point;
+        $this->ecPoint = $ecPoint;
+    }
+
+    public static function create(string $ecPoint, ?string $namedCurve = null): self
+    {
+        return new self($ecPoint, $namedCurve);
     }
 
     /**
@@ -75,7 +80,7 @@ final class ECPublicKey extends PublicKey
         $x_os = ECConversion::integerToOctetString(Integer::create($x), $mlen)->string();
         $y_os = ECConversion::integerToOctetString(Integer::create($y), $mlen)->string();
         $ec_point = "\x4{$x_os}{$y_os}";
-        return new self($ec_point, $named_curve);
+        return self::create($ec_point, $named_curve);
     }
 
     /**
@@ -93,7 +98,7 @@ final class ECPublicKey extends PublicKey
             throw new UnexpectedValueException('Not an elliptic curve key.');
         }
         // ECPoint is directly mapped into public key data
-        return new self($pki->publicKeyData()->string(), $algo->namedCurve());
+        return self::create($pki->publicKeyData()->string(), $algo->namedCurve());
     }
 
     /**
@@ -101,7 +106,7 @@ final class ECPublicKey extends PublicKey
      */
     public function ECPoint(): string
     {
-        return $this->_ecPoint;
+        return $this->ecPoint;
     }
 
     /**
@@ -124,7 +129,7 @@ final class ECPublicKey extends PublicKey
         if ($this->isCompressed()) {
             throw new RuntimeException('EC point compression not supported.');
         }
-        $str = mb_substr($this->_ecPoint, 1, null, '8bit');
+        $str = mb_substr($this->ecPoint, 1, null, '8bit');
         $length = (int) floor(mb_strlen($str, '8bit') / 2);
         if ($length < 1) {
             throw new RuntimeException('Invalid EC point.');
@@ -138,7 +143,7 @@ final class ECPublicKey extends PublicKey
      */
     public function isCompressed(): bool
     {
-        $c = ord($this->_ecPoint[0]);
+        $c = ord($this->ecPoint[0]);
         return $c !== 4;
     }
 
@@ -147,7 +152,7 @@ final class ECPublicKey extends PublicKey
      */
     public function hasNamedCurve(): bool
     {
-        return isset($this->_namedCurve);
+        return isset($this->namedCurve);
     }
 
     /**
@@ -158,7 +163,7 @@ final class ECPublicKey extends PublicKey
         if (! $this->hasNamedCurve()) {
             throw new LogicException('namedCurve not set.');
         }
-        return $this->_namedCurve;
+        return $this->namedCurve;
     }
 
     public function algorithmIdentifier(): AlgorithmIdentifierType
@@ -171,7 +176,7 @@ final class ECPublicKey extends PublicKey
      */
     public function toASN1(): OctetString
     {
-        return OctetString::create($this->_ecPoint);
+        return OctetString::create($this->ecPoint);
     }
 
     public function toDER(): string
@@ -186,7 +191,7 @@ final class ECPublicKey extends PublicKey
     public function subjectPublicKey(): BitString
     {
         // ECPoint is directly mapped to subjectPublicKey
-        return BitString::create($this->_ecPoint);
+        return BitString::create($this->ecPoint);
     }
 
     /**
