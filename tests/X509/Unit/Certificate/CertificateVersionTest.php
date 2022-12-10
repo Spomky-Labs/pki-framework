@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Extension\KeyUsageExtension;
@@ -20,9 +21,9 @@ use SpomkyLabs\Pki\X509\Certificate\Validity;
  */
 final class CertificateVersionTest extends TestCase
 {
-    private static $_privateKeyInfo;
+    private static ?OneAsymmetricKey $_privateKeyInfo = null;
 
-    private static $_tbsCert;
+    private static ?TBSCertificate $_tbsCert = null;
 
     public static function setUpBeforeClass(): void
     {

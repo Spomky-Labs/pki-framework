@@ -34,6 +34,7 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryp
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Signature\RSASignature;
@@ -51,15 +52,9 @@ final class OpenSSLCryptoTest extends TestCase
 
     private static ?OpenSSLCrypto $_crypto;
 
-    /**
-     * @var PrivateKeyInfo
-     */
-    private static $_rsaPrivKeyInfo;
+    private static ?OneAsymmetricKey $_rsaPrivKeyInfo = null;
 
-    /**
-     * @var PrivateKeyInfo
-     */
-    private static $_ecPrivKeyInfo;
+    private static ?OneAsymmetricKey $_ecPrivKeyInfo = null;
 
     public static function setUpBeforeClass(): void
     {

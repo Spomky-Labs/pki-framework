@@ -20,7 +20,7 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class FreshestCRLTest extends TestCase
 {
-    private static $_dp;
+    private static ?DistributionPoint $_dp = null;
 
     public static function setUpBeforeClass(): void
     {

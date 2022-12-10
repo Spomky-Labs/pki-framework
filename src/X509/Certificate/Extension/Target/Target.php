@@ -22,8 +22,9 @@ abstract class Target
 
     public const TYPE_CERT = 2;
 
-    protected function __construct(protected int $type)
-    {
+    protected function __construct(
+        protected int $type
+    ) {
     }
 
     /**

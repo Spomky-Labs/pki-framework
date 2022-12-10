@@ -10,6 +10,7 @@ use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use SpomkyLabs\Pki\X501\ASN1\Name;
@@ -23,9 +24,9 @@ use UnexpectedValueException;
  */
 final class CertificationRequestTest extends TestCase
 {
-    private static $_subject;
+    private static ?Name $_subject = null;
 
-    private static $_privateKeyInfo;
+    private static ?OneAsymmetricKey $_privateKeyInfo = null;
 
     public static function setUpBeforeClass(): void
     {

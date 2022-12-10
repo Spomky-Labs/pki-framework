@@ -10,6 +10,7 @@ use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectAlternativeNameExtension;
@@ -29,11 +30,11 @@ final class CertificationRequestInfoTest extends TestCase
 {
     final public const SAN_DN = 'cn=Alt Name';
 
-    private static $_subject;
+    private static ?Name $_subject = null;
 
-    private static $_privateKeyInfo;
+    private static ?OneAsymmetricKey $_privateKeyInfo = null;
 
-    private static $_attribs;
+    private static ?Attributes $_attribs = null;
 
     public static function setUpBeforeClass(): void
     {

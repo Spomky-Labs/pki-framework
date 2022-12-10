@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 use LogicException;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
@@ -81,10 +82,8 @@ final class ValidatorState
      * Working public key algorithm (working_public_key_algorithm).
      *
      * The digital signature algorithm used to verify the signature of a certificate.
-     *
-     * @var AlgorithmIdentifierType
      */
-    private $_workingPublicKeyAlgorithm;
+    private SignatureAlgorithmIdentifier|AlgorithmIdentifierType|null $_workingPublicKeyAlgorithm = null;
 
     /**
      * Working public key (working_public_key).

@@ -14,6 +14,7 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
@@ -39,17 +40,17 @@ final class AttributeCertificateInfoTest extends TestCase
 {
     final public const ISSUER_DN = 'cn=Issuer';
 
-    private static $_holder;
+    private static ?Holder $_holder = null;
 
-    private static $_issuer;
+    private static ?AttCertIssuer $_issuer = null;
 
-    private static $_validity;
+    private static ?AttCertValidityPeriod $_validity = null;
 
-    private static $_attribs;
+    private static ?Attributes $_attribs = null;
 
-    private static $_extensions;
+    private static ?Extensions $_extensions = null;
 
-    private static $_privKeyInfo;
+    private static ?OneAsymmetricKey $_privKeyInfo = null;
 
     public static function setUpBeforeClass(): void
     {

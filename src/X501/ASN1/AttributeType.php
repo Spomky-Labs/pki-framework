@@ -411,8 +411,9 @@ final class AttributeType
     /**
      * @param string $_oid OID in dotted format
      */
-    private function __construct(protected string $_oid)
-    {
+    private function __construct(
+        protected string $_oid
+    ) {
     }
 
     public static function create(string $oid): self

@@ -14,9 +14,9 @@ use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
  */
 final class AttCertValidityPeriodTest extends TestCase
 {
-    private static $_nb;
+    private static ?DateTimeImmutable $_nb = null;
 
-    private static $_na;
+    private static DateTimeImmutable $_na;
 
     public static function setUpBeforeClass(): void
     {

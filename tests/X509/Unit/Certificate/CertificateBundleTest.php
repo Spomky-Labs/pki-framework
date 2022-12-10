@@ -20,17 +20,17 @@ use SpomkyLabs\Pki\X509\Certificate\Validity;
  */
 final class CertificateBundleTest extends TestCase
 {
-    private static $_pem1;
+    private static ?PEM $_pem1 = null;
 
-    private static $_cert1;
+    private static ?Certificate $_cert1 = null;
 
-    private static $_pem2;
+    private static ?PEM $_pem2 = null;
 
-    private static $_cert2;
+    private static ?Certificate $_cert2 = null;
 
-    private static $_pem3;
+    private static ?PEM $_pem3 = null;
 
-    private static $_cert3;
+    private static ?Certificate $_cert3 = null;
 
     public static function setUpBeforeClass(): void
     {
