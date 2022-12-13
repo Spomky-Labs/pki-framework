@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\CryptoEncoding;
 use ArrayIterator;
 use function count;
 use Countable;
+use function is_string;
 use IteratorAggregate;
 use LogicException;
 use const PREG_SET_ORDER;
@@ -26,11 +27,11 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      *
      * @var PEM[]
      */
-    private array $_pems;
+    private array $pems;
 
     private function __construct(PEM ...$pems)
     {
-        $this->_pems = $pems;
+        $this->pems = $pems;
     }
 
     public function __toString(): string
@@ -53,8 +54,11 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
             throw new UnexpectedValueException('No PEM blocks.');
         }
         $pems = array_map(
-            function ($match) {
+            static function ($match) {
                 $payload = preg_replace('/\s+/', '', $match[2]);
+                if (! is_string($payload)) {
+                    throw new UnexpectedValueException('Failed to decode PEM data.');
+                }
                 $data = base64_decode($payload, true);
                 if ($data === false) {
                     throw new UnexpectedValueException('Failed to decode PEM data.');
@@ -87,7 +91,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
     public function withPEMs(PEM ...$pems): self
     {
         $obj = clone $this;
-        $obj->_pems = array_merge($obj->_pems, $pems);
+        $obj->pems = array_merge($obj->pems, $pems);
         return $obj;
     }
 
@@ -98,7 +102,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function all(): array
     {
-        return $this->_pems;
+        return $this->pems;
     }
 
     /**
@@ -106,10 +110,10 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function first(): PEM
     {
-        if (count($this->_pems) === 0) {
+        if (count($this->pems) === 0) {
             throw new LogicException('No PEMs.');
         }
-        return $this->_pems[0];
+        return $this->pems[0];
     }
 
     /**
@@ -117,10 +121,10 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function last(): PEM
     {
-        if (count($this->_pems) === 0) {
+        if (count($this->pems) === 0) {
             throw new LogicException('No PEMs.');
         }
-        return $this->_pems[count($this->_pems) - 1];
+        return $this->pems[count($this->pems) - 1];
     }
 
     /**
@@ -128,7 +132,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function count(): int
     {
-        return count($this->_pems);
+        return count($this->pems);
     }
 
     /**
@@ -138,7 +142,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->_pems);
+        return new ArrayIterator($this->pems);
     }
 
     /**
@@ -146,6 +150,6 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
      */
     public function string(): string
     {
-        return implode("\n", array_map(static fn (PEM $pem) => $pem->string(), $this->_pems));
+        return implode("\n", array_map(static fn (PEM $pem) => $pem->string(), $this->pems));
     }
 }

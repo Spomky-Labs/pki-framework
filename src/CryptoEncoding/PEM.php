@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoEncoding;
 
+use function is_string;
 use RuntimeException;
 use Stringable;
 use UnexpectedValueException;
@@ -85,6 +86,9 @@ final class PEM implements Stringable
             throw new UnexpectedValueException('Not a PEM formatted string.');
         }
         $payload = preg_replace('/\s+/', '', $match[2]);
+        if (! is_string($payload)) {
+            throw new UnexpectedValueException('Failed to decode PEM data.');
+        }
         $data = base64_decode($payload, true);
         if ($data === false) {
             throw new UnexpectedValueException('Failed to decode PEM data.');
