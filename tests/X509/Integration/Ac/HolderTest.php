@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class HolderTest extends TestCase
 {
-    private static $_pkc;
+    private static ?Certificate $_pkc = null;
 
     public static function setUpBeforeClass(): void
     {

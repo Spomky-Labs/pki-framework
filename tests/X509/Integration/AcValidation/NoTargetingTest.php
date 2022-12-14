@@ -28,11 +28,11 @@ use SpomkyLabs\Pki\X509\GeneralName\DNSName;
  */
 final class NoTargetingTest extends TestCase
 {
-    private static $_holderPath;
+    private static ?CertificationPath $_holderPath = null;
 
-    private static $_issuerPath;
+    private static ?CertificationPath $_issuerPath = null;
 
-    private static $_ac;
+    private static ?AttributeCertificate $_ac = null;
 
     public static function setUpBeforeClass(): void
     {

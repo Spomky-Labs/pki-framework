@@ -98,8 +98,9 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 
     final public const OID_SHA512 = '2.16.840.1.101.3.4.2.3';
 
-    protected function __construct(protected readonly string $oid)
-    {
+    protected function __construct(
+        protected readonly string $oid
+    ) {
     }
 
     /**

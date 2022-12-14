@@ -20,8 +20,9 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class EDIPartyName extends GeneralName
 {
-    private function __construct(protected Sequence $element)
-    {
+    private function __construct(
+        protected Sequence $element
+    ) {
         parent::__construct(self::TAG_EDI_PARTY_NAME);
     }
 

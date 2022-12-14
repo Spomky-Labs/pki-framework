@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState;
  */
 final class ValidatorStateTest extends TestCase
 {
-    private static $_ca;
+    private static ?Certificate $_ca = null;
 
     public static function setUpBeforeClass(): void
     {

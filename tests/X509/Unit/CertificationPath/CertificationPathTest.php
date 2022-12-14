@@ -20,7 +20,10 @@ use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationResult;
  */
 final class CertificationPathTest extends TestCase
 {
-    private static $_certs;
+    /**
+     * @var Certificate[]|null
+     */
+    private static ?array $_certs = null;
 
     public static function setUpBeforeClass(): void
     {

@@ -15,11 +15,11 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
  */
 final class CertificateEqualsTest extends TestCase
 {
-    private static $_cert1;
+    private static ?Certificate $_cert1 = null;
 
-    private static $_cert1DifKey;
+    private static ?Certificate $_cert1DifKey = null;
 
-    private static $_cert2;
+    private static ?Certificate $_cert2 = null;
 
     public static function setUpBeforeClass(): void
     {

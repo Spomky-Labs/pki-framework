@@ -22,8 +22,9 @@ abstract class DistributionPointName
 
     public const TAG_RDN = 1;
 
-    protected function __construct(protected int $tag)
-    {
+    protected function __construct(
+        protected int $tag
+    ) {
     }
 
     /**

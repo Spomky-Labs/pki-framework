@@ -244,8 +244,9 @@ final class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier i
     /**
      * @param string $namedCurve Curve identifier
      */
-    private function __construct(private readonly string $namedCurve)
-    {
+    private function __construct(
+        private readonly string $namedCurve
+    ) {
         parent::__construct(self::OID_EC_PUBLIC_KEY);
     }
 

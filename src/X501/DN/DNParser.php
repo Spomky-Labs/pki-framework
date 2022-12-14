@@ -33,8 +33,9 @@ final class DNParser
     /**
      * @param string $_dn Distinguised name
      */
-    private function __construct(private readonly string $_dn)
-    {
+    private function __construct(
+        private readonly string $_dn
+    ) {
         $this->_len = mb_strlen($_dn, '8bit');
     }
 
@@ -340,7 +341,7 @@ final class DNParser
         if (preg_match($pattern, mb_substr($this->_dn, $idx, null, '8bit'), $match) !== 1) {
             return null;
         }
-        $idx += mb_strlen((string) $match[0], '8bit');
+        $idx += mb_strlen($match[0], '8bit');
         $offset = $idx;
         return end($match);
     }

@@ -20,11 +20,11 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class HolderTest extends TestCase
 {
-    private static $_issuerSerial;
+    private static ?IssuerSerial $_issuerSerial = null;
 
-    private static $_subject;
+    private static ?GeneralNames $_subject = null;
 
-    private static $_odi;
+    private static ?ObjectDigestInfo $_odi = null;
 
     public static function setUpBeforeClass(): void
     {

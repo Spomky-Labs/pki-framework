@@ -46,8 +46,9 @@ abstract class AttributeValue implements Stringable
     /**
      * @param string $oid OID of the attribute type.
      */
-    protected function __construct(protected string $oid)
-    {
+    protected function __construct(
+        protected string $oid
+    ) {
     }
 
     /**

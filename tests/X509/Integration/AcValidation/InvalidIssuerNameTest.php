@@ -12,6 +12,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
+use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificateInfo;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attributes;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Holder;
@@ -27,11 +28,11 @@ use SpomkyLabs\Pki\X509\Exception\X509ValidationException;
  */
 final class InvalidIssuerNameTest extends TestCase
 {
-    private static $_holderPath;
+    private static ?CertificationPath $_holderPath = null;
 
-    private static $_issuerPath;
+    private static ?CertificationPath $_issuerPath = null;
 
-    private static $_ac;
+    private static ?AttributeCertificate $_ac = null;
 
     public static function setUpBeforeClass(): void
     {

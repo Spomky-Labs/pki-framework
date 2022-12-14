@@ -20,8 +20,9 @@ abstract class RFC8410PublicKey extends PublicKey
     /**
      * @param string $publicKey Public key data
      */
-    protected function __construct(private readonly string $publicKey)
-    {
+    protected function __construct(
+        private readonly string $publicKey
+    ) {
     }
 
     public function toDER(): string

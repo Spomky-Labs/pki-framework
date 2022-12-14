@@ -18,9 +18,9 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class TargetsTest extends TestCase
 {
-    private static $_name;
+    private static ?TargetName $_name = null;
 
-    private static $_group;
+    private static ?TargetGroup $_group = null;
 
     public static function setUpBeforeClass(): void
     {

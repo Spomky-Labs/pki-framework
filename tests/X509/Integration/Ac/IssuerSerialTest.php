@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\Test\X509\Integration\Ac;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\AttributeCertificate\IssuerSerial;
@@ -22,9 +23,9 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class IssuerSerialTest extends TestCase
 {
-    private static $_cert;
+    private static ?Certificate $_cert = null;
 
-    private static $_privKey;
+    private static ?OneAsymmetricKey $_privKey = null;
 
     public static function setUpBeforeClass(): void
     {

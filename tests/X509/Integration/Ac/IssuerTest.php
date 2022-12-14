@@ -15,7 +15,7 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
  */
 final class IssuerTest extends TestCase
 {
-    private static $_pkc;
+    private static ?Certificate $_pkc = null;
 
     public static function setUpBeforeClass(): void
     {

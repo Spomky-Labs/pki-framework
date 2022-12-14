@@ -22,7 +22,7 @@ parameters:
             path: src/X501/StringPrep/InsignificantNonSubstringSpaceStep.php
             count: 2
         -
-            message: '#Offset int does not exist on array\<SpomkyLabs\\Pki\\ASN1\\Element>\|null\.#'
+            message: '#Offset int might not exist on array\<SpomkyLabs\\Pki\\ASN1\\Element>\|null\.#'
             path: src/ASN1/Type/Structure.php
             count: 1
     checkMissingIterableValueType: true

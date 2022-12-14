@@ -16,9 +16,15 @@ use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
  */
 final class CertificateChainTest extends TestCase
 {
-    private static $_pems;
+    /**
+     * @var PEM[]|null
+     */
+    private static ?array $_pems = null;
 
-    private static $_certs;
+    /**
+     * @var Certificate[]|null
+     */
+    private static ?array $_certs = null;
 
     public static function setUpBeforeClass(): void
     {
