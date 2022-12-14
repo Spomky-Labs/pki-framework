@@ -7,7 +7,6 @@ namespace SpomkyLabs\Pki\Test\ASN1\Component;
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use function chr;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -17,91 +16,117 @@ use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
  */
 final class IdentifierDecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $identifier = Identifier::fromDER("\x0");
         static::assertInstanceOf(Identifier::class, $identifier);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function universal()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
         static::assertTrue($identifier->isUniversal());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function application()
     {
         $identifier = Identifier::fromDER(chr(0b01000000));
         static::assertTrue($identifier->isApplication());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function contextSpecific()
     {
         $identifier = Identifier::fromDER(chr(0b10000000));
         static::assertTrue($identifier->isContextSpecific());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function private()
     {
         $identifier = Identifier::fromDER(chr(0b11000000));
         static::assertTrue($identifier->isPrivate());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function pC()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
         static::assertEquals(Identifier::PRIMITIVE, $identifier->pc());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function primitive()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
         static::assertTrue($identifier->isPrimitive());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function constructed()
     {
         $identifier = Identifier::fromDER(chr(0b00100000));
         static::assertTrue($identifier->isConstructed());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function tag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
         static::assertEquals(0b1111, $identifier->tag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function intTag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
         static::assertEquals(0b1111, $identifier->intTag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function longTag()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\x7f");
         static::assertEquals(0x7f, $identifier->tag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function longTag2()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\xff\x7f");
         static::assertEquals((0x7f << 7) + 0x7f, $identifier->tag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hugeTag()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
@@ -110,7 +135,9 @@ final class IdentifierDecodeTest extends TestCase
         static::assertEquals($num->toBase(10), $identifier->tag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hugeIntTagOverflow()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
@@ -118,7 +145,9 @@ final class IdentifierDecodeTest extends TestCase
         Identifier::fromDER($der)->intTag();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidOffset()
     {
         $offset = 1;
@@ -127,7 +156,9 @@ final class IdentifierDecodeTest extends TestCase
         Identifier::fromDER("\x0", $offset);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unexpectedTagEnd()
     {
         $this->expectException(DecodeException::class);

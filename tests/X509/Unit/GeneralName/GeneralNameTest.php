@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -18,14 +17,18 @@ use UnexpectedValueException;
  */
 final class GeneralNameTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidTagFail()
     {
         $this->expectException(UnexpectedValueException::class);
         GeneralName::fromASN1(ImplicitlyTaggedType::create(9, NullType::create()));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function equals()
     {
         $n1 = UniformResourceIdentifier::create('urn:1');
@@ -33,7 +36,9 @@ final class GeneralNameTest extends TestCase
         static::assertTrue($n1->equals($n2));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function notEquals()
     {
         $n1 = UniformResourceIdentifier::create('urn:1');
@@ -41,7 +46,9 @@ final class GeneralNameTest extends TestCase
         static::assertFalse($n1->equals($n2));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function notEqualsDifferentTypes()
     {
         $n1 = UniformResourceIdentifier::create('urn:1');

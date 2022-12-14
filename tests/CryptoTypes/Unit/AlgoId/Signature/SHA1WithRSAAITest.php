@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Signature;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -17,7 +15,9 @@ use UnexpectedValueException;
  */
 final class SHA1WithRSAAITest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function encode(): Sequence
     {
         $ai = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
@@ -26,8 +26,11 @@ final class SHA1WithRSAAITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(Sequence $seq): AlgorithmIdentifier|SHA1WithRSAEncryptionAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -35,8 +38,11 @@ final class SHA1WithRSAAITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decodeNoParamsFail(Sequence $seq): void
     {
         $seq = $seq->withoutElement(1);
@@ -44,8 +50,11 @@ final class SHA1WithRSAAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decodeInvalidParamsFail(Sequence $seq): void
     {
         $seq = $seq->withReplaced(1, Sequence::create());
@@ -53,8 +62,11 @@ final class SHA1WithRSAAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function name(AlgorithmIdentifier $algo): void
     {
         static::assertIsString($algo->name());

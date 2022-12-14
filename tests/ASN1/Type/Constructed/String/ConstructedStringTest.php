@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\String;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString;
@@ -39,7 +36,9 @@ use UnexpectedValueException;
  */
 final class ConstructedStringTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $cs = ConstructedString::createWithTag(
@@ -51,15 +50,21 @@ final class ConstructedStringTest extends TestCase
         return $cs;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -67,8 +72,11 @@ final class ConstructedStringTest extends TestCase
         return $der;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $data): ConstructedString
     {
         $el = ConstructedString::fromDER($data);
@@ -76,45 +84,62 @@ final class ConstructedStringTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function strings(ConstructedString $cs)
     {
         static::assertEquals(['Hello', 'World'], $cs->strings());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function stringable(ConstructedString $cs)
     {
         static::assertEquals('HelloWorld', $cs->string());
         static::assertEquals('HelloWorld', strval($cs));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function isPseudoType(ConstructedString $cs)
     {
         static::assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function unspecified(ConstructedString $cs)
     {
         $ut = UnspecifiedType::create($cs);
         static::assertInstanceOf(ConstructedString::class, $ut->asConstructedString());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unspecifiedFail()
     {
         $ut = UnspecifiedType::create(NullType::create());
@@ -123,7 +148,9 @@ final class ConstructedStringTest extends TestCase
         $ut->asConstructedString();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createFromElements()
     {
         $cs = ConstructedString::create(OctetString::create('Hello'), OctetString::create('World'));
@@ -131,14 +158,19 @@ final class ConstructedStringTest extends TestCase
         return $cs;
     }
 
-    #[Test]
-    #[Depends('createFromElements')]
+    /**
+     * @depends createFromElements
+     *
+     * @test
+     */
     public function fromElementsTag(ConstructedString $cs)
     {
         static::assertEquals(Element::TYPE_OCTET_STRING, $cs->tag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createNoElementsFail()
     {
         $this->expectException(LogicException::class);
@@ -146,7 +178,9 @@ final class ConstructedStringTest extends TestCase
         ConstructedString::create();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createMixedElementsFail()
     {
         $this->expectException(LogicException::class);
@@ -154,8 +188,11 @@ final class ConstructedStringTest extends TestCase
         ConstructedString::create(OctetString::create('Hello'), BitString::create('World'));
     }
 
-    #[Test]
-    #[DataProvider('provideStringType')]
+    /**
+     * @dataProvider provideStringType
+     *
+     * @test
+     */
     public function stringTypeAndConcatenate(StringType $el)
     {
         $str = $el->string();
@@ -167,7 +204,7 @@ final class ConstructedStringTest extends TestCase
         static::assertEquals("{$str}{$str}", $s->string());
     }
 
-    public static function provideStringType(): iterable
+    public function provideStringType(): iterable
     {
         static $str = 'test';
         yield [BitString::create($str)];

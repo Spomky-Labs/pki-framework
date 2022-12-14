@@ -6,8 +6,6 @@ namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\EC;
 
 use InvalidArgumentException;
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -23,8 +21,9 @@ final class ECPublicKeyTest extends TestCase
 {
     /**
      * @return ECPublicKey
+     *
+     * @test
      */
-    #[Test]
     public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
@@ -33,22 +32,30 @@ final class ECPublicKeyTest extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function eCPoint(ECPublicKey $pk)
     {
         static::assertNotEmpty($pk->ECPoint());
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function publicKeyInfo(ECPublicKey $pk)
     {
         $pki = $pk->publicKeyInfo();
         static::assertInstanceOf(PublicKeyInfo::class, $pki);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noNamedCurve()
     {
         $pk = ECPublicKey::create("\x04\0\0");
@@ -56,14 +63,18 @@ final class ECPublicKeyTest extends TestCase
         $pk->publicKeyInfo();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidECPoint()
     {
         $this->expectException(InvalidArgumentException::class);
         ECPublicKey::create("\x0");
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidPEMType()
     {
         $pem = PEM::create('nope', '');
@@ -71,7 +82,9 @@ final class ECPublicKeyTest extends TestCase
         ECPublicKey::fromPEM($pem);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function rSAKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
@@ -79,15 +92,21 @@ final class ECPublicKeyTest extends TestCase
         ECPublicKey::fromPEM($pem);
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function toDER(ECPublicKey $pk)
     {
         static::assertNotEmpty($pk->toDER());
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function curvePoint(ECPublicKey $pk)
     {
         $point = $pk->curvePoint();
@@ -95,21 +114,29 @@ final class ECPublicKeyTest extends TestCase
         return $point;
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function hasNamedCurve(ECPublicKey $pk)
     {
         static::assertTrue($pk->hasNamedCurve());
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function namedCurve(ECPublicKey $pk)
     {
         static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noCurveFail()
     {
         $pk = ECPublicKey::create("\x4\0\0");
@@ -117,7 +144,9 @@ final class ECPublicKeyTest extends TestCase
         $pk->namedCurve();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function compressedFail()
     {
         $pk = ECPublicKey::create("\x3\0");
@@ -125,8 +154,11 @@ final class ECPublicKeyTest extends TestCase
         $pk->curvePoint();
     }
 
-    #[Test]
-    #[Depends('curvePoint')]
+    /**
+     * @depends curvePoint
+     *
+     * @test
+     */
     public function fromCoordinates(array $points)
     {
         [$x, $y] = $points;
@@ -135,15 +167,20 @@ final class ECPublicKeyTest extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
-    #[Depends('fromCoordinates')]
+    /**
+     * @depends fromPEM
+     * @depends fromCoordinates
+     *
+     * @test
+     */
     public function fromCoordsEqualsPEM(ECPublicKey $ref, ECPublicKey $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromCoordsUnknownCurve()
     {
         $pk = ECPublicKey::fromCoordinates(0, 0, '1.3.6.1.3');

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
@@ -36,14 +35,18 @@ final class AttributeCastTest extends TestCase
         self::$_attr = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function cast()
     {
         $attr = self::$_attr->castValues(CommonNameValue::class);
         static::assertInstanceOf(CommonNameValue::class, $attr->first());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidClass()
     {
         $this->expectException(LogicException::class);
@@ -51,7 +54,9 @@ final class AttributeCastTest extends TestCase
         self::$_attr->castValues(stdClass::class);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function oIDMismatch()
     {
         $this->expectException(LogicException::class);

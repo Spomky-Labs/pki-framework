@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -16,7 +14,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\NoRevocationAvailableExtension;
  */
 final class NoRevocationAvailableTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $ext = NoRevocationAvailableExtension::create(true);
@@ -24,22 +24,31 @@ final class NoRevocationAvailableTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_NO_REV_AVAIL, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -48,10 +57,12 @@ final class NoRevocationAvailableTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = NoRevocationAvailableExtension::fromASN1(Sequence::fromDER($der));
@@ -59,9 +70,12 @@ final class NoRevocationAvailableTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);

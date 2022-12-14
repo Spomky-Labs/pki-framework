@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\DERData;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -19,7 +17,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
  */
 final class ExtensionsTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $exts = Extensions::create(
@@ -30,8 +30,11 @@ final class ExtensionsTest extends TestCase
         return $exts;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extensions $exts)
     {
         $seq = $exts->toASN1();
@@ -40,10 +43,12 @@ final class ExtensionsTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $exts = Extensions::fromASN1(Sequence::fromDER($der));
@@ -51,52 +56,73 @@ final class ExtensionsTest extends TestCase
         return $exts;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extensions $ref, Extensions $new)
     {
         static::assertEquals($ref->toASN1(), $new->toASN1());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function has(Extensions $exts)
     {
         static::assertTrue($exts->has('1.3.6.1.3.1'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function hasNot(Extensions $exts)
     {
         static::assertFalse($exts->has('1.3.6.1.3.3'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function get(Extensions $exts)
     {
         static::assertInstanceOf(Extension::class, $exts->get('1.3.6.1.3.1'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function getFail(Extensions $exts)
     {
         $this->expectException(LogicException::class);
         $exts->get('1.3.6.1.3.3');
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(Extensions $exts)
     {
         static::assertCount(2, $exts);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(Extensions $exts)
     {
         $values = [];
@@ -107,8 +133,11 @@ final class ExtensionsTest extends TestCase
         static::assertContainsOnlyInstancesOf(Extension::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withExtensions(Extensions $exts)
     {
         static $oid = '1.3.6.1.3.3';

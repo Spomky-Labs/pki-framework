@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCsr;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -29,8 +27,9 @@ final class DecodeTest extends TestCase
 {
     /**
      * @return CertificationRequest
+     *
+     * @test
      */
-    #[Test]
     public function cSR()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.csr');
@@ -40,10 +39,12 @@ final class DecodeTest extends TestCase
     }
 
     /**
+     * @depends cSR
+     *
      * @return CertificationRequestInfo
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('cSR')]
     public function certificationRequestInfo(CertificationRequest $cr)
     {
         $cri = $cr->certificationRequestInfo();
@@ -52,10 +53,12 @@ final class DecodeTest extends TestCase
     }
 
     /**
+     * @depends cSR
+     *
      * @return AlgorithmIdentifier
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('cSR')]
     public function signatureAlgorithm(CertificationRequest $cr)
     {
         $algo = $cr->signatureAlgorithm();
@@ -63,18 +66,23 @@ final class DecodeTest extends TestCase
         return $algo;
     }
 
-    #[Test]
-    #[Depends('signatureAlgorithm')]
+    /**
+     * @depends signatureAlgorithm
+     *
+     * @test
+     */
     public function algoType(AlgorithmIdentifier $algo)
     {
         static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
+     * @depends cSR
+     *
      * @return Signature
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('cSR')]
     public function signature(CertificationRequest $cr)
     {
         $signature = $cr->signature();
@@ -82,26 +90,34 @@ final class DecodeTest extends TestCase
         return $signature;
     }
 
-    #[Test]
-    #[Depends('signature')]
+    /**
+     * @depends signature
+     *
+     * @test
+     */
     public function signatureValue(Signature $signature)
     {
         $expected = hex2bin(trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.csr.sig')));
         static::assertEquals($expected, $signature->bitString()->string());
     }
 
-    #[Test]
-    #[Depends('certificationRequestInfo')]
+    /**
+     * @depends certificationRequestInfo
+     *
+     * @test
+     */
     public function version(CertificationRequestInfo $cri)
     {
         static::assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
     }
 
     /**
+     * @depends certificationRequestInfo
+     *
      * @return Name
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('certificationRequestInfo')]
     public function subject(CertificationRequestInfo $cri)
     {
         $subject = $cri->subject();
@@ -109,18 +125,23 @@ final class DecodeTest extends TestCase
         return $subject;
     }
 
-    #[Test]
-    #[Depends('subject')]
+    /**
+     * @depends subject
+     *
+     * @test
+     */
     public function subjectDN(Name $name)
     {
         static::assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
     }
 
     /**
+     * @depends certificationRequestInfo
+     *
      * @return PublicKeyInfo
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('certificationRequestInfo')]
     public function subjectPKInfo(CertificationRequestInfo $cri)
     {
         $info = $cri->subjectPKInfo();
@@ -128,15 +149,21 @@ final class DecodeTest extends TestCase
         return $info;
     }
 
-    #[Test]
-    #[Depends('subjectPKInfo')]
+    /**
+     * @depends subjectPKInfo
+     *
+     * @test
+     */
     public function publicKeyAlgo(PublicKeyInfo $info)
     {
         static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier()->oid());
     }
 
-    #[Test]
-    #[Depends('subjectPKInfo')]
+    /**
+     * @depends subjectPKInfo
+     *
+     * @test
+     */
     public function publicKey(PublicKeyInfo $info)
     {
         $pk = PrivateKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
@@ -144,10 +171,12 @@ final class DecodeTest extends TestCase
     }
 
     /**
+     * @depends certificationRequestInfo
+     *
      * @return Attributes
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('certificationRequestInfo')]
     public function attributes(CertificationRequestInfo $cri)
     {
         static::assertTrue($cri->hasAttributes());
@@ -157,10 +186,12 @@ final class DecodeTest extends TestCase
     }
 
     /**
+     * @depends attributes
+     *
      * @return ExtensionRequestValue
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('attributes')]
     public function extensionRequestAttribute(Attributes $attribs)
     {
         $attr = ExtensionRequestValue::fromSelf($attribs->firstOf(ExtensionRequestValue::OID)->first());
@@ -169,10 +200,12 @@ final class DecodeTest extends TestCase
     }
 
     /**
+     * @depends extensionRequestAttribute
+     *
      * @return Extensions
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('extensionRequestAttribute')]
     public function requestedExtensions(ExtensionRequestValue $attr)
     {
         $extensions = $attr->extensions();
@@ -181,10 +214,12 @@ final class DecodeTest extends TestCase
     }
 
     /**
+     * @depends requestedExtensions
+     *
      * @return KeyUsageExtension
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('requestedExtensions')]
     public function keyUsageExtension(Extensions $extensions)
     {
         $ext = $extensions->get(Extension::OID_KEY_USAGE);
@@ -192,8 +227,11 @@ final class DecodeTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('keyUsageExtension')]
+    /**
+     * @depends keyUsageExtension
+     *
+     * @test
+     */
     public function keyUsageExtensionValue(KeyUsageExtension $ext)
     {
         static::assertTrue($ext->isKeyEncipherment());

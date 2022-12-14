@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -15,7 +14,9 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
  */
 final class AIFactoryTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function provider()
     {
         $factory = AlgorithmIdentifierFactory::create(new AIFactoryTestProvider());
@@ -24,7 +25,9 @@ final class AIFactoryTest extends TestCase
         static::assertInstanceOf(AIFactoryTestCustomAlgo::class, $ai);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function providerNoMatch()
     {
         $factory = AlgorithmIdentifierFactory::create(new AIFactoryTestProvider());

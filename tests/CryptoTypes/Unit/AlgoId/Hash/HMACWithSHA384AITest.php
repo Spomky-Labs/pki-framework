@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Hash;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -18,8 +16,9 @@ final class HMACWithSHA384AITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    #[Test]
     public function encode()
     {
         $ai = HMACWithSHA384AlgorithmIdentifier::create();
@@ -28,8 +27,11 @@ final class HMACWithSHA384AITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -37,8 +39,11 @@ final class HMACWithSHA384AITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

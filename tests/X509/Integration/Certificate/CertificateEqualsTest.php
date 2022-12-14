@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\Certificate;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
@@ -41,19 +40,25 @@ final class CertificateEqualsTest extends TestCase
         self::$_cert2 = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function equals()
     {
         static::assertTrue(self::$_cert1->equals(self::$_cert1));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function notEquals()
     {
         static::assertFalse(self::$_cert1->equals(self::$_cert2));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function differentPubKeyNotEquals()
     {
         static::assertFalse(self::$_cert1->equals(self::$_cert1DifKey));

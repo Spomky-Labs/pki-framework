@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -17,7 +16,9 @@ use UnexpectedValueException;
  */
 final class IPAddressNameTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidASN1()
     {
         $el = ImplicitlyTaggedType::create(GeneralName::TAG_IP_ADDRESS, OctetString::create(''));

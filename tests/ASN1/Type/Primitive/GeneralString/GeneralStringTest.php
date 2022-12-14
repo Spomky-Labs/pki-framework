@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\GeneralString;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralString;
@@ -18,7 +16,9 @@ use UnexpectedValueException;
  */
 final class GeneralStringTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = GeneralString::create('');
@@ -26,15 +26,21 @@ final class GeneralStringTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_GENERAL_STRING, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -42,8 +48,11 @@ final class GeneralStringTest extends TestCase
         return $der;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $data): GeneralString
     {
         $el = GeneralString::fromDER($data);
@@ -51,23 +60,31 @@ final class GeneralStringTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(GeneralString::class, $wrap->asGeneralString());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());

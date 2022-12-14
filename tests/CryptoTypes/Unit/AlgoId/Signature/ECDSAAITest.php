@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Signature;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
@@ -15,7 +14,9 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1Algori
  */
 final class ECDSAAITest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function supportsKeyAlgorithm()
     {
         $sig_algo = ECDSAWithSHA1AlgorithmIdentifier::create();
@@ -23,7 +24,9 @@ final class ECDSAAITest extends TestCase
         static::assertTrue($sig_algo->supportsKeyAlgorithm($key_algo));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function doesntSupportsKeyAlgorithm()
     {
         $sig_algo = ECDSAWithSHA1AlgorithmIdentifier::create();

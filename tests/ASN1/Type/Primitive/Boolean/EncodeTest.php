@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Boolean;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
 
@@ -13,14 +12,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
  */
 final class EncodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function true()
     {
         $el = Boolean::create(true);
         static::assertEquals("\x1\x1\xff", $el->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function false()
     {
         $el = Boolean::create(false);

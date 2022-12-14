@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Unit\DN;
 
 use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 
@@ -16,18 +14,20 @@ use SpomkyLabs\Pki\X501\ASN1\Name;
 final class NameEqualityTest extends TestCase
 {
     /**
+     * @dataProvider provideEqual
+     *
      * @param string $dn1
      * @param string $dn2
+     *
+     * @test
      */
-    #[Test]
-    #[DataProvider('provideEqual')]
     public function equal($dn1, $dn2)
     {
         $result = Name::fromString($dn1)->equals(Name::fromString($dn2));
         static::assertTrue($result);
     }
 
-    public static function provideEqual(): Iterator
+    public function provideEqual(): Iterator
     {
         // binary equal
         yield ['cn=one', 'cn=one'];
@@ -46,18 +46,20 @@ final class NameEqualityTest extends TestCase
     }
 
     /**
+     * @dataProvider provideUnequal
+     *
      * @param string $dn1
      * @param string $dn2
+     *
+     * @test
      */
-    #[Test]
-    #[DataProvider('provideUnequal')]
     public function unequal($dn1, $dn2)
     {
         $result = Name::fromString($dn1)->equals(Name::fromString($dn2));
         static::assertFalse($result);
     }
 
-    public static function provideUnequal(): Iterator
+    public function provideUnequal(): Iterator
     {
         // value mismatch
         yield ['cn=one', 'cn=two'];

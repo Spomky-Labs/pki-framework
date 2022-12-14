@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectAlternativeNameExtension;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
@@ -17,8 +15,9 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
 {
     /**
      * @return SubjectAlternativeNameExtension
+     *
+     * @test
      */
-    #[Test]
     public function subjectAlternativeName()
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_ALT_NAME);
@@ -26,8 +25,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         return $ext;
     }
 
-    #[Test]
-    #[Depends('subjectAlternativeName')]
+    /**
+     * @depends subjectAlternativeName
+     *
+     * @test
+     */
     public function sANEmail(SubjectAlternativeNameExtension $san)
     {
         $email = $san->names()
@@ -36,8 +38,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         static::assertEquals('foo@example.com', $email);
     }
 
-    #[Test]
-    #[Depends('subjectAlternativeName')]
+    /**
+     * @depends subjectAlternativeName
+     *
+     * @test
+     */
     public function sANURI(SubjectAlternativeNameExtension $san)
     {
         $uri = $san->names()
@@ -46,8 +51,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         static::assertEquals('urn:foo:bar', $uri);
     }
 
-    #[Test]
-    #[Depends('subjectAlternativeName')]
+    /**
+     * @depends subjectAlternativeName
+     *
+     * @test
+     */
     public function sANDNS(SubjectAlternativeNameExtension $san)
     {
         $name = $san->names()
@@ -56,8 +64,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         static::assertEquals('alt.example.com', $name);
     }
 
-    #[Test]
-    #[Depends('subjectAlternativeName')]
+    /**
+     * @depends subjectAlternativeName
+     *
+     * @test
+     */
     public function sANRegisteredID(SubjectAlternativeNameExtension $san)
     {
         $oid = $san->names()
@@ -66,8 +77,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         static::assertEquals('1.3.6.1.4.1.45710.2.1', $oid);
     }
 
-    #[Test]
-    #[Depends('subjectAlternativeName')]
+    /**
+     * @depends subjectAlternativeName
+     *
+     * @test
+     */
     public function sANIPAddresses(SubjectAlternativeNameExtension $san)
     {
         $names = $san->names()
@@ -76,8 +90,11 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         static::assertEqualsCanonicalizing(['127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'], $ips);
     }
 
-    #[Test]
-    #[Depends('subjectAlternativeName')]
+    /**
+     * @depends subjectAlternativeName
+     *
+     * @test
+     */
     public function sANDirectoryName(SubjectAlternativeNameExtension $san)
     {
         $dn = $san->names()

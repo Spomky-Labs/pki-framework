@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Hash;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -20,8 +18,9 @@ final class HMACWithSHA1AITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    #[Test]
     public function encode()
     {
         $ai = HMACWithSHA1AlgorithmIdentifier::create();
@@ -30,8 +29,11 @@ final class HMACWithSHA1AITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -39,8 +41,11 @@ final class HMACWithSHA1AITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decodeWithParamsFail(Sequence $seq)
     {
         $seq = $seq->withInserted(1, NullType::create());
@@ -48,8 +53,11 @@ final class HMACWithSHA1AITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

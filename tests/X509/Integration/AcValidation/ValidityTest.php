@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcValidation;
 
 use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
@@ -62,7 +61,9 @@ final class ValidityTest extends TestCase
         self::$_ac = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function validateBefore()
     {
         $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
@@ -72,7 +73,9 @@ final class ValidityTest extends TestCase
         $validator->validate();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function validateAfter()
     {
         $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);

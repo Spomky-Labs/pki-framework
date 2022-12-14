@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Utf8String;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -19,7 +17,9 @@ use UnexpectedValueException;
  */
 final class UTF8StringTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = UTF8String::create('');
@@ -27,15 +27,21 @@ final class UTF8StringTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_UTF8_STRING, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -44,10 +50,12 @@ final class UTF8StringTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data): UTF8String
     {
         $el = UTF8String::fromDER($data);
@@ -55,15 +63,20 @@ final class UTF8StringTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidString()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -71,15 +84,20 @@ final class UTF8StringTest extends TestCase
         UTF8String::create(hex2bin('ff'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(UTF8String::class, $wrap->asUTF8String());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());

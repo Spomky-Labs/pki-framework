@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\RFC8410;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -22,7 +20,9 @@ use UnexpectedValueException;
  */
 final class Curve448Test extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeEd448(): Ed448PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
@@ -32,15 +32,20 @@ final class Curve448Test extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('decodeEd448')]
+    /**
+     * @depends decodeEd448
+     *
+     * @test
+     */
     public function recodeEd448(Ed448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
         static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeEd448Pub(): Ed448PublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
@@ -49,15 +54,20 @@ final class Curve448Test extends TestCase
         return $pub;
     }
 
-    #[Test]
-    #[Depends('decodeEd448Pub')]
+    /**
+     * @depends decodeEd448Pub
+     *
+     * @test
+     */
     public function recodeEd448Pub(Ed448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
         static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function ed448PkInvalidPrivateKey()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -65,7 +75,9 @@ final class Curve448Test extends TestCase
         Ed448PrivateKey::create('');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function ed448PkInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -73,7 +85,9 @@ final class Curve448Test extends TestCase
         Ed448PrivateKey::create(str_repeat("\0", 57), '');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function ed448PubInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -81,15 +95,20 @@ final class Curve448Test extends TestCase
         Ed448PublicKey::create('');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function ed448PublicKey()
     {
         $pk = Ed448PrivateKey::create(str_repeat("\0", 57), str_repeat("\0", 57));
         static::assertInstanceOf(Ed448PublicKey::class, $pk->publicKey());
     }
 
-    #[Test]
-    #[Depends('decodeEd448')]
+    /**
+     * @depends decodeEd448
+     *
+     * @test
+     */
     public function ed448PublicKeyNotSet(Ed448PrivateKey $pk)
     {
         $this->expectException(LogicException::class);
@@ -97,7 +116,9 @@ final class Curve448Test extends TestCase
         $pk->publicKey();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeX448(): X448PrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
@@ -107,15 +128,20 @@ final class Curve448Test extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('decodeX448')]
+    /**
+     * @depends decodeX448
+     *
+     * @test
+     */
     public function recodeX448(X448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
         static::assertEquals($pem->data(), $pk->toPEM()->data());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeX448Pub(): X448PublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
@@ -124,15 +150,20 @@ final class Curve448Test extends TestCase
         return $pub;
     }
 
-    #[Test]
-    #[Depends('decodeX448Pub')]
+    /**
+     * @depends decodeX448Pub
+     *
+     * @test
+     */
     public function recodeX448Pub(X448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
         static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function x448PkInvalidPrivateKey()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -140,7 +171,9 @@ final class Curve448Test extends TestCase
         X448PrivateKey::create('');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function x448PkInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -148,7 +181,9 @@ final class Curve448Test extends TestCase
         X448PrivateKey::create(str_repeat("\0", 56), '');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function x448PubInvalidPublicKey()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -156,15 +191,20 @@ final class Curve448Test extends TestCase
         X448PublicKey::create('');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function x448PublicKey()
     {
         $pk = X448PrivateKey::create(str_repeat("\0", 56), str_repeat("\0", 56));
         static::assertInstanceOf(X448PublicKey::class, $pk->publicKey());
     }
 
-    #[Test]
-    #[Depends('decodeX448')]
+    /**
+     * @depends decodeX448
+     *
+     * @test
+     */
     public function x448PublicKeyNotSet(X448PrivateKey $pk)
     {
         $this->expectException(LogicException::class);

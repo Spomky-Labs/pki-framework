@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\UtcTime;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -20,7 +18,9 @@ use UnexpectedValueException;
  */
 final class UTCTimeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = UTCTime::fromString('Mon Jan 2 15:04:05 MST 2006');
@@ -28,15 +28,21 @@ final class UTCTimeTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_UTC_TIME, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -44,8 +50,11 @@ final class UTCTimeTest extends TestCase
         return $der;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $data): UTCTime
     {
         $el = UTCTime::fromDER($data);
@@ -53,23 +62,31 @@ final class UTCTimeTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(TimeType $ref, TimeType $el)
     {
         static::assertEquals($ref->dateTime()->getTimestamp(), $el->dateTime()->getTimestamp());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(UTCTime::class, $wrap->asUTCTime());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -78,8 +95,11 @@ final class UTCTimeTest extends TestCase
         $wrap->asUTCTime();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function stringable(TimeType $time)
     {
         static::assertEquals('060102220405Z', $time->string());

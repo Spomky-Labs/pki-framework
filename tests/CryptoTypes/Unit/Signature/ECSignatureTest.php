@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -16,7 +14,9 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\ECSignature;
  */
 final class ECSignatureTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): ECSignature
     {
         $sig = ECSignature::create('123456789', '987654321');
@@ -24,16 +24,22 @@ final class ECSignatureTest extends TestCase
         return $sig;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(ECSignature $sig): void
     {
         $el = $sig->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toDER(ECSignature $sig): string
     {
         $der = $sig->toDER();
@@ -42,10 +48,12 @@ final class ECSignatureTest extends TestCase
     }
 
     /**
+     * @depends toDER
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('toDER')]
     public function decode($data): ECSignature
     {
         $sig = ECSignature::fromDER($data);
@@ -53,30 +61,42 @@ final class ECSignatureTest extends TestCase
         return $sig;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(ECSignature $ref, ECSignature $sig): void
     {
         static::assertEquals($ref, $sig);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function rValue(ECSignature $sig): void
     {
         static::assertEquals('123456789', $sig->r());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function sValue(ECSignature $sig): void
     {
         static::assertEquals('987654321', $sig->s());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function bitString(ECSignature $sig): void
     {
         static::assertInstanceOf(BitString::class, $sig->bitString());

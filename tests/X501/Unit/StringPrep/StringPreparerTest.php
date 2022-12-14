@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\StringPrep;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\X501\StringPrep\StringPreparer;
@@ -15,7 +13,9 @@ use SpomkyLabs\Pki\X501\StringPrep\StringPreparer;
  */
 final class StringPreparerTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $preparer = StringPreparer::forStringType(Element::TYPE_UTF8_STRING);
@@ -23,8 +23,11 @@ final class StringPreparerTest extends TestCase
         return $preparer;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withCaseFolding(StringPreparer $preparer)
     {
         $preparer = $preparer->withCaseFolding(true);
@@ -32,8 +35,11 @@ final class StringPreparerTest extends TestCase
         return $preparer;
     }
 
-    #[Test]
-    #[Depends('withCaseFolding')]
+    /**
+     * @depends withCaseFolding
+     *
+     * @test
+     */
     public function prepare(StringPreparer $preparer)
     {
         $str = $preparer->prepare('TEST');

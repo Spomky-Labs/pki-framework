@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\OctetString;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 
@@ -13,21 +12,27 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = OctetString::fromDER("\x4\0");
         static::assertInstanceOf(OctetString::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function helloWorld()
     {
         $el = OctetString::fromDER("\x4\x0cHello World!");
         static::assertEquals('Hello World!', $el->string());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function nullString()
     {
         $el = OctetString::fromDER("\x4\x3\x0\x0\x0");

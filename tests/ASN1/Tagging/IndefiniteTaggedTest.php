@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\DERTaggedType;
@@ -16,7 +14,9 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
  */
 final class IndefiniteTaggedTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeIndefinite()
     {
         $el = TaggedType::fromDER(hex2bin('a0800201010000'));
@@ -24,15 +24,20 @@ final class IndefiniteTaggedTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('decodeIndefinite')]
+    /**
+     * @depends decodeIndefinite
+     *
+     * @test
+     */
     public function encodeIndefinite(TaggedType $el)
     {
         $der = $el->toDER();
         static::assertEquals(hex2bin('a0800201010000'), $der);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function primitiveFail()
     {
         $this->expectException(DecodeException::class);

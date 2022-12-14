@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\BaseString;
@@ -23,7 +21,9 @@ use UnexpectedValueException;
  */
 final class DisplayTextTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $dt = DisplayText::fromString('test');
@@ -31,8 +31,11 @@ final class DisplayTextTest extends TestCase
         return $dt;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(DisplayText $dt)
     {
         $el = $dt->toASN1();
@@ -41,10 +44,12 @@ final class DisplayTextTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data)
     {
         $qual = DisplayText::fromASN1(BaseString::fromDER($data));
@@ -52,50 +57,66 @@ final class DisplayTextTest extends TestCase
         return $qual;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(DisplayText $ref, DisplayText $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(DisplayText $dt)
     {
         static::assertEquals('test', $dt->string());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeIA5String()
     {
         $dt = DisplayText::create('', Element::TYPE_IA5_STRING);
         static::assertInstanceOf(IA5String::class, $dt->toASN1());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeVisibleString()
     {
         $dt = DisplayText::create('', Element::TYPE_VISIBLE_STRING);
         static::assertInstanceOf(VisibleString::class, $dt->toASN1());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeBMPString()
     {
         $dt = DisplayText::create('', Element::TYPE_BMP_STRING);
         static::assertInstanceOf(BMPString::class, $dt->toASN1());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeUTF8String()
     {
         $dt = DisplayText::create('', Element::TYPE_UTF8_STRING);
         static::assertInstanceOf(UTF8String::class, $dt->toASN1());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeUnsupportedTypeFail()
     {
         $dt = DisplayText::create('', Element::TYPE_NULL);
@@ -103,8 +124,11 @@ final class DisplayTextTest extends TestCase
         $dt->toASN1();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toStringMethod(DisplayText $dt)
     {
         static::assertIsString(strval($dt));

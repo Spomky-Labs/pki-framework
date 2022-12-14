@@ -7,8 +7,6 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use const PHP_INT_MAX;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -21,7 +19,9 @@ use UnexpectedValueException;
  */
 final class IntegerTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): Integer
     {
         $el = Integer::create(1);
@@ -29,15 +29,21 @@ final class IntegerTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_INTEGER, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -45,8 +51,11 @@ final class IntegerTest extends TestCase
         return $der;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $data): Integer
     {
         $el = Integer::fromDER($data);
@@ -54,23 +63,31 @@ final class IntegerTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(Integer::class, $wrap->asInteger());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -80,16 +97,20 @@ final class IntegerTest extends TestCase
     }
 
     /**
+     * @depends create
+     *
      * @param Element $el
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('create')]
     public function intNumber(Integer $el)
     {
         static::assertEquals(1, $el->intNumber());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function intNumberOverflow()
     {
         $num = BigInteger::of(PHP_INT_MAX)->plus(1);

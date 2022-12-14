@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoBridge\Unit\Crypto;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 
@@ -13,7 +12,9 @@ use SpomkyLabs\Pki\CryptoBridge\Crypto;
  */
 final class CryptoTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function default()
     {
         $crypto = Crypto::getDefault();

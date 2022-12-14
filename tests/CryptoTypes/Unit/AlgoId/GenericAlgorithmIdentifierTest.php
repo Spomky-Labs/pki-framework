@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -17,7 +15,9 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
  */
 final class GenericAlgorithmIdentifierTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): GenericAlgorithmIdentifier
     {
         $ai = GenericAlgorithmIdentifier::create('1.3.6.1.3', UnspecifiedType::create(Integer::create(42)));
@@ -25,22 +25,31 @@ final class GenericAlgorithmIdentifierTest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function name(GenericAlgorithmIdentifier $ai): void
     {
         static::assertEquals('1.3.6.1.3', $ai->name());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function parameters(GenericAlgorithmIdentifier $ai): void
     {
         static::assertInstanceOf(UnspecifiedType::class, $ai->parameters());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(GenericAlgorithmIdentifier $ai): void
     {
         static::assertInstanceOf(Sequence::class, $ai->toASN1());

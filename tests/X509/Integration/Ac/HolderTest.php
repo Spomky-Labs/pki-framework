@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\Ac;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Holder;
@@ -30,14 +29,18 @@ final class HolderTest extends TestCase
         self::$_pkc = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCSimple()
     {
         $holder = Holder::fromPKC(self::$_pkc);
         static::assertTrue($holder->identifiesPKC(self::$_pkc));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCByEntityName()
     {
         $gn = GeneralNames::create(DirectoryName::create(self::$_pkc->tbsCertificate()->subject()));
@@ -45,7 +48,9 @@ final class HolderTest extends TestCase
         static::assertTrue($holder->identifiesPKC(self::$_pkc));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCByEntityNameSANDirectoryName()
     {
         $gn = GeneralNames::create(DirectoryName::fromDNString('o=ACME Alternative Ltd., c=FI, cn=alt.example.com'));
@@ -53,14 +58,18 @@ final class HolderTest extends TestCase
         static::assertTrue($holder->identifiesPKC(self::$_pkc));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCNoIdentifiers()
     {
         $holder = Holder::create();
         static::assertFalse($holder->identifiesPKC(self::$_pkc));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCNoCertIdMatch()
     {
         $is = IssuerSerial::create(GeneralNames::create(DirectoryName::fromDNString('cn=Fail')), '1');
@@ -68,7 +77,9 @@ final class HolderTest extends TestCase
         static::assertFalse($holder->identifiesPKC(self::$_pkc));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCNoEntityNameMatch()
     {
         $gn = GeneralNames::create(DirectoryName::fromDNString('cn=Fail'));

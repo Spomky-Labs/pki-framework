@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\UtcTime;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
@@ -14,14 +13,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = UTCTime::fromDER("\x17\x0d" . '060102220405Z');
         static::assertInstanceOf(UTCTime::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function value()
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -29,7 +32,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($date, $el->dateTime()->getTimestamp());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function withoutSeconds()
     {
         $this->expectException(DecodeException::class);
@@ -37,7 +42,9 @@ final class DecodeTest extends TestCase
         UTCTime::fromDER("\x17\x0b" . '0601022204Z');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function withTimezone()
     {
         $this->expectException(DecodeException::class);
@@ -45,7 +52,9 @@ final class DecodeTest extends TestCase
         UTCTime::fromDER("\x17\x11" . '060102150405+0700');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function empty()
     {
         $this->expectException(DecodeException::class);
@@ -53,7 +62,9 @@ final class DecodeTest extends TestCase
         UTCTime::fromDER("\x17\x0");
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidFormat()
     {
         $this->expectException(DecodeException::class);
@@ -61,7 +72,9 @@ final class DecodeTest extends TestCase
         UTCTime::fromDER("\x17\x0d" . 'o60102220405Z');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noTimezone()
     {
         $this->expectException(DecodeException::class);

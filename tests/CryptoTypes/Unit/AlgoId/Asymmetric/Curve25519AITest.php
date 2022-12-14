@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Asymmetric;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -22,7 +20,9 @@ use UnexpectedValueException;
  */
 final class Curve25519AITest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeEd25519(): Sequence
     {
         $ai = Ed25519AlgorithmIdentifier::create();
@@ -31,8 +31,11 @@ final class Curve25519AITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encodeEd25519')]
+    /**
+     * @depends encodeEd25519
+     *
+     * @test
+     */
     public function decodeEd25519(Sequence $seq): Ed25519AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -40,15 +43,21 @@ final class Curve25519AITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('decodeEd25519')]
+    /**
+     * @depends decodeEd25519
+     *
+     * @test
+     */
     public function ed25519Name(Ed25519AlgorithmIdentifier $ai)
     {
         static::assertIsString($ai->name());
     }
 
-    #[Test]
-    #[Depends('decodeEd25519')]
+    /**
+     * @depends decodeEd25519
+     *
+     * @test
+     */
     public function ed25519SupportsKeyAlgo(Ed25519AlgorithmIdentifier $ai)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
@@ -56,7 +65,9 @@ final class Curve25519AITest extends TestCase
         static::assertTrue($ai->supportsKeyAlgorithm($pk->algorithmIdentifier()));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeX25519(): Sequence
     {
         $ai = X25519AlgorithmIdentifier::create();
@@ -65,8 +76,11 @@ final class Curve25519AITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encodeX25519')]
+    /**
+     * @depends encodeX25519
+     *
+     * @test
+     */
     public function decodeX25519(Sequence $seq): X25519AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -74,14 +88,19 @@ final class Curve25519AITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('decodeX25519')]
+    /**
+     * @depends decodeX25519
+     *
+     * @test
+     */
     public function x25519Name(X25519AlgorithmIdentifier $ai)
     {
         static::assertIsString($ai->name());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function ed25519MustHaveNoParams()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -89,7 +108,9 @@ final class Curve25519AITest extends TestCase
         Ed25519AlgorithmIdentifier::fromASN1Params(UnspecifiedType::fromElementBase(NullType::create()));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function x25519MustHaveNoParams()
     {
         $this->expectException(UnexpectedValueException::class);

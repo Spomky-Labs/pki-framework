@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Csr;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
@@ -42,7 +40,9 @@ final class CertificationRequestTest extends TestCase
         self::$_privateKeyInfo = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
@@ -56,8 +56,11 @@ final class CertificationRequestTest extends TestCase
         return $cr;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(CertificationRequest $cr)
     {
         $seq = $cr->toASN1();
@@ -66,10 +69,12 @@ final class CertificationRequestTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $cr = CertificationRequest::fromASN1(Sequence::fromDER($der));
@@ -77,44 +82,62 @@ final class CertificationRequestTest extends TestCase
         return $cr;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(CertificationRequest $ref, CertificationRequest $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function certificationRequestInfo(CertificationRequest $cr)
     {
         static::assertInstanceOf(CertificationRequestInfo::class, $cr->certificationRequestInfo());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function algo(CertificationRequest $cr)
     {
         static::assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $cr->signatureAlgorithm());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function signature(CertificationRequest $cr)
     {
         static::assertInstanceOf(Signature::class, $cr->signature());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function verify(CertificationRequest $cr)
     {
         static::assertTrue($cr->verify());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function invalidAlgoFail(CertificationRequest $cr)
     {
         $seq = $cr->toASN1();
@@ -124,8 +147,11 @@ final class CertificationRequestTest extends TestCase
         CertificationRequest::fromASN1($seq);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toPEM(CertificationRequest $cr)
     {
         $pem = $cr->toPEM();
@@ -133,22 +159,31 @@ final class CertificationRequestTest extends TestCase
         return $pem;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toStringMethod(CertificationRequest $cr)
     {
         static::assertIsString(strval($cr));
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function pEMType(PEM $pem)
     {
         static::assertEquals(PEM::TYPE_CERTIFICATE_REQUEST, $pem->type());
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function fromPEM(PEM $pem)
     {
         $cr = CertificationRequest::fromPEM($pem);
@@ -156,15 +191,20 @@ final class CertificationRequestTest extends TestCase
         return $cr;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('fromPEM')]
+    /**
+     * @depends create
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function pEMRecoded(CertificationRequest $ref, CertificationRequest $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromInvalidPEMFail()
     {
         $this->expectException(UnexpectedValueException::class);

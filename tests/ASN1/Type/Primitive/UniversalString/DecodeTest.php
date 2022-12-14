@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\UniversalString;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UniversalString;
@@ -14,14 +13,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\UniversalString;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = UniversalString::fromDER("\x1c\x0");
         static::assertInstanceOf(UniversalString::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function value()
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0l\0\0\0o";
@@ -29,7 +32,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($str, $el->string());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidValue()
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0lo";

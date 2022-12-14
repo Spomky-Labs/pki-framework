@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -32,8 +30,9 @@ final class PrivateKeyInfoTest extends TestCase
 {
     /**
      * @return PrivateKeyInfo
+     *
+     * @test
      */
-    #[Test]
     public function decodeRSA()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
@@ -42,8 +41,11 @@ final class PrivateKeyInfoTest extends TestCase
         return $pki;
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function algoObj(PrivateKeyInfo $pki)
     {
         $ref = RSAEncryptionAlgorithmIdentifier::create();
@@ -52,23 +54,32 @@ final class PrivateKeyInfoTest extends TestCase
         return $algo;
     }
 
-    #[Test]
-    #[Depends('algoObj')]
+    /**
+     * @depends algoObj
+     *
+     * @test
+     */
     public function algoOID(AlgorithmIdentifier $algo)
     {
         static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function getRSAPrivateKey(PrivateKeyInfo $pki)
     {
         $pk = $pki->privateKey();
         static::assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function privateKeyData(PrivateKeyInfo $pki)
     {
         static::assertIsString($pki->privateKeyData());
@@ -76,8 +87,9 @@ final class PrivateKeyInfoTest extends TestCase
 
     /**
      * @return PrivateKeyInfo
+     *
+     * @test
      */
-    #[Test]
     public function decodeEC()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
@@ -86,8 +98,11 @@ final class PrivateKeyInfoTest extends TestCase
         return $pki;
     }
 
-    #[Test]
-    #[Depends('decodeEC')]
+    /**
+     * @depends decodeEC
+     *
+     * @test
+     */
     public function getECPrivateKey(PrivateKeyInfo $pki)
     {
         $pk = $pki->privateKey();
@@ -95,22 +110,31 @@ final class PrivateKeyInfoTest extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('getECPrivateKey')]
+    /**
+     * @depends getECPrivateKey
+     *
+     * @test
+     */
     public function eCPrivateKeyHasNamedCurve(ECPrivateKey $pk)
     {
         static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function getRSAPublicKeyInfo(PrivateKeyInfo $pki)
     {
         static::assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
     }
 
-    #[Test]
-    #[Depends('decodeEC')]
+    /**
+     * @depends decodeEC
+     *
+     * @test
+     */
     public function getECPublicKeyInfo(PrivateKeyInfo $pki)
     {
         static::assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
@@ -118,8 +142,9 @@ final class PrivateKeyInfoTest extends TestCase
 
     /**
      * @return PrivateKeyInfo
+     *
+     * @test
      */
-    #[Test]
     public function fromRSAPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
@@ -128,8 +153,11 @@ final class PrivateKeyInfoTest extends TestCase
         return $pki;
     }
 
-    #[Test]
-    #[Depends('fromRSAPEM')]
+    /**
+     * @depends fromRSAPEM
+     *
+     * @test
+     */
     public function toPEM(PrivateKeyInfo $pki)
     {
         $pem = $pki->toPEM();
@@ -137,15 +165,20 @@ final class PrivateKeyInfoTest extends TestCase
         return $pem;
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         static::assertEquals($ref, $pem);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromRSAPrivateKey()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
@@ -153,7 +186,9 @@ final class PrivateKeyInfoTest extends TestCase
         static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromECPrivateKey()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
@@ -161,15 +196,21 @@ final class PrivateKeyInfoTest extends TestCase
         static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function version(PrivateKeyInfo $pki)
     {
         static::assertEquals(PrivateKeyInfo::VERSION_1, $pki->version());
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function invalidVersion(PrivateKeyInfo $pki)
     {
         $seq = $pki->toASN1();
@@ -178,7 +219,9 @@ final class PrivateKeyInfoTest extends TestCase
         PrivateKeyInfo::fromASN1($seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidPEMType()
     {
         $pem = PEM::create('nope', '');
@@ -186,8 +229,11 @@ final class PrivateKeyInfoTest extends TestCase
         PrivateKeyInfo::fromPEM($pem);
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function invalidAI(PrivateKeyInfo $pki)
     {
         $seq = $pki->toASN1();
@@ -199,7 +245,9 @@ final class PrivateKeyInfoTest extends TestCase
         PrivateKeyInfo::fromASN1($seq)->privateKey();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidECAlgoFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
@@ -212,7 +260,9 @@ final class PrivateKeyInfoTest extends TestCase
         $pki->privateKey();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeAttributes(): PEM
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
@@ -224,8 +274,11 @@ final class PrivateKeyInfoTest extends TestCase
         return $pem;
     }
 
-    #[Test]
-    #[Depends('encodeAttributes')]
+    /**
+     * @depends encodeAttributes
+     *
+     * @test
+     */
     public function attributes(PEM $pem)
     {
         $pki = PrivateKeyInfo::fromPEM($pem);
@@ -236,8 +289,11 @@ final class PrivateKeyInfoTest extends TestCase
         static::assertEquals('John Doe', $value);
     }
 
-    #[Test]
-    #[Depends('decodeRSA')]
+    /**
+     * @depends decodeRSA
+     *
+     * @test
+     */
     public function hasNoAttributes(PrivateKeyInfo $pki)
     {
         $this->expectException(LogicException::class);

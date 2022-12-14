@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\PrintableString;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
@@ -14,14 +13,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\PrintableString;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = PrintableString::fromDER("\x13\x0");
         static::assertInstanceOf(PrintableString::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function value()
     {
         $str = 'Hello World.';
@@ -29,7 +32,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($str, $el->string());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidValue()
     {
         $str = 'Hello World!';

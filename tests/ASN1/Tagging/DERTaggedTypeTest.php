@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\DERTaggedType;
@@ -17,7 +15,9 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class DERTaggedTypeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
@@ -25,30 +25,42 @@ final class DERTaggedTypeTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(DERTaggedType $el)
     {
         $der = $el->toDER();
         static::assertEquals("\xa0\x2\x5\x0", $der);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectExplicit(DERTaggedType $el)
     {
         static::assertInstanceOf(TaggedType::class, $el->expectExplicit());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectImplicit(DERTaggedType $el)
     {
         static::assertInstanceOf(TaggedType::class, $el->expectImplicit());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);

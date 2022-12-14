@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -16,20 +14,26 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class ElementTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function unknownTagToName(): void
     {
         static::assertEquals('TAG 100', Element::tagToName(100));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function isPseudotypeFail(): void
     {
         $el = NullType::create();
         static::assertFalse($el->isType(-99));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function asElement(): NullType
     {
         $el = NullType::create();
@@ -37,22 +41,29 @@ final class ElementTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('asElement')]
+    /**
+     * @depends asElement
+     *
+     * @test
+     */
     public function asUnspecified(Element $el): void
     {
         $type = $el->asUnspecified();
         static::assertInstanceOf(UnspecifiedType::class, $type);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function isIndefinite(): void
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();
         static::assertTrue($el->hasIndefiniteLength());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function setDefinite(): void
     {
         $el = Element::fromDER(hex2bin('308005000000'))->asElement();

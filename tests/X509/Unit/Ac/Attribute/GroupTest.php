@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
@@ -24,7 +22,9 @@ final class GroupTest extends TestCase
 
     final public const GROUP_NAME = 'administrators';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $value = GroupAttributeValue::create(IetfAttrValue::fromString(self::GROUP_NAME));
@@ -33,8 +33,11 @@ final class GroupTest extends TestCase
         return $value;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -43,10 +46,12 @@ final class GroupTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $value = GroupAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -54,44 +59,62 @@ final class GroupTest extends TestCase
         return $value;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(AttributeValue $value)
     {
         static::assertEquals(GroupAttributeValue::OID, $value->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function authority(GroupAttributeValue $value)
     {
         static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority()->firstDN());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(GroupAttributeValue $value)
     {
         static::assertCount(1, $value);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function groupName(GroupAttributeValue $value)
     {
         static::assertEquals(self::GROUP_NAME, $value->first());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
@@ -99,8 +122,11 @@ final class GroupTest extends TestCase
         return $attribs;
     }
 
-    #[Test]
-    #[Depends('attributes')]
+    /**
+     * @depends attributes
+     *
+     * @test
+     */
     public function fromAttributes(Attributes $attribs)
     {
         static::assertInstanceOf(GroupAttributeValue::class, $attribs->group());

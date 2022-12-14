@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Signature;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -16,7 +14,9 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA224WithRSAEncryp
  */
 final class SHA224WithRSAAITest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function encode(): Sequence
     {
         $ai = SHA224WithRSAEncryptionAlgorithmIdentifier::create();
@@ -25,8 +25,11 @@ final class SHA224WithRSAAITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(Sequence $seq): AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -34,8 +37,11 @@ final class SHA224WithRSAAITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

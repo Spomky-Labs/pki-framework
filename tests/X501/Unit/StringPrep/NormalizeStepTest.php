@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Unit\StringPrep;
 
 use Normalizer;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\StringPrep\NormalizeStep;
 
@@ -14,7 +13,9 @@ use SpomkyLabs\Pki\X501\StringPrep\NormalizeStep;
  */
 final class NormalizeStepTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function apply()
     {
         $source = 'ฉันกินกระจกได้ แต่มันไม่ทำให้ฉันเจ็บ';

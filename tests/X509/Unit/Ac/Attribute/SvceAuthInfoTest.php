@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\AccessIdentityAttributeValue;
@@ -19,7 +17,9 @@ use function strval;
  */
 final class SvceAuthInfoTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function createWithoutAuthInfo()
     {
         $val = AccessIdentityAttributeValue::create(
@@ -30,37 +30,52 @@ final class SvceAuthInfoTest extends TestCase
         return $val;
     }
 
-    #[Test]
-    #[Depends('createWithoutAuthInfo')]
+    /**
+     * @depends createWithoutAuthInfo
+     *
+     * @test
+     */
     public function noAuthInfoFail(SvceAuthInfo $val)
     {
         $this->expectException(LogicException::class);
         $val->authInfo();
     }
 
-    #[Test]
-    #[Depends('createWithoutAuthInfo')]
+    /**
+     * @depends createWithoutAuthInfo
+     *
+     * @test
+     */
     public function stringValue(SvceAuthInfo $val)
     {
         static::assertIsString($val->stringValue());
     }
 
-    #[Test]
-    #[Depends('createWithoutAuthInfo')]
+    /**
+     * @depends createWithoutAuthInfo
+     *
+     * @test
+     */
     public function equalityMatchingRule(SvceAuthInfo $val)
     {
         static::assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
-    #[Test]
-    #[Depends('createWithoutAuthInfo')]
+    /**
+     * @depends createWithoutAuthInfo
+     *
+     * @test
+     */
     public function rFC2253String(SvceAuthInfo $val)
     {
         static::assertIsString($val->rfc2253String());
     }
 
-    #[Test]
-    #[Depends('createWithoutAuthInfo')]
+    /**
+     * @depends createWithoutAuthInfo
+     *
+     * @test
+     */
     public function toStringMethod(SvceAuthInfo $val)
     {
         static::assertIsString(strval($val));

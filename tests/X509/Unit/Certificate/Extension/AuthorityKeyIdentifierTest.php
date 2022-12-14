@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -44,7 +42,9 @@ final class AuthorityKeyIdentifierTest extends TestCase
         self::$_issuer = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): AuthorityKeyIdentifierExtension
     {
         $ext = AuthorityKeyIdentifierExtension::create(true, self::KEY_ID, self::$_issuer, self::SERIAL);
@@ -52,7 +52,9 @@ final class AuthorityKeyIdentifierTest extends TestCase
         return $ext;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromPKI(): void
     {
         $pki = PublicKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem'));
@@ -60,22 +62,31 @@ final class AuthorityKeyIdentifierTest extends TestCase
         static::assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext): void
     {
         static::assertEquals(Extension::OID_AUTHORITY_KEY_IDENTIFIER, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext): void
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext): string
     {
         $seq = $ext->toASN1();
@@ -84,10 +95,12 @@ final class AuthorityKeyIdentifierTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = AuthorityKeyIdentifierExtension::fromASN1(Sequence::fromDER($der));
@@ -95,37 +108,52 @@ final class AuthorityKeyIdentifierTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function keyIdentifier(AuthorityKeyIdentifierExtension $ext): void
     {
         static::assertEquals(self::KEY_ID, $ext->keyIdentifier());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function issuer(AuthorityKeyIdentifierExtension $ext): void
     {
         static::assertEquals(self::$_issuer, $ext->issuer());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function serial(AuthorityKeyIdentifierExtension $ext): void
     {
         static::assertEquals(self::SERIAL, $ext->serial());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function extensions(AuthorityKeyIdentifierExtension $ext): Extensions
     {
         $extensions = Extensions::create($ext);
@@ -133,15 +161,20 @@ final class AuthorityKeyIdentifierTest extends TestCase
         return $extensions;
     }
 
-    #[Test]
-    #[Depends('extensions')]
+    /**
+     * @depends extensions
+     *
+     * @test
+     */
     public function fromExtensions(Extensions $exts): void
     {
         $ext = $exts->authorityKeyIdentifier();
         static::assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeIssuerXorSerialFail(): void
     {
         $seq = Sequence::create(
@@ -156,7 +189,9 @@ final class AuthorityKeyIdentifierTest extends TestCase
         AuthorityKeyIdentifierExtension::fromASN1($ext_seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeIssuerXorSerialFail(): void
     {
         $ext = AuthorityKeyIdentifierExtension::create(false, '', null, '1');
@@ -164,7 +199,9 @@ final class AuthorityKeyIdentifierTest extends TestCase
         $ext->toASN1();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noKeyIdentifierFail(): void
     {
         $ext = AuthorityKeyIdentifierExtension::create(false, null);
@@ -172,7 +209,9 @@ final class AuthorityKeyIdentifierTest extends TestCase
         $ext->keyIdentifier();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noIssuerFail(): void
     {
         $ext = AuthorityKeyIdentifierExtension::create(false, null);
@@ -180,7 +219,9 @@ final class AuthorityKeyIdentifierTest extends TestCase
         $ext->issuer();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noSerialFail(): void
     {
         $ext = AuthorityKeyIdentifierExtension::create(false, null);

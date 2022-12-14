@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -20,7 +18,9 @@ use UnexpectedValueException;
  */
 final class ImplicitlyTaggedTypeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = ImplicitlyTaggedType::create(1, NullType::create());
@@ -28,15 +28,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function getImplicit(ImplicitTagging $el)
     {
         static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectationFail(ImplicitTagging $el)
     {
         $this->expectException(UnexpectedValueException::class);
@@ -44,15 +50,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
         $el->implicit(Element::TYPE_NULL, Identifier::CLASS_PRIVATE);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectImplicit(TaggedType $el)
     {
         static::assertInstanceOf(ImplicitTagging::class, $el->expectImplicit());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectExplicitFail(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
@@ -60,15 +72,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
         $el->expectExplicit();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectImplicitWithTag(TaggedType $el)
     {
         static::assertInstanceOf(ImplicitTagging::class, $el->expectImplicit(1));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectImplicitWithInvalidTagFail(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
@@ -76,8 +94,11 @@ final class ImplicitlyTaggedTypeTest extends TestCase
         $el->expectImplicit(2);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function expectTypeFails(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);
@@ -85,15 +106,21 @@ final class ImplicitlyTaggedTypeTest extends TestCase
         $el->expectType(Element::TYPE_NULL);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function asImplicit(TaggedType $el)
     {
         static::assertInstanceOf(NullType::class, $el->asImplicit(Element::TYPE_NULL, 1)->asNull());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function asImplicitFail(TaggedType $el)
     {
         $this->expectException(UnexpectedValueException::class);

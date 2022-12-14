@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
@@ -18,7 +16,9 @@ use SpomkyLabs\Pki\X509\GeneralName\RegisteredID;
  */
 final class RegisteredIDNameTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): RegisteredID
     {
         $rid = RegisteredID::create('1.3.6.1.3.1');
@@ -26,8 +26,11 @@ final class RegisteredIDNameTest extends TestCase
         return $rid;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(RegisteredID $rid): string
     {
         $el = $rid->toASN1();
@@ -36,10 +39,12 @@ final class RegisteredIDNameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function choiceTag($der): void
     {
         $el = TaggedType::fromDER($der);
@@ -47,10 +52,12 @@ final class RegisteredIDNameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $rid = RegisteredID::fromASN1(Element::fromDER($der));
@@ -58,23 +65,32 @@ final class RegisteredIDNameTest extends TestCase
         return $rid;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(RegisteredID $ref, RegisteredID $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(RegisteredID $rid): void
     {
         static::assertIsString($rid->string());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(RegisteredID $rid): void
     {
         static::assertEquals('1.3.6.1.3.1', $rid->oid());

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Value;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
 use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
@@ -15,14 +14,18 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
  */
 final class AttributeValueTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function toAttribute()
     {
         $val = CommonNameValue::create('name');
         static::assertInstanceOf(Attribute::class, $val->toAttribute());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toAttributeTypeAndValue()
     {
         $val = CommonNameValue::create('name');

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -27,7 +25,9 @@ final class PolicyMappingsTest extends TestCase
 
     final public const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createMappings()
     {
         $mappings = [
@@ -37,8 +37,11 @@ final class PolicyMappingsTest extends TestCase
         return $mappings;
     }
 
-    #[Test]
-    #[Depends('createMappings')]
+    /**
+     * @depends createMappings
+     *
+     * @test
+     */
     public function create(array $mappings)
     {
         $ext = PolicyMappingsExtension::create(true, ...$mappings);
@@ -46,22 +49,31 @@ final class PolicyMappingsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_POLICY_MAPPINGS, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -70,10 +82,12 @@ final class PolicyMappingsTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = PolicyMappingsExtension::fromASN1(Sequence::fromDER($der));
@@ -81,37 +95,52 @@ final class PolicyMappingsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function mappings(PolicyMappingsExtension $ext)
     {
         static::assertContainsOnlyInstancesOf(PolicyMapping::class, $ext->mappings());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function issuerMappings(PolicyMappingsExtension $ext)
     {
         static::assertContainsOnly('string', $ext->issuerMappings(self::ISSUER_POLICY_OID));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(PolicyMappingsExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(PolicyMappingsExtension $ext)
     {
         $values = [];
@@ -122,8 +151,11 @@ final class PolicyMappingsTest extends TestCase
         static::assertContainsOnlyInstancesOf(PolicyMapping::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function mapping(PolicyMappingsExtension $ext)
     {
         $mapping = $ext->mappings()[0];
@@ -131,28 +163,39 @@ final class PolicyMappingsTest extends TestCase
         return $mapping;
     }
 
-    #[Test]
-    #[Depends('mapping')]
+    /**
+     * @depends mapping
+     *
+     * @test
+     */
     public function issuerPolicy(PolicyMapping $mapping)
     {
         static::assertEquals(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
     }
 
-    #[Test]
-    #[Depends('mapping')]
+    /**
+     * @depends mapping
+     *
+     * @test
+     */
     public function subjectPolicy(PolicyMapping $mapping)
     {
         static::assertEquals(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function hasAnyPolicyMapping(PolicyMappingsExtension $ext)
     {
         static::assertFalse($ext->hasAnyPolicyMapping());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hasAnyPolicyIssuer()
     {
         $ext = PolicyMappingsExtension::create(
@@ -162,7 +205,9 @@ final class PolicyMappingsTest extends TestCase
         static::assertTrue($ext->hasAnyPolicyMapping());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hasAnyPolicySubject()
     {
         $ext = PolicyMappingsExtension::create(
@@ -172,8 +217,11 @@ final class PolicyMappingsTest extends TestCase
         static::assertTrue($ext->hasAnyPolicyMapping());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function extensions(PolicyMappingsExtension $ext)
     {
         $extensions = Extensions::create($ext);
@@ -181,15 +229,20 @@ final class PolicyMappingsTest extends TestCase
         return $extensions;
     }
 
-    #[Test]
-    #[Depends('extensions')]
+    /**
+     * @depends extensions
+     *
+     * @test
+     */
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->policyMappings();
         static::assertInstanceOf(PolicyMappingsExtension::class, $ext);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeEmptyFail()
     {
         $ext = PolicyMappingsExtension::create(false);
@@ -197,7 +250,9 @@ final class PolicyMappingsTest extends TestCase
         $ext->toASN1();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeEmptyFail()
     {
         $seq = Sequence::create();

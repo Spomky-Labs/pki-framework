@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\AAControlsExtension;
@@ -17,7 +15,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
  */
 final class AAControlsTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $ext = AAControlsExtension::create(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
@@ -25,22 +25,31 @@ final class AAControlsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_AA_CONTROLS, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -49,10 +58,12 @@ final class AAControlsTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = AAControlsExtension::fromASN1(Sequence::fromDER($der));
@@ -60,43 +71,60 @@ final class AAControlsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function pathLen(AAControlsExtension $ext)
     {
         static::assertEquals(3, $ext->pathLen());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function permitted(AAControlsExtension $ext)
     {
         static::assertEquals(['1.2.3.4'], $ext->permittedAttrs());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function excluded(AAControlsExtension $ext)
     {
         static::assertEquals(['1.2.3.5', '1.2.3.6'], $ext->excludedAttrs());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function unspecified(AAControlsExtension $ext)
     {
         static::assertFalse($ext->permitUnspecified());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createEmpty()
     {
         $ext = AAControlsExtension::create(false);
@@ -104,8 +132,11 @@ final class AAControlsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -114,10 +145,12 @@ final class AAControlsTest extends TestCase
     }
 
     /**
+     * @depends encodeEmpty
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encodeEmpty')]
     public function decodeEmpty($der)
     {
         $ext = AAControlsExtension::fromASN1(Sequence::fromDER($der));
@@ -125,32 +158,44 @@ final class AAControlsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
-    #[Depends('decodeEmpty')]
+    /**
+     * @depends createEmpty
+     * @depends decodeEmpty
+     *
+     * @test
+     */
     public function recodedEmpty(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function noPathLenFail(AAControlsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->pathLen();
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function noPermittedAttrsFail(AAControlsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->permittedAttrs();
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function noExcludedAttrsFail(AAControlsExtension $ext)
     {
         $this->expectException(LogicException::class);

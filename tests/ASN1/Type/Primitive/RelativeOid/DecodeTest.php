@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\RelativeOid;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\RelativeOID;
 
@@ -13,7 +12,9 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\RelativeOID;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function decode()
     {
         $el = RelativeOID::fromDER("\x0d\x07\x01\02\x86\x48\x86\xf7\x0d");

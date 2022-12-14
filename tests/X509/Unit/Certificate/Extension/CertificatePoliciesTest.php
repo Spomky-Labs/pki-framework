@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -35,7 +33,9 @@ final class CertificatePoliciesTest extends TestCase
 
     final public const REF_ORG = 'ACME Ltd.';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createCPS()
     {
         $qual = CPSQualifier::create('urn:test');
@@ -43,7 +43,9 @@ final class CertificatePoliciesTest extends TestCase
         return $qual;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createNotice()
     {
         $qual = UserNoticeQualifier::create(
@@ -54,9 +56,12 @@ final class CertificatePoliciesTest extends TestCase
         return $qual;
     }
 
-    #[Test]
-    #[Depends('createCPS')]
-    #[Depends('createNotice')]
+    /**
+     * @depends createCPS
+     * @depends createNotice
+     *
+     * @test
+     */
     public function createPolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2)
     {
         $info = PolicyInformation::create(self::INFO_OID, $q1, $q2);
@@ -64,8 +69,11 @@ final class CertificatePoliciesTest extends TestCase
         return $info;
     }
 
-    #[Test]
-    #[Depends('createPolicyInfo')]
+    /**
+     * @depends createPolicyInfo
+     *
+     * @test
+     */
     public function create(PolicyInformation $info)
     {
         $ext = CertificatePoliciesExtension::create(true, $info, PolicyInformation::create('1.3.6.1.3.10'));
@@ -73,22 +81,31 @@ final class CertificatePoliciesTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_CERTIFICATE_POLICIES, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -97,10 +114,12 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = CertificatePoliciesExtension::fromASN1(Sequence::fromDER($der));
@@ -108,23 +127,32 @@ final class CertificatePoliciesTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(CertificatePoliciesExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(CertificatePoliciesExtension $ext)
     {
         $values = [];
@@ -135,22 +163,29 @@ final class CertificatePoliciesTest extends TestCase
         static::assertContainsOnlyInstancesOf(PolicyInformation::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function getFail(CertificatePoliciesExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->get('1.2.3');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hasAnyPolicy()
     {
         $ext = CertificatePoliciesExtension::create(true, PolicyInformation::create(PolicyInformation::OID_ANY_POLICY));
         static::assertTrue($ext->hasAnyPolicy());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function anyPolicyFail()
     {
         $ext = CertificatePoliciesExtension::create(true, PolicyInformation::create('1.3.6.1.3'));
@@ -158,8 +193,11 @@ final class CertificatePoliciesTest extends TestCase
         $ext->anyPolicy();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function info(CertificatePoliciesExtension $ext)
     {
         $info = $ext->get(self::INFO_OID);
@@ -167,15 +205,21 @@ final class CertificatePoliciesTest extends TestCase
         return $info;
     }
 
-    #[Test]
-    #[Depends('info')]
+    /**
+     * @depends info
+     *
+     * @test
+     */
     public function infoCount(PolicyInformation $info)
     {
         static::assertCount(2, $info);
     }
 
-    #[Test]
-    #[Depends('info')]
+    /**
+     * @depends info
+     *
+     * @test
+     */
     public function infoIterator(PolicyInformation $info)
     {
         $values = [];
@@ -186,8 +230,11 @@ final class CertificatePoliciesTest extends TestCase
         static::assertContainsOnlyInstancesOf(PolicyQualifierInfo::class, $values);
     }
 
-    #[Test]
-    #[Depends('info')]
+    /**
+     * @depends info
+     *
+     * @test
+     */
     public function cPS(PolicyInformation $info)
     {
         $qual = $info->CPSQualifier();
@@ -195,15 +242,21 @@ final class CertificatePoliciesTest extends TestCase
         return $qual;
     }
 
-    #[Test]
-    #[Depends('cPS')]
+    /**
+     * @depends cPS
+     *
+     * @test
+     */
     public function cPSURI(CPSQualifier $cps)
     {
         static::assertEquals(self::CPS_URI, $cps->uri());
     }
 
-    #[Test]
-    #[Depends('info')]
+    /**
+     * @depends info
+     *
+     * @test
+     */
     public function userNotice(PolicyInformation $info)
     {
         $qual = $info->userNoticeQualifier();
@@ -211,15 +264,21 @@ final class CertificatePoliciesTest extends TestCase
         return $qual;
     }
 
-    #[Test]
-    #[Depends('userNotice')]
+    /**
+     * @depends userNotice
+     *
+     * @test
+     */
     public function userNoticeExplicit(UserNoticeQualifier $notice)
     {
         static::assertEquals(self::NOTICE_TXT, $notice->explicitText());
     }
 
-    #[Test]
-    #[Depends('userNotice')]
+    /**
+     * @depends userNotice
+     *
+     * @test
+     */
     public function userNoticeRef(UserNoticeQualifier $notice)
     {
         $ref = $notice->noticeRef();
@@ -227,22 +286,31 @@ final class CertificatePoliciesTest extends TestCase
         return $ref;
     }
 
-    #[Test]
-    #[Depends('userNoticeRef')]
+    /**
+     * @depends userNoticeRef
+     *
+     * @test
+     */
     public function refOrg(NoticeReference $ref)
     {
         static::assertEquals(self::REF_ORG, $ref->organization());
     }
 
-    #[Test]
-    #[Depends('userNoticeRef')]
+    /**
+     * @depends userNoticeRef
+     *
+     * @test
+     */
     public function refNumbers(NoticeReference $ref)
     {
         static::assertEquals([1, 2, 3], $ref->numbers());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function extensions(CertificatePoliciesExtension $ext)
     {
         $extensions = Extensions::create($ext);
@@ -250,15 +318,20 @@ final class CertificatePoliciesTest extends TestCase
         return $extensions;
     }
 
-    #[Test]
-    #[Depends('extensions')]
+    /**
+     * @depends extensions
+     *
+     * @test
+     */
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->certificatePolicies();
         static::assertInstanceOf(CertificatePoliciesExtension::class, $ext);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeEmptyFail()
     {
         $ext = CertificatePoliciesExtension::create(false);
@@ -266,7 +339,9 @@ final class CertificatePoliciesTest extends TestCase
         $ext->toASN1();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeEmptyFail()
     {
         $seq = Sequence::create();

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
@@ -39,7 +37,9 @@ final class CertificationPathBuildingTest extends TestCase
         self::$_cert = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildPath()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
@@ -48,35 +48,49 @@ final class CertificationPathBuildingTest extends TestCase
         return $path;
     }
 
-    #[Test]
-    #[Depends('buildPath')]
+    /**
+     * @depends buildPath
+     *
+     * @test
+     */
     public function pathLength(CertificationPath $path)
     {
         static::assertCount(3, $path);
     }
 
-    #[Test]
-    #[Depends('buildPath')]
+    /**
+     * @depends buildPath
+     *
+     * @test
+     */
     public function pathAnchor(CertificationPath $path)
     {
         static::assertEquals(self::$_ca, $path->certificates()[0]);
     }
 
-    #[Test]
-    #[Depends('buildPath')]
+    /**
+     * @depends buildPath
+     *
+     * @test
+     */
     public function pathIntermediate(CertificationPath $path)
     {
         static::assertEquals(self::$_interm, $path->certificates()[1]);
     }
 
-    #[Test]
-    #[Depends('buildPath')]
+    /**
+     * @depends buildPath
+     *
+     * @test
+     */
     public function pathTarget(CertificationPath $path)
     {
         static::assertEquals(self::$_cert, $path->certificates()[2]);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildPathFail()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
@@ -84,7 +98,9 @@ final class CertificationPathBuildingTest extends TestCase
         $builder->shortestPathToTarget(self::$_cert, CertificateBundle::create());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildSelfSigned()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
@@ -92,7 +108,9 @@ final class CertificationPathBuildingTest extends TestCase
         static::assertCount(1, $path);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildLength2()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
@@ -100,7 +118,9 @@ final class CertificationPathBuildingTest extends TestCase
         static::assertCount(2, $path);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildWithCAInIntermediate()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
@@ -108,7 +128,9 @@ final class CertificationPathBuildingTest extends TestCase
         static::assertCount(3, $path);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildMultipleChoices()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca, self::$_interm));
@@ -117,7 +139,9 @@ final class CertificationPathBuildingTest extends TestCase
         static::assertContainsOnlyInstancesOf(CertificationPath::class, $paths);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function buildShortest()
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca, self::$_interm));

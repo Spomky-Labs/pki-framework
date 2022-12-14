@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Value;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
@@ -20,7 +18,9 @@ final class UnknownAttributeValueTest extends TestCase
 {
     final public const OID = '1.3.6.1.3';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $val = AttributeValue::fromASN1ByOID(self::OID, UnspecifiedType::create(UTF8String::create('Test')));
@@ -28,29 +28,41 @@ final class UnknownAttributeValueTest extends TestCase
         return $val;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(AttributeValue $val)
     {
         static::assertEquals(self::OID, $val->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function aNS1(AttributeValue $val)
     {
         static::assertInstanceOf(UTF8String::class, $val->toASN1());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(AttributeValue $val)
     {
         static::assertEquals('Test', $val->rfc2253String());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toStringMethod(AttributeValue $val)
     {
         static::assertIsString(strval($val));

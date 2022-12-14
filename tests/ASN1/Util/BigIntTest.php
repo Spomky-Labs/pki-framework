@@ -9,7 +9,6 @@ use Brick\Math\Exception\IntegerOverflowException;
 use InvalidArgumentException;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Util\BigInt;
 use function strval;
@@ -19,21 +18,27 @@ use function strval;
  */
 final class BigIntTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function maxInt()
     {
         $int = BigInt::create(BigInteger::of(PHP_INT_MAX));
         static::assertEquals(PHP_INT_MAX, $int->toInt());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function minInt()
     {
         $int = BigInt::create(BigInteger::of(PHP_INT_MIN));
         static::assertEquals(PHP_INT_MIN, $int->toInt());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function overflow()
     {
         $int = BigInt::create(BigInteger::of(PHP_INT_MAX)->plus(1));
@@ -41,7 +46,9 @@ final class BigIntTest extends TestCase
         $int->toInt();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function underflow()
     {
         $int = BigInt::create(BigInteger::of(PHP_INT_MIN)->minus(1));
@@ -49,21 +56,27 @@ final class BigIntTest extends TestCase
         $int->toInt();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toStringMethod()
     {
         $int = BigInt::create(1);
         static::assertSame('1', strval($int));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function getBigIntegerObject()
     {
         $int = BigInt::create(1);
         static::assertInstanceOf(BigInteger::class, $int->getValue());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidNumber()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -71,14 +84,18 @@ final class BigIntTest extends TestCase
         BigInt::create('fail');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromUnsignedOctets()
     {
         $int = BigInt::fromUnsignedOctets(hex2bin('ff'));
         static::assertEquals(255, $int->toInt());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromUnsignedOctetsEmpty()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -86,14 +103,18 @@ final class BigIntTest extends TestCase
         BigInt::fromUnsignedOctets('');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromSignedOctets()
     {
         $int = BigInt::fromSignedOctets(hex2bin('80'));
         static::assertEquals(-128, $int->toInt());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromSignedOctetsEmpty()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -101,42 +122,54 @@ final class BigIntTest extends TestCase
         BigInt::fromSignedOctets('');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toUnsignedOctets()
     {
         $int = BigInt::create(255);
         static::assertEquals(hex2bin('ff'), $int->unsignedOctets());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toSignedPositiveOctets()
     {
         $int = BigInt::create(127);
         static::assertEquals(hex2bin('7f'), $int->signedOctets());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toSignedPositiveOctetsPrepend()
     {
         $int = BigInt::create(128);
         static::assertEquals(hex2bin('0080'), $int->signedOctets());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toSignedNegativeOctets()
     {
         $int = BigInt::create(-128);
         static::assertEquals(hex2bin('80'), $int->signedOctets());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toSignedNegativeOctetsPrepend()
     {
         $int = BigInt::create(-32769);
         static::assertEquals(hex2bin('ff7fff'), $int->signedOctets());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toSignedZeroOctets()
     {
         $int = BigInt::create(0);

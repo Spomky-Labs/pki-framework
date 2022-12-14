@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -17,7 +15,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
  */
 final class KeyUsageTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $ext = KeyUsageExtension::create(
@@ -29,22 +29,31 @@ final class KeyUsageTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_KEY_USAGE, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -53,10 +62,12 @@ final class KeyUsageTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = KeyUsageExtension::fromASN1(Sequence::fromDER($der));
@@ -64,79 +75,112 @@ final class KeyUsageTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function digitalSignature(KeyUsageExtension $ext)
     {
         static::assertTrue($ext->isDigitalSignature());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function nonRepudiation(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isNonRepudiation());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function keyEncipherment(KeyUsageExtension $ext)
     {
         static::assertTrue($ext->isKeyEncipherment());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function dataEncipherment(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isDataEncipherment());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function keyAgreement(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isKeyAgreement());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function keyCertSign(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isKeyCertSign());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function cRLSign(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isCRLSign());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encipherOnly(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isEncipherOnly());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function decipherOnly(KeyUsageExtension $ext)
     {
         static::assertFalse($ext->isDecipherOnly());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function extensions(KeyUsageExtension $ext)
     {
         $extensions = Extensions::create($ext);
@@ -144,8 +188,11 @@ final class KeyUsageTest extends TestCase
         return $extensions;
     }
 
-    #[Test]
-    #[Depends('extensions')]
+    /**
+     * @depends extensions
+     *
+     * @test
+     */
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->keyUsage();

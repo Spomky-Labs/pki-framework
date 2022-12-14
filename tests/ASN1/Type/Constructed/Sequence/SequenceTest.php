@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\Sequence;
 
 use OutOfBoundsException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -21,7 +19,9 @@ use UnexpectedValueException;
  */
 final class SequenceTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true));
@@ -29,15 +29,21 @@ final class SequenceTest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_SEQUENCE, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -45,8 +51,11 @@ final class SequenceTest extends TestCase
         return $der;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $data): Sequence
     {
         $el = Sequence::fromDER($data);
@@ -54,31 +63,43 @@ final class SequenceTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function elements(Sequence $seq)
     {
         $elements = $seq->elements();
         static::assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(Sequence $seq)
     {
         static::assertCount(2, $seq);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(Sequence $seq)
     {
         $elements = [];
@@ -89,8 +110,11 @@ final class SequenceTest extends TestCase
         static::assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function atMethod(Sequence $seq): void
     {
         $el = $seq->at(0)
@@ -98,8 +122,11 @@ final class SequenceTest extends TestCase
         static::assertInstanceOf(NullType::class, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function atExpected(Sequence $seq)
     {
         $el = $seq->at(0)
@@ -107,8 +134,11 @@ final class SequenceTest extends TestCase
         static::assertInstanceOf(NullType::class, $el);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function atOOB(Sequence $seq)
     {
         $this->expectException(OutOfBoundsException::class);
@@ -116,15 +146,20 @@ final class SequenceTest extends TestCase
         $seq->at(2);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(Sequence::class, $wrap->asSequence());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());

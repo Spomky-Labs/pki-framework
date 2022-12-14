@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\Target;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Target;
@@ -36,7 +34,9 @@ final class TargetsTest extends TestCase
         self::$_group = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $targets = Targets::create(self::$_name, self::$_group);
@@ -44,8 +44,11 @@ final class TargetsTest extends TestCase
         return $targets;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Targets $targets)
     {
         $el = $targets->toASN1();
@@ -54,10 +57,12 @@ final class TargetsTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data)
     {
         $targets = Targets::fromASN1(Sequence::fromDER($data));
@@ -65,30 +70,42 @@ final class TargetsTest extends TestCase
         return $targets;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Targets $ref, Targets $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function all(Targets $targets)
     {
         static::assertContainsOnlyInstancesOf(Target::class, $targets->all());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(Targets $targets)
     {
         static::assertCount(2, $targets);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(Targets $targets)
     {
         $values = [];
@@ -98,15 +115,21 @@ final class TargetsTest extends TestCase
         static::assertContainsOnlyInstancesOf(Target::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function hasTarget(Targets $targets)
     {
         static::assertTrue($targets->hasTarget(self::$_name));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function hasNoTarget(Targets $targets)
     {
         static::assertFalse($targets->hasTarget(TargetName::create(DNSName::create('nope'))));

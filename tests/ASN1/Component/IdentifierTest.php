@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 
@@ -13,14 +12,18 @@ use SpomkyLabs\Pki\ASN1\Component\Identifier;
  */
 final class IdentifierTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function classToName()
     {
         $name = Identifier::classToName(Identifier::CLASS_UNIVERSAL);
         static::assertEquals('UNIVERSAL', $name);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unknownClassToName()
     {
         $name = Identifier::classToName(0xff);

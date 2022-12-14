@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
 use Exception;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
@@ -20,7 +18,9 @@ final class TimeTypeTest extends TestCase
 {
     final public const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromString()
     {
         $el = GeneralizedTime::fromString(self::VALUE);
@@ -28,21 +28,27 @@ final class TimeTypeTest extends TestCase
         return $el;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromStringWithTz()
     {
         $el = GeneralizedTime::fromString(self::VALUE, 'Europe/Helsinki');
         static::assertInstanceOf(TimeType::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromInvalidStringFail()
     {
         $this->expectException(Exception::class);
         GeneralizedTime::fromString('fail');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromStringWithInvalidTzFail()
     {
         $this->expectException(RuntimeException::class);
@@ -50,8 +56,11 @@ final class TimeTypeTest extends TestCase
         GeneralizedTime::fromString(self::VALUE, 'nope');
     }
 
-    #[Test]
-    #[Depends('fromString')]
+    /**
+     * @depends fromString
+     *
+     * @test
+     */
     public function wrapped(TimeType $time)
     {
         $wrap = UnspecifiedType::create($time->asElement());

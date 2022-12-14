@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\StringPrep;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\StringPrep\CheckBidiStep;
 
@@ -13,7 +12,9 @@ use SpomkyLabs\Pki\X501\StringPrep\CheckBidiStep;
  */
 final class CheckBidiStepTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function apply()
     {
         $str = 'Test';

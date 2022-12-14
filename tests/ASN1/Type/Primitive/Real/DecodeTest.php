@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Real;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
@@ -14,7 +13,9 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function reservedBinaryEncodingFail()
     {
         $this->expectException(DecodeException::class);
@@ -22,7 +23,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('0902B000'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function binaryEncodingExponentLengthUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
@@ -30,7 +33,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('090183'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function binaryEncodingExponentUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
@@ -38,7 +43,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('090180'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function binaryEncodingMantissaUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
@@ -46,7 +53,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('09028000'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decimalEncodingUnsupportedForm()
     {
         $this->expectException(DecodeException::class);
@@ -54,7 +63,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('09020400'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function specialEncodingTooLong()
     {
         $this->expectException(DecodeException::class);
@@ -62,7 +73,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('09024000'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function specialEncodingInvalid()
     {
         $this->expectException(DecodeException::class);
@@ -70,7 +83,9 @@ final class DecodeTest extends TestCase
         Real::fromDER(hex2bin('090142'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function longExponent()
     {
         $real = Real::fromDER(hex2bin('090783044000000001'));

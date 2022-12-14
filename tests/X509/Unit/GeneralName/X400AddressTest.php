@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -20,7 +18,9 @@ use SpomkyLabs\Pki\X509\GeneralName\X400Address;
  */
 final class X400AddressTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): X400Address
     {
         $name = X400Address::fromASN1(ImplicitlyTaggedType::create(GeneralName::TAG_X400_ADDRESS, Sequence::create()));
@@ -28,8 +28,11 @@ final class X400AddressTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(X400Address $name): string
     {
         $el = $name->toASN1();
@@ -37,16 +40,22 @@ final class X400AddressTest extends TestCase
         return $el->toDER();
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function choiceTag(string $der): void
     {
         $el = TaggedType::fromDER($der);
         static::assertEquals(GeneralName::TAG_X400_ADDRESS, $el->tag());
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $der): X400Address
     {
         $name = X400Address::fromASN1(Element::fromDER($der));
@@ -54,16 +63,22 @@ final class X400AddressTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(X400Address $ref, X400Address $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(X400Address $name): void
     {
         static::assertIsString($name->string());

@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 
 use Brick\Math\BigInteger;
 use function chr;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -16,161 +15,207 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = Integer::fromDER("\x2\x1\x00");
         static::assertInstanceOf(Integer::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function zero()
     {
         $der = "\x2\x1\x0";
         static::assertEquals(0, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function positive127()
     {
         $der = "\x2\x1\x7f";
         static::assertEquals(127, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function positive128()
     {
         $der = "\x2\x2\x0\x80";
         static::assertEquals(128, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function positive255()
     {
         $der = "\x2\x2\x0\xff";
         static::assertEquals(255, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function positive256()
     {
         $der = "\x2\x2\x01\x00";
         static::assertEquals(256, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function positive32767()
     {
         $der = "\x2\x2\x7f\xff";
         static::assertEquals(32767, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function positive32768()
     {
         $der = "\x2\x3\x0\x80\x00";
         static::assertEquals(32768, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative1()
     {
         $der = "\x2\x1" . chr(0b11111111);
         static::assertEquals(-1, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative2()
     {
         $der = "\x2\x1" . chr(0b11111110);
         static::assertEquals(-2, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative127()
     {
         $der = "\x2\x1" . chr(0b10000001);
         static::assertEquals(-127, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative128()
     {
         $der = "\x2\x1" . chr(0b10000000);
         static::assertEquals(-128, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative129()
     {
         $der = "\x2\x2" . chr(0b11111111) . chr(0b01111111);
         static::assertEquals(-129, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative255()
     {
         $der = "\x2\x2" . chr(0b11111111) . chr(0b00000001);
         static::assertEquals(-255, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative256()
     {
         $der = "\x2\x2" . chr(0b11111111) . chr(0b00000000);
         static::assertEquals(-256, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative257()
     {
         $der = "\x2\x2" . chr(0b11111110) . chr(0b11111111);
         static::assertEquals(-257, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative32767()
     {
         $der = "\x2\x2" . chr(0b10000000) . chr(0b00000001);
         static::assertEquals(-32767, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative32768()
     {
         $der = "\x2\x2" . chr(0b10000000) . chr(0b00000000);
         static::assertEquals(-32768, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative32769()
     {
         $der = "\x2\x3" . chr(0b11111111) . chr(0b01111111) . chr(0b11111111);
         static::assertEquals(-32769, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative65535()
     {
         $der = "\x2\x3" . chr(0b11111111) . chr(0b00000000) . chr(0b00000001);
         static::assertEquals(-65535, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative65536()
     {
         $der = "\x2\x3" . chr(0b11111111) . chr(0b00000000) . chr(0b00000000);
         static::assertEquals(-65536, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function negative65537()
     {
         $der = "\x2\x3" . chr(0b11111110) . chr(0b11111111) . chr(0b11111111);
         static::assertEquals(-65537, Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidLength()
     {
         $der = "\x2\x2\x0";
@@ -179,7 +224,9 @@ final class DecodeTest extends TestCase
         Integer::fromDER($der);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hugePositive()
     {
         $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xfffe);
@@ -187,7 +234,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($num->toBase(10), Integer::fromDER($der)->number());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function hugeNegative()
     {
         $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xfffe);

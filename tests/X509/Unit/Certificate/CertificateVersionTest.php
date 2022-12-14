@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
@@ -42,14 +41,18 @@ final class CertificateVersionTest extends TestCase
         self::$_tbsCert = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function version1()
     {
         $cert = self::$_tbsCert->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privateKeyInfo);
         static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_1);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function version2SubjectUID()
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(UniqueIdentifier::fromString('subject'));
@@ -57,7 +60,9 @@ final class CertificateVersionTest extends TestCase
         static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_2);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function version2IssuerUID()
     {
         $tbsCert = self::$_tbsCert->withIssuerUniqueID(UniqueIdentifier::fromString('issuer'));
@@ -65,7 +70,9 @@ final class CertificateVersionTest extends TestCase
         static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_2);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function version2BothUID()
     {
         $tbsCert = self::$_tbsCert->withSubjectUniqueID(
@@ -75,7 +82,9 @@ final class CertificateVersionTest extends TestCase
         static::assertEquals($cert->tbsCertificate()->version(), TBSCertificate::VERSION_2);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function version3()
     {
         $tbsCert = self::$_tbsCert->withExtensions(

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\PathValidation;
 
 use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -87,7 +86,9 @@ final class PolicyMappingMapAnyTest extends TestCase
         self::$_cert = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function validate()
     {
         $path = CertificationPath::create(self::$_ca, self::$_cert);
@@ -97,7 +98,9 @@ final class PolicyMappingMapAnyTest extends TestCase
         static::assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function coverLogicException()
     {
         $tree = PolicyTree::create(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));

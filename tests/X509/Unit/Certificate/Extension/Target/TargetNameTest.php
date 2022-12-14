@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\Target;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitTagging;
 use SpomkyLabs\Pki\ASN1\Type\TaggedType;
@@ -21,7 +19,9 @@ final class TargetNameTest extends TestCase
 {
     final public const URI = 'urn:test';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $target = TargetName::create(UniformResourceIdentifier::create(self::URI));
@@ -29,8 +29,11 @@ final class TargetNameTest extends TestCase
         return $target;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Target $target)
     {
         $el = $target->toASN1();
@@ -39,10 +42,12 @@ final class TargetNameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data)
     {
         $target = TargetName::fromASN1(TaggedType::fromDER($data));
@@ -50,31 +55,43 @@ final class TargetNameTest extends TestCase
         return $target;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Target $ref, Target $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function type(Target $target)
     {
         static::assertEquals(Target::TYPE_NAME, $target->type());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function name(TargetName $target)
     {
         $name = $target->name();
         static::assertInstanceOf(GeneralName::class, $name);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(TargetName $target)
     {
         static::assertIsString($target->string());

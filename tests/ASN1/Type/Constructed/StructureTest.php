@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed;
 
 use OutOfBoundsException;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -21,28 +19,34 @@ use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
  */
 final class StructureTest extends TestCase
 {
-    #[Test]
-    #[DataProvider('hasProvider')]
+    /**
+     * @dataProvider hasProvider
+     *
+     * @test
+     */
     public function has(int $idx, bool $result)
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true), NullType::create());
         static::assertEquals($seq->has($idx), $result);
     }
 
-    public static function hasProvider(): array
+    public function hasProvider(): array
     {
         return [[0, true], [1, true], [2, true], [3, false]];
     }
 
-    #[Test]
-    #[DataProvider('hasTypeProvider')]
+    /**
+     * @dataProvider hasTypeProvider
+     *
+     * @test
+     */
     public function hasType(int $idx, int $type, bool $result)
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true));
         static::assertEquals($seq->has($idx, $type), $result);
     }
 
-    public static function hasTypeProvider(): array
+    public function hasTypeProvider(): array
     {
         return [
             [0, Element::TYPE_NULL, true],
@@ -52,7 +56,9 @@ final class StructureTest extends TestCase
         ];
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function explode()
     {
         $el = Sequence::create(NullType::create(), NullType::create(), NullType::create());
@@ -62,7 +68,9 @@ final class StructureTest extends TestCase
         static::assertEquals([$null, $null, $null], $parts);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function explodePrimitiveFail()
     {
         $el = NullType::create();
@@ -72,7 +80,9 @@ final class StructureTest extends TestCase
         Structure::explodeDER($der);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function explodeIndefiniteFail()
     {
         $el = Sequence::create(NullType::create());
@@ -83,7 +93,9 @@ final class StructureTest extends TestCase
         Structure::explodeDER($der);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function replace()
     {
         $seq = Sequence::create(NullType::create(), NullType::create());
@@ -92,7 +104,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function replaceFail()
     {
         $seq = Sequence::create(NullType::create(), NullType::create());
@@ -101,7 +115,9 @@ final class StructureTest extends TestCase
         $seq->withReplaced(2, Boolean::create(true));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function insertFirst()
     {
         $seq = Sequence::create(NullType::create(), NullType::create());
@@ -110,7 +126,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function insertBetween()
     {
         $seq = Sequence::create(NullType::create(), NullType::create());
@@ -119,7 +137,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function insertLast()
     {
         $seq = Sequence::create(NullType::create(), NullType::create());
@@ -128,7 +148,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function insertOOB()
     {
         $seq = Sequence::create(NullType::create(), NullType::create());
@@ -137,7 +159,9 @@ final class StructureTest extends TestCase
         $seq->withInserted(3, Boolean::create(true));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function append()
     {
         $seq = Sequence::create(NullType::create());
@@ -146,7 +170,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function prepend()
     {
         $seq = Sequence::create(NullType::create());
@@ -155,7 +181,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function removeFirst()
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true), NullType::create());
@@ -164,7 +192,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function removeLast()
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true), NullType::create());
@@ -173,7 +203,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function removeOnly()
     {
         $seq = Sequence::create(NullType::create());
@@ -182,7 +214,9 @@ final class StructureTest extends TestCase
         static::assertEquals($expected, $seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function removeFail()
     {
         $seq = Sequence::create(NullType::create());
@@ -193,8 +227,9 @@ final class StructureTest extends TestCase
 
     /**
      * Test that cached tagging lookup table is cleared on clone.
+     *
+     * @test
      */
-    #[Test]
     public function taggedAfterClone()
     {
         $seq = Sequence::create(ImplicitlyTaggedType::create(1, NullType::create()));

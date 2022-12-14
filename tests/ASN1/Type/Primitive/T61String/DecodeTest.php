@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\T61String;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\T61String;
 
@@ -13,14 +12,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\T61String;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = T61String::fromDER("\x14\x0");
         static::assertInstanceOf(T61String::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function value()
     {
         $str = 'Hello World!';

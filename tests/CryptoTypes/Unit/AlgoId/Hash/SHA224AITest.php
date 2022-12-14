@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Hash;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -19,8 +17,9 @@ final class SHA224AITest extends TestCase
 {
     /**
      * @return Sequence
+     *
+     * @test
      */
-    #[Test]
     public function encode()
     {
         $ai = SHA224AlgorithmIdentifier::create();
@@ -29,8 +28,11 @@ final class SHA224AITest extends TestCase
         return $seq;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -38,8 +40,11 @@ final class SHA224AITest extends TestCase
         return $ai;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decodeWithParams(Sequence $seq)
     {
         $seq = $seq->withInserted(1, NullType::create());
@@ -47,8 +52,11 @@ final class SHA224AITest extends TestCase
         static::assertInstanceOf(SHA224AlgorithmIdentifier::class, $ai);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

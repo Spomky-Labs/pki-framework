@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
@@ -40,7 +38,9 @@ final class CertificateTest extends TestCase
         self::$_privateKeyInfo = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $pki = self::$_privateKeyInfo->publicKeyInfo();
@@ -59,8 +59,11 @@ final class CertificateTest extends TestCase
         return $cert;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Certificate $cert)
     {
         $seq = $cert->toASN1();
@@ -69,10 +72,12 @@ final class CertificateTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $cert = Certificate::fromASN1(Sequence::fromDER($der));
@@ -80,37 +85,52 @@ final class CertificateTest extends TestCase
         return $cert;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Certificate $ref, Certificate $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tBSCertificate(Certificate $cert)
     {
         static::assertInstanceOf(TBSCertificate::class, $cert->tbsCertificate());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function signatureAlgorithm(Certificate $cert)
     {
         static::assertInstanceOf(AlgorithmIdentifier::class, $cert->signatureAlgorithm());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function signature(Certificate $cert)
     {
         static::assertInstanceOf(Signature::class, $cert->signatureValue());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toPEM(Certificate $cert)
     {
         $pem = $cert->toPEM();
@@ -118,15 +138,21 @@ final class CertificateTest extends TestCase
         return $pem;
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function pEMType(PEM $pem)
     {
         static::assertEquals(PEM::TYPE_CERTIFICATE, $pem->type());
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function fromPEM(PEM $pem)
     {
         $cert = Certificate::fromPEM($pem);
@@ -134,30 +160,41 @@ final class CertificateTest extends TestCase
         return $cert;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('fromPEM')]
+    /**
+     * @depends create
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function pEMRecoded(Certificate $ref, Certificate $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromInvalidPEMFail()
     {
         $this->expectException(UnexpectedValueException::class);
         Certificate::fromPEM(PEM::create('nope', ''));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toStringMethod(Certificate $cert)
     {
         static::assertIsString(strval($cert));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function invalidAlgoFail(Certificate $cert)
     {
         $seq = $cert->toASN1();

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\DistPoint;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
 use SpomkyLabs\Pki\ASN1\Type\TaggedType;
@@ -19,7 +17,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\RelativeName;
  */
 final class RelativeNameTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $name = RelativeName::create(
@@ -29,8 +29,11 @@ final class RelativeNameTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(RelativeName $name)
     {
         $el = $name->toASN1();
@@ -39,10 +42,12 @@ final class RelativeNameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data)
     {
         $name = RelativeName::fromTaggedType(TaggedType::fromDER($data));
@@ -50,16 +55,22 @@ final class RelativeNameTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(RelativeName $ref, RelativeName $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function rDN(RelativeName $name)
     {
         $rdn = $name->rdn();

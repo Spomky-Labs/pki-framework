@@ -6,8 +6,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use function array_slice;
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
@@ -40,7 +38,9 @@ final class CertificationPathTest extends TestCase
         self::$_certs = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $path = CertificationPath::create(...self::$_certs);
@@ -48,15 +48,21 @@ final class CertificationPathTest extends TestCase
         return $path;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(CertificationPath $path)
     {
         static::assertCount(3, $path);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(CertificationPath $path)
     {
         $values = [];
@@ -67,15 +73,20 @@ final class CertificationPathTest extends TestCase
         static::assertContainsOnlyInstancesOf(Certificate::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function validate(CertificationPath $path)
     {
         $result = $path->validate(PathValidationConfig::defaultConfig());
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromTrustAnchorToTarget()
     {
         $path = CertificationPath::fromTrustAnchorToTarget(
@@ -86,7 +97,9 @@ final class CertificationPathTest extends TestCase
         static::assertInstanceOf(CertificationPath::class, $path);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromCertificateChain()
     {
         $chain = CertificateChain::create(...array_reverse(self::$_certs, false));
@@ -95,23 +108,31 @@ final class CertificationPathTest extends TestCase
         return $path;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('fromCertificateChain')]
+    /**
+     * @depends create
+     * @depends fromCertificateChain
+     *
+     * @test
+     */
     public function fromChainEquals(CertificationPath $ref, CertificationPath $path)
     {
         static::assertEquals($ref, $path);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function trustAnchor(CertificationPath $path)
     {
         $cert = $path->trustAnchorCertificate();
         static::assertEquals(self::$_certs[0], $cert);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function trustAnchorFail()
     {
         $path = CertificationPath::create();
@@ -119,15 +140,20 @@ final class CertificationPathTest extends TestCase
         $path->trustAnchorCertificate();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function endEntity(CertificationPath $path)
     {
         $cert = $path->endEntityCertificate();
         static::assertEquals(self::$_certs[2], $cert);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function endEntityFail()
     {
         $path = CertificationPath::create();
@@ -135,44 +161,62 @@ final class CertificationPathTest extends TestCase
         $path->endEntityCertificate();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function certificateChain(CertificationPath $path)
     {
         $chain = $path->certificateChain();
         static::assertInstanceOf(CertificateChain::class, $chain);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function startWithSingle(CertificationPath $path)
     {
         static::assertTrue($path->startsWith(self::$_certs[0]));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function startWithMulti(CertificationPath $path)
     {
         static::assertTrue($path->startsWith(...array_slice(self::$_certs, 0, 2, false)));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function startWithAll(CertificationPath $path)
     {
         static::assertTrue($path->startsWith(...self::$_certs));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function startWithTooManyFail(CertificationPath $path)
     {
         static::assertFalse($path->startsWith(...array_merge(self::$_certs, [self::$_certs[0]])));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function startWithFail(CertificationPath $path)
     {
         static::assertFalse($path->startsWith(self::$_certs[1]));

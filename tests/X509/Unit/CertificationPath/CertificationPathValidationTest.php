@@ -6,8 +6,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use DateTimeImmutable;
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -42,8 +40,9 @@ final class CertificationPathValidationTest extends TestCase
 
     /**
      * @return PathValidationResult
+     *
+     * @test
      */
-    #[Test]
     public function validateDefault()
     {
         $result = self::$_path->validate(PathValidationConfig::defaultConfig());
@@ -51,15 +50,20 @@ final class CertificationPathValidationTest extends TestCase
         return $result;
     }
 
-    #[Test]
-    #[Depends('validateDefault')]
+    /**
+     * @depends validateDefault
+     *
+     * @test
+     */
     public function result(PathValidationResult $result)
     {
         $expected_cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
         static::assertEquals($expected_cert, $result->certificate());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function validateExpired()
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2026-01-03'));
@@ -67,7 +71,9 @@ final class CertificationPathValidationTest extends TestCase
         self::$_path->validate($config);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function validateNotBeforeFail()
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2015-12-31'));
@@ -75,7 +81,9 @@ final class CertificationPathValidationTest extends TestCase
         self::$_path->validate($config);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function validatePathLengthFail()
     {
         $config = PathValidationConfig::defaultConfig()->withMaxLength(0);
@@ -83,14 +91,18 @@ final class CertificationPathValidationTest extends TestCase
         self::$_path->validate($config);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noCertsFail()
     {
         $this->expectException(LogicException::class);
         PathValidator::create(Crypto::getDefault(), PathValidationConfig::defaultConfig());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function explicitTrustAnchor()
     {
         $config = PathValidationConfig::defaultConfig()->withTrustAnchor(self::$_path->certificates()[0]);

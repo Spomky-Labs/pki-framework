@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoBridge\Unit\Crypto;
 
 use BadMethodCallException;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -72,8 +70,11 @@ final class OpenSSLCryptoTest extends TestCase
         self::$_ecPrivKeyInfo = null;
     }
 
-    #[Test]
-    #[DataProvider('provideSignAndVerifyRSA')]
+    /**
+     * @dataProvider provideSignAndVerifyRSA
+     *
+     * @test
+     */
     public function signAndVerifyRSA(SignatureAlgorithmIdentifier $algo): void
     {
         $signature = self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
@@ -83,7 +84,7 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertTrue($result);
     }
 
-    public static function provideSignAndVerifyRSA(): iterable
+    public function provideSignAndVerifyRSA(): iterable
     {
         //yield [MD4WithRSAEncryptionAlgorithmIdentifier::create()];  /** Removed as MD4 is now obsolete and fails with newer OpenSSL versions */
         yield [MD5WithRSAEncryptionAlgorithmIdentifier::create()];
@@ -94,8 +95,11 @@ final class OpenSSLCryptoTest extends TestCase
         yield [SHA512WithRSAEncryptionAlgorithmIdentifier::create()];
     }
 
-    #[Test]
-    #[DataProvider('provideSignAndVerifyEC')]
+    /**
+     * @dataProvider provideSignAndVerifyEC
+     *
+     * @test
+     */
     public function signAndVerifyEC(SignatureAlgorithmIdentifier $algo): void
     {
         $signature = self::$_crypto->sign(self::DATA, self::$_ecPrivKeyInfo, $algo);
@@ -105,12 +109,14 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertTrue($result);
     }
 
-    public static function provideSignAndVerifyEC(): iterable
+    public function provideSignAndVerifyEC(): iterable
     {
         yield [ECDSAWithSHA1AlgorithmIdentifier::create()];
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unsupportedDigestFail(): void
     {
         $algo = MD2WithRSAEncryptionAlgorithmIdentifier::create();
@@ -118,7 +124,9 @@ final class OpenSSLCryptoTest extends TestCase
         self::$_crypto->sign(self::DATA, self::$_rsaPrivKeyInfo, $algo);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function signInvalidKeyFails(): void
     {
         $pk = RSAPrivateKey::create('0', '0', '0', '0', '0', '0', '0', '0');
@@ -127,7 +135,9 @@ final class OpenSSLCryptoTest extends TestCase
         self::$_crypto->sign(self::DATA, $pk->privateKeyInfo(), $algo);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function verifyInvalidKeyType(): void
     {
         $signature = RSASignature::fromSignatureString('');
@@ -138,11 +148,13 @@ final class OpenSSLCryptoTest extends TestCase
     }
 
     /**
+     * @dataProvider provideEncryptAndDecrypt
+     *
      * @param string $data
      * @param string $key
+     *
+     * @test
      */
-    #[Test]
-    #[DataProvider('provideEncryptAndDecrypt')]
     public function encryptAndDecrypt($data, CipherAlgorithmIdentifier $algo, $key): void
     {
         $ciphertext = self::$_crypto->encrypt($data, $key, $algo);
@@ -151,7 +163,7 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertEquals($data, $plaintext);
     }
 
-    public static function provideEncryptAndDecrypt(): iterable
+    public function provideEncryptAndDecrypt(): iterable
     {
         $data8 = '12345678';
         $data16 = str_repeat($data8, 2);
@@ -172,7 +184,9 @@ final class OpenSSLCryptoTest extends TestCase
         yield [$data16, AES256CBCAlgorithmIdentifier::create($iv16), $key32];
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unsupportedRC2KeySize(): void
     {
         $data = '12345678';
@@ -182,7 +196,9 @@ final class OpenSSLCryptoTest extends TestCase
         self::$_crypto->encrypt($data, $key, $algo);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encryptUnalignedFail(): void
     {
         $data = '1234567';
@@ -192,7 +208,9 @@ final class OpenSSLCryptoTest extends TestCase
         self::$_crypto->encrypt($data, $key, $algo);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decryptUnalignedFail(): void
     {
         $data = '1234567';
@@ -202,29 +220,38 @@ final class OpenSSLCryptoTest extends TestCase
         self::$_crypto->decrypt($data, $key, $algo);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unsupportedCipherFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, '', new UnsupportedCipher());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidRC2AlgoFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, '', new InvalidRC2());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unsupportedRC2KeySizeFail(): void
     {
         $this->expectException(UnexpectedValueException::class);
         self::$_crypto->encrypt(self::DATA, 'x', RC2CBCAlgorithmIdentifier::create(8, '87654321'));
     }
 
-    #[Test]
-    #[DataProvider('provideSignatureMethod')]
+    /**
+     * @dataProvider provideSignatureMethod
+     *
+     * @test
+     */
     public function signatureMethod(PrivateKeyInfo $pki, SignatureAlgorithmIdentifier $algo): void
     {
         $signature = self::$_crypto->sign(self::DATA, $pki, $algo);
@@ -232,7 +259,7 @@ final class OpenSSLCryptoTest extends TestCase
         static::assertTrue($result);
     }
 
-    public static function provideSignatureMethod(): iterable
+    public function provideSignatureMethod(): iterable
     {
         $rsa_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
         $ec_key = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem'));

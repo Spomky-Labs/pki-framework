@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\DistPoint;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
@@ -17,7 +15,9 @@ final class ReasonFlagsTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $reasons = ReasonFlags::create(
@@ -29,8 +29,11 @@ final class ReasonFlagsTest extends TestCase
         return $reasons;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(ReasonFlags $reasons)
     {
         $el = $reasons->toASN1();
@@ -39,10 +42,12 @@ final class ReasonFlagsTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data)
     {
         $reasons = ReasonFlags::fromASN1(BitString::fromDER($data));
@@ -50,65 +55,92 @@ final class ReasonFlagsTest extends TestCase
         return $reasons;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(ReasonFlags $ref, ReasonFlags $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function keyCompromise(ReasonFlags $reasons)
     {
         static::assertTrue($reasons->isKeyCompromise());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function cACompromise(ReasonFlags $reasons)
     {
         static::assertFalse($reasons->isCACompromise());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function affiliationChanged(ReasonFlags $reasons)
     {
         static::assertTrue($reasons->isAffiliationChanged());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function superseded(ReasonFlags $reasons)
     {
         static::assertFalse($reasons->isSuperseded());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function cessationOfOperation(ReasonFlags $reasons)
     {
         static::assertTrue($reasons->isCessationOfOperation());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function certificateHold(ReasonFlags $reasons)
     {
         static::assertFalse($reasons->isCertificateHold());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function priviligeWhitdrawn(ReasonFlags $reasons)
     {
         static::assertTrue($reasons->isPrivilegeWithdrawn());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function aACompromise(ReasonFlags $reasons)
     {
         static::assertFalse($reasons->isAACompromise());

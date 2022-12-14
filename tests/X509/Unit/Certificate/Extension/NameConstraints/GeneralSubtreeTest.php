@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\NameConstraints;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtree;
@@ -20,7 +18,9 @@ final class GeneralSubtreeTest extends TestCase
 {
     public const URI = '.example.com';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $subtree = GeneralSubtree::create(UniformResourceIdentifier::create(self::URI));
@@ -28,8 +28,11 @@ final class GeneralSubtreeTest extends TestCase
         return $subtree;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(GeneralSubtree $subtree)
     {
         $el = $subtree->toASN1();
@@ -38,10 +41,12 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data)
     {
         $subtree = GeneralSubtree::fromASN1(Sequence::fromDER($data));
@@ -49,23 +54,31 @@ final class GeneralSubtreeTest extends TestCase
         return $subtree;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(GeneralSubtree $ref, GeneralSubtree $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function base(GeneralSubtree $subtree)
     {
         $base = $subtree->base();
         static::assertInstanceOf(GeneralName::class, $base);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createWithAll()
     {
         $subtree = GeneralSubtree::create(UniformResourceIdentifier::create(self::URI), 1, 3);
@@ -73,8 +86,11 @@ final class GeneralSubtreeTest extends TestCase
         return $subtree;
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function encodeWithAll(GeneralSubtree $subtree)
     {
         $el = $subtree->toASN1();
@@ -83,10 +99,12 @@ final class GeneralSubtreeTest extends TestCase
     }
 
     /**
+     * @depends encodeWithAll
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encodeWithAll')]
     public function decodeWithAll($data)
     {
         $subtree = GeneralSubtree::fromASN1(Sequence::fromDER($data));
@@ -94,9 +112,12 @@ final class GeneralSubtreeTest extends TestCase
         return $subtree;
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
-    #[Depends('decodeWithAll')]
+    /**
+     * @depends createWithAll
+     * @depends decodeWithAll
+     *
+     * @test
+     */
     public function recodedWithAll(GeneralSubtree $ref, GeneralSubtree $new)
     {
         static::assertEquals($ref, $new);
@@ -104,8 +125,9 @@ final class GeneralSubtreeTest extends TestCase
 
     /**
      * Test for GeneralName tag that collide with other GeneralSubtree tags.
+     *
+     * @test
      */
-    #[Test]
     public function collidingTag()
     {
         $subtree = GeneralSubtree::create(RFC822Name::create('test'));

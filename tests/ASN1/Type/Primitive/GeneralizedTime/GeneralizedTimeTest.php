@@ -6,8 +6,6 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\GeneralizedTime;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
@@ -22,7 +20,9 @@ use UnexpectedValueException;
  */
 final class GeneralizedTimeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
@@ -30,15 +30,21 @@ final class GeneralizedTimeTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_GENERALIZED_TIME, $el->tag());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -46,8 +52,11 @@ final class GeneralizedTimeTest extends TestCase
         return $der;
     }
 
-    #[Test]
-    #[Depends('encode')]
+    /**
+     * @depends encode
+     *
+     * @test
+     */
     public function decode(string $data): GeneralizedTime
     {
         $el = GeneralizedTime::fromDER($data);
@@ -55,23 +64,31 @@ final class GeneralizedTimeTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(TimeType $ref, TimeType $el)
     {
         static::assertEquals($ref->dateTime()->getTimestamp(), $el->dateTime()->getTimestamp());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(GeneralizedTime::class, $wrap->asGeneralizedTime());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -80,16 +97,22 @@ final class GeneralizedTimeTest extends TestCase
         $wrap->asGeneralizedTime();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function clone(Element $el)
     {
         $clone = clone $el;
         static::assertInstanceOf(GeneralizedTime::class, $clone);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function stringable(TimeType $time)
     {
         static::assertEquals('20060102220405Z', $time->string());
@@ -98,8 +121,9 @@ final class GeneralizedTimeTest extends TestCase
 
     /**
      * Test bug where leading zeroes in fraction gets stripped, such that `.05` becomes `.5`.
+     *
+     * @test
      */
-    #[Test]
     public function leadingFractionZeroes()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');

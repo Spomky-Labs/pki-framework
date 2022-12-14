@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
@@ -23,7 +21,9 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class AttributesTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): Attributes
     {
         $attribs = Attributes::fromAttributeValues(
@@ -38,8 +38,11 @@ final class AttributesTest extends TestCase
         return $attribs;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Attributes $attribs): string
     {
         $seq = $attribs->toASN1();
@@ -48,10 +51,12 @@ final class AttributesTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $tc = Attributes::fromASN1(Sequence::fromDER($der));
@@ -59,23 +64,32 @@ final class AttributesTest extends TestCase
         return $tc;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Attributes $ref, Attributes $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(Attributes $attribs): void
     {
         static::assertCount(3, $attribs);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(Attributes $attribs): void
     {
         $values = [];
@@ -86,29 +100,41 @@ final class AttributesTest extends TestCase
         static::assertContainsOnlyInstancesOf(Attribute::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function has(Attributes $attribs): void
     {
         static::assertTrue($attribs->has(AccessIdentityAttributeValue::OID));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function firstOf(Attributes $attribs): void
     {
         static::assertInstanceOf(Attribute::class, $attribs->firstOf(AccessIdentityAttributeValue::OID));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function allOf(Attributes $attribs): void
     {
         static::assertCount(1, $attribs->allOf(AccessIdentityAttributeValue::OID));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withAdditional(Attributes $attribs): void
     {
         $attribs = $attribs->withAdditional(
@@ -117,8 +143,11 @@ final class AttributesTest extends TestCase
         static::assertInstanceOf(Attributes::class, $attribs);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withUniqueReplace(Attributes $attribs): void
     {
         $attribs = $attribs->withUnique(
@@ -129,8 +158,11 @@ final class AttributesTest extends TestCase
         static::assertEquals('uri:new', $attribs->firstOf(AttributeType::OID_ROLE)->first()->roleName());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withUniqueAdded(Attributes $attribs): void
     {
         $attribs = $attribs->withUnique(

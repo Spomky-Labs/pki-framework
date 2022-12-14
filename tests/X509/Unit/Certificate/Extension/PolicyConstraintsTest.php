@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -18,7 +16,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
  */
 final class PolicyConstraintsTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $ext = PolicyConstraintsExtension::create(true, 2, 3);
@@ -26,22 +26,31 @@ final class PolicyConstraintsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_POLICY_CONSTRAINTS, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -50,10 +59,12 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = PolicyConstraintsExtension::fromASN1(Sequence::fromDER($der));
@@ -61,30 +72,42 @@ final class PolicyConstraintsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function requireExplicit(PolicyConstraintsExtension $ext)
     {
         static::assertEquals(2, $ext->requireExplicitPolicy());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function inhibitMapping(PolicyConstraintsExtension $ext)
     {
         static::assertEquals(3, $ext->inhibitPolicyMapping());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function extensions(PolicyConstraintsExtension $ext)
     {
         $extensions = Extensions::create($ext);
@@ -92,15 +115,20 @@ final class PolicyConstraintsTest extends TestCase
         return $extensions;
     }
 
-    #[Test]
-    #[Depends('extensions')]
+    /**
+     * @depends extensions
+     *
+     * @test
+     */
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->policyConstraints();
         static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createEmpty()
     {
         $ext = PolicyConstraintsExtension::create(false);
@@ -108,8 +136,11 @@ final class PolicyConstraintsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function encodeEmpty(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -118,10 +149,12 @@ final class PolicyConstraintsTest extends TestCase
     }
 
     /**
+     * @depends encodeEmpty
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encodeEmpty')]
     public function decodeEmpty($der)
     {
         $ext = PolicyConstraintsExtension::fromASN1(Sequence::fromDER($der));
@@ -129,24 +162,33 @@ final class PolicyConstraintsTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
-    #[Depends('decodeEmpty')]
+    /**
+     * @depends createEmpty
+     * @depends decodeEmpty
+     *
+     * @test
+     */
     public function recodedEmpty(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function noRequireExplicitFail(PolicyConstraintsExtension $ext)
     {
         $this->expectException(LogicException::class);
         $ext->requireExplicitPolicy();
     }
 
-    #[Test]
-    #[Depends('createEmpty')]
+    /**
+     * @depends createEmpty
+     *
+     * @test
+     */
     public function noInhibitMappingFail(PolicyConstraintsExtension $ext)
     {
         $this->expectException(LogicException::class);

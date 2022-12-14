@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Enumerated;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Enumerated;
 
@@ -13,7 +12,9 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\Enumerated;
  */
 final class EncodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function encode()
     {
         $el = Enumerated::create(1);

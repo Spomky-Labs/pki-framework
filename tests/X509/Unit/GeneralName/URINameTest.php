@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
@@ -20,7 +18,9 @@ final class URINameTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $uri = UniformResourceIdentifier::create(self::URI);
@@ -28,8 +28,11 @@ final class URINameTest extends TestCase
         return $uri;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(UniformResourceIdentifier $uri)
     {
         $el = $uri->toASN1();
@@ -38,10 +41,12 @@ final class URINameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
@@ -49,10 +54,12 @@ final class URINameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $uri = UniformResourceIdentifier::fromASN1(Element::fromDER($der));
@@ -60,23 +67,32 @@ final class URINameTest extends TestCase
         return $uri;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(UniformResourceIdentifier $ref, UniformResourceIdentifier $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(UniformResourceIdentifier $uri)
     {
         static::assertEquals(self::URI, $uri->string());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function uRI(UniformResourceIdentifier $uri)
     {
         static::assertEquals(self::URI, $uri->uri());

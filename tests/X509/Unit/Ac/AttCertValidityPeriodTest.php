@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
@@ -31,7 +29,9 @@ final class AttCertValidityPeriodTest extends TestCase
         self::$_nb = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): AttCertValidityPeriod
     {
         $validity = AttCertValidityPeriod::create(self::$_nb, self::$_na);
@@ -39,8 +39,11 @@ final class AttCertValidityPeriodTest extends TestCase
         return $validity;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(AttCertValidityPeriod $validity): string
     {
         $seq = $validity->toASN1();
@@ -49,10 +52,12 @@ final class AttCertValidityPeriodTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $data
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($data): AttCertValidityPeriod
     {
         $iss_ser = AttCertValidityPeriod::fromASN1(Sequence::fromDER($data));
@@ -60,30 +65,41 @@ final class AttCertValidityPeriodTest extends TestCase
         return $iss_ser;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(AttCertValidityPeriod $ref, AttCertValidityPeriod $new)
     {
         static::assertEquals($ref->notBeforeTime()->getTimestamp(), $new->notBeforeTime()->getTimestamp());
         static::assertEquals($ref->notAfterTime()->getTimestamp(), $new->notAfterTime()->getTimestamp());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function notBefore(AttCertValidityPeriod $validity)
     {
         static::assertEquals(self::$_nb, $validity->notBeforeTime());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function notAfter(AttCertValidityPeriod $validity)
     {
         static::assertEquals(self::$_na, $validity->notAfterTime());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromStrings()
     {
         $validity = AttCertValidityPeriod::fromStrings('now', 'now + 1 day', 'UTC');

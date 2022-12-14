@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
@@ -20,7 +18,9 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
  */
 final class AttributeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): Attribute
     {
         $attr = Attribute::fromAttributeValues(NameValue::create('one'), NameValue::create('two'));
@@ -28,8 +28,11 @@ final class AttributeTest extends TestCase
         return $attr;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Attribute $attr): string
     {
         $der = $attr->toASN1()
@@ -39,10 +42,12 @@ final class AttributeTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der): Attribute
     {
         $attr = Attribute::fromASN1(Sequence::fromDER($der));
@@ -50,44 +55,62 @@ final class AttributeTest extends TestCase
         return $attr;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Attribute $ref, Attribute $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function type(Attribute $attr): void
     {
         static::assertEquals(AttributeType::fromName('name'), $attr->type());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function first(Attribute $attr): void
     {
         static::assertEquals('one', $attr->first()->rfc2253String());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function values(Attribute $attr): void
     {
         static::assertContainsOnlyInstancesOf(AttributeValue::class, $attr->values());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(Attribute $attr): void
     {
         static::assertCount(2, $attr);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterable(Attribute $attr): void
     {
         $values = [];
@@ -97,7 +120,9 @@ final class AttributeTest extends TestCase
         static::assertContainsOnlyInstancesOf(AttributeValue::class, $values);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createMismatch(): void
     {
         $this->expectException(LogicException::class);
@@ -105,7 +130,9 @@ final class AttributeTest extends TestCase
         Attribute::fromAttributeValues(NameValue::create('name'), CommonNameValue::create('cn'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function emptyFromValuesFail(): void
     {
         $this->expectException(LogicException::class);
@@ -113,7 +140,9 @@ final class AttributeTest extends TestCase
         Attribute::fromAttributeValues();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function emptyFirstFail(): void
     {
         $attr = Attribute::create(AttributeType::fromName('cn'));

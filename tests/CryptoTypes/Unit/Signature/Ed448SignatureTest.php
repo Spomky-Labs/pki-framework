@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\CryptoTypes\Signature\Ed448Signature;
@@ -16,7 +14,9 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\Ed448Signature;
  */
 final class Ed448SignatureTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create(): Ed448Signature
     {
         $sig = Ed448Signature::create(str_repeat("\0", 114));
@@ -24,14 +24,19 @@ final class Ed448SignatureTest extends TestCase
         return $sig;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function bitString(Ed448Signature $sig): void
     {
         static::assertInstanceOf(BitString::class, $sig->bitString());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalid(): void
     {
         $this->expectException(InvalidArgumentException::class);

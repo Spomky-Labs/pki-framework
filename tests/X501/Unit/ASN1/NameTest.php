@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -18,7 +16,9 @@ use function strval;
  */
 final class NameTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $name = Name::fromString('name=one,name=two');
@@ -26,8 +26,11 @@ final class NameTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Name $name)
     {
         $der = $name->toASN1()
@@ -37,10 +40,12 @@ final class NameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $name = Name::fromASN1(Sequence::fromDER($der));
@@ -48,30 +53,42 @@ final class NameTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Name $ref, Name $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function all(Name $name)
     {
         static::assertContainsOnlyInstancesOf(RDN::class, $name->all());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function firstValueOf(Name $name)
     {
         static::assertEquals('two', $name->firstValueOf('name')->stringValue());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function firstValueOfNotFound(Name $name)
     {
         $this->expectException(RuntimeException::class);
@@ -79,7 +96,9 @@ final class NameTest extends TestCase
         $name->firstValueOf('cn');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function firstValueOfMultipleFail()
     {
         $this->expectException(RuntimeException::class);
@@ -87,29 +106,41 @@ final class NameTest extends TestCase
         Name::fromString('name=one+name=two')->firstValueOf('name');
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(Name $name)
     {
         static::assertCount(2, $name);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countOfType(Name $name)
     {
         static::assertEquals(2, $name->countOfType('name'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countOfTypeNone(Name $name)
     {
         static::assertEquals(0, $name->countOfType('cn'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterable(Name $name)
     {
         $values = [];
@@ -119,15 +150,21 @@ final class NameTest extends TestCase
         static::assertContainsOnlyInstancesOf(RDN::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function string(Name $name)
     {
         static::assertEquals('name=one,name=two', $name->toString());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function toStringMethod(Name $name)
     {
         static::assertIsString(strval($name));

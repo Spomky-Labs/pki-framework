@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\Ac;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X501\ASN1\Name;
@@ -28,14 +27,18 @@ final class IssuerTest extends TestCase
         self::$_pkc = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKC()
     {
         $iss = AttCertIssuer::fromPKC(self::$_pkc);
         static::assertTrue($iss->identifiesPKC(self::$_pkc));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCMismatch()
     {
         $iss = AttCertIssuer::fromName(Name::fromString('cn=Fail'));

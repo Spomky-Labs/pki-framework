@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -31,7 +29,9 @@ final class CRLDistributionPointTest extends TestCase
 
     final public const ISSUER_DN = 'cn=Issuer';
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createDistributionPoint()
     {
         $name = FullName::create(GeneralNames::create(UniformResourceIdentifier::create(self::DP_URI)));
@@ -42,8 +42,11 @@ final class CRLDistributionPointTest extends TestCase
         return $dp;
     }
 
-    #[Test]
-    #[Depends('createDistributionPoint')]
+    /**
+     * @depends createDistributionPoint
+     *
+     * @test
+     */
     public function create(DistributionPoint $dp)
     {
         $ext = CRLDistributionPointsExtension::create(true, $dp, DistributionPoint::create());
@@ -51,22 +54,31 @@ final class CRLDistributionPointTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_CRL_DISTRIBUTION_POINTS, $ext->oid());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -75,10 +87,12 @@ final class CRLDistributionPointTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $ext = CRLDistributionPointsExtension::fromASN1(Sequence::fromDER($der));
@@ -86,23 +100,32 @@ final class CRLDistributionPointTest extends TestCase
         return $ext;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(CRLDistributionPointsExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(CRLDistributionPointsExtension $ext)
     {
         $values = [];
@@ -113,8 +136,11 @@ final class CRLDistributionPointTest extends TestCase
         static::assertContainsOnlyInstancesOf(DistributionPoint::class, $values);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function distributionPoint(CRLDistributionPointsExtension $ext)
     {
         $dp = $ext->distributionPoints()[0];
@@ -122,8 +148,11 @@ final class CRLDistributionPointTest extends TestCase
         return $dp;
     }
 
-    #[Test]
-    #[Depends('distributionPoint')]
+    /**
+     * @depends distributionPoint
+     *
+     * @test
+     */
     public function dPName(DistributionPoint $dp)
     {
         $uri = $dp->fullName()
@@ -132,22 +161,31 @@ final class CRLDistributionPointTest extends TestCase
         static::assertEquals(self::DP_URI, $uri);
     }
 
-    #[Test]
-    #[Depends('distributionPoint')]
+    /**
+     * @depends distributionPoint
+     *
+     * @test
+     */
     public function dPReasons(DistributionPoint $dp)
     {
         static::assertTrue($dp->reasons()->isPrivilegeWithdrawn());
     }
 
-    #[Test]
-    #[Depends('distributionPoint')]
+    /**
+     * @depends distributionPoint
+     *
+     * @test
+     */
     public function dPIssuer(DistributionPoint $dp)
     {
         static::assertEquals(self::ISSUER_DN, $dp->crlIssuer()->firstDN());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function extensions(CRLDistributionPointsExtension $ext)
     {
         $extensions = Extensions::create($ext);
@@ -155,15 +193,20 @@ final class CRLDistributionPointTest extends TestCase
         return $extensions;
     }
 
-    #[Test]
-    #[Depends('extensions')]
+    /**
+     * @depends extensions
+     *
+     * @test
+     */
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->crlDistributionPoints();
         static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeEmptyFail()
     {
         $ext = CRLDistributionPointsExtension::create(false);
@@ -171,7 +214,9 @@ final class CRLDistributionPointTest extends TestCase
         $ext->toASN1();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeEmptyFail()
     {
         $seq = Sequence::create();

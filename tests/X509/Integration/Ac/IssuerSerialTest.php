@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\Ac;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
@@ -41,7 +39,9 @@ final class IssuerSerialTest extends TestCase
         self::$_privKey = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromCertificate()
     {
         $is = IssuerSerial::fromPKC(self::$_cert);
@@ -49,21 +49,29 @@ final class IssuerSerialTest extends TestCase
         return $is;
     }
 
-    #[Test]
-    #[Depends('fromCertificate')]
+    /**
+     * @depends fromCertificate
+     *
+     * @test
+     */
     public function issuer(IssuerSerial $is)
     {
         static::assertEquals(self::$_cert->tbsCertificate()->issuer(), $is->issuer()->firstDN());
     }
 
-    #[Test]
-    #[Depends('fromCertificate')]
+    /**
+     * @depends fromCertificate
+     *
+     * @test
+     */
     public function serial(IssuerSerial $is)
     {
         static::assertEquals(self::$_cert->tbsCertificate()->serialNumber(), $is->serial());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCSerialMismatch()
     {
         $is = IssuerSerial::create(GeneralNames::create(
@@ -72,7 +80,9 @@ final class IssuerSerialTest extends TestCase
         static::assertFalse($is->identifiesPKC(self::$_cert));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCWithIssuerUID()
     {
         $tbs = TBSCertificate::create(
@@ -87,7 +97,9 @@ final class IssuerSerialTest extends TestCase
         static::assertTrue($is->identifiesPKC($cert));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCIssuerUIDMismatch()
     {
         $issuer = Name::fromString('cn=Iss');
@@ -108,7 +120,9 @@ final class IssuerSerialTest extends TestCase
         static::assertFalse($is->identifiesPKC($cert));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function identifiesPKCNoUID()
     {
         $is = IssuerSerial::create(

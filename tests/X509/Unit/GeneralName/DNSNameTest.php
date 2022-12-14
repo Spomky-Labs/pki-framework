@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
@@ -18,7 +16,9 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class DNSNameTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $name = DNSName::create('test.example.com');
@@ -26,8 +26,11 @@ final class DNSNameTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(DNSName $name)
     {
         $el = $name->toASN1();
@@ -36,10 +39,12 @@ final class DNSNameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
@@ -47,10 +52,12 @@ final class DNSNameTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $name = DNSName::fromASN1(Element::fromDER($der));
@@ -58,16 +65,22 @@ final class DNSNameTest extends TestCase
         return $name;
     }
 
-    #[Test]
-    #[Depends('create')]
-    #[Depends('decode')]
+    /**
+     * @depends create
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(DNSName $ref, DNSName $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function dNS(DNSName $name)
     {
         static::assertEquals('test.example.com', $name->name());

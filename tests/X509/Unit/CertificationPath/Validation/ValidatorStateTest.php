@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Validation;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -31,7 +29,9 @@ final class ValidatorStateTest extends TestCase
         self::$_ca = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function initialize()
     {
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
@@ -39,8 +39,11 @@ final class ValidatorStateTest extends TestCase
         return $state;
     }
 
-    #[Test]
-    #[Depends('initialize')]
+    /**
+     * @depends initialize
+     *
+     * @test
+     */
     public function validPolicyTreeFail(ValidatorState $state)
     {
         $this->expectException(LogicException::class);
@@ -48,8 +51,11 @@ final class ValidatorStateTest extends TestCase
             ->validPolicyTree();
     }
 
-    #[Test]
-    #[Depends('initialize')]
+    /**
+     * @depends initialize
+     *
+     * @test
+     */
     public function workingPublicKeyParameters(ValidatorState $state)
     {
         static::assertInstanceOf(NullType::class, $state->workingPublicKeyParameters());

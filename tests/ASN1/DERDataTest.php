@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
@@ -20,7 +18,9 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
  */
 final class DERDataTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $el = DERData::create("\x5\x0");
@@ -28,28 +28,39 @@ final class DERDataTest extends TestCase
         return $el;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function class(DERData $el)
     {
         static::assertEquals(Identifier::CLASS_UNIVERSAL, $el->typeClass());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function constructed(DERData $el)
     {
         static::assertFalse($el->isConstructed());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function encode(DERData $el)
     {
         static::assertEquals("\x5\x0", $el->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeIntoSequence()
     {
         $el = DERData::create("\x5\x0");
@@ -57,7 +68,9 @@ final class DERDataTest extends TestCase
         static::assertEquals("\x30\x2\x5\x0", $seq->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodeIntoSequenceWithOther()
     {
         $el = DERData::create("\x5\x0");
@@ -65,7 +78,9 @@ final class DERDataTest extends TestCase
         static::assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodedContentEmpty()
     {
         $el = DERData::create("\x5\x0");
@@ -76,7 +91,9 @@ final class DERDataTest extends TestCase
         static::assertEquals('', $content);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function encodedContentValue()
     {
         $el = DERData::create((OctetString::create('test'))->toDER());

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\Set;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -17,14 +16,18 @@ use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
  */
 final class EncodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function encode()
     {
         $el = Set::create();
         static::assertEquals("\x31\x0", $el->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function setSort()
     {
         $set = Set::create(
@@ -35,7 +38,9 @@ final class EncodeTest extends TestCase
         static::assertEquals("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet()->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function setSortClasses()
     {
         $set = Set::create(
@@ -46,7 +51,9 @@ final class EncodeTest extends TestCase
         static::assertEquals("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet()->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function setOfSort()
     {
         $set = Set::create(PrintableString::create('B'), PrintableString::create('C'), PrintableString::create('A'));

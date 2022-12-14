@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\GeneralizedTime;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
@@ -16,14 +15,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = GeneralizedTime::fromDER("\x18\x15" . '20060102220405.99999Z');
         static::assertInstanceOf(GeneralizedTime::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function value()
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -31,7 +34,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($date, $el->dateTime()->getTimestamp());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -40,7 +45,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($dt->format('c u'), $el->dateTime()->format('c u'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noFractions()
     {
         $dt = new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006');
@@ -49,7 +56,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($dt->format('c u'), $el->dateTime()->format('c u'));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidFractions()
     {
         $this->expectException(DecodeException::class);
@@ -57,7 +66,9 @@ final class DecodeTest extends TestCase
         GeneralizedTime::fromDER("\x18\x12" . '20060102220405.50Z');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidFractions2()
     {
         $this->expectException(DecodeException::class);
@@ -65,7 +76,9 @@ final class DecodeTest extends TestCase
         GeneralizedTime::fromDER("\x18\x11" . '20060102220405.0Z');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidFractionsOnlyDot()
     {
         $this->expectException(DecodeException::class);
@@ -73,7 +86,9 @@ final class DecodeTest extends TestCase
         GeneralizedTime::fromDER("\x18\x10" . '20060102220405.Z');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function noTimezone()
     {
         $this->expectException(DecodeException::class);
@@ -81,7 +96,9 @@ final class DecodeTest extends TestCase
         GeneralizedTime::fromDER("\x18\x0e" . '20060102220405');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidTime()
     {
         $this->expectException(DecodeException::class);

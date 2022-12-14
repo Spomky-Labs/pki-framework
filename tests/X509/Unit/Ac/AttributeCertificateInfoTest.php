@@ -7,8 +7,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 use Brick\Math\BigInteger;
 use LogicException;
 use function mb_strlen;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -78,7 +76,9 @@ final class AttributeCertificateInfoTest extends TestCase
         self::$_privKeyInfo = null;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $aci = AttributeCertificateInfo::create(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
@@ -86,7 +86,9 @@ final class AttributeCertificateInfoTest extends TestCase
         return $aci;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function createWithAll()
     {
         $aci = AttributeCertificateInfo::create(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
@@ -98,8 +100,11 @@ final class AttributeCertificateInfoTest extends TestCase
         return $aci;
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function encode(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
@@ -108,10 +113,12 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     /**
+     * @depends encode
+     *
      * @param string $der
+     *
+     * @test
      */
-    #[Test]
-    #[Depends('encode')]
     public function decode($der)
     {
         $tc = AttributeCertificateInfo::fromASN1(Sequence::fromDER($der));
@@ -119,111 +126,156 @@ final class AttributeCertificateInfoTest extends TestCase
         return $tc;
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
-    #[Depends('decode')]
+    /**
+     * @depends createWithAll
+     * @depends decode
+     *
+     * @test
+     */
     public function recoded(AttributeCertificateInfo $ref, AttributeCertificateInfo $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function version(AttributeCertificateInfo $aci)
     {
         static::assertEquals(AttributeCertificateInfo::VERSION_2, $aci->version());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function holder(AttributeCertificateInfo $aci)
     {
         static::assertEquals(self::$_holder, $aci->holder());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function issuer(AttributeCertificateInfo $aci)
     {
         static::assertEquals(self::$_issuer, $aci->issuer());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function signature(AttributeCertificateInfo $aci)
     {
         static::assertEquals(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), $aci->signature());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function serialNumber(AttributeCertificateInfo $aci)
     {
         static::assertEquals(1, $aci->serialNumber());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function validityPeriod(AttributeCertificateInfo $aci)
     {
         static::assertEquals(self::$_validity, $aci->validityPeriod());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function attributes(AttributeCertificateInfo $aci)
     {
         static::assertEquals(self::$_attribs, $aci->attributes());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function issuerUniqueID(AttributeCertificateInfo $aci)
     {
         static::assertEquals('uid', $aci->issuerUniqueID()->string());
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function extensions(AttributeCertificateInfo $aci)
     {
         static::assertEquals(self::$_extensions, $aci->extensions());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withHolder(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withHolder(self::$_holder);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withIssuer(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withIssuer(self::$_issuer);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withSignature(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSignature(SHA1WithRSAEncryptionAlgorithmIdentifier::create());
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withSerial(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withSerialNumber(123);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withRandomSerial(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withRandomSerialNumber(16);
@@ -231,24 +283,33 @@ final class AttributeCertificateInfoTest extends TestCase
         static::assertEquals(16, mb_strlen($bin, '8bit'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withValidity(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withValidity(self::$_validity);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withAttributes(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAttributes(self::$_attribs);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withIssuerUniqueID(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withIssuerUniqueID(UniqueIdentifier::fromString('id'));
@@ -256,8 +317,11 @@ final class AttributeCertificateInfoTest extends TestCase
         return $aci;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withExtensions(self::$_extensions);
@@ -265,8 +329,11 @@ final class AttributeCertificateInfoTest extends TestCase
         return $aci;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withAdditionalExtensions(AttributeCertificateInfo $aci)
     {
         $aci = $aci->withAdditionalExtensions(AuthorityKeyIdentifierExtension::create(true, 'test'));
@@ -274,8 +341,11 @@ final class AttributeCertificateInfoTest extends TestCase
         return $aci;
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function decodeInvalidVersion(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();
@@ -284,40 +354,55 @@ final class AttributeCertificateInfoTest extends TestCase
         AttributeCertificateInfo::fromASN1($seq);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function noSignatureFail(AttributeCertificateInfo $aci)
     {
         $this->expectException(LogicException::class);
         $aci->signature();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function noSerialFail(AttributeCertificateInfo $aci)
     {
         $this->expectException(LogicException::class);
         $aci->serialNumber();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function noIssuerUniqueIdFail(AttributeCertificateInfo $aci)
     {
         $this->expectException(LogicException::class);
         $aci->issuerUniqueID();
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function sign(AttributeCertificateInfo $aci)
     {
         $ac = $aci->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_privKeyInfo);
         static::assertInstanceOf(AttributeCertificate::class, $ac);
     }
 
-    #[Test]
-    #[Depends('createWithAll')]
+    /**
+     * @depends createWithAll
+     *
+     * @test
+     */
     public function invalidAlgoFail(AttributeCertificateInfo $aci)
     {
         $seq = $aci->toASN1();

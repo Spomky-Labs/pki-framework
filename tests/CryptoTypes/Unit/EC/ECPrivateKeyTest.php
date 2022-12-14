@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\EC;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -22,7 +20,9 @@ use UnexpectedValueException;
  */
 final class ECPrivateKeyTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function decode(): ECPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
@@ -31,7 +31,9 @@ final class ECPrivateKeyTest extends TestCase
         return $pk;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromPEM(): ECPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
@@ -40,8 +42,11 @@ final class ECPrivateKeyTest extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function toPEM(ECPrivateKey $pk): PEM
     {
         $pem = $pk->toPEM();
@@ -49,15 +54,20 @@ final class ECPrivateKeyTest extends TestCase
         return $pem;
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function recodedPEM(PEM $pem): void
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
         static::assertEquals($ref, $pem);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromPKIPEM(): ECPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
@@ -66,23 +76,32 @@ final class ECPrivateKeyTest extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function privateKeyOctets(ECPrivateKey $pk): void
     {
         $octets = $pk->privateKeyOctets();
         static::assertIsString($octets);
     }
 
-    #[Test]
-    #[Depends('fromPKIPEM')]
+    /**
+     * @depends fromPKIPEM
+     *
+     * @test
+     */
     public function hasNamedCurveFromPKI(ECPrivateKey $pk): void
     {
         static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function getPublicKey(ECPrivateKey $pk): void
     {
         $pub = $pk->publicKey();
@@ -90,15 +109,20 @@ final class ECPrivateKeyTest extends TestCase
         static::assertEquals($ref, $pub);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function getPrivateKeyInfo(ECPrivateKey $pk): void
     {
         $pki = $pk->privateKeyInfo();
         static::assertInstanceOf(PrivateKeyInfo::class, $pki);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidVersion(): void
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/ec_private_key.pem');
@@ -108,7 +132,9 @@ final class ECPrivateKeyTest extends TestCase
         ECPrivateKey::fromASN1($seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidPEMType(): void
     {
         $pem = PEM::create('nope', '');
@@ -116,7 +142,9 @@ final class ECPrivateKeyTest extends TestCase
         ECPrivateKey::fromPEM($pem);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function rSAKeyFail(): void
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
@@ -124,8 +152,11 @@ final class ECPrivateKeyTest extends TestCase
         ECPrivateKey::fromPEM($pem);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function namedCurveNotSet(ECPrivateKey $pk)
     {
         $pk = $pk->withNamedCurve(null);
@@ -133,7 +164,9 @@ final class ECPrivateKeyTest extends TestCase
         $pk->namedCurve();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function publicKeyNotSet()
     {
         $pk = ECPrivateKey::create("\0");

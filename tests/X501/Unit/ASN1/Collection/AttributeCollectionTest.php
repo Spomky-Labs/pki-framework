@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Collection;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\CommonNameValue;
@@ -20,7 +18,9 @@ use UnexpectedValueException;
  */
 final class AttributeCollectionTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function create()
     {
         $c = SequenceOfAttributes::fromAttributeValues(
@@ -32,29 +32,41 @@ final class AttributeCollectionTest extends TestCase
         return $c;
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function has(AttributeCollection $c)
     {
         static::assertTrue($c->has('name'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function hasNot(AttributeCollection $c)
     {
         static::assertFalse($c->has('commonName'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function firstOf(AttributeCollection $c)
     {
         static::assertEquals('n1', $c->firstOf('name')->first()->stringValue());
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function firstOfFails(AttributeCollection $c)
     {
         $this->expectException(UnexpectedValueException::class);
@@ -62,31 +74,43 @@ final class AttributeCollectionTest extends TestCase
         $c->firstOf('commonName');
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function allOf(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->allOf('name'));
         static::assertEquals(['n1', 'n2'], $vals);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function allOfNone(AttributeCollection $c)
     {
         static::assertEquals([], $c->allOf('commonName'));
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function all(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
         static::assertEquals(['n1', 'n2', 'd'], $vals);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withAdditional(AttributeCollection $c)
     {
         $c = $c->withAdditional(Attribute::fromAttributeValues(CommonNameValue::create('cn')));
@@ -94,8 +118,11 @@ final class AttributeCollectionTest extends TestCase
         static::assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function withUnique(AttributeCollection $c)
     {
         $c = $c->withUnique(Attribute::fromAttributeValues(NameValue::create('uniq')));
@@ -103,15 +130,21 @@ final class AttributeCollectionTest extends TestCase
         static::assertEquals(['d', 'uniq'], $vals);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function countMethod(AttributeCollection $c)
     {
         static::assertCount(3, $c);
     }
 
-    #[Test]
-    #[Depends('create')]
+    /**
+     * @depends create
+     *
+     * @test
+     */
     public function iterator(AttributeCollection $c)
     {
         $vals = [];

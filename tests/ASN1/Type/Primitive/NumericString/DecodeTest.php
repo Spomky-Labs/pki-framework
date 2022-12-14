@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\NumericString;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NumericString;
@@ -14,14 +13,18 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NumericString;
  */
 final class DecodeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function type()
     {
         $el = NumericString::fromDER("\x12\x0");
         static::assertInstanceOf(NumericString::class, $el);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function value()
     {
         $str = '123 456 789 0';
@@ -29,7 +32,9 @@ final class DecodeTest extends TestCase
         static::assertEquals($str, $el->string());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidValue()
     {
         $str = '123-456-789-0';

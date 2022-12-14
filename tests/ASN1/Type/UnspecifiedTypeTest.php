@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\DERData;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -20,7 +18,9 @@ use UnexpectedValueException;
  */
 final class UnspecifiedTypeTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function asElement()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -28,14 +28,18 @@ final class UnspecifiedTypeTest extends TestCase
         return $wrap;
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function asUnspecified()
     {
         $wrap = UnspecifiedType::create(NullType::create());
         static::assertInstanceOf(UnspecifiedType::class, $wrap->asUnspecified());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromElementBase()
     {
         $el = NullType::create();
@@ -43,22 +47,29 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertInstanceOf(UnspecifiedType::class, $wrap);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromDER()
     {
         $el = UnspecifiedType::fromDER("\x5\0")->asNull();
         static::assertInstanceOf(NullType::class, $el);
     }
 
-    #[Test]
-    #[Depends('asElement')]
+    /**
+     * @depends asElement
+     *
+     * @test
+     */
     public function fromElementBaseAsWrap(UnspecifiedType $type)
     {
         $wrap = UnspecifiedType::fromElementBase($type);
         static::assertInstanceOf(UnspecifiedType::class, $wrap);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function asTaggedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -67,7 +78,9 @@ final class UnspecifiedTypeTest extends TestCase
         $wrap->asTagged();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function asStringFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -76,7 +89,9 @@ final class UnspecifiedTypeTest extends TestCase
         $wrap->asString();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function asTimeFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -85,7 +100,9 @@ final class UnspecifiedTypeTest extends TestCase
         $wrap->asTime();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function privateTypeFail()
     {
         $el = DERData::create("\xdf\x7f\x0");
@@ -95,7 +112,9 @@ final class UnspecifiedTypeTest extends TestCase
         $wrap->asNull();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function toDER()
     {
         $el = NullType::create();
@@ -103,7 +122,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertEquals($el->toDER(), $wrap->toDER());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function typeClass()
     {
         $el = NullType::create();
@@ -111,7 +132,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertEquals($el->typeClass(), $wrap->typeClass());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function isConstructed()
     {
         $el = NullType::create();
@@ -119,7 +142,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertEquals($el->isConstructed(), $wrap->isConstructed());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function tag()
     {
         $el = NullType::create();
@@ -127,7 +152,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertEquals($el->tag(), $wrap->tag());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function isTypeMethod()
     {
         $el = NullType::create();
@@ -135,7 +162,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertTrue($wrap->isType(Element::TYPE_NULL));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function expectType()
     {
         $el = NullType::create();
@@ -143,7 +172,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertInstanceOf(ElementBase::class, $wrap->expectType(Element::TYPE_NULL));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function isTagged()
     {
         $el = NullType::create();
@@ -151,7 +182,9 @@ final class UnspecifiedTypeTest extends TestCase
         static::assertEquals($el->isTagged(), $wrap->isTagged());
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function expectTagged()
     {
         $el = ImplicitlyTaggedType::create(0, NullType::create());

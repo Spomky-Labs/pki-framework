@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Hash;
 
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
@@ -19,7 +18,9 @@ use UnexpectedValueException;
  */
 final class RFC4231HMACAITest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeWithParams()
     {
         $seq = Sequence::create(
@@ -30,7 +31,9 @@ final class RFC4231HMACAITest extends TestCase
         static::assertInstanceOf(HMACWithSHA256AlgorithmIdentifier::class, $ai);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function decodeWithInvalidParamsFail()
     {
         $seq = Sequence::create(

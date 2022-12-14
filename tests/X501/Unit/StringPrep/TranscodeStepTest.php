@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Unit\StringPrep;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\X501\StringPrep\TranscodeStep;
@@ -15,7 +14,9 @@ use SpomkyLabs\Pki\X501\StringPrep\TranscodeStep;
  */
 final class TranscodeStepTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function uTF8()
     {
         static $str = 'κόσμε';
@@ -23,7 +24,9 @@ final class TranscodeStepTest extends TestCase
         static::assertEquals($str, $step->apply($str));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function printableString()
     {
         static $str = 'ASCII';
@@ -31,7 +34,9 @@ final class TranscodeStepTest extends TestCase
         static::assertEquals($str, $step->apply($str));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function bMP()
     {
         static $str = 'κόσμε';
@@ -39,7 +44,9 @@ final class TranscodeStepTest extends TestCase
         static::assertEquals($str, $step->apply(mb_convert_encoding((string) $str, 'UCS-2BE', 'UTF-8')));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function universal()
     {
         static $str = 'κόσμε';
@@ -47,7 +54,9 @@ final class TranscodeStepTest extends TestCase
         static::assertEquals($str, $step->apply(mb_convert_encoding((string) $str, 'UCS-4BE', 'UTF-8')));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function teletex()
     {
         static $str = 'TEST';
@@ -55,7 +64,9 @@ final class TranscodeStepTest extends TestCase
         static::assertIsString($step->apply($str));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidType()
     {
         $step = TranscodeStep::create(Element::TYPE_BOOLEAN);

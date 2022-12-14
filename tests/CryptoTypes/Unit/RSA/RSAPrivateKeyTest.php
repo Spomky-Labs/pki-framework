@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\RSA;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -22,8 +20,9 @@ final class RSAPrivateKeyTest extends TestCase
 {
     /**
      * @return RSAPrivateKey
+     *
+     * @test
      */
-    #[Test]
     public function decode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
@@ -34,8 +33,9 @@ final class RSAPrivateKeyTest extends TestCase
 
     /**
      * @return RSAPrivateKey
+     *
+     * @test
      */
-    #[Test]
     public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
@@ -44,8 +44,11 @@ final class RSAPrivateKeyTest extends TestCase
         return $pk;
     }
 
-    #[Test]
-    #[Depends('fromPEM')]
+    /**
+     * @depends fromPEM
+     *
+     * @test
+     */
     public function toPEM(RSAPrivateKey $pk)
     {
         $pem = $pk->toPEM();
@@ -53,15 +56,20 @@ final class RSAPrivateKeyTest extends TestCase
         return $pem;
     }
 
-    #[Test]
-    #[Depends('toPEM')]
+    /**
+     * @depends toPEM
+     *
+     * @test
+     */
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         static::assertEquals($ref, $pem);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function fromPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
@@ -69,8 +77,11 @@ final class RSAPrivateKeyTest extends TestCase
         static::assertInstanceOf(RSAPrivateKey::class, $pk);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function getPublicKey(RSAPrivateKey $pk)
     {
         $pub = $pk->publicKey();
@@ -78,7 +89,9 @@ final class RSAPrivateKeyTest extends TestCase
         static::assertEquals($ref, $pub);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidVersion()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
@@ -88,7 +101,9 @@ final class RSAPrivateKeyTest extends TestCase
         RSAPrivateKey::fromASN1($seq);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function invalidPEMType()
     {
         $pem = PEM::create('nope', '');
@@ -96,7 +111,9 @@ final class RSAPrivateKeyTest extends TestCase
         RSAPrivateKey::fromPEM($pem);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function eCKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/private_key.pem');
@@ -104,64 +121,91 @@ final class RSAPrivateKeyTest extends TestCase
         RSAPrivateKey::fromPEM($pem);
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function modulus(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->modulus());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function publicExponent(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->publicExponent());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function privateExponent(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->privateExponent());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function prime1(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->prime1());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function prime2(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->prime2());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function exponent1(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->exponent1());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function exponent2(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->exponent2());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function coefficient(RSAPrivateKey $pk)
     {
         static::assertNotEmpty($pk->coefficient());
     }
 
-    #[Test]
-    #[Depends('decode')]
+    /**
+     * @depends decode
+     *
+     * @test
+     */
     public function privateKeyInfo(RSAPrivateKey $pk)
     {
         $pki = $pk->privateKeyInfo();
