@@ -1,11 +1,11 @@
 .PHONY: tests
 tests: vendor ## Run all tests
-	vendor/bin/phpunit  --color
+	vendor/bin/simple-phpunit  --color
 	yarn test
 
 .PHONY: cc
 cc: vendor ## Show test coverage rates (HTML)
-	vendor/bin/phpunit --coverage-html ./build
+	vendor/bin/simple-phpunit --coverage-html ./build
 
 .PHONY: cs
 cs: vendor ## Fix all files using defined ECS rules
@@ -22,7 +22,7 @@ ci-mu: vendor ## Mutation tests (for Github only)
 
 .PHONY: ci-cc
 ci-cc: vendor ## Show test coverage rates (for CI/CD only)
-	vendor/bin/phpunit --coverage-text
+	vendor/bin/simple-phpunit --coverage-text
 
 .PHONY: ci-cs
 ci-cs: vendor ## Check all files using defined ECS rules (for CI/CD only)
