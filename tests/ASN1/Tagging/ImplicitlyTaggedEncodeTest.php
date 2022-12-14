@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
@@ -15,27 +16,21 @@ use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
  */
 final class ImplicitlyTaggedEncodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function null()
     {
         $el = ImplicitlyTaggedType::create(0, NullType::create());
         static::assertEquals("\x80\x0", $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function longTag()
     {
         $el = ImplicitlyTaggedType::create(255, NullType::create());
         static::assertEquals("\x9f\x81\x7f\x0", $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function recode()
     {
         $el = ImplicitlyTaggedType::create(0, Boolean::create(true));

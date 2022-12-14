@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\IssuerAlternativeNameExtension;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
@@ -15,9 +17,8 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
 {
     /**
      * @return IssuerAlternativeNameExtension
-     *
-     * @test
      */
+    #[Test]
     public function issuerAlternativeName()
     {
         $ext = self::$_extensions->get(Extension::OID_ISSUER_ALT_NAME);
@@ -25,11 +26,8 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
         return $ext;
     }
 
-    /**
-     * @depends issuerAlternativeName
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('issuerAlternativeName')]
     public function iANDirectoryName(IssuerAlternativeNameExtension $ian)
     {
         $dn = $ian->names()

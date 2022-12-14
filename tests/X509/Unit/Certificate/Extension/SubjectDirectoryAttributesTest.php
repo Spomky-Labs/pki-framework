@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
@@ -26,9 +28,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
 
     final public const DESC = 'Description';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $cn = CommonNameValue::create(self::CN);
@@ -38,31 +38,22 @@ final class SubjectDirectoryAttributesTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function critical(Extension $ext)
     {
         static::assertFalse($ext->isCritical());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -71,12 +62,10 @@ final class SubjectDirectoryAttributesTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $ext = SubjectDirectoryAttributesExtension::fromASN1(Sequence::fromDER($der));
@@ -84,102 +73,72 @@ final class SubjectDirectoryAttributesTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function cN(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME)->first()->stringValue());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function desc(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION)->first()->stringValue());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function has(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertTrue($ext->has('cn'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function hasNot(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertFalse($ext->has('ou'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allOf(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertCount(1, $ext->allOf('cn'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allOfNone(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertCount(0, $ext->allOf('ou'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function all(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertCount(2, $ext->all());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(SubjectDirectoryAttributesExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(SubjectDirectoryAttributesExtension $ext)
     {
         $values = [];
@@ -190,9 +149,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
         static::assertContainsOnlyInstancesOf(Attribute::class, $values);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encodeEmptyFail()
     {
         $ext = SubjectDirectoryAttributesExtension::create(false);
@@ -200,9 +157,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
         $ext->toASN1();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeEmptyFail()
     {
         $seq = Sequence::create();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Eoc;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\EOC;
@@ -13,9 +15,7 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\EOC;
  */
 final class EOCTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): Element
     {
         $el = EOC::create();
@@ -23,21 +23,15 @@ final class EOCTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_EOC, $el->tag());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -46,12 +40,10 @@ final class EOCTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data): EOC
     {
         $el = EOC::fromDER($data);
@@ -59,12 +51,9 @@ final class EOCTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);

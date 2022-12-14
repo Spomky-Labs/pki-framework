@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -35,9 +37,7 @@ final class V2FormTest extends TestCase
         self::$_issuerName = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $issuer = V2Form::create(self::$_issuerName);
@@ -45,11 +45,8 @@ final class V2FormTest extends TestCase
         return $issuer;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(V2Form $issuer)
     {
         $el = $issuer->toASN1();
@@ -58,12 +55,10 @@ final class V2FormTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $issuer = V2Form::fromASN1(Element::fromDER($data)->asUnspecified());
@@ -71,30 +66,22 @@ final class V2FormTest extends TestCase
         return $issuer;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(V2Form $ref, V2Form $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function issuerName(V2Form $issuer)
     {
         static::assertEquals(self::$_issuerName, $issuer->issuerName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noIssuerNameFail()
     {
         $issuer = V2Form::create();
@@ -102,19 +89,14 @@ final class V2FormTest extends TestCase
         $issuer->issuerName();
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function name(V2Form $issuer)
     {
         static::assertEquals('cn=Test', $issuer->name());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeWithAll()
     {
         $iss_ser = IssuerSerial::create(self::$_issuerName, '1');
@@ -136,11 +118,8 @@ final class V2FormTest extends TestCase
         return $issuer;
     }
 
-    /**
-     * @depends decodeWithAll
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeWithAll')]
     public function encodeWithAll(V2Form $issuer)
     {
         $el = $issuer->toASN1();

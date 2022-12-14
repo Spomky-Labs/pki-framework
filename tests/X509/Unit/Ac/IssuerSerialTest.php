@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -34,9 +36,7 @@ final class IssuerSerialTest extends TestCase
         self::$_uid = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $iss_ser = IssuerSerial::create(self::$_issuer, '1', self::$_uid);
@@ -44,11 +44,8 @@ final class IssuerSerialTest extends TestCase
         return $iss_ser;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(IssuerSerial $iss_ser)
     {
         $seq = $iss_ser->toASN1();
@@ -57,12 +54,10 @@ final class IssuerSerialTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $iss_ser = IssuerSerial::fromASN1(Sequence::fromDER($data));
@@ -70,50 +65,36 @@ final class IssuerSerialTest extends TestCase
         return $iss_ser;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(IssuerSerial $ref, IssuerSerial $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function issuer(IssuerSerial $is)
     {
         static::assertEquals(self::$_issuer, $is->issuer());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function serial(IssuerSerial $is)
     {
         static::assertEquals(1, $is->serial());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function issuerUID(IssuerSerial $is)
     {
         static::assertEquals(self::$_uid, $is->issuerUID());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noIssuerUIDFail()
     {
         $is = IssuerSerial::create(self::$_issuer, '1');

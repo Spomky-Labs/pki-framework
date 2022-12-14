@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
@@ -41,9 +43,7 @@ final class CertificateChainTest extends TestCase
         self::$_certs = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createChain()
     {
         $chain = CertificateChain::create(...self::$_certs);
@@ -51,30 +51,22 @@ final class CertificateChainTest extends TestCase
         return $chain;
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function certificates(CertificateChain $chain)
     {
         $chain->certificates();
         static::assertContainsOnlyInstancesOf(Certificate::class, $chain);
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function endEntityCert(CertificateChain $chain)
     {
         static::assertEquals(self::$_certs[0], $chain->endEntityCertificate());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function endEntityCertFail()
     {
         $chain = CertificateChain::create();
@@ -82,19 +74,14 @@ final class CertificateChainTest extends TestCase
         $chain->endEntityCertificate();
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function trustAnchorCert(CertificateChain $chain)
     {
         static::assertEquals(self::$_certs[2], $chain->trustAnchorCertificate());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function trustAnchorCertFail()
     {
         $chain = CertificateChain::create();
@@ -102,21 +89,15 @@ final class CertificateChainTest extends TestCase
         $chain->trustAnchorCertificate();
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function countMethod(CertificateChain $chain)
     {
         static::assertCount(3, $chain);
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function iterator(CertificateChain $chain)
     {
         $certs = [];
@@ -126,9 +107,7 @@ final class CertificateChainTest extends TestCase
         static::assertContainsOnlyInstancesOf(Certificate::class, $certs);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromPEMs()
     {
         $chain = CertificateChain::fromPEMs(...self::$_pems);
@@ -136,22 +115,16 @@ final class CertificateChainTest extends TestCase
         return $chain;
     }
 
-    /**
-     * @depends createChain
-     * @depends fromPEMs
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
+    #[Depends('fromPEMs')]
     public function fromPEMEquals(CertificateChain $ref, CertificateChain $chain)
     {
         static::assertEquals($ref, $chain);
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function toPEMString(CertificateChain $chain)
     {
         $expected = sprintf("%s\n%s\n%s", self::$_pems[0], self::$_pems[1], self::$_pems[2]);
@@ -161,12 +134,10 @@ final class CertificateChainTest extends TestCase
     }
 
     /**
-     * @depends toPEMString
-     *
      * @param string $str
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('toPEMString')]
     public function fromPEMString($str)
     {
         $chain = CertificateChain::fromPEMString($str);
@@ -174,22 +145,16 @@ final class CertificateChainTest extends TestCase
         return $chain;
     }
 
-    /**
-     * @depends createChain
-     * @depends fromPEMString
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
+    #[Depends('fromPEMString')]
     public function fromPEMStringEquals(CertificateChain $ref, CertificateChain $chain)
     {
         static::assertEquals($ref, $chain);
     }
 
-    /**
-     * @depends createChain
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createChain')]
     public function certificationPath(CertificateChain $chain)
     {
         $path = $chain->certificationPath();

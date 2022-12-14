@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -17,18 +19,14 @@ use UnexpectedValueException;
  */
 final class IetfAttrValueTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function fromUnsupportedTypeFail()
     {
         $this->expectException(UnexpectedValueException::class);
         IetfAttrValue::fromASN1(UnspecifiedType::create(NullType::create()));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toUnsupportedTypeFail()
     {
         $val = IetfAttrValue::create('', Element::TYPE_NULL);
@@ -36,9 +34,7 @@ final class IetfAttrValueTest extends TestCase
         $val->toASN1();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createOctetString()
     {
         $val = IetfAttrValue::fromOctets('test');
@@ -46,39 +42,28 @@ final class IetfAttrValueTest extends TestCase
         return $val;
     }
 
-    /**
-     * @depends createOctetString
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createOctetString')]
     public function octetStringType(IetfAttrValue $val)
     {
         static::assertEquals(Element::TYPE_OCTET_STRING, $val->type());
     }
 
-    /**
-     * @depends createOctetString
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createOctetString')]
     public function isOctetString(IetfAttrValue $val)
     {
         static::assertTrue($val->isOctets());
     }
 
-    /**
-     * @depends createOctetString
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createOctetString')]
     public function value(IetfAttrValue $val)
     {
         static::assertEquals('test', $val->value());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createUTF8String()
     {
         $val = IetfAttrValue::fromString('test');
@@ -86,29 +71,21 @@ final class IetfAttrValueTest extends TestCase
         return $val;
     }
 
-    /**
-     * @depends createUTF8String
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createUTF8String')]
     public function uTF8StringType(IetfAttrValue $val)
     {
         static::assertEquals(Element::TYPE_UTF8_STRING, $val->type());
     }
 
-    /**
-     * @depends createUTF8String
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createUTF8String')]
     public function isUTF8String(IetfAttrValue $val)
     {
         static::assertTrue($val->isString());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createOID()
     {
         $val = IetfAttrValue::fromOID('1.3.6.1.3');
@@ -116,21 +93,15 @@ final class IetfAttrValueTest extends TestCase
         return $val;
     }
 
-    /**
-     * @depends createOID
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createOID')]
     public function oIDType(IetfAttrValue $val)
     {
         static::assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $val->type());
     }
 
-    /**
-     * @depends createOID
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createOID')]
     public function isOID(IetfAttrValue $val)
     {
         static::assertTrue($val->isOID());

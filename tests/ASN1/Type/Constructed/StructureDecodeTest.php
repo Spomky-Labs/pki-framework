@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -20,9 +21,8 @@ final class StructureDecodeTest extends TestCase
 {
     /**
      * Test too short length.
-     *
-     * @test
      */
+    #[Test]
     public function tooShort()
     {
         $this->expectException(DecodeException::class);
@@ -32,9 +32,8 @@ final class StructureDecodeTest extends TestCase
 
     /**
      * Test too long length.
-     *
-     * @test
      */
+    #[Test]
     public function tooLong()
     {
         $this->expectException(DecodeException::class);
@@ -44,9 +43,8 @@ final class StructureDecodeTest extends TestCase
 
     /**
      * Test when structure doesn't have constructed flag.
-     *
-     * @test
      */
+    #[Test]
     public function notConstructed()
     {
         $this->expectException(DecodeException::class);
@@ -54,9 +52,7 @@ final class StructureDecodeTest extends TestCase
         Structure::fromDER("\x10\x0");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function implicitlyTaggedExists()
     {
         // null, tag 0, null
@@ -64,9 +60,7 @@ final class StructureDecodeTest extends TestCase
         static::assertTrue($set->hasTagged(0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function implicitlyTaggedFetch()
     {
         // null, tag 1, null
@@ -74,9 +68,7 @@ final class StructureDecodeTest extends TestCase
         static::assertInstanceOf(DERTaggedType::class, $set->getTagged(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function explicitlyTaggedExists()
     {
         // null, tag 0 (null), null
@@ -84,9 +76,7 @@ final class StructureDecodeTest extends TestCase
         static::assertTrue($set->hasTagged(0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function explicitlyTaggedFetch()
     {
         // null, tag 1 (null), null
@@ -95,9 +85,7 @@ final class StructureDecodeTest extends TestCase
         static::assertInstanceOf(NullType::class, $set->getTagged(1)->expectExplicit()->explicit()->asNull());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidTag()
     {
         // null, tag 0, null
@@ -107,18 +95,14 @@ final class StructureDecodeTest extends TestCase
         $set->getTagged(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function indefinite()
     {
         $seq = Sequence::fromDER(hex2bin('30800201010000'));
         static::assertInstanceOf(Sequence::class, $seq);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function indefiniteUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);

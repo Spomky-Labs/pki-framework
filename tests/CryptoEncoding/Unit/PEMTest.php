@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoEncoding\Unit;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -15,9 +17,7 @@ use UnexpectedValueException;
  */
 final class PEMTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function fromString()
     {
         $str = file_get_contents(TEST_ASSETS_DIR . '/public_key.pem');
@@ -25,9 +25,7 @@ final class PEMTest extends TestCase
         static::assertInstanceOf(PEM::class, $pem);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromFile(): PEM
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/public_key.pem');
@@ -35,19 +33,14 @@ final class PEMTest extends TestCase
         return $pem;
     }
 
-    /**
-     * @depends fromFile
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromFile')]
     public function type(PEM $pem)
     {
         static::assertEquals(PEM::TYPE_PUBLIC_KEY, $pem->type());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function data()
     {
         $data = 'payload';
@@ -60,18 +53,14 @@ CODE_SAMPLE;
         static::assertEquals($data, PEM::fromString($str)->data());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEM()
     {
         $this->expectException(UnexpectedValueException::class);
         PEM::fromString('invalid');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEMData()
     {
         $str = <<<'CODE_SAMPLE'
@@ -83,30 +72,22 @@ CODE_SAMPLE;
         PEM::fromString($str);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidFile()
     {
         $this->expectException(RuntimeException::class);
         PEM::fromFile(TEST_ASSETS_DIR . '/nonexistent');
     }
 
-    /**
-     * @depends fromFile
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromFile')]
     public function string(PEM $pem)
     {
         static::assertIsString($pem->string());
     }
 
-    /**
-     * @depends fromFile
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromFile')]
     public function toStringMethod(PEM $pem)
     {
         static::assertIsString(strval($pem));

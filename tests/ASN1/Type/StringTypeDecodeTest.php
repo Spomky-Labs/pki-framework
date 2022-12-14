@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
@@ -18,27 +19,21 @@ use SpomkyLabs\Pki\ASN1\Type\StringType;
  */
 final class StringTypeDecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = BaseString::fromDER("\x13\x0");
         static::assertInstanceOf(StringType::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function value()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
         static::assertEquals('Hello World', $el->string());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function expectation()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
@@ -47,9 +42,8 @@ final class StringTypeDecodeTest extends TestCase
 
     /**
      * Cover case where primitive string encoding is not primitive.
-     *
-     * @test
      */
+    #[Test]
     public function constructedFail()
     {
         $cls = new ReflectionClass(PrimitiveString::class);

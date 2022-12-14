@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeAc;
 
 use AlgorithmIdentifier;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -22,9 +24,8 @@ final class DecodeTest extends TestCase
 {
     /**
      * @return PEM
-     *
-     * @test
      */
+    #[Test]
     public function pEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem');
@@ -33,12 +34,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends pEM
-     *
      * @return AttributeCertificate
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('pEM')]
     public function aC(PEM $pem)
     {
         $seq = Sequence::fromDER($pem->data());
@@ -48,12 +47,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends aC
-     *
      * @return AttributeCertificateInfo
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('aC')]
     public function aCI(AttributeCertificate $ac)
     {
         $aci = $ac->acinfo();
@@ -62,12 +59,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends aC
-     *
      * @return AlgorithmIdentifier
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('aC')]
     public function signatureAlgo(AttributeCertificate $ac)
     {
         $algo = $ac->signatureAlgorithm();
@@ -75,11 +70,8 @@ final class DecodeTest extends TestCase
         return $algo;
     }
 
-    /**
-     * @depends aC
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('aC')]
     public function verifySignature(AttributeCertificate $ac)
     {
         $cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'));

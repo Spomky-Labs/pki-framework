@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\DistributionPoint;
 use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\DistributionPointName;
 use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\ReasonFlags;
@@ -20,9 +22,8 @@ final class FreshestCRLTest extends RefExtTestHelper
 {
     /**
      * @return FreshestCRLExtension
-     *
-     * @test
      */
+    #[Test]
     public function freshestCRLExtension()
     {
         $ext = self::$_extensions->get(Extension::OID_FRESHEST_CRL);
@@ -31,12 +32,10 @@ final class FreshestCRLTest extends RefExtTestHelper
     }
 
     /**
-     * @depends freshestCRLExtension
-     *
      * @return DistributionPoint
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('freshestCRLExtension')]
     public function distributionPoint(FreshestCRLExtension $ext)
     {
         $cdp = $ext->getIterator()[0];
@@ -45,12 +44,10 @@ final class FreshestCRLTest extends RefExtTestHelper
     }
 
     /**
-     * @depends distributionPoint
-     *
      * @return RelativeName
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('distributionPoint')]
     public function relativeName(DistributionPoint $dp)
     {
         $name = $dp->distributionPointName();
@@ -58,23 +55,18 @@ final class FreshestCRLTest extends RefExtTestHelper
         return $name;
     }
 
-    /**
-     * @depends relativeName
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('relativeName')]
     public function rDN(RelativeName $name)
     {
         static::assertEquals('cn=Delta Distribution Point', $name->rdn()->toString());
     }
 
     /**
-     * @depends distributionPoint
-     *
      * @return ReasonFlags
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('distributionPoint')]
     public function reasons(DistributionPoint $dp)
     {
         $reasons = $dp->reasons();
@@ -82,11 +74,8 @@ final class FreshestCRLTest extends RefExtTestHelper
         return $reasons;
     }
 
-    /**
-     * @depends reasons
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('reasons')]
     public function reasonFlags(ReasonFlags $reasons)
     {
         static::assertTrue($reasons->isKeyCompromise());
@@ -100,12 +89,10 @@ final class FreshestCRLTest extends RefExtTestHelper
     }
 
     /**
-     * @depends distributionPoint
-     *
      * @return GeneralNames
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('distributionPoint')]
     public function issuer(DistributionPoint $dp)
     {
         $issuer = $dp->crlIssuer();
@@ -113,11 +100,8 @@ final class FreshestCRLTest extends RefExtTestHelper
         return $issuer;
     }
 
-    /**
-     * @depends issuer
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('issuer')]
     public function issuerDirName(GeneralNames $gn)
     {
         $dn = $gn->firstOf(GeneralName::TAG_DIRECTORY_NAME)->dn();

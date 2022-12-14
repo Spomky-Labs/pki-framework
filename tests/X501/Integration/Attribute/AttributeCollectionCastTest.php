@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
 use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
@@ -15,9 +16,8 @@ final class AttributeCollectionCastTest extends TestCase
 {
     /**
      * Test that AttributeCollection::_castAttributeValues() can be overridden.
-     *
-     * @test
      */
+    #[Test]
     public function cast()
     {
         $in = SequenceOfAttributes::fromAttributeValues(

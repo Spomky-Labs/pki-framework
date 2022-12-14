@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -18,9 +20,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class EDIPartyNameTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $name = EDIPartyName::fromASN1(
@@ -30,11 +30,8 @@ final class EDIPartyNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(EDIPartyName $name)
     {
         $el = $name->toASN1();
@@ -43,12 +40,10 @@ final class EDIPartyNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
@@ -56,12 +51,10 @@ final class EDIPartyNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $name = EDIPartyName::fromASN1(Element::fromDER($der));
@@ -69,22 +62,16 @@ final class EDIPartyNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(EDIPartyName $ref, EDIPartyName $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function string(EDIPartyName $name)
     {
         static::assertIsString($name->string());

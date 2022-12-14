@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Unit\DN;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
 use SpomkyLabs\Pki\X501\DN\DNParser;
@@ -16,20 +18,18 @@ use UnexpectedValueException;
 final class DNParserTest extends TestCase
 {
     /**
-     * @dataProvider provideParseString
-     *
      * @param string $dn Distinguished name
      * @param array $expected Parser result
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('provideParseString')]
     public function parseString($dn, $expected)
     {
         $result = DNParser::parseString($dn);
         static::assertEquals($expected, $result);
     }
 
-    public function provideParseString(): Iterator
+    public static function provideParseString(): Iterator
     {
         yield [
             // single attribute
@@ -159,20 +159,18 @@ final class DNParserTest extends TestCase
     }
 
     /**
-     * @dataProvider provideEscapeString
-     *
      * @param string $str
      * @param string $expected
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('provideEscapeString')]
     public function escapeString($str, $expected)
     {
         $escaped = DNParser::escapeString($str);
         static::assertEquals($expected, $escaped);
     }
 
-    public function provideEscapeString(): Iterator
+    public static function provideEscapeString(): Iterator
     {
         yield [',', '\,'];
         yield ['+', '\+'];
@@ -190,9 +188,7 @@ final class DNParserTest extends TestCase
         yield ["\xE2\x80\x8B", '\E2\80\8B'];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unexpectedNameEnd()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -200,9 +196,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn=#05000');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidTypeAndValuePair()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -210,9 +204,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidAttributeType()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -220,9 +212,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('#00=fail');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unexpectedQuotation()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -230,9 +220,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn=fa"il');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidHexString()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -240,9 +228,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn=#.');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidHexDER()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -250,9 +236,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn=#badcafee');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unexpectedPairEnd()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -260,9 +244,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn=\\');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unexpectedHexPairEnd()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -270,9 +252,7 @@ final class DNParserTest extends TestCase
         DNParser::parseString('cn=\\f');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidHexPair()
     {
         $this->expectException(UnexpectedValueException::class);

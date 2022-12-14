@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
 use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
@@ -17,9 +19,7 @@ use UnexpectedValueException;
  */
 final class RDNTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $rdn = RDN::fromAttributeValues(NameValue::create('one'), NameValue::create('two'));
@@ -27,11 +27,8 @@ final class RDNTest extends TestCase
         return $rdn;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(RDN $rdn)
     {
         $der = $rdn->toASN1()
@@ -41,12 +38,10 @@ final class RDNTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $rdn = RDN::fromASN1(Set::fromDER($der));
@@ -54,72 +49,51 @@ final class RDNTest extends TestCase
         return $rdn;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(RDN $ref, RDN $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function all(RDN $rdn)
     {
         static::assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->all());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allOf(RDN $rdn)
     {
         static::assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $rdn->allOf('name'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allOfCount(RDN $rdn)
     {
         static::assertCount(2, $rdn->allOf('name'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allOfEmpty(RDN $rdn)
     {
         static::assertEmpty($rdn->allOf('cn'));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(RDN $rdn)
     {
         static::assertCount(2, $rdn);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterable(RDN $rdn)
     {
         $values = [];
@@ -129,29 +103,21 @@ final class RDNTest extends TestCase
         static::assertContainsOnlyInstancesOf(AttributeTypeAndValue::class, $values);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function string(RDN $rdn)
     {
         static::assertEquals('name=one+name=two', $rdn->toString());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function toStringMethod(RDN $rdn)
     {
         static::assertIsString(strval($rdn));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFail()
     {
         $this->expectException(UnexpectedValueException::class);

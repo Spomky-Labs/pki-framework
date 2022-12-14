@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\OctetString;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -16,9 +18,7 @@ use UnexpectedValueException;
  */
 final class OctetStringTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $el = OctetString::create('');
@@ -26,21 +26,15 @@ final class OctetStringTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -48,11 +42,8 @@ final class OctetStringTest extends TestCase
         return $der;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(string $data): OctetString
     {
         $el = OctetString::fromDER($data);
@@ -60,31 +51,23 @@ final class OctetStringTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(OctetString::class, $wrap->asOctetString());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());

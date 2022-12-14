@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
@@ -52,9 +54,7 @@ final class CertificateBundleTest extends TestCase
         self::$_cert3 = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $bundle = CertificateBundle::create(self::$_cert1, self::$_cert2);
@@ -62,31 +62,22 @@ final class CertificateBundleTest extends TestCase
         return $bundle;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(CertificateBundle $bundle)
     {
         static::assertCount(2, $bundle);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function all(CertificateBundle $bundle)
     {
         static::assertCount(2, $bundle->all());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(CertificateBundle $bundle)
     {
         $values = [];
@@ -97,28 +88,21 @@ final class CertificateBundleTest extends TestCase
         static::assertContainsOnlyInstancesOf(Certificate::class, $values);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function contains(CertificateBundle $bundle)
     {
         static::assertTrue($bundle->contains(self::$_cert1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function doesNotContain()
     {
         $bundle = CertificateBundle::create(self::$_cert1, self::$_cert2);
         static::assertFalse($bundle->contains(self::$_cert3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function containsSubjectMismatch()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));
@@ -135,11 +119,8 @@ final class CertificateBundleTest extends TestCase
         static::assertFalse($bundle->contains($cert2));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allBySubjectKeyID(CertificateBundle $bundle)
     {
         $id = self::$_cert2->tbsCertificate()
@@ -150,60 +131,45 @@ final class CertificateBundleTest extends TestCase
         static::assertCount(1, $certs);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function withPEM(CertificateBundle $bundle)
     {
         $bundle = $bundle->withPEM(self::$_pem3);
         static::assertCount(3, $bundle);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function withPEMBundle(CertificateBundle $bundle)
     {
         $bundle = $bundle->withPEMBundle(PEMBundle::create(self::$_pem3));
         static::assertCount(3, $bundle);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function withCertificates(CertificateBundle $bundle)
     {
         $bundle = $bundle->withCertificates(Certificate::fromPEM(self::$_pem3));
         static::assertCount(3, $bundle);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromPEMBundle()
     {
         $bundle = CertificateBundle::fromPEMBundle(PEMBundle::create(self::$_pem1, self::$_pem2));
         static::assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromPEMs()
     {
         $bundle = CertificateBundle::fromPEMs(self::$_pem1, self::$_pem2);
         static::assertInstanceOf(CertificateBundle::class, $bundle);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function searchBySubjectKeyHavingNoID()
     {
         $priv_key_info = PrivateKeyInfo::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem'));

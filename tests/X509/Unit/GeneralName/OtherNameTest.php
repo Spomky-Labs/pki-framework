@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -17,9 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\OtherName;
  */
 final class OtherNameTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $name = OtherName::create('1.3.6.1.3.1', NullType::create());
@@ -27,11 +27,8 @@ final class OtherNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(OtherName $name)
     {
         $el = $name->toASN1();
@@ -40,12 +37,10 @@ final class OtherNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
@@ -53,12 +48,10 @@ final class OtherNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $name = OtherName::fromASN1(Element::fromDER($der));
@@ -66,42 +59,30 @@ final class OtherNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(OtherName $ref, OtherName $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function string(OtherName $name)
     {
         static::assertIsString($name->string());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(OtherName $name)
     {
         static::assertEquals('1.3.6.1.3.1', $name->type());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function value(OtherName $name)
     {
         static::assertEquals(NullType::create(), $name->value());

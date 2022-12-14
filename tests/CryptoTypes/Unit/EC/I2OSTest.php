@@ -6,6 +6,8 @@ namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
 use function mb_strlen;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RangeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -17,56 +19,43 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECConversion;
  */
 final class I2OSTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function oSType()
     {
         $os = ECConversion::integerToOctetString(Integer::create(42));
         static::assertInstanceOf(OctetString::class, $os);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function integerType()
     {
         $num = ECConversion::octetStringToInteger(OctetString::create("\x42"));
         static::assertInstanceOf(Integer::class, $num);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function length()
     {
         $os = ECConversion::integerToOctetString(Integer::create(256), 2);
         static::assertEquals(2, mb_strlen($os->string(), '8bit'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pad()
     {
         $os = ECConversion::integerToOctetString(Integer::create(256), 3);
         static::assertEquals(3, mb_strlen($os->string(), '8bit'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tooLarge()
     {
         $this->expectException(RangeException::class);
         ECConversion::integerToOctetString(Integer::create(256), 1);
     }
 
-    /**
-     * @dataProvider provideConvert
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('provideConvert')]
     public function convert(Integer $num, $mlen, OctetString $os)
     {
         $tmp = ECConversion::integerToOctetString($num, $mlen);
@@ -75,7 +64,7 @@ final class I2OSTest extends TestCase
         static::assertEquals($num->number(), $result->number());
     }
 
-    public function provideConvert(): Iterator
+    public static function provideConvert(): Iterator
     {
         yield [Integer::create(0), 1, OctetString::create("\0")];
         yield [Integer::create(0), 2, OctetString::create("\0\0")];
@@ -85,18 +74,14 @@ final class I2OSTest extends TestCase
         yield [Integer::create('4294967295'), 4, OctetString::create("\xff\xff\xff\xff")];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function numberToOctets()
     {
         $octets = ECConversion::numberToOctets(0x42);
         static::assertEquals("\x42", $octets);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function octetsToNumber()
     {
         $number = ECConversion::octetsToNumber("\x42");

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcValidation;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
@@ -65,9 +66,7 @@ final class PassingTest extends TestCase
         self::$_ac = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validate(): void
     {
         $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);

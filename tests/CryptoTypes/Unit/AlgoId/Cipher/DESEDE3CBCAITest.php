@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Cipher;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -19,9 +21,8 @@ final class DESEDE3CBCAITest extends TestCase
 
     /**
      * @return Sequence
-     *
-     * @test
      */
+    #[Test]
     public function encode()
     {
         $ai = DESEDE3CBCAlgorithmIdentifier::create(self::IV);
@@ -30,11 +31,8 @@ final class DESEDE3CBCAITest extends TestCase
         return $seq;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -42,21 +40,15 @@ final class DESEDE3CBCAITest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function iV(DESEDE3CBCAlgorithmIdentifier $ai)
     {
         static::assertEquals(self::IV, $ai->initializationVector());
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
@@ -64,40 +56,29 @@ final class DESEDE3CBCAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function blockSize(DESEDE3CBCAlgorithmIdentifier $ai)
     {
         static::assertEquals(8, $ai->blockSize());
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function keySize(DESEDE3CBCAlgorithmIdentifier $ai)
     {
         static::assertEquals(24, $ai->keySize());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
         DESEDE3CBCAlgorithmIdentifier::create('1234');
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

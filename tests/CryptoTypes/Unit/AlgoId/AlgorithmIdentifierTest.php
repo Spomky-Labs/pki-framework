@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -30,9 +32,8 @@ final class AlgorithmIdentifierTest extends TestCase
 
     /**
      * @return AlgorithmIdentifier
-     *
-     * @test
      */
+    #[Test]
     public function fromUnknownASN1()
     {
         $ai = AlgorithmIdentifier::fromASN1(self::$_unknownASN1);
@@ -40,22 +41,16 @@ final class AlgorithmIdentifierTest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends fromUnknownASN1
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromUnknownASN1')]
     public function encodeUnknown(GenericAlgorithmIdentifier $ai)
     {
         $seq = $ai->toASN1();
         static::assertEquals(self::$_unknownASN1, $seq);
     }
 
-    /**
-     * @depends fromUnknownASN1
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromUnknownASN1')]
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

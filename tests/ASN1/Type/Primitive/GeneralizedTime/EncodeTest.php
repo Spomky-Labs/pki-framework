@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\GeneralizedTime;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
 
@@ -14,18 +15,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
  */
 final class EncodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function encode()
     {
         $el = GeneralizedTime::create(new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006'));
         static::assertEquals("\x18\x0f" . '20060102220405Z', $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -34,9 +31,7 @@ final class EncodeTest extends TestCase
         static::assertEquals("\x18\x11" . '20060102220405.5Z', $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function multipleFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -45,9 +40,7 @@ final class EncodeTest extends TestCase
         static::assertEquals("\x18\x15" . '20060102220405.99999Z', $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function smallFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -56,9 +49,7 @@ final class EncodeTest extends TestCase
         static::assertEquals("\x18\x16" . '20060102220405.000001Z', $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function multipleZeroFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
@@ -67,9 +58,7 @@ final class EncodeTest extends TestCase
         static::assertEquals("\x18\x0f" . '20060102220405Z', $el->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function trailingFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');

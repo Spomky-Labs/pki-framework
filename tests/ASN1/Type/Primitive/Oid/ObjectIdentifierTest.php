@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Oid;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -16,9 +19,7 @@ use UnexpectedValueException;
  */
 final class ObjectIdentifierTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $el = ObjectIdentifier::create('1.3.6.1.3');
@@ -26,21 +27,15 @@ final class ObjectIdentifierTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $el->tag());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -48,11 +43,8 @@ final class ObjectIdentifierTest extends TestCase
         return $der;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(string $data): ObjectIdentifier
     {
         $el = ObjectIdentifier::fromDER($data);
@@ -60,31 +52,23 @@ final class ObjectIdentifierTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(ObjectIdentifier::class, $wrap->asObjectIdentifier());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());
@@ -93,9 +77,7 @@ final class ObjectIdentifierTest extends TestCase
         $wrap->asObjectIdentifier();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function onlyRootArc()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -103,9 +85,7 @@ final class ObjectIdentifierTest extends TestCase
         ObjectIdentifier::create('0');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidRootArc()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -113,9 +93,7 @@ final class ObjectIdentifierTest extends TestCase
         ObjectIdentifier::create('3.0');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidSubarc()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -123,9 +101,7 @@ final class ObjectIdentifierTest extends TestCase
         ObjectIdentifier::create('0.40');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidSubarc1()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -133,9 +109,7 @@ final class ObjectIdentifierTest extends TestCase
         ObjectIdentifier::create('1.40');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidNumber()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -144,12 +118,10 @@ final class ObjectIdentifierTest extends TestCase
     }
 
     /**
-     * @dataProvider oidProvider
-     *
      * @param string $oid
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('oidProvider')]
     public function oID($oid)
     {
         $x = ObjectIdentifier::create($oid);
@@ -160,7 +132,7 @@ final class ObjectIdentifierTest extends TestCase
     /**
      * @return string[]
      */
-    public function oidProvider()
+    public static function oidProvider()
     {
         return array_map(
             fn ($x) => [$x],

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert;
 
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -27,9 +29,8 @@ final class DecodeTest extends TestCase
 {
     /**
      * @return Certificate
-     *
-     * @test
      */
+    #[Test]
     public function cert()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem');
@@ -39,12 +40,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends cert
-     *
      * @return TBSCertificate
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('cert')]
     public function tBSCertificate(Certificate $cert)
     {
         $tbsCert = $cert->tbsCertificate();
@@ -53,12 +52,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends cert
-     *
      * @return AlgorithmIdentifier
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('cert')]
     public function signatureAlgorithm(Certificate $cert)
     {
         $algo = $cert->signatureAlgorithm();
@@ -66,23 +63,18 @@ final class DecodeTest extends TestCase
         return $algo;
     }
 
-    /**
-     * @depends signatureAlgorithm
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('signatureAlgorithm')]
     public function signatureAlgorithmValue(AlgorithmIdentifier $algo)
     {
         static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
-     * @depends cert
-     *
      * @return Signature
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('cert')]
     public function signature(Certificate $cert)
     {
         $signature = $cert->signatureValue();
@@ -90,54 +82,40 @@ final class DecodeTest extends TestCase
         return $signature;
     }
 
-    /**
-     * @depends signature
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('signature')]
     public function signatureValue(Signature $sig)
     {
         $expected = hex2bin(trim(file_get_contents(TEST_ASSETS_DIR . '/certs/acme-rsa.pem.sig')));
         static::assertEquals($expected, $sig->bitString()->string());
     }
 
-    /**
-     * @depends tBSCertificate
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function version(TBSCertificate $tbsCert)
     {
         static::assertEquals(TBSCertificate::VERSION_3, $tbsCert->version());
     }
 
-    /**
-     * @depends tBSCertificate
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function serial(TBSCertificate $tbsCert)
     {
         static::assertEquals(42, $tbsCert->serialNumber());
     }
 
-    /**
-     * @depends tBSCertificate
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function signatureAlgo(TBSCertificate $tbsCert)
     {
         static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $tbsCert->signature()->oid());
     }
 
     /**
-     * @depends tBSCertificate
-     *
      * @return Name
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function issuer(TBSCertificate $tbsCert)
     {
         $issuer = $tbsCert->issuer();
@@ -145,23 +123,18 @@ final class DecodeTest extends TestCase
         return $issuer;
     }
 
-    /**
-     * @depends issuer
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('issuer')]
     public function issuerDN(Name $name)
     {
         static::assertEquals('o=ACME Ltd.,c=FI,cn=ACME Intermediate CA', $name->toString());
     }
 
     /**
-     * @depends tBSCertificate
-     *
      * @return Validity
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function validity(TBSCertificate $tbsCert)
     {
         $validity = $tbsCert->validity();
@@ -169,11 +142,8 @@ final class DecodeTest extends TestCase
         return $validity;
     }
 
-    /**
-     * @depends validity
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('validity')]
     public function notBefore(Validity $validity)
     {
         $str = $validity->notBefore()
@@ -183,11 +153,8 @@ final class DecodeTest extends TestCase
         static::assertEquals('Jan 1 12:00:00 2016 GMT', $str);
     }
 
-    /**
-     * @depends validity
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('validity')]
     public function notAfter(Validity $validity)
     {
         $str = $validity->notAfter()
@@ -198,12 +165,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends tBSCertificate
-     *
      * @return Name
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function subject(TBSCertificate $tbsCert)
     {
         $subject = $tbsCert->subject();
@@ -211,23 +176,18 @@ final class DecodeTest extends TestCase
         return $subject;
     }
 
-    /**
-     * @depends subject
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('subject')]
     public function subjectDN(Name $name)
     {
         static::assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
     }
 
     /**
-     * @depends tBSCertificate
-     *
      * @return PublicKeyInfo
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function subjectPublicKeyInfo(TBSCertificate $tbsCert)
     {
         $pki = $tbsCert->subjectPublicKeyInfo();
@@ -235,21 +195,15 @@ final class DecodeTest extends TestCase
         return $pki;
     }
 
-    /**
-     * @depends subjectPublicKeyInfo
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('subjectPublicKeyInfo')]
     public function publicKeyAlgo(PublicKeyInfo $pki)
     {
         static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $pki->algorithmIdentifier()->oid());
     }
 
-    /**
-     * @depends subjectPublicKeyInfo
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('subjectPublicKeyInfo')]
     public function publicKey(PublicKeyInfo $pki)
     {
         $pk = PrivateKey::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-rsa.pem'))->publicKey();
@@ -257,12 +211,10 @@ final class DecodeTest extends TestCase
     }
 
     /**
-     * @depends tBSCertificate
-     *
      * @return Extensions
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('tBSCertificate')]
     public function extensions(TBSCertificate $tbsCert)
     {
         $extensions = $tbsCert->extensions();

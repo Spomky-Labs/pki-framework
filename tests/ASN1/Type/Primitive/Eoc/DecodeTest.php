@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Eoc;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\EOC;
@@ -13,18 +14,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\EOC;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = EOC::fromDER("\0\0");
         static::assertInstanceOf(EOC::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidLength()
     {
         $this->expectException(DecodeException::class);
@@ -32,9 +29,7 @@ final class DecodeTest extends TestCase
         EOC::fromDER("\x0\x1\x0");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notPrimitive()
     {
         $this->expectException(DecodeException::class);

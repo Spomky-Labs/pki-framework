@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -19,9 +21,7 @@ use UnexpectedValueException;
  */
 final class PrivateTypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function implicitType()
     {
         // Data ::= [PRIVATE 1] IMPLICIT INTEGER
@@ -30,20 +30,15 @@ final class PrivateTypeTest extends TestCase
         return $el;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createImplicit()
     {
         $el = ImplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_PRIVATE);
         static::assertEquals("\xc1\x01\x2a", $el->toDER());
     }
 
-    /**
-     * @depends implicitType
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('implicitType')]
     public function unwrapImplicit(PrivateType $el)
     {
         $inner = $el->implicit(Element::TYPE_INTEGER)->asInteger();
@@ -52,20 +47,16 @@ final class PrivateTypeTest extends TestCase
     }
 
     /**
-     * @depends unwrapImplicit
-     *
      * @param int $el
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('unwrapImplicit')]
     public function implicitValue(Integer $el)
     {
         static::assertEquals(42, $el->intNumber());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function explicitType()
     {
         // Data ::= [PRIVATE 1] EXPLICIT INTEGER
@@ -74,20 +65,15 @@ final class PrivateTypeTest extends TestCase
         return $el;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createExplicit()
     {
         $el = ExplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_PRIVATE);
         static::assertEquals("\xe1\x03\x02\x01\x2a", $el->toDER());
     }
 
-    /**
-     * @depends explicitType
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('explicitType')]
     public function unwrapExplicit(PrivateType $el)
     {
         $inner = $el->explicit()
@@ -97,40 +83,31 @@ final class PrivateTypeTest extends TestCase
     }
 
     /**
-     * @depends unwrapExplicit
-     *
      * @param int $el
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('unwrapExplicit')]
     public function explicitValue(Integer $el)
     {
         static::assertEquals(42, $el->intNumber());
     }
 
-    /**
-     * @depends explicitType
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('explicitType')]
     public function recodeExplicit(PrivateType $el)
     {
         $der = $el->toDER();
         static::assertEquals("\xe1\x03\x02\x01\x2a", $der);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromUnspecified()
     {
         $el = UnspecifiedType::fromDER("\xc1\x01\x2a");
         static::assertInstanceOf(PrivateType::class, $el->asPrivate());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromUnspecifiedFail()
     {
         $el = UnspecifiedType::fromDER("\x5\0");

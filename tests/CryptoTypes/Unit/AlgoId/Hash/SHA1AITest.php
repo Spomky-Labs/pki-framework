@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Hash;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -17,9 +19,8 @@ final class SHA1AITest extends TestCase
 {
     /**
      * @return Sequence
-     *
-     * @test
      */
+    #[Test]
     public function encode()
     {
         $ai = SHA1AlgorithmIdentifier::create();
@@ -28,11 +29,8 @@ final class SHA1AITest extends TestCase
         return $seq;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -40,11 +38,8 @@ final class SHA1AITest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeWithParams(Sequence $seq)
     {
         $seq = $seq->withInserted(1, NullType::create());
@@ -52,11 +47,8 @@ final class SHA1AITest extends TestCase
         static::assertInstanceOf(SHA1AlgorithmIdentifier::class, $ai);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function name(AlgorithmIdentifier $algo)
     {
         static::assertIsString($algo->name());

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
@@ -23,9 +25,7 @@ final class IPv4AddressNameTest extends TestCase
 
     public const MASK = '255.255.255.0';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): IPv4Address
     {
         $ip = IPv4Address::create(self::ADDR);
@@ -33,11 +33,8 @@ final class IPv4AddressNameTest extends TestCase
         return $ip;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(IPAddress $ip)
     {
         $el = $ip->toASN1();
@@ -46,12 +43,10 @@ final class IPv4AddressNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
@@ -59,12 +54,10 @@ final class IPv4AddressNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $ip = IPAddress::fromASN1(Element::fromDER($der));
@@ -72,30 +65,22 @@ final class IPv4AddressNameTest extends TestCase
         return $ip;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(IPAddress $ref, IPAddress $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function address(IPAddress $ip)
     {
         static::assertEquals(self::ADDR, $ip->address());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createWithMask()
     {
         $ip = IPv4Address::create(self::ADDR, self::MASK);
@@ -103,11 +88,8 @@ final class IPv4AddressNameTest extends TestCase
         return $ip;
     }
 
-    /**
-     * @depends createWithMask
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMask')]
     public function encodeWithMask(IPAddress $ip)
     {
         $el = $ip->toASN1();
@@ -116,12 +98,10 @@ final class IPv4AddressNameTest extends TestCase
     }
 
     /**
-     * @depends encodeWithMask
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encodeWithMask')]
     public function decodeWithMask($der)
     {
         $ip = IPAddress::fromASN1(Element::fromDER($der));
@@ -129,51 +109,37 @@ final class IPv4AddressNameTest extends TestCase
         return $ip;
     }
 
-    /**
-     * @depends createWithMask
-     * @depends decodeWithMask
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMask')]
+    #[Depends('decodeWithMask')]
     public function recodedWithMask(IPAddress $ref, IPAddress $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends createWithMask
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMask')]
     public function mask(IPAddress $ip)
     {
         static::assertEquals(self::MASK, $ip->mask());
     }
 
-    /**
-     * @depends createWithMask
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMask')]
     public function string(IPAddress $ip)
     {
         static::assertEquals(self::ADDR . '/' . self::MASK, $ip->string());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidOctetLength()
     {
         $this->expectException(UnexpectedValueException::class);
         IPv4Address::fromOctets('');
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function noMaskFails(IPAddress $ip)
     {
         $this->expectException(LogicException::class);

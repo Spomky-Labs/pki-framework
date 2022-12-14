@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\AccessDescription\SubjectAccessDescription;
@@ -16,9 +18,7 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class SubjectInformationAccessTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $ext = SubjectInformationAccessExtension::create(
@@ -36,31 +36,22 @@ final class SubjectInformationAccessTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_SUBJECT_INFORMATION_ACCESS, $ext->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function critical(Extension $ext)
     {
         static::assertFalse($ext->isCritical());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -69,12 +60,10 @@ final class SubjectInformationAccessTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $ext = SubjectInformationAccessExtension::fromASN1(Sequence::fromDER($der));
@@ -82,42 +71,30 @@ final class SubjectInformationAccessTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function accessDescriptions(SubjectInformationAccessExtension $ext)
     {
         static::assertContainsOnlyInstancesOf(SubjectAccessDescription::class, $ext->accessDescriptions());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(SubjectInformationAccessExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(SubjectInformationAccessExtension $ext)
     {
         $values = [];

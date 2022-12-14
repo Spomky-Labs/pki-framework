@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitTagging;
@@ -17,9 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class DirectoryNameTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): DirectoryName
     {
         $name = DirectoryName::fromDNString('cn=Test');
@@ -27,11 +27,8 @@ final class DirectoryNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(DirectoryName $name): string
     {
         $el = $name->toASN1();
@@ -39,11 +36,8 @@ final class DirectoryNameTest extends TestCase
         return $el->toDER();
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function choiceTag(string $der)
     {
         $el = TaggedType::fromDER($der);
@@ -51,12 +45,10 @@ final class DirectoryNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $name = DirectoryName::fromASN1(Element::fromDER($der));
@@ -64,32 +56,23 @@ final class DirectoryNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(DirectoryName $ref, DirectoryName $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function string(DirectoryName $name)
     {
         static::assertEquals('cn=Test', $name->string());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function dN(DirectoryName $name)
     {
         static::assertEquals(Name::fromString('cn=Test'), $name->dn());

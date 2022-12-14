@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\IA5String;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\IA5String;
@@ -13,18 +14,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\IA5String;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = IA5String::fromDER("\x16\x0");
         static::assertInstanceOf(IA5String::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function value()
     {
         $str = 'Hello World!';
@@ -32,9 +29,7 @@ final class DecodeTest extends TestCase
         static::assertEquals($str, $el->string());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidValue()
     {
         $str = "H\xebll\xf8 W\xf6rld!";

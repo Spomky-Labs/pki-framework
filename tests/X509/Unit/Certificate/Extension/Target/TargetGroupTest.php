@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\Target;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitTagging;
 use SpomkyLabs\Pki\ASN1\Type\TaggedType;
@@ -19,9 +21,7 @@ final class TargetGroupTest extends TestCase
 {
     final public const URI = 'urn:test';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $target = TargetGroup::create(UniformResourceIdentifier::create(self::URI));
@@ -29,11 +29,8 @@ final class TargetGroupTest extends TestCase
         return $target;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Target $target)
     {
         $el = $target->toASN1();
@@ -42,12 +39,10 @@ final class TargetGroupTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $target = TargetGroup::fromASN1(TaggedType::fromDER($data));
@@ -55,43 +50,31 @@ final class TargetGroupTest extends TestCase
         return $target;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Target $ref, Target $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function type(Target $target)
     {
         static::assertEquals(Target::TYPE_GROUP, $target->type());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function name(TargetGroup $target)
     {
         $name = $target->name();
         static::assertInstanceOf(GeneralName::class, $name);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function string(TargetGroup $target)
     {
         static::assertIsString($target->string());

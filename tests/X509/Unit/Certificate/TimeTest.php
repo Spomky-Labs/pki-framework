@@ -6,6 +6,8 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
@@ -21,9 +23,7 @@ final class TimeTest extends TestCase
 
     final public const TIME_GEN = '2050-01-01 12:00:00';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): Time
     {
         $time = Time::fromString(self::TIME);
@@ -31,11 +31,8 @@ final class TimeTest extends TestCase
         return $time;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Time $time): string
     {
         $seq = $time->toASN1();
@@ -44,12 +41,10 @@ final class TimeTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der): Time
     {
         $time = Time::fromASN1(UTCTime::fromDER($der));
@@ -57,39 +52,29 @@ final class TimeTest extends TestCase
         return $time;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Time $ref, Time $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function time(Time $time): void
     {
         static::assertEquals(new DateTimeImmutable(self::TIME), $time->dateTime());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function timezone(): void
     {
         $time = Time::fromString(self::TIME, 'UTC');
         static::assertEquals(new DateTimeImmutable(self::TIME, new DateTimeZone('UTC')), $time->dateTime());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createGeneralized(): Time
     {
         $time = Time::fromString(self::TIME_GEN, 'UTC');
@@ -97,11 +82,8 @@ final class TimeTest extends TestCase
         return $time;
     }
 
-    /**
-     * @depends createGeneralized
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createGeneralized')]
     public function encodeGeneralized(Time $time): string
     {
         $el = $time->toASN1();
@@ -110,12 +92,10 @@ final class TimeTest extends TestCase
     }
 
     /**
-     * @depends encodeGeneralized
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encodeGeneralized')]
     public function decodeGeneralized($der): Time
     {
         $time = Time::fromASN1(GeneralizedTime::fromDER($der));
@@ -123,20 +103,15 @@ final class TimeTest extends TestCase
         return $time;
     }
 
-    /**
-     * @depends createGeneralized
-     * @depends decodeGeneralized
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createGeneralized')]
+    #[Depends('decodeGeneralized')]
     public function recodedGeneralized(Time $ref, Time $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeFractional(): void
     {
         $dt = DateTimeImmutable::createFromFormat('!Y-m-d H:i:s.u', '2050-01-01 12:00:00.500');
@@ -144,18 +119,14 @@ final class TimeTest extends TestCase
         static::assertInstanceOf(GeneralizedTime::class, $time->toASN1());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidDateFail(): void
     {
         $this->expectException(RuntimeException::class);
         Time::fromString('nope');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidTimezone(): void
     {
         $this->expectException(RuntimeException::class);
