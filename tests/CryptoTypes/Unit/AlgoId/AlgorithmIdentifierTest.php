@@ -16,7 +16,7 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
  */
 final class AlgorithmIdentifierTest extends TestCase
 {
-    private static $_unknownASN1;
+    private static ?Sequence $_unknownASN1 = null;
 
     public static function setUpBeforeClass(): void
     {

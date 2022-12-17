@@ -36,8 +36,9 @@ abstract class GeneralName implements Stringable
 
     public const TAG_REGISTERED_ID = 8;
 
-    protected function __construct(protected int $tag)
-    {
+    protected function __construct(
+        protected int $tag
+    ) {
     }
 
     /**

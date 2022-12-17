@@ -18,9 +18,9 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class IssuerSerialTest extends TestCase
 {
-    private static $_issuer;
+    private static ?GeneralNames $_issuer = null;
 
-    private static $_uid;
+    private static ?UniqueIdentifier $_uid = null;
 
     public static function setUpBeforeClass(): void
     {

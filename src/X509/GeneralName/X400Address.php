@@ -20,8 +20,9 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
  */
 final class X400Address extends GeneralName
 {
-    protected function __construct(private readonly Sequence $element)
-    {
+    protected function __construct(
+        private readonly Sequence $element
+    ) {
         parent::__construct(self::TAG_X400_ADDRESS);
     }
 

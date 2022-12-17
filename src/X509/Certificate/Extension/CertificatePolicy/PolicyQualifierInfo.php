@@ -31,8 +31,9 @@ abstract class PolicyQualifierInfo
      */
     public const OID_UNOTICE = '1.3.6.1.5.5.7.2.2';
 
-    protected function __construct(protected string $oid)
-    {
+    protected function __construct(
+        protected string $oid
+    ) {
     }
 
     /**

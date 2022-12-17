@@ -23,7 +23,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class V2FormTest extends TestCase
 {
-    private static $_issuerName;
+    private static ?GeneralNames $_issuerName = null;
 
     public static function setUpBeforeClass(): void
     {

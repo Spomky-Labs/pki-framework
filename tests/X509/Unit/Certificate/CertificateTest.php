@@ -11,6 +11,7 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use SpomkyLabs\Pki\X501\ASN1\Name;
@@ -25,7 +26,7 @@ use UnexpectedValueException;
  */
 final class CertificateTest extends TestCase
 {
-    private static $_privateKeyInfo;
+    private static ?OneAsymmetricKey $_privateKeyInfo = null;
 
     public static function setUpBeforeClass(): void
     {

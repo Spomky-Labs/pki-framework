@@ -10,7 +10,9 @@ use ReflectionClass;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
+use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePoliciesExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
@@ -33,13 +35,13 @@ final class PolicyMappingMapAnyTest extends TestCase
 
     public const CERT_NAME = 'cn=EE';
 
-    private static $_caKey;
+    private static ?PrivateKeyInfo $_caKey = null;
 
-    private static $_ca;
+    private static ?Certificate $_ca = null;
 
-    private static $_certKey;
+    private static ?PrivateKeyInfo $_certKey = null;
 
-    private static $_cert;
+    private static ?Certificate $_cert = null;
 
     public static function setUpBeforeClass(): void
     {

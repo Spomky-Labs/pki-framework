@@ -16,8 +16,9 @@ final class PolicyTree
     /**
      * @param PolicyNode $root Initial root node
      */
-    private function __construct(private ?PolicyNode $root)
-    {
+    private function __construct(
+        private ?PolicyNode $root
+    ) {
     }
 
     public static function create(?PolicyNode $root): self

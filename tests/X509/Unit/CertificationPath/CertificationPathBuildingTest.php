@@ -17,11 +17,11 @@ use SpomkyLabs\Pki\X509\CertificationPath\PathBuilding\CertificationPathBuilder;
  */
 final class CertificationPathBuildingTest extends TestCase
 {
-    private static $_ca;
+    private static ?Certificate $_ca = null;
 
-    private static $_interm;
+    private static ?Certificate $_interm = null;
 
-    private static $_cert;
+    private static ?Certificate $_cert = null;
 
     public static function setUpBeforeClass(): void
     {

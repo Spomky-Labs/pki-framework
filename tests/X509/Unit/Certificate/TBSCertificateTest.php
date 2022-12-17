@@ -13,6 +13,7 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\OneAsymmetricKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
@@ -29,13 +30,13 @@ use UnexpectedValueException;
  */
 final class TBSCertificateTest extends TestCase
 {
-    private static $_subject;
+    private static ?Name $_subject = null;
 
-    private static $_privateKeyInfo;
+    private static ?OneAsymmetricKey $_privateKeyInfo = null;
 
-    private static $_issuer;
+    private static ?Name $_issuer = null;
 
-    private static $_validity;
+    private static ?Validity $_validity = null;
 
     public static function setUpBeforeClass(): void
     {

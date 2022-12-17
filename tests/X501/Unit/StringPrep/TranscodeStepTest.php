@@ -41,7 +41,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'κόσμε';
         $step = TranscodeStep::create(Element::TYPE_BMP_STRING);
-        static::assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8')));
+        static::assertEquals($str, $step->apply(mb_convert_encoding((string) $str, 'UCS-2BE', 'UTF-8')));
     }
 
     /**
@@ -51,7 +51,7 @@ final class TranscodeStepTest extends TestCase
     {
         static $str = 'κόσμε';
         $step = TranscodeStep::create(Element::TYPE_UNIVERSAL_STRING);
-        static::assertEquals($str, $step->apply(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8')));
+        static::assertEquals($str, $step->apply(mb_convert_encoding((string) $str, 'UCS-4BE', 'UTF-8')));
     }
 
     /**
