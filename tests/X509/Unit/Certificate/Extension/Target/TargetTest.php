@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\Target;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -20,27 +21,21 @@ use UnexpectedValueException;
  */
 final class TargetTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeTargetCertUnsupportedFail()
     {
         $this->expectException(RuntimeException::class);
         Target::fromASN1(ImplicitlyTaggedType::create(Target::TYPE_CERT, NullType::create()));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeUnsupportedTagFail()
     {
         $this->expectException(UnexpectedValueException::class);
         Target::fromASN1(ImplicitlyTaggedType::create(3, NullType::create()));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function equals()
     {
         $t1 = TargetName::create(DNSName::create('n1'));
@@ -48,9 +43,7 @@ final class TargetTest extends TestCase
         static::assertTrue($t1->equals($t2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notEquals()
     {
         $t1 = TargetName::create(DNSName::create('n1'));
@@ -58,9 +51,7 @@ final class TargetTest extends TestCase
         static::assertFalse($t1->equals($t2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notEqualsDifferentEncoding()
     {
         $t1 = TargetName::create(DNSName::create('n1'));
@@ -68,9 +59,7 @@ final class TargetTest extends TestCase
         static::assertFalse($t1->equals($t2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notEqualsDifferentType()
     {
         $t1 = TargetName::create(DNSName::create('n1'));

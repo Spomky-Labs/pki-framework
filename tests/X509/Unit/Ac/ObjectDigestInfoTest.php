@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -17,9 +19,7 @@ use SpomkyLabs\Pki\X509\AttributeCertificate\ObjectDigestInfo;
  */
 final class ObjectDigestInfoTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): ObjectDigestInfo
     {
         $odi = ObjectDigestInfo::create(
@@ -31,11 +31,8 @@ final class ObjectDigestInfoTest extends TestCase
         return $odi;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(ObjectDigestInfo $odi): string
     {
         $seq = $odi->toASN1();
@@ -44,12 +41,10 @@ final class ObjectDigestInfoTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data): ObjectDigestInfo
     {
         $odi = ObjectDigestInfo::fromASN1(Sequence::fromDER($data));
@@ -57,20 +52,15 @@ final class ObjectDigestInfoTest extends TestCase
         return $odi;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(ObjectDigestInfo $ref, ObjectDigestInfo $new): void
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeWithOtherObjectTypeID(): ObjectDigestInfo
     {
         $algo = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
@@ -85,11 +75,8 @@ final class ObjectDigestInfoTest extends TestCase
         return $odi;
     }
 
-    /**
-     * @depends decodeWithOtherObjectTypeID
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeWithOtherObjectTypeID')]
     public function encodeWithOtherObjectTypeID(ObjectDigestInfo $odi): void
     {
         $seq = $odi->toASN1();

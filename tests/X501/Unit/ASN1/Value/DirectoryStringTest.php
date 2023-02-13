@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Value;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -17,9 +18,7 @@ use UnexpectedValueException;
  */
 final class DirectoryStringTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function fromASN1InvalidType()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -27,9 +26,7 @@ final class DirectoryStringTest extends TestCase
         DirectoryString::fromASN1(UnspecifiedType::create(NullType::create()));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toASN1InvalidType()
     {
         $value = CommonNameValue::create('name', Element::TYPE_NULL);
@@ -38,9 +35,7 @@ final class DirectoryStringTest extends TestCase
         $value->toASN1();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function teletexValue()
     {
         $value = CommonNameValue::create('name', Element::TYPE_T61_STRING);

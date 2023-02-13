@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\Test\ASN1\Component;
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use LogicException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
@@ -16,36 +17,28 @@ use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
  */
 final class LengthDecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $length = Length::fromDER("\x0");
         static::assertInstanceOf(Length::class, $length);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function definite()
     {
         $length = Length::fromDER("\x00");
         static::assertFalse($length->isIndefinite());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function indefinite()
     {
         $length = Length::fromDER("\x80");
         static::assertTrue($length->isIndefinite());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function lengthFailsBecauseIndefinite()
     {
         $this->expectException(LogicException::class);
@@ -53,9 +46,7 @@ final class LengthDecodeTest extends TestCase
         Length::fromDER("\x80")->length();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function intLengthFailsBecauseIndefinite()
     {
         $this->expectException(LogicException::class);
@@ -63,9 +54,7 @@ final class LengthDecodeTest extends TestCase
         Length::fromDER("\x80")->intLength();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hugeLengthHasNoIntval()
     {
         $der = "\xfe" . str_repeat("\xff", 126);
@@ -73,9 +62,7 @@ final class LengthDecodeTest extends TestCase
         Length::fromDER($der)->intLength();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shortForm()
     {
         $length = Length::fromDER("\x7f");
@@ -83,18 +70,14 @@ final class LengthDecodeTest extends TestCase
         static::assertEquals(0x7f, $length->intLength());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function longForm()
     {
         $length = Length::fromDER("\x81\xff");
         static::assertEquals(0xff, $length->length());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function longForm2()
     {
         $length = Length::fromDER("\x82\xca\xfe");
@@ -104,9 +87,8 @@ final class LengthDecodeTest extends TestCase
 
     /**
      * Tests failure when there's too few bytes.
-     *
-     * @test
      */
+    #[Test]
     public function invalidLongForm()
     {
         $this->expectException(DecodeException::class);
@@ -116,9 +98,8 @@ final class LengthDecodeTest extends TestCase
 
     /**
      * Tests failure when first byte is 0xff.
-     *
-     * @test
      */
+    #[Test]
     public function invalidLength()
     {
         $this->expectException(DecodeException::class);
@@ -126,9 +107,7 @@ final class LengthDecodeTest extends TestCase
         Length::fromDER("\xff" . str_repeat("\0", 127));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hugeLength()
     {
         $der = "\xfe" . str_repeat("\xff", 126);
@@ -137,9 +116,7 @@ final class LengthDecodeTest extends TestCase
         static::assertEquals($length->length(), $num->toBase(10));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function offsetFail()
     {
         $offset = 1;
@@ -148,9 +125,7 @@ final class LengthDecodeTest extends TestCase
         Length::fromDER("\x0", $offset);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function expectFail()
     {
         $offset = 0;
@@ -159,9 +134,7 @@ final class LengthDecodeTest extends TestCase
         Length::expectFromDER("\x01", $offset);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function expectFail2()
     {
         $offset = 0;
@@ -170,9 +143,7 @@ final class LengthDecodeTest extends TestCase
         Length::expectFromDER("\x01\x00", $offset, 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function expectFailIndefinite()
     {
         $offset = 0;

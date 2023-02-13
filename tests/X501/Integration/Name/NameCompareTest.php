@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Integration\Name;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 
@@ -14,14 +16,12 @@ use SpomkyLabs\Pki\X501\ASN1\Name;
 final class NameCompareTest extends TestCase
 {
     /**
-     * @dataProvider provideCompareNames
-     *
      * @param string $dn1
      * @param string $dn2
      * @param bool $expected
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('provideCompareNames')]
     public function compareNames($dn1, $dn2, $expected)
     {
         $n1 = Name::fromString($dn1);
@@ -30,14 +30,12 @@ final class NameCompareTest extends TestCase
     }
 
     /**
-     * @dataProvider provideCompareNames
-     *
      * @param string $dn1
      * @param string $dn2
      * @param bool $expected
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('provideCompareNames')]
     public function toStringMethod($dn1, $dn2, $expected)
     {
         $n1 = Name::fromString($dn1);
@@ -46,7 +44,7 @@ final class NameCompareTest extends TestCase
         static::assertEquals($dn2, $n2->toString());
     }
 
-    public function provideCompareNames(): Iterator
+    public static function provideCompareNames(): Iterator
     {
         yield ['cn=test', 'cn=test', true];
         yield ['cn=test1', 'cn=test2', false];

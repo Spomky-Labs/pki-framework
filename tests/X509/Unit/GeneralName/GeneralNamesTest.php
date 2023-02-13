@@ -6,6 +6,8 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\GeneralName;
 
 use BadMethodCallException;
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -24,9 +26,7 @@ use UnexpectedValueException;
  */
 final class GeneralNamesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $gns = GeneralNames::create(DNSName::create('test1'), DNSName::create('test2'));
@@ -34,11 +34,8 @@ final class GeneralNamesTest extends TestCase
         return $gns;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(GeneralNames $gns)
     {
         $seq = $gns->toASN1();
@@ -47,12 +44,10 @@ final class GeneralNamesTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $gns = GeneralNames::fromASN1(Sequence::fromDER($der));
@@ -60,83 +55,59 @@ final class GeneralNamesTest extends TestCase
         return $gns;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(GeneralNames $ref, GeneralNames $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function has(GeneralNames $gns)
     {
         static::assertTrue($gns->has(GeneralName::TAG_DNS_NAME));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function hasNot(GeneralNames $gns)
     {
         static::assertFalse($gns->has(GeneralName::TAG_URI));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function allOf(GeneralNames $gns)
     {
         static::assertCount(2, $gns->allOf(GeneralName::TAG_DNS_NAME));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function firstOf(GeneralNames $gns)
     {
         static::assertInstanceOf(DNSName::class, $gns->firstOf(GeneralName::TAG_DNS_NAME));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function firstOfFail(GeneralNames $gns)
     {
         $this->expectException(UnexpectedValueException::class);
         $gns->firstOf(GeneralName::TAG_URI);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(GeneralNames $gns)
     {
         static::assertCount(2, $gns);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(GeneralNames $gns)
     {
         $values = [];
@@ -147,18 +118,14 @@ final class GeneralNamesTest extends TestCase
         static::assertContainsOnlyInstancesOf(GeneralName::class, $values);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromEmptyFail()
     {
         $this->expectException(UnexpectedValueException::class);
         GeneralNames::fromASN1(Sequence::create());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function emptyToASN1Fail()
     {
         $gn = GeneralNames::create();
@@ -166,9 +133,7 @@ final class GeneralNamesTest extends TestCase
         $gn->toASN1();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstDNS()
     {
         $name = DNSName::create('example.com');
@@ -176,9 +141,7 @@ final class GeneralNamesTest extends TestCase
         static::assertEquals($name, $gn->firstDNS());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstDN()
     {
         $name = DirectoryName::fromDNString('cn=Example');
@@ -186,9 +149,7 @@ final class GeneralNamesTest extends TestCase
         static::assertEquals($name->dn(), $gn->firstDN());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstURI()
     {
         $name = UniformResourceIdentifier::create('urn:example');
@@ -196,9 +157,7 @@ final class GeneralNamesTest extends TestCase
         static::assertEquals($name, $gn->firstURI());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstDNSFail()
     {
         $gn = GeneralNames::create(GeneralNamesTest_NameMockup::create(GeneralName::TAG_DNS_NAME));
@@ -206,9 +165,7 @@ final class GeneralNamesTest extends TestCase
         $gn->firstDNS();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstDNFail()
     {
         $gn = GeneralNames::create(GeneralNamesTest_NameMockup::create(GeneralName::TAG_DIRECTORY_NAME));
@@ -216,9 +173,7 @@ final class GeneralNamesTest extends TestCase
         $gn->firstDN();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstURIFail()
     {
         $gn = GeneralNames::create(GeneralNamesTest_NameMockup::create(GeneralName::TAG_URI));

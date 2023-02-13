@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Tagging;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -16,63 +17,49 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
  */
 final class ImplicitlyTaggedDecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = TaggedType::fromDER("\x80\x0");
         static::assertInstanceOf(DERTaggedType::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag()
     {
         $el = TaggedType::fromDER("\x81\x0");
         static::assertEquals(1, $el->tag());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function typeClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
         static::assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function innerType()
     {
         $el = TaggedType::fromDER("\x80\x0");
         static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function innerClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
         static::assertEquals(Identifier::CLASS_UNIVERSAL, $el->implicit(Element::TYPE_NULL)->typeClass());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function innerPrimitive()
     {
         $el = TaggedType::fromDER("\x80\x0");
         static::assertFalse($el->implicit(Element::TYPE_NULL)->isConstructed());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function innerConstructed()
     {
         $el = TaggedType::fromDER("\xa0\x0");
@@ -81,9 +68,8 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
 
     /**
      * Test that attempting to decode implicitly tagged sequence that doesn't have constructed bit set fails.
-     *
-     * @test
      */
+    #[Test]
     public function innerConstructedFail()
     {
         $this->expectException(DecodeException::class);
@@ -91,9 +77,7 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
         TaggedType::fromDER("\x80\x0")->implicit(Element::TYPE_SEQUENCE);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function nested()
     {
         $el = TaggedType::fromDER("\xa1\x2\x82\x0");

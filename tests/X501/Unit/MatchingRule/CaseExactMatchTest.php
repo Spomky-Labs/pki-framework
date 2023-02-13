@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\MatchingRule;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\X501\MatchingRule\CaseExactMatch;
@@ -14,21 +16,19 @@ use SpomkyLabs\Pki\X501\MatchingRule\CaseExactMatch;
 final class CaseExactMatchTest extends TestCase
 {
     /**
-     * @dataProvider provideMatch
-     *
      * @param string $assertion
      * @param string $value
      * @param bool $expected
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('provideMatch')]
     public function match($assertion, $value, $expected)
     {
         $rule = CaseExactMatch::create(Element::TYPE_UTF8_STRING);
         static::assertEquals($expected, $rule->compare($assertion, $value));
     }
 
-    public function provideMatch(): iterable
+    public static function provideMatch(): iterable
     {
         yield ['abc', 'abc', true];
         yield ['ABC', 'abc', false];

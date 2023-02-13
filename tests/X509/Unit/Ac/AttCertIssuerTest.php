@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitlyTaggedType;
@@ -17,9 +18,7 @@ use UnexpectedValueException;
  */
 final class AttCertIssuerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function v1FormFail()
     {
         $v1 = GeneralNames::create(DirectoryName::fromDNString('cn=Test'));
@@ -27,9 +26,7 @@ final class AttCertIssuerTest extends TestCase
         AttCertIssuer::fromASN1($v1->toASN1()->asUnspecified());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unsupportedType()
     {
         $el = ImplicitlyTaggedType::create(1, NullType::create());

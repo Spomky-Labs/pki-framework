@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\RSA;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
@@ -16,9 +18,8 @@ final class RSAPublicKeyTest extends TestCase
 {
     /**
      * @return RSAPublicKey
-     *
-     * @test
      */
+    #[Test]
     public function decode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
@@ -29,9 +30,8 @@ final class RSAPublicKeyTest extends TestCase
 
     /**
      * @return RSAPublicKey
-     *
-     * @test
      */
+    #[Test]
     public function fromPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
@@ -40,11 +40,8 @@ final class RSAPublicKeyTest extends TestCase
         return $pk;
     }
 
-    /**
-     * @depends fromPEM
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromPEM')]
     public function toPEM(RSAPublicKey $pk)
     {
         $pem = $pk->toPEM();
@@ -52,20 +49,15 @@ final class RSAPublicKeyTest extends TestCase
         return $pem;
     }
 
-    /**
-     * @depends toPEM
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('toPEM')]
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         static::assertEquals($ref, $pem);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
@@ -73,9 +65,7 @@ final class RSAPublicKeyTest extends TestCase
         static::assertInstanceOf(RSAPublicKey::class, $pk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEMType()
     {
         $pem = PEM::create('nope', '');
@@ -83,9 +73,7 @@ final class RSAPublicKeyTest extends TestCase
         RSAPublicKey::fromPEM($pem);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eCKeyFail()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
@@ -93,21 +81,15 @@ final class RSAPublicKeyTest extends TestCase
         RSAPublicKey::fromPEM($pem);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function modulus(RSAPublicKey $pk)
     {
         static::assertNotEmpty($pk->modulus());
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function publicExponent(RSAPublicKey $pk)
     {
         static::assertNotEmpty($pk->publicExponent());

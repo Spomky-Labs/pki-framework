@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
@@ -20,9 +22,7 @@ final class PolicyInformationTest extends TestCase
 {
     public const OID = '1.3.6.1.3';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createWithCPS()
     {
         $pi = PolicyInformation::create(self::OID, CPSQualifier::create('urn:test'));
@@ -30,11 +30,8 @@ final class PolicyInformationTest extends TestCase
         return $pi;
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function encodeWithCPS(PolicyInformation $pi)
     {
         $el = $pi->toASN1();
@@ -43,12 +40,10 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends encodeWithCPS
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encodeWithCPS')]
     public function decodeWithCPS($data)
     {
         $pi = PolicyInformation::fromASN1(Sequence::fromDER($data));
@@ -56,92 +51,66 @@ final class PolicyInformationTest extends TestCase
         return $pi;
     }
 
-    /**
-     * @depends createWithCPS
-     * @depends decodeWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
+    #[Depends('decodeWithCPS')]
     public function recodedWithCPS(PolicyInformation $ref, PolicyInformation $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function oID(PolicyInformation $pi)
     {
         static::assertEquals(self::OID, $pi->oid());
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function has(PolicyInformation $pi)
     {
         static::assertTrue($pi->has(CPSQualifier::OID_CPS));
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function hasNot(PolicyInformation $pi)
     {
         static::assertFalse($pi->has('1.3.6.1.3'));
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function get(PolicyInformation $pi)
     {
         static::assertInstanceOf(PolicyQualifierInfo::class, $pi->get(CPSQualifier::OID_CPS));
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function getFail(PolicyInformation $pi)
     {
         $this->expectException(LogicException::class);
         $pi->get('1.3.6.1.3');
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function cPSQualifier(PolicyInformation $pi)
     {
         static::assertInstanceOf(CPSQualifier::class, $pi->CPSQualifier());
     }
 
-    /**
-     * @depends createWithCPS
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithCPS')]
     public function userNoticeQualifierFail(PolicyInformation $pi)
     {
         $this->expectException(LogicException::class);
         $pi->userNoticeQualifier();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createWithNotice()
     {
         $pi = PolicyInformation::create(self::OID, UserNoticeQualifier::create(DisplayText::fromString('notice')));
@@ -149,30 +118,22 @@ final class PolicyInformationTest extends TestCase
         return $pi;
     }
 
-    /**
-     * @depends createWithNotice
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithNotice')]
     public function cPSQualifierFail(PolicyInformation $pi)
     {
         $this->expectException(LogicException::class);
         $pi->CPSQualifier();
     }
 
-    /**
-     * @depends createWithNotice
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithNotice')]
     public function userNoticeQualifier(PolicyInformation $pi)
     {
         static::assertInstanceOf(UserNoticeQualifier::class, $pi->userNoticeQualifier());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createWithMultiple()
     {
         $pi = PolicyInformation::create(
@@ -184,11 +145,8 @@ final class PolicyInformationTest extends TestCase
         return $pi;
     }
 
-    /**
-     * @depends createWithMultiple
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMultiple')]
     public function encodeWithMultiple(PolicyInformation $pi)
     {
         $el = $pi->toASN1();
@@ -197,12 +155,10 @@ final class PolicyInformationTest extends TestCase
     }
 
     /**
-     * @depends encodeWithMultiple
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encodeWithMultiple')]
     public function decodeWithMultiple($data)
     {
         $pi = PolicyInformation::fromASN1(Sequence::fromDER($data));
@@ -210,32 +166,23 @@ final class PolicyInformationTest extends TestCase
         return $pi;
     }
 
-    /**
-     * @depends createWithMultiple
-     * @depends decodeWithMultiple
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMultiple')]
+    #[Depends('decodeWithMultiple')]
     public function recodedMultiple(PolicyInformation $ref, PolicyInformation $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends createWithMultiple
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMultiple')]
     public function countMethod(PolicyInformation $pi)
     {
         static::assertCount(2, $pi);
     }
 
-    /**
-     * @depends createWithMultiple
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithMultiple')]
     public function iterator(PolicyInformation $pi)
     {
         $values = [];
@@ -245,9 +192,7 @@ final class PolicyInformationTest extends TestCase
         static::assertContainsOnlyInstancesOf(PolicyQualifierInfo::class, $values);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function isAnyPolicy()
     {
         $pi = PolicyInformation::create(PolicyInformation::OID_ANY_POLICY);

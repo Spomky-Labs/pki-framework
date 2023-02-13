@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\MatchingRule\MatchingRule;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Attribute\GroupAttributeValue;
@@ -16,9 +18,7 @@ use function strval;
  */
 final class IetfAttrSyntaxTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function createEmpty()
     {
         $val = GroupAttributeValue::create();
@@ -26,63 +26,45 @@ final class IetfAttrSyntaxTest extends TestCase
         return $val;
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function noPolicyAuthorityFail(IetfAttrSyntax $val)
     {
         $this->expectException(LogicException::class);
         $val->policyAuthority();
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function noValuesFirstFail(IetfAttrSyntax $val)
     {
         $this->expectException(LogicException::class);
         $val->first();
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function stringValue(IetfAttrSyntax $val)
     {
         static::assertIsString($val->stringValue());
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function equalityMatchingRule(IetfAttrSyntax $val)
     {
         static::assertInstanceOf(MatchingRule::class, $val->equalityMatchingRule());
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function rFC2253String(IetfAttrSyntax $val)
     {
         static::assertIsString($val->rfc2253String());
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function toStringMethod(IetfAttrSyntax $val)
     {
         static::assertIsString(strval($val));

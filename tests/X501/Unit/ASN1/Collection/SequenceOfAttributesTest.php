@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1\Collection;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\DescriptionValue;
@@ -15,9 +17,7 @@ use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
  */
 final class SequenceOfAttributesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $c = SequenceOfAttributes::fromAttributeValues(NameValue::create('n'), DescriptionValue::create('d'));
@@ -25,11 +25,8 @@ final class SequenceOfAttributesTest extends TestCase
         return $c;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(SequenceOfAttributes $c)
     {
         $el = $c->toASN1();
@@ -37,11 +34,8 @@ final class SequenceOfAttributesTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq)
     {
         $c = SequenceOfAttributes::fromASN1($seq);
@@ -49,12 +43,9 @@ final class SequenceOfAttributesTest extends TestCase
         return $c;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(SequenceOfAttributes $original, SequenceOfAttributes $recoded)
     {
         static::assertEquals($original, $recoded);

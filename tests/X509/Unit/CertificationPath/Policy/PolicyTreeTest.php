@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Policy;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyNode;
@@ -16,9 +17,8 @@ final class PolicyTreeTest extends TestCase
 {
     /**
      * Cover edge case where root node is pruned.
-     *
-     * @test
      */
+    #[Test]
     public function nodesAtDepthNoRoot()
     {
         $tree = PolicyTree::create(PolicyNode::anyPolicyNode());
@@ -31,9 +31,8 @@ final class PolicyTreeTest extends TestCase
 
     /**
      * Cover edge case where root node is pruned.
-     *
-     * @test
      */
+    #[Test]
     public function validPolicyNodeSetNoRoot()
     {
         $tree = PolicyTree::create(PolicyNode::anyPolicyNode());
@@ -48,9 +47,8 @@ final class PolicyTreeTest extends TestCase
 
     /**
      * Cover edge case where root node is pruned.
-     *
-     * @test
      */
+    #[Test]
     public function pruneNoRoot()
     {
         $tree = PolicyTree::create(PolicyNode::anyPolicyNode());

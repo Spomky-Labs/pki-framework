@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -24,9 +26,7 @@ final class TargetInformationTest extends TestCase
 
     final public const GROUP_DOMAIN = '.example.com';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createTargets()
     {
         $targets = Targets::create(
@@ -37,11 +37,8 @@ final class TargetInformationTest extends TestCase
         return $targets;
     }
 
-    /**
-     * @depends createTargets
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createTargets')]
     public function create(Targets $targets)
     {
         $ext = TargetInformationExtension::create(true, $targets);
@@ -49,31 +46,22 @@ final class TargetInformationTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_TARGET_INFORMATION, $ext->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -82,12 +70,10 @@ final class TargetInformationTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $ext = TargetInformationExtension::fromASN1(Sequence::fromDER($der));
@@ -95,32 +81,23 @@ final class TargetInformationTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(TargetInformationExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(TargetInformationExtension $ext)
     {
         $values = [];
@@ -131,21 +108,15 @@ final class TargetInformationTest extends TestCase
         static::assertContainsOnlyInstancesOf(Target::class, $values);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
-    public function name(TargetInformationExtension $ext)
+    #[Test]
+    #[Depends('create')]
+    public function verifyName(TargetInformationExtension $ext = null)
     {
         static::assertEquals(self::NAME_DN, $ext->names()[0]->string());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function group(TargetInformationExtension $ext)
     {
         static::assertEquals(self::GROUP_DOMAIN, $ext->groups()[0]->string());
@@ -153,19 +124,15 @@ final class TargetInformationTest extends TestCase
 
     /**
      * Cover __clone method.
-     *
-     * @depends create
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('create')]
     public function clone(TargetInformationExtension $ext)
     {
         static::assertInstanceOf(TargetInformationExtension::class, clone $ext);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromTargets()
     {
         $ext = TargetInformationExtension::fromTargets(TargetName::create(DirectoryName::fromDNString(self::NAME_DN)));

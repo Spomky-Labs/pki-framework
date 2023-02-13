@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\PathValidation;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
@@ -78,9 +79,7 @@ final class NotKeyCertSignTest extends TestCase
         self::$_cert = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validate()
     {
         $path = CertificationPath::create(self::$_ca, self::$_cert);

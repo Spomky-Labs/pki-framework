@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\GeneralString;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralString;
 
@@ -12,18 +13,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralString;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = GeneralString::fromDER("\x1b\x0");
         static::assertInstanceOf(GeneralString::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function value()
     {
         $str = 'Hello World!';

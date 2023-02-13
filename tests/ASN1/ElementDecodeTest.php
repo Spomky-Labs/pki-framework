@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
@@ -15,27 +16,21 @@ use UnexpectedValueException;
  */
 final class ElementDecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function abstract()
     {
         $el = Element::fromDER("\x5\x0");
         static::assertInstanceOf(NullType::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function concrete()
     {
         $el = NullType::fromDER("\x5\x0");
         static::assertInstanceOf(NullType::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function concreteWrongClass()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -43,9 +38,7 @@ final class ElementDecodeTest extends TestCase
         Boolean::fromDER("\x5\x0");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unimplementedFail()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -53,9 +46,7 @@ final class ElementDecodeTest extends TestCase
         Element::fromDER("\x1f\x7f\x0");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function expectTaggedFail()
     {
         $this->expectException(UnexpectedValueException::class);

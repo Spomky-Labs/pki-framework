@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Csr;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
 use SpomkyLabs\Pki\X501\ASN1\Attribute;
@@ -20,9 +22,7 @@ use UnexpectedValueException;
  */
 final class AttributesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $attribs = Attributes::fromAttributeValues(ExtensionRequestValue::create(Extensions::create()));
@@ -30,11 +30,8 @@ final class AttributesTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
@@ -43,12 +40,10 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
@@ -56,52 +51,37 @@ final class AttributesTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Attributes $ref, Attributes $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function extensionRequest(Attributes $attribs)
     {
         static::assertInstanceOf(ExtensionRequestValue::class, $attribs->extensionRequest());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function all(Attributes $attribs)
     {
         static::assertContainsOnlyInstancesOf(Attribute::class, $attribs->all());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(Attributes $attribs)
     {
         static::assertCount(1, $attribs);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(Attributes $attribs)
     {
         $values = [];
@@ -111,20 +91,15 @@ final class AttributesTest extends TestCase
         static::assertContainsOnlyInstancesOf(Attribute::class, $values);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function firstOfFail(Attributes $attribs)
     {
         $this->expectException(UnexpectedValueException::class);
         $attribs->firstOf('1.3.6.1.3');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noExtensionRequestFail()
     {
         $attribs = Attributes::create();
@@ -132,11 +107,8 @@ final class AttributesTest extends TestCase
         $attribs->extensionRequest();
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function withAdditional(Attributes $attribs)
     {
         $attribs = $attribs->withAdditional(Attribute::fromAttributeValues(CommonNameValue::create('Test')));
@@ -144,11 +116,8 @@ final class AttributesTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends withAdditional
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('withAdditional')]
     public function encodeWithAdditional(Attributes $attribs)
     {
         $seq = $attribs->toASN1();
@@ -157,12 +126,10 @@ final class AttributesTest extends TestCase
     }
 
     /**
-     * @depends encodeWithAdditional
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encodeWithAdditional')]
     public function decodeWithAdditional($data)
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
@@ -170,11 +137,8 @@ final class AttributesTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends decodeWithAdditional
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeWithAdditional')]
     public function decodedWithAdditionalHasCustomAttribute(Attributes $attribs)
     {
         static::assertInstanceOf(

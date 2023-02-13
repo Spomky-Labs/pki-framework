@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeAc\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Target;
 use SpomkyLabs\Pki\X509\Certificate\Extension\TargetInformationExtension;
@@ -15,9 +17,7 @@ require_once __DIR__ . '/RefACExtTestHelper.php';
  */
 final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function extension()
     {
         $ext = self::$_extensions->get(Extension::OID_TARGET_INFORMATION);
@@ -25,22 +25,16 @@ final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
         return $ext;
     }
 
-    /**
-     * @depends extension
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('extension')]
     public function countMethod(TargetInformationExtension $ti)
     {
         $targets = $ti->targets();
         static::assertCount(3, $targets);
     }
 
-    /**
-     * @depends extension
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('extension')]
     public function values(TargetInformationExtension $ti)
     {
         $vals = array_map(fn (Target $target) => $target->string(), $ti->targets()->all());

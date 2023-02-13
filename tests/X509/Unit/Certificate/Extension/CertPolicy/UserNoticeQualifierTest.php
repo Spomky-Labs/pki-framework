@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\DisplayText;
@@ -16,9 +18,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualif
  */
 final class UserNoticeQualifierTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $qual = UserNoticeQualifier::create(
@@ -29,11 +29,8 @@ final class UserNoticeQualifierTest extends TestCase
         return $qual;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(UserNoticeQualifier $qual)
     {
         $el = $qual->toASN1();
@@ -42,12 +39,10 @@ final class UserNoticeQualifierTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $qual = UserNoticeQualifier::fromASN1(Sequence::fromDER($data));
@@ -55,40 +50,29 @@ final class UserNoticeQualifierTest extends TestCase
         return $qual;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(UserNoticeQualifier $ref, UserNoticeQualifier $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function explicitText(UserNoticeQualifier $qual)
     {
         static::assertInstanceOf(DisplayText::class, $qual->explicitText());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function noticeRef(UserNoticeQualifier $qual)
     {
         static::assertInstanceOf(NoticeReference::class, $qual->noticeRef());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createEmpty()
     {
         $qual = UserNoticeQualifier::create();
@@ -96,22 +80,16 @@ final class UserNoticeQualifierTest extends TestCase
         return $qual;
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function explicitTextFail(UserNoticeQualifier $qual)
     {
         $this->expectException(LogicException::class);
         $qual->explicitText();
     }
 
-    /**
-     * @depends createEmpty
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createEmpty')]
     public function noticeRefFail(UserNoticeQualifier $qual)
     {
         $this->expectException(LogicException::class);

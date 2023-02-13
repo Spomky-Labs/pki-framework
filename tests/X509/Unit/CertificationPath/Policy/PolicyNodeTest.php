@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Policy;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyNode;
 
@@ -12,27 +13,21 @@ use SpomkyLabs\Pki\X509\CertificationPath\Policy\PolicyNode;
  */
 final class PolicyNodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $node = PolicyNode::create('1.3.6.1.3', [], []);
         static::assertInstanceOf(PolicyNode::class, $node);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasChildWithPolicyMatch()
     {
         $node = PolicyNode::anyPolicyNode()->addChild(PolicyNode::create('1.3.6.1.3', [], []));
         static::assertTrue($node->hasChildWithValidPolicy('1.3.6.1.3'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function parent()
     {
         $root = PolicyNode::anyPolicyNode();
@@ -41,9 +36,7 @@ final class PolicyNodeTest extends TestCase
         static::assertEquals($root, $child->parent());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iterator()
     {
         $node = PolicyNode::anyPolicyNode()->addChild(

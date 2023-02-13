@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\VideotexString;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\VideotexString;
 
@@ -12,18 +13,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\VideotexString;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = VideotexString::fromDER("\x15\x0");
         static::assertInstanceOf(VideotexString::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function value()
     {
         $str = 'Hello World!';

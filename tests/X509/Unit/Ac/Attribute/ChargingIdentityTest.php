@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
@@ -26,9 +28,7 @@ final class ChargingIdentityTest extends TestCase
 
     final public const UTF8_VAL = 'UTF-8 string';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $value = ChargingIdentityAttributeValue::create(
@@ -41,11 +41,8 @@ final class ChargingIdentityTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -54,12 +51,10 @@ final class ChargingIdentityTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $value = ChargingIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -67,52 +62,37 @@ final class ChargingIdentityTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(AttributeValue $value)
     {
         static::assertEquals(ChargingIdentityAttributeValue::OID, $value->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function authority(ChargingIdentityAttributeValue $value)
     {
         static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority()->firstDN());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(ChargingIdentityAttributeValue $value)
     {
         static::assertCount(3, $value);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(ChargingIdentityAttributeValue $value)
     {
         $values = [];
@@ -123,41 +103,29 @@ final class ChargingIdentityTest extends TestCase
         static::assertContainsOnlyInstancesOf(IetfAttrValue::class, $values);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function octetStringValue(ChargingIdentityAttributeValue $value)
     {
         static::assertEquals(self::OCTETS_VAL, $value->values()[0]);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oIDValue(ChargingIdentityAttributeValue $value)
     {
         static::assertEquals(self::OID_VAL, $value->values()[1]);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function uTF8Value(ChargingIdentityAttributeValue $value)
     {
         static::assertEquals(self::UTF8_VAL, $value->values()[2]);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
@@ -165,11 +133,8 @@ final class ChargingIdentityTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends attributes
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('attributes')]
     public function fromAttributes(Attributes $attribs)
     {
         static::assertInstanceOf(ChargingIdentityAttributeValue::class, $attribs->chargingIdentity());

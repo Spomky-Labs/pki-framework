@@ -122,7 +122,7 @@ final class ObjectIdentifier extends Element
                     $n = BigInteger::of($subid);
                     $subids[] = $n;
                 } catch (Throwable $e) {
-                    throw new UnexpectedValueException(sprintf('"%s" is not a number.', $subid,), 0, $e);
+                    throw new UnexpectedValueException(sprintf('"%s" is not a number.', $subid), 0, $e);
                 }
             }
         }

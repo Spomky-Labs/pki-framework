@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 use Brick\Math\BigInteger;
 use function chr;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 
@@ -15,27 +16,21 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
  */
 final class EncodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function zero()
     {
         $int = Integer::create(0);
         static::assertEquals("\x2\x1\x0", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negativeZero()
     {
         $int = Integer::create('-0');
         static::assertEquals("\x2\x1\x0", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidNumber()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -43,9 +38,7 @@ final class EncodeTest extends TestCase
         Integer::create('one');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function empty()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -53,63 +46,49 @@ final class EncodeTest extends TestCase
         Integer::create('');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function positive127()
     {
         $int = Integer::create(127);
         static::assertEquals("\x2\x1\x7f", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function positive128()
     {
         $int = Integer::create(128);
         static::assertEquals("\x2\x2\x0\x80", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function positive255()
     {
         $int = Integer::create(255);
         static::assertEquals("\x2\x2\x0\xff", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function positive256()
     {
         $int = Integer::create(256);
         static::assertEquals("\x2\x2\x01\x00", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function positive32767()
     {
         $int = Integer::create(32767);
         static::assertEquals("\x2\x2\x7f\xff", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function positive32768()
     {
         $int = Integer::create(32768);
         static::assertEquals("\x2\x3\x0\x80\x00", $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative1()
     {
         $int = Integer::create(-1);
@@ -117,9 +96,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative2()
     {
         $int = Integer::create(-2);
@@ -127,9 +104,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative127()
     {
         $int = Integer::create(-127);
@@ -137,9 +112,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative128()
     {
         $int = Integer::create(-128);
@@ -147,9 +120,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative129()
     {
         $int = Integer::create(-129);
@@ -157,9 +128,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative255()
     {
         $int = Integer::create(-255);
@@ -167,9 +136,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative256()
     {
         $int = Integer::create(-256);
@@ -177,9 +144,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative257()
     {
         $int = Integer::create(-257);
@@ -187,9 +152,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative32767()
     {
         $int = Integer::create(-32767);
@@ -197,9 +160,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative32768()
     {
         $int = Integer::create(-32768);
@@ -207,9 +168,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative32769()
     {
         $int = Integer::create(-32769);
@@ -217,9 +176,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative65535()
     {
         $int = Integer::create(-65535);
@@ -227,9 +184,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative65536()
     {
         $int = Integer::create(-65536);
@@ -237,9 +192,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negative65537()
     {
         $int = Integer::create(-65537);
@@ -247,9 +200,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hugePositive()
     {
         $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xfffe), 16);
@@ -258,9 +209,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($der, $int->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hugeNegative()
     {
         $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xfffe), 16));

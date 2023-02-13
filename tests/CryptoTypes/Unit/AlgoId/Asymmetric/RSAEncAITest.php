@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Asymmetric;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -17,9 +19,8 @@ final class RSAEncAITest extends TestCase
 {
     /**
      * @return Sequence
-     *
-     * @test
      */
+    #[Test]
     public function encode()
     {
         $ai = RSAEncryptionAlgorithmIdentifier::create();
@@ -28,11 +29,8 @@ final class RSAEncAITest extends TestCase
         return $seq;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -40,11 +38,8 @@ final class RSAEncAITest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
@@ -52,12 +47,9 @@ final class RSAEncAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
-    public function name(AlgorithmIdentifier $algo)
+    #[Test]
+    #[Depends('decode')]
+    public function verifyName(AlgorithmIdentifier $algo = null)
     {
         static::assertIsString($algo->name());
     }

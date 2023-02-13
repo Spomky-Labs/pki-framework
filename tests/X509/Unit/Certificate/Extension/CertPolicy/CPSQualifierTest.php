@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\CertPolicy;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\CPSQualifier;
@@ -15,9 +17,7 @@ final class CPSQualifierTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $qual = CPSQualifier::create(self::URI);
@@ -25,11 +25,8 @@ final class CPSQualifierTest extends TestCase
         return $qual;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(CPSQualifier $qual)
     {
         $el = $qual->toASN1();
@@ -38,12 +35,10 @@ final class CPSQualifierTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $qual = CPSQualifier::fromASN1(Sequence::fromDER($data));
@@ -51,32 +46,23 @@ final class CPSQualifierTest extends TestCase
         return $qual;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(CPSQualifier $ref, CPSQualifier $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function uRI(CPSQualifier $qual)
     {
         static::assertEquals(self::URI, $qual->uri());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(CPSQualifier $qual)
     {
         static::assertEquals(CPSQualifier::OID_CPS, $qual->oid());

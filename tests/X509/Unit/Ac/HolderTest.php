@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -44,9 +46,7 @@ final class HolderTest extends TestCase
         self::$_odi = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $holder = Holder::create(self::$_issuerSerial, self::$_subject);
@@ -55,11 +55,8 @@ final class HolderTest extends TestCase
         return $holder;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Holder $holder)
     {
         $seq = $holder->toASN1();
@@ -68,12 +65,10 @@ final class HolderTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $holder = Holder::fromASN1(Sequence::fromDER($data));
@@ -81,50 +76,36 @@ final class HolderTest extends TestCase
         return $holder;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Holder $ref, Holder $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function baseCertificateID(Holder $holder)
     {
         static::assertEquals(self::$_issuerSerial, $holder->baseCertificateID());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function entityName(Holder $holder)
     {
         static::assertEquals(self::$_subject, $holder->entityName());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function objectDigestInfo(Holder $holder)
     {
         static::assertEquals(self::$_odi, $holder->objectDigestInfo());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withBaseCertificateID()
     {
         $holder = Holder::create();
@@ -132,9 +113,7 @@ final class HolderTest extends TestCase
         static::assertInstanceOf(Holder::class, $holder);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withEntityName()
     {
         $holder = Holder::create();
@@ -142,9 +121,7 @@ final class HolderTest extends TestCase
         static::assertInstanceOf(Holder::class, $holder);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function withObjectDigestInfo()
     {
         $holder = Holder::create();
@@ -152,9 +129,7 @@ final class HolderTest extends TestCase
         static::assertInstanceOf(Holder::class, $holder);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noBaseCertificateIDFail()
     {
         $holder = Holder::create();
@@ -162,9 +137,7 @@ final class HolderTest extends TestCase
         $holder->baseCertificateID();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noEntityNameFail()
     {
         $holder = Holder::create();
@@ -172,9 +145,7 @@ final class HolderTest extends TestCase
         $holder->entityName();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noObjectDigestInfoFail()
     {
         $holder = Holder::create();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcmeCert\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
@@ -16,9 +18,8 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
 {
     /**
      * @return AuthorityKeyIdentifierExtension
-     *
-     * @test
      */
+    #[Test]
     public function authorityKeyIdentifier()
     {
         $ext = self::$_extensions->authorityKeyIdentifier();
@@ -26,11 +27,8 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
         return $ext;
     }
 
-    /**
-     * @depends authorityKeyIdentifier
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('authorityKeyIdentifier')]
     public function authorityKeyIdentifierKey(AuthorityKeyIdentifierExtension $aki)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/keys/acme-interm-rsa.pem');
@@ -40,11 +38,8 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
         static::assertEquals($keyid, $aki->keyIdentifier());
     }
 
-    /**
-     * @depends authorityKeyIdentifier
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('authorityKeyIdentifier')]
     public function authorityKeyIdentifierIssuer(AuthorityKeyIdentifierExtension $aki)
     {
         $issuer_dn = $aki->issuer()

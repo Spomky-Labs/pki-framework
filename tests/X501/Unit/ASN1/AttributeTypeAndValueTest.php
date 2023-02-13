@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
@@ -15,9 +17,7 @@ use function strval;
  */
 final class AttributeTypeAndValueTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $atv = AttributeTypeAndValue::fromAttributeValue(NameValue::create('one'));
@@ -25,11 +25,8 @@ final class AttributeTypeAndValueTest extends TestCase
         return $atv;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeTypeAndValue $atv)
     {
         $der = $atv->toASN1()
@@ -39,12 +36,10 @@ final class AttributeTypeAndValueTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $atv = AttributeTypeAndValue::fromASN1(Sequence::fromDER($der));
@@ -52,42 +47,30 @@ final class AttributeTypeAndValueTest extends TestCase
         return $atv;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeTypeAndValue $ref, AttributeTypeAndValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function value(AttributeTypeAndValue $atv)
     {
         static::assertEquals('one', $atv->value()->rfc2253String());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function string(AttributeTypeAndValue $atv)
     {
         static::assertEquals('name=one', $atv->toString());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function toStringMethod(AttributeTypeAndValue $atv)
     {
         static::assertIsString(strval($atv));
