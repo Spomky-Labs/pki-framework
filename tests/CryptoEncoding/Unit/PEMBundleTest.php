@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoEncoding\Unit;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -19,9 +21,8 @@ final class PEMBundleTest extends TestCase
 {
     /**
      * @return PEMBundle
-     *
-     * @test
      */
+    #[Test]
     public function bundle()
     {
         $bundle = PEMBundle::fromFile(TEST_ASSETS_DIR . '/cacert.pem');
@@ -29,53 +30,38 @@ final class PEMBundleTest extends TestCase
         return $bundle;
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function all(PEMBundle $bundle)
     {
         static::assertContainsOnlyInstancesOf(PEM::class, $bundle->all());
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function first(PEMBundle $bundle)
     {
         static::assertInstanceOf(PEM::class, $bundle->first());
         static::assertEquals($bundle->all()[0], $bundle->first());
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function last(PEMBundle $bundle)
     {
         static::assertInstanceOf(PEM::class, $bundle->last());
         static::assertEquals($bundle->all()[149], $bundle->last());
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function countMethod(PEMBundle $bundle)
     {
         static::assertCount(150, $bundle);
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function iterator(PEMBundle $bundle)
     {
         $values = [];
@@ -85,38 +71,28 @@ final class PEMBundleTest extends TestCase
         static::assertContainsOnlyInstancesOf(PEM::class, $values);
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function string(PEMBundle $bundle)
     {
         static::assertIsString($bundle->string());
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function toStringMethod(PEMBundle $bundle)
     {
         static::assertIsString(strval($bundle));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEM()
     {
         $this->expectException(UnexpectedValueException::class);
         PEMBundle::fromString('invalid');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEMData()
     {
         $str = <<<'CODE_SAMPLE'
@@ -128,18 +104,14 @@ CODE_SAMPLE;
         PEMBundle::fromString($str);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidFile()
     {
         $this->expectException(RuntimeException::class);
         PEMBundle::fromFile(TEST_ASSETS_DIR . '/nonexistent');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstEmptyFail()
     {
         $bundle = PEMBundle::create();
@@ -147,9 +119,7 @@ CODE_SAMPLE;
         $bundle->first();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function lastEmptyFail()
     {
         $bundle = PEMBundle::create();
@@ -157,11 +127,8 @@ CODE_SAMPLE;
         $bundle->last();
     }
 
-    /**
-     * @depends bundle
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('bundle')]
     public function withPEMs(PEMBundle $bundle)
     {
         $bundle = $bundle->withPEMs(PEM::create('TEST', 'data'));

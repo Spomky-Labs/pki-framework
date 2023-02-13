@@ -6,6 +6,8 @@ namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use BadMethodCallException;
 use function mb_strlen;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -28,9 +30,8 @@ final class PublicKeyInfoTest extends TestCase
 {
     /**
      * @return PublicKeyInfo
-     *
-     * @test
      */
+    #[Test]
     public function decodeRSA()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
@@ -39,11 +40,8 @@ final class PublicKeyInfoTest extends TestCase
         return $pki;
     }
 
-    /**
-     * @depends decodeRSA
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeRSA')]
     public function algoObj(PublicKeyInfo $pki)
     {
         $ref = RSAEncryptionAlgorithmIdentifier::create();
@@ -52,21 +50,15 @@ final class PublicKeyInfoTest extends TestCase
         return $algo;
     }
 
-    /**
-     * @depends algoObj
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('algoObj')]
     public function algoOID(AlgorithmIdentifier $algo)
     {
         static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
-    /**
-     * @depends decodeRSA
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeRSA')]
     public function getRSAPublicKey(PublicKeyInfo $pki)
     {
         $pk = $pki->publicKey();
@@ -75,9 +67,8 @@ final class PublicKeyInfoTest extends TestCase
 
     /**
      * @return PublicKeyInfo
-     *
-     * @test
      */
+    #[Test]
     public function decodeEC()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
@@ -86,11 +77,8 @@ final class PublicKeyInfoTest extends TestCase
         return $pki;
     }
 
-    /**
-     * @depends decodeEC
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeEC')]
     public function getECPublicKey(PublicKeyInfo $pki)
     {
         $pk = $pki->publicKey();
@@ -99,9 +87,8 @@ final class PublicKeyInfoTest extends TestCase
 
     /**
      * @return PublicKeyInfo
-     *
-     * @test
      */
+    #[Test]
     public function fromRSAPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
@@ -110,11 +97,8 @@ final class PublicKeyInfoTest extends TestCase
         return $pki;
     }
 
-    /**
-     * @depends fromRSAPEM
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('fromRSAPEM')]
     public function toPEM(PublicKeyInfo $pki)
     {
         $pem = $pki->toPEM();
@@ -122,20 +106,15 @@ final class PublicKeyInfoTest extends TestCase
         return $pem;
     }
 
-    /**
-     * @depends toPEM
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('toPEM')]
     public function recodedPEM(PEM $pem)
     {
         $ref = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         static::assertEquals($ref, $pem);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeFromRSAPublicKey()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
@@ -143,31 +122,23 @@ final class PublicKeyInfoTest extends TestCase
         static::assertInstanceOf(PublicKeyInfo::class, $pki);
     }
 
-    /**
-     * @depends decodeRSA
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeRSA')]
     public function keyIdentifier(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier();
         static::assertEquals(160, mb_strlen($id, '8bit') * 8);
     }
 
-    /**
-     * @depends decodeRSA
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeRSA')]
     public function keyIdentifier64(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier64();
         static::assertEquals(64, mb_strlen($id, '8bit') * 8);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEMType()
     {
         $pem = PEM::create('nope', '');
@@ -175,11 +146,8 @@ final class PublicKeyInfoTest extends TestCase
         PublicKeyInfo::fromPEM($pem);
     }
 
-    /**
-     * @depends decodeRSA
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decodeRSA')]
     public function invalidAI(PublicKeyInfo $pki)
     {
         $seq = $pki->toASN1();
@@ -191,9 +159,7 @@ final class PublicKeyInfoTest extends TestCase
         PublicKeyInfo::fromASN1($seq)->publicKey();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidECAlgoFail()
     {
         $pki = PublicKeyInfo::create(new PubliceKeyInfoTest_InvalidECAlgo(), BitString::create(''));

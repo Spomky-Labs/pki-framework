@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Integration\Attribute;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
@@ -29,11 +31,8 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeValue\TitleValue;
  */
 final class ValueInitializationTest extends TestCase
 {
-    /**
-     * @dataProvider provideStringAttribClasses
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('provideStringAttribClasses')]
     public function create($cls, $oid)
     {
         $el = AttributeType::asn1StringForType($oid, 'Test');
@@ -41,10 +40,8 @@ final class ValueInitializationTest extends TestCase
         static::assertInstanceOf($cls, $val);
     }
 
-    /**
-     * @dataProvider provideStringAttribClasses
-     * @test
-     */
+    #[Test]
+    #[DataProvider('provideStringAttribClasses')]
     public function aSN1(string $class)
     {
         $val = $class::create('Test');
@@ -52,7 +49,7 @@ final class ValueInitializationTest extends TestCase
         static::assertInstanceOf(StringType::class, $el);
     }
 
-    public function provideStringAttribClasses(): Iterator
+    public static function provideStringAttribClasses(): Iterator
     {
         yield [CommonNameValue::class, AttributeType::OID_COMMON_NAME];
         yield [SurnameValue::class, AttributeType::OID_SURNAME];

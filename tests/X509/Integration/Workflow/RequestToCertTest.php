@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\Workflow;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
@@ -47,9 +49,7 @@ final class RequestToCertTest extends TestCase
         self::$_subjectKey = null;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createCA()
     {
         $name = Name::fromString('cn=Issuer');
@@ -69,9 +69,7 @@ final class RequestToCertTest extends TestCase
         return $cert;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createRequest()
     {
         $subject = Name::fromString('cn=Subject');
@@ -84,12 +82,9 @@ final class RequestToCertTest extends TestCase
         return $csr;
     }
 
-    /**
-     * @depends createRequest
-     * @depends createCA
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createRequest')]
+    #[Depends('createCA')]
     public function issueCertificate(CertificationRequest $csr, Certificate $ca_cert)
     {
         $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate($ca_cert);
@@ -105,12 +100,9 @@ final class RequestToCertTest extends TestCase
         return $cert;
     }
 
-    /**
-     * @depends createCA
-     * @depends issueCertificate
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createCA')]
+    #[Depends('issueCertificate')]
     public function buildPath(Certificate $ca, Certificate $cert)
     {
         $path = CertificationPath::fromTrustAnchorToTarget($ca, $cert);
@@ -118,11 +110,8 @@ final class RequestToCertTest extends TestCase
         return $path;
     }
 
-    /**
-     * @depends buildPath
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('buildPath')]
     public function validatePath(CertificationPath $path)
     {
         $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2016-05-02 12:30:00'));

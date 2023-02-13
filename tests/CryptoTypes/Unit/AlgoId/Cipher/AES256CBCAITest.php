@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Cipher;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -19,9 +21,8 @@ final class AES256CBCAITest extends TestCase
 
     /**
      * @return Sequence
-     *
-     * @test
      */
+    #[Test]
     public function encode()
     {
         $ai = AES256CBCAlgorithmIdentifier::create(self::IV);
@@ -30,11 +31,8 @@ final class AES256CBCAITest extends TestCase
         return $seq;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -42,21 +40,15 @@ final class AES256CBCAITest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function iV(AES256CBCAlgorithmIdentifier $ai)
     {
         static::assertEquals(self::IV, $ai->initializationVector());
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
@@ -64,41 +56,30 @@ final class AES256CBCAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function blockSize(AES256CBCAlgorithmIdentifier $ai)
     {
         static::assertEquals(16, $ai->blockSize());
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('decode')]
     public function keySize(AES256CBCAlgorithmIdentifier $ai)
     {
         static::assertEquals(32, $ai->keySize());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidIVSizeFail()
     {
         $this->expectException(UnexpectedValueException::class);
         AES256CBCAlgorithmIdentifier::create('1234');
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
-    public function name(AlgorithmIdentifier $algo)
+    #[Test]
+    #[Depends('decode')]
+    public function verifyName(AlgorithmIdentifier $algo = null)
     {
         static::assertIsString($algo->name());
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\DistPoint;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ImplicitTagging;
 use SpomkyLabs\Pki\ASN1\Type\TaggedType;
@@ -17,9 +19,7 @@ final class FullNameTest extends TestCase
 {
     public const URI = 'urn:test';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $name = FullName::fromURI(self::URI);
@@ -27,11 +27,8 @@ final class FullNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(FullName $name)
     {
         $el = $name->toASN1();
@@ -40,12 +37,10 @@ final class FullNameTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $name = FullName::fromTaggedType(TaggedType::fromDER($data));
@@ -53,22 +48,16 @@ final class FullNameTest extends TestCase
         return $name;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(FullName $ref, FullName $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function names(FullName $name)
     {
         $names = $name->names();

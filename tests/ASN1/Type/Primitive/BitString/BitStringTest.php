@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\BitString;
 
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -18,9 +21,7 @@ use UnexpectedValueException;
  */
 final class BitStringTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $el = BitString::create('');
@@ -28,21 +29,15 @@ final class BitStringTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_BIT_STRING, $el->tag());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -50,11 +45,8 @@ final class BitStringTest extends TestCase
         return $der;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(string $data): BitString
     {
         $el = BitString::fromDER($data);
@@ -62,61 +54,48 @@ final class BitStringTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    /**
-     * @dataProvider ffProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('ffProvider')]
     public function range8(int $start, int $length, string $result)
     {
         $bs = BitString::create("\xff");
         static::assertEquals($result, $bs->range($start, $length));
     }
 
-    public function ffProvider(): array
+    public static function ffProvider(): array
     {
         return [[0, 8, strval(0xff)], [1, 2, strval(0x03)], [6, 2, strval(0x03)], [2, 4, strval(0x0f)]];
     }
 
-    /**
-     * @dataProvider ffffProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('ffffProvider')]
     public function range16(int $start, int $length, string $result)
     {
         $bs = BitString::create("\xff\xff");
         static::assertEquals($result, $bs->range($start, $length));
     }
 
-    public function ffffProvider(): array
+    public static function ffffProvider(): array
     {
         return [[0, 8, strval(0xff)], [6, 4, strval(0x0f)], [12, 4, strval(0x0f)]];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function emptyRange()
     {
         $bs = BitString::create("\0");
         static::assertEquals(0, $bs->range(0, 0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rangeOOB()
     {
         $bs = BitString::create("\xff");
@@ -125,20 +104,15 @@ final class BitStringTest extends TestCase
         $bs->range(7, 2);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(BitString::class, $wrap->asBitString());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());

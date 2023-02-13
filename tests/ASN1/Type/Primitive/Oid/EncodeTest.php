@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Oid;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 
@@ -12,18 +13,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
  */
 final class EncodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function empty()
     {
         $oid = ObjectIdentifier::create('');
         static::assertEquals("\x6\0", $oid->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encodeLong()
     {
         $oid = ObjectIdentifier::create('1.2.840.113549');

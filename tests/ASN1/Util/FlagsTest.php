@@ -6,6 +6,8 @@ namespace SpomkyLabs\Pki\Test\ASN1\Util;
 
 use Brick\Math\BigInteger;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Util\Flags;
@@ -15,18 +17,15 @@ use SpomkyLabs\Pki\ASN1\Util\Flags;
  */
 final class FlagsTest extends TestCase
 {
-    /**
-     * @dataProvider flagsProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('flagsProvider')]
     public function flags(BigInteger|int|string $num, int $width, string $result)
     {
         $flags = Flags::create($num, $width);
         static::assertEquals($result, $flags->string());
     }
 
-    public function flagsProvider(): array
+    public static function flagsProvider(): array
     {
         return [
             [1, 0, ''],
@@ -48,18 +47,15 @@ final class FlagsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider setBitProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('setBitProvider')]
     public function setBit(int $num, int $width, int $idx)
     {
         $flags = Flags::create($num, $width);
         static::assertTrue($flags->test($idx));
     }
 
-    public function setBitProvider(): array
+    public static function setBitProvider(): array
     {
         return [
             [1, 1, 0],
@@ -74,29 +70,24 @@ final class FlagsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider unsetBitProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('unsetBitProvider')]
     public function unsetBit(int $num, int $width, int $idx)
     {
         $flags = Flags::create($num, $width);
         static::assertFalse($flags->test($idx));
     }
 
-    public function unsetBitProvider(): array
+    public static function unsetBitProvider(): array
     {
         return [[0x7f, 8, 0], [0xfe, 8, 7], [0xff7f, 8, 0], [0xff7f, 12, 4], [0xff7f, 16, 8]];
     }
 
     /**
-     * @dataProvider toBitStringProvider
-     *
      * @param string $result
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('toBitStringProvider')]
     public function toBitString(int $num, int $width, $result, int $unused_bits)
     {
         $flags = Flags::create($num, $width);
@@ -105,7 +96,7 @@ final class FlagsTest extends TestCase
         static::assertEquals($unused_bits, $bs->unusedBits());
     }
 
-    public function toBitStringProvider(): array
+    public static function toBitStringProvider(): array
     {
         return [
             [0, 0, '', 0],
@@ -120,18 +111,15 @@ final class FlagsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider fromBitStringProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('fromBitStringProvider')]
     public function fromBitString(string $str, int $unused_bits, int $width, string $result)
     {
         $flags = Flags::fromBitString(BitString::create($str, $unused_bits), $width);
         static::assertEquals($result, $flags->string());
     }
 
-    public function fromBitStringProvider(): array
+    public static function fromBitStringProvider(): array
     {
         return [
             ["\xff", 0, 8, "\xff"],
@@ -145,19 +133,17 @@ final class FlagsTest extends TestCase
     }
 
     /**
-     * @dataProvider numberProvider
-     *
      * @param number $result
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('numberProvider')]
     public function number(BigInteger|int|string $num, int $width, $result)
     {
         $flags = Flags::create($num, $width);
         static::assertEquals($result, $flags->number());
     }
 
-    public function numberProvider(): array
+    public static function numberProvider(): array
     {
         return [
             [0xff, 8, 255],
@@ -181,13 +167,11 @@ final class FlagsTest extends TestCase
     }
 
     /**
-     * @dataProvider bitStringToNumberProvider
-     *
      * @param string $str
      * @param number $number
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('bitStringToNumberProvider')]
     public function bitStringToNumber($str, int $unused_bits, int $width, $number)
     {
         $bs = BitString::create($str, $unused_bits);
@@ -195,24 +179,23 @@ final class FlagsTest extends TestCase
         static::assertEquals($number, $flags->number());
     }
 
-    public function bitStringToNumberProvider(): array
+    public static function bitStringToNumberProvider(): array
     {
         return [["\x20", 5, 9, 64]];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function intNumber()
     {
         $flags = Flags::create(0x80, 16);
         static::assertSame($flags->intNumber(), 128);
     }
 
+    #[Test]
     /**
      * @test
      */
-    public function testOOB()
+    public function oOB()
     {
         $flags = Flags::create(0, 8);
         $this->expectException(OutOfBoundsException::class);

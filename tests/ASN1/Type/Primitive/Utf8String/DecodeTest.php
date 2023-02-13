@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Utf8String;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
@@ -13,18 +14,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = UTF8String::fromDER("\x0c\x0");
         static::assertInstanceOf(UTF8String::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function value()
     {
         $str = '⠠⠓⠑⠇⠇⠕ ⠠⠺⠕⠗⠇⠙!';
@@ -32,9 +29,7 @@ final class DecodeTest extends TestCase
         static::assertEquals($str, $el->string());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidValue()
     {
         $str = "Hello W\x94rld!";

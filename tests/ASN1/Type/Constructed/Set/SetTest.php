@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\Set;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
@@ -18,9 +20,7 @@ use UnexpectedValueException;
  */
 final class SetTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $set = Set::create(NullType::create(), Boolean::create(true));
@@ -28,21 +28,15 @@ final class SetTest extends TestCase
         return $set;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function tag(Element $el)
     {
         static::assertEquals(Element::TYPE_SET, $el->tag());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Element $el): string
     {
         $der = $el->toDER();
@@ -50,11 +44,8 @@ final class SetTest extends TestCase
         return $der;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(string $data): Set
     {
         $el = Set::fromDER($data);
@@ -62,20 +53,15 @@ final class SetTest extends TestCase
         return $el;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Element $ref, Element $el)
     {
         static::assertEquals($ref, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function sortSame()
     {
         $set = Set::create(NullType::create(), NullType::create());
@@ -83,20 +69,15 @@ final class SetTest extends TestCase
         static::assertEquals($set, $sorted);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function wrapped(Element $el)
     {
         $wrap = UnspecifiedType::create($el);
         static::assertInstanceOf(Set::class, $wrap->asSet());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wrappedFail()
     {
         $wrap = UnspecifiedType::create(NullType::create());

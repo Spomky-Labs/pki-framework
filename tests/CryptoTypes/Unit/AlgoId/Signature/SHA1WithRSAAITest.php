@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Signature;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -15,9 +17,7 @@ use UnexpectedValueException;
  */
 final class SHA1WithRSAAITest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function encode(): Sequence
     {
         $ai = SHA1WithRSAEncryptionAlgorithmIdentifier::create();
@@ -26,11 +26,8 @@ final class SHA1WithRSAAITest extends TestCase
         return $seq;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq): AlgorithmIdentifier|SHA1WithRSAEncryptionAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -38,11 +35,8 @@ final class SHA1WithRSAAITest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeNoParamsFail(Sequence $seq): void
     {
         $seq = $seq->withoutElement(1);
@@ -50,11 +44,8 @@ final class SHA1WithRSAAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeInvalidParamsFail(Sequence $seq): void
     {
         $seq = $seq->withReplaced(1, Sequence::create());
@@ -62,12 +53,9 @@ final class SHA1WithRSAAITest extends TestCase
         AlgorithmIdentifier::fromASN1($seq);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
-    public function name(AlgorithmIdentifier $algo): void
+    #[Test]
+    #[Depends('decode')]
+    public function verifyName(AlgorithmIdentifier $algo = null): void
     {
         static::assertIsString($algo->name());
     }

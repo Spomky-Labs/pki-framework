@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\Signature;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -15,9 +17,7 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\GenericSignature;
  */
 final class GenericSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): GenericSignature
     {
         $sig = GenericSignature::create(BitString::create('test'), SHA1WithRSAEncryptionAlgorithmIdentifier::create());
@@ -25,21 +25,15 @@ final class GenericSignatureTest extends TestCase
         return $sig;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function bitString(GenericSignature $sig)
     {
         static::assertInstanceOf(BitString::class, $sig->bitString());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function signatureAlgorithm(GenericSignature $sig)
     {
         static::assertInstanceOf(AlgorithmIdentifier::class, $sig->signatureAlgorithm());

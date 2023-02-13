@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X501\Unit\ASN1;
 
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 use SpomkyLabs\Pki\X501\ASN1\AttributeType;
@@ -14,9 +16,7 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeType;
  */
 final class AttributeTypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $type = AttributeType::fromName('name');
@@ -24,11 +24,8 @@ final class AttributeTypeTest extends TestCase
         return $type;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeType $type)
     {
         $der = $type->toASN1()
@@ -38,12 +35,10 @@ final class AttributeTypeTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $type = AttributeType::fromASN1(ObjectIdentifier::fromDER($der));
@@ -51,40 +46,29 @@ final class AttributeTypeTest extends TestCase
         return $type;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeType $ref, AttributeType $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(AttributeType $type)
     {
         static::assertEquals(AttributeType::OID_NAME, $type->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
-    public function name(AttributeType $type)
+    #[Test]
+    #[Depends('create')]
+    public function verifyName(AttributeType $type = null)
     {
         static::assertEquals('name', $type->typeName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unknownName()
     {
         static $oid = '1.3.6.1.3';
@@ -92,9 +76,7 @@ final class AttributeTypeTest extends TestCase
         static::assertEquals($oid, $type->typeName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function nameToOIDFail()
     {
         $this->expectException(OutOfBoundsException::class);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\AlgoId\Hash;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -16,9 +18,8 @@ final class MD5AITest extends TestCase
 {
     /**
      * @return Sequence
-     *
-     * @test
      */
+    #[Test]
     public function encode()
     {
         $ai = MD5AlgorithmIdentifier::create();
@@ -27,11 +28,8 @@ final class MD5AITest extends TestCase
         return $seq;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decode(Sequence $seq)
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
@@ -39,11 +37,8 @@ final class MD5AITest extends TestCase
         return $ai;
     }
 
-    /**
-     * @depends encode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('encode')]
     public function decodeWithoutParams(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
@@ -51,12 +46,9 @@ final class MD5AITest extends TestCase
         static::assertInstanceOf(MD5AlgorithmIdentifier::class, $ai);
     }
 
-    /**
-     * @depends decode
-     *
-     * @test
-     */
-    public function name(AlgorithmIdentifier $algo)
+    #[Test]
+    #[Depends('decode')]
+    public function naverifyNameme(AlgorithmIdentifier $algo = null)
     {
         static::assertIsString($algo->name());
     }

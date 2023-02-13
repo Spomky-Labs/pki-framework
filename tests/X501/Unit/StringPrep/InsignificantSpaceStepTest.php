@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X501\Unit\StringPrep;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\X501\StringPrep\InsignificantNonSubstringSpaceStep;
 
@@ -13,20 +15,18 @@ use SpomkyLabs\Pki\X501\StringPrep\InsignificantNonSubstringSpaceStep;
 final class InsignificantSpaceStepTest extends TestCase
 {
     /**
-     * @dataProvider provideApplyNonSubstring
-     *
      * @param string $string
      * @param string $expected
-     *
-     * @test
      */
+    #[Test]
+    #[DataProvider('provideApplyNonSubstring')]
     public function applyNonSubstring($string, $expected)
     {
         $step = new InsignificantNonSubstringSpaceStep();
         static::assertEquals($expected, $step->apply($string));
     }
 
-    public function provideApplyNonSubstring(): iterable
+    public static function provideApplyNonSubstring(): iterable
     {
         static $nb_space = "\xc2\xa0";
         static $en_space = "\xe2\x80\x82";

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\BitString;
 
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -14,27 +15,21 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = BitString::fromDER("\x3\x2\x0\xff");
         static::assertInstanceOf(BitString::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unusedBits()
     {
         $el = BitString::fromDER("\x3\x3\x4\xff\xf0");
         static::assertEquals(4, $el->unusedBits());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function numBits()
     {
         $el = BitString::fromDER("\x3\x3\x4\xff\xf0");
@@ -43,9 +38,8 @@ final class DecodeTest extends TestCase
 
     /**
      * Test that exception is thrown if unused bits are not zero.
-     *
-     * @test
      */
+    #[Test]
     public function derPadding()
     {
         $this->expectException(DecodeException::class);
@@ -53,18 +47,14 @@ final class DecodeTest extends TestCase
         BitString::fromDER("\x3\x3\x4\xff\xf8");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setBit()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
         static::assertTrue($el->testBit(4));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unsetBit()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
@@ -73,9 +63,8 @@ final class DecodeTest extends TestCase
 
     /**
      * Test that testing unused bit throws an exception.
-     *
-     * @test
      */
+    #[Test]
     public function bitFail()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
@@ -86,9 +75,8 @@ final class DecodeTest extends TestCase
 
     /**
      * Test that testing out of bounds throws an exception.
-     *
-     * @test
      */
+    #[Test]
     public function bitFail2()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
@@ -97,9 +85,7 @@ final class DecodeTest extends TestCase
         $el->testBit(16);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function lengthFail()
     {
         $this->expectException(DecodeException::class);
@@ -107,9 +93,7 @@ final class DecodeTest extends TestCase
         BitString::fromDER("\x3\x0");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unusedBitsFail()
     {
         $this->expectException(DecodeException::class);

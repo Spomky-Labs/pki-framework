@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Null;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
@@ -13,18 +14,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function type()
     {
         $el = NullType::fromDER("\x5\0");
         static::assertInstanceOf(NullType::class, $el);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidLength()
     {
         $this->expectException(DecodeException::class);
@@ -32,9 +29,7 @@ final class DecodeTest extends TestCase
         NullType::fromDER("\x5\x1\x0");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notPrimitive()
     {
         $this->expectException(DecodeException::class);

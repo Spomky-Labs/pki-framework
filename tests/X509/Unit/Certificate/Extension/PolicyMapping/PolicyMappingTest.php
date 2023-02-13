@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension\PolicyMapping;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyMappings\PolicyMapping;
@@ -17,9 +19,7 @@ final class PolicyMappingTest extends TestCase
 
     public const SUBJECT_POLICY = '1.3.6.1.3.2';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $mapping = PolicyMapping::create(self::ISSUER_POLICY, self::SUBJECT_POLICY);
@@ -27,11 +27,8 @@ final class PolicyMappingTest extends TestCase
         return $mapping;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(PolicyMapping $mapping)
     {
         $el = $mapping->toASN1();
@@ -40,12 +37,10 @@ final class PolicyMappingTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $data
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($data)
     {
         $mapping = PolicyMapping::fromASN1(Sequence::fromDER($data));
@@ -53,32 +48,23 @@ final class PolicyMappingTest extends TestCase
         return $mapping;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(PolicyMapping $ref, PolicyMapping $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function issuerDomainPolicy(PolicyMapping $mapping)
     {
         static::assertEquals(self::ISSUER_POLICY, $mapping->issuerDomainPolicy());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function subjectDomainPolicy(PolicyMapping $mapping)
     {
         static::assertEquals(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());

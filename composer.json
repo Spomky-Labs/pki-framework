@@ -41,6 +41,11 @@
             "name": "Joni Eskelinen",
             "email": "jonieske@gmail.com",
             "role": "Original developer"
+        },
+        {
+            "name": "Florent Morselli",
+            "email": "florent.morselli@spomky-labs.com",
+            "role": "Spomky-Labs PKI Framework developer"
         }
     ],
     "require": {
@@ -64,7 +69,8 @@
         "symfony/phpunit-bridge": "^6.1",
         "symfony/var-dumper": "^6.1",
         "symplify/easy-coding-standard": "^11.1",
-        "thecodingmachine/phpstan-safe-rule": "^1.2"
+        "thecodingmachine/phpstan-safe-rule": "^1.2",
+        "phpunit/phpunit": "^10.0"
     },
     "suggest": {
         "ext-openssl": "For OpenSSL based cyphering",

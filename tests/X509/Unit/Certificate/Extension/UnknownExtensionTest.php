@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -17,9 +19,8 @@ final class UnknownExtensionTest extends TestCase
 {
     /**
      * @return UnknownExtension
-     *
-     * @test
      */
+    #[Test]
     public function createWithDER()
     {
         $ext = UnknownExtension::create('1.3.6.1.3.1', true, NullType::create());
@@ -27,11 +28,8 @@ final class UnknownExtensionTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends createWithDER
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithDER')]
     public function extensionValueDER(UnknownExtension $ext)
     {
         $expect = (NullType::create())->toDER();
@@ -40,9 +38,8 @@ final class UnknownExtensionTest extends TestCase
 
     /**
      * @return UnknownExtension
-     *
-     * @test
      */
+    #[Test]
     public function createFromString()
     {
         $ext = UnknownExtension::fromRawString('1.3.6.1.3.1', true, 'DATA');
@@ -50,21 +47,15 @@ final class UnknownExtensionTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends createFromString
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createFromString')]
     public function extensionValueRaw(UnknownExtension $ext)
     {
         static::assertEquals('DATA', $ext->extensionValue());
     }
 
-    /**
-     * @depends createWithDER
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithDER')]
     public function extensionValueASN1(UnknownExtension $ext)
     {
         $cls = new ReflectionClass(UnknownExtension::class);

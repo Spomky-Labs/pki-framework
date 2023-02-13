@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Real;
 
 use Brick\Math\BigInteger;
 use LogicException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RangeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
@@ -15,18 +16,14 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
  */
 final class EncodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function longExponent()
     {
         $real = Real::create(1, BigInteger::fromBase('40000000', 16), 2);
         static::assertEquals(hex2bin('090783044000000001'), $real->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidSpecial()
     {
         $real = Real::create(0, Real::INF_EXPONENT, 10);
@@ -35,9 +32,7 @@ final class EncodeTest extends TestCase
         $real->toDER();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function mantissaNormalization()
     {
         $real = Real::create(8, 0, 2);
@@ -45,9 +40,7 @@ final class EncodeTest extends TestCase
         static::assertEquals(8.0, Real::fromDER($real->toDER())->floatVal());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function mantissaNormalizationBase8()
     {
         $real = (Real::create(8, 3, 2))->withStrictDER(false);
@@ -55,9 +48,7 @@ final class EncodeTest extends TestCase
         static::assertEquals(64.0, Real::fromDER($real->toDER())->floatVal());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function mantissaNormalizationBase16()
     {
         $real = (Real::create(16, 4, 2))->withStrictDER(false);
@@ -65,9 +56,7 @@ final class EncodeTest extends TestCase
         static::assertEquals(256.0, Real::fromDER($real->toDER())->floatVal());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function scaleFactor()
     {
         $real = (Real::create(128, 4, 2))->withStrictDER(false);
@@ -75,9 +64,7 @@ final class EncodeTest extends TestCase
         static::assertEquals(2048.0, Real::fromDER($real->toDER())->floatVal());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function veryLongExponent()
     {
         $real = Real::create(1, BigInteger::fromBase('40' . str_repeat('00', 254), 16), 2);
@@ -85,9 +72,7 @@ final class EncodeTest extends TestCase
         static::assertEquals($expected, $real->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tooLongExponent()
     {
         $real = Real::create(1, BigInteger::fromBase('40' . str_repeat('00', 255), 16), 2);

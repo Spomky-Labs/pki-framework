@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
@@ -16,9 +17,7 @@ use UnexpectedValueException;
  */
 final class PublicKeyTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function fromRSAPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
@@ -26,9 +25,7 @@ final class PublicKeyTest extends TestCase
         static::assertInstanceOf(RSAPublicKey::class, $pk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromRSAPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
@@ -38,9 +35,8 @@ final class PublicKeyTest extends TestCase
 
     /**
      * @return PublicKey
-     *
-     * @test
      */
+    #[Test]
     public function fromECPKIPEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
@@ -49,9 +45,7 @@ final class PublicKeyTest extends TestCase
         return $pk;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rSAPKIRecode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
@@ -59,9 +53,7 @@ final class PublicKeyTest extends TestCase
         static::assertEquals($pem, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eCPKIRecode()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
@@ -69,9 +61,7 @@ final class PublicKeyTest extends TestCase
         static::assertEquals($pem, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidPEM()
     {
         $pem = PEM::create('nope', '');

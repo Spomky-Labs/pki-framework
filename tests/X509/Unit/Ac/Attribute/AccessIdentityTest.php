@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
@@ -20,9 +22,7 @@ final class AccessIdentityTest extends TestCase
 
     final public const IDENT_URI = 'urn:username';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $value = AccessIdentityAttributeValue::create(
@@ -33,11 +33,8 @@ final class AccessIdentityTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -46,12 +43,10 @@ final class AccessIdentityTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $value = AccessIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -59,52 +54,37 @@ final class AccessIdentityTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(AttributeValue $value)
     {
         static::assertEquals(AccessIdentityAttributeValue::OID, $value->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function service(AccessIdentityAttributeValue $value)
     {
         static::assertEquals(self::SERVICE_URI, $value->service());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function ident(AccessIdentityAttributeValue $value)
     {
         static::assertEquals(self::IDENT_URI, $value->ident());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
@@ -112,11 +92,8 @@ final class AccessIdentityTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends attributes
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('attributes')]
     public function fromAttributes(Attributes $attribs)
     {
         static::assertInstanceOf(AccessIdentityAttributeValue::class, $attribs->accessIdentity());

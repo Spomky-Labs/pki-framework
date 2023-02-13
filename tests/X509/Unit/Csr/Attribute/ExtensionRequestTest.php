@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Csr\Attribute;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
@@ -17,9 +19,7 @@ use function strval;
  */
 final class ExtensionRequestTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $value = ExtensionRequestValue::create(Extensions::create());
@@ -27,11 +27,8 @@ final class ExtensionRequestTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -40,12 +37,10 @@ final class ExtensionRequestTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $value = ExtensionRequestValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -53,72 +48,51 @@ final class ExtensionRequestTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(AttributeValue $value)
     {
         static::assertEquals(ExtensionRequestValue::OID, $value->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function extensions(ExtensionRequestValue $value)
     {
         static::assertInstanceOf(Extensions::class, $value->extensions());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function stringValue(ExtensionRequestValue $value)
     {
         static::assertIsString($value->stringValue());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function equalityMatchingRule(ExtensionRequestValue $value)
     {
         static::assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function rFC2253String(ExtensionRequestValue $value)
     {
         static::assertIsString($value->rfc2253String());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function toStringMethod(ExtensionRequestValue $value)
     {
         static::assertIsString(strval($value));

@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
     bootstrap="tests/bootstrap.php"
-    cacheResultFile=".phpunit.cache/test-results"
-    executionOrder="depends,defects"
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
-    failOnRisky="true"
-    failOnWarning="true"
+    executionOrder="default"
 >
-    <coverage processUncoveredFiles="true" cacheDirectory=".phpunit.cache/code-coverage">
+    <coverage>
         <include>
             <directory suffix=".php">src</directory>
         </include>
     </coverage>
     <testsuites>
-        <testsuite name="all">
-            <directory>tests/</directory>
+        <testsuite name="ASN1">
+            <directory>tests/ASN1</directory>
+        </testsuite>
+        <testsuite name="CryptoBridge">
+            <directory>tests/CryptoBridge</directory>
+        </testsuite>
+        <testsuite name="CryptoEncoding">
+            <directory>tests/CryptoEncoding</directory>
+        </testsuite>
+        <testsuite name="CryptoTypes">
+            <directory>tests/CryptoTypes</directory>
+        </testsuite>
+        <testsuite name="X501">
+            <directory>tests/X501</directory>
+        </testsuite>
+        <testsuite name="X509">
+            <directory>tests/X509</directory>
         </testsuite>
     </testsuites>
     <php>
@@ -27,11 +37,7 @@
         <server name="APP_ENV" value="test" force="true"/>
         <server name="SHELL_VERBOSITY" value="-1"/>
         <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
-        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>
+        <server name="SYMFONY_PHPUNIT_VERSION" value="10"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-        <listener class="Symfony\Bridge\PhpUnit\CoverageListener"/>
-    </listeners>
 </phpunit>

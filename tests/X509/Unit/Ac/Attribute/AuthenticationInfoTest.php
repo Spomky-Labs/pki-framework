@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\AttributeValue;
@@ -22,9 +24,7 @@ final class AuthenticationInfoTest extends TestCase
 
     final public const AUTH_INFO = 'password';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $value = AuthenticationInfoAttributeValue::create(
@@ -36,11 +36,8 @@ final class AuthenticationInfoTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -49,12 +46,10 @@ final class AuthenticationInfoTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $value = AuthenticationInfoAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -62,62 +57,44 @@ final class AuthenticationInfoTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(AttributeValue $value)
     {
         static::assertEquals(AuthenticationInfoAttributeValue::OID, $value->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function service(AuthenticationInfoAttributeValue $value)
     {
         static::assertEquals(self::SERVICE_URI, $value->service());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function ident(AuthenticationInfoAttributeValue $value)
     {
         static::assertEquals(self::IDENT_URI, $value->ident());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function authInfo(AuthenticationInfoAttributeValue $value)
     {
         static::assertEquals(self::AUTH_INFO, $value->authInfo());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
@@ -125,11 +102,8 @@ final class AuthenticationInfoTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends attributes
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('attributes')]
     public function fromAttributes(Attributes $attribs)
     {
         static::assertInstanceOf(AuthenticationInfoAttributeValue::class, $attribs->authenticationInformation());

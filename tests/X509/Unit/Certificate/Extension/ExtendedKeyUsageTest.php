@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate\Extension;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X509\Certificate\Extension\ExtendedKeyUsageExtension;
@@ -15,9 +17,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
  */
 final class ExtendedKeyUsageTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $ext = ExtendedKeyUsageExtension::create(
@@ -29,31 +29,22 @@ final class ExtendedKeyUsageTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(Extension $ext)
     {
         static::assertEquals(Extension::OID_EXT_KEY_USAGE, $ext->oid());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function critical(Extension $ext)
     {
         static::assertTrue($ext->isCritical());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(Extension $ext)
     {
         $seq = $ext->toASN1();
@@ -62,12 +53,10 @@ final class ExtendedKeyUsageTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $ext = ExtendedKeyUsageExtension::fromASN1(Sequence::fromDER($der));
@@ -75,22 +64,16 @@ final class ExtendedKeyUsageTest extends TestCase
         return $ext;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(Extension $ref, Extension $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function has(ExtendedKeyUsageExtension $ext)
     {
         static::assertTrue(
@@ -98,41 +81,29 @@ final class ExtendedKeyUsageTest extends TestCase
         );
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function hasNot(ExtendedKeyUsageExtension $ext)
     {
         static::assertFalse($ext->has(ExtendedKeyUsageExtension::OID_TIME_STAMPING));
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function purposes(ExtendedKeyUsageExtension $ext)
     {
         static::assertContainsOnly('string', $ext->purposes());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function countMethod(ExtendedKeyUsageExtension $ext)
     {
         static::assertCount(2, $ext);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function iterator(ExtendedKeyUsageExtension $ext)
     {
         $values = [];
@@ -142,11 +113,8 @@ final class ExtendedKeyUsageTest extends TestCase
         static::assertContainsOnly('string', $values);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function extensions(ExtendedKeyUsageExtension $ext)
     {
         $extensions = Extensions::create($ext);
@@ -154,11 +122,8 @@ final class ExtendedKeyUsageTest extends TestCase
         return $extensions;
     }
 
-    /**
-     * @depends extensions
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('extensions')]
     public function fromExtensions(Extensions $exts)
     {
         $ext = $exts->extendedKeyUsage();

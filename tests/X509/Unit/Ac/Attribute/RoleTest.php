@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac\Attribute;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\X501\ASN1\AttributeType;
@@ -26,9 +28,7 @@ final class RoleTest extends TestCase
 
     final public const AUTHORITY_DN = 'cn=Role Authority';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function create()
     {
         $value = RoleAttributeValue::create(
@@ -39,11 +39,8 @@ final class RoleTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function encode(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -52,12 +49,10 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends encode
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encode')]
     public function decode($der)
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -65,30 +60,22 @@ final class RoleTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends create
-     * @depends decode
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
+    #[Depends('decode')]
     public function recoded(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function oID(AttributeValue $value)
     {
         static::assertEquals(AttributeType::OID_ROLE, $value->oid());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fromString()
     {
         $value = RoleAttributeValue::fromString(
@@ -98,31 +85,22 @@ final class RoleTest extends TestCase
         static::assertInstanceOf(RoleAttributeValue::class, $value);
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function roleName(RoleAttributeValue $value)
     {
         static::assertEquals(self::ROLE_URI, $value->roleName());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function roleAuthority(RoleAttributeValue $value)
     {
         static::assertEquals(self::AUTHORITY_DN, $value->roleAuthority()->firstDN());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function attributes(AttributeValue $value)
     {
         $attribs = Attributes::fromAttributeValues($value);
@@ -130,29 +108,21 @@ final class RoleTest extends TestCase
         return $attribs;
     }
 
-    /**
-     * @depends attributes
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('attributes')]
     public function fromAttributes(Attributes $attribs)
     {
         static::assertInstanceOf(RoleAttributeValue::class, $attribs->role());
     }
 
-    /**
-     * @depends attributes
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('attributes')]
     public function allFromAttributes(Attributes $attribs)
     {
         static::assertContainsOnlyInstancesOf(RoleAttributeValue::class, $attribs->roles());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function allFromMultipleAttributes()
     {
         $attribs = Attributes::fromAttributeValues(
@@ -162,9 +132,7 @@ final class RoleTest extends TestCase
         static::assertCount(2, $attribs->roles());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createWithoutAuthority()
     {
         $value = RoleAttributeValue::create(UniformResourceIdentifier::create(self::ROLE_URI));
@@ -172,11 +140,8 @@ final class RoleTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends createWithoutAuthority
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithoutAuthority')]
     public function encodeWithoutAuthority(AttributeValue $value)
     {
         $el = $value->toASN1();
@@ -185,12 +150,10 @@ final class RoleTest extends TestCase
     }
 
     /**
-     * @depends encodeWithoutAuthority
-     *
      * @param string $der
-     *
-     * @test
      */
+    #[Test]
+    #[Depends('encodeWithoutAuthority')]
     public function decodeWithoutAuthority($der)
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
@@ -198,63 +161,45 @@ final class RoleTest extends TestCase
         return $value;
     }
 
-    /**
-     * @depends createWithoutAuthority
-     * @depends decodeWithoutAuthority
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithoutAuthority')]
+    #[Depends('decodeWithoutAuthority')]
     public function recodedWithoutAuthority(AttributeValue $ref, AttributeValue $new)
     {
         static::assertEquals($ref, $new);
     }
 
-    /**
-     * @depends createWithoutAuthority
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('createWithoutAuthority')]
     public function noRoleAuthorityFail(RoleAttributeValue $value)
     {
         $this->expectException(LogicException::class);
         $value->roleAuthority();
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function stringValue(AttributeValue $value)
     {
         static::assertIsString($value->stringValue());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function equalityMatchingRule(AttributeValue $value)
     {
         static::assertInstanceOf(MatchingRule::class, $value->equalityMatchingRule());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function rFC2253String(AttributeValue $value)
     {
         static::assertIsString($value->rfc2253String());
     }
 
-    /**
-     * @depends create
-     *
-     * @test
-     */
+    #[Test]
+    #[Depends('create')]
     public function toStringMethod(AttributeValue $value)
     {
         static::assertIsString(strval($value));

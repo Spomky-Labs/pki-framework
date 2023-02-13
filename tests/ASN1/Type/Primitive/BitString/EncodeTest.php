@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\BitString;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 
@@ -12,18 +14,15 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
  */
 final class EncodeTest extends TestCase
 {
-    /**
-     * @dataProvider withoutTrailingZeroesProvider
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('withoutTrailingZeroesProvider')]
     public function withoutTrailingZeroes(string $bits, string $expected)
     {
         $bs = BitString::create($bits);
         static::assertEquals($expected, $bs->withoutTrailingZeroes()->toDER());
     }
 
-    public function withoutTrailingZeroesProvider(): array
+    public static function withoutTrailingZeroesProvider(): array
     {
         return [
             ['', "\x3\x1\x0"],

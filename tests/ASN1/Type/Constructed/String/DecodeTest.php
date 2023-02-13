@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed\String;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString;
@@ -15,9 +16,7 @@ use UnexpectedValueException;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeDefinite()
     {
         $el = ConstructedString::fromDER(hex2bin('2400'));
@@ -25,9 +24,7 @@ final class DecodeTest extends TestCase
         static::assertFalse($el->hasIndefiniteLength());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeIndefinite()
     {
         $el = ConstructedString::fromDER(hex2bin('24800000'));
@@ -35,9 +32,7 @@ final class DecodeTest extends TestCase
         static::assertTrue($el->hasIndefiniteLength());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidCallingClass()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -45,9 +40,7 @@ final class DecodeTest extends TestCase
         NullType::fromDER(hex2bin('2400'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decodeBitString()
     {
         $el = ConstructedString::fromDER(hex2bin('23800301000000'));

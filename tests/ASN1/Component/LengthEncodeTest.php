@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
 use DomainException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 
@@ -14,54 +15,42 @@ use SpomkyLabs\Pki\ASN1\Component\Length;
  */
 final class LengthEncodeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function definite()
     {
         $length = Length::create(0, false);
         static::assertEquals("\x0", $length->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function indefinite()
     {
         $length = Length::create(0, true);
         static::assertEquals("\x80", $length->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function short()
     {
         $length = Length::create(0x7f);
         static::assertEquals("\x7f", $length->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function long()
     {
         $length = Length::create(0xff);
         static::assertEquals("\x81\xff", $length->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function long2()
     {
         $length = Length::create(0xcafe);
         static::assertEquals("\x82\xca\xfe", $length->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hugeLength()
     {
         $largenum = BigInteger::fromBase(str_repeat('ff', 126), 16);
@@ -70,9 +59,7 @@ final class LengthEncodeTest extends TestCase
         static::assertEquals($expected, $length->toDER());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tooLong()
     {
         $largenum = BigInteger::fromBase(str_repeat('ff', 127), 16);
@@ -82,9 +69,7 @@ final class LengthEncodeTest extends TestCase
         $length->toDER();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tooLong2()
     {
         $largenum = BigInteger::fromBase(str_repeat('ff', 128), 16);
