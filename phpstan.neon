@@ -1,11 +1,11 @@
 parameters:
-    level: max
-    paths:
-        - src
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
-    checkUninitializedProperties: true
-    treatPhpDocTypesAsCertain: false
+	level: max
+	paths:
+		- src
+	checkMissingIterableValueType: true
+	checkGenericClassInNonGenericObjectType: true
+	checkUninitializedProperties: true
+	treatPhpDocTypesAsCertain: false
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - phpstan-baseline.neon
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- phpstan-baseline.neon
