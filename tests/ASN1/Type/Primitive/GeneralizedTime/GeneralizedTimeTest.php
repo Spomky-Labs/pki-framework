@@ -14,8 +14,8 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\GeneralizedTime;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\TimeType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -34,7 +34,7 @@ final class GeneralizedTimeTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_GENERALIZED_TIME, $el->tag());
+        static::assertSame(Element::TYPE_GENERALIZED_TIME, $el->tag());
     }
 
     #[Test]
@@ -60,7 +60,7 @@ final class GeneralizedTimeTest extends TestCase
     #[Depends('decode')]
     public function recoded(TimeType $ref, TimeType $el)
     {
-        static::assertEquals($ref->dateTime()->getTimestamp(), $el->dateTime()->getTimestamp());
+        static::assertSame($ref->dateTime()->getTimestamp(), $el->dateTime()->getTimestamp());
     }
 
     #[Test]
@@ -92,8 +92,8 @@ final class GeneralizedTimeTest extends TestCase
     #[Depends('create')]
     public function stringable(TimeType $time)
     {
-        static::assertEquals('20060102220405Z', $time->string());
-        static::assertEquals('20060102220405Z', strval($time));
+        static::assertSame('20060102220405Z', $time->string());
+        static::assertSame('20060102220405Z', strval($time));
     }
 
     /**
@@ -108,6 +108,6 @@ final class GeneralizedTimeTest extends TestCase
         $str = $el->string();
         $der = $el->toDER();
         $el = GeneralizedTime::fromDER($der);
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 }

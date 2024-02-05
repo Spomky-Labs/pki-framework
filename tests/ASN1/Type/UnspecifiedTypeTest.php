@@ -100,7 +100,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
-        static::assertEquals($el->toDER(), $wrap->toDER());
+        static::assertSame($el->toDER(), $wrap->toDER());
     }
 
     #[Test]
@@ -108,7 +108,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
-        static::assertEquals($el->typeClass(), $wrap->typeClass());
+        static::assertSame($el->typeClass(), $wrap->typeClass());
     }
 
     #[Test]
@@ -124,7 +124,7 @@ final class UnspecifiedTypeTest extends TestCase
     {
         $el = NullType::create();
         $wrap = UnspecifiedType::create($el);
-        static::assertEquals($el->tag(), $wrap->tag());
+        static::assertSame($el->tag(), $wrap->tag());
     }
 
     #[Test]

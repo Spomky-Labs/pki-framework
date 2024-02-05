@@ -25,49 +25,49 @@ final class DecodeTest extends TestCase
     public function decode()
     {
         $el = ObjectIdentifier::fromDER("\x06\x06\x2a\x86\x48\x86\xf7\x0d");
-        static::assertEquals('1.2.840.113549', $el->oid());
+        static::assertSame('1.2.840.113549', $el->oid());
     }
 
     #[Test]
     public function firstZero()
     {
         $el = ObjectIdentifier::fromDER("\x6\x1\x0");
-        static::assertEquals('0.0', $el->oid());
+        static::assertSame('0.0', $el->oid());
     }
 
     #[Test]
     public function first39()
     {
         $el = ObjectIdentifier::fromDER("\x6\x1\x27");
-        static::assertEquals('0.39', $el->oid());
+        static::assertSame('0.39', $el->oid());
     }
 
     #[Test]
     public function first40()
     {
         $el = ObjectIdentifier::fromDER("\x6\x1\x28");
-        static::assertEquals('1.0', $el->oid());
+        static::assertSame('1.0', $el->oid());
     }
 
     #[Test]
     public function first41()
     {
         $el = ObjectIdentifier::fromDER("\x6\x1\x29");
-        static::assertEquals('1.1', $el->oid());
+        static::assertSame('1.1', $el->oid());
     }
 
     #[Test]
     public function first79()
     {
         $el = ObjectIdentifier::fromDER("\x6\x1\x4f");
-        static::assertEquals('1.39', $el->oid());
+        static::assertSame('1.39', $el->oid());
     }
 
     #[Test]
     public function first80()
     {
         $el = ObjectIdentifier::fromDER("\x6\x1\x50");
-        static::assertEquals('2.0', $el->oid());
+        static::assertSame('2.0', $el->oid());
     }
 
     #[Test]
@@ -75,7 +75,7 @@ final class DecodeTest extends TestCase
     {
         // 0x1fffff
         $el = ObjectIdentifier::fromDER("\x6\x3\xff\xff\x7f");
-        static::assertEquals('2.2097071', $el->oid());
+        static::assertSame('2.2097071', $el->oid());
     }
 
     #[Test]

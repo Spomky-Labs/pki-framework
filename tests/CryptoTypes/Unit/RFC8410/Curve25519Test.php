@@ -39,7 +39,7 @@ final class Curve25519Test extends TestCase
     public function recodeEd25519WithPub(Ed25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_public_key.pem');
-        static::assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertSame($pem->data(), $pk->toPEM()->data());
     }
 
     #[Test]
@@ -57,7 +57,7 @@ final class Curve25519Test extends TestCase
     public function recodeEd25519(Ed25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
-        static::assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertSame($pem->data(), $pk->toPEM()->data());
     }
 
     #[Test]
@@ -69,7 +69,7 @@ final class Curve25519Test extends TestCase
 D4 EE 72 DB F9 13 58 4A D5 B6 D8 F1 F7 69 F8 AD
 3A FE 7C 28 CB F1 D4 FB E0 97 A8 8F 44 75 58 42
 CODE_SAMPLE;
-        $data = hex2bin(preg_replace('/[^\w]+/', '', $data));
+        $data = hex2bin((string) preg_replace('/[^\w]+/', '', $data));
         static::assertEquals($data, $pk->privateKeyData());
     }
 
@@ -163,7 +163,7 @@ CODE_SAMPLE;
     public function recodeEd25519Pub(Ed25519PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_public_key.pem');
-        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertSame($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     #[Test]
@@ -197,7 +197,7 @@ CODE_SAMPLE;
     public function recodeX25519(X25519PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
-        static::assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertSame($pem->data(), $pk->toPEM()->data());
     }
 
     #[Test]
@@ -214,7 +214,7 @@ CODE_SAMPLE;
     public function recodeX25519Pub(X25519PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_public_key.pem');
-        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertSame($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     #[Test]

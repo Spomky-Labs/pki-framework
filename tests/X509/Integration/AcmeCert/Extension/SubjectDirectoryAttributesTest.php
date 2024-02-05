@@ -33,6 +33,6 @@ final class SubjectDirectoryAttributesTest extends RefExtTestHelper
         $desc = $sda->firstOf(AttributeType::OID_DESCRIPTION)
             ->first()
             ->stringValue();
-        static::assertEquals('A Company Manufacturing Everything', $desc);
+        static::assertSame('A Company Manufacturing Everything', $desc);
     }
 }

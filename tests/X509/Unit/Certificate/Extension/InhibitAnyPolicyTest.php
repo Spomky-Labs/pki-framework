@@ -29,7 +29,7 @@ final class InhibitAnyPolicyTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_INHIBIT_ANY_POLICY, $ext->oid());
+        static::assertSame(Extension::OID_INHIBIT_ANY_POLICY, $ext->oid());
     }
 
     #[Test]
@@ -72,7 +72,7 @@ final class InhibitAnyPolicyTest extends TestCase
     #[Depends('create')]
     public function skipCerts(InhibitAnyPolicyExtension $ext)
     {
-        static::assertEquals(3, $ext->skipCerts());
+        static::assertSame(3, $ext->skipCerts());
     }
 
     #[Test]

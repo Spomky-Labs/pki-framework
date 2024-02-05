@@ -101,7 +101,7 @@ final class CertificationRequestInfoTest extends TestCase
     #[Depends('create')]
     public function version(CertificationRequestInfo $cri)
     {
-        static::assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
+        static::assertSame(CertificationRequestInfo::VERSION_1, $cri->version());
     }
 
     #[Test]
@@ -171,7 +171,7 @@ final class CertificationRequestInfoTest extends TestCase
             ->names()
             ->firstDN()
             ->toString();
-        static::assertEquals(self::SAN_DN, $dn);
+        static::assertSame(self::SAN_DN, $dn);
     }
 
     #[Test]

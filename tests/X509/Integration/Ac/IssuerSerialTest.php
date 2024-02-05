@@ -60,7 +60,7 @@ final class IssuerSerialTest extends TestCase
     #[Depends('fromCertificate')]
     public function serial(IssuerSerial $is)
     {
-        static::assertEquals(self::$_cert->tbsCertificate()->serialNumber(), $is->serial());
+        static::assertSame(self::$_cert->tbsCertificate()->serialNumber(), $is->serial());
     }
 
     #[Test]

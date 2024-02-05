@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Constructed;
 
+use Iterator;
 use OutOfBoundsException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -29,9 +30,12 @@ final class StructureTest extends TestCase
         static::assertEquals($seq->has($idx), $result);
     }
 
-    public static function hasProvider(): array
+    public static function hasProvider(): Iterator
     {
-        return [[0, true], [1, true], [2, true], [3, false]];
+        yield [0, true];
+        yield [1, true];
+        yield [2, true];
+        yield [3, false];
     }
 
     #[Test]
@@ -42,14 +46,12 @@ final class StructureTest extends TestCase
         static::assertEquals($seq->has($idx, $type), $result);
     }
 
-    public static function hasTypeProvider(): array
+    public static function hasTypeProvider(): Iterator
     {
-        return [
-            [0, Element::TYPE_NULL, true],
-            [0, Element::TYPE_INTEGER, false],
-            [1, Element::TYPE_BOOLEAN, true],
-            [2, Element::TYPE_NULL, false],
-        ];
+        yield [0, Element::TYPE_NULL, true];
+        yield [0, Element::TYPE_INTEGER, false];
+        yield [1, Element::TYPE_BOOLEAN, true];
+        yield [2, Element::TYPE_NULL, false];
     }
 
     #[Test]
@@ -59,7 +61,7 @@ final class StructureTest extends TestCase
         $der = $el->toDER();
         $parts = Structure::explodeDER($der);
         $null = "\x5\x0";
-        static::assertEquals([$null, $null, $null], $parts);
+        static::assertSame([$null, $null, $null], $parts);
     }
 
     #[Test]

@@ -32,7 +32,7 @@ final class UnknownAttributeValueTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $val)
     {
-        static::assertEquals(self::OID, $val->oid());
+        static::assertSame(self::OID, $val->oid());
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class UnknownAttributeValueTest extends TestCase
     #[Depends('create')]
     public function string(AttributeValue $val)
     {
-        static::assertEquals('Test', $val->rfc2253String());
+        static::assertSame('Test', $val->rfc2253String());
     }
 
     #[Test]

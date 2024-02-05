@@ -17,13 +17,13 @@ final class EncodeTest extends TestCase
     public function zero()
     {
         $oid = RelativeOID::create('0');
-        static::assertEquals("\x0d\1\0", $oid->toDER());
+        static::assertSame("\x0d\1\0", $oid->toDER());
     }
 
     #[Test]
     public function encodeLong()
     {
         $oid = RelativeOID::create('1.2.840.113549');
-        static::assertEquals("\x0d\x07\x01\02\x86\x48\x86\xf7\x0d", $oid->toDER());
+        static::assertSame("\x0d\x07\x01\02\x86\x48\x86\xf7\x0d", $oid->toDER());
     }
 }

@@ -37,7 +37,7 @@ final class EncodeTest extends TestCase
     {
         $real = Real::create(8, 0, 2);
         static::assertEquals(hex2bin('0903800301'), $real->toDER());
-        static::assertEquals(8.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertSame(8.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     #[Test]
@@ -45,7 +45,7 @@ final class EncodeTest extends TestCase
     {
         $real = (Real::create(8, 3, 2))->withStrictDER(false);
         static::assertEquals(hex2bin('0903900201'), $real->toDER());
-        static::assertEquals(64.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertSame(64.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     #[Test]
@@ -53,7 +53,7 @@ final class EncodeTest extends TestCase
     {
         $real = (Real::create(16, 4, 2))->withStrictDER(false);
         static::assertEquals(hex2bin('0903A00201'), $real->toDER());
-        static::assertEquals(256.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertSame(256.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     #[Test]
@@ -61,7 +61,7 @@ final class EncodeTest extends TestCase
     {
         $real = (Real::create(128, 4, 2))->withStrictDER(false);
         static::assertEquals(hex2bin('0903AC0201'), $real->toDER());
-        static::assertEquals(2048.0, Real::fromDER($real->toDER())->floatVal());
+        static::assertSame(2048.0, Real::fromDER($real->toDER())->floatVal());
     }
 
     #[Test]

@@ -30,7 +30,7 @@ final class BooleanTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_BOOLEAN, $el->tag());
+        static::assertSame(Element::TYPE_BOOLEAN, $el->tag());
     }
 
     #[Test]

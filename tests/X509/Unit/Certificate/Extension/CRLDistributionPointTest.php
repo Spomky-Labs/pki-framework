@@ -55,7 +55,7 @@ final class CRLDistributionPointTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_CRL_DISTRIBUTION_POINTS, $ext->oid());
+        static::assertSame(Extension::OID_CRL_DISTRIBUTION_POINTS, $ext->oid());
     }
 
     #[Test]
@@ -129,7 +129,7 @@ final class CRLDistributionPointTest extends TestCase
         $uri = $dp->fullName()
             ->names()
             ->firstURI();
-        static::assertEquals(self::DP_URI, $uri);
+        static::assertSame(self::DP_URI, $uri);
     }
 
     #[Test]
@@ -143,7 +143,7 @@ final class CRLDistributionPointTest extends TestCase
     #[Depends('distributionPoint')]
     public function dPIssuer(DistributionPoint $dp)
     {
-        static::assertEquals(self::ISSUER_DN, $dp->crlIssuer()->firstDN());
+        static::assertSame(self::ISSUER_DN, $dp->crlIssuer()->firstDN()->toString());
     }
 
     #[Test]

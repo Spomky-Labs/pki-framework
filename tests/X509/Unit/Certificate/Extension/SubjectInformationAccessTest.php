@@ -40,7 +40,7 @@ final class SubjectInformationAccessTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_SUBJECT_INFORMATION_ACCESS, $ext->oid());
+        static::assertSame(Extension::OID_SUBJECT_INFORMATION_ACCESS, $ext->oid());
     }
 
     #[Test]

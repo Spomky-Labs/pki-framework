@@ -77,7 +77,7 @@ final class CertificatePoliciesTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_CERTIFICATE_POLICIES, $ext->oid());
+        static::assertSame(Extension::OID_CERTIFICATE_POLICIES, $ext->oid());
     }
 
     #[Test]
@@ -199,7 +199,7 @@ final class CertificatePoliciesTest extends TestCase
     #[Depends('cPS')]
     public function cPSURI(CPSQualifier $cps)
     {
-        static::assertEquals(self::CPS_URI, $cps->uri());
+        static::assertSame(self::CPS_URI, $cps->uri());
     }
 
     #[Test]
@@ -215,7 +215,7 @@ final class CertificatePoliciesTest extends TestCase
     #[Depends('userNotice')]
     public function userNoticeExplicit(UserNoticeQualifier $notice)
     {
-        static::assertEquals(self::NOTICE_TXT, $notice->explicitText());
+        static::assertSame(self::NOTICE_TXT, $notice->explicitText()->string());
     }
 
     #[Test]
@@ -231,14 +231,14 @@ final class CertificatePoliciesTest extends TestCase
     #[Depends('userNoticeRef')]
     public function refOrg(NoticeReference $ref)
     {
-        static::assertEquals(self::REF_ORG, $ref->organization());
+        static::assertSame(self::REF_ORG, $ref->organization()->string());
     }
 
     #[Test]
     #[Depends('userNoticeRef')]
     public function refNumbers(NoticeReference $ref)
     {
-        static::assertEquals([1, 2, 3], $ref->numbers());
+        static::assertSame([1, 2, 3], $ref->numbers());
     }
 
     #[Test]

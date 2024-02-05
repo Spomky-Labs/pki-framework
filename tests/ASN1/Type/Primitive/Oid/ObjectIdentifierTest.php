@@ -31,7 +31,7 @@ final class ObjectIdentifierTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $el->tag());
+        static::assertSame(Element::TYPE_OBJECT_IDENTIFIER, $el->tag());
     }
 
     #[Test]
@@ -126,7 +126,7 @@ final class ObjectIdentifierTest extends TestCase
     {
         $x = ObjectIdentifier::create($oid);
         $der = $x->toDER();
-        static::assertEquals($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier()->oid());
+        static::assertSame($oid, UnspecifiedType::fromDER($der)->asObjectIdentifier()->oid());
     }
 
     /**

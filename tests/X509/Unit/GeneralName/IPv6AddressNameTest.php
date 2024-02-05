@@ -50,7 +50,7 @@ final class IPv6AddressNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_IP_ADDRESS, $el->tag());
+        static::assertSame(GeneralName::TAG_IP_ADDRESS, $el->tag());
     }
 
     /**
@@ -77,7 +77,7 @@ final class IPv6AddressNameTest extends TestCase
     #[Depends('create')]
     public function iPv6(IPAddress $ip)
     {
-        static::assertEquals(self::ADDR, $ip->address());
+        static::assertSame(self::ADDR, $ip->address());
     }
 
     #[Test]
@@ -121,7 +121,7 @@ final class IPv6AddressNameTest extends TestCase
     #[Depends('createWithMask')]
     public function mask(IPAddress $ip)
     {
-        static::assertEquals(self::MASK, $ip->mask());
+        static::assertSame(self::MASK, $ip->mask());
     }
 
     #[Test]

@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Real;
 
-use const INF;
-use const M_PI;
-use const NAN;
-use const PHP_FLOAT_MAX;
-use const PHP_FLOAT_MIN;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
@@ -18,6 +13,11 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
+use const INF;
+use const M_PI;
+use const NAN;
+use const PHP_FLOAT_MAX;
+use const PHP_FLOAT_MIN;
 
 /**
  * @internal
@@ -36,7 +36,7 @@ final class RealTest extends TestCase
     #[Depends('create')]
     public function tag(Real $el)
     {
-        static::assertEquals(Element::TYPE_REAL, $el->tag());
+        static::assertSame(Element::TYPE_REAL, $el->tag());
     }
 
     #[Test]
@@ -62,7 +62,7 @@ final class RealTest extends TestCase
     #[Depends('decode')]
     public function recoded(Real $ref, Real $el)
     {
-        static::assertEquals($ref->nr3Val(), $el->nr3Val());
+        static::assertSame($ref->nr3Val(), $el->nr3Val());
     }
 
     #[Test]
@@ -93,21 +93,21 @@ final class RealTest extends TestCase
     #[Depends('create')]
     public function mantissa(Real $el)
     {
-        static::assertEquals(314, $el->mantissa()->toInt());
+        static::assertSame(314, $el->mantissa()->toInt());
     }
 
     #[Test]
     #[Depends('create')]
     public function exponent(Real $el)
     {
-        static::assertEquals(-2, $el->exponent()->toInt());
+        static::assertSame(-2, $el->exponent()->toInt());
     }
 
     #[Test]
     #[Depends('create')]
     public function base(Real $el)
     {
-        static::assertEquals(10, $el->base());
+        static::assertSame(10, $el->base());
     }
 
     #[Test]
@@ -116,7 +116,7 @@ final class RealTest extends TestCase
     {
         $real = Real::fromFloat($number);
         $recoded = Real::fromDER($real->toDER());
-        static::assertEquals($number, $recoded->floatVal());
+        static::assertSame($number, $recoded->floatVal());
     }
 
     #[Test]
@@ -125,7 +125,7 @@ final class RealTest extends TestCase
     {
         $real = Real::fromFloat($number)->withStrictDER(false);
         $recoded = Real::fromDER($real->toDER());
-        static::assertEquals($number, $recoded->floatVal());
+        static::assertSame($number, $recoded->floatVal());
     }
 
     public static function provideFromFloat(): iterable
@@ -172,49 +172,49 @@ final class RealTest extends TestCase
     public function fromNR3()
     {
         $real = Real::fromString('-123,456E-3');
-        static::assertEquals(-0.123456, $real->floatVal());
+        static::assertSame(-0.123456, $real->floatVal());
     }
 
     #[Test]
     public function fromNR3Zero()
     {
         $real = Real::fromString('0,0E1');
-        static::assertEquals(0.0, $real->floatVal());
+        static::assertSame(0.0, $real->floatVal());
     }
 
     #[Test]
     public function fromNR2()
     {
         $real = Real::fromString('-123,456');
-        static::assertEquals(-123.456, $real->floatVal());
+        static::assertSame(-123.456, $real->floatVal());
     }
 
     #[Test]
     public function fromNR2Zero()
     {
         $real = Real::fromString('0,0');
-        static::assertEquals(0.0, $real->floatVal());
+        static::assertSame(0.0, $real->floatVal());
     }
 
     #[Test]
     public function fromNR1()
     {
         $real = Real::fromString('-123');
-        static::assertEquals(-123, $real->floatVal());
+        static::assertEqualsWithDelta(-123, $real->floatVal(), 0.0001);
     }
 
     #[Test]
     public function fromNR1Zero()
     {
         $real = Real::fromString('0');
-        static::assertEquals(0.0, $real->floatVal());
+        static::assertSame(0.0, $real->floatVal());
     }
 
     #[Test]
     public function parseNormalize()
     {
         $real = Real::fromString('100');
-        static::assertEquals(2, $real->exponent()->toInt());
+        static::assertSame(2, $real->exponent()->toInt());
     }
 
     #[Test]
@@ -229,20 +229,20 @@ final class RealTest extends TestCase
     public function base2ToNR3()
     {
         $real = Real::fromFloat(-123.456);
-        static::assertEquals('-123456.E-3', $real->nr3Val());
+        static::assertSame('-123456.E-3', $real->nr3Val());
     }
 
     #[Test]
     public function nr3ShiftZeroes()
     {
         $real = Real::create(100, 0, 10);
-        static::assertEquals('1.E2', $real->nr3Val());
+        static::assertSame('1.E2', $real->nr3Val());
     }
 
     #[Test]
     public function nr3ZeroExponent()
     {
         $real = Real::create(1, 0, 10);
-        static::assertEquals('1.E+0', $real->nr3Val());
+        static::assertSame('1.E+0', $real->nr3Val());
     }
 }

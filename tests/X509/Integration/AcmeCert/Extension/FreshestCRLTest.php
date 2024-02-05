@@ -51,7 +51,7 @@ final class FreshestCRLTest extends RefExtTestHelper
     public function relativeName(DistributionPoint $dp)
     {
         $name = $dp->distributionPointName();
-        static::assertEquals(DistributionPointName::TAG_RDN, $name->tag());
+        static::assertSame(DistributionPointName::TAG_RDN, $name->tag());
         return $name;
     }
 
@@ -59,7 +59,7 @@ final class FreshestCRLTest extends RefExtTestHelper
     #[Depends('relativeName')]
     public function rDN(RelativeName $name)
     {
-        static::assertEquals('cn=Delta Distribution Point', $name->rdn()->toString());
+        static::assertSame('cn=Delta Distribution Point', $name->rdn()->toString());
     }
 
     /**
@@ -105,6 +105,6 @@ final class FreshestCRLTest extends RefExtTestHelper
     public function issuerDirName(GeneralNames $gn)
     {
         $dn = $gn->firstOf(GeneralName::TAG_DIRECTORY_NAME)->dn();
-        static::assertEquals('cn=ACME,o=ACME Ltd.', $dn->toString());
+        static::assertSame('cn=ACME,o=ACME Ltd.', $dn->toString());
     }
 }

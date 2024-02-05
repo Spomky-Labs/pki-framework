@@ -19,21 +19,21 @@ final class ExplicitlyTaggedEncodeTest extends TestCase
     public function null()
     {
         $el = ExplicitlyTaggedType::create(0, NullType::create());
-        static::assertEquals("\xa0\x2\x5\x0", $el->toDER());
+        static::assertSame("\xa0\x2\x5\x0", $el->toDER());
     }
 
     #[Test]
     public function nested()
     {
         $el = ExplicitlyTaggedType::create(1, ExplicitlyTaggedType::create(2, NullType::create()));
-        static::assertEquals("\xa1\x4\xa2\x2\x5\x0", $el->toDER());
+        static::assertSame("\xa1\x4\xa2\x2\x5\x0", $el->toDER());
     }
 
     #[Test]
     public function longTag()
     {
         $el = ExplicitlyTaggedType::create(255, NullType::create());
-        static::assertEquals("\xbf\x81\x7f\x2\x5\x0", $el->toDER());
+        static::assertSame("\xbf\x81\x7f\x2\x5\x0", $el->toDER());
     }
 
     #[Test]

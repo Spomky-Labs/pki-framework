@@ -74,14 +74,14 @@ final class ChargingIdentityTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $value)
     {
-        static::assertEquals(ChargingIdentityAttributeValue::OID, $value->oid());
+        static::assertSame(ChargingIdentityAttributeValue::OID, $value->oid());
     }
 
     #[Test]
     #[Depends('create')]
     public function authority(ChargingIdentityAttributeValue $value)
     {
-        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority()->firstDN());
+        static::assertSame(self::AUTHORITY_DN, $value->policyAuthority()->firstDN()->toString());
     }
 
     #[Test]
@@ -107,21 +107,21 @@ final class ChargingIdentityTest extends TestCase
     #[Depends('create')]
     public function octetStringValue(ChargingIdentityAttributeValue $value)
     {
-        static::assertEquals(self::OCTETS_VAL, $value->values()[0]);
+        static::assertSame(self::OCTETS_VAL, (string) ($value->values()[0]));
     }
 
     #[Test]
     #[Depends('create')]
     public function oIDValue(ChargingIdentityAttributeValue $value)
     {
-        static::assertEquals(self::OID_VAL, $value->values()[1]);
+        static::assertSame(self::OID_VAL, (string) ($value->values()[1]));
     }
 
     #[Test]
     #[Depends('create')]
     public function uTF8Value(ChargingIdentityAttributeValue $value)
     {
-        static::assertEquals(self::UTF8_VAL, $value->values()[2]);
+        static::assertSame(self::UTF8_VAL, (string) ($value->values()[2]));
     }
 
     #[Test]

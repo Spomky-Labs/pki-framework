@@ -66,14 +66,14 @@ final class GroupTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $value)
     {
-        static::assertEquals(GroupAttributeValue::OID, $value->oid());
+        static::assertSame(GroupAttributeValue::OID, $value->oid());
     }
 
     #[Test]
     #[Depends('create')]
     public function authority(GroupAttributeValue $value)
     {
-        static::assertEquals(self::AUTHORITY_DN, $value->policyAuthority()->firstDN());
+        static::assertSame(self::AUTHORITY_DN, $value->policyAuthority()->firstDN()->toString());
     }
 
     #[Test]
@@ -87,7 +87,7 @@ final class GroupTest extends TestCase
     #[Depends('create')]
     public function groupName(GroupAttributeValue $value)
     {
-        static::assertEquals(self::GROUP_NAME, $value->first());
+        static::assertSame(self::GROUP_NAME, (string) $value->first());
     }
 
     #[Test]

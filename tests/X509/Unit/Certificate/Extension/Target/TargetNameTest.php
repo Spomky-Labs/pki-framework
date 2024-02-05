@@ -62,7 +62,7 @@ final class TargetNameTest extends TestCase
     #[Depends('create')]
     public function type(Target $target)
     {
-        static::assertEquals(Target::TYPE_NAME, $target->type());
+        static::assertSame(Target::TYPE_NAME, $target->type());
     }
 
     #[Test]

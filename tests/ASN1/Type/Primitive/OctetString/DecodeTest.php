@@ -24,13 +24,13 @@ final class DecodeTest extends TestCase
     public function helloWorld()
     {
         $el = OctetString::fromDER("\x4\x0cHello World!");
-        static::assertEquals('Hello World!', $el->string());
+        static::assertSame('Hello World!', $el->string());
     }
 
     #[Test]
     public function nullString()
     {
         $el = OctetString::fromDER("\x4\x3\x0\x0\x0");
-        static::assertEquals("\0\0\0", $el->string());
+        static::assertSame("\0\0\0", $el->string());
     }
 }

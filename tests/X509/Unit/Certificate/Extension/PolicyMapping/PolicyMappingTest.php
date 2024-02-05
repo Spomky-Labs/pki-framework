@@ -60,13 +60,13 @@ final class PolicyMappingTest extends TestCase
     #[Depends('create')]
     public function issuerDomainPolicy(PolicyMapping $mapping)
     {
-        static::assertEquals(self::ISSUER_POLICY, $mapping->issuerDomainPolicy());
+        static::assertSame(self::ISSUER_POLICY, $mapping->issuerDomainPolicy());
     }
 
     #[Test]
     #[Depends('create')]
     public function subjectDomainPolicy(PolicyMapping $mapping)
     {
-        static::assertEquals(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());
+        static::assertSame(self::SUBJECT_POLICY, $mapping->subjectDomainPolicy());
     }
 }

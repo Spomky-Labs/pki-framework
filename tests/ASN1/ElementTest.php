@@ -19,7 +19,7 @@ final class ElementTest extends TestCase
     #[Test]
     public function unknownTagToName(): void
     {
-        static::assertEquals('TAG 100', Element::tagToName(100));
+        static::assertSame('TAG 100', Element::tagToName(100));
     }
 
     #[Test]

@@ -17,13 +17,11 @@ block_comment_end = */
 [{*.yml,*.yaml}]
 indent_size = 2
 
+[*.neon]
+indent_style = tab
+
 [*.md]
 trim_trailing_whitespace = false
 
 [Makefile]
 indent_style = tab
-
-# Generated file
-[infection.txt]
-indent_size = unset
-trim_trailing_whitespace = unset

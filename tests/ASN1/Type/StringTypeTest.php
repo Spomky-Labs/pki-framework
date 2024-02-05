@@ -27,6 +27,6 @@ final class StringTypeTest extends TestCase
     public function stringable()
     {
         $s = OctetString::create('test');
-        static::assertEquals('test', strval($s));
+        static::assertSame('test', strval($s));
     }
 }

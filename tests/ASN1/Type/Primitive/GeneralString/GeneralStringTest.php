@@ -30,7 +30,7 @@ final class GeneralStringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_GENERAL_STRING, $el->tag());
+        static::assertSame(Element::TYPE_GENERAL_STRING, $el->tag());
     }
 
     #[Test]

@@ -72,7 +72,7 @@ final class RoleTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $value)
     {
-        static::assertEquals(AttributeType::OID_ROLE, $value->oid());
+        static::assertSame(AttributeType::OID_ROLE, $value->oid());
     }
 
     #[Test]
@@ -89,14 +89,14 @@ final class RoleTest extends TestCase
     #[Depends('create')]
     public function roleName(RoleAttributeValue $value)
     {
-        static::assertEquals(self::ROLE_URI, $value->roleName());
+        static::assertSame(self::ROLE_URI, $value->roleName()->string());
     }
 
     #[Test]
     #[Depends('create')]
     public function roleAuthority(RoleAttributeValue $value)
     {
-        static::assertEquals(self::AUTHORITY_DN, $value->roleAuthority()->firstDN());
+        static::assertSame(self::AUTHORITY_DN, $value->roleAuthority()->firstDN()->toString());
     }
 
     #[Test]

@@ -28,28 +28,28 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function tag()
     {
         $el = TaggedType::fromDER("\x81\x0");
-        static::assertEquals(1, $el->tag());
+        static::assertSame(1, $el->tag());
     }
 
     #[Test]
     public function typeClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        static::assertEquals(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
+        static::assertSame(Identifier::CLASS_CONTEXT_SPECIFIC, $el->typeClass());
     }
 
     #[Test]
     public function innerType()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
+        static::assertSame(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
     }
 
     #[Test]
     public function innerClass()
     {
         $el = TaggedType::fromDER("\x80\x0");
-        static::assertEquals(Identifier::CLASS_UNIVERSAL, $el->implicit(Element::TYPE_NULL)->typeClass());
+        static::assertSame(Identifier::CLASS_UNIVERSAL, $el->implicit(Element::TYPE_NULL)->typeClass());
     }
 
     #[Test]
@@ -81,12 +81,12 @@ final class ImplicitlyTaggedDecodeTest extends TestCase
     public function nested()
     {
         $el = TaggedType::fromDER("\xa1\x2\x82\x0");
-        static::assertEquals(1, $el->tag());
+        static::assertSame(1, $el->tag());
         $el = $el->implicit(Element::TYPE_SEQUENCE)->asSequence();
-        static::assertEquals(2, $el->at(0)->tag());
+        static::assertSame(2, $el->at(0)->tag());
         $el = $el->at(0)
             ->asTagged()
             ->implicit(Element::TYPE_NULL);
-        static::assertEquals(Element::TYPE_NULL, $el->tag());
+        static::assertSame(Element::TYPE_NULL, $el->tag());
     }
 }

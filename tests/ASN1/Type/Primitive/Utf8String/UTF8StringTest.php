@@ -31,7 +31,7 @@ final class UTF8StringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_UTF8_STRING, $el->tag());
+        static::assertSame(Element::TYPE_UTF8_STRING, $el->tag());
     }
 
     #[Test]

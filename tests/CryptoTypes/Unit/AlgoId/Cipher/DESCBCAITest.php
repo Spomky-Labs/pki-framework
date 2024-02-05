@@ -44,7 +44,7 @@ final class DESCBCAITest extends TestCase
     #[Depends('decode')]
     public function iV(DESCBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(self::IV, $ai->initializationVector());
+        static::assertSame(self::IV, $ai->initializationVector());
     }
 
     #[Test]
@@ -68,14 +68,14 @@ final class DESCBCAITest extends TestCase
     #[Depends('decode')]
     public function blockSize(DESCBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(8, $ai->blockSize());
+        static::assertSame(8, $ai->blockSize());
     }
 
     #[Test]
     #[Depends('decode')]
     public function keySize(DESCBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(8, $ai->keySize());
+        static::assertSame(8, $ai->keySize());
     }
 
     #[Test]

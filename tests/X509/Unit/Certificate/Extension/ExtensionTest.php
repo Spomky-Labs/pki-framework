@@ -19,20 +19,20 @@ final class ExtensionTest extends TestCase
     public function extensionName()
     {
         $ext = BasicConstraintsExtension::create(true, true);
-        static::assertEquals('basicConstraints', $ext->extensionName());
+        static::assertSame('basicConstraints', $ext->extensionName());
     }
 
     #[Test]
     public function unknownExtensionName()
     {
         $ext = UnknownExtension::create('1.3.6.1.3', false, NullType::create());
-        static::assertEquals('1.3.6.1.3', $ext->extensionName());
+        static::assertSame('1.3.6.1.3', $ext->extensionName());
     }
 
     #[Test]
     public function toStringMethod()
     {
         $ext = BasicConstraintsExtension::create(true, true);
-        static::assertEquals('basicConstraints', $ext);
+        static::assertSame('basicConstraints', (string) $ext);
     }
 }

@@ -37,7 +37,7 @@ final class Curve448Test extends TestCase
     public function recodeEd448(Ed448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_private_key.pem');
-        static::assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertSame($pem->data(), $pk->toPEM()->data());
     }
 
     #[Test]
@@ -54,7 +54,7 @@ final class Curve448Test extends TestCase
     public function recodeEd448Pub(Ed448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem');
-        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertSame($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     #[Test]
@@ -112,7 +112,7 @@ final class Curve448Test extends TestCase
     public function recodeX448(X448PrivateKey $pk)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_private_key.pem');
-        static::assertEquals($pem->data(), $pk->toPEM()->data());
+        static::assertSame($pem->data(), $pk->toPEM()->data());
     }
 
     #[Test]
@@ -129,7 +129,7 @@ final class Curve448Test extends TestCase
     public function recodeX448Pub(X448PublicKey $pub)
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem');
-        static::assertEquals($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
+        static::assertSame($pem->data(), $pub->publicKeyInfo()->toPEM()->data());
     }
 
     #[Test]

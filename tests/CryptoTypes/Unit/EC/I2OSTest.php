@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit\EC;
 
 use Iterator;
-use function mb_strlen;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -13,6 +12,7 @@ use RangeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECConversion;
+use function mb_strlen;
 
 /**
  * @internal
@@ -37,14 +37,14 @@ final class I2OSTest extends TestCase
     public function length()
     {
         $os = ECConversion::integerToOctetString(Integer::create(256), 2);
-        static::assertEquals(2, mb_strlen($os->string(), '8bit'));
+        static::assertSame(2, mb_strlen($os->string(), '8bit'));
     }
 
     #[Test]
     public function pad()
     {
         $os = ECConversion::integerToOctetString(Integer::create(256), 3);
-        static::assertEquals(3, mb_strlen($os->string(), '8bit'));
+        static::assertSame(3, mb_strlen($os->string(), '8bit'));
     }
 
     #[Test]
@@ -61,7 +61,7 @@ final class I2OSTest extends TestCase
         $tmp = ECConversion::integerToOctetString($num, $mlen);
         static::assertEquals($os, $tmp);
         $result = ECConversion::octetStringToInteger($tmp);
-        static::assertEquals($num->number(), $result->number());
+        static::assertSame($num->number(), $result->number());
     }
 
     public static function provideConvert(): Iterator
@@ -78,13 +78,13 @@ final class I2OSTest extends TestCase
     public function numberToOctets()
     {
         $octets = ECConversion::numberToOctets(0x42);
-        static::assertEquals("\x42", $octets);
+        static::assertSame("\x42", $octets);
     }
 
     #[Test]
     public function octetsToNumber()
     {
         $number = ECConversion::octetsToNumber("\x42");
-        static::assertEquals(0x42, $number);
+        static::assertSame((string) 0x42, $number);
     }
 }

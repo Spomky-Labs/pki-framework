@@ -26,7 +26,7 @@ final class DecodeTest extends TestCase
     {
         $str = '123 456 789 0';
         $el = NumericString::fromDER("\x12\x0d{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 
     #[Test]

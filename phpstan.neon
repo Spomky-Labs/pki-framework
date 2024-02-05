@@ -1,39 +1,11 @@
 parameters:
-    level: max
-    paths:
-        - src
-    ignoreErrors:
-        - '#(Property|Method) SpomkyLabs\\.* should return .* but returns .*\.#'
-        - '#(Parameter) .* of (class|method|static method) SpomkyLabs\\.* (constructor )?expects .*, .* given\.#'
-        -
-            message: '#Instanceof between string and SpomkyLabs\\Pki\\ASN1\\Element will always evaluate to false\.#'
-            path: src/X501/ASN1/Name.php
-            count: 1
-        -
-            message: '#Call to an undefined method SpomkyLabs\\Pki\\ASN1\\Element\:\:string\(\)\.#'
-            path: src/ASN1/Type/Constructed/ConstructedString.php
-            count: 1
-        -
-            message: '#Parameter \#3 \$subject of function (preg_replace|preg_replace_callback) expects array\|string, string\|null given\.#'
-            path: src/X501/DN/DNParser.php
-            count: 3
-        -
-            message: '#Parameter \#3 \$subject of function (preg_replace|preg_replace_callback) expects array\|string, string\|null given\.#'
-            path: src/X501/StringPrep/InsignificantNonSubstringSpaceStep.php
-            count: 2
-        -
-            message: '#Offset int might not exist on array\<SpomkyLabs\\Pki\\ASN1\\Element>\|null\.#'
-            path: src/ASN1/Type/Structure.php
-            count: 1
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: false
-    checkUninitializedProperties: true
-    treatPhpDocTypesAsCertain: false
+	level: max
+	paths:
+		- src
+	checkMissingIterableValueType: true
+	checkGenericClassInNonGenericObjectType: true
+	checkUninitializedProperties: true
+	treatPhpDocTypesAsCertain: false
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - vendor/phpstan/phpstan-beberlei-assert/extension.neon
-    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
-    - vendor/ekino/phpstan-banned-code/extension.neon
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- phpstan-baseline.neon

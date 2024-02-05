@@ -58,7 +58,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     #[Depends('policyCPSQualifier')]
     public function policyCPSQualifierURI(CPSQualifier $cps)
     {
-        static::assertEquals('http://example.com/cps.html', $cps->uri());
+        static::assertSame('http://example.com/cps.html', $cps->uri());
     }
 
     /**
@@ -77,7 +77,7 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     #[Depends('policyUserNoticeQualifier')]
     public function policyUserNoticeQualifierText(UserNoticeQualifier $un)
     {
-        static::assertEquals('All your base are belong to us!', $un->explicitText()->string());
+        static::assertSame('All your base are belong to us!', $un->explicitText()->string());
     }
 
     /**
@@ -96,13 +96,13 @@ final class CertificatePoliciesTest extends RefExtTestHelper
     #[Depends('policyUserNoticeQualifierRef')]
     public function policyUserNoticeQualifierOrganization(NoticeReference $ref)
     {
-        static::assertEquals('Toaplan Co., Ltd.', $ref->organization()->string());
+        static::assertSame('Toaplan Co., Ltd.', $ref->organization()->string());
     }
 
     #[Test]
     #[Depends('policyUserNoticeQualifierRef')]
     public function policyUserNoticeQualifierNumbers(NoticeReference $ref)
     {
-        static::assertEquals([1, 2], $ref->numbers());
+        static::assertSame([1, 2], $ref->numbers());
     }
 }

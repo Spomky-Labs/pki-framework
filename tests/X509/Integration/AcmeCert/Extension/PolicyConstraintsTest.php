@@ -29,13 +29,13 @@ final class PolicyConstraintsTest extends RefExtTestHelper
     #[Depends('policyConstraintsExtension')]
     public function requireExplicitPolicy(PolicyConstraintsExtension $pc)
     {
-        static::assertEquals(3, $pc->requireExplicitPolicy());
+        static::assertSame(3, $pc->requireExplicitPolicy());
     }
 
     #[Test]
     #[Depends('policyConstraintsExtension')]
     public function inhibitPolicyMapping(PolicyConstraintsExtension $pc)
     {
-        static::assertEquals(1, $pc->inhibitPolicyMapping());
+        static::assertSame(1, $pc->inhibitPolicyMapping());
     }
 }

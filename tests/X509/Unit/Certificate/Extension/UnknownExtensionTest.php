@@ -33,7 +33,7 @@ final class UnknownExtensionTest extends TestCase
     public function extensionValueDER(UnknownExtension $ext)
     {
         $expect = (NullType::create())->toDER();
-        static::assertEquals($expect, $ext->extensionValue());
+        static::assertSame($expect, $ext->extensionValue());
     }
 
     /**
@@ -51,7 +51,7 @@ final class UnknownExtensionTest extends TestCase
     #[Depends('createFromString')]
     public function extensionValueRaw(UnknownExtension $ext)
     {
-        static::assertEquals('DATA', $ext->extensionValue());
+        static::assertSame('DATA', $ext->extensionValue());
     }
 
     #[Test]

@@ -29,6 +29,6 @@ final class InhibitAnyPolicyTest extends RefExtTestHelper
     #[Depends('inhibitAnyPolicyExtension')]
     public function skipCerts(InhibitAnyPolicyExtension $ext)
     {
-        static::assertEquals(2, $ext->skipCerts());
+        static::assertSame(2, $ext->skipCerts());
     }
 }

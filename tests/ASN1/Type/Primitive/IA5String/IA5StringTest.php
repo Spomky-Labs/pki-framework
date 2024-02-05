@@ -30,7 +30,7 @@ final class IA5StringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_IA5_STRING, $el->tag());
+        static::assertSame(Element::TYPE_IA5_STRING, $el->tag());
     }
 
     #[Test]

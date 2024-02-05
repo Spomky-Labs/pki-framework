@@ -17,6 +17,6 @@ final class EncodeTest extends TestCase
     public function encode()
     {
         $el = Enumerated::create(1);
-        static::assertEquals("\x0a\x1\x1", $el->toDER());
+        static::assertSame("\x0a\x1\x1", $el->toDER());
     }
 }

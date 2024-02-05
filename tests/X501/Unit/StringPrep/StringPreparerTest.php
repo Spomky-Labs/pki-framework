@@ -37,6 +37,6 @@ final class StringPreparerTest extends TestCase
     public function prepare(StringPreparer $preparer)
     {
         $str = $preparer->prepare('TEST');
-        static::assertEquals(' test ', $str);
+        static::assertSame(' test ', $str);
     }
 }

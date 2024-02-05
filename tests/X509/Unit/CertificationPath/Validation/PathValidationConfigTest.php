@@ -30,7 +30,7 @@ final class PathValidationConfigTest extends TestCase
     #[Depends('create')]
     public function maxLength(PathValidationConfig $config)
     {
-        static::assertEquals(3, $config->maxLength());
+        static::assertSame(3, $config->maxLength());
     }
 
     #[Test]

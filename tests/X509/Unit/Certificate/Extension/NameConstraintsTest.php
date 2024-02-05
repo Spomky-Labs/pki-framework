@@ -63,7 +63,7 @@ final class NameConstraintsTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_NAME_CONSTRAINTS, $ext->oid());
+        static::assertSame(Extension::OID_NAME_CONSTRAINTS, $ext->oid());
     }
 
     #[Test]
@@ -143,21 +143,21 @@ final class NameConstraintsTest extends TestCase
     #[Depends('permitted')]
     public function permittedURI(GeneralSubtrees $subtrees)
     {
-        static::assertEquals(self::PERMITTED_URI, $subtrees->all()[0]->base()->string());
+        static::assertSame(self::PERMITTED_URI, $subtrees->all()[0]->base()->string());
     }
 
     #[Test]
     #[Depends('permitted')]
     public function permittedDN(GeneralSubtrees $subtrees)
     {
-        static::assertEquals(self::PERMITTED_DN, $subtrees->all()[1]->base()->string());
+        static::assertSame(self::PERMITTED_DN, $subtrees->all()[1]->base()->string());
     }
 
     #[Test]
     #[Depends('excluded')]
     public function excludedURI(GeneralSubtrees $subtrees)
     {
-        static::assertEquals(self::EXCLUDED_URI, $subtrees->all()[0]->base()->string());
+        static::assertSame(self::EXCLUDED_URI, $subtrees->all()[0]->base()->string());
     }
 
     #[Test]

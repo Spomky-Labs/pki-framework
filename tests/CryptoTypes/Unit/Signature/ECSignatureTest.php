@@ -65,14 +65,14 @@ final class ECSignatureTest extends TestCase
     #[Depends('create')]
     public function rValue(ECSignature $sig): void
     {
-        static::assertEquals('123456789', $sig->r());
+        static::assertSame('123456789', $sig->r());
     }
 
     #[Test]
     #[Depends('create')]
     public function sValue(ECSignature $sig): void
     {
-        static::assertEquals('987654321', $sig->s());
+        static::assertSame('987654321', $sig->s());
     }
 
     #[Test]

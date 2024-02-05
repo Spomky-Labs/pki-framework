@@ -57,14 +57,14 @@ final class RC2CBCAITest extends TestCase
     #[Depends('decode')]
     public function effectiveKeyBits(RC2CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(64, $ai->effectiveKeyBits());
+        static::assertSame(64, $ai->effectiveKeyBits());
     }
 
     #[Test]
     #[Depends('decode')]
     public function iV(RC2CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(self::IV, $ai->initializationVector());
+        static::assertSame(self::IV, $ai->initializationVector());
     }
 
     #[Test]
@@ -80,14 +80,14 @@ final class RC2CBCAITest extends TestCase
     #[Depends('decode')]
     public function blockSize(RC2CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(8, $ai->blockSize());
+        static::assertSame(8, $ai->blockSize());
     }
 
     #[Test]
     #[Depends('decode')]
     public function keySize(RC2CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(8, $ai->keySize());
+        static::assertSame(8, $ai->keySize());
     }
 
     #[Test]

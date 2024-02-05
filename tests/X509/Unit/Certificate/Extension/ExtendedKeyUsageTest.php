@@ -33,7 +33,7 @@ final class ExtendedKeyUsageTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_EXT_KEY_USAGE, $ext->oid());
+        static::assertSame(Extension::OID_EXT_KEY_USAGE, $ext->oid());
     }
 
     #[Test]

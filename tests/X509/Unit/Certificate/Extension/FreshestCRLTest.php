@@ -49,7 +49,7 @@ final class FreshestCRLTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_FRESHEST_CRL, $ext->oid());
+        static::assertSame(Extension::OID_FRESHEST_CRL, $ext->oid());
     }
 
     #[Test]

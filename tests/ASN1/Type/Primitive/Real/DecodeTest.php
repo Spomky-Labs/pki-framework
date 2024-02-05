@@ -74,6 +74,6 @@ final class DecodeTest extends TestCase
     public function longExponent()
     {
         $real = Real::fromDER(hex2bin('090783044000000001'));
-        static::assertEquals('1073741824', $real->exponent()->base10());
+        static::assertSame('1073741824', $real->exponent()->base10());
     }
 }

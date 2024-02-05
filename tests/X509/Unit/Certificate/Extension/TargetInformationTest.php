@@ -27,54 +27,35 @@ final class TargetInformationTest extends TestCase
     final public const GROUP_DOMAIN = '.example.com';
 
     #[Test]
-    public function createTargets()
+    public function oID(): void
     {
-        $targets = Targets::create(
-            TargetName::create(DirectoryName::fromDNString(self::NAME_DN)),
-            TargetGroup::create(DNSName::create(self::GROUP_DOMAIN))
-        );
-        static::assertInstanceOf(Targets::class, $targets);
-        return $targets;
-    }
-
-    #[Test]
-    #[Depends('createTargets')]
-    public function create(Targets $targets)
-    {
-        $ext = TargetInformationExtension::create(true, $targets);
-        static::assertInstanceOf(TargetInformationExtension::class, $ext);
-        return $ext;
-    }
-
-    #[Test]
-    #[Depends('create')]
-    public function oID(Extension $ext)
-    {
-        static::assertEquals(Extension::OID_TARGET_INFORMATION, $ext->oid());
-    }
-
-    #[Test]
-    #[Depends('create')]
-    public function critical(Extension $ext)
-    {
+        $ext = self::createExtension();
+        static::assertSame(Extension::OID_TARGET_INFORMATION, $ext->oid());
         static::assertTrue($ext->isCritical());
+        static::assertCount(2, $ext);
+        $values = [];
+        foreach ($ext as $target) {
+            $values[] = $target;
+        }
+        static::assertCount(2, $values);
+        static::assertContainsOnlyInstancesOf(Target::class, $values);
+        static::assertSame(self::NAME_DN, $ext->names()[0]->string());
+        static::assertSame(self::GROUP_DOMAIN, $ext->groups()[0]->string());
+        static::assertInstanceOf(TargetInformationExtension::class, clone $ext);
     }
 
     #[Test]
-    #[Depends('create')]
-    public function encode(Extension $ext)
+    public function encode(): string
     {
+        $ext = self::createExtension();
         $seq = $ext->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
         return $seq->toDER();
     }
 
-    /**
-     * @param string $der
-     */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode(string $der): TargetInformationExtension
     {
         $ext = TargetInformationExtension::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(TargetInformationExtension::class, $ext);
@@ -82,60 +63,27 @@ final class TargetInformationTest extends TestCase
     }
 
     #[Test]
-    #[Depends('create')]
     #[Depends('decode')]
-    public function recoded(Extension $ref, Extension $new)
+    public function recoded(Extension $new): void
     {
-        static::assertEquals($ref, $new);
+        $ext = self::createExtension();
+        static::assertEquals($ext, $new);
     }
 
     #[Test]
-    #[Depends('create')]
-    public function countMethod(TargetInformationExtension $ext)
-    {
-        static::assertCount(2, $ext);
-    }
-
-    #[Test]
-    #[Depends('create')]
-    public function iterator(TargetInformationExtension $ext)
-    {
-        $values = [];
-        foreach ($ext as $target) {
-            $values[] = $target;
-        }
-        static::assertCount(2, $values);
-        static::assertContainsOnlyInstancesOf(Target::class, $values);
-    }
-
-    #[Test]
-    #[Depends('create')]
-    public function verifyName(TargetInformationExtension $ext = null)
-    {
-        static::assertEquals(self::NAME_DN, $ext->names()[0]->string());
-    }
-
-    #[Test]
-    #[Depends('create')]
-    public function group(TargetInformationExtension $ext)
-    {
-        static::assertEquals(self::GROUP_DOMAIN, $ext->groups()[0]->string());
-    }
-
-    /**
-     * Cover __clone method.
-     */
-    #[Test]
-    #[Depends('create')]
-    public function clone(TargetInformationExtension $ext)
-    {
-        static::assertInstanceOf(TargetInformationExtension::class, clone $ext);
-    }
-
-    #[Test]
-    public function fromTargets()
+    public function fromTargets(): void
     {
         $ext = TargetInformationExtension::fromTargets(TargetName::create(DirectoryName::fromDNString(self::NAME_DN)));
         static::assertInstanceOf(TargetInformationExtension::class, $ext);
+    }
+
+    private static function createExtension(): TargetInformationExtension
+    {
+        $targets = Targets::create(
+            TargetName::create(DirectoryName::fromDNString(self::NAME_DN)),
+            TargetGroup::create(DNSName::create(self::GROUP_DOMAIN))
+        );
+
+        return TargetInformationExtension::create(true, $targets);
     }
 }

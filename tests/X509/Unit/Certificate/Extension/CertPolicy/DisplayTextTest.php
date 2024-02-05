@@ -15,8 +15,8 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\VisibleString;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\DisplayText;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -64,7 +64,7 @@ final class DisplayTextTest extends TestCase
     #[Depends('create')]
     public function string(DisplayText $dt)
     {
-        static::assertEquals('test', $dt->string());
+        static::assertSame('test', $dt->string());
     }
 
     #[Test]
