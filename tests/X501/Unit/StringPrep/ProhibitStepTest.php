@@ -18,6 +18,6 @@ final class ProhibitStepTest extends TestCase
     {
         $str = 'Test';
         $step = new ProhibitStep();
-        static::assertEquals($str, $step->apply($str));
+        static::assertSame($str, $step->apply($str));
     }
 }

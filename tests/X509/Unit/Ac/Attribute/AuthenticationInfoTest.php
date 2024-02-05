@@ -69,28 +69,28 @@ final class AuthenticationInfoTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $value)
     {
-        static::assertEquals(AuthenticationInfoAttributeValue::OID, $value->oid());
+        static::assertSame(AuthenticationInfoAttributeValue::OID, $value->oid());
     }
 
     #[Test]
     #[Depends('create')]
     public function service(AuthenticationInfoAttributeValue $value)
     {
-        static::assertEquals(self::SERVICE_URI, $value->service());
+        static::assertSame(self::SERVICE_URI, $value->service()->string());
     }
 
     #[Test]
     #[Depends('create')]
     public function ident(AuthenticationInfoAttributeValue $value)
     {
-        static::assertEquals(self::IDENT_URI, $value->ident());
+        static::assertSame(self::IDENT_URI, $value->ident()->string());
     }
 
     #[Test]
     #[Depends('create')]
     public function authInfo(AuthenticationInfoAttributeValue $value)
     {
-        static::assertEquals(self::AUTH_INFO, $value->authInfo());
+        static::assertSame(self::AUTH_INFO, $value->authInfo());
     }
 
     #[Test]

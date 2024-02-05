@@ -18,6 +18,6 @@ final class CheckBidiStepTest extends TestCase
     {
         $str = 'Test';
         $step = new CheckBidiStep();
-        static::assertEquals($str, $step->apply($str));
+        static::assertSame($str, $step->apply($str));
     }
 }

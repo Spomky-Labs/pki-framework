@@ -21,7 +21,7 @@ final class EncodeTest extends TestCase
     public function encode()
     {
         $el = Set::create();
-        static::assertEquals("\x31\x0", $el->toDER());
+        static::assertSame("\x31\x0", $el->toDER());
     }
 
     #[Test]
@@ -32,7 +32,7 @@ final class EncodeTest extends TestCase
             ImplicitlyTaggedType::create(2, NullType::create()),
             ImplicitlyTaggedType::create(0, NullType::create())
         );
-        static::assertEquals("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet()->toDER());
+        static::assertSame("\x31\x6\x80\x0\x81\x0\x82\x0", $set->sortedSet()->toDER());
     }
 
     #[Test]
@@ -43,13 +43,13 @@ final class EncodeTest extends TestCase
             ImplicitlyTaggedType::create(6, NullType::create()),
             NullType::create()
         );
-        static::assertEquals("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet()->toDER());
+        static::assertSame("\x31\x8\x05\x0\xa5\x2\x05\x0\x86\x0", $set->sortedSet()->toDER());
     }
 
     #[Test]
     public function setOfSort()
     {
         $set = Set::create(PrintableString::create('B'), PrintableString::create('C'), PrintableString::create('A'));
-        static::assertEquals("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf()->toDER());
+        static::assertSame("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf()->toDER());
     }
 }

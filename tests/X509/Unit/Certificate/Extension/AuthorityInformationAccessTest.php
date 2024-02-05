@@ -40,7 +40,7 @@ final class AuthorityInformationAccessTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_AUTHORITY_INFORMATION_ACCESS, $ext->oid());
+        static::assertSame(Extension::OID_AUTHORITY_INFORMATION_ACCESS, $ext->oid());
     }
 
     #[Test]

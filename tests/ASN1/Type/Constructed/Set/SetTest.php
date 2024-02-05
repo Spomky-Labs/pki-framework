@@ -32,7 +32,7 @@ final class SetTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_SET, $el->tag());
+        static::assertSame(Element::TYPE_SET, $el->tag());
     }
 
     #[Test]

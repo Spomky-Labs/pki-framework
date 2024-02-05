@@ -106,7 +106,7 @@ final class ECPublicKeyTest extends TestCase
     #[Depends('fromPEM')]
     public function namedCurve(ECPublicKey $pk)
     {
-        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertSame(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     #[Test]

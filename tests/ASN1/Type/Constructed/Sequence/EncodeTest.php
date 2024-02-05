@@ -18,27 +18,27 @@ final class EncodeTest extends TestCase
     public function encode()
     {
         $el = Sequence::create();
-        static::assertEquals("\x30\x0", $el->toDER());
+        static::assertSame("\x30\x0", $el->toDER());
     }
 
     #[Test]
     public function single()
     {
         $el = Sequence::create(NullType::create());
-        static::assertEquals("\x30\x2\x5\x0", $el->toDER());
+        static::assertSame("\x30\x2\x5\x0", $el->toDER());
     }
 
     #[Test]
     public function three()
     {
         $el = Sequence::create(NullType::create(), NullType::create(), NullType::create());
-        static::assertEquals("\x30\x6" . str_repeat("\x5\x0", 3), $el->toDER());
+        static::assertSame("\x30\x6" . str_repeat("\x5\x0", 3), $el->toDER());
     }
 
     #[Test]
     public function nested()
     {
         $el = Sequence::create(Sequence::create(NullType::create()));
-        static::assertEquals("\x30\x4\x30\x2\x5\x0", $el->toDER());
+        static::assertSame("\x30\x4\x30\x2\x5\x0", $el->toDER());
     }
 }

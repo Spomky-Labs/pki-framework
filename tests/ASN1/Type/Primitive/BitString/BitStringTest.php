@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\BitString;
 
+use Iterator;
 use OutOfBoundsException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
@@ -13,8 +14,8 @@ use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -33,7 +34,7 @@ final class BitStringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_BIT_STRING, $el->tag());
+        static::assertSame(Element::TYPE_BIT_STRING, $el->tag());
     }
 
     #[Test]
@@ -67,12 +68,15 @@ final class BitStringTest extends TestCase
     public function range8(int $start, int $length, string $result)
     {
         $bs = BitString::create("\xff");
-        static::assertEquals($result, $bs->range($start, $length));
+        static::assertSame($result, $bs->range($start, $length));
     }
 
-    public static function ffProvider(): array
+    public static function ffProvider(): Iterator
     {
-        return [[0, 8, strval(0xff)], [1, 2, strval(0x03)], [6, 2, strval(0x03)], [2, 4, strval(0x0f)]];
+        yield [0, 8, strval(0xff)];
+        yield [1, 2, strval(0x03)];
+        yield [6, 2, strval(0x03)];
+        yield [2, 4, strval(0x0f)];
     }
 
     #[Test]
@@ -80,19 +84,21 @@ final class BitStringTest extends TestCase
     public function range16(int $start, int $length, string $result)
     {
         $bs = BitString::create("\xff\xff");
-        static::assertEquals($result, $bs->range($start, $length));
+        static::assertSame($result, $bs->range($start, $length));
     }
 
-    public static function ffffProvider(): array
+    public static function ffffProvider(): Iterator
     {
-        return [[0, 8, strval(0xff)], [6, 4, strval(0x0f)], [12, 4, strval(0x0f)]];
+        yield [0, 8, strval(0xff)];
+        yield [6, 4, strval(0x0f)];
+        yield [12, 4, strval(0x0f)];
     }
 
     #[Test]
     public function emptyRange()
     {
         $bs = BitString::create("\0");
-        static::assertEquals(0, $bs->range(0, 0));
+        static::assertSame('0', $bs->range(0, 0));
     }
 
     #[Test]

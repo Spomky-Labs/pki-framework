@@ -60,7 +60,7 @@ final class ExtensionRequestTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $value)
     {
-        static::assertEquals(ExtensionRequestValue::OID, $value->oid());
+        static::assertSame(ExtensionRequestValue::OID, $value->oid());
     }
 
     #[Test]

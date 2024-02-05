@@ -28,7 +28,7 @@ final class NoRevocationAvailableTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_NO_REV_AVAIL, $ext->oid());
+        static::assertSame(Extension::OID_NO_REV_AVAIL, $ext->oid());
     }
 
     #[Test]

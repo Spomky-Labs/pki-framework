@@ -51,7 +51,7 @@ final class PrivateKeyTest extends TestCase
     #[Depends('fromECPEM')]
     public function eCPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertSame(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     /**
@@ -70,7 +70,7 @@ final class PrivateKeyTest extends TestCase
     #[Depends('fromECPKIPEM')]
     public function eCPKIPEMHasNamedCurve(ECPrivateKey $pk)
     {
-        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertSame(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     #[Test]

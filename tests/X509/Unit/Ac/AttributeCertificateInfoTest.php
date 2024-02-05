@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use Brick\Math\BigInteger;
 use LogicException;
-use function mb_strlen;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -34,6 +33,7 @@ use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 use UnexpectedValueException;
+use function mb_strlen;
 
 /**
  * @internal
@@ -131,7 +131,7 @@ final class AttributeCertificateInfoTest extends TestCase
     #[Depends('createWithAll')]
     public function version(AttributeCertificateInfo $aci)
     {
-        static::assertEquals(AttributeCertificateInfo::VERSION_2, $aci->version());
+        static::assertSame(AttributeCertificateInfo::VERSION_2, $aci->version());
     }
 
     #[Test]
@@ -159,7 +159,7 @@ final class AttributeCertificateInfoTest extends TestCase
     #[Depends('createWithAll')]
     public function serialNumber(AttributeCertificateInfo $aci)
     {
-        static::assertEquals(1, $aci->serialNumber());
+        static::assertSame('1', $aci->serialNumber());
     }
 
     #[Test]
@@ -180,7 +180,7 @@ final class AttributeCertificateInfoTest extends TestCase
     #[Depends('createWithAll')]
     public function issuerUniqueID(AttributeCertificateInfo $aci)
     {
-        static::assertEquals('uid', $aci->issuerUniqueID()->string());
+        static::assertSame('uid', $aci->issuerUniqueID()->string());
     }
 
     #[Test]
@@ -228,7 +228,7 @@ final class AttributeCertificateInfoTest extends TestCase
     {
         $aci = $aci->withRandomSerialNumber(16);
         $bin = BigInteger::of($aci->serialNumber())->toBytes();
-        static::assertEquals(16, mb_strlen($bin, '8bit'));
+        static::assertSame(16, mb_strlen($bin, '8bit'));
     }
 
     #[Test]

@@ -31,8 +31,8 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\VideotexString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\VisibleString;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -55,7 +55,7 @@ final class ConstructedStringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
+        static::assertSame(Element::TYPE_OCTET_STRING, $el->tag());
     }
 
     #[Test]
@@ -88,15 +88,15 @@ final class ConstructedStringTest extends TestCase
     #[Depends('create')]
     public function strings(ConstructedString $cs)
     {
-        static::assertEquals(['Hello', 'World'], $cs->strings());
+        static::assertSame(['Hello', 'World'], $cs->strings());
     }
 
     #[Test]
     #[Depends('create')]
     public function stringable(ConstructedString $cs)
     {
-        static::assertEquals('HelloWorld', $cs->string());
-        static::assertEquals('HelloWorld', strval($cs));
+        static::assertSame('HelloWorld', $cs->string());
+        static::assertSame('HelloWorld', strval($cs));
     }
 
     #[Test]
@@ -135,7 +135,7 @@ final class ConstructedStringTest extends TestCase
     #[Depends('createFromElements')]
     public function fromElementsTag(ConstructedString $cs)
     {
-        static::assertEquals(Element::TYPE_OCTET_STRING, $cs->tag());
+        static::assertSame(Element::TYPE_OCTET_STRING, $cs->tag());
     }
 
     #[Test]
@@ -164,7 +164,7 @@ final class ConstructedStringTest extends TestCase
         $ut = ConstructedString::fromDER($der)->asUnspecified();
         $s = $ut->asString();
         static::assertInstanceOf(StringType::class, $s);
-        static::assertEquals("{$str}{$str}", $s->string());
+        static::assertSame("{$str}{$str}", $s->string());
     }
 
     public static function provideStringType(): iterable

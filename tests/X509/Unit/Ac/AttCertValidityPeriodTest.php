@@ -65,8 +65,8 @@ final class AttCertValidityPeriodTest extends TestCase
     #[Depends('decode')]
     public function recoded(AttCertValidityPeriod $ref, AttCertValidityPeriod $new)
     {
-        static::assertEquals($ref->notBeforeTime()->getTimestamp(), $new->notBeforeTime()->getTimestamp());
-        static::assertEquals($ref->notAfterTime()->getTimestamp(), $new->notAfterTime()->getTimestamp());
+        static::assertSame($ref->notBeforeTime()->getTimestamp(), $new->notBeforeTime()->getTimestamp());
+        static::assertSame($ref->notAfterTime()->getTimestamp(), $new->notAfterTime()->getTimestamp());
     }
 
     #[Test]

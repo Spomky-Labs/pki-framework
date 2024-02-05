@@ -6,11 +6,11 @@ namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
-use function chr;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
+use function chr;
 
 /**
  * @internal
@@ -56,7 +56,7 @@ final class IdentifierDecodeTest extends TestCase
     public function pC()
     {
         $identifier = Identifier::fromDER(chr(0b00000000));
-        static::assertEquals(Identifier::PRIMITIVE, $identifier->pc());
+        static::assertSame(Identifier::PRIMITIVE, $identifier->pc());
     }
 
     #[Test]
@@ -77,28 +77,28 @@ final class IdentifierDecodeTest extends TestCase
     public function tag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
-        static::assertEquals(0b1111, $identifier->tag());
+        static::assertSame((string) 0b1111, $identifier->tag());
     }
 
     #[Test]
     public function intTag()
     {
         $identifier = Identifier::fromDER(chr(0b00001111));
-        static::assertEquals(0b1111, $identifier->intTag());
+        static::assertSame(0b1111, $identifier->intTag());
     }
 
     #[Test]
     public function longTag()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\x7f");
-        static::assertEquals(0x7f, $identifier->tag());
+        static::assertSame((string) 0x7f, $identifier->tag());
     }
 
     #[Test]
     public function longTag2()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\xff\x7f");
-        static::assertEquals((0x7f << 7) + 0x7f, $identifier->tag());
+        static::assertSame((string) ((0x7f << 7) + 0x7f), $identifier->tag());
     }
 
     #[Test]
@@ -107,7 +107,7 @@ final class IdentifierDecodeTest extends TestCase
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $identifier = Identifier::fromDER($der);
         $num = BigInteger::fromBase(str_repeat('1111111', 100) . '1111111', 2);
-        static::assertEquals($num->toBase(10), $identifier->tag());
+        static::assertSame($num->toBase(10), $identifier->tag());
     }
 
     #[Test]

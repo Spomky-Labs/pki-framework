@@ -39,6 +39,6 @@ final class DirectoryStringTest extends TestCase
     public function teletexValue()
     {
         $value = CommonNameValue::create('name', Element::TYPE_T61_STRING);
-        static::assertEquals('#1404' . bin2hex('name'), $value->rfc2253String());
+        static::assertSame('#1404' . bin2hex('name'), $value->rfc2253String());
     }
 }

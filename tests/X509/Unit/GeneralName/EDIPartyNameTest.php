@@ -47,7 +47,7 @@ final class EDIPartyNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_EDI_PARTY_NAME, $el->tag());
+        static::assertSame(GeneralName::TAG_EDI_PARTY_NAME, $el->tag());
     }
 
     /**

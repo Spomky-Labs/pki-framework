@@ -44,7 +44,7 @@ final class AES192CBCAITest extends TestCase
     #[Depends('decode')]
     public function iV(AES192CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(self::IV, $ai->initializationVector());
+        static::assertSame(self::IV, $ai->initializationVector());
     }
 
     #[Test]
@@ -60,14 +60,14 @@ final class AES192CBCAITest extends TestCase
     #[Depends('decode')]
     public function blockSize(AES192CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(16, $ai->blockSize());
+        static::assertSame(16, $ai->blockSize());
     }
 
     #[Test]
     #[Depends('decode')]
     public function keySize(AES192CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(24, $ai->keySize());
+        static::assertSame(24, $ai->keySize());
     }
 
     #[Test]

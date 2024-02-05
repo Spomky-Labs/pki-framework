@@ -30,7 +30,7 @@ final class T61StringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_T61_STRING, $el->tag());
+        static::assertSame(Element::TYPE_T61_STRING, $el->tag());
     }
 
     #[Test]

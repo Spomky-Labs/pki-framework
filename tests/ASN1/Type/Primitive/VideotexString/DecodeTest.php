@@ -25,6 +25,6 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = VideotexString::fromDER("\x15\x0c{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 }

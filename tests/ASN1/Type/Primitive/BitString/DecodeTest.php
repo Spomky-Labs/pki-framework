@@ -26,14 +26,14 @@ final class DecodeTest extends TestCase
     public function unusedBits()
     {
         $el = BitString::fromDER("\x3\x3\x4\xff\xf0");
-        static::assertEquals(4, $el->unusedBits());
+        static::assertSame(4, $el->unusedBits());
     }
 
     #[Test]
     public function numBits()
     {
         $el = BitString::fromDER("\x3\x3\x4\xff\xf0");
-        static::assertEquals(12, $el->numBits());
+        static::assertSame(12, $el->numBits());
     }
 
     /**

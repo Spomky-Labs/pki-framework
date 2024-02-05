@@ -30,7 +30,7 @@ final class RelativeOIDTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_RELATIVE_OID, $el->tag());
+        static::assertSame(Element::TYPE_RELATIVE_OID, $el->tag());
     }
 
     #[Test]

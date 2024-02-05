@@ -59,14 +59,14 @@ final class AttributeTypeAndValueTest extends TestCase
     #[Depends('create')]
     public function value(AttributeTypeAndValue $atv)
     {
-        static::assertEquals('one', $atv->value()->rfc2253String());
+        static::assertSame('one', $atv->value()->rfc2253String());
     }
 
     #[Test]
     #[Depends('create')]
     public function string(AttributeTypeAndValue $atv)
     {
-        static::assertEquals('name=one', $atv->toString());
+        static::assertSame('name=one', $atv->toString());
     }
 
     #[Test]

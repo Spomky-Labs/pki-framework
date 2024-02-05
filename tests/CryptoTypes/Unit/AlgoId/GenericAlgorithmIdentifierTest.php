@@ -29,7 +29,7 @@ final class GenericAlgorithmIdentifierTest extends TestCase
     #[Depends('create')]
     public function verifyName(GenericAlgorithmIdentifier $ai = null): void
     {
-        static::assertEquals('1.3.6.1.3', $ai->name());
+        static::assertSame('1.3.6.1.3', $ai->name());
     }
 
     #[Test]

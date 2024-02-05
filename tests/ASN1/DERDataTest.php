@@ -24,7 +24,7 @@ final class DERDataTest extends TestCase
     public function create()
     {
         $el = DERData::create("\x5\x0");
-        static::assertEquals(Element::TYPE_NULL, $el->tag());
+        static::assertSame(Element::TYPE_NULL, $el->tag());
         return $el;
     }
 
@@ -32,7 +32,7 @@ final class DERDataTest extends TestCase
     #[Depends('create')]
     public function class(DERData $el)
     {
-        static::assertEquals(Identifier::CLASS_UNIVERSAL, $el->typeClass());
+        static::assertSame(Identifier::CLASS_UNIVERSAL, $el->typeClass());
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class DERDataTest extends TestCase
     #[Depends('create')]
     public function encode(DERData $el)
     {
-        static::assertEquals("\x5\x0", $el->toDER());
+        static::assertSame("\x5\x0", $el->toDER());
     }
 
     #[Test]
@@ -54,7 +54,7 @@ final class DERDataTest extends TestCase
     {
         $el = DERData::create("\x5\x0");
         $seq = Sequence::create($el);
-        static::assertEquals("\x30\x2\x5\x0", $seq->toDER());
+        static::assertSame("\x30\x2\x5\x0", $seq->toDER());
     }
 
     #[Test]
@@ -62,7 +62,7 @@ final class DERDataTest extends TestCase
     {
         $el = DERData::create("\x5\x0");
         $seq = Sequence::create($el, Boolean::create(true));
-        static::assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
+        static::assertSame("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
 
     #[Test]
@@ -73,7 +73,7 @@ final class DERDataTest extends TestCase
         $mtd = $cls->getMethod('encodedAsDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
-        static::assertEquals('', $content);
+        static::assertSame('', $content);
     }
 
     #[Test]
@@ -84,6 +84,6 @@ final class DERDataTest extends TestCase
         $mtd = $cls->getMethod('encodedAsDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
-        static::assertEquals('test', $content);
+        static::assertSame('test', $content);
     }
 }

@@ -67,7 +67,7 @@ final class NameTest extends TestCase
     #[Depends('create')]
     public function firstValueOf(Name $name)
     {
-        static::assertEquals('two', $name->firstValueOf('name')->stringValue());
+        static::assertSame('two', $name->firstValueOf('name')->stringValue());
     }
 
     #[Test]
@@ -98,14 +98,14 @@ final class NameTest extends TestCase
     #[Depends('create')]
     public function countOfType(Name $name)
     {
-        static::assertEquals(2, $name->countOfType('name'));
+        static::assertSame(2, $name->countOfType('name'));
     }
 
     #[Test]
     #[Depends('create')]
     public function countOfTypeNone(Name $name)
     {
-        static::assertEquals(0, $name->countOfType('cn'));
+        static::assertSame(0, $name->countOfType('cn'));
     }
 
     #[Test]
@@ -123,7 +123,7 @@ final class NameTest extends TestCase
     #[Depends('create')]
     public function string(Name $name)
     {
-        static::assertEquals('name=one,name=two', $name->toString());
+        static::assertSame('name=one,name=two', $name->toString());
     }
 
     #[Test]

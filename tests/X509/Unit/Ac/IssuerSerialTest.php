@@ -84,7 +84,7 @@ final class IssuerSerialTest extends TestCase
     #[Depends('create')]
     public function serial(IssuerSerial $is)
     {
-        static::assertEquals(1, $is->serial());
+        static::assertSame('1', $is->serial());
     }
 
     #[Test]

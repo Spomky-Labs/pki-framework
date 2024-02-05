@@ -33,7 +33,7 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         $email = $san->names()
             ->firstOf(GeneralName::TAG_RFC822_NAME)
             ->email();
-        static::assertEquals('foo@example.com', $email);
+        static::assertSame('foo@example.com', $email);
     }
 
     #[Test]
@@ -43,7 +43,7 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         $uri = $san->names()
             ->firstOf(GeneralName::TAG_URI)
             ->uri();
-        static::assertEquals('urn:foo:bar', $uri);
+        static::assertSame('urn:foo:bar', $uri);
     }
 
     #[Test]
@@ -53,7 +53,7 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         $name = $san->names()
             ->firstOf(GeneralName::TAG_DNS_NAME)
             ->name();
-        static::assertEquals('alt.example.com', $name);
+        static::assertSame('alt.example.com', $name);
     }
 
     #[Test]
@@ -63,7 +63,7 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
         $oid = $san->names()
             ->firstOf(GeneralName::TAG_REGISTERED_ID)
             ->oid();
-        static::assertEquals('1.3.6.1.4.1.45710.2.1', $oid);
+        static::assertSame('1.3.6.1.4.1.45710.2.1', $oid);
     }
 
     #[Test]
@@ -84,6 +84,6 @@ final class SubjectAlternativeNameTest extends RefExtTestHelper
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()
             ->toString();
-        static::assertEquals('o=ACME Alternative Ltd.,c=FI,cn=alt.example.com', $dn);
+        static::assertSame('o=ACME Alternative Ltd.,c=FI,cn=alt.example.com', $dn);
     }
 }

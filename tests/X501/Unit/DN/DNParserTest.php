@@ -167,7 +167,7 @@ final class DNParserTest extends TestCase
     public function escapeString($str, $expected)
     {
         $escaped = DNParser::escapeString($str);
-        static::assertEquals($expected, $escaped);
+        static::assertSame($expected, $escaped);
     }
 
     public static function provideEscapeString(): Iterator

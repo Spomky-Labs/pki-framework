@@ -34,6 +34,6 @@ final class IssuerAlternativeNameTest extends RefExtTestHelper
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()
             ->toString();
-        static::assertEquals('o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate', $dn);
+        static::assertSame('o=ACME Alternative Ltd.,c=FI,cn=ACME Wheel Intermediate', $dn);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use BadMethodCallException;
-use function mb_strlen;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +21,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
+use function mb_strlen;
 
 /**
  * @internal
@@ -54,7 +54,7 @@ final class PublicKeyInfoTest extends TestCase
     #[Depends('algoObj')]
     public function algoOID(AlgorithmIdentifier $algo)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
+        static::assertSame(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
     #[Test]
@@ -127,7 +127,7 @@ final class PublicKeyInfoTest extends TestCase
     public function keyIdentifier(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier();
-        static::assertEquals(160, mb_strlen($id, '8bit') * 8);
+        static::assertSame(160, mb_strlen($id, '8bit') * 8);
     }
 
     #[Test]
@@ -135,7 +135,7 @@ final class PublicKeyInfoTest extends TestCase
     public function keyIdentifier64(PublicKeyInfo $pki)
     {
         $id = $pki->keyIdentifier64();
-        static::assertEquals(64, mb_strlen($id, '8bit') * 8);
+        static::assertSame(64, mb_strlen($id, '8bit') * 8);
     }
 
     #[Test]

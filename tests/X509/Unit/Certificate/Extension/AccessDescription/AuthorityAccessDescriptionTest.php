@@ -76,13 +76,13 @@ final class AuthorityAccessDescriptionTest extends TestCase
     #[Depends('create')]
     public function accessMethod(AuthorityAccessDescription $desc)
     {
-        static::assertEquals(AuthorityAccessDescription::OID_METHOD_OSCP, $desc->accessMethod());
+        static::assertSame(AuthorityAccessDescription::OID_METHOD_OSCP, $desc->accessMethod());
     }
 
     #[Test]
     #[Depends('create')]
     public function location(AuthorityAccessDescription $desc)
     {
-        static::assertEquals(self::URI, $desc->accessLocation()->string());
+        static::assertSame(self::URI, $desc->accessLocation()->string());
     }
 }

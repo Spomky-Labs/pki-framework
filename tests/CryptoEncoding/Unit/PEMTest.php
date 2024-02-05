@@ -9,8 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -37,7 +37,7 @@ final class PEMTest extends TestCase
     #[Depends('fromFile')]
     public function type(PEM $pem)
     {
-        static::assertEquals(PEM::TYPE_PUBLIC_KEY, $pem->type());
+        static::assertSame(PEM::TYPE_PUBLIC_KEY, $pem->type());
     }
 
     #[Test]
@@ -50,7 +50,7 @@ final class PEMTest extends TestCase
 {$encoded}
 -----END TEST-----
 CODE_SAMPLE;
-        static::assertEquals($data, PEM::fromString($str)->data());
+        static::assertSame($data, PEM::fromString($str)->data());
     }
 
     #[Test]

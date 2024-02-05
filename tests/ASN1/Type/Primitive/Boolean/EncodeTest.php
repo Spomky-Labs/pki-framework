@@ -17,13 +17,13 @@ final class EncodeTest extends TestCase
     public function true()
     {
         $el = Boolean::create(true);
-        static::assertEquals("\x1\x1\xff", $el->toDER());
+        static::assertSame("\x1\x1\xff", $el->toDER());
     }
 
     #[Test]
     public function false()
     {
         $el = Boolean::create(false);
-        static::assertEquals("\x1\x1\x00", $el->toDER());
+        static::assertSame("\x1\x1\x00", $el->toDER());
     }
 }

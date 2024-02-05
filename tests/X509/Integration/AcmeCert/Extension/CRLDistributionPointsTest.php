@@ -51,7 +51,7 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     public function fullName(DistributionPoint $dp)
     {
         $name = $dp->distributionPointName();
-        static::assertEquals(DistributionPointName::TAG_FULL_NAME, $name->tag());
+        static::assertSame(DistributionPointName::TAG_FULL_NAME, $name->tag());
         return $name;
     }
 
@@ -62,7 +62,7 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
         $uri = $name->names()
             ->firstOf(GeneralName::TAG_URI)
             ->uri();
-        static::assertEquals('http://example.com/myca.crl', $uri);
+        static::assertSame('http://example.com/myca.crl', $uri);
     }
 
     /**
@@ -108,6 +108,6 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
     public function issuerDirName(GeneralNames $gn)
     {
         $dn = $gn->firstOf(GeneralName::TAG_DIRECTORY_NAME)->dn();
-        static::assertEquals('cn=ACME,o=ACME Ltd.', $dn->toString());
+        static::assertSame('cn=ACME,o=ACME Ltd.', $dn->toString());
     }
 }

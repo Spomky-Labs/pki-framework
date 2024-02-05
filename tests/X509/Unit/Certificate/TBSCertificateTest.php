@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use Brick\Math\BigInteger;
 use LogicException;
-use function mb_strlen;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -26,6 +25,7 @@ use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
 use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
 use SpomkyLabs\Pki\X509\Certificate\Validity;
 use UnexpectedValueException;
+use function mb_strlen;
 
 /**
  * @internal
@@ -121,14 +121,14 @@ final class TBSCertificateTest extends TestCase
     #[Depends('createWithAll')]
     public function version(TBSCertificate $tc)
     {
-        static::assertEquals(TBSCertificate::VERSION_3, $tc->version());
+        static::assertSame(TBSCertificate::VERSION_3, $tc->version());
     }
 
     #[Test]
     #[Depends('createWithAll')]
     public function serialNumber(TBSCertificate $tc)
     {
-        static::assertEquals(1, $tc->serialNumber());
+        static::assertSame('1', $tc->serialNumber());
     }
 
     #[Test]
@@ -170,14 +170,14 @@ final class TBSCertificateTest extends TestCase
     #[Depends('createWithAll')]
     public function issuerUniqueID(TBSCertificate $tc)
     {
-        static::assertEquals('issuer', $tc->issuerUniqueID()->string());
+        static::assertSame('issuer', $tc->issuerUniqueID()->string());
     }
 
     #[Test]
     #[Depends('createWithAll')]
     public function subjectUniqueID(TBSCertificate $tc)
     {
-        static::assertEquals('subject', $tc->subjectUniqueID()->string());
+        static::assertSame('subject', $tc->subjectUniqueID()->string());
     }
 
     #[Test]
@@ -209,7 +209,7 @@ final class TBSCertificateTest extends TestCase
     {
         $tc = $tc->withRandomSerialNumber(16);
         $bin = BigInteger::of($tc->serialNumber())->toBytes();
-        static::assertEquals(16, mb_strlen($bin, '8bit'));
+        static::assertSame(16, mb_strlen($bin, '8bit'));
     }
 
     #[Test]

@@ -69,7 +69,7 @@ final class AttributeTest extends TestCase
     #[Depends('create')]
     public function first(Attribute $attr): void
     {
-        static::assertEquals('one', $attr->first()->rfc2253String());
+        static::assertSame('one', $attr->first()->rfc2253String());
     }
 
     #[Test]

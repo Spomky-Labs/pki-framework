@@ -17,6 +17,6 @@ final class EncodeTest extends TestCase
     public function encode()
     {
         $el = NullType::create();
-        static::assertEquals("\x5\x0", $el->toDER());
+        static::assertSame("\x5\x0", $el->toDER());
     }
 }

@@ -32,7 +32,7 @@ final class ObjectDescriptorTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_OBJECT_DESCRIPTOR, $el->tag());
+        static::assertSame(Element::TYPE_OBJECT_DESCRIPTOR, $el->tag());
     }
 
     #[Test]
@@ -68,7 +68,7 @@ final class ObjectDescriptorTest extends TestCase
     #[Depends('create')]
     public function descriptor(ObjectDescriptor $desc)
     {
-        static::assertEquals(self::DESCRIPTOR, $desc->descriptor());
+        static::assertSame(self::DESCRIPTOR, $desc->descriptor());
     }
 
     #[Test]

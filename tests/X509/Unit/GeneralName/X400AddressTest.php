@@ -42,7 +42,7 @@ final class X400AddressTest extends TestCase
     public function choiceTag(string $der): void
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_X400_ADDRESS, $el->tag());
+        static::assertSame(GeneralName::TAG_X400_ADDRESS, $el->tag());
     }
 
     #[Test]

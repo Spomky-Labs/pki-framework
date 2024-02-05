@@ -30,7 +30,7 @@ final class StringTypeDecodeTest extends TestCase
     public function value()
     {
         $el = BaseString::fromDER("\x13\x0bHello World");
-        static::assertEquals('Hello World', $el->string());
+        static::assertSame('Hello World', $el->string());
     }
 
     #[Test]

@@ -29,7 +29,7 @@ final class DecodeTest extends TestCase
     public function pEM()
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem');
-        static::assertEquals(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $pem->type());
+        static::assertSame(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $pem->type());
         return $pem;
     }
 

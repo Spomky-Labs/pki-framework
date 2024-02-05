@@ -25,6 +25,6 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = GraphicString::fromDER("\x19\x0c{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 }

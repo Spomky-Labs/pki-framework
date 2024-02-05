@@ -31,7 +31,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_SUBJECT_KEY_IDENTIFIER, $ext->oid());
+        static::assertSame(Extension::OID_SUBJECT_KEY_IDENTIFIER, $ext->oid());
     }
 
     #[Test]
@@ -74,7 +74,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     #[Depends('create')]
     public function keyIdentifier(SubjectKeyIdentifierExtension $ext)
     {
-        static::assertEquals(self::KEY_ID, $ext->keyIdentifier());
+        static::assertSame(self::KEY_ID, $ext->keyIdentifier());
     }
 
     #[Test]

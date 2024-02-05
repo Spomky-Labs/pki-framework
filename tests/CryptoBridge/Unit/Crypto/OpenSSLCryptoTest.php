@@ -146,9 +146,9 @@ final class OpenSSLCryptoTest extends TestCase
     public function encryptAndDecrypt($data, CipherAlgorithmIdentifier $algo, $key): void
     {
         $ciphertext = self::$_crypto->encrypt($data, $key, $algo);
-        static::assertNotEquals($data, $ciphertext);
+        static::assertNotSame($data, $ciphertext);
         $plaintext = self::$_crypto->decrypt($ciphertext, $key, $algo);
-        static::assertEquals($data, $plaintext);
+        static::assertSame($data, $plaintext);
     }
 
     public static function provideEncryptAndDecrypt(): iterable

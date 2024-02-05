@@ -19,7 +19,7 @@ final class MapStepTest extends TestCase
     public function applyCaseFold(string $string, string $expected): void
     {
         $step = MapStep::create(true);
-        static::assertEquals($expected, $step->apply($string));
+        static::assertSame($expected, $step->apply($string));
     }
 
     public static function provideApplyCaseFold(): iterable

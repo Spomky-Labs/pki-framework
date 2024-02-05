@@ -58,14 +58,14 @@ final class AttributeTypeTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeType $type)
     {
-        static::assertEquals(AttributeType::OID_NAME, $type->oid());
+        static::assertSame(AttributeType::OID_NAME, $type->oid());
     }
 
     #[Test]
     #[Depends('create')]
     public function verifyName(AttributeType $type = null)
     {
-        static::assertEquals('name', $type->typeName());
+        static::assertSame('name', $type->typeName());
     }
 
     #[Test]

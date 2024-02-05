@@ -34,7 +34,7 @@ final class PrivateTypeTest extends TestCase
     public function createImplicit()
     {
         $el = ImplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_PRIVATE);
-        static::assertEquals("\xc1\x01\x2a", $el->toDER());
+        static::assertSame("\xc1\x01\x2a", $el->toDER());
     }
 
     #[Test]
@@ -53,7 +53,7 @@ final class PrivateTypeTest extends TestCase
     #[Depends('unwrapImplicit')]
     public function implicitValue(Integer $el)
     {
-        static::assertEquals(42, $el->intNumber());
+        static::assertSame(42, $el->intNumber());
     }
 
     #[Test]
@@ -69,7 +69,7 @@ final class PrivateTypeTest extends TestCase
     public function createExplicit()
     {
         $el = ExplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_PRIVATE);
-        static::assertEquals("\xe1\x03\x02\x01\x2a", $el->toDER());
+        static::assertSame("\xe1\x03\x02\x01\x2a", $el->toDER());
     }
 
     #[Test]
@@ -89,7 +89,7 @@ final class PrivateTypeTest extends TestCase
     #[Depends('unwrapExplicit')]
     public function explicitValue(Integer $el)
     {
-        static::assertEquals(42, $el->intNumber());
+        static::assertSame(42, $el->intNumber());
     }
 
     #[Test]
@@ -97,7 +97,7 @@ final class PrivateTypeTest extends TestCase
     public function recodeExplicit(PrivateType $el)
     {
         $der = $el->toDER();
-        static::assertEquals("\xe1\x03\x02\x01\x2a", $der);
+        static::assertSame("\xe1\x03\x02\x01\x2a", $der);
     }
 
     #[Test]

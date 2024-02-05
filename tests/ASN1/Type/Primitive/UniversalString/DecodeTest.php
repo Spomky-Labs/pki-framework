@@ -26,7 +26,7 @@ final class DecodeTest extends TestCase
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0l\0\0\0o";
         $el = UniversalString::fromDER("\x1c\x14{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 
     #[Test]

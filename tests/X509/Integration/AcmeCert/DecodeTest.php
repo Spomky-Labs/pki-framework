@@ -67,7 +67,7 @@ final class DecodeTest extends TestCase
     #[Depends('signatureAlgorithm')]
     public function signatureAlgorithmValue(AlgorithmIdentifier $algo)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
+        static::assertSame(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -94,21 +94,21 @@ final class DecodeTest extends TestCase
     #[Depends('tBSCertificate')]
     public function version(TBSCertificate $tbsCert)
     {
-        static::assertEquals(TBSCertificate::VERSION_3, $tbsCert->version());
+        static::assertSame(TBSCertificate::VERSION_3, $tbsCert->version());
     }
 
     #[Test]
     #[Depends('tBSCertificate')]
     public function serial(TBSCertificate $tbsCert)
     {
-        static::assertEquals(42, $tbsCert->serialNumber());
+        static::assertSame('42', $tbsCert->serialNumber());
     }
 
     #[Test]
     #[Depends('tBSCertificate')]
     public function signatureAlgo(TBSCertificate $tbsCert)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $tbsCert->signature()->oid());
+        static::assertSame(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $tbsCert->signature()->oid());
     }
 
     /**
@@ -127,7 +127,7 @@ final class DecodeTest extends TestCase
     #[Depends('issuer')]
     public function issuerDN(Name $name)
     {
-        static::assertEquals('o=ACME Ltd.,c=FI,cn=ACME Intermediate CA', $name->toString());
+        static::assertSame('o=ACME Ltd.,c=FI,cn=ACME Intermediate CA', $name->toString());
     }
 
     /**
@@ -150,7 +150,7 @@ final class DecodeTest extends TestCase
             ->dateTime()
             ->setTimezone(new DateTimeZone('GMT'))
             ->format('M j H:i:s Y T');
-        static::assertEquals('Jan 1 12:00:00 2016 GMT', $str);
+        static::assertSame('Jan 1 12:00:00 2016 GMT', $str);
     }
 
     #[Test]
@@ -161,7 +161,7 @@ final class DecodeTest extends TestCase
             ->dateTime()
             ->setTimezone(new DateTimeZone('GMT'))
             ->format('M j H:i:s Y T');
-        static::assertEquals('Jan 2 15:04:05 2026 GMT', $str);
+        static::assertSame('Jan 2 15:04:05 2026 GMT', $str);
     }
 
     /**
@@ -180,7 +180,7 @@ final class DecodeTest extends TestCase
     #[Depends('subject')]
     public function subjectDN(Name $name)
     {
-        static::assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
+        static::assertSame('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
     }
 
     /**
@@ -199,7 +199,7 @@ final class DecodeTest extends TestCase
     #[Depends('subjectPublicKeyInfo')]
     public function publicKeyAlgo(PublicKeyInfo $pki)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $pki->algorithmIdentifier()->oid());
+        static::assertSame(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $pki->algorithmIdentifier()->oid());
     }
 
     #[Test]

@@ -42,7 +42,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
+        static::assertSame(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES, $ext->oid());
     }
 
     #[Test]
@@ -85,14 +85,14 @@ final class SubjectDirectoryAttributesTest extends TestCase
     #[Depends('create')]
     public function cN(SubjectDirectoryAttributesExtension $ext)
     {
-        static::assertEquals(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME)->first()->stringValue());
+        static::assertSame(self::CN, $ext->firstOf(AttributeType::OID_COMMON_NAME)->first()->stringValue());
     }
 
     #[Test]
     #[Depends('create')]
     public function desc(SubjectDirectoryAttributesExtension $ext)
     {
-        static::assertEquals(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION)->first()->stringValue());
+        static::assertSame(self::DESC, $ext->firstOf(AttributeType::OID_DESCRIPTION)->first()->stringValue());
     }
 
     #[Test]

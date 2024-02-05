@@ -26,7 +26,7 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = IA5String::fromDER("\x16\x0c{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 
     #[Test]

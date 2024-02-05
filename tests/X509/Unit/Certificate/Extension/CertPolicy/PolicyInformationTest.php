@@ -63,7 +63,7 @@ final class PolicyInformationTest extends TestCase
     #[Depends('createWithCPS')]
     public function oID(PolicyInformation $pi)
     {
-        static::assertEquals(self::OID, $pi->oid());
+        static::assertSame(self::OID, $pi->oid());
     }
 
     #[Test]

@@ -28,7 +28,7 @@ final class DecodeTest extends TestCase
     {
         $date = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $el = GeneralizedTime::fromDER("\x18\x0f" . '20060102220405Z');
-        static::assertEquals($date, $el->dateTime()->getTimestamp());
+        static::assertSame($date, $el->dateTime()->getTimestamp());
     }
 
     #[Test]
@@ -37,7 +37,7 @@ final class DecodeTest extends TestCase
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
         $dt = DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999", new DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x15" . '20060102220405.99999Z');
-        static::assertEquals($dt->format('c u'), $el->dateTime()->format('c u'));
+        static::assertSame($dt->format('c u'), $el->dateTime()->format('c u'));
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class DecodeTest extends TestCase
         $dt = new DateTimeImmutable('Mon Jan 2 15:04:05 MST 2006');
         $dt = $dt->setTimezone(new DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x0f" . '20060102220405Z');
-        static::assertEquals($dt->format('c u'), $el->dateTime()->format('c u'));
+        static::assertSame($dt->format('c u'), $el->dateTime()->format('c u'));
     }
 
     #[Test]
