@@ -29,6 +29,11 @@
             <directory>tests/X509</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory>src/</directory>
+        </include>
+    </source>
     <php>
         <ini name="display_errors" value="1"/>
         <ini name="error_reporting" value="-1"/>

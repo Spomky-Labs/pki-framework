@@ -79,7 +79,7 @@ jobs:
             composer-options: "--optimize-autoloader"
 
       -   name: "Execute tests (PHP)"
-          run: "make ci-cc"
+          run: "make ci-test"
 
   #      - name: Send coverage to Coveralls
   #        if: "matrix.php-version == '8.1' && matrix.dependencies == 'highest'"

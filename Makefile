@@ -26,9 +26,13 @@ st: vendor ## Run static analyse
 ci-mu: vendor ## Mutation tests (for CI/CD only)
 	vendor/bin/infection --logger-github -s --threads=$$(nproc) --min-msi=45 --min-covered-msi=60
 
+.PHONY: ci-test
+ci-test: vendor ## Show test coverage rates (for CI/CD only)
+	XDEBUG_MODE=off vendor/bin/phpunit
+
 .PHONY: ci-cc
 ci-cc: vendor ## Show test coverage rates (for CI/CD only)
-	XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+	XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text
 
 .PHONY: ci-cs
 ci-cs: vendor ## Check all files using defined ECS rules (for CI/CD only)
