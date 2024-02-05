@@ -26,7 +26,7 @@ final class DecodeTest extends TestCase
     {
         $str = '⠠⠓⠑⠇⠇⠕ ⠠⠺⠕⠗⠇⠙!';
         $el = UTF8String::fromDER("\x0c\x26{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 
     #[Test]

@@ -17,13 +17,13 @@ final class IdentifierTest extends TestCase
     public function classToName()
     {
         $name = Identifier::classToName(Identifier::CLASS_UNIVERSAL);
-        static::assertEquals('UNIVERSAL', $name);
+        static::assertSame('UNIVERSAL', $name);
     }
 
     #[Test]
     public function unknownClassToName()
     {
         $name = Identifier::classToName(0xff);
-        static::assertEquals('CLASS 255', $name);
+        static::assertSame('CLASS 255', $name);
     }
 }

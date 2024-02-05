@@ -31,7 +31,7 @@ final class ExplicitlyTaggedTypeTest extends TestCase
     #[Depends('create')]
     public function getExplicit(ExplicitTagging $el)
     {
-        static::assertEquals(Element::TYPE_NULL, $el->explicit()->tag());
+        static::assertSame(Element::TYPE_NULL, $el->explicit()->tag());
     }
 
     #[Test]

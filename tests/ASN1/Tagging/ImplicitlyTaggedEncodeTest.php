@@ -20,14 +20,14 @@ final class ImplicitlyTaggedEncodeTest extends TestCase
     public function null()
     {
         $el = ImplicitlyTaggedType::create(0, NullType::create());
-        static::assertEquals("\x80\x0", $el->toDER());
+        static::assertSame("\x80\x0", $el->toDER());
     }
 
     #[Test]
     public function longTag()
     {
         $el = ImplicitlyTaggedType::create(255, NullType::create());
-        static::assertEquals("\x9f\x81\x7f\x0", $el->toDER());
+        static::assertSame("\x9f\x81\x7f\x0", $el->toDER());
     }
 
     #[Test]

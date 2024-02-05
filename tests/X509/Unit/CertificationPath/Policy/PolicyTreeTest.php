@@ -58,6 +58,6 @@ final class PolicyTreeTest extends TestCase
         $prop->setValue($tree, null);
         $mtd = $obj->getMethod('pruneTree');
         $mtd->setAccessible(true);
-        static::assertEquals(0, $mtd->invoke($tree, 0));
+        static::assertSame(0, $mtd->invoke($tree, 0));
     }
 }

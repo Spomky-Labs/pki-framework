@@ -18,8 +18,8 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
 use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequestInfo;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -144,7 +144,7 @@ final class CertificationRequestTest extends TestCase
     #[Depends('toPEM')]
     public function pEMType(PEM $pem)
     {
-        static::assertEquals(PEM::TYPE_CERTIFICATE_REQUEST, $pem->type());
+        static::assertSame(PEM::TYPE_CERTIFICATE_REQUEST, $pem->type());
     }
 
     #[Test]

@@ -30,7 +30,7 @@ final class GraphicStringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_GRAPHIC_STRING, $el->tag());
+        static::assertSame(Element::TYPE_GRAPHIC_STRING, $el->tag());
     }
 
     #[Test]

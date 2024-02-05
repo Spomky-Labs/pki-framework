@@ -30,7 +30,7 @@ final class PrintableStringTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_PRINTABLE_STRING, $el->tag());
+        static::assertSame(Element::TYPE_PRINTABLE_STRING, $el->tag());
     }
 
     #[Test]

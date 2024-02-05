@@ -7,12 +7,12 @@ namespace SpomkyLabs\Pki\Test\ASN1\Util;
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use InvalidArgumentException;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Util\BigInt;
 use function strval;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 
 /**
  * @internal
@@ -75,7 +75,7 @@ final class BigIntTest extends TestCase
     public function fromUnsignedOctets()
     {
         $int = BigInt::fromUnsignedOctets(hex2bin('ff'));
-        static::assertEquals(255, $int->toInt());
+        static::assertSame(255, $int->toInt());
     }
 
     #[Test]
@@ -90,7 +90,7 @@ final class BigIntTest extends TestCase
     public function fromSignedOctets()
     {
         $int = BigInt::fromSignedOctets(hex2bin('80'));
-        static::assertEquals(-128, $int->toInt());
+        static::assertSame(-128, $int->toInt());
     }
 
     #[Test]

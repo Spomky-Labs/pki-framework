@@ -44,7 +44,7 @@ final class OtherNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_OTHER_NAME, $el->tag());
+        static::assertSame(GeneralName::TAG_OTHER_NAME, $el->tag());
     }
 
     /**
@@ -78,7 +78,7 @@ final class OtherNameTest extends TestCase
     #[Depends('create')]
     public function oID(OtherName $name)
     {
-        static::assertEquals('1.3.6.1.3.1', $name->type());
+        static::assertSame('1.3.6.1.3.1', $name->type());
     }
 
     #[Test]

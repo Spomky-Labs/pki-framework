@@ -50,7 +50,7 @@ final class AttributeCollectionTest extends TestCase
     #[Depends('create')]
     public function firstOf(AttributeCollection $c)
     {
-        static::assertEquals('n1', $c->firstOf('name')->first()->stringValue());
+        static::assertSame('n1', $c->firstOf('name')->first()->stringValue());
     }
 
     #[Test]
@@ -67,14 +67,14 @@ final class AttributeCollectionTest extends TestCase
     public function allOf(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->allOf('name'));
-        static::assertEquals(['n1', 'n2'], $vals);
+        static::assertSame(['n1', 'n2'], $vals);
     }
 
     #[Test]
     #[Depends('create')]
     public function allOfNone(AttributeCollection $c)
     {
-        static::assertEquals([], $c->allOf('commonName'));
+        static::assertSame([], $c->allOf('commonName'));
     }
 
     #[Test]
@@ -82,7 +82,7 @@ final class AttributeCollectionTest extends TestCase
     public function all(AttributeCollection $c)
     {
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
-        static::assertEquals(['n1', 'n2', 'd'], $vals);
+        static::assertSame(['n1', 'n2', 'd'], $vals);
     }
 
     #[Test]
@@ -91,7 +91,7 @@ final class AttributeCollectionTest extends TestCase
     {
         $c = $c->withAdditional(Attribute::fromAttributeValues(CommonNameValue::create('cn')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
-        static::assertEquals(['n1', 'n2', 'd', 'cn'], $vals);
+        static::assertSame(['n1', 'n2', 'd', 'cn'], $vals);
     }
 
     #[Test]
@@ -100,7 +100,7 @@ final class AttributeCollectionTest extends TestCase
     {
         $c = $c->withUnique(Attribute::fromAttributeValues(NameValue::create('uniq')));
         $vals = array_map(fn (Attribute $attr) => $attr->first()->stringValue(), $c->all());
-        static::assertEquals(['d', 'uniq'], $vals);
+        static::assertSame(['d', 'uniq'], $vals);
     }
 
     #[Test]
@@ -118,6 +118,6 @@ final class AttributeCollectionTest extends TestCase
         foreach ($c as $attr) {
             $vals[] = $attr->first()->stringValue();
         }
-        static::assertEquals(['n1', 'n2', 'd'], $vals);
+        static::assertSame(['n1', 'n2', 'd'], $vals);
     }
 }

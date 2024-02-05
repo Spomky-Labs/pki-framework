@@ -32,7 +32,7 @@ final class ImplicitlyTaggedTypeTest extends TestCase
     #[Depends('create')]
     public function getImplicit(ImplicitTagging $el)
     {
-        static::assertEquals(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
+        static::assertSame(Element::TYPE_NULL, $el->implicit(Element::TYPE_NULL)->tag());
     }
 
     #[Test]

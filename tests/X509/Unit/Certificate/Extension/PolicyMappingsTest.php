@@ -50,7 +50,7 @@ final class PolicyMappingsTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_POLICY_MAPPINGS, $ext->oid());
+        static::assertSame(Extension::OID_POLICY_MAPPINGS, $ext->oid());
     }
 
     #[Test]
@@ -135,14 +135,14 @@ final class PolicyMappingsTest extends TestCase
     #[Depends('mapping')]
     public function issuerPolicy(PolicyMapping $mapping)
     {
-        static::assertEquals(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
+        static::assertSame(self::ISSUER_POLICY_OID, $mapping->issuerDomainPolicy());
     }
 
     #[Test]
     #[Depends('mapping')]
     public function subjectPolicy(PolicyMapping $mapping)
     {
-        static::assertEquals(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
+        static::assertSame(self::SUBJECT_POLICY_OID, $mapping->subjectDomainPolicy());
     }
 
     #[Test]

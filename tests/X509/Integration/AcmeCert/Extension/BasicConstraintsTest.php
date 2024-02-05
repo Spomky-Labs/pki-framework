@@ -35,6 +35,6 @@ final class BasicConstraintsTest extends RefExtTestHelper
     #[Depends('basicConstraintsExtension')]
     public function basicConstraintsPathLen(BasicConstraintsExtension $bc)
     {
-        static::assertEquals(3, $bc->pathLen());
+        static::assertSame(3, $bc->pathLen());
     }
 }

@@ -53,7 +53,7 @@ final class ECPKAITest extends TestCase
     #[Depends('decode')]
     public function namedCurve(ECPublicKeyAlgorithmIdentifier $ai)
     {
-        static::assertEquals(self::OID, $ai->namedCurve());
+        static::assertSame(self::OID, $ai->namedCurve());
     }
 
     #[Test]

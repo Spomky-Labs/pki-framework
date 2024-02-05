@@ -27,7 +27,7 @@ final class EOCTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_EOC, $el->tag());
+        static::assertSame(Element::TYPE_EOC, $el->tag());
     }
 
     #[Test]

@@ -93,7 +93,7 @@ final class V2FormTest extends TestCase
     #[Depends('create')]
     public function verifyName(V2Form $issuer = null)
     {
-        static::assertEquals('cn=Test', $issuer->name());
+        static::assertSame('cn=Test', $issuer->name()->toString());
     }
 
     #[Test]

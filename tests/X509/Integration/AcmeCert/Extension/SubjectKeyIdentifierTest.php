@@ -35,6 +35,6 @@ final class SubjectKeyIdentifierTest extends RefExtTestHelper
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()
             ->keyIdentifier();
-        static::assertEquals($keyid, $ski->keyIdentifier());
+        static::assertSame($keyid, $ski->keyIdentifier());
     }
 }

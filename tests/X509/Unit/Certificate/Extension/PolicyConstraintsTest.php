@@ -30,7 +30,7 @@ final class PolicyConstraintsTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_POLICY_CONSTRAINTS, $ext->oid());
+        static::assertSame(Extension::OID_POLICY_CONSTRAINTS, $ext->oid());
     }
 
     #[Test]
@@ -73,14 +73,14 @@ final class PolicyConstraintsTest extends TestCase
     #[Depends('create')]
     public function requireExplicit(PolicyConstraintsExtension $ext)
     {
-        static::assertEquals(2, $ext->requireExplicitPolicy());
+        static::assertSame(2, $ext->requireExplicitPolicy());
     }
 
     #[Test]
     #[Depends('create')]
     public function inhibitMapping(PolicyConstraintsExtension $ext)
     {
-        static::assertEquals(3, $ext->inhibitPolicyMapping());
+        static::assertSame(3, $ext->inhibitPolicyMapping());
     }
 
     #[Test]

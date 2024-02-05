@@ -29,8 +29,8 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal

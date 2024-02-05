@@ -76,13 +76,13 @@ final class SubjectAccessDescriptionTest extends TestCase
     #[Depends('create')]
     public function accessMethod(SubjectAccessDescription $desc)
     {
-        static::assertEquals(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY, $desc->accessMethod());
+        static::assertSame(SubjectAccessDescription::OID_METHOD_CA_REPOSITORY, $desc->accessMethod());
     }
 
     #[Test]
     #[Depends('create')]
     public function location(SubjectAccessDescription $desc)
     {
-        static::assertEquals(self::URI, $desc->accessLocation()->string());
+        static::assertSame(self::URI, $desc->accessLocation()->string());
     }
 }

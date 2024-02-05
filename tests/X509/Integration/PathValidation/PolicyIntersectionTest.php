@@ -116,6 +116,6 @@ final class PolicyIntersectionTest extends TestCase
         $config = PathValidationConfig::create(new DateTimeImmutable(), 3);
         $config = $config->withPolicySet('1.3.6.1.3');
         $result = $path->validate($config);
-        static::assertEquals('Test', $result->policies()[0]->userNoticeQualifier()->explicitText()->string());
+        static::assertSame('Test', $result->policies()[0]->userNoticeQualifier()->explicitText()->string());
     }
 }

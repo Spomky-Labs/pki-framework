@@ -66,21 +66,21 @@ final class AccessIdentityTest extends TestCase
     #[Depends('create')]
     public function oID(AttributeValue $value)
     {
-        static::assertEquals(AccessIdentityAttributeValue::OID, $value->oid());
+        static::assertSame(AccessIdentityAttributeValue::OID, $value->oid());
     }
 
     #[Test]
     #[Depends('create')]
     public function service(AccessIdentityAttributeValue $value)
     {
-        static::assertEquals(self::SERVICE_URI, $value->service());
+        static::assertSame(self::SERVICE_URI, $value->service()->string());
     }
 
     #[Test]
     #[Depends('create')]
     public function ident(AccessIdentityAttributeValue $value)
     {
-        static::assertEquals(self::IDENT_URI, $value->ident());
+        static::assertSame(self::IDENT_URI, $value->ident()->string());
     }
 
     #[Test]

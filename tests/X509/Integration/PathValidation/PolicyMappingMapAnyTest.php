@@ -94,7 +94,7 @@ final class PolicyMappingMapAnyTest extends TestCase
         $config = PathValidationConfig::create(new DateTimeImmutable(), 3);
         $config = $config->withExplicitPolicy(true);
         $result = $path->validate($config);
-        static::assertEquals('1.3.6.1.3.2', $result->policies()[0]->oid());
+        static::assertSame('1.3.6.1.3.2', $result->policies()[0]->oid());
     }
 
     #[Test]

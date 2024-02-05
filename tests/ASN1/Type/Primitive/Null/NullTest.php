@@ -30,7 +30,7 @@ final class NullTest extends TestCase
     #[Depends('create')]
     public function tag(Element $el)
     {
-        static::assertEquals(Element::TYPE_NULL, $el->tag());
+        static::assertSame(Element::TYPE_NULL, $el->tag());
     }
 
     #[Test]

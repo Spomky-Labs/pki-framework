@@ -67,7 +67,7 @@ final class DecodeTest extends TestCase
     #[Depends('signatureAlgorithm')]
     public function algoType(AlgorithmIdentifier $algo)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
+        static::assertSame(AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION, $algo->oid());
     }
 
     /**
@@ -94,7 +94,7 @@ final class DecodeTest extends TestCase
     #[Depends('certificationRequestInfo')]
     public function version(CertificationRequestInfo $cri)
     {
-        static::assertEquals(CertificationRequestInfo::VERSION_1, $cri->version());
+        static::assertSame(CertificationRequestInfo::VERSION_1, $cri->version());
     }
 
     /**
@@ -113,7 +113,7 @@ final class DecodeTest extends TestCase
     #[Depends('subject')]
     public function subjectDN(Name $name)
     {
-        static::assertEquals('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
+        static::assertSame('o=ACME Ltd.,c=FI,cn=example.com', $name->toString());
     }
 
     /**
@@ -132,7 +132,7 @@ final class DecodeTest extends TestCase
     #[Depends('subjectPKInfo')]
     public function publicKeyAlgo(PublicKeyInfo $info)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier()->oid());
+        static::assertSame(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $info->algorithmIdentifier()->oid());
     }
 
     #[Test]

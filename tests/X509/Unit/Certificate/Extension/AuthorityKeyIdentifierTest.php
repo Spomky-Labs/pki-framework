@@ -64,7 +64,7 @@ final class AuthorityKeyIdentifierTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext): void
     {
-        static::assertEquals(Extension::OID_AUTHORITY_KEY_IDENTIFIER, $ext->oid());
+        static::assertSame(Extension::OID_AUTHORITY_KEY_IDENTIFIER, $ext->oid());
     }
 
     #[Test]
@@ -107,7 +107,7 @@ final class AuthorityKeyIdentifierTest extends TestCase
     #[Depends('create')]
     public function keyIdentifier(AuthorityKeyIdentifierExtension $ext): void
     {
-        static::assertEquals(self::KEY_ID, $ext->keyIdentifier());
+        static::assertSame(self::KEY_ID, $ext->keyIdentifier());
     }
 
     #[Test]
@@ -121,7 +121,7 @@ final class AuthorityKeyIdentifierTest extends TestCase
     #[Depends('create')]
     public function serial(AuthorityKeyIdentifierExtension $ext): void
     {
-        static::assertEquals(self::SERIAL, $ext->serial());
+        static::assertSame(self::SERIAL, $ext->serial());
     }
 
     #[Test]

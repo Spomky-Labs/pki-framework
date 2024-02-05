@@ -49,6 +49,6 @@ final class SetOfAttributesTest extends TestCase
     public function recoded(SetOfAttributes $original, SetOfAttributes $recoded)
     {
         // compare DER encodings because SET OF sorts the elements
-        static::assertEquals($original->toASN1()->toDER(), $recoded->toASN1()->toDER());
+        static::assertSame($original->toASN1()->toDER(), $recoded->toASN1()->toDER());
     }
 }

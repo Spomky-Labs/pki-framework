@@ -56,7 +56,7 @@ final class PrivateKeyInfoTest extends TestCase
     #[Depends('algoObj')]
     public function algoOID(AlgorithmIdentifier $algo)
     {
-        static::assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
+        static::assertSame(AlgorithmIdentifier::OID_RSA_ENCRYPTION, $algo->oid());
     }
 
     #[Test]
@@ -99,7 +99,7 @@ final class PrivateKeyInfoTest extends TestCase
     #[Depends('getECPrivateKey')]
     public function eCPrivateKeyHasNamedCurve(ECPrivateKey $pk)
     {
-        static::assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
+        static::assertSame(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, $pk->namedCurve());
     }
 
     #[Test]
@@ -165,7 +165,7 @@ final class PrivateKeyInfoTest extends TestCase
     #[Depends('decodeRSA')]
     public function version(PrivateKeyInfo $pki)
     {
-        static::assertEquals(PrivateKeyInfo::VERSION_1, $pki->version());
+        static::assertSame(PrivateKeyInfo::VERSION_1, $pki->version());
     }
 
     #[Test]
@@ -233,7 +233,7 @@ final class PrivateKeyInfoTest extends TestCase
             ->firstOf(AttributeType::OID_COMMON_NAME)
             ->first()
             ->stringValue();
-        static::assertEquals('John Doe', $value);
+        static::assertSame('John Doe', $value);
     }
 
     #[Test]

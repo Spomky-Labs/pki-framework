@@ -30,7 +30,7 @@ final class DERTaggedTypeTest extends TestCase
     public function encode(DERTaggedType $el)
     {
         $der = $el->toDER();
-        static::assertEquals("\xa0\x2\x5\x0", $der);
+        static::assertSame("\xa0\x2\x5\x0", $der);
     }
 
     #[Test]

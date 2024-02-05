@@ -30,7 +30,7 @@ final class BasicConstraintsTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_BASIC_CONSTRAINTS, $ext->oid());
+        static::assertSame(Extension::OID_BASIC_CONSTRAINTS, $ext->oid());
     }
 
     #[Test]
@@ -80,7 +80,7 @@ final class BasicConstraintsTest extends TestCase
     #[Depends('create')]
     public function pathLen(BasicConstraintsExtension $ext)
     {
-        static::assertEquals(3, $ext->pathLen());
+        static::assertSame(3, $ext->pathLen());
     }
 
     #[Test]

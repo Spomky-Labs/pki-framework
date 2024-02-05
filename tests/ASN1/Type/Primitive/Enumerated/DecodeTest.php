@@ -24,6 +24,6 @@ final class DecodeTest extends TestCase
     public function value()
     {
         $el = Enumerated::fromDER("\x0a\x1\x1");
-        static::assertEquals(1, $el->number());
+        static::assertSame('1', $el->number());
     }
 }

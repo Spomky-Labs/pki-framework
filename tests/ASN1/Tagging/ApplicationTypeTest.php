@@ -34,7 +34,7 @@ final class ApplicationTypeTest extends TestCase
     public function createImplicit()
     {
         $el = ImplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_APPLICATION);
-        static::assertEquals("\x41\x01\x2a", $el->toDER());
+        static::assertSame("\x41\x01\x2a", $el->toDER());
     }
 
     #[Test]
@@ -53,7 +53,7 @@ final class ApplicationTypeTest extends TestCase
     #[Depends('unwrapImplicit')]
     public function implicitValue(Integer $el)
     {
-        static::assertEquals(42, $el->intNumber());
+        static::assertSame(42, $el->intNumber());
     }
 
     #[Test]
@@ -69,7 +69,7 @@ final class ApplicationTypeTest extends TestCase
     public function createExplicit()
     {
         $el = ExplicitlyTaggedType::create(1, Integer::create(42), Identifier::CLASS_APPLICATION);
-        static::assertEquals("\x61\x03\x02\x01\x2a", $el->toDER());
+        static::assertSame("\x61\x03\x02\x01\x2a", $el->toDER());
     }
 
     #[Test]
@@ -89,7 +89,7 @@ final class ApplicationTypeTest extends TestCase
     #[Depends('unwrapExplicit')]
     public function explicitValue(Integer $el)
     {
-        static::assertEquals(42, $el->intNumber());
+        static::assertSame(42, $el->intNumber());
     }
 
     #[Test]
@@ -97,7 +97,7 @@ final class ApplicationTypeTest extends TestCase
     public function recodeExplicit(ApplicationType $el)
     {
         $der = $el->toDER();
-        static::assertEquals("\x61\x03\x02\x01\x2a", $der);
+        static::assertSame("\x61\x03\x02\x01\x2a", $der);
     }
 
     #[Test]

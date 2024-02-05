@@ -11,8 +11,8 @@ use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
 use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
 use SpomkyLabs\Pki\X501\ASN1\RDN;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -107,7 +107,7 @@ final class RDNTest extends TestCase
     #[Depends('create')]
     public function string(RDN $rdn)
     {
-        static::assertEquals('name=one+name=two', $rdn->toString());
+        static::assertSame('name=one+name=two', $rdn->toString());
     }
 
     #[Test]

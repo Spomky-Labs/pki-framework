@@ -45,7 +45,7 @@ final class URINameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_URI, $el->tag());
+        static::assertSame(GeneralName::TAG_URI, $el->tag());
     }
 
     /**
@@ -72,13 +72,13 @@ final class URINameTest extends TestCase
     #[Depends('create')]
     public function string(UniformResourceIdentifier $uri)
     {
-        static::assertEquals(self::URI, $uri->string());
+        static::assertSame(self::URI, $uri->string());
     }
 
     #[Test]
     #[Depends('create')]
     public function uRI(UniformResourceIdentifier $uri)
     {
-        static::assertEquals(self::URI, $uri->uri());
+        static::assertSame(self::URI, $uri->uri());
     }
 }

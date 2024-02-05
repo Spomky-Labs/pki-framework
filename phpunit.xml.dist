@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="tests/bootstrap.php"
-    executionOrder="default"
+    colors="true"
+    cacheDirectory=".phpunit.cache"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    executionOrder="random"
 >
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
+    <coverage />
     <testsuites>
         <testsuite name="ASN1">
             <directory>tests/ASN1</directory>
@@ -30,6 +29,11 @@
             <directory>tests/X509</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory>src/</directory>
+        </include>
+    </source>
     <php>
         <ini name="display_errors" value="1"/>
         <ini name="error_reporting" value="-1"/>

@@ -43,7 +43,7 @@ final class RFC822NameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_RFC822_NAME, $el->tag());
+        static::assertSame(GeneralName::TAG_RFC822_NAME, $el->tag());
     }
 
     /**
@@ -77,6 +77,6 @@ final class RFC822NameTest extends TestCase
     #[Depends('create')]
     public function email(RFC822Name $name)
     {
-        static::assertEquals('test@example.com', $name->email());
+        static::assertSame('test@example.com', $name->email());
     }
 }

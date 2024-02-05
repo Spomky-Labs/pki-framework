@@ -43,7 +43,7 @@ final class RegisteredIDNameTest extends TestCase
     public function choiceTag($der): void
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_REGISTERED_ID, $el->tag());
+        static::assertSame(GeneralName::TAG_REGISTERED_ID, $el->tag());
     }
 
     /**
@@ -77,6 +77,6 @@ final class RegisteredIDNameTest extends TestCase
     #[Depends('create')]
     public function oID(RegisteredID $rid): void
     {
-        static::assertEquals('1.3.6.1.3.1', $rid->oid());
+        static::assertSame('1.3.6.1.3.1', $rid->oid());
     }
 }

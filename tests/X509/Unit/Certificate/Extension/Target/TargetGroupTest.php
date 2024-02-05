@@ -62,7 +62,7 @@ final class TargetGroupTest extends TestCase
     #[Depends('create')]
     public function type(Target $target)
     {
-        static::assertEquals(Target::TYPE_GROUP, $target->type());
+        static::assertSame(Target::TYPE_GROUP, $target->type());
     }
 
     #[Test]

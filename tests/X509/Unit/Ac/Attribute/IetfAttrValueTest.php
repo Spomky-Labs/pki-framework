@@ -46,7 +46,7 @@ final class IetfAttrValueTest extends TestCase
     #[Depends('createOctetString')]
     public function octetStringType(IetfAttrValue $val)
     {
-        static::assertEquals(Element::TYPE_OCTET_STRING, $val->type());
+        static::assertSame(Element::TYPE_OCTET_STRING, $val->type());
     }
 
     #[Test]
@@ -60,7 +60,7 @@ final class IetfAttrValueTest extends TestCase
     #[Depends('createOctetString')]
     public function value(IetfAttrValue $val)
     {
-        static::assertEquals('test', $val->value());
+        static::assertSame('test', $val->value());
     }
 
     #[Test]
@@ -75,7 +75,7 @@ final class IetfAttrValueTest extends TestCase
     #[Depends('createUTF8String')]
     public function uTF8StringType(IetfAttrValue $val)
     {
-        static::assertEquals(Element::TYPE_UTF8_STRING, $val->type());
+        static::assertSame(Element::TYPE_UTF8_STRING, $val->type());
     }
 
     #[Test]
@@ -97,7 +97,7 @@ final class IetfAttrValueTest extends TestCase
     #[Depends('createOID')]
     public function oIDType(IetfAttrValue $val)
     {
-        static::assertEquals(Element::TYPE_OBJECT_IDENTIFIER, $val->type());
+        static::assertSame(Element::TYPE_OBJECT_IDENTIFIER, $val->type());
     }
 
     #[Test]

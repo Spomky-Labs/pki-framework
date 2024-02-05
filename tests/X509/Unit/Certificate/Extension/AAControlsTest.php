@@ -29,7 +29,7 @@ final class AAControlsTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_AA_CONTROLS, $ext->oid());
+        static::assertSame(Extension::OID_AA_CONTROLS, $ext->oid());
     }
 
     #[Test]
@@ -72,21 +72,21 @@ final class AAControlsTest extends TestCase
     #[Depends('create')]
     public function pathLen(AAControlsExtension $ext)
     {
-        static::assertEquals(3, $ext->pathLen());
+        static::assertSame(3, $ext->pathLen());
     }
 
     #[Test]
     #[Depends('decode')]
     public function permitted(AAControlsExtension $ext)
     {
-        static::assertEquals(['1.2.3.4'], $ext->permittedAttrs());
+        static::assertSame(['1.2.3.4'], $ext->permittedAttrs());
     }
 
     #[Test]
     #[Depends('decode')]
     public function excluded(AAControlsExtension $ext)
     {
-        static::assertEquals(['1.2.3.5', '1.2.3.6'], $ext->excludedAttrs());
+        static::assertSame(['1.2.3.5', '1.2.3.6'], $ext->excludedAttrs());
     }
 
     #[Test]

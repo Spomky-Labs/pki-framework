@@ -35,7 +35,7 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
         $keyid = RSAPrivateKey::fromPEM($pem)->publicKey()
             ->publicKeyInfo()
             ->keyIdentifier();
-        static::assertEquals($keyid, $aki->keyIdentifier());
+        static::assertSame($keyid, $aki->keyIdentifier());
     }
 
     #[Test]
@@ -46,7 +46,7 @@ final class AuthorityKeyIdentifierTest extends RefExtTestHelper
             ->firstOf(GeneralName::TAG_DIRECTORY_NAME)
             ->dn()
             ->toString();
-        static::assertEquals('o=ACME Ltd.,c=FI,cn=ACME Root CA', $issuer_dn);
-        static::assertEquals(1, $aki->serial());
+        static::assertSame('o=ACME Ltd.,c=FI,cn=ACME Root CA', $issuer_dn);
+        static::assertSame('1', $aki->serial());
     }
 }

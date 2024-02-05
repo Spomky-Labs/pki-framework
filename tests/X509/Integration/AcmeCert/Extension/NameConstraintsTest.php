@@ -42,6 +42,6 @@ final class NameConstraintsTest extends RefExtTestHelper
     #[Depends('nameConstraintPermittedSubtrees')]
     public function nameConstraintPermittedDomain(GeneralSubtrees $gs)
     {
-        static::assertEquals('.example.com', $gs->all()[0]->base()->name());
+        static::assertSame('.example.com', $gs->all()[0]->base()->name());
     }
 }

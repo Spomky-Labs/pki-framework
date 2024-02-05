@@ -40,6 +40,6 @@ final class DecodeTest extends TestCase
     {
         $el = Sequence::fromDER("\x30\x2\x30\x0");
         static::assertCount(1, $el);
-        static::assertEquals(Element::TYPE_SEQUENCE, $el->at(0)->tag());
+        static::assertSame(Element::TYPE_SEQUENCE, $el->at(0)->tag());
     }
 }

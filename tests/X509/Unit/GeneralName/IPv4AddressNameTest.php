@@ -50,7 +50,7 @@ final class IPv4AddressNameTest extends TestCase
     public function choiceTag($der)
     {
         $el = TaggedType::fromDER($der);
-        static::assertEquals(GeneralName::TAG_IP_ADDRESS, $el->tag());
+        static::assertSame(GeneralName::TAG_IP_ADDRESS, $el->tag());
     }
 
     /**
@@ -77,7 +77,7 @@ final class IPv4AddressNameTest extends TestCase
     #[Depends('create')]
     public function address(IPAddress $ip)
     {
-        static::assertEquals(self::ADDR, $ip->address());
+        static::assertSame(self::ADDR, $ip->address());
     }
 
     #[Test]
@@ -121,14 +121,14 @@ final class IPv4AddressNameTest extends TestCase
     #[Depends('createWithMask')]
     public function mask(IPAddress $ip)
     {
-        static::assertEquals(self::MASK, $ip->mask());
+        static::assertSame(self::MASK, $ip->mask());
     }
 
     #[Test]
     #[Depends('createWithMask')]
     public function string(IPAddress $ip)
     {
-        static::assertEquals(self::ADDR . '/' . self::MASK, $ip->string());
+        static::assertSame(self::ADDR . '/' . self::MASK, $ip->string());
     }
 
     #[Test]

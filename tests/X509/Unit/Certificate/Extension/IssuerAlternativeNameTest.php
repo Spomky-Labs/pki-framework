@@ -36,7 +36,7 @@ final class IssuerAlternativeNameTest extends TestCase
     #[Depends('create')]
     public function oID(Extension $ext)
     {
-        static::assertEquals(Extension::OID_ISSUER_ALT_NAME, $ext->oid());
+        static::assertSame(Extension::OID_ISSUER_ALT_NAME, $ext->oid());
     }
 
     #[Test]
@@ -79,7 +79,7 @@ final class IssuerAlternativeNameTest extends TestCase
     #[Depends('create')]
     public function verifyName(IssuerAlternativeNameExtension $ext = null)
     {
-        static::assertEquals(self::DN, $ext->names()->firstDN());
+        static::assertSame(self::DN, $ext->names()->firstDN()->toString());
     }
 
     #[Test]

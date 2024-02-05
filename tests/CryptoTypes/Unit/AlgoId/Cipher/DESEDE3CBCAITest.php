@@ -44,7 +44,7 @@ final class DESEDE3CBCAITest extends TestCase
     #[Depends('decode')]
     public function iV(DESEDE3CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(self::IV, $ai->initializationVector());
+        static::assertSame(self::IV, $ai->initializationVector());
     }
 
     #[Test]
@@ -60,14 +60,14 @@ final class DESEDE3CBCAITest extends TestCase
     #[Depends('decode')]
     public function blockSize(DESEDE3CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(8, $ai->blockSize());
+        static::assertSame(8, $ai->blockSize());
     }
 
     #[Test]
     #[Depends('decode')]
     public function keySize(DESEDE3CBCAlgorithmIdentifier $ai)
     {
-        static::assertEquals(24, $ai->keySize());
+        static::assertSame(24, $ai->keySize());
     }
 
     #[Test]

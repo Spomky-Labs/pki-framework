@@ -129,7 +129,7 @@ final class CertificateChainTest extends TestCase
     {
         $expected = sprintf("%s\n%s\n%s", self::$_pems[0], self::$_pems[1], self::$_pems[2]);
         $str = $chain->toPEMString();
-        static::assertEquals($expected, $str);
+        static::assertSame($expected, $str);
         return $str;
     }
 

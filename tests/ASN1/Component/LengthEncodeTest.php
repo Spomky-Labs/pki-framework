@@ -19,35 +19,35 @@ final class LengthEncodeTest extends TestCase
     public function definite()
     {
         $length = Length::create(0, false);
-        static::assertEquals("\x0", $length->toDER());
+        static::assertSame("\x0", $length->toDER());
     }
 
     #[Test]
     public function indefinite()
     {
         $length = Length::create(0, true);
-        static::assertEquals("\x80", $length->toDER());
+        static::assertSame("\x80", $length->toDER());
     }
 
     #[Test]
     public function short()
     {
         $length = Length::create(0x7f);
-        static::assertEquals("\x7f", $length->toDER());
+        static::assertSame("\x7f", $length->toDER());
     }
 
     #[Test]
     public function long()
     {
         $length = Length::create(0xff);
-        static::assertEquals("\x81\xff", $length->toDER());
+        static::assertSame("\x81\xff", $length->toDER());
     }
 
     #[Test]
     public function long2()
     {
         $length = Length::create(0xcafe);
-        static::assertEquals("\x82\xca\xfe", $length->toDER());
+        static::assertSame("\x82\xca\xfe", $length->toDER());
     }
 
     #[Test]

@@ -57,13 +57,13 @@ final class NoticeReferenceTest extends TestCase
     #[Depends('create')]
     public function organization(NoticeReference $ref)
     {
-        static::assertEquals('org', $ref->organization()->string());
+        static::assertSame('org', $ref->organization()->string());
     }
 
     #[Test]
     #[Depends('create')]
     public function numbers(NoticeReference $ref)
     {
-        static::assertEquals([1, 2, 3], $ref->numbers());
+        static::assertSame([1, 2, 3], $ref->numbers());
     }
 }

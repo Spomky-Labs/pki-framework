@@ -58,13 +58,13 @@ final class CPSQualifierTest extends TestCase
     #[Depends('create')]
     public function uRI(CPSQualifier $qual)
     {
-        static::assertEquals(self::URI, $qual->uri());
+        static::assertSame(self::URI, $qual->uri());
     }
 
     #[Test]
     #[Depends('create')]
     public function oID(CPSQualifier $qual)
     {
-        static::assertEquals(CPSQualifier::OID_CPS, $qual->oid());
+        static::assertSame(CPSQualifier::OID_CPS, $qual->oid());
     }
 }

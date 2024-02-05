@@ -58,7 +58,7 @@ final class UniqueIdentifierTest extends TestCase
     #[Depends('create')]
     public function string(UniqueIdentifier $id)
     {
-        static::assertEquals(self::UID, $id->string());
+        static::assertSame(self::UID, $id->string());
     }
 
     #[Test]

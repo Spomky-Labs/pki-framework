@@ -20,8 +20,8 @@ use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
 use SpomkyLabs\Pki\X509\Certificate\Validity;
-use function strval;
 use UnexpectedValueException;
+use function strval;
 
 /**
  * @internal
@@ -122,7 +122,7 @@ final class CertificateTest extends TestCase
     #[Depends('toPEM')]
     public function pEMType(PEM $pem)
     {
-        static::assertEquals(PEM::TYPE_CERTIFICATE, $pem->type());
+        static::assertSame(PEM::TYPE_CERTIFICATE, $pem->type());
     }
 
     #[Test]

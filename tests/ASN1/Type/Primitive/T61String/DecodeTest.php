@@ -25,6 +25,6 @@ final class DecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $el = T61String::fromDER("\x14\x0c{$str}");
-        static::assertEquals($str, $el->string());
+        static::assertSame($str, $el->string());
     }
 }
