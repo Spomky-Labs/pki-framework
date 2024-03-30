@@ -116,6 +116,11 @@ parameters:
 			path: src/CryptoTypes/AlgorithmIdentifier/Asymmetric/RSAEncryptionAlgorithmIdentifier.php
 
 		-
+			message: "#^Method SpomkyLabs\\\\Pki\\\\CryptoTypes\\\\AlgorithmIdentifier\\\\Asymmetric\\\\RSAPSSSSAEncryptionAlgorithmIdentifier\\:\\:paramsASN1\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/CryptoTypes/AlgorithmIdentifier/Asymmetric/RSAPSSSSAEncryptionAlgorithmIdentifier.php
+
+		-
 			message: "#^Parameter \\#2 \\$initializationVector of method SpomkyLabs\\\\Pki\\\\CryptoTypes\\\\AlgorithmIdentifier\\\\Cipher\\\\CipherAlgorithmIdentifier\\:\\:__construct\\(\\) expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/CryptoTypes/AlgorithmIdentifier/Cipher/AES192CBCAlgorithmIdentifier.php
