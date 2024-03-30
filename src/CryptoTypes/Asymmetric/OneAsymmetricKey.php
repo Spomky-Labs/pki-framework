@@ -24,6 +24,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSASSAPSSPrivateKey;
 use UnexpectedValueException;
 use function in_array;
 
@@ -181,10 +182,12 @@ class OneAsymmetricKey
     {
         $algo = $this->algorithmIdentifier();
         switch ($algo->oid()) {
-            // RSA (including RSASSA-PSS)
+            // RSA
             case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
-            case AlgorithmIdentifier::OID_RSASSA_PSS_ENCRYPTION:
                 return RSAPrivateKey::fromDER($this->privateKeyData);
+                // RSASSA-PSS
+            case AlgorithmIdentifier::OID_RSASSA_PSS_ENCRYPTION:
+                return RSASSAPSSPrivateKey::fromDER($this->privateKeyData);
                 // elliptic curve
             case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
                 $pk = ECPrivateKey::fromDER($this->privateKeyData);
