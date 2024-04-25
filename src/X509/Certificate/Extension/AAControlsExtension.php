@@ -35,7 +35,7 @@ final class AAControlsExtension extends Extension
     }
 
     /**
-     * @param bool $critical Path length contraint.
+     * @param bool $critical Path length constraint.
      * @param null|string[] $permittedAttrs Permitted attributes.
      * @param null|string[] $excludedAttrs Excluded attributes.
      * @param bool $permitUnSpecified Whether to permit unspecified attributes.
