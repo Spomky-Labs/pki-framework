@@ -157,11 +157,11 @@ final class PathValidator
         // (j) if inhibit any policy extension is present
         $state = $this->prepareInhibitAnyPolicy($state, $cert);
         // (k) check basic constraints
-        $this->processBasicContraints($cert);
+        $this->processBasicConstraints($cert);
         // (l) verify max_path_length
         $state = $this->verifyMaxPathLength($state, $cert);
-        // (m) check pathLenContraint
-        $state = $this->processPathLengthContraint($state, $cert);
+        // (m) check pathLenConstraint
+        $state = $this->processPathLengthConstraint($state, $cert);
         // (n) check key usage
         $this->checkKeyUsage($cert);
         // (o) process relevant extensions
@@ -422,7 +422,7 @@ final class PathValidator
     /**
      * Process basic constraints extension.
      */
-    private function processBasicContraints(Certificate $cert): void
+    private function processBasicConstraints(Certificate $cert): void
     {
         if ($cert->tbsCertificate()->version() === TBSCertificate::VERSION_3) {
             $extensions = $cert->tbsCertificate()
@@ -440,7 +440,7 @@ final class PathValidator
     /**
      * Process pathLenConstraint.
      */
-    private function processPathLengthContraint(ValidatorState $state, Certificate $cert): ValidatorState
+    private function processPathLengthConstraint(ValidatorState $state, Certificate $cert): ValidatorState
     {
         $extensions = $cert->tbsCertificate()
             ->extensions();
