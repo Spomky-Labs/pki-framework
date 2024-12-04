@@ -51,7 +51,7 @@ final class AlgorithmIdentifierTest extends TestCase
 
     #[Test]
     #[Depends('fromUnknownASN1')]
-    public function verifyName(AlgorithmIdentifier $algo = null): void
+    public function verifyName(?AlgorithmIdentifier $algo = null): void
     {
         static::assertIsString($algo->name());
     }

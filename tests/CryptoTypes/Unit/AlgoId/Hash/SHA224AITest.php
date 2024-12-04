@@ -49,7 +49,7 @@ final class SHA224AITest extends TestCase
 
     #[Test]
     #[Depends('decode')]
-    public function verifyName(AlgorithmIdentifier $algo = null)
+    public function verifyName(?AlgorithmIdentifier $algo = null)
     {
         static::assertIsString($algo->name());
     }

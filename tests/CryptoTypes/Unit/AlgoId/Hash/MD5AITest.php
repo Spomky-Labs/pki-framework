@@ -48,7 +48,7 @@ final class MD5AITest extends TestCase
 
     #[Test]
     #[Depends('decode')]
-    public function naverifyNameme(AlgorithmIdentifier $algo = null)
+    public function naverifyNameme(?AlgorithmIdentifier $algo = null)
     {
         static::assertIsString($algo->name());
     }

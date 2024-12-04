@@ -77,7 +77,7 @@ final class IssuerAlternativeNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function verifyName(IssuerAlternativeNameExtension $ext = null)
+    public function verifyName(?IssuerAlternativeNameExtension $ext = null)
     {
         static::assertSame(self::DN, $ext->names()->firstDN()->toString());
     }

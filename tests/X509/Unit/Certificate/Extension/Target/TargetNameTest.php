@@ -67,7 +67,7 @@ final class TargetNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function verifyName(TargetName $target = null)
+    public function verifyName(?TargetName $target = null)
     {
         $name = $target->name();
         static::assertInstanceOf(GeneralName::class, $name);
