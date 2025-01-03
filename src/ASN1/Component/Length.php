@@ -13,6 +13,7 @@ use SpomkyLabs\Pki\ASN1\Util\BigInt;
 use function count;
 use function mb_strlen;
 use function ord;
+use function sprintf;
 
 /**
  * Class to represent BER/DER length octets.
