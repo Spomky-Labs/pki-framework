@@ -56,7 +56,7 @@ final class LengthEncodeTest extends TestCase
         $largenum = BigInteger::fromBase(str_repeat('ff', 126), 16);
         $length = Length::create($largenum);
         $expected = "\xfe" . str_repeat("\xff", 126);
-        static::assertEquals($expected, $length->toDER());
+        static::assertSame($expected, $length->toDER());
     }
 
     #[Test]

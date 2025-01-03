@@ -206,7 +206,7 @@ final class EncodeTest extends TestCase
         $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xfffe), 16);
         $int = Integer::create($num);
         $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xfffe);
-        static::assertEquals($der, $int->toDER());
+        static::assertSame($der, $int->toDER());
     }
 
     #[Test]
@@ -215,6 +215,6 @@ final class EncodeTest extends TestCase
         $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xfffe), 16));
         $int = Integer::create($num);
         $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xfffe);
-        static::assertEquals($der, $int->toDER());
+        static::assertSame($der, $int->toDER());
     }
 }

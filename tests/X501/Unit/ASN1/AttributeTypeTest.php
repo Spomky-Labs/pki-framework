@@ -63,7 +63,7 @@ final class AttributeTypeTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function verifyName(AttributeType $type = null)
+    public function verifyName(?AttributeType $type = null)
     {
         static::assertSame('name', $type->typeName());
     }

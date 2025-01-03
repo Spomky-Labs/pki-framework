@@ -20,14 +20,14 @@ use UnexpectedValueException;
 /**
  * Algorithm identifier for RSA encryption.
  *
- * @see http://www.oid-info.com/get/1.2.840.113549.1.1.1
- * @see https://tools.ietf.org/html/rfc3447#appendix-C
+ * @see http://www.oid-info.com/get/1.2.840.113549.1.1.10
+ * @see https://datatracker.ietf.org/doc/html/rfc8017#section-8.1
  */
-final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
+final class RSAPSSSSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements AsymmetricCryptoAlgorithmIdentifier
 {
     private function __construct()
     {
-        parent::__construct(self::OID_RSA_ENCRYPTION);
+        parent::__construct(self::OID_RSASSA_PSS_ENCRYPTION);
     }
 
     public static function create(): self
@@ -37,7 +37,7 @@ final class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 
     public function name(): string
     {
-        return 'rsaEncryption';
+        return 'rsassa-pss';
     }
 
     /**

@@ -183,7 +183,7 @@ final class FlagsTest extends TestCase
     public function intNumber()
     {
         $flags = Flags::create(0x80, 16);
-        static::assertSame($flags->intNumber(), 128);
+        static::assertSame(128, $flags->intNumber());
     }
 
     #[Test]
