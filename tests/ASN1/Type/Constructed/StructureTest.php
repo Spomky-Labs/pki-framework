@@ -27,7 +27,7 @@ final class StructureTest extends TestCase
     public function has(int $idx, bool $result)
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true), NullType::create());
-        static::assertEquals($seq->has($idx), $result);
+        static::assertSame($seq->has($idx), $result);
     }
 
     public static function hasProvider(): Iterator
@@ -43,7 +43,7 @@ final class StructureTest extends TestCase
     public function hasType(int $idx, int $type, bool $result)
     {
         $seq = Sequence::create(NullType::create(), Boolean::create(true));
-        static::assertEquals($seq->has($idx, $type), $result);
+        static::assertSame($seq->has($idx, $type), $result);
     }
 
     public static function hasTypeProvider(): Iterator

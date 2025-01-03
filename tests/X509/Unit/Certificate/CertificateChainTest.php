@@ -12,6 +12,7 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\CertificateChain;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use function sprintf;
 
 /**
  * @internal
