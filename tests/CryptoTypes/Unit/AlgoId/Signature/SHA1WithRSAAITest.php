@@ -55,7 +55,7 @@ final class SHA1WithRSAAITest extends TestCase
 
     #[Test]
     #[Depends('decode')]
-    public function verifyName(AlgorithmIdentifier $algo = null): void
+    public function verifyName(?AlgorithmIdentifier $algo = null): void
     {
         static::assertIsString($algo->name());
     }

@@ -53,7 +53,7 @@ final class CertificationPathValidationTest extends TestCase
 
     #[Test]
     #[Depends('validateDefault')]
-    public function verifyResult(PathValidationResult $result = null)
+    public function verifyResult(?PathValidationResult $result = null)
     {
         $expected_cert = Certificate::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.pem'));
         static::assertEquals($expected_cert, $result->certificate());

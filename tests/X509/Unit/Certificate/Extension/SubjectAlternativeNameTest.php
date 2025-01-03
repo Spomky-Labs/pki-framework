@@ -77,7 +77,7 @@ final class SubjectAlternativeNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function verifyName(SubjectAlternativeNameExtension $ext = null)
+    public function verifyName(?SubjectAlternativeNameExtension $ext = null)
     {
         static::assertSame(self::DN, $ext->names()->firstDN()->toString());
     }
