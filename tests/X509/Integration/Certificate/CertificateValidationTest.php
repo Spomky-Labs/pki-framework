@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\Certificate;
 
+use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -20,17 +21,15 @@ final class CertificateValidationTest extends TestCase
     public function validateSelfSignedCertificate(string $pemCertificateFilename)
     {
         $certificate = Certificate::fromPEM(PEM::fromFile($pemCertificateFilename));
-        $spki = $certificate->tbsCertificate()->subjectPublicKeyInfo();
-        $this->assertTrue($certificate->verify($spki));
+        $spki = $certificate->tbsCertificate()
+            ->subjectPublicKeyInfo();
+        static::assertTrue($certificate->verify($spki));
     }
 
-    public static function selfSignedCertificates(): array
+    public static function selfSignedCertificates(): Iterator
     {
         $certsAssertDir = __DIR__ . '/../../../assets/certs/';
-
-        return [
-            'acme-ca' => [ $certsAssertDir . '/acme-ca.pem' ],
-            'feitian-ca' => [ $certsAssertDir . '/feitian-ca.pem' ],
-        ];
+        yield 'acme-ca' => [$certsAssertDir . '/acme-ca.pem'];
+        yield 'feitian-ca' => [$certsAssertDir . '/feitian-ca.pem'];
     }
 }

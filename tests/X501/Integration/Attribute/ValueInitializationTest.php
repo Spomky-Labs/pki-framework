@@ -33,17 +33,12 @@ final class ValueInitializationTest extends TestCase
 {
     #[Test]
     #[DataProvider('provideStringAttribClasses')]
-    public function create($cls, $oid)
+    public function create(string $class, string $oid): void
     {
         $el = AttributeType::asn1StringForType($oid, 'Test');
         $val = AttributeValue::fromASN1ByOID($oid, UnspecifiedType::create($el));
-        static::assertInstanceOf($cls, $val);
-    }
+        static::assertInstanceOf($class, $val);
 
-    #[Test]
-    #[DataProvider('provideStringAttribClasses')]
-    public function aSN1(string $class)
-    {
         $val = $class::create('Test');
         $el = $val->toASN1();
         static::assertInstanceOf(StringType::class, $el);
