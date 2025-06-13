@@ -19,12 +19,6 @@ parameters:
 			path: src/ASN1/Component/Length.php
 
 		-
-			message: '#^Parameter \#2 \$offset of static method SpomkyLabs\\Pki\\ASN1\\Component\\Length\:\:expectFromDER\(\) expects int, int\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/ASN1/DERData.php
-
-		-
 			message: '#^Property SpomkyLabs\\Pki\\ASN1\\DERData\:\:\$contentOffset \(int\) does not accept int\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -421,6 +415,12 @@ parameters:
 			path: src/X501/ASN1/Collection/AttributeCollection.php
 
 		-
+			message: '#^Unsafe usage of new static\(\) in abstract class SpomkyLabs\\Pki\\X501\\ASN1\\Collection\\AttributeCollection in static method create\(\)\.$#'
+			identifier: new.staticInAbstractClassStaticMethod
+			count: 1
+			path: src/X501/ASN1/Collection/AttributeCollection.php
+
+		-
 			message: '#^Class SpomkyLabs\\Pki\\X501\\ASN1\\Name implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
@@ -485,6 +485,12 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/X501/StringPrep/NormalizeStep.php
+
+		-
+			message: '#^Method SpomkyLabs\\Pki\\X501\\StringPrep\\TranscodeStep\:\:apply\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
+			count: 2
+			path: src/X501/StringPrep/TranscodeStep.php
 
 		-
 			message: '#^Method SpomkyLabs\\Pki\\X509\\AttributeCertificate\\AttCertValidityPeriod\:\:roundDownFractionalSeconds\(\) should return DateTimeImmutable but returns DateTimeImmutable\|false\.$#'
@@ -1045,6 +1051,12 @@ parameters:
 			path: src/X509/CertificationPath/PathValidation/PathValidationConfig.php
 
 		-
+			message: '#^Binary operation "\+" between int\|string and 1 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/X509/CertificationPath/PathValidation/PathValidator.php
+
+		-
 			message: '#^Call to method SpomkyLabs\\Pki\\X509\\CertificationPath\\PathValidation\\ValidatorState\:\:excludedSubtrees\(\) on a separate line has no effect\.$#'
 			identifier: method.resultUnused
 			count: 1
@@ -1053,6 +1065,12 @@ parameters:
 		-
 			message: '#^Call to method SpomkyLabs\\Pki\\X509\\CertificationPath\\PathValidation\\ValidatorState\:\:permittedSubtrees\(\) on a separate line has no effect\.$#'
 			identifier: method.resultUnused
+			count: 1
+			path: src/X509/CertificationPath/PathValidation/PathValidator.php
+
+		-
+			message: '#^Parameter \#1 \$index of method SpomkyLabs\\Pki\\X509\\CertificationPath\\PathValidation\\ValidatorState\:\:withIndex\(\) expects int, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/X509/CertificationPath/PathValidation/PathValidator.php
 

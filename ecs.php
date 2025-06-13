@@ -47,7 +47,6 @@ return static function (ECSConfig $config): void {
     $config->import(SetList::STRICT);
 
     $config->rule(StrictComparisonFixer::class);
-    $config->rule(MbStrFunctionsFixer::class);
     $config->rule(StrictParamFixer::class);
     $config->rule(ArrayIndentationFixer::class);
     $config->rule(OrderedImportsFixer::class);

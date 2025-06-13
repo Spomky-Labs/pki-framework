@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\Test\CryptoBridge\Unit\Crypto;
 
 use BadMethodCallException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -44,10 +45,9 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use UnexpectedValueException;
 
 /**
- * @requires extension openssl
- *
  * @internal
  */
+#[RequiresPhpExtension('openssl')]
 final class OpenSSLCryptoTest extends TestCase
 {
     public const DATA = 'PAYLOAD';
