@@ -40,8 +40,8 @@ final class PathValidator
      * the end-entity certificate
      */
     private function __construct(
-        protected Crypto $crypto,
-        protected PathValidationConfig $config,
+        private Crypto $crypto,
+        private PathValidationConfig $config,
         Certificate ...$certificates
     ) {
         if (count($certificates) === 0) {
