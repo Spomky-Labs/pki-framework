@@ -20,7 +20,7 @@ use UnexpectedValueException;
 final class UniversalStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): UniversalString
     {
         $el = UniversalString::create('');
         static::assertInstanceOf(UniversalString::class, $el);

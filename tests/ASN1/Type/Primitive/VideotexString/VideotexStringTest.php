@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class VideotexStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): VideotexString
     {
         $el = VideotexString::create('');
         static::assertInstanceOf(VideotexString::class, $el);

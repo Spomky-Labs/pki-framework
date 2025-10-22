@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 final class PathValidationConfigTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): PathValidationConfig
     {
         $config = PathValidationConfig::defaultConfig();
         static::assertInstanceOf(PathValidationConfig::class, $config);

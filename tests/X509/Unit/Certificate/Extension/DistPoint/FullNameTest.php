@@ -20,7 +20,7 @@ final class FullNameTest extends TestCase
     public const URI = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): FullName
     {
         $name = FullName::fromURI(self::URI);
         static::assertInstanceOf(FullName::class, $name);
@@ -29,7 +29,7 @@ final class FullNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(FullName $name)
+    public function encode(FullName $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);
@@ -41,7 +41,7 @@ final class FullNameTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): FullName
     {
         $name = FullName::fromTaggedType(TaggedType::fromDER($data));
         static::assertInstanceOf(FullName::class, $name);

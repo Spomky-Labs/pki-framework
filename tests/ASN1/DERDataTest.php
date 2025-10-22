@@ -21,7 +21,7 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 final class DERDataTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): DERData
     {
         $el = DERData::create("\x5\x0");
         static::assertSame(Element::TYPE_NULL, $el->tag());
@@ -71,7 +71,6 @@ final class DERDataTest extends TestCase
         $el = DERData::create("\x5\x0");
         $cls = new ReflectionClass($el);
         $mtd = $cls->getMethod('encodedAsDER');
-        $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
         static::assertSame('', $content);
     }
@@ -82,7 +81,6 @@ final class DERDataTest extends TestCase
         $el = DERData::create((OctetString::create('test'))->toDER());
         $cls = new ReflectionClass($el);
         $mtd = $cls->getMethod('encodedAsDER');
-        $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
         static::assertSame('test', $content);
     }

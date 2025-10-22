@@ -19,7 +19,7 @@ use function strval;
 final class IetfAttrSyntaxTest extends TestCase
 {
     #[Test]
-    public function createEmpty()
+    public function createEmpty(): GroupAttributeValue
     {
         $val = GroupAttributeValue::create();
         static::assertInstanceOf(IetfAttrSyntax::class, $val);

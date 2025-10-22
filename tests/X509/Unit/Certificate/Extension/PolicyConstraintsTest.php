@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
 final class PolicyConstraintsTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): PolicyConstraintsExtension
     {
         $ext = PolicyConstraintsExtension::create(true, 2, 3);
         static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);

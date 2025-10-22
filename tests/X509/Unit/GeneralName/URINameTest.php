@@ -21,7 +21,7 @@ final class URINameTest extends TestCase
     public const URI = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): UniformResourceIdentifier
     {
         $uri = UniformResourceIdentifier::create(self::URI);
         static::assertInstanceOf(UniformResourceIdentifier::class, $uri);
@@ -30,7 +30,7 @@ final class URINameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(UniformResourceIdentifier $uri)
+    public function encode(UniformResourceIdentifier $uri): string
     {
         $el = $uri->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

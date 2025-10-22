@@ -20,7 +20,7 @@ use SpomkyLabs\Pki\X509\GeneralName\OtherName;
 final class OtherNameTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): OtherName
     {
         $name = OtherName::create('1.3.6.1.3.1', NullType::create());
         static::assertInstanceOf(OtherName::class, $name);
@@ -29,7 +29,7 @@ final class OtherNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(OtherName $name)
+    public function encode(OtherName $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

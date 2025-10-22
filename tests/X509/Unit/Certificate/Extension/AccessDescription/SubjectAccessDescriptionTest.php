@@ -31,7 +31,7 @@ final class SubjectAccessDescriptionTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(SubjectAccessDescription $desc)
+    public function encode(SubjectAccessDescription $desc): string
     {
         $el = $desc->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -43,7 +43,7 @@ final class SubjectAccessDescriptionTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): SubjectAccessDescription
     {
         $desc = SubjectAccessDescription::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(SubjectAccessDescription::class, $desc);

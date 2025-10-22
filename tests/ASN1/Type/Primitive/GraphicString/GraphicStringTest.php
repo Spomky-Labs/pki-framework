@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class GraphicStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): GraphicString
     {
         $el = GraphicString::create('');
         static::assertInstanceOf(GraphicString::class, $el);

@@ -26,7 +26,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 final class DistributionPointTest extends TestCase
 {
     #[Test]
-    public function createWithFullName()
+    public function createWithFullName(): DistributionPoint
     {
         $dp = DistributionPoint::create(
             FullName::fromURI('urn:test'),
@@ -39,7 +39,7 @@ final class DistributionPointTest extends TestCase
 
     #[Test]
     #[Depends('createWithFullName')]
-    public function encodeWithFullName(DistributionPoint $dp)
+    public function encodeWithFullName(DistributionPoint $dp): string
     {
         $el = $dp->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -51,7 +51,7 @@ final class DistributionPointTest extends TestCase
      */
     #[Test]
     #[Depends('encodeWithFullName')]
-    public function decodeWithFullName($data)
+    public function decodeWithFullName($data): DistributionPoint
     {
         $qual = DistributionPoint::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(DistributionPoint::class, $qual);

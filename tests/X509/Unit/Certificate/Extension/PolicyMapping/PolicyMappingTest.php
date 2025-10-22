@@ -20,7 +20,7 @@ final class PolicyMappingTest extends TestCase
     public const SUBJECT_POLICY = '1.3.6.1.3.2';
 
     #[Test]
-    public function create()
+    public function create(): PolicyMapping
     {
         $mapping = PolicyMapping::create(self::ISSUER_POLICY, self::SUBJECT_POLICY);
         static::assertInstanceOf(PolicyMapping::class, $mapping);
@@ -29,7 +29,7 @@ final class PolicyMappingTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(PolicyMapping $mapping)
+    public function encode(PolicyMapping $mapping): string
     {
         $el = $mapping->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -41,7 +41,7 @@ final class PolicyMappingTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): PolicyMapping
     {
         $mapping = PolicyMapping::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(PolicyMapping::class, $mapping);

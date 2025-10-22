@@ -52,7 +52,7 @@ final class AttributesTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): Attributes
     {
         $tc = Attributes::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(Attributes::class, $tc);

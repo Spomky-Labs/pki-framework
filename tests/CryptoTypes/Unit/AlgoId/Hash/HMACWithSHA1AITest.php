@@ -18,11 +18,8 @@ use UnexpectedValueException;
  */
 final class HMACWithSHA1AITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = HMACWithSHA1AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -32,7 +29,7 @@ final class HMACWithSHA1AITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): HMACWithSHA1AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(HMACWithSHA1AlgorithmIdentifier::class, $ai);

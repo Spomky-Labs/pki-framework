@@ -21,7 +21,7 @@ use UnexpectedValueException;
 final class GeneralSubtreesTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): GeneralSubtrees
     {
         $subtrees = GeneralSubtrees::create(
             GeneralSubtree::create(UniformResourceIdentifier::create('.example.com')),
@@ -33,7 +33,7 @@ final class GeneralSubtreesTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(GeneralSubtrees $subtrees)
+    public function encode(GeneralSubtrees $subtrees): string
     {
         $el = $subtrees->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -45,7 +45,7 @@ final class GeneralSubtreesTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): GeneralSubtrees
     {
         $subtrees = GeneralSubtrees::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);

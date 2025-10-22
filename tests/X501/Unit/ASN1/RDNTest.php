@@ -20,7 +20,7 @@ use function strval;
 final class RDNTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): RDN
     {
         $rdn = RDN::fromAttributeValues(NameValue::create('one'), NameValue::create('two'));
         static::assertInstanceOf(RDN::class, $rdn);
@@ -29,7 +29,7 @@ final class RDNTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(RDN $rdn)
+    public function encode(RDN $rdn): string
     {
         $der = $rdn->toASN1()
             ->toDER();
@@ -42,7 +42,7 @@ final class RDNTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): RDN
     {
         $rdn = RDN::fromASN1(Set::fromDER($der));
         static::assertInstanceOf(RDN::class, $rdn);

@@ -17,11 +17,8 @@ use UnexpectedValueException;
  */
 final class RSAEncAITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = RSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -31,7 +28,7 @@ final class RSAEncAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): RSAEncryptionAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(RSAEncryptionAlgorithmIdentifier::class, $ai);

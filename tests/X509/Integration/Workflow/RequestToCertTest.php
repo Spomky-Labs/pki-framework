@@ -50,7 +50,7 @@ final class RequestToCertTest extends TestCase
     }
 
     #[Test]
-    public function createCA()
+    public function createCA(): Certificate
     {
         $name = Name::fromString('cn=Issuer');
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-03 12:00:00');
@@ -70,7 +70,7 @@ final class RequestToCertTest extends TestCase
     }
 
     #[Test]
-    public function createRequest()
+    public function createRequest(): CertificationRequest
     {
         $subject = Name::fromString('cn=Subject');
         $pkinfo = self::$_subjectKey->publicKeyInfo();
@@ -85,7 +85,7 @@ final class RequestToCertTest extends TestCase
     #[Test]
     #[Depends('createRequest')]
     #[Depends('createCA')]
-    public function issueCertificate(CertificationRequest $csr, Certificate $ca_cert)
+    public function issueCertificate(CertificationRequest $csr, Certificate $ca_cert): Certificate
     {
         $tbs_cert = TBSCertificate::fromCSR($csr)->withIssuerCertificate($ca_cert);
         $validity = Validity::fromStrings('2016-05-02 12:00:00', '2016-05-02 13:00:00');
@@ -103,7 +103,7 @@ final class RequestToCertTest extends TestCase
     #[Test]
     #[Depends('createCA')]
     #[Depends('issueCertificate')]
-    public function buildPath(Certificate $ca, Certificate $cert)
+    public function buildPath(Certificate $ca, Certificate $cert): CertificationPath
     {
         $path = CertificationPath::fromTrustAnchorToTarget($ca, $cert);
         static::assertInstanceOf(CertificationPath::class, $path);

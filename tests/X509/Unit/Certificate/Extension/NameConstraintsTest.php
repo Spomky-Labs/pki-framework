@@ -29,7 +29,7 @@ final class NameConstraintsTest extends TestCase
     final public const EXCLUDED_URI = 'nope.example.com';
 
     #[Test]
-    public function createPermitted()
+    public function createPermitted(): GeneralSubtrees
     {
         $subtrees = GeneralSubtrees::create(
             GeneralSubtree::create(UniformResourceIdentifier::create(self::PERMITTED_URI)),
@@ -40,7 +40,7 @@ final class NameConstraintsTest extends TestCase
     }
 
     #[Test]
-    public function createExcluded()
+    public function createExcluded(): GeneralSubtrees
     {
         $subtrees = GeneralSubtrees::create(
             GeneralSubtree::create(UniformResourceIdentifier::create(self::EXCLUDED_URI))
@@ -52,7 +52,7 @@ final class NameConstraintsTest extends TestCase
     #[Test]
     #[Depends('createPermitted')]
     #[Depends('createExcluded')]
-    public function create(GeneralSubtrees $permitted, GeneralSubtrees $excluded)
+    public function create(GeneralSubtrees $permitted, GeneralSubtrees $excluded): NameConstraintsExtension
     {
         $ext = NameConstraintsExtension::create(true, $permitted, $excluded);
         static::assertInstanceOf(NameConstraintsExtension::class, $ext);

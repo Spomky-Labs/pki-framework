@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class GeneralStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): GeneralString
     {
         $el = GeneralString::create('');
         static::assertInstanceOf(GeneralString::class, $el);

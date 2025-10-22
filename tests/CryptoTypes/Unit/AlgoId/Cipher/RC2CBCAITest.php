@@ -21,11 +21,8 @@ final class RC2CBCAITest extends TestCase
 {
     private const IV = '12345678';
 
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = RC2CBCAlgorithmIdentifier::create(64, self::IV);
         $seq = $ai->toASN1();
@@ -35,7 +32,7 @@ final class RC2CBCAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): RC2CBCAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);

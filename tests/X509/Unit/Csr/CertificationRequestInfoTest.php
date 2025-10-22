@@ -59,7 +59,7 @@ final class CertificationRequestInfoTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): CertificationRequestInfo
     {
         $pkinfo = self::$_privateKeyInfo->publicKeyInfo();
         $cri = CertificationRequestInfo::create(self::$_subject, $pkinfo);
@@ -70,7 +70,7 @@ final class CertificationRequestInfoTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(CertificationRequestInfo $cri)
+    public function encode(CertificationRequestInfo $cri): string
     {
         $seq = $cri->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -82,7 +82,7 @@ final class CertificationRequestInfoTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): CertificationRequestInfo
     {
         $cert = CertificationRequestInfo::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(CertificationRequestInfo::class, $cert);

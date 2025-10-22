@@ -21,7 +21,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 final class EDIPartyNameTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): EDIPartyName
     {
         $name = EDIPartyName::fromASN1(
             ImplicitlyTaggedType::create(GeneralName::TAG_EDI_PARTY_NAME, Sequence::create())
@@ -32,7 +32,7 @@ final class EDIPartyNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(EDIPartyName $name)
+    public function encode(EDIPartyName $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

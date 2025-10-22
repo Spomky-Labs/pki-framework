@@ -29,7 +29,7 @@ final class ChargingIdentityTest extends TestCase
     final public const UTF8_VAL = 'UTF-8 string';
 
     #[Test]
-    public function create()
+    public function create(): ChargingIdentityAttributeValue
     {
         $value = ChargingIdentityAttributeValue::create(
             IetfAttrValue::fromOctets(self::OCTETS_VAL),
@@ -43,7 +43,7 @@ final class ChargingIdentityTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeValue $value)
+    public function encode(AttributeValue $value): string
     {
         $el = $value->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -55,7 +55,7 @@ final class ChargingIdentityTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): ChargingIdentityAttributeValue
     {
         $value = ChargingIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         static::assertInstanceOf(ChargingIdentityAttributeValue::class, $value);

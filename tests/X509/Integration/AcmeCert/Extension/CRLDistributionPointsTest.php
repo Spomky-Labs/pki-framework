@@ -20,23 +20,17 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class CRLDistributionPointsTest extends RefExtTestHelper
 {
-    /**
-     * @return CRLDistributionPointsExtension
-     */
     #[Test]
-    public function cRLDistributionPointsExtension()
+    public function cRLDistributionPointsExtension(): CRLDistributionPointsExtension
     {
         $ext = self::$_extensions->get(Extension::OID_CRL_DISTRIBUTION_POINTS);
         static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);
         return $ext;
     }
 
-    /**
-     * @return DistributionPoint
-     */
     #[Test]
     #[Depends('cRLDistributionPointsExtension')]
-    public function distributionPoint(CRLDistributionPointsExtension $ext)
+    public function distributionPoint(CRLDistributionPointsExtension $ext): DistributionPoint
     {
         $cdp = $ext->getIterator()[0];
         static::assertInstanceOf(DistributionPoint::class, $cdp);
@@ -48,7 +42,7 @@ final class CRLDistributionPointsTest extends RefExtTestHelper
      */
     #[Test]
     #[Depends('distributionPoint')]
-    public function fullName(DistributionPoint $dp)
+    public function fullName(DistributionPoint $dp): DistributionPointName
     {
         $name = $dp->distributionPointName();
         static::assertSame(DistributionPointName::TAG_FULL_NAME, $name->tag());

@@ -20,7 +20,7 @@ final class SubjectKeyIdentifierTest extends TestCase
     final public const KEY_ID = 'test-id';
 
     #[Test]
-    public function create()
+    public function create(): SubjectKeyIdentifierExtension
     {
         $ext = SubjectKeyIdentifierExtension::create(true, self::KEY_ID);
         static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);

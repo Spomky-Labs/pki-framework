@@ -19,11 +19,8 @@ final class ECPKAITest extends TestCase
 {
     private const OID = '1.2.840.10045.3.1.7';
 
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = ECPublicKeyAlgorithmIdentifier::create(self::OID);
         $seq = $ai->toASN1();
@@ -33,7 +30,7 @@ final class ECPKAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): ECPublicKeyAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(ECPublicKeyAlgorithmIdentifier::class, $ai);

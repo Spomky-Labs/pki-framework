@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 final class AuthorityInformationAccessTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): AuthorityInformationAccessExtension
     {
         $ext = AuthorityInformationAccessExtension::create(
             false,

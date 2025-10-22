@@ -19,11 +19,8 @@ final class DESEDE3CBCAITest extends TestCase
 {
     private const IV = '12345678';
 
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = DESEDE3CBCAlgorithmIdentifier::create(self::IV);
         $seq = $ai->toASN1();
@@ -33,7 +30,7 @@ final class DESEDE3CBCAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): DESEDE3CBCAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(DESEDE3CBCAlgorithmIdentifier::class, $ai);

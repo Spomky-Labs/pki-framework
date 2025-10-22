@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
 final class IndefiniteTaggedTest extends TestCase
 {
     #[Test]
-    public function decodeIndefinite()
+    public function decodeIndefinite(): DERTaggedType
     {
         $el = TaggedType::fromDER(hex2bin('a0800201010000'));
         static::assertInstanceOf(DERTaggedType::class, $el);

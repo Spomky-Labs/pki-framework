@@ -15,11 +15,8 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class SubjectAlternativeNameTest extends RefExtTestHelper
 {
-    /**
-     * @return SubjectAlternativeNameExtension
-     */
     #[Test]
-    public function subjectAlternativeName()
+    public function subjectAlternativeName(): SubjectAlternativeNameExtension
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_ALT_NAME);
         static::assertInstanceOf(SubjectAlternativeNameExtension::class, $ext);

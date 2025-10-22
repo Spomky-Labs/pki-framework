@@ -32,7 +32,7 @@ final class ValidatorStateTest extends TestCase
     }
 
     #[Test]
-    public function initialize()
+    public function initialize(): ValidatorState
     {
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
         static::assertInstanceOf(ValidatorState::class, $state);

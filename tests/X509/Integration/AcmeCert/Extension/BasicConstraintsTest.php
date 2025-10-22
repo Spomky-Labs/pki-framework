@@ -13,11 +13,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
  */
 final class BasicConstraintsTest extends RefExtTestHelper
 {
-    /**
-     * @return BasicConstraintsExtension
-     */
     #[Test]
-    public function basicConstraintsExtension()
+    public function basicConstraintsExtension(): BasicConstraintsExtension
     {
         $ext = self::$_extensions->basicConstraints();
         static::assertInstanceOf(BasicConstraintsExtension::class, $ext);

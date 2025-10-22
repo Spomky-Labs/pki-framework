@@ -41,7 +41,7 @@ final class CertificateTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): Certificate
     {
         $pki = self::$_privateKeyInfo->publicKeyInfo();
         $tc = TBSCertificate::create(
@@ -61,7 +61,7 @@ final class CertificateTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Certificate $cert)
+    public function encode(Certificate $cert): string
     {
         $seq = $cert->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -73,7 +73,7 @@ final class CertificateTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): Certificate
     {
         $cert = Certificate::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(Certificate::class, $cert);

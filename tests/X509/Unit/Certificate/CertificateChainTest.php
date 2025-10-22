@@ -35,7 +35,7 @@ final class CertificateChainTest extends TestCase
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem'),
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-interm-rsa.pem'),
             PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ca.pem'), ];
-        self::$_certs = array_map(fn (PEM $pem) => Certificate::fromPEM($pem), self::$_pems);
+        self::$_certs = array_map(Certificate::fromPEM(...), self::$_pems);
     }
 
     public static function tearDownAfterClass(): void
@@ -45,7 +45,7 @@ final class CertificateChainTest extends TestCase
     }
 
     #[Test]
-    public function createChain()
+    public function createChain(): CertificateChain
     {
         $chain = CertificateChain::create(...self::$_certs);
         static::assertInstanceOf(CertificateChain::class, $chain);

@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class EnumeratedTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): Enumerated
     {
         $el = Enumerated::create(1);
         static::assertInstanceOf(Enumerated::class, $el);

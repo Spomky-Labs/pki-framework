@@ -34,7 +34,7 @@ final class AlgorithmIdentifierTest extends TestCase
      * @return AlgorithmIdentifier
      */
     #[Test]
-    public function fromUnknownASN1()
+    public function fromUnknownASN1(): GenericAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1(self::$_unknownASN1);
         static::assertInstanceOf(GenericAlgorithmIdentifier::class, $ai);

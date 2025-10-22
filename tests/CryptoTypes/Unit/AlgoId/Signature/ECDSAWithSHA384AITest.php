@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA384Algo
  */
 final class ECDSAWithSHA384AITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = ECDSAWithSHA384AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -30,7 +27,7 @@ final class ECDSAWithSHA384AITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): ECDSAWithSHA384AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(ECDSAWithSHA384AlgorithmIdentifier::class, $ai);

@@ -17,11 +17,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\UnknownExtension;
  */
 final class UnknownExtensionTest extends TestCase
 {
-    /**
-     * @return UnknownExtension
-     */
     #[Test]
-    public function createWithDER()
+    public function createWithDER(): UnknownExtension
     {
         $ext = UnknownExtension::create('1.3.6.1.3.1', true, NullType::create());
         static::assertInstanceOf(UnknownExtension::class, $ext);
@@ -60,7 +57,6 @@ final class UnknownExtensionTest extends TestCase
     {
         $cls = new ReflectionClass(UnknownExtension::class);
         $mtd = $cls->getMethod('valueASN1');
-        $mtd->setAccessible(true);
         $result = $mtd->invoke($ext);
         static::assertInstanceOf(Element::class, $result);
     }

@@ -15,23 +15,17 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraintsExtension;
  */
 final class NameConstraintsTest extends RefExtTestHelper
 {
-    /**
-     * @return NameConstraintsExtension
-     */
     #[Test]
-    public function nameConstraintsExtension()
+    public function nameConstraintsExtension(): NameConstraintsExtension
     {
         $ext = self::$_extensions->get(Extension::OID_NAME_CONSTRAINTS);
         static::assertInstanceOf(NameConstraintsExtension::class, $ext);
         return $ext;
     }
 
-    /**
-     * @return GeneralSubtrees
-     */
     #[Test]
     #[Depends('nameConstraintsExtension')]
-    public function nameConstraintPermittedSubtrees(NameConstraintsExtension $nc)
+    public function nameConstraintPermittedSubtrees(NameConstraintsExtension $nc): GeneralSubtrees
     {
         $subtrees = $nc->permittedSubtrees();
         static::assertInstanceOf(GeneralSubtrees::class, $subtrees);

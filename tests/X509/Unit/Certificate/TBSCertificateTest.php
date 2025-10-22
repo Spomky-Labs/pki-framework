@@ -57,7 +57,7 @@ final class TBSCertificateTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): TBSCertificate
     {
         $tc = TBSCertificate::create(
             self::$_subject,
@@ -70,7 +70,7 @@ final class TBSCertificateTest extends TestCase
     }
 
     #[Test]
-    public function createWithAll()
+    public function createWithAll(): TBSCertificate
     {
         $tc = TBSCertificate::create(
             self::$_subject,
@@ -90,7 +90,7 @@ final class TBSCertificateTest extends TestCase
 
     #[Test]
     #[Depends('createWithAll')]
-    public function encodeWithAll(TBSCertificate $tc)
+    public function encodeWithAll(TBSCertificate $tc): string
     {
         $seq = $tc->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -102,7 +102,7 @@ final class TBSCertificateTest extends TestCase
      */
     #[Test]
     #[Depends('encodeWithAll')]
-    public function decodeWithAll($der)
+    public function decodeWithAll($der): TBSCertificate
     {
         $tc = TBSCertificate::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(TBSCertificate::class, $tc);

@@ -42,7 +42,7 @@ final class IssuerSerialTest extends TestCase
     }
 
     #[Test]
-    public function fromCertificate()
+    public function fromCertificate(): IssuerSerial
     {
         $is = IssuerSerial::fromPKC(self::$_cert);
         static::assertInstanceOf(IssuerSerial::class, $is);

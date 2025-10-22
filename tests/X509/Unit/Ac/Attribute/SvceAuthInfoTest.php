@@ -20,7 +20,7 @@ use function strval;
 final class SvceAuthInfoTest extends TestCase
 {
     #[Test]
-    public function createWithoutAuthInfo()
+    public function createWithoutAuthInfo(): AccessIdentityAttributeValue
     {
         $val = AccessIdentityAttributeValue::create(
             DirectoryName::fromDNString('cn=Svc'),

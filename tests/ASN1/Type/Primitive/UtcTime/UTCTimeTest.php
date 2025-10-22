@@ -21,7 +21,7 @@ use function strval;
 final class UTCTimeTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): UTCTime
     {
         $el = UTCTime::fromString('Mon Jan 2 15:04:05 MST 2006');
         static::assertInstanceOf(UTCTime::class, $el);

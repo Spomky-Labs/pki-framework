@@ -14,11 +14,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\InhibitAnyPolicyExtension;
  */
 final class InhibitAnyPolicyTest extends RefExtTestHelper
 {
-    /**
-     * @return InhibitAnyPolicyExtension
-     */
     #[Test]
-    public function inhibitAnyPolicyExtension()
+    public function inhibitAnyPolicyExtension(): InhibitAnyPolicyExtension
     {
         $ext = self::$_extensions->get(Extension::OID_INHIBIT_ANY_POLICY);
         static::assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);

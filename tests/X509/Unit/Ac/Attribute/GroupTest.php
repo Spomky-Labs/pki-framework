@@ -25,7 +25,7 @@ final class GroupTest extends TestCase
     final public const GROUP_NAME = 'administrators';
 
     #[Test]
-    public function create()
+    public function create(): GroupAttributeValue
     {
         $value = GroupAttributeValue::create(IetfAttrValue::fromString(self::GROUP_NAME));
         $value = $value->withPolicyAuthority(GeneralNames::create(DirectoryName::fromDNString(self::AUTHORITY_DN)));
@@ -35,7 +35,7 @@ final class GroupTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeValue $value)
+    public function encode(AttributeValue $value): string
     {
         $el = $value->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -47,7 +47,7 @@ final class GroupTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): GroupAttributeValue
     {
         $value = GroupAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         static::assertInstanceOf(GroupAttributeValue::class, $value);

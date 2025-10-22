@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class OctetStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): OctetString
     {
         $el = OctetString::create('');
         static::assertInstanceOf(OctetString::class, $el);

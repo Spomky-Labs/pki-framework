@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\MD5AlgorithmIdentifier;
  */
 final class MD5AITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = MD5AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -30,7 +27,7 @@ final class MD5AITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): MD5AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(MD5AlgorithmIdentifier::class, $ai);

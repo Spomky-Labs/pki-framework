@@ -19,11 +19,8 @@ final class AES256CBCAITest extends TestCase
 {
     private const IV = '0123456789abcdef';
 
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = AES256CBCAlgorithmIdentifier::create(self::IV);
         $seq = $ai->toASN1();
@@ -33,7 +30,7 @@ final class AES256CBCAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): AES256CBCAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(AES256CBCAlgorithmIdentifier::class, $ai);

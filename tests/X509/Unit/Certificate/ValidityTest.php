@@ -21,7 +21,7 @@ final class ValidityTest extends TestCase
     final public const NA = '2016-04-06 13:00:00';
 
     #[Test]
-    public function create()
+    public function create(): Validity
     {
         $validity = Validity::fromStrings(self::NB, self::NA);
         static::assertInstanceOf(Validity::class, $validity);
@@ -30,7 +30,7 @@ final class ValidityTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Validity $validity)
+    public function encode(Validity $validity): string
     {
         $seq = $validity->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -42,7 +42,7 @@ final class ValidityTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): Validity
     {
         $validity = Validity::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(Validity::class, $validity);

@@ -27,7 +27,7 @@ use UnexpectedValueException;
 final class GeneralNamesTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): GeneralNames
     {
         $gns = GeneralNames::create(DNSName::create('test1'), DNSName::create('test2'));
         static::assertInstanceOf(GeneralNames::class, $gns);
@@ -36,7 +36,7 @@ final class GeneralNamesTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(GeneralNames $gns)
+    public function encode(GeneralNames $gns): string
     {
         $seq = $gns->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -48,7 +48,7 @@ final class GeneralNamesTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): GeneralNames
     {
         $gns = GeneralNames::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(GeneralNames::class, $gns);

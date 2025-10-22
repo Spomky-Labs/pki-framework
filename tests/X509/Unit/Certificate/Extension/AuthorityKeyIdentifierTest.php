@@ -88,7 +88,7 @@ final class AuthorityKeyIdentifierTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): AuthorityKeyIdentifierExtension
     {
         $ext = AuthorityKeyIdentifierExtension::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);

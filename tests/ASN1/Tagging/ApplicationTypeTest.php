@@ -22,7 +22,7 @@ use UnexpectedValueException;
 final class ApplicationTypeTest extends TestCase
 {
     #[Test]
-    public function implicitType()
+    public function implicitType(): ApplicationType
     {
         // Data ::= [APPLICATION 1] IMPLICIT INTEGER
         $el = Element::fromDER("\x41\x01\x2a");

@@ -16,11 +16,8 @@ use UnexpectedValueException;
  */
 final class RSAPublicKeyTest extends TestCase
 {
-    /**
-     * @return RSAPublicKey
-     */
     #[Test]
-    public function decode()
+    public function decode(): RSAPublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = RSAPublicKey::fromDER($pem->data());
@@ -28,11 +25,8 @@ final class RSAPublicKeyTest extends TestCase
         return $pk;
     }
 
-    /**
-     * @return RSAPublicKey
-     */
     #[Test]
-    public function fromPEM()
+    public function fromPEM(): RSAPublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_public_key.pem');
         $pk = RSAPublicKey::fromPEM($pem);
@@ -42,7 +36,7 @@ final class RSAPublicKeyTest extends TestCase
 
     #[Test]
     #[Depends('fromPEM')]
-    public function toPEM(RSAPublicKey $pk)
+    public function toPEM(RSAPublicKey $pk): PEM
     {
         $pem = $pk->toPEM();
         static::assertInstanceOf(PEM::class, $pem);

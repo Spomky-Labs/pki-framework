@@ -20,7 +20,7 @@ use UnexpectedValueException;
 final class ObjectIdentifierTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): ObjectIdentifier
     {
         $el = ObjectIdentifier::create('1.3.6.1.3');
         static::assertInstanceOf(ObjectIdentifier::class, $el);

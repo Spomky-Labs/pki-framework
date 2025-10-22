@@ -17,11 +17,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\SHA1AlgorithmIdentifier;
  */
 final class SHA1AITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = SHA1AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -31,7 +28,7 @@ final class SHA1AITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): SHA1AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(SHA1AlgorithmIdentifier::class, $ai);

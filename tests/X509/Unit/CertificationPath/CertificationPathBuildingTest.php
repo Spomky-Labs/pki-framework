@@ -40,7 +40,7 @@ final class CertificationPathBuildingTest extends TestCase
     }
 
     #[Test]
-    public function buildPath()
+    public function buildPath(): CertificationPath
     {
         $builder = CertificationPathBuilder::create(CertificateBundle::create(self::$_ca));
         $path = $builder->shortestPathToTarget(self::$_cert, CertificateBundle::create(self::$_interm));

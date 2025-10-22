@@ -23,7 +23,7 @@ use function strval;
 final class GeneralizedTimeTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): GeneralizedTime
     {
         $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
         static::assertInstanceOf(GeneralizedTime::class, $el);

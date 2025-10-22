@@ -18,7 +18,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
 final class InhibitAnyPolicyTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): InhibitAnyPolicyExtension
     {
         $ext = InhibitAnyPolicyExtension::create(true, 3);
         static::assertInstanceOf(InhibitAnyPolicyExtension::class, $ext);

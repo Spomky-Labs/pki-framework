@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class T61StringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): T61String
     {
         $el = T61String::create('');
         static::assertInstanceOf(T61String::class, $el);

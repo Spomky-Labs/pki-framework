@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class PrintableStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): PrintableString
     {
         $el = PrintableString::create('');
         static::assertInstanceOf(PrintableString::class, $el);

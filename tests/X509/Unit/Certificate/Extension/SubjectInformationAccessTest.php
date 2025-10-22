@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 final class SubjectInformationAccessTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): SubjectInformationAccessExtension
     {
         $ext = SubjectInformationAccessExtension::create(
             false,

@@ -18,7 +18,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
 final class ExtendedKeyUsageTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): ExtendedKeyUsageExtension
     {
         $ext = ExtendedKeyUsageExtension::create(
             true,

@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\MD2WithRSAEncryptio
  */
 final class MD2WithRSAAITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = MD2WithRSAEncryptionAlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -30,7 +27,7 @@ final class MD2WithRSAAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): MD2WithRSAEncryptionAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(MD2WithRSAEncryptionAlgorithmIdentifier::class, $ai);

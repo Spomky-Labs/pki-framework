@@ -19,35 +19,26 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
  */
 final class CertificatePoliciesTest extends RefExtTestHelper
 {
-    /**
-     * @return CertificatePoliciesExtension
-     */
     #[Test]
-    public function certificatePoliciesExtension()
+    public function certificatePoliciesExtension(): CertificatePoliciesExtension
     {
         $ext = self::$_extensions->get(Extension::OID_CERTIFICATE_POLICIES);
         static::assertInstanceOf(CertificatePoliciesExtension::class, $ext);
         return $ext;
     }
 
-    /**
-     * @return PolicyInformation
-     */
     #[Test]
     #[Depends('certificatePoliciesExtension')]
-    public function policyInformation(CertificatePoliciesExtension $cpe)
+    public function policyInformation(CertificatePoliciesExtension $cpe): PolicyInformation
     {
         $pi = $cpe->get('1.3.6.1.4.1.45710.2.2.1');
         static::assertInstanceOf(PolicyInformation::class, $pi);
         return $pi;
     }
 
-    /**
-     * @return CPSQualifier
-     */
     #[Test]
     #[Depends('policyInformation')]
-    public function policyCPSQualifier(PolicyInformation $pi)
+    public function policyCPSQualifier(PolicyInformation $pi): CPSQualifier
     {
         $cps = $pi->get(PolicyQualifierInfo::OID_CPS);
         static::assertInstanceOf(CPSQualifier::class, $cps);

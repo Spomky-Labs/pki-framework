@@ -79,7 +79,7 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): AttributeCertificateInfo
     {
         $aci = AttributeCertificateInfo::create(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
@@ -87,7 +87,7 @@ final class AttributeCertificateInfoTest extends TestCase
     }
 
     #[Test]
-    public function createWithAll()
+    public function createWithAll(): AttributeCertificateInfo
     {
         $aci = AttributeCertificateInfo::create(self::$_holder, self::$_issuer, self::$_validity, self::$_attribs);
         $aci = $aci->withSignature(SHA256WithRSAEncryptionAlgorithmIdentifier::create())
@@ -100,7 +100,7 @@ final class AttributeCertificateInfoTest extends TestCase
 
     #[Test]
     #[Depends('createWithAll')]
-    public function encode(AttributeCertificateInfo $aci)
+    public function encode(AttributeCertificateInfo $aci): string
     {
         $seq = $aci->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -112,7 +112,7 @@ final class AttributeCertificateInfoTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): AttributeCertificateInfo
     {
         $tc = AttributeCertificateInfo::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(AttributeCertificateInfo::class, $tc);

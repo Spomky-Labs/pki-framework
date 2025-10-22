@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\X501\ASN1\AttributeType;
 final class AttributeTypeTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): AttributeType
     {
         $type = AttributeType::fromName('name');
         static::assertInstanceOf(AttributeType::class, $type);
@@ -26,7 +26,7 @@ final class AttributeTypeTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeType $type)
+    public function encode(AttributeType $type): string
     {
         $der = $type->toASN1()
             ->toDER();
@@ -39,7 +39,7 @@ final class AttributeTypeTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): AttributeType
     {
         $type = AttributeType::fromASN1(ObjectIdentifier::fromDER($der));
         static::assertInstanceOf(AttributeType::class, $type);

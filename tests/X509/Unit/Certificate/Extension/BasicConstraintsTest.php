@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
 final class BasicConstraintsTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): BasicConstraintsExtension
     {
         $ext = BasicConstraintsExtension::create(true, true, 3);
         static::assertInstanceOf(BasicConstraintsExtension::class, $ext);

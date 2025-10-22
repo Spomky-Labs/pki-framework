@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
  */
 final class SubjectKeyIdentifierTest extends RefExtTestHelper
 {
-    /**
-     * @return SubjectKeyIdentifierExtension
-     */
     #[Test]
-    public function subjectKeyIdentifier()
+    public function subjectKeyIdentifier(): SubjectKeyIdentifierExtension
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_KEY_IDENTIFIER);
         static::assertInstanceOf(SubjectKeyIdentifierExtension::class, $ext);

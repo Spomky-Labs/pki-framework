@@ -23,7 +23,7 @@ use function strval;
 final class BitStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): BitString
     {
         $el = BitString::create('');
         static::assertInstanceOf(BitString::class, $el);

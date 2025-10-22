@@ -21,7 +21,7 @@ use UnexpectedValueException;
 final class AttributeCollectionTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): SequenceOfAttributes
     {
         $c = SequenceOfAttributes::fromAttributeValues(
             NameValue::create('n1'),

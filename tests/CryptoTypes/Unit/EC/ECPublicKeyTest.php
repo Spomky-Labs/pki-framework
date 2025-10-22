@@ -21,11 +21,8 @@ use UnexpectedValueException;
  */
 final class ECPublicKeyTest extends TestCase
 {
-    /**
-     * @return ECPublicKey
-     */
     #[Test]
-    public function fromPEM()
+    public function fromPEM(): ECPublicKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ec/public_key.pem');
         $pk = ECPublicKey::fromPEM($pem);

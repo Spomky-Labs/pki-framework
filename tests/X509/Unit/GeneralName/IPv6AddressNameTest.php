@@ -25,7 +25,7 @@ final class IPv6AddressNameTest extends TestCase
     public const MASK = 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:0000';
 
     #[Test]
-    public function create()
+    public function create(): IPv6Address
     {
         // @todo implement compressed form handling
         $ip = IPv6Address::create(self::ADDR);
@@ -35,7 +35,7 @@ final class IPv6AddressNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(IPAddress $ip)
+    public function encode(IPAddress $ip): string
     {
         $el = $ip->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

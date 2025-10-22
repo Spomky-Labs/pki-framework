@@ -22,7 +22,7 @@ use UnexpectedValueException;
 final class PrivateTypeTest extends TestCase
 {
     #[Test]
-    public function implicitType()
+    public function implicitType(): PrivateType
     {
         // Data ::= [PRIVATE 1] IMPLICIT INTEGER
         $el = Element::fromDER("\xc1\x01\x2a");

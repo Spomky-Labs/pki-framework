@@ -18,7 +18,7 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 final class DERTaggedTypeTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): DERTaggedType
     {
         $el = TaggedType::fromDER("\xa0\x2\x5\x0");
         static::assertInstanceOf(DERTaggedType::class, $el);

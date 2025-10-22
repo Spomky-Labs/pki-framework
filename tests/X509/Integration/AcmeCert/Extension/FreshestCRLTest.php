@@ -20,23 +20,17 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class FreshestCRLTest extends RefExtTestHelper
 {
-    /**
-     * @return FreshestCRLExtension
-     */
     #[Test]
-    public function freshestCRLExtension()
+    public function freshestCRLExtension(): FreshestCRLExtension
     {
         $ext = self::$_extensions->get(Extension::OID_FRESHEST_CRL);
         static::assertInstanceOf(FreshestCRLExtension::class, $ext);
         return $ext;
     }
 
-    /**
-     * @return DistributionPoint
-     */
     #[Test]
     #[Depends('freshestCRLExtension')]
-    public function distributionPoint(FreshestCRLExtension $ext)
+    public function distributionPoint(FreshestCRLExtension $ext): DistributionPoint
     {
         $cdp = $ext->getIterator()[0];
         static::assertInstanceOf(DistributionPoint::class, $cdp);
@@ -48,7 +42,7 @@ final class FreshestCRLTest extends RefExtTestHelper
      */
     #[Test]
     #[Depends('distributionPoint')]
-    public function relativeName(DistributionPoint $dp)
+    public function relativeName(DistributionPoint $dp): DistributionPointName
     {
         $name = $dp->distributionPointName();
         static::assertSame(DistributionPointName::TAG_RDN, $name->tag());

@@ -22,23 +22,17 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @return PEM
-     */
     #[Test]
-    public function pEM()
+    public function pEM(): PEM
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/ac/acme-ac.pem');
         static::assertSame(PEM::TYPE_ATTRIBUTE_CERTIFICATE, $pem->type());
         return $pem;
     }
 
-    /**
-     * @return AttributeCertificate
-     */
     #[Test]
     #[Depends('pEM')]
-    public function aC(PEM $pem)
+    public function aC(PEM $pem): AttributeCertificate
     {
         $seq = Sequence::fromDER($pem->data());
         $ac = AttributeCertificate::fromASN1($seq);
@@ -46,12 +40,9 @@ final class DecodeTest extends TestCase
         return $ac;
     }
 
-    /**
-     * @return AttributeCertificateInfo
-     */
     #[Test]
     #[Depends('aC')]
-    public function aCI(AttributeCertificate $ac)
+    public function aCI(AttributeCertificate $ac): AttributeCertificateInfo
     {
         $aci = $ac->acinfo();
         static::assertInstanceOf(AttributeCertificateInfo::class, $aci);
@@ -63,7 +54,7 @@ final class DecodeTest extends TestCase
      */
     #[Test]
     #[Depends('aC')]
-    public function signatureAlgo(AttributeCertificate $ac)
+    public function signatureAlgo(AttributeCertificate $ac): SHA256WithRSAEncryptionAlgorithmIdentifier
     {
         $algo = $ac->signatureAlgorithm();
         static::assertInstanceOf(SHA256WithRSAEncryptionAlgorithmIdentifier::class, $algo);

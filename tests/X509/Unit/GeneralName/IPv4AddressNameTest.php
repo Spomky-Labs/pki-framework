@@ -35,7 +35,7 @@ final class IPv4AddressNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(IPAddress $ip)
+    public function encode(IPAddress $ip): string
     {
         $el = $ip->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

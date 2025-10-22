@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 final class DNSNameTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): DNSName
     {
         $name = DNSName::create('test.example.com');
         static::assertInstanceOf(DNSName::class, $name);
@@ -28,7 +28,7 @@ final class DNSNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(DNSName $name)
+    public function encode(DNSName $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

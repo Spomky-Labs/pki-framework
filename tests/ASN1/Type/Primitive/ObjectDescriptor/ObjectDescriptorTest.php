@@ -21,7 +21,7 @@ final class ObjectDescriptorTest extends TestCase
     final public const DESCRIPTOR = 'test';
 
     #[Test]
-    public function create()
+    public function create(): ObjectDescriptor
     {
         $el = ObjectDescriptor::create(self::DESCRIPTOR);
         static::assertInstanceOf(ObjectDescriptor::class, $el);

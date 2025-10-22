@@ -103,7 +103,6 @@ final class PolicyMappingMapAnyTest extends TestCase
         $tree = PolicyTree::create(PolicyNode::anyPolicyNode()->addChild(PolicyNode::anyPolicyNode()));
         $refl = new ReflectionClass($tree);
         $mtd = $refl->getMethod('_applyAnyPolicyMapping');
-        $mtd->setAccessible(true);
         $state = ValidatorState::initialize(PathValidationConfig::defaultConfig(), self::$_ca, 3);
         $mtd->invoke($tree, self::$_cert, $state, '1.3.6.1.3', []);
         static::assertTrue(true);
