@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class NullTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): NullType
     {
         $el = NullType::create();
         static::assertInstanceOf(NullType::class, $el);

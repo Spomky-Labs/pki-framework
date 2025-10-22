@@ -21,7 +21,7 @@ use UnexpectedValueException;
 final class UnspecifiedTypeTest extends TestCase
 {
     #[Test]
-    public function asElement()
+    public function asElement(): UnspecifiedType
     {
         $wrap = UnspecifiedType::create(NullType::create());
         static::assertInstanceOf(ElementBase::class, $wrap->asElement());

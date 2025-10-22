@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class RelativeOIDTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): RelativeOID
     {
         $el = RelativeOID::create('1.3.6.1.3');
         static::assertInstanceOf(RelativeOID::class, $el);

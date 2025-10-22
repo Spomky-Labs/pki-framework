@@ -20,11 +20,8 @@ use UnexpectedValueException;
  */
 final class RSAPrivateKeyTest extends TestCase
 {
-    /**
-     * @return RSAPrivateKey
-     */
     #[Test]
-    public function decode()
+    public function decode(): RSAPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = RSAPrivateKey::fromDER($pem->data());
@@ -32,11 +29,8 @@ final class RSAPrivateKeyTest extends TestCase
         return $pk;
     }
 
-    /**
-     * @return RSAPrivateKey
-     */
     #[Test]
-    public function fromPEM()
+    public function fromPEM(): RSAPrivateKey
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/rsa_private_key.pem');
         $pk = RSAPrivateKey::fromPEM($pem);
@@ -46,7 +40,7 @@ final class RSAPrivateKeyTest extends TestCase
 
     #[Test]
     #[Depends('fromPEM')]
-    public function toPEM(RSAPrivateKey $pk)
+    public function toPEM(RSAPrivateKey $pk): PEM
     {
         $pem = $pk->toPEM();
         static::assertInstanceOf(PEM::class, $pem);

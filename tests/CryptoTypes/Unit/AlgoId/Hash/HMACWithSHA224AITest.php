@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\HMACWithSHA224AlgorithmI
  */
 final class HMACWithSHA224AITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = HMACWithSHA224AlgorithmIdentifier::create();
         $seq = $ai->toASN1();
@@ -30,7 +27,7 @@ final class HMACWithSHA224AITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): HMACWithSHA224AlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(HMACWithSHA224AlgorithmIdentifier::class, $ai);

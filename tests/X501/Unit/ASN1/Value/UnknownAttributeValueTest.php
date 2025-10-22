@@ -21,7 +21,7 @@ final class UnknownAttributeValueTest extends TestCase
     final public const OID = '1.3.6.1.3';
 
     #[Test]
-    public function create()
+    public function create(): UnknownAttributeValue
     {
         $val = AttributeValue::fromASN1ByOID(self::OID, UnspecifiedType::create(UTF8String::create('Test')));
         static::assertInstanceOf(UnknownAttributeValue::class, $val);

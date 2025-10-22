@@ -41,7 +41,7 @@ final class CertificationPathTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): CertificationPath
     {
         $path = CertificationPath::create(...self::$_certs);
         static::assertInstanceOf(CertificationPath::class, $path);

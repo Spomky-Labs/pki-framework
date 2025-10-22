@@ -37,7 +37,7 @@ final class IssuerSerialTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): IssuerSerial
     {
         $iss_ser = IssuerSerial::create(self::$_issuer, '1', self::$_uid);
         static::assertInstanceOf(IssuerSerial::class, $iss_ser);
@@ -46,7 +46,7 @@ final class IssuerSerialTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(IssuerSerial $iss_ser)
+    public function encode(IssuerSerial $iss_ser): string
     {
         $seq = $iss_ser->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -58,7 +58,7 @@ final class IssuerSerialTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): IssuerSerial
     {
         $iss_ser = IssuerSerial::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(IssuerSerial::class, $iss_ser);

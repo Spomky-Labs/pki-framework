@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\NoRevocationAvailableExtension;
 final class NoRevocationAvailableTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): NoRevocationAvailableExtension
     {
         $ext = NoRevocationAvailableExtension::create(true);
         static::assertInstanceOf(NoRevocationAvailableExtension::class, $ext);

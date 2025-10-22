@@ -19,7 +19,7 @@ use function strval;
 final class NameTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): Name
     {
         $name = Name::fromString('name=one,name=two');
         static::assertInstanceOf(Name::class, $name);
@@ -28,7 +28,7 @@ final class NameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Name $name)
+    public function encode(Name $name): string
     {
         $der = $name->toASN1()
             ->toDER();
@@ -41,7 +41,7 @@ final class NameTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): Name
     {
         $name = Name::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(Name::class, $name);

@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\UserNoticeQualif
 final class UserNoticeQualifierTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): UserNoticeQualifier
     {
         $qual = UserNoticeQualifier::create(
             DisplayText::fromString('test'),
@@ -31,7 +31,7 @@ final class UserNoticeQualifierTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(UserNoticeQualifier $qual)
+    public function encode(UserNoticeQualifier $qual): string
     {
         $el = $qual->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -43,7 +43,7 @@ final class UserNoticeQualifierTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): UserNoticeQualifier
     {
         $qual = UserNoticeQualifier::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(UserNoticeQualifier::class, $qual);

@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class CharacterStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): CharacterString
     {
         $el = CharacterString::create('');
         static::assertInstanceOf(CharacterString::class, $el);

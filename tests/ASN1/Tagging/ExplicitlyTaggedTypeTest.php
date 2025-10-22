@@ -20,7 +20,7 @@ use UnexpectedValueException;
 final class ExplicitlyTaggedTypeTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): ExplicitlyTaggedType
     {
         $el = ExplicitlyTaggedType::create(1, NullType::create());
         static::assertInstanceOf(ExplicitTagging::class, $el);

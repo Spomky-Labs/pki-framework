@@ -20,7 +20,7 @@ use UnexpectedValueException;
 final class UTF8StringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): UTF8String
     {
         $el = UTF8String::create('');
         static::assertInstanceOf(UTF8String::class, $el);

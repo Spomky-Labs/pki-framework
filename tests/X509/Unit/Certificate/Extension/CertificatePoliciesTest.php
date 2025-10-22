@@ -36,7 +36,7 @@ final class CertificatePoliciesTest extends TestCase
     final public const REF_ORG = 'ACME Ltd.';
 
     #[Test]
-    public function createCPS()
+    public function createCPS(): CPSQualifier
     {
         $qual = CPSQualifier::create('urn:test');
         static::assertInstanceOf(PolicyQualifierInfo::class, $qual);
@@ -44,7 +44,7 @@ final class CertificatePoliciesTest extends TestCase
     }
 
     #[Test]
-    public function createNotice()
+    public function createNotice(): UserNoticeQualifier
     {
         $qual = UserNoticeQualifier::create(
             DisplayText::fromString('Notice'),
@@ -57,7 +57,7 @@ final class CertificatePoliciesTest extends TestCase
     #[Test]
     #[Depends('createCPS')]
     #[Depends('createNotice')]
-    public function createPolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2)
+    public function createPolicyInfo(PolicyQualifierInfo $q1, PolicyQualifierInfo $q2): PolicyInformation
     {
         $info = PolicyInformation::create(self::INFO_OID, $q1, $q2);
         static::assertInstanceOf(PolicyInformation::class, $info);
@@ -66,7 +66,7 @@ final class CertificatePoliciesTest extends TestCase
 
     #[Test]
     #[Depends('createPolicyInfo')]
-    public function create(PolicyInformation $info)
+    public function create(PolicyInformation $info): CertificatePoliciesExtension
     {
         $ext = CertificatePoliciesExtension::create(true, $info, PolicyInformation::create('1.3.6.1.3.10'));
         static::assertInstanceOf(CertificatePoliciesExtension::class, $ext);

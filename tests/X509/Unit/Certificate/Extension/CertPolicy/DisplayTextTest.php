@@ -24,7 +24,7 @@ use function strval;
 final class DisplayTextTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): DisplayText
     {
         $dt = DisplayText::fromString('test');
         static::assertInstanceOf(DisplayText::class, $dt);
@@ -33,7 +33,7 @@ final class DisplayTextTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(DisplayText $dt)
+    public function encode(DisplayText $dt): string
     {
         $el = $dt->toASN1();
         static::assertInstanceOf(StringType::class, $el);
@@ -45,7 +45,7 @@ final class DisplayTextTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): DisplayText
     {
         $qual = DisplayText::fromASN1(BaseString::fromDER($data));
         static::assertInstanceOf(DisplayText::class, $qual);

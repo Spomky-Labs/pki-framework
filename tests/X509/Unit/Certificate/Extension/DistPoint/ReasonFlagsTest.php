@@ -18,7 +18,7 @@ final class ReasonFlagsTest extends TestCase
     public const URI = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): ReasonFlags
     {
         $reasons = ReasonFlags::create(
             ReasonFlags::KEY_COMPROMISE | ReasonFlags::AFFILIATION_CHANGED |
@@ -31,7 +31,7 @@ final class ReasonFlagsTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(ReasonFlags $reasons)
+    public function encode(ReasonFlags $reasons): string
     {
         $el = $reasons->toASN1();
         static::assertInstanceOf(BitString::class, $el);
@@ -43,7 +43,7 @@ final class ReasonFlagsTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): ReasonFlags
     {
         $reasons = ReasonFlags::fromASN1(BitString::fromDER($data));
         static::assertInstanceOf(ReasonFlags::class, $reasons);

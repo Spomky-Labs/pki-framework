@@ -32,7 +32,7 @@ final class CRLDistributionPointTest extends TestCase
     final public const ISSUER_DN = 'cn=Issuer';
 
     #[Test]
-    public function createDistributionPoint()
+    public function createDistributionPoint(): DistributionPoint
     {
         $name = FullName::create(GeneralNames::create(UniformResourceIdentifier::create(self::DP_URI)));
         $reasons = ReasonFlags::create(ReasonFlags::PRIVILEGE_WITHDRAWN);
@@ -44,7 +44,7 @@ final class CRLDistributionPointTest extends TestCase
 
     #[Test]
     #[Depends('createDistributionPoint')]
-    public function create(DistributionPoint $dp)
+    public function create(DistributionPoint $dp): CRLDistributionPointsExtension
     {
         $ext = CRLDistributionPointsExtension::create(true, $dp, DistributionPoint::create());
         static::assertInstanceOf(CRLDistributionPointsExtension::class, $ext);

@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class AuthorityKeyIdentifierTest extends RefExtTestHelper
 {
-    /**
-     * @return AuthorityKeyIdentifierExtension
-     */
     #[Test]
-    public function authorityKeyIdentifier()
+    public function authorityKeyIdentifier(): AuthorityKeyIdentifierExtension
     {
         $ext = self::$_extensions->authorityKeyIdentifier();
         static::assertInstanceOf(AuthorityKeyIdentifierExtension::class, $ext);

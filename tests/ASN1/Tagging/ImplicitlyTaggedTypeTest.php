@@ -21,7 +21,7 @@ use UnexpectedValueException;
 final class ImplicitlyTaggedTypeTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): ImplicitlyTaggedType
     {
         $el = ImplicitlyTaggedType::create(1, NullType::create());
         static::assertInstanceOf(ImplicitTagging::class, $el);

@@ -18,7 +18,7 @@ final class CPSQualifierTest extends TestCase
     public const URI = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): CPSQualifier
     {
         $qual = CPSQualifier::create(self::URI);
         static::assertInstanceOf(CPSQualifier::class, $qual);
@@ -27,7 +27,7 @@ final class CPSQualifierTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(CPSQualifier $qual)
+    public function encode(CPSQualifier $qual): string
     {
         $el = $qual->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -39,7 +39,7 @@ final class CPSQualifierTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): CPSQualifier
     {
         $qual = CPSQualifier::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(CPSQualifier::class, $qual);

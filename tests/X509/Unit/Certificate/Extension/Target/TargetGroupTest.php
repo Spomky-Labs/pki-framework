@@ -22,7 +22,7 @@ final class TargetGroupTest extends TestCase
     final public const URI = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): TargetGroup
     {
         $target = TargetGroup::create(UniformResourceIdentifier::create(self::URI));
         static::assertInstanceOf(TargetGroup::class, $target);
@@ -31,7 +31,7 @@ final class TargetGroupTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Target $target)
+    public function encode(Target $target): string
     {
         $el = $target->toASN1();
         static::assertInstanceOf(ExplicitTagging::class, $el);
@@ -43,7 +43,7 @@ final class TargetGroupTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): TargetGroup
     {
         $target = TargetGroup::fromASN1(TaggedType::fromDER($data));
         static::assertInstanceOf(TargetGroup::class, $target);

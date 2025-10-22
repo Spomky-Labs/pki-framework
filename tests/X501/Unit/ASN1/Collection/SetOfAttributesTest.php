@@ -18,7 +18,7 @@ use SpomkyLabs\Pki\X501\ASN1\Collection\SetOfAttributes;
 final class SetOfAttributesTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): SetOfAttributes
     {
         $c = SetOfAttributes::fromAttributeValues(NameValue::create('n'), DescriptionValue::create('d'));
         static::assertInstanceOf(SetOfAttributes::class, $c);
@@ -27,7 +27,7 @@ final class SetOfAttributesTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(SetOfAttributes $c)
+    public function encode(SetOfAttributes $c): Set
     {
         $el = $c->toASN1();
         static::assertInstanceOf(Set::class, $el);
@@ -36,7 +36,7 @@ final class SetOfAttributesTest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Set $set)
+    public function decode(Set $set): SetOfAttributes
     {
         $c = SetOfAttributes::fromASN1($set);
         static::assertInstanceOf(SetOfAttributes::class, $c);

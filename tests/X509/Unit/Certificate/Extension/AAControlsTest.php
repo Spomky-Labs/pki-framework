@@ -18,7 +18,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 final class AAControlsTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): AAControlsExtension
     {
         $ext = AAControlsExtension::create(true, 3, ['1.2.3.4'], ['1.2.3.5', '1.2.3.6'], false);
         static::assertInstanceOf(AAControlsExtension::class, $ext);

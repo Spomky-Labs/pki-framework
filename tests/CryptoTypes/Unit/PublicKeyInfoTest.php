@@ -16,6 +16,7 @@ use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
@@ -28,11 +29,8 @@ use function mb_strlen;
  */
 final class PublicKeyInfoTest extends TestCase
 {
-    /**
-     * @return PublicKeyInfo
-     */
     #[Test]
-    public function decodeRSA()
+    public function decodeRSA(): PublicKeyInfo
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/public_key.pem');
         $pki = PublicKeyInfo::fromDER($pem->data());
@@ -42,7 +40,7 @@ final class PublicKeyInfoTest extends TestCase
 
     #[Test]
     #[Depends('decodeRSA')]
-    public function algoObj(PublicKeyInfo $pki)
+    public function algoObj(PublicKeyInfo $pki): AlgorithmIdentifierType
     {
         $ref = RSAEncryptionAlgorithmIdentifier::create();
         $algo = $pki->algorithmIdentifier();

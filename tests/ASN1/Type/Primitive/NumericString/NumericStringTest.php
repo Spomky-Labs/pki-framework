@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class NumericStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): NumericString
     {
         $el = NumericString::create('');
         static::assertInstanceOf(NumericString::class, $el);

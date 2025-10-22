@@ -27,11 +27,8 @@ use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequestInfo;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @return CertificationRequest
-     */
     #[Test]
-    public function cSR()
+    public function cSR(): CertificationRequest
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.csr');
         $csr = CertificationRequest::fromPEM($pem);
@@ -39,12 +36,9 @@ final class DecodeTest extends TestCase
         return $csr;
     }
 
-    /**
-     * @return CertificationRequestInfo
-     */
     #[Test]
     #[Depends('cSR')]
-    public function certificationRequestInfo(CertificationRequest $cr)
+    public function certificationRequestInfo(CertificationRequest $cr): CertificationRequestInfo
     {
         $cri = $cr->certificationRequestInfo();
         static::assertInstanceOf(CertificationRequestInfo::class, $cri);
@@ -56,7 +50,7 @@ final class DecodeTest extends TestCase
      */
     #[Test]
     #[Depends('cSR')]
-    public function signatureAlgorithm(CertificationRequest $cr)
+    public function signatureAlgorithm(CertificationRequest $cr): SignatureAlgorithmIdentifier
     {
         $algo = $cr->signatureAlgorithm();
         static::assertInstanceOf(SignatureAlgorithmIdentifier::class, $algo);

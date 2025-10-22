@@ -18,7 +18,7 @@ use SpomkyLabs\Pki\X501\ASN1\Collection\SequenceOfAttributes;
 final class SequenceOfAttributesTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): SequenceOfAttributes
     {
         $c = SequenceOfAttributes::fromAttributeValues(NameValue::create('n'), DescriptionValue::create('d'));
         static::assertInstanceOf(SequenceOfAttributes::class, $c);
@@ -27,7 +27,7 @@ final class SequenceOfAttributesTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(SequenceOfAttributes $c)
+    public function encode(SequenceOfAttributes $c): Sequence
     {
         $el = $c->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -36,7 +36,7 @@ final class SequenceOfAttributesTest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): SequenceOfAttributes
     {
         $c = SequenceOfAttributes::fromASN1($seq);
         static::assertInstanceOf(SequenceOfAttributes::class, $c);

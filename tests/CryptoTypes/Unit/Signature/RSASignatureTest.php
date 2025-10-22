@@ -15,11 +15,8 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\RSASignature;
  */
 final class RSASignatureTest extends TestCase
 {
-    /**
-     * @return RSASignature
-     */
     #[Test]
-    public function fromSignatureString()
+    public function fromSignatureString(): RSASignature
     {
         $sig = RSASignature::fromSignatureString('test');
         static::assertInstanceOf(RSASignature::class, $sig);

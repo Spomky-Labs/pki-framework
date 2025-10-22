@@ -20,7 +20,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\DistributionPoint\RelativeName;
 final class RelativeNameTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): RelativeName
     {
         $name = RelativeName::create(
             RDN::create(AttributeTypeAndValue::fromAttributeValue(CommonNameValue::create('Test')))
@@ -31,7 +31,7 @@ final class RelativeNameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(RelativeName $name)
+    public function encode(RelativeName $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);
@@ -43,7 +43,7 @@ final class RelativeNameTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): RelativeName
     {
         $name = RelativeName::fromTaggedType(TaggedType::fromDER($data));
         static::assertInstanceOf(RelativeName::class, $name);

@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class VisibleStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): VisibleString
     {
         $el = VisibleString::create('');
         static::assertInstanceOf(VisibleString::class, $el);

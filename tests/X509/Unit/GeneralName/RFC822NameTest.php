@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\RFC822Name;
 final class RFC822NameTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): RFC822Name
     {
         $name = RFC822Name::create('test@example.com');
         static::assertInstanceOf(RFC822Name::class, $name);
@@ -28,7 +28,7 @@ final class RFC822NameTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(RFC822Name $name)
+    public function encode(RFC822Name $name): string
     {
         $el = $name->toASN1();
         static::assertInstanceOf(ImplicitTagging::class, $el);

@@ -29,7 +29,7 @@ final class RoleTest extends TestCase
     final public const AUTHORITY_DN = 'cn=Role Authority';
 
     #[Test]
-    public function create()
+    public function create(): RoleAttributeValue
     {
         $value = RoleAttributeValue::create(
             UniformResourceIdentifier::create(self::ROLE_URI),
@@ -41,7 +41,7 @@ final class RoleTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeValue $value)
+    public function encode(AttributeValue $value): string
     {
         $el = $value->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -53,7 +53,7 @@ final class RoleTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): RoleAttributeValue
     {
         $value = RoleAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         static::assertInstanceOf(RoleAttributeValue::class, $value);

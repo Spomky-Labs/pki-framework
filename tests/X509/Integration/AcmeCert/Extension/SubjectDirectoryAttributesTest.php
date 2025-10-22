@@ -15,11 +15,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectDirectoryAttributesExtensio
  */
 final class SubjectDirectoryAttributesTest extends RefExtTestHelper
 {
-    /**
-     * @return SubjectDirectoryAttributesExtension
-     */
     #[Test]
-    public function subjectDirectoryAttributesExtension()
+    public function subjectDirectoryAttributesExtension(): SubjectDirectoryAttributesExtension
     {
         $ext = self::$_extensions->get(Extension::OID_SUBJECT_DIRECTORY_ATTRIBUTES);
         static::assertInstanceOf(SubjectDirectoryAttributesExtension::class, $ext);

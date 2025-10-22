@@ -14,11 +14,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyConstraintsExtension;
  */
 final class PolicyConstraintsTest extends RefExtTestHelper
 {
-    /**
-     * @return PolicyConstraintsExtension
-     */
     #[Test]
-    public function policyConstraintsExtension()
+    public function policyConstraintsExtension(): PolicyConstraintsExtension
     {
         $ext = self::$_extensions->get(Extension::OID_POLICY_CONSTRAINTS);
         static::assertInstanceOf(PolicyConstraintsExtension::class, $ext);

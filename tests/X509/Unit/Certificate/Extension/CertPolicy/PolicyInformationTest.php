@@ -23,7 +23,7 @@ final class PolicyInformationTest extends TestCase
     public const OID = '1.3.6.1.3';
 
     #[Test]
-    public function createWithCPS()
+    public function createWithCPS(): PolicyInformation
     {
         $pi = PolicyInformation::create(self::OID, CPSQualifier::create('urn:test'));
         static::assertInstanceOf(PolicyInformation::class, $pi);
@@ -32,7 +32,7 @@ final class PolicyInformationTest extends TestCase
 
     #[Test]
     #[Depends('createWithCPS')]
-    public function encodeWithCPS(PolicyInformation $pi)
+    public function encodeWithCPS(PolicyInformation $pi): string
     {
         $el = $pi->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -44,7 +44,7 @@ final class PolicyInformationTest extends TestCase
      */
     #[Test]
     #[Depends('encodeWithCPS')]
-    public function decodeWithCPS($data)
+    public function decodeWithCPS($data): PolicyInformation
     {
         $pi = PolicyInformation::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(PolicyInformation::class, $pi);

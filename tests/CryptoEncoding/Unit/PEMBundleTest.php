@@ -19,11 +19,8 @@ use function strval;
  */
 final class PEMBundleTest extends TestCase
 {
-    /**
-     * @return PEMBundle
-     */
     #[Test]
-    public function bundle()
+    public function bundle(): PEMBundle
     {
         $bundle = PEMBundle::fromFile(TEST_ASSETS_DIR . '/cacert.pem');
         static::assertInstanceOf(PEMBundle::class, $bundle);

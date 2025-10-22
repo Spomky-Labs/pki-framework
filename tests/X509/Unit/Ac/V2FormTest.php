@@ -38,7 +38,7 @@ final class V2FormTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): V2Form
     {
         $issuer = V2Form::create(self::$_issuerName);
         static::assertInstanceOf(AttCertIssuer::class, $issuer);
@@ -47,7 +47,7 @@ final class V2FormTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(V2Form $issuer)
+    public function encode(V2Form $issuer): string
     {
         $el = $issuer->toASN1();
         static::assertInstanceOf(ImplicitlyTaggedType::class, $el);
@@ -59,7 +59,7 @@ final class V2FormTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): V2Form
     {
         $issuer = V2Form::fromASN1(Element::fromDER($data)->asUnspecified());
         static::assertInstanceOf(V2Form::class, $issuer);

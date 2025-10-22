@@ -27,11 +27,8 @@ use SpomkyLabs\Pki\X509\Certificate\Validity;
  */
 final class DecodeTest extends TestCase
 {
-    /**
-     * @return Certificate
-     */
     #[Test]
-    public function cert()
+    public function cert(): Certificate
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-rsa.pem');
         $cert = Certificate::fromPEM($pem);
@@ -39,12 +36,9 @@ final class DecodeTest extends TestCase
         return $cert;
     }
 
-    /**
-     * @return TBSCertificate
-     */
     #[Test]
     #[Depends('cert')]
-    public function tBSCertificate(Certificate $cert)
+    public function tBSCertificate(Certificate $cert): TBSCertificate
     {
         $tbsCert = $cert->tbsCertificate();
         static::assertInstanceOf(TBSCertificate::class, $tbsCert);
@@ -56,7 +50,7 @@ final class DecodeTest extends TestCase
      */
     #[Test]
     #[Depends('cert')]
-    public function signatureAlgorithm(Certificate $cert)
+    public function signatureAlgorithm(Certificate $cert): SignatureAlgorithmIdentifier
     {
         $algo = $cert->signatureAlgorithm();
         static::assertInstanceOf(SignatureAlgorithmIdentifier::class, $algo);

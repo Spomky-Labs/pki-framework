@@ -21,7 +21,7 @@ final class TimeTypeTest extends TestCase
     final public const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
 
     #[Test]
-    public function fromString()
+    public function fromString(): GeneralizedTime
     {
         $el = GeneralizedTime::fromString(self::VALUE);
         static::assertInstanceOf(TimeType::class, $el);

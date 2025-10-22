@@ -21,7 +21,7 @@ final class GeneralSubtreeTest extends TestCase
     public const URI = '.example.com';
 
     #[Test]
-    public function create()
+    public function create(): GeneralSubtree
     {
         $subtree = GeneralSubtree::create(UniformResourceIdentifier::create(self::URI));
         static::assertInstanceOf(GeneralSubtree::class, $subtree);
@@ -30,7 +30,7 @@ final class GeneralSubtreeTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(GeneralSubtree $subtree)
+    public function encode(GeneralSubtree $subtree): string
     {
         $el = $subtree->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -42,7 +42,7 @@ final class GeneralSubtreeTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): GeneralSubtree
     {
         $subtree = GeneralSubtree::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(GeneralSubtree::class, $subtree);

@@ -15,11 +15,8 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
  */
 final class IssuerAlternativeNameTest extends RefExtTestHelper
 {
-    /**
-     * @return IssuerAlternativeNameExtension
-     */
     #[Test]
-    public function issuerAlternativeName()
+    public function issuerAlternativeName(): IssuerAlternativeNameExtension
     {
         $ext = self::$_extensions->get(Extension::OID_ISSUER_ALT_NAME);
         static::assertInstanceOf(IssuerAlternativeNameExtension::class, $ext);

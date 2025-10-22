@@ -20,7 +20,7 @@ use function strval;
 final class ExtensionRequestTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): ExtensionRequestValue
     {
         $value = ExtensionRequestValue::create(Extensions::create());
         static::assertInstanceOf(ExtensionRequestValue::class, $value);
@@ -29,7 +29,7 @@ final class ExtensionRequestTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeValue $value)
+    public function encode(AttributeValue $value): string
     {
         $el = $value->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -41,7 +41,7 @@ final class ExtensionRequestTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): ExtensionRequestValue
     {
         $value = ExtensionRequestValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         static::assertInstanceOf(ExtensionRequestValue::class, $value);

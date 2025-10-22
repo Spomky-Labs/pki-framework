@@ -16,7 +16,7 @@ use SpomkyLabs\Pki\X501\StringPrep\StringPreparer;
 final class StringPreparerTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): StringPreparer
     {
         $preparer = StringPreparer::forStringType(Element::TYPE_UTF8_STRING);
         static::assertInstanceOf(StringPreparer::class, $preparer);
@@ -25,7 +25,7 @@ final class StringPreparerTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function withCaseFolding(StringPreparer $preparer)
+    public function withCaseFolding(StringPreparer $preparer): StringPreparer
     {
         $preparer = $preparer->withCaseFolding(true);
         static::assertInstanceOf(StringPreparer::class, $preparer);

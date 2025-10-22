@@ -48,7 +48,6 @@ final class StringTypeDecodeTest extends TestCase
     {
         $cls = new ReflectionClass(PrimitiveString::class);
         $mtd = $cls->getMethod('decodeFromDER');
-        $mtd->setAccessible(true);
         $identifier = Identifier::create(
             Identifier::CLASS_UNIVERSAL,
             Identifier::CONSTRUCTED,

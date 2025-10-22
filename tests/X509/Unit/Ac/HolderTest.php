@@ -47,7 +47,7 @@ final class HolderTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): Holder
     {
         $holder = Holder::create(self::$_issuerSerial, self::$_subject);
         $holder = $holder->withObjectDigestInfo(self::$_odi);
@@ -57,7 +57,7 @@ final class HolderTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Holder $holder)
+    public function encode(Holder $holder): string
     {
         $seq = $holder->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -69,7 +69,7 @@ final class HolderTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): Holder
     {
         $holder = Holder::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(Holder::class, $holder);

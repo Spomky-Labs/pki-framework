@@ -16,6 +16,7 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\ECPublicKeyAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\Attribute\OneAsymmetricKeyAttributes;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -30,11 +31,8 @@ use UnexpectedValueException;
  */
 final class PrivateKeyInfoTest extends TestCase
 {
-    /**
-     * @return PrivateKeyInfo
-     */
     #[Test]
-    public function decodeRSA()
+    public function decodeRSA(): PrivateKeyInfo
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rsa/private_key.pem');
         $pki = PrivateKeyInfo::fromDER($pem->data());
@@ -44,7 +42,7 @@ final class PrivateKeyInfoTest extends TestCase
 
     #[Test]
     #[Depends('decodeRSA')]
-    public function algoObj(PrivateKeyInfo $pki)
+    public function algoObj(PrivateKeyInfo $pki): AlgorithmIdentifierType
     {
         $ref = RSAEncryptionAlgorithmIdentifier::create();
         $algo = $pki->algorithmIdentifier();

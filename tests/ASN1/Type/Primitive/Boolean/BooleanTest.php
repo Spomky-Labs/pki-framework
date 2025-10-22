@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class BooleanTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): Boolean
     {
         $el = Boolean::create(true);
         static::assertInstanceOf(Boolean::class, $el);

@@ -19,11 +19,8 @@ final class DESCBCAITest extends TestCase
 {
     private const IV = '12345678';
 
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = DESCBCAlgorithmIdentifier::create(self::IV);
         $seq = $ai->toASN1();
@@ -33,7 +30,7 @@ final class DESCBCAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): DESCBCAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(DESCBCAlgorithmIdentifier::class, $ai);

@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\NoticeReference;
 final class NoticeReferenceTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): NoticeReference
     {
         $ref = NoticeReference::create(DisplayText::fromString('org'), 1, 2, 3);
         static::assertInstanceOf(NoticeReference::class, $ref);
@@ -26,7 +26,7 @@ final class NoticeReferenceTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(NoticeReference $ref)
+    public function encode(NoticeReference $ref): string
     {
         $el = $ref->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -38,7 +38,7 @@ final class NoticeReferenceTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): NoticeReference
     {
         $ref = NoticeReference::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(NoticeReference::class, $ref);

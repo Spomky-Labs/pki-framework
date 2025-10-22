@@ -16,11 +16,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA384WithRSAEncryp
  */
 final class SHA384WithRSAAITest extends TestCase
 {
-    /**
-     * @return Sequence
-     */
     #[Test]
-    public function encode()
+    public function encode(): Sequence
     {
         $ai = SHA384WithRSAEncryptionAlgorithmIdentifier:: create();
         $seq = $ai->toASN1();
@@ -30,7 +27,7 @@ final class SHA384WithRSAAITest extends TestCase
 
     #[Test]
     #[Depends('encode')]
-    public function decode(Sequence $seq)
+    public function decode(Sequence $seq): SHA384WithRSAEncryptionAlgorithmIdentifier
     {
         $ai = AlgorithmIdentifier::fromASN1($seq);
         static::assertInstanceOf(SHA384WithRSAEncryptionAlgorithmIdentifier::class, $ai);

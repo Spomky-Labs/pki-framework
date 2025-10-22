@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class IA5StringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): IA5String
     {
         $el = IA5String::create('');
         static::assertInstanceOf(IA5String::class, $el);

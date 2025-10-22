@@ -28,7 +28,7 @@ final class PolicyMappingsTest extends TestCase
     final public const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
 
     #[Test]
-    public function createMappings()
+    public function createMappings(): array
     {
         $mappings = [
             PolicyMapping::create(self::ISSUER_POLICY_OID, self::SUBJECT_POLICY_OID),
@@ -39,7 +39,7 @@ final class PolicyMappingsTest extends TestCase
 
     #[Test]
     #[Depends('createMappings')]
-    public function create(array $mappings)
+    public function create(array $mappings): PolicyMappingsExtension
     {
         $ext = PolicyMappingsExtension::create(true, ...$mappings);
         static::assertInstanceOf(PolicyMappingsExtension::class, $ext);

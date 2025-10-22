@@ -14,11 +14,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
  */
 final class ExtendedKeyUsageTest extends RefExtTestHelper
 {
-    /**
-     * @return ExtendedKeyUsageExtension
-     */
     #[Test]
-    public function extendedKeyUsageExtension()
+    public function extendedKeyUsageExtension(): ExtendedKeyUsageExtension
     {
         $ext = self::$_extensions->get(Extension::OID_EXT_KEY_USAGE);
         static::assertInstanceOf(ExtendedKeyUsageExtension::class, $ext);

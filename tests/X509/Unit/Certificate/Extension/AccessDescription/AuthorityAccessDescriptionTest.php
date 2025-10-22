@@ -19,7 +19,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
     public const URI = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): AuthorityAccessDescription
     {
         $desc = AuthorityAccessDescription::create(
             AuthorityAccessDescription::OID_METHOD_OSCP,
@@ -31,7 +31,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AuthorityAccessDescription $desc)
+    public function encode(AuthorityAccessDescription $desc): string
     {
         $el = $desc->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -43,7 +43,7 @@ final class AuthorityAccessDescriptionTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): AuthorityAccessDescription
     {
         $desc = AuthorityAccessDescription::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(AuthorityAccessDescription::class, $desc);

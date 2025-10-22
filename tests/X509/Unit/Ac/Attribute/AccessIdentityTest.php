@@ -23,7 +23,7 @@ final class AccessIdentityTest extends TestCase
     final public const IDENT_URI = 'urn:username';
 
     #[Test]
-    public function create()
+    public function create(): AccessIdentityAttributeValue
     {
         $value = AccessIdentityAttributeValue::create(
             UniformResourceIdentifier::create(self::SERVICE_URI),
@@ -35,7 +35,7 @@ final class AccessIdentityTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeValue $value)
+    public function encode(AttributeValue $value): string
     {
         $el = $value->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -47,7 +47,7 @@ final class AccessIdentityTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): AccessIdentityAttributeValue
     {
         $value = AccessIdentityAttributeValue::fromASN1(Sequence::fromDER($der)->asUnspecified());
         static::assertInstanceOf(AccessIdentityAttributeValue::class, $value);

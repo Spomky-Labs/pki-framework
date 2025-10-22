@@ -18,7 +18,7 @@ require_once __DIR__ . '/RefACExtTestHelper.php';
 final class TargetInformationExtensionDecodeTest extends RefACExtTestHelper
 {
     #[Test]
-    public function extension()
+    public function extension(): TargetInformationExtension
     {
         $ext = self::$_extensions->get(Extension::OID_TARGET_INFORMATION);
         static::assertInstanceOf(TargetInformationExtension::class, $ext);

@@ -51,7 +51,7 @@ final class RegisteredIDNameTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): RegisteredID
     {
         $rid = RegisteredID::fromASN1(Element::fromDER($der));
         static::assertInstanceOf(RegisteredID::class, $rid);

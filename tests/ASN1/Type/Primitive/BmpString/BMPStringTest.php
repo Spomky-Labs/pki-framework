@@ -19,7 +19,7 @@ use UnexpectedValueException;
 final class BMPStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): BMPString
     {
         $el = BMPString::create('');
         static::assertInstanceOf(BMPString::class, $el);

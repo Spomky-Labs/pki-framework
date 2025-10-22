@@ -29,7 +29,7 @@ final class SubjectDirectoryAttributesTest extends TestCase
     final public const DESC = 'Description';
 
     #[Test]
-    public function create()
+    public function create(): SubjectDirectoryAttributesExtension
     {
         $cn = CommonNameValue::create(self::CN);
         $desc = DescriptionValue::create(self::DESC);

@@ -20,7 +20,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
 final class ExtensionsTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): Extensions
     {
         $exts = Extensions::create(
             UnknownExtension::create('1.3.6.1.3.1', true, DERData::create("\x05\x00")),
@@ -32,7 +32,7 @@ final class ExtensionsTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Extensions $exts)
+    public function encode(Extensions $exts): string
     {
         $seq = $exts->toASN1();
         static::assertInstanceOf(Sequence::class, $seq);
@@ -44,7 +44,7 @@ final class ExtensionsTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): Extensions
     {
         $exts = Extensions::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(Extensions::class, $exts);

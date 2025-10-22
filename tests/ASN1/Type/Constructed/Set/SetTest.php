@@ -21,7 +21,7 @@ use UnexpectedValueException;
 final class SetTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): Set
     {
         $set = Set::create(NullType::create(), Boolean::create(true));
         static::assertInstanceOf(Structure::class, $set);

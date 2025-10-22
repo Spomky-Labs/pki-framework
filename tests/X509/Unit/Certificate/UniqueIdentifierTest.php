@@ -18,7 +18,7 @@ final class UniqueIdentifierTest extends TestCase
     final public const UID = 'urn:test';
 
     #[Test]
-    public function create()
+    public function create(): UniqueIdentifier
     {
         $id = UniqueIdentifier::fromString(self::UID);
         static::assertInstanceOf(UniqueIdentifier::class, $id);
@@ -27,7 +27,7 @@ final class UniqueIdentifierTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(UniqueIdentifier $id)
+    public function encode(UniqueIdentifier $id): string
     {
         $bs = $id->toASN1();
         static::assertInstanceOf(BitString::class, $bs);
@@ -39,7 +39,7 @@ final class UniqueIdentifierTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): UniqueIdentifier
     {
         $id = UniqueIdentifier::fromASN1(BitString::fromDER($der));
         static::assertInstanceOf(UniqueIdentifier::class, $id);

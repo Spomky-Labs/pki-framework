@@ -40,7 +40,7 @@ use function strval;
 final class ConstructedStringTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): ConstructedString
     {
         $cs = ConstructedString::createWithTag(
             Element::TYPE_OCTET_STRING,

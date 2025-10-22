@@ -55,7 +55,7 @@ final class CertificateBundleTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): CertificateBundle
     {
         $bundle = CertificateBundle::create(self::$_cert1, self::$_cert2);
         static::assertInstanceOf(CertificateBundle::class, $bundle);

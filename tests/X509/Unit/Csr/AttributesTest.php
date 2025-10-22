@@ -23,7 +23,7 @@ use UnexpectedValueException;
 final class AttributesTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): Attributes
     {
         $attribs = Attributes::fromAttributeValues(ExtensionRequestValue::create(Extensions::create()));
         static::assertInstanceOf(Attributes::class, $attribs);
@@ -32,7 +32,7 @@ final class AttributesTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Attributes $attribs)
+    public function encode(Attributes $attribs): string
     {
         $seq = $attribs->toASN1();
         static::assertInstanceOf(Set::class, $seq);
@@ -44,7 +44,7 @@ final class AttributesTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): Attributes
     {
         $attribs = Attributes::fromASN1(Set::fromDER($data));
         static::assertInstanceOf(Attributes::class, $attribs);

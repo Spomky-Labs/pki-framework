@@ -22,7 +22,7 @@ final class SubjectAlternativeNameTest extends TestCase
     final public const DN = 'cn=Alt name';
 
     #[Test]
-    public function create()
+    public function create(): SubjectAlternativeNameExtension
     {
         $ext = SubjectAlternativeNameExtension::create(
             true,

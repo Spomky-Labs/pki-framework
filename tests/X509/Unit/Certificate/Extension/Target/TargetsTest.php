@@ -37,7 +37,7 @@ final class TargetsTest extends TestCase
     }
 
     #[Test]
-    public function create()
+    public function create(): Targets
     {
         $targets = Targets::create(self::$_name, self::$_group);
         static::assertInstanceOf(Targets::class, $targets);
@@ -46,7 +46,7 @@ final class TargetsTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(Targets $targets)
+    public function encode(Targets $targets): string
     {
         $el = $targets->toASN1();
         static::assertInstanceOf(Sequence::class, $el);
@@ -58,7 +58,7 @@ final class TargetsTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($data)
+    public function decode($data): Targets
     {
         $targets = Targets::fromASN1(Sequence::fromDER($data));
         static::assertInstanceOf(Targets::class, $targets);

@@ -40,11 +40,8 @@ final class CertificationPathValidationTest extends TestCase
         self::$_path = null;
     }
 
-    /**
-     * @return PathValidationResult
-     */
     #[Test]
-    public function validateDefault()
+    public function validateDefault(): PathValidationResult
     {
         $result = self::$_path->validate(PathValidationConfig::defaultConfig());
         static::assertInstanceOf(PathValidationResult::class, $result);

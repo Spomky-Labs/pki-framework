@@ -18,7 +18,7 @@ use function strval;
 final class AttributeTypeAndValueTest extends TestCase
 {
     #[Test]
-    public function create()
+    public function create(): AttributeTypeAndValue
     {
         $atv = AttributeTypeAndValue::fromAttributeValue(NameValue::create('one'));
         static::assertInstanceOf(AttributeTypeAndValue::class, $atv);
@@ -27,7 +27,7 @@ final class AttributeTypeAndValueTest extends TestCase
 
     #[Test]
     #[Depends('create')]
-    public function encode(AttributeTypeAndValue $atv)
+    public function encode(AttributeTypeAndValue $atv): string
     {
         $der = $atv->toASN1()
             ->toDER();
@@ -40,7 +40,7 @@ final class AttributeTypeAndValueTest extends TestCase
      */
     #[Test]
     #[Depends('encode')]
-    public function decode($der)
+    public function decode($der): AttributeTypeAndValue
     {
         $atv = AttributeTypeAndValue::fromASN1(Sequence::fromDER($der));
         static::assertInstanceOf(AttributeTypeAndValue::class, $atv);
