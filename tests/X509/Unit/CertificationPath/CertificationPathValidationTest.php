@@ -94,4 +94,14 @@ final class CertificationPathValidationTest extends TestCase
         $validator = PathValidator::create(Crypto::getDefault(), $config, ...self::$_path->certificates());
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
+
+    #[Test]
+    public function explicitTrustAnchorWithIntermediateCA()
+    {
+        $trustAnchor = self::$_path->certificates()[1];
+        $certs = [self::$_path->certificates()[2]];
+        $config = PathValidationConfig::defaultConfig()->withTrustAnchor($trustAnchor);
+        $validator = PathValidator::create(Crypto::getDefault(), $config, ...$certs);
+        static::assertInstanceOf(PathValidationResult::class, $validator->validate());
+    }
 }
