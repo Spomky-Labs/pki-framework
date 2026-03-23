@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\Test\Support\FrozenClock;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
@@ -50,7 +52,7 @@ final class PassingTest extends TestCase
         $aci = AttributeCertificateInfo::create(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
-            AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
+            AttCertValidityPeriod::fromStrings('2025-01-01', '2025-01-01 + 1 hour'),
             Attributes::create()
         );
         $aci = $aci->withAdditionalExtensions(
@@ -69,7 +71,11 @@ final class PassingTest extends TestCase
     #[Test]
     public function validate(): void
     {
-        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
+        $config = ACValidationConfig::create(
+            self::$_holderPath,
+            self::$_issuerPath,
+            new FrozenClock(new DateTimeImmutable('2025-01-01')),
+        );
         $config = $config->withTargets(TargetName::create(DNSName::create('test')));
         $validator = ACValidator::create(self::$_ac, $config);
         static::assertInstanceOf(AttributeCertificate::class, $validator->validate());

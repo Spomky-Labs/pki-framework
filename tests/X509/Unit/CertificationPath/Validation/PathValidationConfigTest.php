@@ -44,7 +44,9 @@ final class PathValidationConfigTest extends TestCase
     #[Depends('create')]
     public function policySet(PathValidationConfig $config)
     {
-        static::assertContainsOnly('string', $config->policySet());
+        foreach ($config->policySet() as $value) {
+            static::assertIsString($value);
+        }
     }
 
     #[Test]

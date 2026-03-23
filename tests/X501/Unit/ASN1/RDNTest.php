@@ -11,8 +11,8 @@ use SpomkyLabs\Pki\ASN1\Type\Constructed\Set;
 use SpomkyLabs\Pki\X501\ASN1\AttributeTypeAndValue;
 use SpomkyLabs\Pki\X501\ASN1\AttributeValue\NameValue;
 use SpomkyLabs\Pki\X501\ASN1\RDN;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal

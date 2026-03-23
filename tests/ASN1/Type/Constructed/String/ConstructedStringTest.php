@@ -31,8 +31,8 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\VideotexString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\VisibleString;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal

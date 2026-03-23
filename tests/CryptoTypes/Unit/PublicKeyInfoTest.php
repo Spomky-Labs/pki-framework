@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\CryptoTypes\Unit;
 
 use BadMethodCallException;
+use function mb_strlen;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,6 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use UnexpectedValueException;
-use function mb_strlen;
 
 /**
  * @internal

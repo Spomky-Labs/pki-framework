@@ -88,7 +88,9 @@ final class ECPublicKeyTest extends TestCase
     public function curvePoint(ECPublicKey $pk)
     {
         $point = $pk->curvePoint();
-        static::assertContainsOnly('string', $point);
+        foreach ($point as $value) {
+            static::assertIsString($value);
+        }
         return $point;
     }
 
