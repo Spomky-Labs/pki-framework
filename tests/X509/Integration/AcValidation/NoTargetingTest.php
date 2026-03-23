@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Integration\AcValidation;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -49,7 +50,7 @@ final class NoTargetingTest extends TestCase
         $aci = AttributeCertificateInfo::create(
             Holder::fromPKC($holder),
             AttCertIssuer::fromPKC($issuer),
-            AttCertValidityPeriod::fromStrings('now', 'now + 1 hour'),
+            AttCertValidityPeriod::fromStrings('2025-01-01', '2025-01-01 + 1 hour'),
             Attributes::create()
         );
         self::$_ac = $aci->sign(ECDSAWithSHA256AlgorithmIdentifier::create(), $issuer_pk);
@@ -65,7 +66,8 @@ final class NoTargetingTest extends TestCase
     #[Test]
     public function validate()
     {
-        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath);
+        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath)
+            ->withEvaluationTime(new DateTimeImmutable('2025-01-01'));
         $config = $config->withTargets(TargetName::create(DNSName::create('test')));
         $validator = ACValidator::create(self::$_ac, $config);
         static::assertInstanceOf(AttributeCertificate::class, $validator->validate());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use function array_slice;
+use DateTimeImmutable;
 use LogicException;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
@@ -71,7 +72,9 @@ final class CertificationPathTest extends TestCase
     #[Depends('create')]
     public function validate(CertificationPath $path)
     {
-        $result = $path->validate(PathValidationConfig::defaultConfig());
+        $config = PathValidationConfig::defaultConfig()
+            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+        $result = $path->validate($config);
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
 
