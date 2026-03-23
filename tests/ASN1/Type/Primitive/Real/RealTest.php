@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Real;
 
+use const INF;
+use const M_PI;
+use const NAN;
+use const PHP_FLOAT_MAX;
+use const PHP_FLOAT_MIN;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,11 +18,6 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use UnexpectedValueException;
-use const INF;
-use const M_PI;
-use const NAN;
-use const PHP_FLOAT_MAX;
-use const PHP_FLOAT_MIN;
 
 /**
  * @internal

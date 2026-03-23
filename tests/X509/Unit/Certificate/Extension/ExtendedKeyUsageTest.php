@@ -92,7 +92,9 @@ final class ExtendedKeyUsageTest extends TestCase
     #[Depends('create')]
     public function purposes(ExtendedKeyUsageExtension $ext)
     {
-        static::assertContainsOnly('string', $ext->purposes());
+        foreach ($ext->purposes() as $value) {
+            static::assertIsString($value);
+        }
     }
 
     #[Test]
@@ -110,7 +112,9 @@ final class ExtendedKeyUsageTest extends TestCase
         foreach ($ext as $oid) {
             $values[] = $oid;
         }
-        static::assertContainsOnly('string', $values);
+        foreach ($values as $value) {
+            static::assertIsString($value);
+        }
     }
 
     #[Test]

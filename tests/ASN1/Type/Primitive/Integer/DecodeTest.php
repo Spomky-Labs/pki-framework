@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 
 use Brick\Math\BigInteger;
+use function chr;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
-use function chr;
 
 /**
  * @internal

@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal

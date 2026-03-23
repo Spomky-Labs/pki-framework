@@ -18,8 +18,8 @@ use SpomkyLabs\Pki\CryptoTypes\Signature\Signature;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
 use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequestInfo;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal

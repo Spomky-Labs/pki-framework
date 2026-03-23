@@ -7,12 +7,12 @@ namespace SpomkyLabs\Pki\Test\ASN1\Util;
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
 use InvalidArgumentException;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Util\BigInt;
 use function strval;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
 
 /**
  * @internal
