@@ -11,6 +11,7 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoEncoding\PEMBundle;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
+use SpomkyLabs\Pki\Test\Support\FrozenClock;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertIssuer;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
@@ -66,8 +67,11 @@ final class NoTargetingTest extends TestCase
     #[Test]
     public function validate()
     {
-        $config = ACValidationConfig::create(self::$_holderPath, self::$_issuerPath)
-            ->withEvaluationTime(new DateTimeImmutable('2025-01-01'));
+        $config = ACValidationConfig::create(
+            self::$_holderPath,
+            self::$_issuerPath,
+            new FrozenClock(new DateTimeImmutable('2025-01-01')),
+        );
         $config = $config->withTargets(TargetName::create(DNSName::create('test')));
         $validator = ACValidator::create(self::$_ac, $config);
         static::assertInstanceOf(AttributeCertificate::class, $validator->validate());

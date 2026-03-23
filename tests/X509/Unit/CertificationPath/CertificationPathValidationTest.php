@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\Test\Support\FrozenClock;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
@@ -43,9 +44,8 @@ final class CertificationPathValidationTest extends TestCase
     #[Test]
     public function validateDefault(): PathValidationResult
     {
-        $config = PathValidationConfig::defaultConfig()
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
-        $result = self::$_path->validate($config);
+        $clock = new FrozenClock(new DateTimeImmutable('2025-01-01'));
+        $result = self::$_path->validate(PathValidationConfig::defaultConfig($clock));
         static::assertInstanceOf(PathValidationResult::class, $result);
         return $result;
     }
@@ -61,17 +61,17 @@ final class CertificationPathValidationTest extends TestCase
     #[Test]
     public function validateExpired()
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2026-01-03'));
+        $clock = new FrozenClock(new DateTimeImmutable('2026-01-03'));
         $this->expectException(PathValidationException::class);
-        self::$_path->validate($config);
+        self::$_path->validate(PathValidationConfig::defaultConfig($clock));
     }
 
     #[Test]
     public function validateNotBeforeFail()
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2015-12-31'));
+        $clock = new FrozenClock(new DateTimeImmutable('2015-12-31'));
         $this->expectException(PathValidationException::class);
-        self::$_path->validate($config);
+        self::$_path->validate(PathValidationConfig::defaultConfig($clock));
     }
 
     #[Test]
@@ -92,9 +92,9 @@ final class CertificationPathValidationTest extends TestCase
     #[Test]
     public function explicitTrustAnchor()
     {
-        $config = PathValidationConfig::defaultConfig()
-            ->withTrustAnchor(self::$_path->certificates()[0])
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+        $clock = new FrozenClock(new DateTimeImmutable('2025-01-01'));
+        $config = PathValidationConfig::defaultConfig($clock)
+            ->withTrustAnchor(self::$_path->certificates()[0]);
         $validator = PathValidator::create(Crypto::getDefault(), $config, ...self::$_path->certificates());
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
@@ -104,9 +104,9 @@ final class CertificationPathValidationTest extends TestCase
     {
         $trustAnchor = self::$_path->certificates()[1];
         $certs = [self::$_path->certificates()[2]];
-        $config = PathValidationConfig::defaultConfig()
-            ->withTrustAnchor($trustAnchor)
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+        $clock = new FrozenClock(new DateTimeImmutable('2025-01-01'));
+        $config = PathValidationConfig::defaultConfig($clock)
+            ->withTrustAnchor($trustAnchor);
         $validator = PathValidator::create(Crypto::getDefault(), $config, ...$certs);
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }

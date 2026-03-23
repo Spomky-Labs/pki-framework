@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\Test\Support\FrozenClock;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
 use SpomkyLabs\Pki\X509\Certificate\CertificateChain;
@@ -72,9 +73,8 @@ final class CertificationPathTest extends TestCase
     #[Depends('create')]
     public function validate(CertificationPath $path)
     {
-        $config = PathValidationConfig::defaultConfig()
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
-        $result = $path->validate($config);
+        $clock = new FrozenClock(new DateTimeImmutable('2025-01-01'));
+        $result = $path->validate(PathValidationConfig::defaultConfig($clock));
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
 
