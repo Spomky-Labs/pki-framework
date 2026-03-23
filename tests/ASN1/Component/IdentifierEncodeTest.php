@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
+use function chr;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Element;
-use function chr;
 
 /**
  * @internal

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
+use function array_slice;
 use LogicException;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,7 +16,6 @@ use SpomkyLabs\Pki\X509\Certificate\CertificateChain;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
 use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationResult;
-use function array_slice;
 
 /**
  * @internal

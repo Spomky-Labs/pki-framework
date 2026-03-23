@@ -14,8 +14,8 @@ use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal

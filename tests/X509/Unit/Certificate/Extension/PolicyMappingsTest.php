@@ -100,7 +100,9 @@ final class PolicyMappingsTest extends TestCase
     #[Depends('create')]
     public function issuerMappings(PolicyMappingsExtension $ext)
     {
-        static::assertContainsOnly('string', $ext->issuerMappings(self::ISSUER_POLICY_OID));
+        foreach ($ext->issuerMappings(self::ISSUER_POLICY_OID) as $value) {
+            static::assertIsString($value);
+        }
     }
 
     #[Test]

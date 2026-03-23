@@ -12,8 +12,8 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\UTCTime;
 use SpomkyLabs\Pki\ASN1\Type\TimeType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal
