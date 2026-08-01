@@ -19,7 +19,7 @@ jobs:
             extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
 
       -   name: "Checkout code"
-          uses: "actions/checkout@v6"
+          uses: "actions/checkout@v7"
 
       -   name: "Fetch Git base reference"
           run: "git fetch --depth=1 origin ${GITHUB_BASE_REF}"
