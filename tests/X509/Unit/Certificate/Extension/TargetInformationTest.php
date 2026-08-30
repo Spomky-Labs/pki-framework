@@ -22,9 +22,9 @@ use SpomkyLabs\Pki\X509\GeneralName\DNSName;
  */
 final class TargetInformationTest extends TestCase
 {
-    final public const NAME_DN = 'cn=Target';
+    public const NAME_DN = 'cn=Target';
 
-    final public const GROUP_DOMAIN = '.example.com';
+    public const GROUP_DOMAIN = '.example.com';
 
     #[Test]
     public function oID(): void

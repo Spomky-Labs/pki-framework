@@ -39,7 +39,7 @@ final class Real extends Element implements Stringable
      *
      * @var string
      */
-    final public const NR1_REGEX = '/^\s*' .
+    public const NR1_REGEX = '/^\s*' .
         '(?<s>[+\-])?' .    // sign
         '(?<i>\d+)' .       // integer
         '$/';
@@ -49,7 +49,7 @@ final class Real extends Element implements Stringable
      *
      * @var string
      */
-    final public const NR2_REGEX = '/^\s*' .
+    public const NR2_REGEX = '/^\s*' .
         '(?<s>[+\-])?' .                            // sign
         '(?<d>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // decimal number
         '$/';
@@ -59,7 +59,7 @@ final class Real extends Element implements Stringable
      *
      * @var string
      */
-    final public const NR3_REGEX = '/^\s*' .
+    public const NR3_REGEX = '/^\s*' .
         '(?<ms>[+\-])?' .                           // mantissa sign
         '(?<m>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // mantissa
         '[Ee](?<es>[+\-])?' .                       // exponent sign
@@ -73,7 +73,7 @@ final class Real extends Element implements Stringable
      *
      * @var string
      */
-    final public const PHP_EXPONENT_DNUM = '/^' .
+    public const PHP_EXPONENT_DNUM = '/^' .
         '(?<ms>[+\-])?' .               // sign
         '(?<m>' .
         '\d+' .                     // LNUM
@@ -88,14 +88,14 @@ final class Real extends Element implements Stringable
      *
      * @var int
      */
-    final public const INF_EXPONENT = 2047;
+    public const INF_EXPONENT = 2047;
 
     /**
      * Exponent bias for IEEE 754 double precision float.
      *
      * @var int
      */
-    final public const EXP_BIAS = -1023;
+    public const EXP_BIAS = -1023;
 
     /**
      * Signed integer mantissa.
@@ -310,7 +310,7 @@ final class Real extends Element implements Stringable
         } else { // base === 16
             $byte |= 0x20;
             // while last 4 bits are zero
-            while ($m->isGreaterThan(0) && $m->and(0x0f)->isEqualTo($zero)) {
+            while ($m->isGreaterThan(0) && $m->and(0x0F)->isEqualTo($zero)) {
                 $m = $m->shiftedRight(4);
                 $e = $e->plus(1);
             }
@@ -325,7 +325,7 @@ final class Real extends Element implements Stringable
         // encode exponent
         $exp_bytes = (BigInt::create($e))->signedOctets();
         $exp_len = mb_strlen($exp_bytes, '8bit');
-        if ($exp_len > 0xff) {
+        if ($exp_len > 0xFF) {
             throw new RangeException('Exponent encoding is too long.');
         }
         if ($exp_len <= 3) {
@@ -384,9 +384,6 @@ final class Real extends Element implements Stringable
         return $obj;
     }
 
-    /**
-     * Decode binary encoding.
-     */
     protected static function decodeBinaryEncoding(string $data): self
     {
         $byte = ord($data[0]);
@@ -435,12 +432,9 @@ final class Real extends Element implements Stringable
         return self::create($n, $exp, 2);
     }
 
-    /**
-     * Decode decimal encoding.
-     */
     protected static function decodeDecimalEncoding(string $data): self
     {
-        $nr = ord($data[0]) & 0x3f;
+        $nr = ord($data[0]) & 0x3F;
         if (! in_array($nr, [1, 2, 3], true)) {
             throw new DecodeException('Unsupported decimal encoding form.');
         }

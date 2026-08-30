@@ -16,9 +16,9 @@ use SpomkyLabs\Pki\X509\Certificate\Validity;
  */
 final class ValidityTest extends TestCase
 {
-    final public const NB = '2016-04-06 12:00:00';
+    public const NB = '2016-04-06 12:00:00';
 
-    final public const NA = '2016-04-06 13:00:00';
+    public const NA = '2016-04-06 13:00:00';
 
     #[Test]
     public function create(): Validity

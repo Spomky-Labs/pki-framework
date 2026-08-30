@@ -203,18 +203,18 @@ final class EncodeTest extends TestCase
     #[Test]
     public function hugePositive()
     {
-        $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xfffe), 16);
+        $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xFFFE), 16);
         $int = Integer::create($num);
-        $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xfffe);
+        $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xFFFE);
         static::assertSame($der, $int->toDER());
     }
 
     #[Test]
     public function hugeNegative()
     {
-        $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xfffe), 16));
+        $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xFFFE), 16));
         $int = Integer::create($num);
-        $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xfffe);
+        $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xFFFE);
         static::assertSame($der, $int->toDER());
     }
 }

@@ -27,7 +27,7 @@ use UnexpectedValueException;
  */
 final class AttributeCertificateInfo
 {
-    final public const VERSION_2 = 1;
+    public const VERSION_2 = 1;
 
     /**
      * AC version.
@@ -164,10 +164,10 @@ final class AttributeCertificateInfo
     public function withRandomSerialNumber(int $size): self
     {
         // ensure that first byte is always non-zero and having first bit unset
-        $num = BigInteger::of(random_int(1, 0x7f));
+        $num = BigInteger::of(random_int(1, 0x7F));
         for ($i = 1; $i < $size; ++$i) {
             $num = $num->shiftedLeft(8);
-            $num = $num->plus(random_int(0, 0xff));
+            $num = $num->plus(random_int(0, 0xFF));
         }
         return $this->withSerialNumber($num->toBase(10));
     }

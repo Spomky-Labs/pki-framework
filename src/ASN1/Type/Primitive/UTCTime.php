@@ -29,7 +29,7 @@ final class UTCTime extends BaseTime
      *
      * @var string
      */
-    final public const REGEX = '#^' .
+    public const REGEX = '#^' .
         '(\d\d)' . // YY
         '(\d\d)' . // MM
         '(\d\d)' . // DD

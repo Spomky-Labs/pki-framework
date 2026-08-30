@@ -151,7 +151,7 @@ final class ObjectIdentifier extends Element
             } else { // encode to multiple bytes
                 $bytes = [];
                 do {
-                    array_unshift($bytes, 0x7f & $subid->toInt());
+                    array_unshift($bytes, 0x7F & $subid->toInt());
                     $subid = $subid->shiftedRight(7);
                 } while ($subid->isGreaterThan(0));
                 // all bytes except last must have bit 8 set to one
@@ -185,7 +185,7 @@ final class ObjectIdentifier extends Element
                     throw new DecodeException('Unexpected end of data.');
                 }
                 $byte = ord($data[$idx++]);
-                $num = $num->or($byte & 0x7f);
+                $num = $num->or($byte & 0x7F);
                 // bit 8 of the last octet is zero
                 if (0 === ($byte & 0x80)) {
                     break;

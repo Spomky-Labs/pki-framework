@@ -82,7 +82,7 @@ $ti_ext = TargetInformationExtension::create(
 $nra_ext = NoRevocationAvailableExtension::create(false);
 $extensions = Extensions::create($aki_ext, $nra_ext, $ti_ext);
 $aci = AttributeCertificateInfo::create($holder, $issuer, $validity, $attribs);
-$aci = $aci->withSerialNumber(0xbadcafe);
+$aci = $aci->withSerialNumber(0xBADCAFE);
 $aci = $aci->withExtensions($extensions);
 $ac = $aci->sign(SHA256WithRSAEncryptionAlgorithmIdentifier::create(), $issuer_private_key);
 echo $ac;

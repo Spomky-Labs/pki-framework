@@ -27,9 +27,9 @@ use UnexpectedValueException;
  */
 final class CRLDistributionPointTest extends TestCase
 {
-    final public const DP_URI = 'urn:test';
+    public const DP_URI = 'urn:test';
 
-    final public const ISSUER_DN = 'cn=Issuer';
+    public const ISSUER_DN = 'cn=Issuer';
 
     #[Test]
     public function createDistributionPoint(): DistributionPoint

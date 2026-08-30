@@ -19,18 +19,18 @@ use SpomkyLabs\Pki\ASN1\Util\BigInt;
 final class Identifier implements Encodable
 {
     // Type class enumerations
-    final public const CLASS_UNIVERSAL = 0b00;
+    public const CLASS_UNIVERSAL = 0b00;
 
-    final public const CLASS_APPLICATION = 0b01;
+    public const CLASS_APPLICATION = 0b01;
 
-    final public const CLASS_CONTEXT_SPECIFIC = 0b10;
+    public const CLASS_CONTEXT_SPECIFIC = 0b10;
 
-    final public const CLASS_PRIVATE = 0b11;
+    public const CLASS_PRIVATE = 0b11;
 
     // P/C enumerations
-    final public const PRIMITIVE = 0b0;
+    public const PRIMITIVE = 0b0;
 
-    final public const CONSTRUCTED = 0b1;
+    public const CONSTRUCTED = 0b1;
 
     /**
      * Mapping from type class to human readable name.
@@ -103,7 +103,7 @@ final class Identifier implements Encodable
         // bits 5 to 1 (tag number)
         $tag = (0b00011111 & $byte);
         // long-form identifier
-        if ($tag === 0x1f) {
+        if ($tag === 0x1F) {
             $tag = self::decodeLongFormTag($data, $idx);
         }
         if (isset($offset)) {
@@ -117,17 +117,17 @@ final class Identifier implements Encodable
         $bytes = [];
         $byte = $this->_class << 6 | $this->_pc << 5;
         $tag = $this->_tag->getValue();
-        if ($tag->isLessThan(0x1f)) {
+        if ($tag->isLessThan(0x1F)) {
             $bytes[] = $byte | $tag->toInt();
         } // long-form identifier
         else {
-            $bytes[] = $byte | 0x1f;
+            $bytes[] = $byte | 0x1F;
             $octets = [];
             for (; $tag->isGreaterThan(0); $tag = $tag->shiftedRight(7)) {
-                $octets[] = 0x80 | $tag->and(0x7f)->toInt();
+                $octets[] = 0x80 | $tag->and(0x7F)->toInt();
             }
             // last octet has bit 8 set to zero
-            $octets[0] &= 0x7f;
+            $octets[0] &= 0x7F;
             foreach (array_reverse($octets) as $octet) {
                 $bytes[] = $octet;
             }
@@ -267,7 +267,7 @@ final class Identifier implements Encodable
             }
             $byte = ord($data[$offset++]);
             $tag = $tag->shiftedLeft(7);
-            $tag = $tag->or(0x7f & $byte);
+            $tag = $tag->or(0x7F & $byte);
             // last byte has bit 8 set to zero
             if ((0x80 & $byte) === 0) {
                 break;

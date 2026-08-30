@@ -15,7 +15,7 @@ use SpomkyLabs\Pki\X509\Certificate\UniqueIdentifier;
  */
 final class UniqueIdentifierTest extends TestCase
 {
-    final public const UID = 'urn:test';
+    public const UID = 'urn:test';
 
     #[Test]
     public function create(): UniqueIdentifier

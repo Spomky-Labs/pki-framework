@@ -23,7 +23,7 @@ final class IdentifierTest extends TestCase
     #[Test]
     public function unknownClassToName()
     {
-        $name = Identifier::classToName(0xff);
+        $name = Identifier::classToName(0xFF);
         static::assertSame('CLASS 255', $name);
     }
 }

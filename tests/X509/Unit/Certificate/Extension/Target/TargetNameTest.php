@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class TargetNameTest extends TestCase
 {
-    final public const URI = 'urn:test';
+    public const URI = 'urn:test';
 
     #[Test]
     public function create(): TargetName

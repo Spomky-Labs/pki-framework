@@ -75,13 +75,13 @@ abstract class Element implements ElementBase
 
     public const TYPE_REAL = 0x09;
 
-    public const TYPE_ENUMERATED = 0x0a;
+    public const TYPE_ENUMERATED = 0x0A;
 
-    public const TYPE_EMBEDDED_PDV = 0x0b;
+    public const TYPE_EMBEDDED_PDV = 0x0B;
 
-    public const TYPE_UTF8_STRING = 0x0c;
+    public const TYPE_UTF8_STRING = 0x0C;
 
-    public const TYPE_RELATIVE_OID = 0x0d;
+    public const TYPE_RELATIVE_OID = 0x0D;
 
     public const TYPE_SEQUENCE = 0x10;
 
@@ -103,15 +103,15 @@ abstract class Element implements ElementBase
 
     public const TYPE_GRAPHIC_STRING = 0x19;
 
-    public const TYPE_VISIBLE_STRING = 0x1a;
+    public const TYPE_VISIBLE_STRING = 0x1A;
 
-    public const TYPE_GENERAL_STRING = 0x1b;
+    public const TYPE_GENERAL_STRING = 0x1B;
 
-    public const TYPE_UNIVERSAL_STRING = 0x1c;
+    public const TYPE_UNIVERSAL_STRING = 0x1C;
 
-    public const TYPE_CHARACTER_STRING = 0x1d;
+    public const TYPE_CHARACTER_STRING = 0x1D;
 
-    public const TYPE_BMP_STRING = 0x1e;
+    public const TYPE_BMP_STRING = 0x1E;
 
     /**
      * Pseudotype for all string types.

@@ -182,16 +182,16 @@ final class DecodeTest extends TestCase
     #[Test]
     public function hugePositive()
     {
-        $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xfffe);
-        $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xfffe), 16);
+        $der = "\x2\x82\xff\xff\x7f" . str_repeat("\xff", 0xFFFE);
+        $num = BigInteger::fromBase('7f' . str_repeat('ff', 0xFFFE), 16);
         static::assertSame($num->toBase(10), Integer::fromDER($der)->number());
     }
 
     #[Test]
     public function hugeNegative()
     {
-        $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xfffe);
-        $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xfffe), 16));
+        $der = "\x2\x82\xff\xff\x80" . str_repeat("\x00", 0xFFFE);
+        $num = BigInteger::of(0)->minus(BigInteger::fromBase('80' . str_repeat('00', 0xFFFE), 16));
         static::assertSame($num->toBase(10), Integer::fromDER($der)->number());
     }
 }

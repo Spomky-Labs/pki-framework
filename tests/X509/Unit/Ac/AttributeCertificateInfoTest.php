@@ -40,7 +40,7 @@ use UnexpectedValueException;
  */
 final class AttributeCertificateInfoTest extends TestCase
 {
-    final public const ISSUER_DN = 'cn=Issuer';
+    public const ISSUER_DN = 'cn=Issuer';
 
     private static ?Holder $_holder = null;
 

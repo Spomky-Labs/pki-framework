@@ -23,9 +23,9 @@ use UnexpectedValueException;
  */
 final class PolicyMappingsTest extends TestCase
 {
-    final public const ISSUER_POLICY_OID = '1.3.6.1.3.1';
+    public const ISSUER_POLICY_OID = '1.3.6.1.3.1';
 
-    final public const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
+    public const SUBJECT_POLICY_OID = '1.3.6.1.3.2';
 
     #[Test]
     public function createMappings(): array

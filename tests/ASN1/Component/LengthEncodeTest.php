@@ -32,21 +32,21 @@ final class LengthEncodeTest extends TestCase
     #[Test]
     public function short()
     {
-        $length = Length::create(0x7f);
+        $length = Length::create(0x7F);
         static::assertSame("\x7f", $length->toDER());
     }
 
     #[Test]
     public function long()
     {
-        $length = Length::create(0xff);
+        $length = Length::create(0xFF);
         static::assertSame("\x81\xff", $length->toDER());
     }
 
     #[Test]
     public function long2()
     {
-        $length = Length::create(0xcafe);
+        $length = Length::create(0xCAFE);
         static::assertSame("\x82\xca\xfe", $length->toDER());
     }
 

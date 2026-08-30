@@ -24,9 +24,9 @@ use UnexpectedValueException;
  */
 final class SubjectDirectoryAttributesTest extends TestCase
 {
-    final public const CN = 'Test';
+    public const CN = 'Test';
 
-    final public const DESC = 'Description';
+    public const DESC = 'Description';
 
     #[Test]
     public function create(): SubjectDirectoryAttributesExtension

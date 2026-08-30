@@ -73,10 +73,10 @@ final class BitStringTest extends TestCase
 
     public static function ffProvider(): Iterator
     {
-        yield [0, 8, strval(0xff)];
+        yield [0, 8, strval(0xFF)];
         yield [1, 2, strval(0x03)];
         yield [6, 2, strval(0x03)];
-        yield [2, 4, strval(0x0f)];
+        yield [2, 4, strval(0x0F)];
     }
 
     #[Test]
@@ -89,9 +89,9 @@ final class BitStringTest extends TestCase
 
     public static function ffffProvider(): Iterator
     {
-        yield [0, 8, strval(0xff)];
-        yield [6, 4, strval(0x0f)];
-        yield [12, 4, strval(0x0f)];
+        yield [0, 8, strval(0xFF)];
+        yield [6, 4, strval(0x0F)];
+        yield [12, 4, strval(0x0F)];
     }
 
     #[Test]

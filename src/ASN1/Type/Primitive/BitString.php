@@ -156,7 +156,7 @@ final class BitString extends BaseString
         if ($this->unusedBits !== 0) {
             $octet = $der[mb_strlen($der, '8bit') - 1];
             // set unused bits to zero
-            $octet &= chr(0xff & ~((1 << $this->unusedBits) - 1));
+            $octet &= chr(0xFF & ~((1 << $this->unusedBits) - 1));
             $der[mb_strlen($der, '8bit') - 1] = $octet;
         }
         return $der;

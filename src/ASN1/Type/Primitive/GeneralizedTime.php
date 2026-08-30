@@ -33,7 +33,7 @@ final class GeneralizedTime extends BaseTime
      *
      * @var string
      */
-    final public const REGEX = '#^' .
+    public const REGEX = '#^' .
         '(\d\d\d\d)' . // YYYY
         '(\d\d)' . // MM
         '(\d\d)' . // DD
