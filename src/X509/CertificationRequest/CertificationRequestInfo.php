@@ -26,7 +26,7 @@ use UnexpectedValueException;
  */
 final class CertificationRequestInfo
 {
-    final public const VERSION_1 = 0;
+    public const VERSION_1 = 0;
 
     /**
      * Version.

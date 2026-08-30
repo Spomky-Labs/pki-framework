@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoEncoding;
 
+use function is_string;
 use RuntimeException;
 use Stringable;
 use UnexpectedValueException;
-use function is_string;
 
 /**
  * Implements PEM file encoding and decoding.
@@ -17,36 +17,36 @@ use function is_string;
 final class PEM implements Stringable
 {
     // well-known PEM types
-    final public const TYPE_CERTIFICATE = 'CERTIFICATE';
+    public const TYPE_CERTIFICATE = 'CERTIFICATE';
 
-    final public const TYPE_CRL = 'X509 CRL';
+    public const TYPE_CRL = 'X509 CRL';
 
-    final public const TYPE_CERTIFICATE_REQUEST = 'CERTIFICATE REQUEST';
+    public const TYPE_CERTIFICATE_REQUEST = 'CERTIFICATE REQUEST';
 
-    final public const TYPE_ATTRIBUTE_CERTIFICATE = 'ATTRIBUTE CERTIFICATE';
+    public const TYPE_ATTRIBUTE_CERTIFICATE = 'ATTRIBUTE CERTIFICATE';
 
-    final public const TYPE_PRIVATE_KEY = 'PRIVATE KEY';
+    public const TYPE_PRIVATE_KEY = 'PRIVATE KEY';
 
-    final public const TYPE_PUBLIC_KEY = 'PUBLIC KEY';
+    public const TYPE_PUBLIC_KEY = 'PUBLIC KEY';
 
-    final public const TYPE_ENCRYPTED_PRIVATE_KEY = 'ENCRYPTED PRIVATE KEY';
+    public const TYPE_ENCRYPTED_PRIVATE_KEY = 'ENCRYPTED PRIVATE KEY';
 
-    final public const TYPE_RSA_PRIVATE_KEY = 'RSA PRIVATE KEY';
+    public const TYPE_RSA_PRIVATE_KEY = 'RSA PRIVATE KEY';
 
-    final public const TYPE_RSA_PUBLIC_KEY = 'RSA PUBLIC KEY';
+    public const TYPE_RSA_PUBLIC_KEY = 'RSA PUBLIC KEY';
 
-    final public const TYPE_EC_PRIVATE_KEY = 'EC PRIVATE KEY';
+    public const TYPE_EC_PRIVATE_KEY = 'EC PRIVATE KEY';
 
-    final public const TYPE_PKCS7 = 'PKCS7';
+    public const TYPE_PKCS7 = 'PKCS7';
 
-    final public const TYPE_CMS = 'CMS';
+    public const TYPE_CMS = 'CMS';
 
     /**
      * Regular expression to match PEM block.
      *
      * @var string
      */
-    final public const PEM_REGEX = '/' .
+    public const PEM_REGEX = '/' .
         /* line start */
         '(?:^|[\r\n])' .
         /* header */

@@ -66,23 +66,23 @@ final class LengthDecodeTest extends TestCase
     public function shortForm()
     {
         $length = Length::fromDER("\x7f");
-        static::assertSame((string) 0x7f, $length->length());
-        static::assertSame(0x7f, $length->intLength());
+        static::assertSame((string) 0x7F, $length->length());
+        static::assertSame(0x7F, $length->intLength());
     }
 
     #[Test]
     public function longForm()
     {
         $length = Length::fromDER("\x81\xff");
-        static::assertSame((string) 0xff, $length->length());
+        static::assertSame((string) 0xFF, $length->length());
     }
 
     #[Test]
     public function longForm2()
     {
         $length = Length::fromDER("\x82\xca\xfe");
-        static::assertSame((string) 0xcafe, $length->length());
-        static::assertSame(0xcafe, $length->intLength());
+        static::assertSame((string) 0xCAFE, $length->length());
+        static::assertSame(0xCAFE, $length->intLength());
     }
 
     /**

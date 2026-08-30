@@ -6,11 +6,11 @@ namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\IntegerOverflowException;
+use function chr;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
-use function chr;
 
 /**
  * @internal
@@ -91,14 +91,14 @@ final class IdentifierDecodeTest extends TestCase
     public function longTag()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\x7f");
-        static::assertSame((string) 0x7f, $identifier->tag());
+        static::assertSame((string) 0x7F, $identifier->tag());
     }
 
     #[Test]
     public function longTag2()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\xff\x7f");
-        static::assertSame((string) ((0x7f << 7) + 0x7f), $identifier->tag());
+        static::assertSame((string) ((0x7F << 7) + 0x7F), $identifier->tag());
     }
 
     #[Test]

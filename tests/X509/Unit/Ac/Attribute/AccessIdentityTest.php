@@ -18,9 +18,9 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class AccessIdentityTest extends TestCase
 {
-    final public const SERVICE_URI = 'urn:service';
+    public const SERVICE_URI = 'urn:service';
 
-    final public const IDENT_URI = 'urn:username';
+    public const IDENT_URI = 'urn:username';
 
     #[Test]
     public function create(): AccessIdentityAttributeValue

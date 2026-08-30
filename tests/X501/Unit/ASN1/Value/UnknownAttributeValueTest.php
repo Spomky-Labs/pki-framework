@@ -18,7 +18,7 @@ use function strval;
  */
 final class UnknownAttributeValueTest extends TestCase
 {
-    final public const OID = '1.3.6.1.3';
+    public const OID = '1.3.6.1.3';
 
     #[Test]
     public function create(): UnknownAttributeValue

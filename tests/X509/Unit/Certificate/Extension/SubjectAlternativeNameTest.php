@@ -19,7 +19,7 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class SubjectAlternativeNameTest extends TestCase
 {
-    final public const DN = 'cn=Alt name';
+    public const DN = 'cn=Alt name';
 
     #[Test]
     public function create(): SubjectAlternativeNameExtension

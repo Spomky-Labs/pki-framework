@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use Brick\Math\BigInteger;
 use LogicException;
+use function mb_strlen;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -33,14 +34,13 @@ use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
 use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 use UnexpectedValueException;
-use function mb_strlen;
 
 /**
  * @internal
  */
 final class AttributeCertificateInfoTest extends TestCase
 {
-    final public const ISSUER_DN = 'cn=Issuer';
+    public const ISSUER_DN = 'cn=Issuer';
 
     private static ?Holder $_holder = null;
 

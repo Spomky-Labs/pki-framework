@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
+use function array_values;
+use function count;
+use function in_array;
 use LogicException;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
@@ -11,8 +14,6 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
-use function count;
-use function in_array;
 
 /**
  * Implements certification path validation.
@@ -24,14 +25,14 @@ final class PathValidator
     /**
      * Certification path.
      *
-     * @var Certificate[]
+     * @var list<Certificate>
      */
     private readonly array $certificates;
 
     /**
      * Certification path trust anchor.
      */
-    private ?Certificate $trustAnchor = null;
+    private readonly Certificate $trustAnchor;
 
     /**
      * @param Crypto $crypto Crypto engine
@@ -47,7 +48,7 @@ final class PathValidator
         if (count($certificates) === 0) {
             throw new LogicException('No certificates.');
         }
-        $this->certificates = $certificates;
+        $this->certificates = array_values($certificates);
         // if trust anchor is explicitly given in configuration
         if ($config->hasTrustAnchor()) {
             $this->trustAnchor = $config->trustAnchor();

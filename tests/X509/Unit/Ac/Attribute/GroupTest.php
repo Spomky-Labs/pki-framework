@@ -20,9 +20,9 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class GroupTest extends TestCase
 {
-    final public const AUTHORITY_DN = 'cn=Authority Name';
+    public const AUTHORITY_DN = 'cn=Authority Name';
 
-    final public const GROUP_NAME = 'administrators';
+    public const GROUP_NAME = 'administrators';
 
     #[Test]
     public function create(): GroupAttributeValue

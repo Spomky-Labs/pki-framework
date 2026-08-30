@@ -15,8 +15,8 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\UTF8String;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\VisibleString;
 use SpomkyLabs\Pki\ASN1\Type\StringType;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\DisplayText;
-use UnexpectedValueException;
 use function strval;
+use UnexpectedValueException;
 
 /**
  * @internal

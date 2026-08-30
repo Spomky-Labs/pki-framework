@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Component;
 
 use Brick\Math\BigInteger;
+use function count;
 use DomainException;
 use LogicException;
+use function mb_strlen;
+use function ord;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Feature\Encodable;
 use SpomkyLabs\Pki\ASN1\Util\BigInt;
-use function count;
-use function mb_strlen;
-use function ord;
 use function sprintf;
 
 /**
@@ -60,7 +60,7 @@ final class Length implements Encodable
         $indefinite = false;
         $byte = ord($data[$idx++]);
         // bits 7 to 1
-        $length = (0x7f & $byte);
+        $length = (0x7F & $byte);
         // long form
         if ((0x80 & $byte) !== 0) {
             if ($length === 0) {
@@ -129,7 +129,7 @@ final class Length implements Encodable
             if ($num->isGreaterThan(127)) {
                 $octets = [];
                 for (; $num->isGreaterThan(0); $num = $num->shiftedRight(8)) {
-                    $octets[] = BigInteger::of(0xff)->and($num)->toInt();
+                    $octets[] = BigInteger::of(0xFF)->and($num)->toInt();
                 }
                 $count = count($octets);
                 // first octet must not be 0xff
@@ -181,8 +181,6 @@ final class Length implements Encodable
     }
 
     /**
-     * Decode long form length.
-     *
      * @param int $length Number of octets
      * @param string $data Data
      * @param int $offset reference to the variable containing offset to the data

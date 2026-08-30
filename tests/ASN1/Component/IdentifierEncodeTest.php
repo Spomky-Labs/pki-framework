@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
+use function chr;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Element;
-use function chr;
 
 /**
  * @internal
@@ -58,7 +58,7 @@ final class IdentifierEncodeTest extends TestCase
     #[Test]
     public function longTag()
     {
-        $identifier = Identifier::create(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, (0x7f << 7) + 0x7f);
+        $identifier = Identifier::create(Identifier::CLASS_APPLICATION, Identifier::CONSTRUCTED, (0x7F << 7) + 0x7F);
         static::assertSame(chr(0b01111111) . "\xff\x7f", $identifier->toDER());
     }
 

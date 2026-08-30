@@ -28,9 +28,9 @@ use UnexpectedValueException;
  */
 final class AuthorityKeyIdentifierTest extends TestCase
 {
-    final public const KEY_ID = 'test-id';
+    public const KEY_ID = 'test-id';
 
-    final public const SERIAL = '42';
+    public const SERIAL = '42';
 
     private static ?GeneralNames $_issuer;
 

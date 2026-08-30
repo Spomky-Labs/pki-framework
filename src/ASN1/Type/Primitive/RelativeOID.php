@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use Brick\Math\BigInteger;
+use function chr;
+use function is_int;
+use function ord;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
@@ -13,12 +16,9 @@ use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
 use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
+use function sprintf;
 use Throwable;
 use UnexpectedValueException;
-use function chr;
-use function is_int;
-use function ord;
-use function sprintf;
 
 /**
  * Implements *RELATIVE-OID* type.
@@ -116,7 +116,7 @@ final class RelativeOID extends Element
             } else { // encode to multiple bytes
                 $bytes = [];
                 do {
-                    array_unshift($bytes, 0x7f & $subid->toInt());
+                    array_unshift($bytes, 0x7F & $subid->toInt());
                     $subid = $subid->shiftedRight(7);
                 } while ($subid->isGreaterThan(0));
                 // all bytes except last must have bit 8 set to one
@@ -150,7 +150,7 @@ final class RelativeOID extends Element
                     throw new DecodeException('Unexpected end of data.');
                 }
                 $byte = ord($data[$idx++]);
-                $num = $num->or($byte & 0x7f);
+                $num = $num->or($byte & 0x7F);
                 // bit 8 of the last octet is zero
                 if (0 === ($byte & 0x80)) {
                     break;

@@ -22,11 +22,11 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
  */
 final class NameConstraintsTest extends TestCase
 {
-    final public const PERMITTED_URI = '.example.com';
+    public const PERMITTED_URI = '.example.com';
 
-    final public const PERMITTED_DN = 'cn=Test';
+    public const PERMITTED_DN = 'cn=Test';
 
-    final public const EXCLUDED_URI = 'nope.example.com';
+    public const EXCLUDED_URI = 'nope.example.com';
 
     #[Test]
     public function createPermitted(): GeneralSubtrees

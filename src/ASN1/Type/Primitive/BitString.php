@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Type\Primitive;
 
 use Brick\Math\BigInteger;
+use function chr;
+use function mb_strlen;
+use function ord;
 use OutOfBoundsException;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
@@ -13,9 +16,6 @@ use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\BaseString;
 use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
 use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
-use function chr;
-use function mb_strlen;
-use function ord;
 
 /**
  * Implements *BIT STRING* type.
@@ -156,7 +156,7 @@ final class BitString extends BaseString
         if ($this->unusedBits !== 0) {
             $octet = $der[mb_strlen($der, '8bit') - 1];
             // set unused bits to zero
-            $octet &= chr(0xff & ~((1 << $this->unusedBits) - 1));
+            $octet &= chr(0xFF & ~((1 << $this->unusedBits) - 1));
             $der[mb_strlen($der, '8bit') - 1] = $octet;
         }
         return $der;

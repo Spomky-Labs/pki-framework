@@ -13,7 +13,6 @@ use Rector\ValueObject\PhpVersion;
 return static function (RectorConfig $config): void {
     $config->import(SetList::DEAD_CODE);
     $config->import(SetList::PHP_81);
-    $config->import(SymfonySetList::SYMFONY_50_TYPES);
     $config->import(SymfonySetList::SYMFONY_CODE_QUALITY);
     $config->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
     $config->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);

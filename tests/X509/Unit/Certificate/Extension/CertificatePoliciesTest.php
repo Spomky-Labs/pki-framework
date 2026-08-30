@@ -27,13 +27,13 @@ use UnexpectedValueException;
  */
 final class CertificatePoliciesTest extends TestCase
 {
-    final public const INFO_OID = '1.3.6.1.3';
+    public const INFO_OID = '1.3.6.1.3';
 
-    final public const CPS_URI = 'urn:test';
+    public const CPS_URI = 'urn:test';
 
-    final public const NOTICE_TXT = 'Notice';
+    public const NOTICE_TXT = 'Notice';
 
-    final public const REF_ORG = 'ACME Ltd.';
+    public const REF_ORG = 'ACME Ltd.';
 
     #[Test]
     public function createCPS(): CPSQualifier

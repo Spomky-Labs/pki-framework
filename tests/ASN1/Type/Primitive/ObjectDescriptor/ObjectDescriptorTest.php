@@ -18,7 +18,7 @@ use UnexpectedValueException;
  */
 final class ObjectDescriptorTest extends TestCase
 {
-    final public const DESCRIPTOR = 'test';
+    public const DESCRIPTOR = 'test';
 
     #[Test]
     public function create(): ObjectDescriptor

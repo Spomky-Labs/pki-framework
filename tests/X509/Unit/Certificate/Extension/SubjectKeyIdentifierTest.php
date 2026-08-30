@@ -17,7 +17,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extensions;
  */
 final class SubjectKeyIdentifierTest extends TestCase
 {
-    final public const KEY_ID = 'test-id';
+    public const KEY_ID = 'test-id';
 
     #[Test]
     public function create(): SubjectKeyIdentifierExtension

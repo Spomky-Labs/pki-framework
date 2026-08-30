@@ -19,9 +19,9 @@ use SpomkyLabs\Pki\X509\Certificate\Time;
  */
 final class TimeTest extends TestCase
 {
-    final public const TIME = '2016-04-06 12:00:00';
+    public const TIME = '2016-04-06 12:00:00';
 
-    final public const TIME_GEN = '2050-01-01 12:00:00';
+    public const TIME_GEN = '2050-01-01 12:00:00';
 
     #[Test]
     public function create(): Time

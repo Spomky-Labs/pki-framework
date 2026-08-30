@@ -20,13 +20,13 @@ use SpomkyLabs\Pki\X509\GeneralName\GeneralNames;
  */
 final class ChargingIdentityTest extends TestCase
 {
-    final public const AUTHORITY_DN = 'cn=Authority Name';
+    public const AUTHORITY_DN = 'cn=Authority Name';
 
-    final public const OCTETS_VAL = 'octet string';
+    public const OCTETS_VAL = 'octet string';
 
-    final public const OID_VAL = '1.3.6.1.3.1';
+    public const OID_VAL = '1.3.6.1.3.1';
 
-    final public const UTF8_VAL = 'UTF-8 string';
+    public const UTF8_VAL = 'UTF-8 string';
 
     #[Test]
     public function create(): ChargingIdentityAttributeValue

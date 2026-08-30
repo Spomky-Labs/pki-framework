@@ -22,7 +22,7 @@ final class AlgorithmIdentifierTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_unknownASN1 = Sequence::create(ObjectIdentifier::create('1.3.6.1.3'/*, NullType::create()*/));
+        self::$_unknownASN1 = Sequence::create(ObjectIdentifier::create('1.3.6.1.3'/* , NullType::create() */));
     }
 
     public static function tearDownAfterClass(): void

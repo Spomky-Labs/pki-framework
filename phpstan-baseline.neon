@@ -421,18 +421,6 @@ parameters:
 			path: src/X501/DN/DNParser.php
 
 		-
-			rawMessage: 'Method SpomkyLabs\Pki\X501\DN\DNParser::_parseAttrTypeAndValue() should return array<string, SpomkyLabs\Pki\ASN1\Feature\ElementBase|string> but returns array<int, SpomkyLabs\Pki\ASN1\Element|string>.'
-			identifier: return.type
-			count: 1
-			path: src/X501/DN/DNParser.php
-
-		-
-			rawMessage: 'Method SpomkyLabs\Pki\X501\DN\DNParser::_parseName() should return array<array<string>> but returns list<array<array<string, SpomkyLabs\Pki\ASN1\Feature\ElementBase|string>>>.'
-			identifier: return.type
-			count: 1
-			path: src/X501/DN/DNParser.php
-
-		-
 			rawMessage: 'Method SpomkyLabs\Pki\X501\DN\DNParser::_regexMatch() should return string|null but returns string|false.'
 			identifier: return.type
 			count: 1
@@ -1009,12 +997,6 @@ parameters:
 			path: src/X509/CertificationPath/PathValidation/PathValidationConfig.php
 
 		-
-			rawMessage: Binary operation "+" between int|string and 1 results in an error.
-			identifier: binaryOp.invalid
-			count: 1
-			path: src/X509/CertificationPath/PathValidation/PathValidator.php
-
-		-
 			rawMessage: 'Call to method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::excludedSubtrees() on a separate line has no effect.'
 			identifier: method.resultUnused
 			count: 1
@@ -1023,18 +1005,6 @@ parameters:
 		-
 			rawMessage: 'Call to method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::permittedSubtrees() on a separate line has no effect.'
 			identifier: method.resultUnused
-			count: 1
-			path: src/X509/CertificationPath/PathValidation/PathValidator.php
-
-		-
-			rawMessage: 'Parameter #1 $index of method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::withIndex() expects int, mixed given.'
-			identifier: argument.type
-			count: 1
-			path: src/X509/CertificationPath/PathValidation/PathValidator.php
-
-		-
-			rawMessage: 'Parameter #2 $trust_anchor of static method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::initialize() expects SpomkyLabs\Pki\X509\Certificate\Certificate, SpomkyLabs\Pki\X509\Certificate\Certificate|null given.'
-			identifier: argument.type
 			count: 1
 			path: src/X509/CertificationPath/PathValidation/PathValidator.php
 

@@ -50,6 +50,6 @@ final class EncodeTest extends TestCase
     public function setOfSort()
     {
         $set = Set::create(PrintableString::create('B'), PrintableString::create('C'), PrintableString::create('A'));
-        static::assertSame("\x31\x9" . "\x13\x01A" . "\x13\x01B" . "\x13\x01C", $set->sortedSetOf()->toDER());
+        static::assertSame("\x31\x9\x13\x01A\x13\x01B\x13\x01C", $set->sortedSetOf()->toDER());
     }
 }

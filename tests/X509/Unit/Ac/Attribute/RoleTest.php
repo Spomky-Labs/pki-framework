@@ -24,9 +24,9 @@ use function strval;
  */
 final class RoleTest extends TestCase
 {
-    final public const ROLE_URI = 'urn:administrator';
+    public const ROLE_URI = 'urn:administrator';
 
-    final public const AUTHORITY_DN = 'cn=Role Authority';
+    public const AUTHORITY_DN = 'cn=Role Authority';
 
     #[Test]
     public function create(): RoleAttributeValue

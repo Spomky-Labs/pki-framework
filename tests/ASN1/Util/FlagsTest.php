@@ -37,11 +37,11 @@ final class FlagsTest extends TestCase
         yield [1, 16, "\x00\x01"];
         yield [0, 8, "\x00"];
         yield [0, 9, "\x00\x00"];
-        yield [0xff, 8, "\xff"];
-        yield [0xff, 4, "\xf0"];
-        yield [0xff, 1, "\x80"];
-        yield [0xffff, 1, "\x80"];
-        yield [0xffffff, 12, "\xff\xf0"];
+        yield [0xFF, 8, "\xff"];
+        yield [0xFF, 4, "\xf0"];
+        yield [0xFF, 1, "\x80"];
+        yield [0xFFFF, 1, "\x80"];
+        yield [0xFFFFFF, 12, "\xff\xf0"];
         yield [1, 128, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01"];
         yield [BigInteger::fromBase('80000000000000000000000000000000', 16), 128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"];
     }
@@ -77,11 +77,11 @@ final class FlagsTest extends TestCase
 
     public static function unsetBitProvider(): Iterator
     {
-        yield [0x7f, 8, 0];
-        yield [0xfe, 8, 7];
-        yield [0xff7f, 8, 0];
-        yield [0xff7f, 12, 4];
-        yield [0xff7f, 16, 8];
+        yield [0x7F, 8, 0];
+        yield [0xFE, 8, 7];
+        yield [0xFF7F, 8, 0];
+        yield [0xFF7F, 12, 4];
+        yield [0xFF7F, 16, 8];
     }
 
     /**
@@ -142,10 +142,10 @@ final class FlagsTest extends TestCase
 
     public static function numberProvider(): Iterator
     {
-        yield [0xff, 8, 255];
-        yield [0xff, 4, 15];
-        yield [0xff, 2, 3];
-        yield [0xff, 1, 1];
+        yield [0xFF, 8, 255];
+        yield [0xFF, 4, 15];
+        yield [0xFF, 2, 3];
+        yield [0xFF, 1, 1];
         yield [0, 8, 0];
         yield [1, 1, 1];
         yield [1, 4, 1];

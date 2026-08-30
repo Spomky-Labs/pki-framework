@@ -30,7 +30,7 @@ use UnexpectedValueException;
  */
 final class CertificationRequestInfoTest extends TestCase
 {
-    final public const SAN_DN = 'cn=Alt Name';
+    public const SAN_DN = 'cn=Alt Name';
 
     private static ?Name $_subject = null;
 
