@@ -256,11 +256,16 @@ abstract class Element implements ElementBase
     /**
      * Decode element from DER data.
      *
+     * Malformed input is always reported as a DecodeException, which derives from RuntimeException. No other type
+     * is thrown: in particular an Error never escapes, so callers may rely on catch (Exception).
+     *
      * @param string $data DER encoded data
      * @param null|int $offset Reference to the variable that contains offset
      * into the data where to start parsing.
      * Variable is updated to the offset next to the
      * parsed element. If null, start from offset 0.
+     *
+     * @throws DecodeException If the data is not a valid encoding
      */
     public static function fromDER(string $data, ?int &$offset = null): static
     {

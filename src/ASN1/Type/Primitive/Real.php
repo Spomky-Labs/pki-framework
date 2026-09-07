@@ -365,7 +365,7 @@ final class Real extends Element implements Stringable
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx)->intLength();
+        $length = Length::expectFromDER($data, $idx)->expectIntLength();
         // if length is zero, value is zero (spec 8.5.2)
         if ($length === 0) {
             $obj = self::create(0, 0, 10);

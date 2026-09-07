@@ -10,6 +10,8 @@ use function implode;
 use function in_array;
 use InvalidArgumentException;
 use LogicException;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -124,10 +126,18 @@ final class TBSCertificate
         $idx = 0;
         if ($seq->hasTagged(0)) {
             ++$idx;
-            $version = $seq->getTagged(0)
+            $number = $seq->getTagged(0)
                 ->asExplicit()
                 ->asInteger()
-                ->intNumber();
+                ->getValue();
+            // calling intNumber() straight away would let brick/math's IntegerOverflowException escape the
+            // decoding contract; a version that does not fit in an int cannot be a supported version anyway
+            if ($number->isLessThan(PHP_INT_MIN) || $number->isGreaterThan(PHP_INT_MAX)) {
+                throw new UnexpectedValueException(
+                    sprintf('Unsupported certificate version %s.', $number->toBase(10))
+                );
+            }
+            $version = $number->toInt();
         } else {
             $version = self::VERSION_1;
         }

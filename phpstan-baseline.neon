@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			rawMessage: 'Only numeric types are allowed in +, int|null given on the left side.'
-			identifier: plus.leftNonNumeric
-			count: 1
-			path: src/ASN1/Component/Length.php
-
-		-
 			rawMessage: 'Only numeric types are allowed in -, int|null given on the right side.'
 			identifier: minus.rightNonNumeric
 			count: 1
@@ -64,12 +58,6 @@ parameters:
 			rawMessage: 'Call to an undefined method SpomkyLabs\Pki\ASN1\Element::string().'
 			identifier: method.notFound
 			count: 1
-			path: src/ASN1/Type/Constructed/ConstructedString.php
-
-		-
-			rawMessage: 'Parameter #2 ...$elements of static method SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString::createWithTag() expects SpomkyLabs\Pki\ASN1\Type\StringType, SpomkyLabs\Pki\ASN1\Element given.'
-			identifier: argument.type
-			count: 2
 			path: src/ASN1/Type/Constructed/ConstructedString.php
 
 		-

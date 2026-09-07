@@ -66,7 +66,7 @@ final class RelativeOID extends Element
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        $len = Length::expectFromDER($data, $idx)->intLength();
+        $len = Length::expectFromDER($data, $idx)->expectIntLength();
         $subids = self::decodeSubIDs(mb_substr($data, $idx, $len, '8bit'));
         $offset = $idx + $len;
         return self::create(self::implodeSubIDs(...$subids));

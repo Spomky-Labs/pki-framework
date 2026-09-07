@@ -13,6 +13,7 @@ use function is_string;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\PrimitiveType;
 use SpomkyLabs\Pki\ASN1\Type\UniversalClass;
@@ -80,7 +81,10 @@ class Integer extends Element
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx)->intLength();
+        $length = Length::expectFromDER($data, $idx)->expectIntLength();
+        if ($length === 0) {
+            throw new DecodeException('Integer must have at least one content octet.');
+        }
         $bytes = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
         $num = BigInt::fromSignedOctets($bytes)->getValue();

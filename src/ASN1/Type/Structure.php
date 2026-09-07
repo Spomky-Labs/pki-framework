@@ -94,7 +94,7 @@ abstract class Structure extends Element implements Countable, IteratorAggregate
             // skip identifier
             Identifier::fromDER($data, $offset);
             // decode element length
-            $length = Length::expectFromDER($data, $offset)->intLength();
+            $length = Length::expectFromDER($data, $offset)->expectIntLength();
             // extract der encoding of the element
             $parts[] = mb_substr($data, $idx, $offset - $idx + $length, '8bit');
             // update offset over content

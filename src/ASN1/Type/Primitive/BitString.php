@@ -165,15 +165,15 @@ final class BitString extends BaseString
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx);
-        if ($length->intLength() < 1) {
+        $length = Length::expectFromDER($data, $idx)->expectIntLength();
+        if ($length < 1) {
             throw new DecodeException('Bit string length must be at least 1.');
         }
         $unused_bits = ord($data[$idx++]);
         if ($unused_bits > 7) {
             throw new DecodeException('Unused bits in a bit string must be less than 8.');
         }
-        $str_len = $length->intLength() - 1;
+        $str_len = $length - 1;
         if ($str_len !== 0) {
             $str = mb_substr($data, $idx, $str_len, '8bit');
             if ($unused_bits !== 0) {

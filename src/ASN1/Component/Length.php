@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1\Component;
 
 use Brick\Math\BigInteger;
+use Brick\Math\Exception\MathException;
 use function count;
 use DomainException;
 use LogicException;
@@ -104,15 +105,15 @@ final class Length implements Encodable
             }
         }
         // check that enough data is available
-        if (! $length->isIndefinite()
-            && mb_strlen($data, '8bit') < $idx + $length->intLength()) {
-            throw new DecodeException(
-                sprintf(
-                    'Length %d overflows data, %d bytes left.',
-                    $length->intLength(),
-                    mb_strlen($data, '8bit') - $idx
-                )
-            );
+        // the comparison is done on the big integer: a length encoded on many octets may not fit in an int, and
+        // converting it first would let an IntegerOverflowException escape instead of a DecodeException
+        if (! $length->isIndefinite()) {
+            $remaining = mb_strlen($data, '8bit') - $idx;
+            if ($length->_length->getValue()->isGreaterThan($remaining)) {
+                throw new DecodeException(
+                    sprintf('Length %s overflows data, %d bytes left.', $length->_length->base10(), $remaining)
+                );
+            }
         }
         $offset = $idx;
         return $length;
@@ -169,7 +170,31 @@ final class Length implements Encodable
         if ($this->_indefinite) {
             throw new LogicException('Length is indefinite.');
         }
-        return $this->_length->toInt();
+        try {
+            return $this->_length->toInt();
+        } catch (MathException $e) {
+            // a length that does not fit in an int can never describe an in-memory string
+            throw new DecodeException(
+                sprintf('Length %s is too large.', $this->_length->base10()),
+                0,
+                $e
+            );
+        }
+    }
+
+    /**
+     * Get the length as an integer, rejecting an indefinite length as a malformed encoding.
+     *
+     * Indefinite length is only permitted for constructed encodings (X.690 sect. 8.1.3.6), so a decoder that needs
+     * a definite length is looking at hostile input rather than at a misuse of the API: intLength() would raise a
+     * LogicException, which is outside the exception contract of fromDER().
+     */
+    public function expectIntLength(): int
+    {
+        if ($this->_indefinite) {
+            throw new DecodeException('Length is indefinite, expected a definite length.');
+        }
+        return $this->intLength();
     }
 
     /**

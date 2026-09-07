@@ -63,7 +63,7 @@ final class UTCTime extends BaseTime
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx)->intLength();
+        $length = Length::expectFromDER($data, $idx)->expectIntLength();
         $str = mb_substr($data, $idx, $length, '8bit');
         $idx += $length;
         if (preg_match(self::REGEX, $str, $match) !== 1) {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
-use Brick\Math\Exception\IntegerOverflowException;
 use LogicException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -57,8 +56,12 @@ final class LengthDecodeTest extends TestCase
     #[Test]
     public function hugeLengthHasNoIntval()
     {
+        // A length that does not fit in an int can never describe an in-memory string. It is reported as a
+        // DecodeException like every other malformed encoding, rather than letting brick/math's
+        // IntegerOverflowException escape the decoder's exception contract.
         $der = "\xfe" . str_repeat("\xff", 126);
-        $this->expectException(IntegerOverflowException::class);
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('is too large');
         Length::fromDER($der)->intLength();
     }
 
