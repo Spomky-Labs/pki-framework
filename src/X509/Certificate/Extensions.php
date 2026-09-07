@@ -25,7 +25,9 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyConstraintsExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\PolicyMappingsExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectAlternativeNameExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
+use function sprintf;
 use Traversable;
+use UnexpectedValueException;
 
 /**
  * Implements *Extensions* ASN.1 type.
@@ -73,6 +75,17 @@ final class Extensions implements Countable, IteratorAggregate
             static fn (UnspecifiedType $el) => Extension::fromASN1($el->asSequence()),
             $seq->elements()
         );
+        // RFC 5280 section 4.2: a certificate MUST NOT include more than one instance of a particular extension.
+        // Extensions are held in a map keyed by OID, so a duplicate would silently overwrite the earlier one and
+        // the certificate would mean different things to this library and to a peer keeping the first occurrence.
+        $seen = [];
+        foreach ($extensions as $extension) {
+            $oid = $extension->oid();
+            if (isset($seen[$oid])) {
+                throw new UnexpectedValueException(sprintf('Extension %s occurs more than once.', $oid));
+            }
+            $seen[$oid] = true;
+        }
         return self::create(...$extensions);
     }
 
