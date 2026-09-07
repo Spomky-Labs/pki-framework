@@ -41,12 +41,18 @@ contains is chosen by whoever submitted it**, so an issuer must treat it as untr
     `nameConstraints`, `policyConstraints`, `policyMappings`, `inhibitAnyPolicy`, `certificatePolicies` and
     `authorityKeyIdentifier` — are never copied from the request. They belong to the issuer, which sets them with
     `withExtensions()` / `withAdditionalExtensions()`;
-- every other requested extension **is** copied, `subjectAltName` included. Pass the OIDs the issuer is willing to
-    honour as the second argument to restrict the copy:
+- **name the extensions you are willing to honour** as the second argument. Anything not named is dropped:
 
 ```php
 $tbsCertificate = TBSCertificate::fromCSR($csr, [Extension::OID_SUBJECT_ALT_NAME]);
 ```
+
+- leaving the argument out copies every requested extension that is not forbidden, `subjectAltName` and
+    `authorityInformationAccess` included, and raises a deprecation notice. That default is a deny list: the set of
+    extensions that matter grows over time and every future one is copied. It becomes the empty allow list in the
+    next major release. Pass `null` explicitly if you really want it;
+- an unknown extension marked critical is never copied. It would be signed verbatim and no conforming validator,
+    this library's own included, would then accept the certificate.
 
 ## Validating a certification path
 
@@ -80,13 +86,25 @@ $path->validate($config);
 
 Do not validate a chain a peer supplied without an anchor. Left to itself, validation would fall back to the first
 certificate of the path — one the peer chose — and confirm only that the chain is internally consistent. A path built
-by `CertificationPath::fromCertificateChain()` refuses to validate without an explicit anchor for that reason.
+by `CertificationPath::fromCertificateChain()` refuses to validate without an explicit anchor for that reason, and a
+path built by `CertificationPath::create()` raises a deprecation notice when it falls back, so an application can find
+the call sites before the fallback is removed in the next major release. A path built by `toTarget()` is already
+headed by a certificate from the trust list you gave it and needs neither.
 
 ## Security
 
 Path validation checks that a chain is well-formed and leads to a trust anchor you named. It does **not** check
 revocation: the library never contacts a CRL distribution point or an OCSP responder, so a revoked certificate still
 validates. Revocation is the calling application's responsibility.
+
+Attribute certificate validation does not implement RFC 5755 section 5 check 4 on its own: name the authorities you
+trust to issue attribute certificates with `ACValidationConfig::withTrustedAttributeAuthorities()`, or the validator
+accepts whatever end-entity certificate the issuer path ends in.
+
+`Certificate::equals()` compares the two encodings octet by octet, and `CertificateBundle::contains()` is built on
+it. Use `Certificate::hasEqualSubjectIdentity()` for the looser "same subject, same key, same serial number"
+question — it is not an identity check, since two certificates can agree on all three and still be issued by
+different issuers with different extensions.
 
 Found a vulnerability? Do not open a public issue — read [SECURITY.md](SECURITY.md) and report it privately.
 

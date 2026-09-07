@@ -30,6 +30,11 @@ final class PathValidationConfig
      * enterprise and device PKIs continue to rely on it, and cutting them off silently is not this library's
      * call to make. Use HARDENED_ALLOWED_SIGNATURE_ALGORITHMS to refuse it.
      *
+     * RSASSA-PSS is left out because it is not implemented: a PSS signed certificate is refused when it is
+     * parsed, so allowing the OID here advertised a capability that does not exist. When PSS is implemented the
+     * parameters have to be bound as well as the OID, since Certificate::fromASN1() only compares the OID of the
+     * outer and the signed algorithm identifiers, which would leave a hash, MGF and salt length downgrade open.
+     *
      * @var string[]
      */
     public const DEFAULT_ALLOWED_SIGNATURE_ALGORITHMS = [
@@ -38,7 +43,6 @@ final class PathValidationConfig
         AlgorithmIdentifier::OID_SHA256_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA384_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA512_WITH_RSA_ENCRYPTION,
-        AlgorithmIdentifier::OID_RSASSA_PSS_ENCRYPTION,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA1,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA224,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA256,
@@ -61,7 +65,6 @@ final class PathValidationConfig
         AlgorithmIdentifier::OID_SHA256_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA384_WITH_RSA_ENCRYPTION,
         AlgorithmIdentifier::OID_SHA512_WITH_RSA_ENCRYPTION,
-        AlgorithmIdentifier::OID_RSASSA_PSS_ENCRYPTION,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA224,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA256,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA384,

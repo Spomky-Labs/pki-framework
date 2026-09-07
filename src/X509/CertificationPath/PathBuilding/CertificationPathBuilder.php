@@ -56,8 +56,9 @@ final class CertificationPathBuilder
     public function allPathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
     {
         $paths = $this->resolvePathsToTarget($target, $intermediate);
-        // map paths to CertificationPath objects
-        return array_map(static fn ($certs) => CertificationPath::create(...$certs), $paths);
+        // every path is headed by a certificate taken from the trust list this builder was given, so its head is
+        // a trust anchor the application chose
+        return array_map(static fn ($certs) => CertificationPath::fromTrustList(...$certs), $paths);
     }
 
     /**
@@ -74,7 +75,10 @@ final class CertificationPathBuilder
         if (count($paths) === 0) {
             throw new PathBuildingException('No certification paths.');
         }
-        usort($paths, fn ($a, $b) => count($a) < count($b) ? -1 : 1);
+        // a comparison that never returns 0 leaves the order among equal length paths to PHP's sort; the
+        // spaceship operator makes the choice deterministic instead. When more than one path is possible, use
+        // allPathsToTarget() and validate them in turn rather than committing to this one.
+        usort($paths, static fn ($a, $b) => count($a) <=> count($b));
         return reset($paths);
     }
 
@@ -88,21 +92,30 @@ final class CertificationPathBuilder
      */
     private function findIssuers(Certificate $target, CertificateBundle $bundle): array
     {
-        $issuers = [];
         $issuer_name = $target->tbsCertificate()
             ->issuer();
         $extensions = $target->tbsCertificate()
             ->extensions();
         // find by authority key identifier
+        $candidates = [];
         if ($extensions->hasAuthorityKeyIdentifier()) {
             $ext = $extensions->authorityKeyIdentifier();
             if ($ext->hasKeyIdentifier()) {
-                foreach ($bundle->allBySubjectKeyIdentifier($ext->keyIdentifier()) as $issuer) {
-                    // check that issuer name matches
-                    if ($issuer->tbsCertificate()->subject()->equals($issuer_name)) {
-                        $issuers[] = $issuer;
-                    }
-                }
+                $candidates = $bundle->allBySubjectKeyIdentifier($ext->keyIdentifier());
+            }
+        }
+        if (count($candidates) === 0) {
+            // RFC 5280 requires the authority key identifier on a CA-issued certificate, but plenty of real
+            // certificates omit it and the issuer name identifies the issuer on its own. Without the fallback
+            // such a certificate can never be chained, which pushes integrators towards CertificationPath's
+            // unsafe constructor. RFC 4158 sect. 3.5.12 expects a builder to match on the name.
+            $candidates = $bundle->all();
+        }
+        $issuers = [];
+        foreach ($candidates as $issuer) {
+            // check that issuer name matches
+            if ($issuer->tbsCertificate()->subject()->equals($issuer_name)) {
+                $issuers[] = $issuer;
             }
         }
         return $issuers;

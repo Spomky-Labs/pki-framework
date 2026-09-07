@@ -8,6 +8,7 @@ use Brick\Math\BigInteger;
 use function chr;
 use function count;
 use const E_USER_DEPRECATED;
+use function func_num_args;
 use function implode;
 use function in_array;
 use InvalidArgumentException;
@@ -29,6 +30,7 @@ use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\UnknownExtension;
 use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
 use function sprintf;
 use function strval;
@@ -203,7 +205,17 @@ final class TBSCertificate
      * The extensions a request asks for are chosen by the requester. Those in FORBIDDEN_CSR_EXTENSIONS decide
      * what a certificate is allowed to do, so they are never copied: a requester asking for basicConstraints
      * cA:TRUE and keyUsage keyCertSign is asking to become a certificate authority. The issuer sets those
-     * itself. Every other requested extension is copied, unless $allowedExtensionOids narrows the set further.
+     * itself.
+     *
+     * Name the extensions to copy in $allowedExtensionOids. Leaving the argument out copies every requested
+     * extension that is not forbidden, which is a deny list: the set of extensions that matter grows over time
+     * and every future one would be copied by default. A request can currently carry a subjectAltName naming an
+     * identity the subject DN says nothing about, or an authorityInformationAccess choosing the OCSP responder a
+     * relying party will ask. That default is deprecated and becomes the empty allow list in the next major
+     * release; pass null explicitly to ask for it.
+     *
+     * An unknown extension marked critical is never copied, whatever the allow list says: it would be signed
+     * verbatim and then no RFC 5280 validator would accept the certificate, this library's own included.
      *
      * Note that signature is not verified and must be done by the caller.
      *
@@ -213,6 +225,7 @@ final class TBSCertificate
      */
     public static function fromCSR(CertificationRequest $cr, ?array $allowedExtensionOids = null): self
     {
+        $allowListGiven = func_num_args() > 1;
         if ($allowedExtensionOids !== null) {
             $forbidden = array_intersect($allowedExtensionOids, self::FORBIDDEN_CSR_EXTENSIONS);
             if (count($forbidden) !== 0) {
@@ -244,7 +257,21 @@ final class TBSCertificate
                     if ($allowedExtensionOids !== null && ! in_array($oid, $allowedExtensionOids, true)) {
                         continue;
                     }
+                    // an extension this library cannot even parse, signed as critical, produces a certificate
+                    // that is dead on arrival: no conforming validator will accept it
+                    if ($extension->isCritical() && $extension instanceof UnknownExtension) {
+                        continue;
+                    }
                     $accepted[] = $extension;
+                }
+                if (! $allowListGiven && count($accepted) !== 0) {
+                    @trigger_error(sprintf(
+                        'Copying requested extensions from a certification request without naming them is '
+                        . 'deprecated and will stop copying anything in the next major release. %s '
+                        . 'were taken from the request. Pass the OIDs to copy as the second argument of '
+                        . 'fromCSR(), or pass null explicitly to keep the current behaviour.',
+                        implode(', ', array_map(static fn (Extension $e) => $e->oid(), $accepted))
+                    ), E_USER_DEPRECATED);
                 }
                 $tbs_cert = $tbs_cert->withExtensions(Extensions::create(...$accepted));
             }

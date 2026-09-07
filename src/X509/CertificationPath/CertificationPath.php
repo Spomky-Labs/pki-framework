@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\X509\CertificationPath;
 use ArrayIterator;
 use function count;
 use Countable;
+use const E_USER_DEPRECATED;
 use IteratorAggregate;
 use LogicException;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
@@ -45,6 +46,13 @@ final class CertificationPath implements Countable, IteratorAggregate
     private bool $fromPeerSuppliedChain = false;
 
     /**
+     * Whether the path's first certificate came out of a trust list the application supplied.
+     *
+     * Such a head is a trust anchor the application chose, so validating against it is sound and needs no warning.
+     */
+    private bool $anchoredInTrustList = false;
+
+    /**
      * @param Certificate ...$certificates Certificates from the trust anchor
      * to the target end-entity certificate
      */
@@ -64,6 +72,19 @@ final class CertificationPath implements Countable, IteratorAggregate
     public static function create(Certificate ...$certificates): self
     {
         return new self(...$certificates);
+    }
+
+    /**
+     * Initialize from certificates whose first one came out of a trust list the application supplied.
+     *
+     * @internal Used by CertificationPathBuilder, which only ever heads a path with a certificate taken from the
+     * trust list it was given.
+     */
+    public static function fromTrustList(Certificate ...$certificates): self
+    {
+        $path = self::create(...$certificates);
+        $path->anchoredInTrustList = true;
+        return $path;
     }
 
     /**
@@ -187,12 +208,27 @@ final class CertificationPath implements Countable, IteratorAggregate
      */
     public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
     {
-        if ($this->fromPeerSuppliedChain && ! $config->hasTrustAnchor()) {
-            throw new PathValidationException(
-                'The path was built from a peer-supplied certificate chain, so its first certificate cannot serve as '
-                . 'the trust anchor. Set one with PathValidationConfig::withTrustAnchor(), or build the path with '
-                . 'CertificationPath::toTarget() from a bundle of trusted certificates.'
-            );
+        if (! $config->hasTrustAnchor()) {
+            if ($this->fromPeerSuppliedChain) {
+                throw new PathValidationException(
+                    'The path was built from a peer-supplied certificate chain, so its first certificate cannot '
+                    . 'serve as the trust anchor. Set one with PathValidationConfig::withTrustAnchor(), or build '
+                    . 'the path with CertificationPath::toTarget() from a bundle of trusted certificates.'
+                );
+            }
+            if (! $this->anchoredInTrustList) {
+                // The guard above is attached to the constructor that was used rather than to the invariant it
+                // protects, and create() is the constructor an integrator reaches for first. Nothing in the
+                // result tells a chain anchored in the caller's trust store from one anchored in the attacker's,
+                // so the fallback is announced here and will be removed in the next major release.
+                @trigger_error(
+                    'Validating a certification path without an explicit trust anchor is deprecated and will '
+                    . 'throw in the next major release. The first certificate of the path is being used as the '
+                    . 'trust anchor. Name the anchor with PathValidationConfig::withTrustAnchor(), or build the '
+                    . 'path with CertificationPath::toTarget() from a bundle of trusted certificates.',
+                    E_USER_DEPRECATED
+                );
+            }
         }
         $crypto ??= Crypto::getDefault();
         return PathValidator::create($crypto, $config, ...$this->certificates)->validate();

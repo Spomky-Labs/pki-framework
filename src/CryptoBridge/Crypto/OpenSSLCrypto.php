@@ -53,6 +53,11 @@ final class OpenSSLCrypto extends Crypto
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA256 => OPENSSL_ALGO_SHA256,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA384 => OPENSSL_ALGO_SHA384,
         AlgorithmIdentifier::OID_ECDSA_WITH_SHA512 => OPENSSL_ALGO_SHA512,
+        // EdDSA is a one shot signature scheme: the message is not pre-hashed, and OpenSSL takes 0 as the digest
+        // method. Without these two entries a chain that `openssl verify` accepts could not be verified at all,
+        // while PathValidationConfig advertises both algorithms in its default allow list.
+        AlgorithmIdentifier::OID_ED25519 => 0,
+        AlgorithmIdentifier::OID_ED448 => 0,
     ];
 
     /**
