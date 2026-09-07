@@ -34,6 +34,8 @@ use Traversable;
  * `get($oid)`.
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.9
+ *
+ * @implements IteratorAggregate<string, Extension>
  */
 final class Extensions implements Countable, IteratorAggregate
 {
@@ -334,6 +336,8 @@ final class Extensions implements Countable, IteratorAggregate
 
     /**
      * Get iterator for extensions.
+     *
+     * @return Traversable<string, Extension>
      *
      * @see \IteratorAggregate::getIterator()
      */

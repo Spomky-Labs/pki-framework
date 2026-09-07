@@ -12,8 +12,10 @@ use RuntimeException;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use function sprintf;
 
 /**
  * Implements certification path validation.
@@ -22,6 +24,27 @@ use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
  */
 final class PathValidator
 {
+    /**
+     * OID's of the certificate extensions this validator is able to process.
+     *
+     * A critical extension whose OID is not listed here cannot be honoured, and therefore makes the path validation
+     * fail as required by RFC 5280 section 6.1.4 (o) and section 6.1.5 (f).
+     *
+     * Note that `nameConstraints` and `subjectAltName` are deliberately absent: the validator decodes them, but does
+     * not act upon them. An application that enforces them by its own means may declare them through
+     * `PathValidationConfig::withAdditionalCriticalExtensions()`.
+     *
+     * @var list<string>
+     */
+    private const PROCESSED_EXTENSIONS = [
+        Extension::OID_BASIC_CONSTRAINTS,
+        Extension::OID_KEY_USAGE,
+        Extension::OID_CERTIFICATE_POLICIES,
+        Extension::OID_POLICY_MAPPINGS,
+        Extension::OID_POLICY_CONSTRAINTS,
+        Extension::OID_INHIBIT_ANY_POLICY,
+    ];
+
     /**
      * Certification path.
      *
@@ -166,7 +189,7 @@ final class PathValidator
         // (n) check key usage
         $this->checkKeyUsage($cert);
         // (o) process relevant extensions
-        return $this->processExtensions($state);
+        return $this->processExtensions($state, $cert);
     }
 
     /**
@@ -193,7 +216,7 @@ final class PathValidator
         // (c)(d)(e)
         $state = $this->setPublicKeyState($state, $cert);
         // (f) process relevant extensions
-        $state = $this->processExtensions($state);
+        $state = $this->processExtensions($state, $cert);
         // (g) intersection of valid_policy_tree and the initial-policy-set
         $state = $this->calculatePolicyIntersection($state);
         // check that explicit_policy > 0 or valid_policy_tree is set
@@ -456,9 +479,27 @@ final class PathValidator
         return $state;
     }
 
-    private function processExtensions(ValidatorState $state): ValidatorState
+    /**
+     * Process the extensions of the current certificate.
+     *
+     * Every critical extension must be recognized and processed, otherwise the certificate must be rejected.
+     *
+     * @see https://tools.ietf.org/html/rfc5280#section-4.2
+     */
+    private function processExtensions(ValidatorState $state, Certificate $cert): ValidatorState
     {
-        // @todo Implement
+        $recognized = [...self::PROCESSED_EXTENSIONS, ...$this->config->additionalCriticalExtensions()];
+        foreach ($cert->tbsCertificate()->extensions() as $extension) {
+            if (! $extension->isCritical()) {
+                continue;
+            }
+            if (! in_array($extension->oid(), $recognized, true)) {
+                throw new PathValidationException(sprintf(
+                    'Certificate contains an unhandled critical extension: %s.',
+                    $extension->extensionName()
+                ));
+            }
+        }
         return $state;
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
+use function array_values;
 use DateTimeImmutable;
 use LogicException;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
@@ -50,6 +51,15 @@ final class PathValidationConfig
     private bool $anyPolicyInhibit;
 
     /**
+     * OID's of the critical certificate extensions the application processes by its own means.
+     *
+     * They are accepted by the validator in addition to the ones it processes itself.
+     *
+     * @var list<string>
+     */
+    private array $additionalCriticalExtensions;
+
+    /**
      * @param DateTimeImmutable $dateTime Reference date and time
      * @param int $maxLength Maximum certification path length
      */
@@ -61,6 +71,7 @@ final class PathValidationConfig
         $this->policyMappingInhibit = false;
         $this->explicitPolicy = false;
         $this->anyPolicyInhibit = false;
+        $this->additionalCriticalExtensions = [];
     }
 
     public static function create(DateTimeImmutable $dateTime, int $maxLength): self
@@ -137,6 +148,21 @@ final class PathValidationConfig
     }
 
     /**
+     * Get self with the OID's of the critical extensions the application processes by its own means.
+     *
+     * The path validation rejects any certificate carrying a critical extension it cannot process. Use this method to
+     * declare the extensions handled outside of the validator, so that they no longer cause a rejection.
+     *
+     * @param string ...$oids List of extension OID's
+     */
+    public function withAdditionalCriticalExtensions(string ...$oids): self
+    {
+        $obj = clone $this;
+        $obj->additionalCriticalExtensions = array_values($oids);
+        return $obj;
+    }
+
+    /**
      * Get self with user-initial-policy-set set to policy OIDs.
      *
      * @param string ...$policies List of policy OIDs
@@ -206,5 +232,15 @@ final class PathValidationConfig
     public function anyPolicyInhibit(): bool
     {
         return $this->anyPolicyInhibit;
+    }
+
+    /**
+     * Get the OID's of the critical extensions the application processes by its own means.
+     *
+     * @return list<string> Array of OID's
+     */
+    public function additionalCriticalExtensions(): array
+    {
+        return $this->additionalCriticalExtensions;
     }
 }

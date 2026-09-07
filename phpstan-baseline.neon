@@ -847,12 +847,6 @@ parameters:
 			path: src/X509/Certificate/Extension/TargetInformationExtension.php
 
 		-
-			rawMessage: 'Class SpomkyLabs\Pki\X509\Certificate\Extensions implements generic interface IteratorAggregate but does not specify its types: TKey, TValue'
-			identifier: missingType.generics
-			count: 1
-			path: src/X509/Certificate/Extensions.php
-
-		-
 			rawMessage: 'Method SpomkyLabs\Pki\X509\Certificate\Extensions::authorityKeyIdentifier() should return SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension but returns SpomkyLabs\Pki\X509\Certificate\Extension\Extension.'
 			identifier: return.type
 			count: 1

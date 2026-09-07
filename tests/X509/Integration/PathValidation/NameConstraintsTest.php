@@ -27,6 +27,9 @@ use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 /**
  * Covers handling of name constraints extension.
  *
+ * The extension is not critical here on purpose: the validator does not enforce name constraints yet, so a critical
+ * one makes the path validation fail. That case is covered by CriticalExtensionsTest.
+ *
  * @internal
  */
 final class NameConstraintsTest extends TestCase
@@ -61,7 +64,7 @@ final class NameConstraintsTest extends TestCase
         $tbs = $tbs->withAdditionalExtensions(
             BasicConstraintsExtension::create(true, true, 1),
             NameConstraintsExtension::create(
-                true,
+                false,
                 GeneralSubtrees::create(GeneralSubtree::create(DirectoryName::fromDNString('c=FI')))
             )
         );
