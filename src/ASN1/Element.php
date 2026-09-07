@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1;
 
 use function array_key_exists;
+use InvalidArgumentException;
 use function mb_strlen;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Feature\ElementBase;
 use SpomkyLabs\Pki\ASN1\Type\Constructed;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString;
@@ -141,6 +143,15 @@ abstract class Element implements ElementBase
     public const TYPE_CONSTRUCTED_STRING = -3;
 
     /**
+     * Default maximum nesting depth allowed when decoding DER data.
+     *
+     * A real world X.509 structure rarely nests deeper than ten levels.
+     *
+     * @var int
+     */
+    public const DEFAULT_MAX_NESTING_DEPTH = 64;
+
+    /**
      * Mapping from universal type tag to implementation class name.
      *
      * @internal
@@ -220,6 +231,16 @@ abstract class Element implements ElementBase
     ];
 
     /**
+     * Maximum nesting depth allowed when decoding DER data.
+     */
+    private static int $maxNestingDepth = self::DEFAULT_MAX_NESTING_DEPTH;
+
+    /**
+     * Current nesting depth of the decoding in progress.
+     */
+    private static int $nestingDepth = 0;
+
+    /**
      * @param bool $indefiniteLength Whether type shall be encoded with indefinite length.
      */
     protected function __construct(
@@ -243,13 +264,26 @@ abstract class Element implements ElementBase
      */
     public static function fromDER(string $data, ?int &$offset = null): static
     {
-        $idx = $offset ?? 0;
-        // decode identifier
-        $identifier = Identifier::fromDER($data, $idx);
-        // determine class that implements type specific decoding
-        $cls = self::determineImplClass($identifier);
-        // decode remaining element
-        $element = $cls::decodeFromDER($identifier, $data, $idx);
+        // decoding of constructed types recurses into this method, hence the
+        // nesting depth is guarded to prevent the stack from being exhausted
+        ++self::$nestingDepth;
+        try {
+            if (self::$nestingDepth > self::$maxNestingDepth) {
+                throw new DecodeException(sprintf(
+                    'Maximum allowed nesting depth of %d exceeded while decoding.',
+                    self::$maxNestingDepth
+                ));
+            }
+            $idx = $offset ?? 0;
+            // decode identifier
+            $identifier = Identifier::fromDER($data, $idx);
+            // determine class that implements type specific decoding
+            $cls = self::determineImplClass($identifier);
+            // decode remaining element
+            $element = $cls::decodeFromDER($identifier, $data, $idx);
+        } finally {
+            --self::$nestingDepth;
+        }
         // if called in the context of a concrete class, check
         // that decoded type matches the type of calling class
         $called_class = static::class;
@@ -263,6 +297,30 @@ abstract class Element implements ElementBase
             $offset = $idx;
         }
         return $element;
+    }
+
+    /**
+     * Set the maximum nesting depth allowed when decoding DER data.
+     *
+     * Deeper structures are rejected with a `DecodeException`. Every decoded element takes a level, including the
+     * end-of-contents marker of an indefinite length encoding.
+     *
+     * @param int $depth Maximum nesting depth, at least 1
+     */
+    public static function setMaxNestingDepth(int $depth): void
+    {
+        if ($depth < 1) {
+            throw new InvalidArgumentException('Maximum nesting depth must be at least 1.');
+        }
+        self::$maxNestingDepth = $depth;
+    }
+
+    /**
+     * Get the maximum nesting depth allowed when decoding DER data.
+     */
+    public static function maxNestingDepth(): int
+    {
+        return self::$maxNestingDepth;
     }
 
     public function toDER(): string
