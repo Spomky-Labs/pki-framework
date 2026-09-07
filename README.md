@@ -1,9 +1,9 @@
 # Public Key Infrastructure
 
-> **Note**
-> The code in this framework is the same as the one available in https://github.com/sop,
-> but modified to fulfil with the Spomky-Labs requirements.
-> All credits go to the original developer
+> [!NOTE]
+> This framework started as a fork of the libraries published at https://github.com/sop. It has diverged
+> substantially since — the code has been reworked, extended and maintained to meet the Spomky-Labs requirements —
+> and the two are no longer interchangeable. All credits for the original work go to its developer.
 
 A PHP Framework
 
@@ -23,7 +23,8 @@ The extension `gmp` or `bcmath` is highly recommended
 
 ## Installation
 
-This library is available on [Github](https://github.com/Spomky-Labs/pki-framework).
+This library is distributed on [Packagist](https://packagist.org/packages/spomky-labs/pki-framework); the source lives
+on [GitHub](https://github.com/Spomky-Labs/pki-framework).
 
 ```sh
 composer require spomky-labs/pki-framework
@@ -80,6 +81,14 @@ $path->validate($config);
 Do not validate a chain a peer supplied without an anchor. Left to itself, validation would fall back to the first
 certificate of the path — one the peer chose — and confirm only that the chain is internally consistent. A path built
 by `CertificationPath::fromCertificateChain()` refuses to validate without an explicit anchor for that reason.
+
+## Security
+
+Path validation checks that a chain is well-formed and leads to a trust anchor you named. It does **not** check
+revocation: the library never contacts a CRL distribution point or an OCSP responder, so a revoked certificate still
+validates. Revocation is the calling application's responsibility.
+
+Found a vulnerability? Do not open a public issue — read [SECURITY.md](SECURITY.md) and report it privately.
 
 ## License
 
