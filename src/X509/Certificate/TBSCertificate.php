@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X509\Certificate;
 
 use Brick\Math\BigInteger;
+use function chr;
 use function count;
+use const E_USER_DEPRECATED;
 use function implode;
 use function in_array;
 use InvalidArgumentException;
 use LogicException;
+use function ord;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -108,6 +111,23 @@ final class TBSCertificate
         Extension::OID_CERTIFICATE_POLICIES,
         Extension::OID_AUTHORITY_KEY_IDENTIFIER,
     ];
+
+    /**
+     * Smallest random serial number that meets the CA/Browser Forum Baseline Requirements, in octets.
+     *
+     * They ask for at least 64 bits of CSPRNG output. The sign bit costs one, so eight octets fall just short
+     * and nine are needed. Smaller sizes are still accepted, with a deprecation notice.
+     *
+     * @var int
+     */
+    public const MIN_RANDOM_SERIAL_SIZE = 9;
+
+    /**
+     * Default random serial number size, in octets. RFC 5280 section 4.1.2.2 caps serial numbers at 20 octets.
+     *
+     * @var int
+     */
+    public const DEFAULT_RANDOM_SERIAL_SIZE = 20;
 
     public static function create(
         Name $subject,
@@ -286,15 +306,38 @@ final class TBSCertificate
      *
      * @param int $size Number of random bytes
      */
-    public function withRandomSerialNumber(int $size): self
+    public function withRandomSerialNumber(int $size = self::DEFAULT_RANDOM_SERIAL_SIZE): self
     {
-        // ensure that first byte is always non-zero and having first bit unset
-        $num = BigInteger::of(random_int(1, 0x7F));
-        for ($i = 1; $i < $size; ++$i) {
-            $num = $num->shiftedLeft(8);
-            $num = $num->plus(random_int(0, 0xFF));
+        return $this->withSerialNumber(self::generateSerialNumber($size));
+    }
+
+    /**
+     * Draw a serial number from a CSPRNG.
+     *
+     * The most significant bit is cleared so the DER INTEGER encodes a positive value, which is why 64 bits of
+     * entropy need nine octets rather than eight.
+     *
+     * @param int $size Number of random octets
+     */
+    private static function generateSerialNumber(int $size): string
+    {
+        if ($size < 1) {
+            throw new InvalidArgumentException('Serial number size must be at least one octet.');
         }
-        return $this->withSerialNumber($num->toBase(10));
+        if ($size < self::MIN_RANDOM_SERIAL_SIZE) {
+            @trigger_error(sprintf(
+                'A %d octet serial number carries %.2f bits of entropy, below the 64 bits the CA/Browser Forum'
+                . ' Baseline Requirements ask for. Use at least %d octets.',
+                $size,
+                8 * $size - 1,
+                self::MIN_RANDOM_SERIAL_SIZE
+            ), E_USER_DEPRECATED);
+        }
+        $octets = random_bytes($size);
+        $octets[0] = chr(ord($octets[0]) & 0x7F);
+        $num = BigInteger::fromBytes($octets, false);
+
+        return $num->isZero() ? '1' : $num->toBase(10);
     }
 
     /**
@@ -564,7 +607,10 @@ final class TBSCertificate
             $tbs_cert->version = $tbs_cert->_determineVersion();
         }
         if (! isset($tbs_cert->serialNumber)) {
-            $tbs_cert->serialNumber = '0';
+            // RFC 5280 section 4.1.2.2 requires a positive integer, and a constant serial number removes the
+            // unpredictability that protects issuance against collision attacks while breaking CRL revocation,
+            // which identifies certificates by the (issuer, serial number) pair. Draw one rather than use zero.
+            $tbs_cert->serialNumber = self::generateSerialNumber(self::DEFAULT_RANDOM_SERIAL_SIZE);
         }
         $tbs_cert->signature = $algo;
         $data = $tbs_cert->toASN1()
