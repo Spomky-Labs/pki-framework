@@ -94,6 +94,12 @@ final class CriticalExtensionsTest extends TestCase
         ];
         yield 'policyConstraints' => [PolicyConstraintsExtension::create(true, 3, 3)];
         yield 'inhibitAnyPolicy' => [InhibitAnyPolicyExtension::create(true, 1)];
+        yield 'nameConstraints' => [
+            NameConstraintsExtension::create(
+                true,
+                GeneralSubtrees::create(GeneralSubtree::create(DirectoryName::fromDNString('c=FI')))
+            ),
+        ];
     }
 
     /**
@@ -104,12 +110,6 @@ final class CriticalExtensionsTest extends TestCase
     public static function unprocessedCriticalExtensions(): Iterator
     {
         yield 'unknown' => [self::unknownExtension(true)];
-        yield 'nameConstraints' => [
-            NameConstraintsExtension::create(
-                true,
-                GeneralSubtrees::create(GeneralSubtree::create(DirectoryName::fromDNString('c=FI')))
-            ),
-        ];
         yield 'subjectAltName' => [
             SubjectAlternativeNameExtension::create(true, GeneralNames::create(DNSName::create('example.com'))),
         ];

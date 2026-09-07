@@ -13,8 +13,12 @@ use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
+use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtrees;
 use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
+use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
+use SpomkyLabs\Pki\X509\GeneralName\RFC822Name;
 use function sprintf;
 
 /**
@@ -30,9 +34,9 @@ final class PathValidator
      * A critical extension whose OID is not listed here cannot be honoured, and therefore makes the path validation
      * fail as required by RFC 5280 section 6.1.4 (o) and section 6.1.5 (f).
      *
-     * Note that `nameConstraints` and `subjectAltName` are deliberately absent: the validator decodes them, but does
-     * not act upon them. An application that enforces them by its own means may declare them through
-     * `PathValidationConfig::withAdditionalCriticalExtensions()`.
+     * Note that `subjectAltName` is deliberately absent: the validator decodes it, and submits its names to the name
+     * constraints, but does not match an identity against it. An application that enforces it by its own means may
+     * declare it through `PathValidationConfig::withAdditionalCriticalExtensions()`.
      *
      * @var list<string>
      */
@@ -43,7 +47,15 @@ final class PathValidator
         Extension::OID_POLICY_MAPPINGS,
         Extension::OID_POLICY_CONSTRAINTS,
         Extension::OID_INHIBIT_ANY_POLICY,
+        Extension::OID_NAME_CONSTRAINTS,
     ];
+
+    /**
+     * Attribute holding an electronic mail address embedded in a subject distinguished name.
+     *
+     * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.6
+     */
+    private const ATTR_EMAIL_ADDRESS = 'emailAddress';
 
     /**
      * Certification path.
@@ -133,9 +145,9 @@ final class PathValidator
         // the final certificate in the path, skip this step
         if (! ($cert->isSelfIssued() && ! $state->isFinal())) {
             // (b) check permitted subtrees
-            $this->checkPermittedSubtrees($state);
+            $this->checkPermittedSubtrees($state, $cert);
             // (c) check excluded subtrees
-            $this->checkExcludedSubtrees($state);
+            $this->checkExcludedSubtrees($state, $cert);
         }
         $extensions = $cert->tbsCertificate()
             ->extensions();
@@ -302,16 +314,103 @@ final class PathValidator
         }
     }
 
-    private function checkPermittedSubtrees(ValidatorState $state): void
+    /**
+     * Check that every name of the certificate falls within the permitted subtrees.
+     */
+    private function checkPermittedSubtrees(ValidatorState $state, Certificate $cert): void
     {
-        // @todo Implement
-        $state->permittedSubtrees();
+        $permitted = $state->permittedSubtrees();
+        if (count($permitted) === 0) {
+            return;
+        }
+        foreach ($this->certificateNames($cert) as $name) {
+            // the state holds the intersection of the constraints of each certificate processed so far,
+            // so the name must fall within every one of them
+            foreach ($permitted as $subtrees) {
+                $this->checkPermittedName($name, $subtrees);
+            }
+        }
     }
 
-    private function checkExcludedSubtrees(ValidatorState $state): void
+    /**
+     * Check that a name falls within one of the subtrees constraining its own type.
+     *
+     * RFC 5280 4.2.1.10: restrictions apply only when the constrained name form is present, hence a name of a type
+     * that no subtree constrains is unrestricted.
+     */
+    private function checkPermittedName(GeneralName $name, GeneralSubtrees $subtrees): void
     {
-        // @todo Implement
-        $state->excludedSubtrees();
+        $constrained = false;
+        foreach ($subtrees->all() as $subtree) {
+            if ($subtree->base()->tag() !== $name->tag()) {
+                continue;
+            }
+            $constrained = true;
+            if (NameConstraintsMatcher::matches($subtree, $name)) {
+                return;
+            }
+        }
+        if ($constrained) {
+            throw new PathValidationException(
+                "Name '{$name->string()}' is not within the permitted subtrees."
+            );
+        }
+    }
+
+    /**
+     * Check that no name of the certificate falls within the excluded subtrees.
+     */
+    private function checkExcludedSubtrees(ValidatorState $state, Certificate $cert): void
+    {
+        $excluded = $state->excludedSubtrees();
+        if ($excluded === null) {
+            return;
+        }
+        foreach ($this->certificateNames($cert) as $name) {
+            foreach ($excluded->all() as $subtree) {
+                if ($subtree->base()->tag() !== $name->tag()) {
+                    continue;
+                }
+                if (NameConstraintsMatcher::matches($subtree, $name)) {
+                    throw new PathValidationException(
+                        "Name '{$name->string()}' is within an excluded subtree."
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the names of a certificate that are subject to name constraints.
+     *
+     * These are the subject distinguished name, as a directoryName, and every name of the subjectAltName extension.
+     * For a certificate carrying no subjectAltName extension, RFC 5280 4.2.1.10 additionally submits the legacy
+     * emailAddress attributes of the subject to the rfc822Name constraints.
+     *
+     * @return list<GeneralName>
+     */
+    private function certificateNames(Certificate $cert): array
+    {
+        $tbsCert = $cert->tbsCertificate();
+        $names = [];
+        $subject = $tbsCert->subject();
+        // an empty subject carries no identity and is constrained by the subjectAltName extension alone
+        if (count($subject) !== 0) {
+            $names[] = DirectoryName::create($subject);
+        }
+        $extensions = $tbsCert->extensions();
+        if ($extensions->hasSubjectAlternativeName()) {
+            foreach ($extensions->subjectAlternativeName()->names()->all() as $name) {
+                $names[] = $name;
+            }
+            return $names;
+        }
+        foreach ($subject->all() as $rdn) {
+            foreach ($rdn->allOf(self::ATTR_EMAIL_ADDRESS) as $attribute) {
+                $names[] = RFC822Name::create($attribute->value()->stringValue());
+            }
+        }
+        return $names;
     }
 
     /**
@@ -343,7 +442,7 @@ final class PathValidator
         $extensions = $cert->tbsCertificate()
             ->extensions();
         if ($extensions->hasNameConstraints()) {
-            $state = $this->processNameConstraints($state);
+            $state = $this->processNameConstraints($state, $cert);
         }
         return $state;
     }
@@ -437,10 +536,40 @@ final class PathValidator
         }
     }
 
-    private function processNameConstraints(ValidatorState $state): ValidatorState
+    /**
+     * Intersect the permitted subtrees and unite the excluded subtrees of the certificate into the state.
+     *
+     * @see https://tools.ietf.org/html/rfc5280#section-6.1.4
+     */
+    private function processNameConstraints(ValidatorState $state, Certificate $cert): ValidatorState
     {
-        // @todo Implement
+        $ext = $cert->tbsCertificate()
+            ->extensions()
+            ->nameConstraints();
+        if (! $ext->hasPermittedSubtrees() && ! $ext->hasExcludedSubtrees()) {
+            throw new PathValidationException('Name constraints extension must contain at least one subtree.');
+        }
+        if ($ext->hasPermittedSubtrees()) {
+            $subtrees = $ext->permittedSubtrees();
+            $this->assertSubtreesSupported($subtrees);
+            $state = $state->withAdditionalPermittedSubtrees($subtrees);
+        }
+        if ($ext->hasExcludedSubtrees()) {
+            $subtrees = $ext->excludedSubtrees();
+            $this->assertSubtreesSupported($subtrees);
+            $state = $state->withAdditionalExcludedSubtrees($subtrees);
+        }
         return $state;
+    }
+
+    /**
+     * Reject constraints that cannot be enforced instead of letting the names they cover through unchecked.
+     */
+    private function assertSubtreesSupported(GeneralSubtrees $subtrees): void
+    {
+        foreach ($subtrees->all() as $subtree) {
+            NameConstraintsMatcher::assertSupported($subtree);
+        }
     }
 
     /**
