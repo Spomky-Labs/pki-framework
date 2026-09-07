@@ -330,10 +330,10 @@ final class Real extends Element implements Stringable
         }
         if ($exp_len <= 3) {
             $byte |= ($exp_len - 1) & 0x03;
-            $bytes = chr($byte);
+            $bytes = chr($byte & 0xFF);
         } else {
             $byte |= 0x03;
-            $bytes = chr($byte) . chr($exp_len);
+            $bytes = chr($byte & 0xFF) . chr($exp_len & 0xFF);
         }
         $bytes .= $exp_bytes;
         // encode mantissa

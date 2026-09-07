@@ -147,7 +147,7 @@ final class ObjectIdentifier extends Element
         foreach ($subids as $subid) {
             // if number fits to one base 128 byte
             if ($subid->isLessThan(128)) {
-                $data .= chr($subid->toInt());
+                $data .= chr($subid->toInt() & 0xFF);
             } else { // encode to multiple bytes
                 $bytes = [];
                 do {
