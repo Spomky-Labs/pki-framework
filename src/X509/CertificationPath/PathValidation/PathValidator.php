@@ -577,16 +577,25 @@ final class PathValidator
      */
     private function processBasicContraints(Certificate $cert): void
     {
-        if ($cert->tbsCertificate()->version() === TBSCertificate::VERSION_3) {
-            $extensions = $cert->tbsCertificate()
-                ->extensions();
-            if (! $extensions->hasBasicConstraints()) {
-                throw new PathValidationException('v3 certificate must have basicConstraints extension.');
+        // a v1 or v2 certificate carries no extensions, so it asserts nothing about being a CA. RFC 5280 section
+        // 6.1.4 (k) requires it to be either confirmed as a CA certificate out-of-band or rejected; the application
+        // states that confirmation through the configuration.
+        if ($cert->tbsCertificate()->version() !== TBSCertificate::VERSION_3) {
+            if (! $this->config->legacyV1IntermediatesTrusted()) {
+                throw new PathValidationException(
+                    'Certificate is not a v3 certificate and cannot be verified as a CA certificate.'
+                );
             }
-            // verify that cA is set to TRUE
-            if (! $extensions->basicConstraints()->isCA()) {
-                throw new PathValidationException('Certificate is not a CA certificate.');
-            }
+            return;
+        }
+        $extensions = $cert->tbsCertificate()
+            ->extensions();
+        if (! $extensions->hasBasicConstraints()) {
+            throw new PathValidationException('v3 certificate must have basicConstraints extension.');
+        }
+        // verify that cA is set to TRUE
+        if (! $extensions->basicConstraints()->isCA()) {
+            throw new PathValidationException('Certificate is not a CA certificate.');
         }
     }
 

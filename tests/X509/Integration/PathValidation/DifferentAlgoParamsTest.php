@@ -13,6 +13,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\X501\ASN1\Name;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\BasicConstraintsExtension;
 use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
 use SpomkyLabs\Pki\X509\Certificate\Validity;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
@@ -53,6 +54,7 @@ final class DifferentAlgoParamsTest extends TestCase
             Name::fromString(self::CA_NAME),
             Validity::fromStrings(null, 'now + 1 hour')
         );
+        $tbs = $tbs->withAdditionalExtensions(BasicConstraintsExtension::create(true, true));
         self::$_ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
         // create end-entity certificate
         $pubkey = self::$_certKey->publicKeyInfo();

@@ -60,6 +60,14 @@ final class PathValidationConfig
     private array $additionalCriticalExtensions;
 
     /**
+     * Whether version 1 and version 2 certificates may act as CA certificates in the path.
+     *
+     * RFC 5280 section 6.1.4 (k) allows such a certificate only once the application has confirmed it is a CA
+     * certificate through out-of-band means. This flag is how the application states that it did.
+     */
+    private bool $legacyV1IntermediatesTrusted;
+
+    /**
      * @param DateTimeImmutable $dateTime Reference date and time
      * @param int $maxLength Maximum certification path length
      */
@@ -72,6 +80,7 @@ final class PathValidationConfig
         $this->explicitPolicy = false;
         $this->anyPolicyInhibit = false;
         $this->additionalCriticalExtensions = [];
+        $this->legacyV1IntermediatesTrusted = false;
     }
 
     public static function create(DateTimeImmutable $dateTime, int $maxLength): self
@@ -163,6 +172,23 @@ final class PathValidationConfig
     }
 
     /**
+     * Get self with version 1 and version 2 certificates allowed to act as CA certificates.
+     *
+     * Such a certificate carries no extensions, hence neither basicConstraints nor keyUsage, so nothing in it states
+     * that it may sign certificates. RFC 5280 section 6.1.4 (k) requires the application to either confirm this
+     * out-of-band or reject the certificate; the default is to reject.
+     *
+     * Only enable this if the certificates in question have been vouched for by other means. Any end-entity
+     * certificate a trusted CA ever issued in version 1 becomes usable as an intermediate CA for any identity.
+     */
+    public function withLegacyV1IntermediatesTrusted(bool $flag): self
+    {
+        $obj = clone $this;
+        $obj->legacyV1IntermediatesTrusted = $flag;
+        return $obj;
+    }
+
+    /**
      * Get self with user-initial-policy-set set to policy OIDs.
      *
      * @param string ...$policies List of policy OIDs
@@ -242,5 +268,13 @@ final class PathValidationConfig
     public function additionalCriticalExtensions(): array
     {
         return $this->additionalCriticalExtensions;
+    }
+
+    /**
+     * Whether version 1 and version 2 certificates may act as CA certificates in the path.
+     */
+    public function legacyV1IntermediatesTrusted(): bool
+    {
+        return $this->legacyV1IntermediatesTrusted;
     }
 }
