@@ -151,7 +151,7 @@ final class BitString extends BaseString
 
     protected function encodedAsDER(): string
     {
-        $der = chr($this->unusedBits);
+        $der = chr($this->unusedBits & 0xFF);
         $der .= $this->string();
         if ($this->unusedBits !== 0) {
             $octet = $der[mb_strlen($der, '8bit') - 1];
