@@ -18,6 +18,21 @@ use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathBuildingException;
 final class CertificationPathBuilder
 {
     /**
+     * Maximum number of certificates a path may hold while being resolved.
+     *
+     * The limit bounds the depth of the exploration, on top of the loop detection.
+     */
+    private const MAX_PATH_LENGTH = 10;
+
+    /**
+     * Maximum number of certification paths a single resolution step may produce.
+     *
+     * A bundle of mutually compatible certificates yields an exponential number of paths even when it holds no loop,
+     * so the number of paths must be bounded on its own.
+     */
+    private const MAX_PATHS = 100;
+
+    /**
      * @param CertificateBundle $trustList List of trust anchors
      */
     private function __construct(
@@ -99,11 +114,15 @@ final class CertificationPathBuilder
      *
      * Helper method for allPathsToTarget to be called recursively.
      *
+     * @param array<string, true> $visited DER encoding of the certificates already on the path being resolved
+     *
      * @return array<int, array<Certificate>> Array of arrays containing path certificates
-     * @todo Implement loop detection
      */
-    private function resolvePathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
-    {
+    private function resolvePathsToTarget(
+        Certificate $target,
+        ?CertificateBundle $intermediate = null,
+        array $visited = []
+    ): array {
         // array of possible paths
         $paths = [];
         // signed by certificate in the trust list
@@ -117,20 +136,45 @@ final class CertificationPathBuilder
             }
         }
         if (isset($intermediate)) {
-            // signed by intermediate certificate
-            foreach ($this->findIssuers($target, $intermediate) as $issuer) {
-                // intermediate certificate must not be self-signed
-                if ($issuer->isSelfIssued()) {
-                    continue;
-                }
-                // resolve paths to issuer
-                $subpaths = $this->resolvePathsToTarget($issuer, $intermediate);
-                foreach ($subpaths as $path) {
-                    $paths[] = array_merge($path, [$target]);
+            // the target now belongs to the path being resolved
+            $visited[$target->toDER()] = true;
+            // stop exploring once the path has grown past the maximum length
+            if (count($visited) < self::MAX_PATH_LENGTH) {
+                // signed by intermediate certificate
+                foreach ($this->findIssuers($target, $intermediate) as $issuer) {
+                    // intermediate certificate must not be self-signed
+                    if ($issuer->isSelfIssued()) {
+                        continue;
+                    }
+                    // an issuer already on the path being resolved would close a loop
+                    if (isset($visited[$issuer->toDER()])) {
+                        continue;
+                    }
+                    // resolve paths to issuer
+                    $subpaths = $this->resolvePathsToTarget($issuer, $intermediate, $visited);
+                    foreach ($subpaths as $path) {
+                        $paths[] = array_merge($path, [$target]);
+                        $this->assertPathCount($paths);
+                    }
                 }
             }
         }
 
         return $paths;
+    }
+
+    /**
+     * Ensure that the resolution has not produced more paths than allowed.
+     *
+     * The check happens as the paths are collected, so that a bundle crafted to blow up combinatorially is caught
+     * before the exploration has done the work.
+     *
+     * @param array<int, array<Certificate>> $paths
+     */
+    private function assertPathCount(array $paths): void
+    {
+        if (count($paths) > self::MAX_PATHS) {
+            throw new PathBuildingException('Too many certification paths.');
+        }
     }
 }
