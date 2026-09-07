@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use LogicException;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
@@ -44,7 +45,7 @@ final class CertificationPathValidationTest extends TestCase
     public function validateDefault(): PathValidationResult
     {
         $config = PathValidationConfig::defaultConfig()
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+            ->withDateTime(new DateTimeImmutable('2025-01-01', new DateTimeZone('UTC')));
         $result = self::$_path->validate($config);
         static::assertInstanceOf(PathValidationResult::class, $result);
         return $result;
@@ -61,7 +62,7 @@ final class CertificationPathValidationTest extends TestCase
     #[Test]
     public function validateExpired()
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2026-01-03'));
+        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2026-01-03', new DateTimeZone('UTC')));
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
@@ -69,7 +70,7 @@ final class CertificationPathValidationTest extends TestCase
     #[Test]
     public function validateNotBeforeFail()
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2015-12-31'));
+        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2015-12-31', new DateTimeZone('UTC')));
         $this->expectException(PathValidationException::class);
         self::$_path->validate($config);
     }
@@ -94,7 +95,7 @@ final class CertificationPathValidationTest extends TestCase
     {
         $config = PathValidationConfig::defaultConfig()
             ->withTrustAnchor(self::$_path->certificates()[0])
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+            ->withDateTime(new DateTimeImmutable('2025-01-01', new DateTimeZone('UTC')));
         $validator = PathValidator::create(Crypto::getDefault(), $config, ...self::$_path->certificates());
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }
@@ -106,7 +107,7 @@ final class CertificationPathValidationTest extends TestCase
         $certs = [self::$_path->certificates()[2]];
         $config = PathValidationConfig::defaultConfig()
             ->withTrustAnchor($trustAnchor)
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+            ->withDateTime(new DateTimeImmutable('2025-01-01', new DateTimeZone('UTC')));
         $validator = PathValidator::create(Crypto::getDefault(), $config, ...$certs);
         static::assertInstanceOf(PathValidationResult::class, $validator->validate());
     }

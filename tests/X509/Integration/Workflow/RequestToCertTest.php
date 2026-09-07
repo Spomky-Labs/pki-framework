@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Integration\Workflow;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -114,7 +115,7 @@ final class RequestToCertTest extends TestCase
     #[Depends('buildPath')]
     public function validatePath(CertificationPath $path)
     {
-        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2016-05-02 12:30:00'));
+        $config = PathValidationConfig::defaultConfig()->withDateTime(new DateTimeImmutable('2016-05-02 12:30:00', new DateTimeZone('UTC')));
         $result = $path->validate($config);
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
