@@ -39,7 +39,6 @@ return static function (ECSConfig $config): void {
     $config->import(SetList::DOCBLOCK);
     $config->import(SetList::ARRAY);
     $config->import(SetList::NAMESPACES);
-    $config->import(SetList::SYMPLIFY);
     $config->import(SetList::CONTROL_STRUCTURES);
     $config->import(SetList::COMMON);
 

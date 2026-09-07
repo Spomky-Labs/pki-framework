@@ -16,7 +16,7 @@ on:
     branches: [ "*.*.x" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "4.6.x", "4.7.x" ]
+    branches: [ "*.*.x" ]
   schedule:
     - cron: '37 10 * * 4'
 
@@ -32,11 +32,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Use only 'java' to analyze code written in Java, Kotlin or both
-        # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
+        # This is a PHP library, a language CodeQL does not support. The workflows themselves are
+        # analysed instead; asking for 'javascript' fails the job with a configuration error, as no
+        # JavaScript/TypeScript source is seen during the build.
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+        language: [ 'actions' ]
 
     steps:
     - name: Checkout repository
