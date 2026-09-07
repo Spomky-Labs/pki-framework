@@ -39,6 +39,15 @@ final class UTCTime extends BaseTime
         'Z' . // TZ
         '$#';
 
+    /**
+     * Two digit years at or above this value belong to the twentieth century.
+     *
+     * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.5.1
+     *
+     * @var int
+     */
+    public const CENTURY_PIVOT = 50;
+
     private function __construct(DateTimeImmutable $dt)
     {
         parent::__construct(self::TYPE_UTC_TIME, $dt);
@@ -70,10 +79,19 @@ final class UTCTime extends BaseTime
             throw new DecodeException('Invalid UTCTime format.');
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
+        // RFC 5280 section 4.1.2.5.1: YY >= 50 means 19YY, YY < 50 means 20YY. PHP's own 'y' format pivots at 70
+        // instead, which reads the years 50 to 69 a full century off.
+        $year = ((int) $year >= self::CENTURY_PIVOT ? '19' : '20') . $year;
         $time = $year . $month . $day . $hour . $minute . $second . self::TZ_UTC;
-        $dt = DateTimeImmutable::createFromFormat('!ymdHisT', $time, new DateTimeZone('UTC'));
+        $dt = DateTimeImmutable::createFromFormat('!YmdHisT', $time, new DateTimeZone('UTC'));
         if ($dt === false) {
             throw new DecodeException('Failed to decode UTCTime');
+        }
+        // createFromFormat() silently rolls over out of range components: month 13 becomes January of the next
+        // year, 25 hours becomes the next day. Only getLastErrors() reports it.
+        $errors = DateTimeImmutable::getLastErrors();
+        if ($errors !== false && ($errors['warning_count'] > 0 || $errors['error_count'] > 0)) {
+            throw new DecodeException('Invalid UTCTime value.');
         }
         $offset = $idx;
         return self::create($dt);

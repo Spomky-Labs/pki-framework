@@ -115,6 +115,11 @@ final class GeneralizedTime extends BaseTime
         if ($dt === false) {
             throw new DecodeException('Failed to decode GeneralizedTime');
         }
+        // Out of range components roll over silently and are only reported through getLastErrors().
+        $errors = DateTimeImmutable::getLastErrors();
+        if ($errors !== false && ($errors['warning_count'] > 0 || $errors['error_count'] > 0)) {
+            throw new DecodeException('Invalid GeneralizedTime value.');
+        }
         $offset = $idx;
         return self::create($dt);
     }
