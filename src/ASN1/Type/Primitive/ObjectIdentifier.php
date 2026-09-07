@@ -91,6 +91,10 @@ final class ObjectIdentifier extends Element
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->expectIntLength();
+        if ($len === 0) {
+            // an object identifier has at least one sub-identifier (X.690 sect. 8.19.1)
+            throw new DecodeException('Object identifier must have at least one content octet.');
+        }
         $subids = self::decodeSubIDs(mb_substr($data, $idx, $len, '8bit'));
         $idx += $len;
         // decode first subidentifier according to spec section 8.19.4
@@ -180,11 +184,17 @@ final class ObjectIdentifier extends Element
         $end = mb_strlen($data, '8bit');
         while ($idx < $end) {
             $num = BigInteger::of(0);
+            $first = true;
             while (true) {
                 if ($idx >= $end) {
                     throw new DecodeException('Unexpected end of data.');
                 }
                 $byte = ord($data[$idx++]);
+                // leading zero bits are not part of a minimal sub-identifier (X.690 sect. 8.19.2)
+                if ($first && $byte === 0x80) {
+                    throw new DecodeException('Leading zero octet in an object identifier sub-identifier.');
+                }
+                $first = false;
                 $num = $num->or($byte & 0x7F);
                 // bit 8 of the last octet is zero
                 if (0 === ($byte & 0x80)) {

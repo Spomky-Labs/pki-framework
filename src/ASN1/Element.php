@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\ASN1;
 
 use function array_key_exists;
+use function func_num_args;
+use function in_array;
 use InvalidArgumentException;
 use function mb_strlen;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
@@ -48,6 +50,7 @@ use SpomkyLabs\Pki\ASN1\Type\TaggedType;
 use SpomkyLabs\Pki\ASN1\Type\TimeType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use function sprintf;
+use Throwable;
 use UnexpectedValueException;
 
 /**
@@ -150,6 +153,22 @@ abstract class Element implements ElementBase
      * @var int
      */
     public const DEFAULT_MAX_NESTING_DEPTH = 64;
+
+    /**
+     * Universal types that X.690 only ever allows to be encoded as a primitive.
+     *
+     * @internal
+     *
+     * @var list<int>
+     */
+    private const PRIMITIVE_ONLY_TYPES = [
+        self::TYPE_BOOLEAN,
+        self::TYPE_INTEGER,
+        self::TYPE_OBJECT_IDENTIFIER,
+        self::TYPE_REAL,
+        self::TYPE_ENUMERATED,
+        self::TYPE_RELATIVE_OID,
+    ];
 
     /**
      * Mapping from universal type tag to implementation class name.
@@ -280,12 +299,22 @@ abstract class Element implements ElementBase
                 ));
             }
             $idx = $offset ?? 0;
-            // decode identifier
-            $identifier = Identifier::fromDER($data, $idx);
-            // determine class that implements type specific decoding
-            $cls = self::determineImplClass($identifier);
-            // decode remaining element
-            $element = $cls::decodeFromDER($identifier, $data, $idx);
+            try {
+                // decode identifier
+                $identifier = Identifier::fromDER($data, $idx);
+                // determine class that implements type specific decoding
+                $cls = self::determineImplClass($identifier);
+                // decode remaining element
+                $element = $cls::decodeFromDER($identifier, $data, $idx);
+            } catch (DecodeException $e) {
+                throw $e;
+            } catch (Throwable $e) {
+                // the type specific decoders reach into brick/math, into type constructors and into string
+                // validation, any of which may signal malformed input with an exception of its own type. The
+                // documented contract of this method is that nothing but a DecodeException escapes, so the
+                // original is kept as the previous exception and the type is normalised here.
+                throw new DecodeException(sprintf('Failed to decode element: %s', $e->getMessage()), 0, $e);
+            }
         } finally {
             --self::$nestingDepth;
         }
@@ -297,8 +326,8 @@ abstract class Element implements ElementBase
                 throw new UnexpectedValueException(sprintf('%s expected, got %s.', $called_class, $element::class));
             }
         }
-        // update offset for the caller
-        if (isset($offset)) {
+        // update offset for the caller, also when the variable passed by reference was null
+        if (func_num_args() > 1) {
             $offset = $idx;
         }
         return $element;
@@ -460,12 +489,14 @@ abstract class Element implements ElementBase
     {
         switch ($identifier->typeClass()) {
             case Identifier::CLASS_UNIVERSAL:
-                $cls = self::determineUniversalImplClass($identifier->intTag());
+                $tag = $identifier->intTag();
+                $cls = self::determineUniversalImplClass($tag);
                 // constructed strings may be present in BER
                 if ($identifier->isConstructed()
                     && is_subclass_of($cls, StringType::class)) {
                     $cls = ConstructedString::class;
                 }
+                self::checkUniversalEncodingForm($tag, $identifier->isConstructed());
                 return $cls;
             case Identifier::CLASS_CONTEXT_SPECIFIC:
                 return ContextSpecificType::class;
@@ -492,6 +523,24 @@ abstract class Element implements ElementBase
             throw new UnexpectedValueException("Universal tag {$tag} not implemented.");
         }
         return self::MAP_TAG_TO_CLASS[$tag];
+    }
+
+    /**
+     * Check that an universal type whose contents are a single value is not encoded as a constructed type.
+     *
+     * Without the check `22 01 01` decodes as INTEGER 1 and `21 01 FF` as BOOLEAN TRUE, so one certificate has
+     * many byte-distinct encodings that all parse to the same object. Types that carry a value of their own
+     * check the encoding form in their own decoder; the string types are left out because BER allows them to be
+     * constructed, and `ConstructedString` handles those.
+     *
+     * @param int $tag Universal type tag
+     * @param bool $constructed Whether the constructed bit is set
+     */
+    protected static function checkUniversalEncodingForm(int $tag, bool $constructed): void
+    {
+        if ($constructed && in_array($tag, self::PRIMITIVE_ONLY_TYPES, true)) {
+            throw new DecodeException(sprintf('%s must be encoded as a primitive type.', self::tagToName($tag)));
+        }
     }
 
     /**

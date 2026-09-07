@@ -8,6 +8,7 @@ use Brick\Math\BigInteger;
 use Brick\Math\Exception\MathException;
 use function count;
 use DomainException;
+use function func_num_args;
 use LogicException;
 use function mb_strlen;
 use function ord;
@@ -73,7 +74,7 @@ final class Length implements Encodable
                 $length = self::decodeLongFormLength($length, $data, $idx);
             }
         }
-        if (isset($offset)) {
+        if (func_num_args() > 1) {
             $offset = $idx;
         }
         return self::create($length, $indefinite);
@@ -216,11 +217,19 @@ final class Length implements Encodable
         if ($length === 127) {
             throw new DecodeException('Invalid number of length octets.');
         }
+        // leading zero octets are not part of a minimal encoding (X.690 sect. 10.1)
+        if (ord($data[$offset]) === 0x00) {
+            throw new DecodeException('Leading zero octet in a long form length.');
+        }
         $num = BigInteger::of(0);
         while (--$length >= 0) {
             $byte = ord($data[$offset++]);
             $num = $num->shiftedLeft(8)
                 ->or($byte);
+        }
+        // a length below 128 must use the short form (X.690 sect. 10.1)
+        if ($num->isLessThan(128)) {
+            throw new DecodeException('Length must be encoded in the short form.');
         }
 
         return $num;

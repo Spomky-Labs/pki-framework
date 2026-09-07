@@ -108,17 +108,21 @@ final class RDN implements Countable, IteratorAggregate, Stringable
         if (count($this) !== count($other)) {
             return false;
         }
-        $attribs1 = $this->_attribs;
-        $attribs2 = $other->_attribs;
-        // if there's multiple attributes, sort using SET OF rules
-        if (count($attribs1) > 1) {
-            $attribs1 = self::fromASN1($this->toASN1())->_attribs;
-            $attribs2 = self::fromASN1($other->toASN1())->_attribs;
-        }
-        for ($i = count($attribs1) - 1; $i >= 0; --$i) {
-            $tv1 = $attribs1[$i];
-            $tv2 = $attribs2[$i];
-            if (! $tv1->equals($tv2)) {
+        // RFC 5280 sect. 7.1: an RDN is a SET, so two of them are equal when their attributes match as a multiset,
+        // whatever the order. Sorting both sides in DER order and comparing position by position gets this wrong,
+        // because the attribute values compare case insensitively while the DER sort does not: RDN{cn=a,cn=B} and
+        // RDN{cn=A,cn=b} sort the other way round and were reported as different.
+        $unmatched = $other->_attribs;
+        foreach ($this->_attribs as $tv1) {
+            $matched = false;
+            foreach ($unmatched as $idx => $tv2) {
+                if ($tv1->equals($tv2)) {
+                    unset($unmatched[$idx]);
+                    $matched = true;
+                    break;
+                }
+            }
+            if (! $matched) {
                 return false;
             }
         }

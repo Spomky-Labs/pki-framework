@@ -8,6 +8,7 @@ use Brick\Math\BigInteger;
 use function chr;
 use Exception;
 use Iterator;
+use function json_encode;
 use OutOfBoundsException;
 use const PHP_INT_MAX;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -16,11 +17,16 @@ use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
+use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\TBSCertificate;
+use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
 use function sprintf;
 use Throwable;
 use UnexpectedValueException;
@@ -134,6 +140,93 @@ final class DecoderExceptionContractTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Unsupported certificate version');
         TBSCertificate::fromASN1($tbs);
+    }
+
+    /**
+     * @return Iterator<string, array{string}>
+     */
+    public static function offContractInputProvider(): Iterator
+    {
+        // Identifier::intTag() called BigInt::toInt() with no guard, the mirror image of the guard
+        // Length::intLength() already had, so 15 bytes reached every X.509 entry point.
+        yield 'tag number beyond PHP_INT_MAX' => ["\x30\x0d\x1f\x81\x81\x81\x81\x81\x81\x81\x81\x81\x81\x00\x00"];
+        // an universal tag this library does not implement used to raise an UnexpectedValueException
+        yield 'EXTERNAL, not implemented' => ["\x08\x01\x00"];
+        yield 'EMBEDDED PDV, not implemented' => ["\x0b\x01\x00"];
+        yield 'universal tag 14, not implemented' => ["\x0e\x01\x00"];
+        yield 'universal tag 15, not implemented' => ["\x0f\x01\x00"];
+        // Real raised an UnexpectedValueException on a bad decimal payload, and reached
+        // BigInt::fromSignedOctets('') on a binary REAL whose long form exponent length octet is zero
+        yield 'decimal REAL with a bad payload' => ["\x09\x02\x01\x41"];
+        yield 'binary REAL with a zero exponent length octet' => ["\x09\x02\x83\x00"];
+    }
+
+    #[Test]
+    #[DataProvider('offContractInputProvider')]
+    public function inputThatUsedToEscapeTheContractIsADecodeException(string $der): void
+    {
+        $this->expectException(DecodeException::class);
+        Element::fromDER($der);
+    }
+
+    #[Test]
+    public function everyUniversalTagStaysWithinTheContract(): void
+    {
+        // A sweep over every universal tag with a short payload: none of them may raise anything but a
+        // DecodeException, whether the tag is implemented or not.
+        $offContract = [];
+        for ($tag = 0; $tag <= 0x1E; ++$tag) {
+            foreach ([chr($tag), chr($tag | 0x20)] as $identifier) {
+                foreach (["\x00", "\x01\x41", "\x02\x41\x42"] as $payload) {
+                    try {
+                        Element::fromDER($identifier . $payload);
+                    } catch (DecodeException) {
+                        // expected
+                    } catch (Throwable $e) {
+                        $offContract[sprintf('%02x %s', $tag, $e::class)] = $e->getMessage();
+                    }
+                }
+            }
+        }
+
+        static::assertSame([], $offContract, 'Off-contract exceptions: ' . json_encode($offContract));
+    }
+
+    #[Test]
+    public function anExtensionFieldBeyondIntRangeIsReported(): void
+    {
+        // TBSCertificate guards the version field with exactly this reasoning; the same intNumber() call was
+        // unguarded on the extension fields, so a 1 KB certificate was enough.
+        $ext = Sequence::create(
+            ObjectIdentifier::create(Extension::OID_BASIC_CONSTRAINTS),
+            OctetString::create(
+                Sequence::create(Boolean::create(true), Integer::create('99999999999999999999999999'))->toDER()
+            )
+        );
+
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('is too large');
+        Extension::fromASN1($ext)->pathLen();
+    }
+
+    #[Test]
+    public function aTruncatedExtensionIsReported(): void
+    {
+        // Extension::fromASN1() called Structure::at() with no arity check, so a one element SEQUENCE raised an
+        // OutOfBoundsException.
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('must have 2 or 3 elements');
+        Extension::fromASN1(Sequence::create(ObjectIdentifier::create(Extension::OID_BASIC_CONSTRAINTS)));
+    }
+
+    #[Test]
+    public function aShippedRequestWithAnEmptyAttributeValueSetParses(): void
+    {
+        // The project's own asset, which OpenSSL parses without complaint, reached
+        // Attribute::fromAttributeValues() and raised a LogicException.
+        $csr = CertificationRequest::fromPEM(PEM::fromFile(TEST_ASSETS_DIR . '/certs/acme-ecdsa.csr'));
+
+        static::assertTrue($csr->verify());
     }
 
     /**
