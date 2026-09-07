@@ -29,6 +29,24 @@ This library is available on [Github](https://github.com/Spomky-Labs/pki-framewo
 composer require spomky-labs/pki-framework
 ```
 
+## Issuing certificates from a certification request
+
+`TBSCertificate::fromCSR()` builds a certificate from a certification request. **Everything a certification request
+contains is chosen by whoever submitted it**, so an issuer must treat it as untrusted input:
+
+- the signature of the request is **not** verified by `fromCSR()`. Call `CertificationRequest::verify()` yourself
+  before using it;
+- extensions that decide what a certificate is allowed to do — `basicConstraints`, `keyUsage`, `extKeyUsage`,
+  `nameConstraints`, `policyConstraints`, `policyMappings`, `inhibitAnyPolicy`, `certificatePolicies` and
+  `authorityKeyIdentifier` — are never copied from the request. They belong to the issuer, which sets them with
+  `withExtensions()` / `withAdditionalExtensions()`;
+- every other requested extension **is** copied, `subjectAltName` included. Pass the OIDs the issuer is willing to
+  honour as the second argument to restrict the copy:
+
+```php
+$tbsCertificate = TBSCertificate::fromCSR($csr, [Extension::OID_SUBJECT_ALT_NAME]);
+```
+
 ## License
 
 This project is licensed under the MIT License.

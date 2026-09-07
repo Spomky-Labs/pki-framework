@@ -6,6 +6,9 @@ namespace SpomkyLabs\Pki\X509\Certificate;
 
 use Brick\Math\BigInteger;
 use function count;
+use function implode;
+use function in_array;
+use InvalidArgumentException;
 use LogicException;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
@@ -22,6 +25,7 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\SubjectKeyIdentifierExtension;
 use SpomkyLabs\Pki\X509\CertificationRequest\CertificationRequest;
+use function sprintf;
 use function strval;
 use UnexpectedValueException;
 
@@ -83,6 +87,25 @@ final class TBSCertificate
     ) {
         $this->extensions = Extensions::create();
     }
+
+    /**
+     * Extensions that are never taken from a certification request.
+     *
+     * These decide what the certificate is allowed to do, so they belong to the issuer.
+     *
+     * @var string[]
+     */
+    public const FORBIDDEN_CSR_EXTENSIONS = [
+        Extension::OID_BASIC_CONSTRAINTS,
+        Extension::OID_KEY_USAGE,
+        Extension::OID_EXT_KEY_USAGE,
+        Extension::OID_NAME_CONSTRAINTS,
+        Extension::OID_POLICY_CONSTRAINTS,
+        Extension::OID_POLICY_MAPPINGS,
+        Extension::OID_INHIBIT_ANY_POLICY,
+        Extension::OID_CERTIFICATE_POLICIES,
+        Extension::OID_AUTHORITY_KEY_IDENTIFIER,
+    ];
 
     public static function create(
         Name $subject,
@@ -147,10 +170,28 @@ final class TBSCertificate
     /**
      * Initialize from certification request.
      *
+     * The extensions a request asks for are chosen by the requester. Those in FORBIDDEN_CSR_EXTENSIONS decide
+     * what a certificate is allowed to do, so they are never copied: a requester asking for basicConstraints
+     * cA:TRUE and keyUsage keyCertSign is asking to become a certificate authority. The issuer sets those
+     * itself. Every other requested extension is copied, unless $allowedExtensionOids narrows the set further.
+     *
      * Note that signature is not verified and must be done by the caller.
+     *
+     * @param CertificationRequest $cr Certification request
+     * @param null|string[] $allowedExtensionOids OIDs of the requested extensions to copy, null for all of them
+     * except the forbidden ones
      */
-    public static function fromCSR(CertificationRequest $cr): self
+    public static function fromCSR(CertificationRequest $cr, ?array $allowedExtensionOids = null): self
     {
+        if ($allowedExtensionOids !== null) {
+            $forbidden = array_intersect($allowedExtensionOids, self::FORBIDDEN_CSR_EXTENSIONS);
+            if (count($forbidden) !== 0) {
+                throw new InvalidArgumentException(sprintf(
+                    'Extensions %s cannot be taken from a certification request.',
+                    implode(', ', $forbidden)
+                ));
+            }
+        }
         $cri = $cr->certificationRequestInfo();
         $tbs_cert = self::create(
             $cri->subject(),
@@ -162,7 +203,20 @@ final class TBSCertificate
         if ($cri->hasAttributes()) {
             $attribs = $cri->attributes();
             if ($attribs->hasExtensionRequest()) {
-                $tbs_cert = $tbs_cert->withExtensions($attribs->extensionRequest()->extensions());
+                $requested = $attribs->extensionRequest()
+                    ->extensions();
+                $accepted = [];
+                foreach ($requested as $extension) {
+                    $oid = $extension->oid();
+                    if (in_array($oid, self::FORBIDDEN_CSR_EXTENSIONS, true)) {
+                        continue;
+                    }
+                    if ($allowedExtensionOids !== null && ! in_array($oid, $allowedExtensionOids, true)) {
+                        continue;
+                    }
+                    $accepted[] = $extension;
+                }
+                $tbs_cert = $tbs_cert->withExtensions(Extensions::create(...$accepted));
             }
         }
         // add Subject Key Identifier extension

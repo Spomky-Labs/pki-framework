@@ -33,6 +33,8 @@ use Traversable;
  * Several convenience methods are provided to fetch commonly used standard extensions. Others can be accessed using
  * `get($oid)`.
  *
+ * @implements IteratorAggregate<string, Extension>
+ *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.9
  *
  * @implements IteratorAggregate<string, Extension>
