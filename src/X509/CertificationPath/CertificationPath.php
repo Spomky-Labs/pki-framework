@@ -13,6 +13,7 @@ use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
 use SpomkyLabs\Pki\X509\Certificate\CertificateChain;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
 use SpomkyLabs\Pki\X509\CertificationPath\PathBuilding\CertificationPathBuilder;
 use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationResult;
@@ -36,6 +37,14 @@ final class CertificationPath implements Countable, IteratorAggregate
     private readonly array $certificates;
 
     /**
+     * Whether the path was assembled from a chain that a peer supplied.
+     *
+     * The first certificate of such a path is whatever the peer put there, so it must never serve as the trust
+     * anchor.
+     */
+    private bool $fromPeerSuppliedChain = false;
+
+    /**
      * @param Certificate ...$certificates Certificates from the trust anchor
      * to the target end-entity certificate
      */
@@ -44,6 +53,14 @@ final class CertificationPath implements Countable, IteratorAggregate
         $this->certificates = $certificates;
     }
 
+    /**
+     * Initialize from certificates ordered from the trust anchor to the target end-entity certificate.
+     *
+     * When no trust anchor is set on the configuration, validate() falls back to the first certificate given here.
+     * Only pass certificates in an order you control: a path built out of what a peer sent, with its own root at the
+     * head, would then be validated against that root. Use fromCertificateChain() for peer-supplied material, or
+     * toTarget() to build the path from a bundle of trust anchors.
+     */
     public static function create(Certificate ...$certificates): self
     {
         return new self(...$certificates);
@@ -51,10 +68,15 @@ final class CertificationPath implements Countable, IteratorAggregate
 
     /**
      * Initialize from a certificate chain.
+     *
+     * A chain comes from a peer, so its topmost certificate is attacker-controlled and cannot be trusted. The
+     * resulting path therefore refuses to validate unless the configuration carries an explicit trust anchor.
      */
     public static function fromCertificateChain(CertificateChain $chain): self
     {
-        return self::create(...array_reverse($chain->certificates(), false));
+        $path = self::create(...array_reverse($chain->certificates(), false));
+        $path->fromPeerSuppliedChain = true;
+        return $path;
     }
 
     /**
@@ -99,7 +121,10 @@ final class CertificationPath implements Countable, IteratorAggregate
     }
 
     /**
-     * Get the trust anchor certificate from the path.
+     * Get the first certificate of the path.
+     *
+     * This is the certificate validate() falls back to when the configuration names no trust anchor. It is the path's
+     * head, not a certificate the library has established any trust in.
      */
     public function trustAnchorCertificate(): Certificate
     {
@@ -150,10 +175,25 @@ final class CertificationPath implements Countable, IteratorAggregate
     /**
      * Validate certification path.
      *
+     * The trust anchor is an input to the validation process, not a part of the path: set it on the configuration
+     * with PathValidationConfig::withTrustAnchor(). When it is left unset, the first certificate of the path is used
+     * instead, which is only sound for a path whose head the application chose itself.
+     *
+     * A path built by fromCertificateChain() never qualifies, since a peer decided what its first certificate is, and
+     * validating it against its own root would verify nothing. Such a path requires an explicit trust anchor and
+     * throws without one.
+     *
      * @param null|Crypto $crypto Crypto engine, use default if not set
      */
     public function validate(PathValidationConfig $config, ?Crypto $crypto = null): PathValidationResult
     {
+        if ($this->fromPeerSuppliedChain && ! $config->hasTrustAnchor()) {
+            throw new PathValidationException(
+                'The path was built from a peer-supplied certificate chain, so its first certificate cannot serve as '
+                . 'the trust anchor. Set one with PathValidationConfig::withTrustAnchor(), or build the path with '
+                . 'CertificationPath::toTarget() from a bundle of trusted certificates.'
+            );
+        }
         $crypto ??= Crypto::getDefault();
         return PathValidator::create($crypto, $config, ...$this->certificates)->validate();
     }

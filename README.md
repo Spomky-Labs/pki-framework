@@ -47,6 +47,40 @@ contains is chosen by whoever submitted it**, so an issuer must treat it as untr
 $tbsCertificate = TBSCertificate::fromCSR($csr, [Extension::OID_SUBJECT_ALT_NAME]);
 ```
 
+## Validating a certification path
+
+The trust anchor is an input to the validation process, never something read out of the material the peer sent. Start
+from the certificates you trust and let the library build the path to the target:
+
+```php
+use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
+use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
+
+$trustAnchors = CertificateBundle::create($rootA, $rootB); // your trust store
+$intermediates = CertificateBundle::create(...$chainFromPeer); // untrusted, used only to bridge the path
+
+$path = CertificationPath::toTarget($leafFromPeer, $trustAnchors, $intermediates);
+
+try {
+    $result = $path->validate(PathValidationConfig::defaultConfig());
+} catch (PathValidationException $e) {
+    // the chain does not lead to any certificate you trust
+}
+```
+
+If you already hold the path, name the anchor explicitly:
+
+```php
+$config = PathValidationConfig::defaultConfig()->withTrustAnchor($root);
+$path->validate($config);
+```
+
+Do not validate a chain a peer supplied without an anchor. Left to itself, validation would fall back to the first
+certificate of the path — one the peer chose — and confirm only that the chain is internally consistent. A path built
+by `CertificationPath::fromCertificateChain()` refuses to validate without an explicit anchor for that reason.
+
 ## License
 
 This project is licensed under the MIT License.

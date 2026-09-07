@@ -103,7 +103,9 @@ final class CertificationPathTest extends TestCase
     #[Depends('fromCertificateChain')]
     public function fromChainEquals(CertificationPath $ref, CertificationPath $path)
     {
-        static::assertEquals($ref, $path);
+        // the two paths hold the same certificates, but only one of them remembers coming from a peer-supplied
+        // chain, so they are deliberately not interchangeable as whole objects
+        static::assertEquals($ref->certificates(), $path->certificates());
     }
 
     #[Test]
