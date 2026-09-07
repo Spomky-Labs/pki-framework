@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use function array_values;
+use Brick\Math\BigInteger;
 use function count;
 use function in_array;
 use LogicException;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -270,6 +274,13 @@ final class PathValidator
      */
     private function verifySignature(ValidatorState $state, Certificate $cert): void
     {
+        // A signature is only as good as its digest. Without this check the validator accepts MD5, against which
+        // chosen prefix collisions are practical, and the application has no way to say no.
+        $algo = $cert->signatureAlgorithm();
+        if (! in_array($algo->oid(), $this->config->allowedSignatureAlgorithms(), true)) {
+            throw new PathValidationException(sprintf('Signature algorithm %s is not allowed.', $algo->name()));
+        }
+        $this->checkIssuerKeySize($state->workingPublicKey());
         try {
             $valid = $cert->verify($state->workingPublicKey(), $this->crypto);
         } catch (RuntimeException $e) {
@@ -277,6 +288,34 @@ final class PathValidator
         }
         if (! $valid) {
             throw new PathValidationException("Certificate signature doesn't match.");
+        }
+    }
+
+    /**
+     * Check that the key which signed the certificate is large enough to be worth verifying.
+     *
+     * Only RSA is covered: an EC key's strength is fixed by its named curve, and the curves this library knows
+     * are all above the line. A modulus below the floor makes the signature meaningless however well OpenSSL
+     * verifies it.
+     */
+    private function checkIssuerKeySize(PublicKeyInfo $pubkey_info): void
+    {
+        $minimum = $this->config->minimumRSAKeySize();
+        if ($minimum === 0) {
+            return;
+        }
+        if ($pubkey_info->algorithmIdentifier()->oid() !== AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
+            return;
+        }
+        $pubkey = $pubkey_info->publicKey();
+        if (! $pubkey instanceof RSAPublicKey) {
+            return;
+        }
+        $bits = BigInteger::of($pubkey->modulus())->getBitLength();
+        if ($bits < $minimum) {
+            throw new PathValidationException(
+                sprintf('RSA key size %d is below the minimum of %d bits.', $bits, $minimum)
+            );
         }
     }
 

@@ -13,7 +13,6 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Targets;
 use SpomkyLabs\Pki\X509\Certificate\Extension\TargetInformationExtension;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
-use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
  * Implements attribute certificate validation conforming to RFC 5755.
@@ -71,7 +70,7 @@ final class ACValidator
     private function validateHolder(): Certificate
     {
         $path = $this->config->holderPath();
-        $config = PathValidationConfig::defaultConfig()
+        $config = $this->config->pathValidationConfig()
             ->withMaxLength(count($path))
             ->withDateTime($this->config->evaluationTime());
         try {
@@ -94,7 +93,7 @@ final class ACValidator
     private function verifyIssuer(): Certificate
     {
         $path = $this->config->issuerPath();
-        $config = PathValidationConfig::defaultConfig()
+        $config = $this->config->pathValidationConfig()
             ->withMaxLength(count($path))
             ->withDateTime($this->config->evaluationTime());
         try {
