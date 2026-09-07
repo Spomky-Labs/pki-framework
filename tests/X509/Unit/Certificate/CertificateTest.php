@@ -139,7 +139,10 @@ final class CertificateTest extends TestCase
     #[Depends('fromPEM')]
     public function pEMRecoded(Certificate $ref, Certificate $new)
     {
-        static::assertEquals($ref, $new);
+        // Compared on the encoding rather than on the object graph: a certificate decoded from DER also carries
+        // the tbsCertificate bytes it was decoded from, which one built in memory has no reason to have. The two
+        // are the same certificate all the same.
+        static::assertSame($ref->toDER(), $new->toDER());
     }
 
     #[Test]
