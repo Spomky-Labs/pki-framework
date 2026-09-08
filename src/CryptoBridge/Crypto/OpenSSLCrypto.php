@@ -230,9 +230,6 @@ final class OpenSSLCrypto extends Crypto
     }
 
     /**
-     * Check that given signature algorithm supports key of given type.
-     */
-    /**
      * Whether this engine can check a signature made with the given algorithm.
      *
      * PathValidationConfig advertises Ed25519 and Ed448 in its default allowed set, but whether they can actually
@@ -313,6 +310,12 @@ final class OpenSSLCrypto extends Crypto
         return self::$opensslEdDSASupport[$oid];
     }
 
+    /**
+     * Check that given signature algorithm supports key of given type.
+     *
+     * @param SignatureAlgorithmIdentifier $sig_algo Signature algorithm
+     * @param AlgorithmIdentifier $key_algo Key algorithm
+     */
     protected function _checkSignatureAlgoAndKey(
         SignatureAlgorithmIdentifier $sig_algo,
         AlgorithmIdentifier $key_algo

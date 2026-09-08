@@ -109,9 +109,6 @@ final class ACValidationConfig
     }
 
     /**
-     * Get the configuration used to validate the holder and issuer certification paths.
-     */
-    /**
      * Get self with the OID's of the critical extensions the application processes by its own means.
      *
      * The validation rejects an attribute certificate carrying a critical extension it cannot process. Use this
@@ -136,6 +133,9 @@ final class ACValidationConfig
         return $this->additionalCriticalExtensions;
     }
 
+    /**
+     * Get the configuration used to validate the holder and issuer certification paths.
+     */
     public function pathValidationConfig(): PathValidationConfig
     {
         return $this->pathValidationConfig;

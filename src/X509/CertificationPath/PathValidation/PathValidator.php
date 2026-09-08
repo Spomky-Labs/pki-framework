@@ -11,6 +11,7 @@ use LogicException;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
+use SpomkyLabs\Pki\X501\StringPrep\Exception\StringPreparationException;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -103,8 +104,31 @@ final class PathValidator
 
     /**
      * Validate certification path.
+     *
+     * A name comparison is a security decision here, so a name that cannot be prepared for comparison fails the
+     * validation rather than being reported as not equal, which would let a name escape an excluded subtree. The
+     * failure is reported as a PathValidationException like every other, instead of escaping as the
+     * StringPreparationException raised deep inside the comparison.
+     *
+     * @throws PathValidationException If the path does not validate.
      */
     public function validate(): PathValidationResult
+    {
+        try {
+            return $this->process();
+        } catch (StringPreparationException $e) {
+            throw new PathValidationException(
+                'A name of the certification path cannot be prepared for comparison: ' . $e->getMessage(),
+                0,
+                $e
+            );
+        }
+    }
+
+    /**
+     * Run the validation algorithm of RFC 5280 section 6.1.
+     */
+    private function process(): PathValidationResult
     {
         $n = count($this->certificates);
         $state = ValidatorState::initialize($this->config, $this->trustAnchor, $n);

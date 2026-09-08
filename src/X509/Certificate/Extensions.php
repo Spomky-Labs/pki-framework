@@ -38,8 +38,6 @@ use UnexpectedValueException;
  * @implements IteratorAggregate<string, Extension>
  *
  * @see https://tools.ietf.org/html/rfc5280#section-4.1.2.9
- *
- * @implements IteratorAggregate<string, Extension>
  */
 final class Extensions implements Countable, IteratorAggregate
 {
