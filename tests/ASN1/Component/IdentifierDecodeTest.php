@@ -101,22 +101,26 @@ final class IdentifierDecodeTest extends TestCase
     }
 
     #[Test]
-    public function hugeTag()
+    public function largeTag()
     {
-        $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
+        // eight continuation octets plus the terminating one, the widest tag a PHP integer can still hold
+        $der = "\x1f" . str_repeat("\xff", 8) . "\x7f";
         $identifier = Identifier::fromDER($der);
-        $num = BigInteger::fromBase(str_repeat('1111111', 100) . '1111111', 2);
+        $num = BigInteger::fromBase(str_repeat('1111111', 8) . '1111111', 2);
         static::assertSame($num->toBase(10), $identifier->tag());
     }
 
     #[Test]
-    public function hugeIntTagOverflow()
+    public function aTagTooLongToNameATypeIsRefused()
     {
-        // a tag number that does not fit in an int is malformed input, not a math error the caller has to handle
+        // The accumulator is a BigInteger rebuilt on every step, so an unbounded run of continuation octets costs
+        // work quadratic in its length, spent before any signature is checked. Refusing the run also pre-empts the
+        // math error that intTag() used to let escape: nine octets of seven bits already reach PHP_INT_MAX, so a
+        // tag this decoder accepts always fits in an int.
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage('is too large');
-        Identifier::fromDER($der)->intTag();
+        $this->expectExceptionMessage('Long form identifier is too long.');
+        Identifier::fromDER($der);
     }
 
     #[Test]

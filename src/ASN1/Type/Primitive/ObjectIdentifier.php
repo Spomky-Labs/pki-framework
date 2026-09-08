@@ -27,6 +27,19 @@ use UnexpectedValueException;
  */
 final class ObjectIdentifier extends Element
 {
+    /**
+     * Largest number of octets a base 128 field may span.
+     *
+     * Each octet carries seven bits, so nine of them already exceed the range of a PHP integer. A tag number or a
+     * sub-identifier beyond that can never name a type or an arc this library implements, and accepting more of them
+     * is not free: the accumulator is a BigInteger that is rebuilt on every step, so an unbounded run of continuation
+     * octets costs work quadratic in its length. A few kilobytes of them are minutes of CPU, spent before any
+     * signature is checked.
+     *
+     * @var int
+     */
+    private const MAX_BASE128_OCTETS = 9;
+
     use UniversalClass;
     use PrimitiveType;
 
@@ -185,9 +198,13 @@ final class ObjectIdentifier extends Element
         while ($idx < $end) {
             $num = BigInteger::of(0);
             $first = true;
+            $octets = 0;
             while (true) {
                 if ($idx >= $end) {
                     throw new DecodeException('Unexpected end of data.');
+                }
+                if (++$octets > self::MAX_BASE128_OCTETS) {
+                    throw new DecodeException('Sub-identifier is too long.');
                 }
                 $byte = ord($data[$idx++]);
                 // leading zero bits are not part of a minimal sub-identifier (X.690 sect. 8.19.2)
