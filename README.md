@@ -101,6 +101,12 @@ Attribute certificate validation does not implement RFC 5755 section 5 check 4 o
 trust to issue attribute certificates with `ACValidationConfig::withTrustedAttributeAuthorities()`, or the validator
 accepts whatever end-entity certificate the issuer path ends in.
 
+Ed25519 and Ed448 are in the default set of allowed signature algorithms, but whether a signature made with them
+can be checked depends on the runtime: the OpenSSL extension only grew EdDSA recently, and `ext-sodium` — bundled
+since PHP 7.2 — covers Ed25519 alone. Verification fails closed where the runtime cannot do it. Ask
+`OpenSSLCrypto::supportsSignatureAlgorithm()` if you would rather narrow the configured set than have a chain
+refused during validation.
+
 `Certificate::equals()` compares the two encodings octet by octet, and `CertificateBundle::contains()` is built on
 it. Use `Certificate::hasEqualSubjectIdentity()` for the looser "same subject, same key, same serial number"
 question — it is not an identity check, since two certificates can agree on all three and still be issued by

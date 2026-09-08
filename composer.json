@@ -73,6 +73,7 @@
     },
     "suggest": {
         "ext-openssl": "For OpenSSL based cyphering",
+        "ext-sodium": "To verify Ed25519 signatures where the OpenSSL extension has no EdDSA",
         "ext-gmp": "For better performance (or BCMath)",
         "ext-bcmath": "For better performance (or GMP)"
     },

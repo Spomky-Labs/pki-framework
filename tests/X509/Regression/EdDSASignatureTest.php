@@ -8,8 +8,11 @@ use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use SpomkyLabs\Pki\CryptoBridge\Crypto\OpenSSLCrypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed25519AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\Ed448AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -82,6 +85,35 @@ final class EdDSASignatureTest extends TestCase
     }
 
     #[Test]
+    public function ed25519IsSupportedOnEverySupportedRuntime(): void
+    {
+        // The OpenSSL extension only grew EdDSA in PHP 8.5; ext-sodium, bundled since PHP 7.2, covers Ed25519 on
+        // everything older.
+        static::assertTrue(
+            (new OpenSSLCrypto())->supportsSignatureAlgorithm(Ed25519AlgorithmIdentifier::create())
+        );
+    }
+
+    #[Test]
+    public function anUnsupportedEdDSAAlgorithmFailsClosedRatherThanThrowing(): void
+    {
+        // Ed448 has no fallback outside the OpenSSL extension. Where the runtime cannot check the signature, the
+        // bool returning API must say "not verified" rather than take the process down.
+        if ((new OpenSSLCrypto())->supportsSignatureAlgorithm(Ed448AlgorithmIdentifier::create())) {
+            static::markTestSkipped('This runtime verifies Ed448.');
+        }
+
+        $cert = self::selfSignedCertificate('ed448');
+
+        static::assertFalse(
+            $cert->verify(
+                $cert->tbsCertificate()
+                    ->subjectPublicKeyInfo()
+            )
+        );
+    }
+
+    #[Test]
     public function verifyReturnsFalseRatherThanThrowingOnAnAlgorithmTheEngineCannotHandle(): void
     {
         // The algorithm is named by the certificate, so an attacker picks it. A bool returning predicate must
@@ -145,6 +177,13 @@ final class EdDSASignatureTest extends TestCase
      */
     private static function selfSignedCertificate(string $algorithm): Certificate
     {
+        $identifier = $algorithm === 'ed25519'
+            ? Ed25519AlgorithmIdentifier::create()
+            : Ed448AlgorithmIdentifier::create();
+        if (! (new OpenSSLCrypto())->supportsSignatureAlgorithm($identifier)) {
+            static::markTestSkipped(sprintf('This runtime cannot verify %s.', $identifier->name()));
+        }
+
         $dir = sys_get_temp_dir() . '/pki-eddsa-' . bin2hex(random_bytes(8));
         mkdir($dir);
 
