@@ -17,6 +17,7 @@ use function ord;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
@@ -145,6 +146,9 @@ final class TBSCertificate
      */
     public static function fromASN1(Sequence $seq): self
     {
+        // the optional fields of a TBSCertificate are distinct, so a repeated tag is not a field but a second copy
+        // of one; hasTagged() would keep only the last of them and silently drop what came before
+        $seq->assertUniqueTaggedElements('TBSCertificate');
         $idx = 0;
         if ($seq->hasTagged(0)) {
             ++$idx;
@@ -196,7 +200,36 @@ final class TBSCertificate
         if ($seq->hasTagged(3)) {
             $tbs_cert = $tbs_cert->withExtensions(Extensions::fromASN1($seq->getTagged(3)->asExplicit()->asSequence()));
         }
+        self::assertOptionalTrailingFields($seq, $idx);
         return $tbs_cert;
+    }
+
+    /**
+     * Assert that everything past subjectPublicKeyInfo is at most one [1], one [2] and one [3], in that order.
+     *
+     * The fixed fields are read by position and the optional ones by tag, so nothing else looks at the elements in
+     * between or after. An element the template does not define is then carried along unnoticed, and the encoding
+     * no longer means what a conforming decoder reads from it.
+     *
+     * @param int $offset Index of the first element past subjectPublicKeyInfo
+     *
+     * @throws DecodeException If any other element is present.
+     */
+    private static function assertOptionalTrailingFields(Sequence $seq, int $offset): void
+    {
+        $previous = 0;
+        $count = count($seq);
+        for ($i = $offset; $i < $count; ++$i) {
+            $element = $seq->at($i)
+                ->asElement();
+            $tag = $element->isTagged() ? $element->tag() : -1;
+            if ($tag <= $previous || $tag > 3) {
+                throw new DecodeException(
+                    sprintf('TBSCertificate has an unexpected element at index %d.', $i)
+                );
+            }
+            $previous = $tag;
+        }
     }
 
     /**
