@@ -36,9 +36,13 @@ final class PathValidator
      * A critical extension whose OID is not listed here cannot be honoured, and therefore makes the path validation
      * fail as required by RFC 5280 section 6.1.4 (o) and section 6.1.5 (f).
      *
-     * Note that `subjectAltName` is deliberately absent: the validator decodes it, and submits its names to the name
-     * constraints, but does not match an identity against it. An application that enforces it by its own means may
-     * declare it through `PathValidationConfig::withAdditionalCriticalExtensions()`.
+     * `subjectAltName` belongs to that set: RFC 5280 section 6.1.3 (b) and (c) define its processing during path
+     * validation as the matching of its names against the name constraints, which this validator performs. Marking it
+     * critical is moreover what RFC 5280 section 4.2.1.6 requires of a certificate carrying an empty subject, so
+     * rejecting it would turn away the very certificates the specification mandates.
+     *
+     * An extension outside of this set may still be declared by an application enforcing it by its own means, through
+     * `PathValidationConfig::withAdditionalCriticalExtensions()`.
      *
      * @var list<string>
      */
@@ -50,6 +54,7 @@ final class PathValidator
         Extension::OID_POLICY_CONSTRAINTS,
         Extension::OID_INHIBIT_ANY_POLICY,
         Extension::OID_NAME_CONSTRAINTS,
+        Extension::OID_SUBJECT_ALT_NAME,
     ];
 
     /**

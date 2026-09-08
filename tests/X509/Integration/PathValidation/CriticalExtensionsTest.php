@@ -100,6 +100,9 @@ final class CriticalExtensionsTest extends TestCase
                 GeneralSubtrees::create(GeneralSubtree::create(DirectoryName::fromDNString('c=FI')))
             ),
         ];
+        yield 'subjectAltName' => [
+            SubjectAlternativeNameExtension::create(true, GeneralNames::create(DNSName::create('example.com'))),
+        ];
     }
 
     /**
@@ -110,9 +113,6 @@ final class CriticalExtensionsTest extends TestCase
     public static function unprocessedCriticalExtensions(): Iterator
     {
         yield 'unknown' => [self::unknownExtension(true)];
-        yield 'subjectAltName' => [
-            SubjectAlternativeNameExtension::create(true, GeneralNames::create(DNSName::create('example.com'))),
-        ];
         yield 'extendedKeyUsage' => [
             ExtendedKeyUsageExtension::create(true, ExtendedKeyUsageExtension::OID_CLIENT_AUTH),
         ];
@@ -178,13 +178,49 @@ final class CriticalExtensionsTest extends TestCase
     public function criticalExtensionDeclaredInConfigurationDoesNotAcceptOtherExtensions()
     {
         $path = self::createPath([], [
-            SubjectAlternativeNameExtension::create(true, GeneralNames::create(DNSName::create('example.com'))),
+            ExtendedKeyUsageExtension::create(true, ExtendedKeyUsageExtension::OID_CLIENT_AUTH),
         ]);
         $config = PathValidationConfig::create(new DateTimeImmutable(), 3)
             ->withAdditionalCriticalExtensions(self::UNKNOWN_OID);
         $this->expectException(PathValidationException::class);
         $this->expectExceptionMessage('unhandled critical extension');
         $path->validate($config);
+    }
+
+    /**
+     * RFC 5280 section 4.2.1.6 requires a certificate whose subject is empty to carry a critical subjectAltName
+     * extension. Such a certificate is issued in the wild - a TPM attestation identity key certificate is one - and
+     * the validator must not turn it away.
+     */
+    #[Test]
+    public function emptySubjectWithCriticalSubjectAlternativeNameIsAccepted()
+    {
+        $sanExtension = SubjectAlternativeNameExtension::create(
+            true,
+            GeneralNames::create(DNSName::create('example.com'))
+        );
+        $tbs = TBSCertificate::create(
+            Name::fromString(self::CA_NAME),
+            self::$_caKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
+        $tbs = $tbs->withAdditionalExtensions(BasicConstraintsExtension::create(true, true, 1));
+        $ca = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
+        $tbs = TBSCertificate::create(
+            Name::create(),
+            self::$_certKey->publicKeyInfo(),
+            Name::fromString(self::CA_NAME),
+            Validity::fromStrings(null, 'now + 1 hour')
+        );
+        $tbs = $tbs->withIssuerCertificate($ca)
+            ->withAdditionalExtensions($sanExtension);
+        $cert = $tbs->sign(SHA1WithRSAEncryptionAlgorithmIdentifier::create(), self::$_caKey);
+        $path = CertificationPath::create($ca, $cert);
+
+        $result = $path->validate(PathValidationConfig::create(new DateTimeImmutable(), 3));
+
+        static::assertInstanceOf(PathValidationResult::class, $result);
     }
 
     private static function unknownExtension(bool $critical): UnknownExtension
