@@ -7,8 +7,6 @@
 [![Latest Unstable Version](https://poser.pugx.org/spomky-labs/pki-framework/v/unstable.png)](https://packagist.org/packages/spomky-labs/pki-framework)
 [![License](https://poser.pugx.org/spomky-labs/pki-framework/license.png)](https://packagist.org/packages/spomky-labs/pki-framework)
 
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Spomky-Labs/pki-framework/badge)](https://api.securityscorecards.dev/projects/github.com/Spomky-Labs/pki-framework)
-
 > [!NOTE]
 > This framework started as a fork of the libraries published at https://github.com/sop. It has diverged
 > substantially since — the code has been reworked, extended and maintained to meet the Spomky-Labs requirements —
