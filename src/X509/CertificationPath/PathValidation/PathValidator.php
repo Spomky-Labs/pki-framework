@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use function array_values;
-use Brick\Math\BigInteger;
 use function count;
 use function in_array;
 use LogicException;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
-use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKeyInfo;
-use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\CertificatePolicy\PolicyInformation;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
@@ -277,7 +274,7 @@ final class PathValidator
         // A signature is only as good as its digest. Without this check the validator accepts MD5, against which
         // chosen prefix collisions are practical, and the application has no way to say no.
         $algo = $cert->signatureAlgorithm();
-        if (! in_array($algo->oid(), $this->config->allowedSignatureAlgorithms(), true)) {
+        if (! SignaturePolicy::isAlgorithmAllowed($algo, $this->config->allowedSignatureAlgorithms())) {
             throw new PathValidationException(sprintf('Signature algorithm %s is not allowed.', $algo->name()));
         }
         $this->checkIssuerKeySize($state->workingPublicKey());
@@ -301,18 +298,8 @@ final class PathValidator
     private function checkIssuerKeySize(PublicKeyInfo $pubkey_info): void
     {
         $minimum = $this->config->minimumRSAKeySize();
-        if ($minimum === 0) {
-            return;
-        }
-        if ($pubkey_info->algorithmIdentifier()->oid() !== AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
-            return;
-        }
-        $pubkey = $pubkey_info->publicKey();
-        if (! $pubkey instanceof RSAPublicKey) {
-            return;
-        }
-        $bits = BigInteger::of($pubkey->modulus())->getBitLength();
-        if ($bits < $minimum) {
+        $bits = SignaturePolicy::rsaKeySizeBelowMinimum($pubkey_info, $minimum);
+        if ($bits !== null) {
             throw new PathValidationException(
                 sprintf('RSA key size %d is below the minimum of %d bits.', $bits, $minimum)
             );

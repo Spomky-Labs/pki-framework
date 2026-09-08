@@ -15,6 +15,8 @@ use SpomkyLabs\Pki\X509\Certificate\Extension\TargetInformationExtension;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
 use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\SignaturePolicy;
+use function sprintf;
 
 /**
  * Implements attribute certificate validation conforming to RFC 5755.
@@ -110,6 +112,23 @@ final class ACValidator
         }
         $pubkey_info = $issuer->tbsCertificate()
             ->subjectPublicKeyInfo();
+        // The certification paths above are validated under a policy that names the acceptable signature algorithms
+        // and the smallest acceptable RSA modulus. The attribute certificate's own signature is the one that
+        // carries the authorisation, so the same policy has to reach it: the crypto engine will otherwise verify an
+        // MD5 signature, and the attribute authority's own key is never a working key of either path, so its size
+        // was never measured.
+        $config = $this->config->pathValidationConfig();
+        $algo = $this->ac->signatureAlgorithm();
+        if (! SignaturePolicy::isAlgorithmAllowed($algo, $config->allowedSignatureAlgorithms())) {
+            throw new ACValidationException(sprintf('Signature algorithm %s is not allowed.', $algo->name()));
+        }
+        $minimum = $config->minimumRSAKeySize();
+        $bits = SignaturePolicy::rsaKeySizeBelowMinimum($pubkey_info, $minimum);
+        if ($bits !== null) {
+            throw new ACValidationException(
+                sprintf('RSA key size %d is below the minimum of %d bits.', $bits, $minimum)
+            );
+        }
         if (! $this->ac->verify($pubkey_info, $this->crypto)) {
             throw new ACValidationException('Failed to verify signature.');
         }
