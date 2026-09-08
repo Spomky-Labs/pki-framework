@@ -6,11 +6,14 @@ namespace SpomkyLabs\Pki\ASN1\Component;
 
 use function array_key_exists;
 use Brick\Math\BigInteger;
+use Brick\Math\Exception\MathException;
+use function func_num_args;
 use function mb_strlen;
 use function ord;
 use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Feature\Encodable;
 use SpomkyLabs\Pki\ASN1\Util\BigInt;
+use function sprintf;
 
 /**
  * Class to represent BER/DER identifier octets.
@@ -18,6 +21,19 @@ use SpomkyLabs\Pki\ASN1\Util\BigInt;
  */
 final class Identifier implements Encodable
 {
+    /**
+     * Largest number of octets a base 128 field may span.
+     *
+     * Each octet carries seven bits, so nine of them already exceed the range of a PHP integer. A tag number or a
+     * sub-identifier beyond that can never name a type or an arc this library implements, and accepting more of them
+     * is not free: the accumulator is a BigInteger that is rebuilt on every step, so an unbounded run of continuation
+     * octets costs work quadratic in its length. A few kilobytes of them are minutes of CPU, spent before any
+     * signature is checked.
+     *
+     * @var int
+     */
+    private const MAX_BASE128_OCTETS = 9;
+
     // Type class enumerations
     public const CLASS_UNIVERSAL = 0b00;
 
@@ -106,7 +122,7 @@ final class Identifier implements Encodable
         if ($tag === 0x1F) {
             $tag = self::decodeLongFormTag($data, $idx);
         }
-        if (isset($offset)) {
+        if (func_num_args() > 1) {
             $offset = $idx;
         }
         return self::create($class, $pc, $tag);
@@ -163,7 +179,13 @@ final class Identifier implements Encodable
      */
     public function intTag(): int
     {
-        return $this->_tag->toInt();
+        try {
+            return $this->_tag->toInt();
+        } catch (MathException $e) {
+            // a tag number that does not fit in an int can never name a type this decoder implements, and letting
+            // brick/math's overflow exception escape would break the decoding contract of Element::fromDER()
+            throw new DecodeException(sprintf('Tag number %s is too large.', $this->_tag->base10()), 0, $e);
+        }
     }
 
     /**
@@ -261,17 +283,32 @@ final class Identifier implements Encodable
     {
         $datalen = mb_strlen($data, '8bit');
         $tag = BigInteger::of(0);
+        $first = true;
+        $octets = 0;
         while (true) {
             if ($offset >= $datalen) {
                 throw new DecodeException('Unexpected end of data while decoding long form identifier.');
             }
+            if (++$octets > self::MAX_BASE128_OCTETS) {
+                throw new DecodeException('Long form identifier is too long.');
+            }
             $byte = ord($data[$offset++]);
+            // the first subsequent octet must not be 0x80: leading zero bits are not part of a minimal encoding
+            // (X.690 sect. 8.1.2.4.2 c)
+            if ($first && $byte === 0x80) {
+                throw new DecodeException('Leading zero octet in a long form tag number.');
+            }
+            $first = false;
             $tag = $tag->shiftedLeft(7);
             $tag = $tag->or(0x7F & $byte);
             // last byte has bit 8 set to zero
             if ((0x80 & $byte) === 0) {
                 break;
             }
+        }
+        // a tag number below 31 must use the short form (X.690 sect. 8.1.2.3)
+        if ($tag->isLessThan(0x1F)) {
+            throw new DecodeException('Tag number must be encoded in the short form.');
         }
         return $tag;
     }

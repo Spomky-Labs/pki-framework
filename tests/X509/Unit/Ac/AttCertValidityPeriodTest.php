@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\X509\Unit\Ac;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -22,8 +23,8 @@ final class AttCertValidityPeriodTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$_nb = new DateTimeImmutable('2016-05-17 12:00:00');
-        self::$_na = new DateTimeImmutable('2016-05-17 13:00:00');
+        self::$_nb = new DateTimeImmutable('2016-05-17 12:00:00', new DateTimeZone('UTC'));
+        self::$_na = new DateTimeImmutable('2016-05-17 13:00:00', new DateTimeZone('UTC'));
     }
 
     public static function tearDownAfterClass(): void

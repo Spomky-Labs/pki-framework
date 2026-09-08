@@ -171,7 +171,8 @@ final class ConstructedStringTest extends TestCase
     {
         static $str = 'test';
         yield [BitString::create($str)];
-        yield [BMPString::create($str)];
+        // BMPString holds UCS-2 code units, so the ASCII form of the same text is not a value of the type
+        yield [BMPString::create(mb_convert_encoding($str, 'UCS-2BE', 'UTF-8'))];
         yield [CharacterString::create($str)];
         yield [GeneralString::create($str)];
         yield [GraphicString::create($str)];
@@ -181,7 +182,8 @@ final class ConstructedStringTest extends TestCase
         yield [OctetString::create($str)];
         yield [PrintableString::create($str)];
         yield [T61String::create($str)];
-        yield [UniversalString::create($str)];
+        // UniversalString holds UCS-4 code units, so the ASCII form of the same text is not a value of the type
+        yield [UniversalString::create(mb_convert_encoding($str, 'UCS-4BE', 'UTF-8'))];
         yield [UTF8String::create($str)];
         yield [VideotexString::create($str)];
         yield [VisibleString::create($str)];

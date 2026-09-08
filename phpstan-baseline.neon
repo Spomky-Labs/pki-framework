@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			rawMessage: 'Only numeric types are allowed in +, int|null given on the left side.'
-			identifier: plus.leftNonNumeric
-			count: 1
-			path: src/ASN1/Component/Length.php
-
-		-
 			rawMessage: 'Only numeric types are allowed in -, int|null given on the right side.'
 			identifier: minus.rightNonNumeric
 			count: 1
@@ -64,12 +58,6 @@ parameters:
 			rawMessage: 'Call to an undefined method SpomkyLabs\Pki\ASN1\Element::string().'
 			identifier: method.notFound
 			count: 1
-			path: src/ASN1/Type/Constructed/ConstructedString.php
-
-		-
-			rawMessage: 'Parameter #2 ...$elements of static method SpomkyLabs\Pki\ASN1\Type\Constructed\ConstructedString::createWithTag() expects SpomkyLabs\Pki\ASN1\Type\StringType, SpomkyLabs\Pki\ASN1\Element given.'
-			identifier: argument.type
-			count: 2
 			path: src/ASN1/Type/Constructed/ConstructedString.php
 
 		-
@@ -431,12 +419,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/X501/DN/DNParser.php
-
-		-
-			rawMessage: 'Method SpomkyLabs\Pki\X501\StringPrep\NormalizeStep::apply() should return string but returns string|false.'
-			identifier: return.type
-			count: 1
-			path: src/X501/StringPrep/NormalizeStep.php
 
 		-
 			rawMessage: 'Method SpomkyLabs\Pki\X509\AttributeCertificate\AttCertValidityPeriod::roundDownFractionalSeconds() should return DateTimeImmutable but returns DateTimeImmutable|false.'
@@ -847,12 +829,6 @@ parameters:
 			path: src/X509/Certificate/Extension/TargetInformationExtension.php
 
 		-
-			rawMessage: 'Class SpomkyLabs\Pki\X509\Certificate\Extensions implements generic interface IteratorAggregate but does not specify its types: TKey, TValue'
-			identifier: missingType.generics
-			count: 1
-			path: src/X509/Certificate/Extensions.php
-
-		-
 			rawMessage: 'Method SpomkyLabs\Pki\X509\Certificate\Extensions::authorityKeyIdentifier() should return SpomkyLabs\Pki\X509\Certificate\Extension\AuthorityKeyIdentifierExtension but returns SpomkyLabs\Pki\X509\Certificate\Extension\Extension.'
 			identifier: return.type
 			count: 1
@@ -995,18 +971,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/X509/CertificationPath/PathValidation/PathValidationConfig.php
-
-		-
-			rawMessage: 'Call to method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::excludedSubtrees() on a separate line has no effect.'
-			identifier: method.resultUnused
-			count: 1
-			path: src/X509/CertificationPath/PathValidation/PathValidator.php
-
-		-
-			rawMessage: 'Call to method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::permittedSubtrees() on a separate line has no effect.'
-			identifier: method.resultUnused
-			count: 1
-			path: src/X509/CertificationPath/PathValidation/PathValidator.php
 
 		-
 			rawMessage: 'Method SpomkyLabs\Pki\X509\CertificationPath\PathValidation\ValidatorState::explicitPolicy() should return int but returns int|null.'

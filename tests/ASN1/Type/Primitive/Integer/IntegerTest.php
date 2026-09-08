@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Type\Primitive\Integer;
 
 use Brick\Math\BigInteger;
-use Brick\Math\Exception\IntegerOverflowException;
 use const PHP_INT_MAX;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
@@ -56,7 +56,8 @@ final class IntegerTest extends TestCase
     {
         $num = BigInteger::of(PHP_INT_MAX)->plus(1);
         $int = Integer::create($num);
-        $this->expectException(IntegerOverflowException::class);
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('is too large');
         $int->intNumber();
     }
 }
