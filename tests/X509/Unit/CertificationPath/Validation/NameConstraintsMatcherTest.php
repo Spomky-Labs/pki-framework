@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath\Validation;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -181,19 +182,19 @@ final class NameConstraintsMatcherTest extends TestCase
     #[Test]
     public function invalidIPAddressIsRejected(): void
     {
-        $subtree = GeneralSubtree::create(IPv4Address::create('not an ip'));
-        $this->expectException(PathValidationException::class);
-        $this->expectExceptionMessage('Invalid IP address');
-        NameConstraintsMatcher::matches($subtree, IPv4Address::create('192.168.0.1'));
+        // An address that is not an address is now refused where it is written, rather than travelling as far as
+        // the matcher inside a name whose encoding would have meant something else.
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Address is not a valid IPv4 address.');
+        IPv4Address::create('not an ip');
     }
 
     #[Test]
     public function invalidMaskIsRejected(): void
     {
-        $subtree = GeneralSubtree::create(IPv4Address::create('192.168.0.0', 'not a mask'));
-        $this->expectException(PathValidationException::class);
-        $this->expectExceptionMessage('Invalid IP address');
-        NameConstraintsMatcher::matches($subtree, IPv4Address::create('192.168.0.1'));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Mask is not a valid IPv4 address.');
+        IPv4Address::create('192.168.0.0', 'not a mask');
     }
 
     #[Test]
