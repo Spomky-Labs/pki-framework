@@ -6,15 +6,16 @@ namespace SpomkyLabs\Pki\X509\CertificationPath\PathValidation;
 
 use function count;
 use function in_array;
-use function is_string;
 use function mb_strlen;
 use function mb_strtolower;
-use const PHP_URL_HOST;
+use function preg_match;
 use SpomkyLabs\Pki\X509\Certificate\Extension\NameConstraints\GeneralSubtree;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
 use SpomkyLabs\Pki\X509\GeneralName\DirectoryName;
 use SpomkyLabs\Pki\X509\GeneralName\GeneralName;
 use SpomkyLabs\Pki\X509\GeneralName\IPAddress;
+use function strcspn;
+use function strpos;
 
 /**
  * Matches general names against the subtrees of a 'Name Constraints' certificate extension.
@@ -86,6 +87,17 @@ final class NameConstraintsMatcher
     }
 
     /**
+     * A host name that this matcher is able to compare byte for byte.
+     *
+     * Letters, digits, hyphen, underscore and the wildcard label, in non-empty labels, with no trailing dot. Anything
+     * else has a spelling this comparison would miss, so it is refused rather than let through.
+     *
+     * @var string
+     */
+    private const HOST_SYNTAX = '/^[A-Za-z0-9_*](?:[A-Za-z0-9_*-]*[A-Za-z0-9_*])?'
+        . '(?:\.[A-Za-z0-9_*](?:[A-Za-z0-9_*-]*[A-Za-z0-9_*])?)*$/';
+
+    /**
      * Match a domain name against a dNSName constraint.
      *
      * A constraint matches the host itself and any host below it. A constraint starting with a dot matches subdomains
@@ -93,12 +105,12 @@ final class NameConstraintsMatcher
      */
     private static function matchesDNS(string $base, string $name): bool
     {
-        $base = mb_strtolower($base, '8bit');
-        $name = mb_strtolower($name, '8bit');
         // an empty constraint matches every name of the type
         if ($base === '') {
             return true;
         }
+        $base = self::assertBaseHost($base, 'dNSName constraint');
+        $name = self::assertHost($name, 'dNSName');
         if (str_starts_with($base, '.')) {
             return str_ends_with($name, $base);
         }
@@ -121,14 +133,14 @@ final class NameConstraintsMatcher
             return false;
         }
         $nameLocal = substr($name, 0, $namePos);
-        $nameHost = mb_strtolower(substr($name, $namePos + 1), '8bit');
+        $nameHost = self::assertHost(substr($name, $namePos + 1), 'rfc822Name host');
         $basePos = strrpos($base, '@');
         // complete mailbox: the local part is case sensitive, the host part is not
         if ($basePos !== false) {
             return substr($base, 0, $basePos) === $nameLocal
-                && mb_strtolower(substr($base, $basePos + 1), '8bit') === $nameHost;
+                && self::assertHost(substr($base, $basePos + 1), 'rfc822Name constraint host') === $nameHost;
         }
-        $base = mb_strtolower($base, '8bit');
+        $base = self::assertBaseHost($base, 'rfc822Name constraint');
         if (str_starts_with($base, '.')) {
             return str_ends_with($nameHost, $base);
         }
@@ -140,25 +152,88 @@ final class NameConstraintsMatcher
      *
      * The constraint applies to the host part of the authority component.
      *
-     * @throws PathValidationException If the URI has no host, in which case RFC 5280 mandates a rejection.
+     * @throws PathValidationException If the URI has no host that can be compared, in which case RFC 5280 mandates a
+     * rejection.
      */
     private static function matchesURI(string $base, string $name): bool
     {
-        $host = parse_url($name, PHP_URL_HOST);
-        if (! is_string($host) || $host === '') {
-            throw new PathValidationException(
-                "URI '{$name}' has no host and cannot be matched against a name constraint."
-            );
-        }
-        $host = mb_strtolower($host, '8bit');
-        $base = mb_strtolower($base, '8bit');
+        $host = self::assertHost(self::uriHost($name), 'URI host');
         if ($base === '') {
             return true;
         }
+        $base = self::assertBaseHost($base, 'uniformResourceIdentifier constraint');
         if (str_starts_with($base, '.')) {
             return str_ends_with($host, $base);
         }
         return $host === $base;
+    }
+
+    /**
+     * Extract the host of a URI's authority component.
+     *
+     * parse_url() is not used. It follows neither RFC 3986 nor the WHATWG URL standard that consumers of these names
+     * implement, and the two disagree on inputs an attacker chooses: for the special schemes the standard ends the
+     * authority at a backslash, while parse_url() runs past it and takes the host after the last "@". A name matched
+     * on one host and resolved on another defeats the constraint entirely.
+     *
+     * The authority therefore ends at the first of "/", "\", "?" or "#", userinfo is removed at the first "@", and a
+     * port is removed after it.
+     *
+     * @throws PathValidationException If the URI carries no authority.
+     */
+    private static function uriHost(string $uri): string
+    {
+        $schemeEnd = strpos($uri, '://');
+        if ($schemeEnd === false) {
+            throw new PathValidationException(
+                "URI '{$uri}' has no authority and cannot be matched against a name constraint."
+            );
+        }
+        $authority = substr($uri, $schemeEnd + 3);
+        $end = strcspn($authority, '/\\?#');
+        $authority = substr($authority, 0, $end);
+        // userinfo ends at the first "@"; anything after it is the host, so a later "@" belongs to neither
+        $at = strpos($authority, '@');
+        if ($at !== false) {
+            $authority = substr($authority, $at + 1);
+        }
+        // a port follows the host, and a bracketed IPv6 literal is not a name this matcher compares
+        $colon = strpos($authority, ':');
+        if ($colon !== false) {
+            $authority = substr($authority, 0, $colon);
+        }
+
+        return $authority;
+    }
+
+    /**
+     * Assert that a host name has a spelling this matcher can compare, and return it folded to lower case.
+     *
+     * @throws PathValidationException If the name has any other spelling.
+     */
+    private static function assertHost(string $host, string $what): string
+    {
+        if ($host === '' || preg_match(self::HOST_SYNTAX, $host) !== 1) {
+            throw new PathValidationException(
+                "{$what} '{$host}' is not a host name that can be matched against a name constraint."
+            );
+        }
+
+        return mb_strtolower($host, '8bit');
+    }
+
+    /**
+     * Assert the same of a constraint base, which may additionally start with a dot to mean "below this domain".
+     *
+     * @throws PathValidationException If the base has any other spelling.
+     */
+    private static function assertBaseHost(string $base, string $what): string
+    {
+        if (str_starts_with($base, '.')) {
+            return '.' . self::assertHost(substr($base, 1), $what);
+        }
+
+        return self::assertHost($base, $what);
     }
 
     /**

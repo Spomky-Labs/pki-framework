@@ -97,7 +97,7 @@ final class NameConstraintsMatcherTest extends TestCase
     {
         $subtree = GeneralSubtree::create(UniformResourceIdentifier::create('example.com'));
         $this->expectException(PathValidationException::class);
-        $this->expectExceptionMessage('has no host');
+        $this->expectExceptionMessage('cannot be matched against a name constraint');
         NameConstraintsMatcher::matches($subtree, UniformResourceIdentifier::create('urn:example:resource'));
     }
 
