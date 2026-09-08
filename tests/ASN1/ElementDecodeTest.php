@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\Test\ASN1;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SpomkyLabs\Pki\ASN1\Element;
+use SpomkyLabs\Pki\ASN1\Exception\DecodeException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Boolean;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
 use UnexpectedValueException;
@@ -41,7 +42,8 @@ final class ElementDecodeTest extends TestCase
     #[Test]
     public function unimplementedFail()
     {
-        $this->expectException(UnexpectedValueException::class);
+        // an universal tag this library does not implement is malformed input as far as the caller is concerned
+        $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('not implemented');
         Element::fromDER("\x1f\x7f\x0");
     }

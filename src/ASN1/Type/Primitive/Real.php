@@ -14,6 +14,7 @@ use LogicException;
 use function mb_strlen;
 use function ord;
 use RangeException;
+use function rtrim;
 use SpomkyLabs\Pki\ASN1\Component\Identifier;
 use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\Element;
@@ -330,10 +331,10 @@ final class Real extends Element implements Stringable
         }
         if ($exp_len <= 3) {
             $byte |= ($exp_len - 1) & 0x03;
-            $bytes = chr($byte);
+            $bytes = chr($byte & 0xFF);
         } else {
             $byte |= 0x03;
-            $bytes = chr($byte) . chr($exp_len);
+            $bytes = chr($byte & 0xFF) . chr($exp_len & 0xFF);
         }
         $bytes .= $exp_bytes;
         // encode mantissa
@@ -365,7 +366,7 @@ final class Real extends Element implements Stringable
     protected static function decodeFromDER(Identifier $identifier, string $data, int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx)->intLength();
+        $length = Length::expectFromDER($data, $idx)->expectIntLength();
         // if length is zero, value is zero (spec 8.5.2)
         if ($length === 0) {
             $obj = self::create(0, 0, 10);
@@ -576,12 +577,19 @@ final class Real extends Element implements Stringable
         else {
             throw new UnexpectedValueException("{$str} could not be parsed to REAL.");
         }
-        // normalize so that mantissa has no trailing zeroes
-        $zero = BigInteger::of(0);
-        $ten = BigInteger::of(10);
-        while (! $m->isEqualTo($zero) && $m->mod($ten)->isEqualTo($zero)) {
-            $m = $m->dividedBy($ten);
-            $e = $e->plus(1);
+        // Normalise so that the mantissa has no trailing zeroes. Dividing by ten once per digit costs work
+        // quadratic in the number of digits an attacker writes, so the zeroes are counted on the decimal string
+        // and removed in one step.
+        $digits = $m->toBase(10);
+        $trimmed = rtrim($digits, '0');
+        if ($trimmed === '' || $trimmed === '-') {
+            // the mantissa is zero, and zero has no trailing zeroes to remove
+            return [BigInteger::of(0), $e];
+        }
+        $removed = mb_strlen($digits, '8bit') - mb_strlen($trimmed, '8bit');
+        if ($removed !== 0) {
+            $m = BigInteger::of($trimmed);
+            $e = $e->plus($removed);
         }
         return [$m, $e];
     }

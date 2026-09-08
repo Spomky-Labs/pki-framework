@@ -161,7 +161,10 @@ final class CertificationRequestTest extends TestCase
     #[Depends('fromPEM')]
     public function pEMRecoded(CertificationRequest $ref, CertificationRequest $new)
     {
-        static::assertEquals($ref, $new);
+        // Compared on the encoding rather than on the object graph: a request decoded from DER also carries the
+        // certificationRequestInfo bytes it was decoded from, which one built in memory has no reason to have.
+        // The two are the same request all the same.
+        static::assertSame($ref->toDER(), $new->toDER());
     }
 
     #[Test]

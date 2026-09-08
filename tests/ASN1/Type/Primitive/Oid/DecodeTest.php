@@ -15,10 +15,12 @@ use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
 final class DecodeTest extends TestCase
 {
     #[Test]
-    public function type()
+    public function emptyContentOctetsAreRejected()
     {
-        $el = ObjectIdentifier::fromDER("\x6\0");
-        static::assertInstanceOf(ObjectIdentifier::class, $el);
+        // X.690 sect. 8.19.1: an object identifier has at least one sub-identifier
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Object identifier must have at least one content octet.');
+        ObjectIdentifier::fromDER("\x6\0");
     }
 
     #[Test]

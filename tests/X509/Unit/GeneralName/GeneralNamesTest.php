@@ -101,6 +101,15 @@ final class GeneralNamesTest extends TestCase
 
     #[Test]
     #[Depends('create')]
+    public function all(GeneralNames $gns)
+    {
+        $names = $gns->all();
+        static::assertCount(2, $names);
+        static::assertContainsOnlyInstancesOf(GeneralName::class, $names);
+    }
+
+    #[Test]
+    #[Depends('create')]
     public function countMethod(GeneralNames $gns)
     {
         static::assertCount(2, $gns);

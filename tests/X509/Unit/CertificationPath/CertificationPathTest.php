@@ -6,6 +6,7 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\CertificationPath;
 
 use function array_slice;
 use DateTimeImmutable;
+use DateTimeZone;
 use LogicException;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
@@ -73,7 +74,7 @@ final class CertificationPathTest extends TestCase
     public function validate(CertificationPath $path)
     {
         $config = PathValidationConfig::defaultConfig()
-            ->withDateTime(new DateTimeImmutable('2025-01-01'));
+            ->withDateTime(new DateTimeImmutable('2025-01-01', new DateTimeZone('UTC')));
         $result = $path->validate($config);
         static::assertInstanceOf(PathValidationResult::class, $result);
     }
@@ -103,7 +104,9 @@ final class CertificationPathTest extends TestCase
     #[Depends('fromCertificateChain')]
     public function fromChainEquals(CertificationPath $ref, CertificationPath $path)
     {
-        static::assertEquals($ref, $path);
+        // the two paths hold the same certificates, but only one of them remembers coming from a peer-supplied
+        // chain, so they are deliberately not interchangeable as whole objects
+        static::assertEquals($ref->certificates(), $path->certificates());
     }
 
     #[Test]
