@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\AttributeCertificate\Validation;
 
+use function array_values;
 use DateTimeImmutable;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
@@ -43,6 +44,15 @@ final class ACValidationConfig
      * Configuration applied when validating the holder and issuer certification paths.
      */
     private PathValidationConfig $pathValidationConfig;
+
+    /**
+     * OID's of the critical attribute certificate extensions the application processes by its own means.
+     *
+     * They are accepted by the validator in addition to the ones it processes itself.
+     *
+     * @var list<string>
+     */
+    private array $additionalCriticalExtensions = [];
 
     /**
      * @param CertificationPath $holderPath Certification path of the AC holder
@@ -101,6 +111,31 @@ final class ACValidationConfig
     /**
      * Get the configuration used to validate the holder and issuer certification paths.
      */
+    /**
+     * Get self with the OID's of the critical extensions the application processes by its own means.
+     *
+     * The validation rejects an attribute certificate carrying a critical extension it cannot process. Use this
+     * method to declare the extensions handled outside of the validator, so that they no longer cause a rejection.
+     *
+     * @param string ...$oids List of extension OID's
+     */
+    public function withAdditionalCriticalExtensions(string ...$oids): self
+    {
+        $obj = clone $this;
+        $obj->additionalCriticalExtensions = array_values($oids);
+        return $obj;
+    }
+
+    /**
+     * Get the OID's of the critical extensions the application processes by its own means.
+     *
+     * @return list<string> Array of OID's
+     */
+    public function additionalCriticalExtensions(): array
+    {
+        return $this->additionalCriticalExtensions;
+    }
+
     public function pathValidationConfig(): PathValidationConfig
     {
         return $this->pathValidationConfig;

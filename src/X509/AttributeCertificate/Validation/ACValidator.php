@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X509\AttributeCertificate\Validation;
 
 use function count;
+use function in_array;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\X509\AttributeCertificate\AttributeCertificate;
 use SpomkyLabs\Pki\X509\AttributeCertificate\Validation\Exception\ACValidationException;
@@ -30,6 +31,20 @@ use function sprintf;
  */
 final class ACValidator
 {
+    /**
+     * OID's of the attribute certificate extensions this validator is able to process.
+     *
+     * A critical extension whose OID is not listed here cannot be honoured, and therefore makes the validation fail
+     * as required by RFC 5755 section 5, check 7. An application that processes further extensions by its own means
+     * may declare them through `ACValidationConfig::withAdditionalCriticalExtensions()`.
+     *
+     * @var list<string>
+     */
+    private const PROCESSED_EXTENSIONS = [
+        Extension::OID_TARGET_INFORMATION,
+        Extension::OID_NO_REV_AVAIL,
+    ];
+
     /**
      * Crypto engine.
      */
@@ -68,7 +83,33 @@ final class ACValidator
         $this->validateIssuerProfile($issuer);
         $this->validateTime();
         $this->validateTargeting();
+        $this->validateExtensions();
         return $this->ac;
+    }
+
+    /**
+     * Check that every critical extension of the attribute certificate is one this validator honours.
+     *
+     * An attribute certificate carries authorisation, and a critical extension is how its issuer narrows that
+     * authorisation. Accepting one that cannot be processed grants the attributes unconditionally, which is why
+     * RFC 5755 section 5, check 7 requires the certificate to be rejected instead.
+     *
+     * @see https://tools.ietf.org/html/rfc5755#section-5
+     */
+    private function validateExtensions(): void
+    {
+        $recognized = [...self::PROCESSED_EXTENSIONS, ...$this->config->additionalCriticalExtensions()];
+        foreach ($this->ac->acinfo()->extensions() as $extension) {
+            if (! $extension->isCritical()) {
+                continue;
+            }
+            if (! in_array($extension->oid(), $recognized, true)) {
+                throw new ACValidationException(sprintf(
+                    'Attribute certificate contains an unhandled critical extension: %s.',
+                    $extension->extensionName()
+                ));
+            }
+        }
     }
 
     /**
