@@ -60,7 +60,7 @@ final class SignedStructureMalleabilityTest extends TestCase
     }
 
     #[Test]
-    public function aNonMinimalSerialNumberNoLongerVerifies(): void
+    public function aNonMinimalSerialNumberIsRejected(): void
     {
         $der = self::leafDER();
         $issuerKey = self::issuerPublicKey();
@@ -70,31 +70,26 @@ final class SignedStructureMalleabilityTest extends TestCase
         $mutated = self::withPaddedInteger($der, 1);
         static::assertNotSame($der, $mutated);
 
-        $cert = Certificate::fromDER($mutated);
-        // The mutated encoding still parses to the very same certificate ...
-        static::assertSame(
-            Certificate::fromDER($der)->tbsCertificate()
-                ->serialNumber(),
-            $cert->tbsCertificate()
-                ->serialNumber()
-        );
-        // ... but it is no longer the byte string the issuer signed.
-        static::assertFalse($cert->verify($issuerKey));
+        // X.690 sect. 8.3.2 requires the minimum number of octets, so the mutated encoding never parses and the
+        // certificate has a single valid encoding rather than a family of them.
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('minimum number of octets');
+        Certificate::fromDER($mutated);
     }
 
     #[Test]
-    public function aNonMinimalCertificationRequestVersionNoLongerVerifies(): void
+    public function aNonMinimalCertificationRequestVersionIsRejected(): void
     {
         $der = self::csrDER();
         static::assertTrue(CertificationRequest::fromDER($der)->verify(), 'The untouched request must verify.');
 
-        $csr = CertificationRequest::fromDER(self::withPaddedInteger($der, 0));
-        static::assertSame(0, $csr->certificationRequestInfo()->version());
-        static::assertFalse($csr->verify());
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('minimum number of octets');
+        CertificationRequest::fromDER(self::withPaddedInteger($der, 0));
     }
 
     #[Test]
-    public function aNonMinimalAttributeCertificateVersionNoLongerVerifies(): void
+    public function aNonMinimalAttributeCertificateVersionIsRejected(): void
     {
         $der = self::acDER();
         $issuerKey = self::acIssuerPublicKey();
@@ -103,9 +98,9 @@ final class SignedStructureMalleabilityTest extends TestCase
             'The untouched attribute certificate must verify.'
         );
 
-        $ac = AttributeCertificate::fromDER(self::withPaddedInteger($der, 0));
-        static::assertSame(1, $ac->acinfo()->version());
-        static::assertFalse($ac->verify($issuerKey));
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('minimum number of octets');
+        AttributeCertificate::fromDER(self::withPaddedInteger($der, 0));
     }
 
     #[Test]

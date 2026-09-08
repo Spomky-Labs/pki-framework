@@ -12,10 +12,17 @@ use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Extension;
 use SpomkyLabs\Pki\X509\Certificate\Extension\Target\Targets;
 use SpomkyLabs\Pki\X509\Certificate\Extension\TargetInformationExtension;
+use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
 use SpomkyLabs\Pki\X509\CertificationPath\Exception\PathValidationException;
+use SpomkyLabs\Pki\X509\CertificationPath\PathValidation\PathValidationConfig;
 
 /**
  * Implements attribute certificate validation conforming to RFC 5755.
+ *
+ * RFC 5755 sect. 5 check 4 requires the AC issuer to be directly trusted as an attribute authority. Name the
+ * trusted authorities with ACValidationConfig::withTrustedAttributeAuthorities() to have that check run here;
+ * without it the check is the caller's responsibility, and this validator only establishes that the issuer
+ * certificate chains to the trust anchor and carries a profile that permits signing.
  *
  * @see https://tools.ietf.org/html/rfc5755#section-5
  */
@@ -70,9 +77,7 @@ final class ACValidator
     private function validateHolder(): Certificate
     {
         $path = $this->config->holderPath();
-        $config = $this->config->pathValidationConfig()
-            ->withMaxLength(count($path))
-            ->withDateTime($this->config->evaluationTime());
+        $config = $this->pathConfigFor($path);
         try {
             $holder = $path->validate($config, $this->crypto)
                 ->certificate();
@@ -93,9 +98,7 @@ final class ACValidator
     private function verifyIssuer(): Certificate
     {
         $path = $this->config->issuerPath();
-        $config = $this->config->pathValidationConfig()
-            ->withMaxLength(count($path))
-            ->withDateTime($this->config->evaluationTime());
+        $config = $this->pathConfigFor($path);
         try {
             $issuer = $path->validate($config, $this->crypto)
                 ->certificate();
@@ -114,6 +117,23 @@ final class ACValidator
     }
 
     /**
+     * Get the path validation configuration to use for one of the two certification paths.
+     *
+     * The maximum path length is derived from the path itself only when the caller did not supply a
+     * configuration of their own: overriding it unconditionally made PathValidationConfig::maxLength() a no-op
+     * for both paths, so a caller who set a limit did not get it.
+     */
+    private function pathConfigFor(CertificationPath $path): PathValidationConfig
+    {
+        $config = $this->config->pathValidationConfig()
+            ->withDateTime($this->config->evaluationTime());
+        if (! $this->config->hasPathValidationConfig()) {
+            $config = $config->withMaxLength(count($path));
+        }
+        return $config;
+    }
+
+    /**
      * Validate AC issuer's profile.
      *
      * @see https://tools.ietf.org/html/rfc5755#section-4.5
@@ -122,7 +142,12 @@ final class ACValidator
     {
         $exts = $cert->tbsCertificate()
             ->extensions();
-        if ($exts->hasKeyUsage() && ! $exts->keyUsage()->isDigitalSignature()) {
+        // sect. 4.5 permits either bit: an attribute authority that asserts non-repudiation only is conforming
+        if ($exts->hasKeyUsage()
+            && ! $exts->keyUsage()
+                ->isDigitalSignature()
+            && ! $exts->keyUsage()
+                ->isNonRepudiation()) {
             throw new ACValidationException(
                 "Issuer PKC's Key Usage extension doesn't permit" .
                 ' verification of digital signatures.'
@@ -130,6 +155,11 @@ final class ACValidator
         }
         if ($exts->hasBasicConstraints() && $exts->basicConstraints()->isCA()) {
             throw new ACValidationException('Issuer PKC must not be a CA.');
+        }
+        // RFC 5755 sect. 5, check 4: the AC issuer must be directly trusted as an attribute authority
+        $authorities = $this->config->trustedAttributeAuthorities();
+        if ($authorities !== null && ! $authorities->contains($cert)) {
+            throw new ACValidationException('Issuer PKC is not a trusted attribute authority.');
         }
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\Test\X509\Regression;
 
+use const E_USER_DEPRECATED;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -61,7 +62,7 @@ final class CsrExtensionCopyTest extends TestCase
     public function ordinaryExtensionsAreStillCopied(): void
     {
         // Issuers that relied on subjectAltName being carried over keep working unchanged.
-        $tbs = TBSCertificate::fromCSR(self::hostileCsr());
+        $tbs = TBSCertificate::fromCSR(self::hostileCsr(), null);
 
         static::assertTrue($tbs->extensions()->hasSubjectAlternativeName());
         static::assertSame(
@@ -135,6 +136,81 @@ final class CsrExtensionCopyTest extends TestCase
             TBSCertificate::fromCSR($csr)->extensions()
                 ->has($oid)
         );
+    }
+
+    #[Test]
+    public function copyingWithoutNamingTheExtensionsIsAnnounced(): void
+    {
+        // The deny list is the wrong default: the set of extensions that matter grows over time and every future
+        // one would be copied. A request whose subject is cn=Attacker can carry DNS:victim-bank.example.com.
+        $deprecations = self::collectDeprecations(static fn () => TBSCertificate::fromCSR(self::hostileCsr()));
+
+        static::assertCount(1, $deprecations);
+        static::assertStringContainsString(Extension::OID_SUBJECT_ALT_NAME, $deprecations[0]);
+    }
+
+    #[Test]
+    public function namingTheExtensionsIsSilent(): void
+    {
+        $deprecations = self::collectDeprecations(
+            static fn () => TBSCertificate::fromCSR(self::hostileCsr(), [Extension::OID_SUBJECT_ALT_NAME])
+        );
+
+        static::assertSame([], $deprecations);
+    }
+
+    #[Test]
+    public function askingForTheOldDefaultOnPurposeIsSilent(): void
+    {
+        $deprecations = self::collectDeprecations(
+            static fn () => TBSCertificate::fromCSR(self::hostileCsr(), null)
+        );
+
+        static::assertSame([], $deprecations);
+    }
+
+    #[Test]
+    public function anUnknownCriticalExtensionIsNeverCopied(): void
+    {
+        // It would be signed verbatim and then no RFC 5280 validator would accept the certificate, this
+        // library's own path validator included: the issuer produces a certificate that is dead on arrival.
+        $oid = '1.2.3.4.5.6.7.8';
+        $csr = self::csrRequesting(UnknownExtension::create($oid, true, NullType::create()));
+
+        $tbs = TBSCertificate::fromCSR($csr, [$oid]);
+
+        static::assertFalse($tbs->extensions()->has($oid));
+    }
+
+    #[Test]
+    public function anUnknownNonCriticalExtensionIsStillCopied(): void
+    {
+        $oid = '1.2.3.4.5.6.7.8';
+        $csr = self::csrRequesting(UnknownExtension::create($oid, false, NullType::create()));
+
+        $tbs = TBSCertificate::fromCSR($csr, [$oid]);
+
+        static::assertTrue($tbs->extensions()->has($oid));
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function collectDeprecations(callable $fn): array
+    {
+        $collected = [];
+        set_error_handler(static function (int $errno, string $message) use (&$collected): bool {
+            $collected[] = $message;
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $fn();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $collected;
     }
 
     private static function csrRequesting(Extension ...$extensions): CertificationRequest

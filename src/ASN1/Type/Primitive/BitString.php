@@ -174,6 +174,10 @@ final class BitString extends BaseString
             throw new DecodeException('Unused bits in a bit string must be less than 8.');
         }
         $str_len = $length - 1;
+        if ($str_len === 0 && $unused_bits !== 0) {
+            // there is no last octet to hold the unused bits, and numBits() would come back negative
+            throw new DecodeException('Empty bit string must have zero unused bits.');
+        }
         if ($str_len !== 0) {
             $str = mb_substr($data, $idx, $str_len, '8bit');
             if ($unused_bits !== 0) {

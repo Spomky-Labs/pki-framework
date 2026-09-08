@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\Test\ASN1\Component;
 
 use Brick\Math\BigInteger;
-use Brick\Math\Exception\IntegerOverflowException;
 use function chr;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -113,8 +112,10 @@ final class IdentifierDecodeTest extends TestCase
     #[Test]
     public function hugeIntTagOverflow()
     {
+        // a tag number that does not fit in an int is malformed input, not a math error the caller has to handle
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
-        $this->expectException(IntegerOverflowException::class);
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('is too large');
         Identifier::fromDER($der)->intTag();
     }
 

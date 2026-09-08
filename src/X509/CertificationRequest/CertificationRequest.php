@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\CertificationRequest;
 
+use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -157,6 +158,14 @@ final class CertificationRequest implements Stringable
         $data = $this->certificationRequestInfoDER ?? $this->certificationRequestInfo->toASN1()
             ->toDER();
         $pk_info = $this->certificationRequestInfo->subjectPKInfo();
-        return $crypto->verify($data, $this->signature, $pk_info, $this->signatureAlgorithm);
+        // a bool returning predicate must not throw on a signature it cannot check: the algorithm is named by
+        // the certificate, so an attacker picks it, and `if (! $cert->verify($key))` in application code would
+        // otherwise become an unhandled fatal. An unsupported algorithm, a key the algorithm does not match and
+        // an engine level failure all mean the same thing to the caller: the signature was not verified.
+        try {
+            return $crypto->verify($data, $this->signature, $pk_info, $this->signatureAlgorithm);
+        } catch (RuntimeException|UnexpectedValueException) {
+            return false;
+        }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\X509\Certificate;
 
+use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -136,11 +137,31 @@ final class Certificate implements Stringable
     }
 
     /**
-     * Check whether certificate is semantically equal to another.
+     * Check whether this is the very same certificate as another, comparing the encodings octet by octet.
+     *
+     * The comparison used to be on the serial number, the key identifier of the subject public key and the subject
+     * DN alone, which are three public values an attacker is free to repeat: a certificate agreeing on them but
+     * differing in issuer, validity, every extension and the signature was reported as the same certificate, and
+     * `CertificateBundle::contains()` answered "yes" for a certificate that was not in the bundle.
      *
      * @param Certificate $cert Certificate to compare to
      */
     public function equals(self $cert): bool
+    {
+        return hash_equals($this->toDER(), $cert->toDER());
+    }
+
+    /**
+     * Check whether the certificate names the same subject, holding the same key, with the same serial number.
+     *
+     * This is not an identity check: two certificates may agree on all three and still be issued by different
+     * issuers, carry different extensions and be signed by different keys. Use `equals()` to answer "is this the
+     * certificate I have", and this predicate only to group certificates that were issued for the same subject
+     * key, such as a re-issued certificate and the one it replaces.
+     *
+     * @param Certificate $cert Certificate to compare to
+     */
+    public function hasEqualSubjectIdentity(self $cert): bool
     {
         return $this->_hasEqualSerialNumber($cert) &&
             $this->_hasEqualPublicKey($cert) && $this->_hasEqualSubject($cert);
@@ -190,7 +211,15 @@ final class Certificate implements Stringable
         // the correct one.
         $data = $this->tbsCertificateDER ?? $this->tbsCertificate->toASN1()
             ->toDER();
-        return $crypto->verify($data, $this->signatureValue, $pubkey_info, $this->signatureAlgorithm);
+        // a bool returning predicate must not throw on a signature it cannot check: the algorithm is named by
+        // the certificate, so an attacker picks it, and `if (! $cert->verify($key))` in application code would
+        // otherwise become an unhandled fatal. An unsupported algorithm, a key the algorithm does not match and
+        // an engine level failure all mean the same thing to the caller: the signature was not verified.
+        try {
+            return $crypto->verify($data, $this->signatureValue, $pubkey_info, $this->signatureAlgorithm);
+        } catch (RuntimeException|UnexpectedValueException) {
+            return false;
+        }
     }
 
     /**

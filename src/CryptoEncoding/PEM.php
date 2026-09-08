@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\CryptoEncoding;
 
 use function is_string;
+use function mb_strlen;
 use RuntimeException;
 use Stringable;
 use UnexpectedValueException;
@@ -50,7 +51,7 @@ final class PEM implements Stringable
         /* line start */
         '(?:^|[\r\n])' .
         /* header */
-        '-----BEGIN (.+?)-----[\r\n]+' .
+        '-----BEGIN ([A-Za-z0-9][A-Za-z0-9 ]*)-----[\r\n]+' .
         /* payload */
         '(.+?)' .
         /* trailer */
@@ -87,6 +88,11 @@ final class PEM implements Stringable
         }
         $payload = preg_replace('/\s+/', '', $match[2]);
         if (! is_string($payload)) {
+            throw new UnexpectedValueException('Failed to decode PEM data.');
+        }
+        // base64_decode() is strict about the alphabet but not about padding, so a blob that OpenSSL refuses
+        // would otherwise be accepted here (RFC 7468 sect. 3 requires the padded alphabet of RFC 4648)
+        if (mb_strlen($payload, '8bit') % 4 !== 0) {
             throw new UnexpectedValueException('Failed to decode PEM data.');
         }
         $data = base64_decode($payload, true);
