@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X509\CertificationPath\PathBuilding;
 
 use function count;
+use function hash;
+use function spl_object_id;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
@@ -33,6 +35,27 @@ final class CertificationPathBuilder
     private const MAX_PATHS = 100;
 
     /**
+     * Maximum number of certificates the resolution may examine before giving up.
+     *
+     * Counting the paths that come out bounds nothing when none do: a sub-call that returns no path leaves the count
+     * untouched, having already explored its whole subtree, and a bundle whose certificates chain to no trust anchor
+     * is exactly that shape. The work has to be counted where it is done.
+     */
+    private const MAX_VISITED_NODES = 1000;
+
+    /**
+     * Number of certificates examined by the resolution in progress.
+     */
+    private int $visitedNodes = 0;
+
+    /**
+     * Identity of each certificate seen by the resolution in progress, keyed by object id.
+     *
+     * @var array<int, string>
+     */
+    private array $identities = [];
+
+    /**
      * @param CertificateBundle $trustList List of trust anchors
      */
     private function __construct(
@@ -55,6 +78,8 @@ final class CertificationPathBuilder
      */
     public function allPathsToTarget(Certificate $target, ?CertificateBundle $intermediate = null): array
     {
+        $this->visitedNodes = 0;
+        $this->identities = [];
         $paths = $this->resolvePathsToTarget($target, $intermediate);
         // every path is headed by a certificate taken from the trust list this builder was given, so its head is
         // a trust anchor the application chose
@@ -136,6 +161,10 @@ final class CertificationPathBuilder
         ?CertificateBundle $intermediate = null,
         array $visited = []
     ): array {
+        // count the work where it is done, so that a subtree producing no path is still bounded
+        if (++$this->visitedNodes > self::MAX_VISITED_NODES) {
+            throw new PathBuildingException('Too many certificates examined while resolving a certification path.');
+        }
         // array of possible paths
         $paths = [];
         // signed by certificate in the trust list
@@ -150,7 +179,7 @@ final class CertificationPathBuilder
         }
         if (isset($intermediate)) {
             // the target now belongs to the path being resolved
-            $visited[$target->toDER()] = true;
+            $visited[$this->identity($target)] = true;
             // stop exploring once the path has grown past the maximum length
             if (count($visited) < self::MAX_PATH_LENGTH) {
                 // signed by intermediate certificate
@@ -160,7 +189,7 @@ final class CertificationPathBuilder
                         continue;
                     }
                     // an issuer already on the path being resolved would close a loop
-                    if (isset($visited[$issuer->toDER()])) {
+                    if (isset($visited[$this->identity($issuer)])) {
                         continue;
                     }
                     // resolve paths to issuer
@@ -189,5 +218,24 @@ final class CertificationPathBuilder
         if (count($paths) > self::MAX_PATHS) {
             throw new PathBuildingException('Too many certification paths.');
         }
+    }
+
+    /**
+     * Identity of a certificate for the loop detection, computed once per certificate.
+     *
+     * The loop check ran on a fresh DER encoding of the same certificate at every node and for every candidate
+     * issuer, which is far more expensive than the comparison it guards. The encodings are kept in a map keyed by
+     * object, so each certificate is encoded once for the lifetime of the builder.
+     */
+    private function identity(Certificate $certificate): string
+    {
+        // every certificate the resolution sees comes from the target or from a bundle the caller holds, so none
+        // of them is collected while the resolution runs and an object id cannot be reused underneath the cache
+        $id = spl_object_id($certificate);
+        if (! isset($this->identities[$id])) {
+            $this->identities[$id] = hash('sha256', $certificate->toDER(), true);
+        }
+
+        return $this->identities[$id];
     }
 }
