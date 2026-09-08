@@ -109,6 +109,24 @@ final class AttributeTypeAndValue implements Stringable
     }
 
     /**
+     * Get a key that stands for this attribute under its own matching rule, or null when it has none.
+     *
+     * Two attributes are equal exactly when their keys are identical: the type OID has to match, the rules have to
+     * be of the same kind, and each value is prepared under its own syntax, which is what equals() does pair by
+     * pair.
+     */
+    public function comparisonKey(): ?string
+    {
+        $matcher = $this->value->equalityMatchingRule();
+        $key = $matcher->comparisonKey($this->value->stringValue());
+        if ($key === null) {
+            return null;
+        }
+
+        return $this->oid() . "\0" . $matcher::class . "\0" . $key;
+    }
+
+    /**
      * Get attribute type.
      */
     public function type(): AttributeType

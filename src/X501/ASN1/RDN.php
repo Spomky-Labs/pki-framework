@@ -112,6 +112,23 @@ final class RDN implements Countable, IteratorAggregate, Stringable
         // whatever the order. Sorting both sides in DER order and comparing position by position gets this wrong,
         // because the attribute values compare case insensitively while the DER sort does not: RDN{cn=a,cn=B} and
         // RDN{cn=A,cn=b} sort the other way round and were reported as different.
+        //
+        // Pairing the two sides off one at a time answers that correctly but costs a comparison for every pair, so
+        // an RDN whose attributes an attacker put in the reverse order costs work quadratic in their number, each
+        // step preparing a string afresh. Where the matching rules can name their values, the attributes are
+        // grouped by that name instead and the answer takes one pass.
+        $counts = self::countByKey($other->_attribs);
+        if ($counts !== null) {
+            foreach ($this->_attribs as $tv) {
+                $key = $tv->comparisonKey();
+                if ($key === null || ($counts[$key] ?? 0) === 0) {
+                    return false;
+                }
+                --$counts[$key];
+            }
+
+            return true;
+        }
         $unmatched = $other->_attribs;
         foreach ($this->_attribs as $tv1) {
             $matched = false;
@@ -127,6 +144,27 @@ final class RDN implements Countable, IteratorAggregate, Stringable
             }
         }
         return true;
+    }
+
+    /**
+     * Count the attributes by the key their own matching rule gives them, or null if any of them has none.
+     *
+     * @param AttributeTypeAndValue[] $attributes
+     *
+     * @return null|array<string, int>
+     */
+    private static function countByKey(array $attributes): ?array
+    {
+        $counts = [];
+        foreach ($attributes as $attribute) {
+            $key = $attribute->comparisonKey();
+            if ($key === null) {
+                return null;
+            }
+            $counts[$key] = ($counts[$key] ?? 0) + 1;
+        }
+
+        return $counts;
     }
 
     /**

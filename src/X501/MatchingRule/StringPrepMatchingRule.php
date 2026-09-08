@@ -35,4 +35,10 @@ abstract class StringPrepMatchingRule extends MatchingRule
     {
         return $this->preparer->prepare($value);
     }
+
+    public function comparisonKey(string $value): string
+    {
+        // compare() is an equality test on the prepared strings, so the prepared string is the key
+        return $this->prepare($value);
+    }
 }
