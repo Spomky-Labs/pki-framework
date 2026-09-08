@@ -6,7 +6,7 @@ namespace SpomkyLabs\Pki\X501\StringPrep;
 
 use const MB_CASE_FOLD;
 use function preg_replace;
-use RuntimeException;
+use SpomkyLabs\Pki\X501\StringPrep\Exception\StringPreparationException;
 
 /**
  * Implements 'Map' step of the Internationalized String Preparation as specified by RFC 4518.
@@ -71,14 +71,14 @@ final class MapStep implements PrepareStep
     }
 
     /**
-     * @throws RuntimeException If the subject cannot be scanned, which means it is not the UTF-8 the transcode step
-     * is required to produce.
+     * @throws StringPreparationException If the subject cannot be scanned, which means it is not the UTF-8 the
+     * transcode step is required to produce.
      */
     private static function replace(string $pattern, string $replacement, string $subject): string
     {
         $result = preg_replace($pattern, $replacement, $subject);
         if ($result === null) {
-            throw new RuntimeException('Failed to prepare a string that is not valid UTF-8.');
+            throw new StringPreparationException('Failed to prepare a string that is not valid UTF-8.');
         }
 
         return $result;

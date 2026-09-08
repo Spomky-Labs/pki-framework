@@ -7,6 +7,7 @@ namespace SpomkyLabs\Pki\X509\CertificationPath\PathBuilding;
 use function count;
 use function hash;
 use function spl_object_id;
+use SpomkyLabs\Pki\X501\StringPrep\Exception\StringPreparationException;
 use SpomkyLabs\Pki\X509\Certificate\Certificate;
 use SpomkyLabs\Pki\X509\Certificate\CertificateBundle;
 use SpomkyLabs\Pki\X509\CertificationPath\CertificationPath;
@@ -80,7 +81,18 @@ final class CertificationPathBuilder
     {
         $this->visitedNodes = 0;
         $this->identities = [];
-        $paths = $this->resolvePathsToTarget($target, $intermediate);
+        try {
+            $paths = $this->resolvePathsToTarget($target, $intermediate);
+        } catch (StringPreparationException $e) {
+            // matching an issuer name is a name comparison, and a name that cannot be prepared for comparison
+            // stops the resolution rather than being reported as not equal. Report it as a building failure like
+            // every other, instead of letting the comparison's own exception escape.
+            throw new PathBuildingException(
+                'A certificate name cannot be prepared for comparison: ' . $e->getMessage(),
+                0,
+                $e
+            );
+        }
         // every path is headed by a certificate taken from the trust list this builder was given, so its head is
         // a trust anchor the application chose
         return array_map(static fn ($certs) => CertificationPath::fromTrustList(...$certs), $paths);

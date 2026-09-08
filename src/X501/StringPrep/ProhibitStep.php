@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SpomkyLabs\Pki\X501\StringPrep;
 
 use function preg_match;
-use UnexpectedValueException;
+use SpomkyLabs\Pki\X501\StringPrep\Exception\StringPreparationException;
 
 /**
  * Implements 'Prohibit' step of the Internationalized String Preparation as specified by RFC 4518.
@@ -32,16 +32,16 @@ final class ProhibitStep implements PrepareStep
     /**
      * @param string $string UTF-8 encoded string
      *
-     * @throws UnexpectedValueException If the string carries a code point that cannot be compared.
+     * @throws StringPreparationException If the string carries a code point that cannot be compared.
      */
     public function apply(string $string): string
     {
         $found = preg_match(self::PROHIBITED, $string);
         if ($found === false) {
-            throw new UnexpectedValueException('Failed to scan a string that is not valid UTF-8.');
+            throw new StringPreparationException('Failed to scan a string that is not valid UTF-8.');
         }
         if ($found === 1) {
-            throw new UnexpectedValueException('String contains a prohibited character.');
+            throw new StringPreparationException('String contains a prohibited character.');
         }
 
         return $string;
