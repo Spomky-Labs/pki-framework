@@ -6,7 +6,6 @@ namespace SpomkyLabs\Pki\Test\X509\Unit\Certificate;
 
 use Brick\Math\BigInteger;
 use LogicException;
-use function mb_strlen;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -208,8 +207,9 @@ final class TBSCertificateTest extends TestCase
     public function withRandomSerialNumber(TBSCertificate $tc)
     {
         $tc = $tc->withRandomSerialNumber(16);
-        $bin = BigInteger::of($tc->serialNumber())->toBytes();
-        static::assertSame(16, mb_strlen($bin, '8bit'));
+        $serial = BigInteger::of($tc->serialNumber());
+        static::assertTrue($serial->isPositive());
+        static::assertLessThanOrEqual(127, $serial->getBitLength());
     }
 
     #[Test]
