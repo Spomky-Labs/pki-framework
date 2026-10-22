@@ -1,4 +1,9 @@
-# Public Key Infrastructure
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Spomky-Labs/brand/main/4-Web/svg/marques-de-projet/marque-pki-framework-inverse.svg">
+  <img alt="PKI Framework" width="296" height="48" src="https://raw.githubusercontent.com/Spomky-Labs/brand/main/4-Web/svg/marques-de-projet/marque-pki-framework-couleur.svg">
+</picture>
+
+X.509 certificates, ASN.1 and public key infrastructure.
 
 [![CI](https://github.com/Spomky-Labs/pki-framework/actions/workflows/integrate.yml/badge.svg)](https://github.com/Spomky-Labs/pki-framework/actions/workflows/integrate.yml)
 
