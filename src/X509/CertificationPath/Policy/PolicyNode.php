@@ -132,7 +132,7 @@ final class PolicyNode implements IteratorAggregate, Countable
      */
     public function addChild(self $node): self
     {
-        $id = spl_object_hash($node);
+        $id = spl_object_id($node);
         $node->parent = $this;
         $this->children[$id] = $node;
         return $this;
@@ -156,7 +156,7 @@ final class PolicyNode implements IteratorAggregate, Countable
     public function remove(): self
     {
         if ($this->parent !== null) {
-            $id = spl_object_hash($this);
+            $id = spl_object_id($this);
             unset($this->parent->children[$id], $this->parent);
         }
         return $this;
