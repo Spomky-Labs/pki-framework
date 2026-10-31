@@ -22,9 +22,6 @@ use UnexpectedValueException;
 final class RSASSAPSSPrivateKey extends PrivateKey
 {
     /**
-     * @param string $modulus Modulus
-     * @param string $publicExponent Public exponent
-     * @param string $privateExponent Private exponent
      * @param string $prime1 First prime factor
      * @param string $prime2 Second prime factor
      * @param string $exponent1 First factor exponent

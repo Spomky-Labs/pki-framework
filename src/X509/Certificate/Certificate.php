@@ -27,8 +27,6 @@ final class Certificate implements Stringable
 
     /**
      * @param TBSCertificate $tbsCertificate "To be signed" certificate information.
-     * @param SignatureAlgorithmIdentifier $signatureAlgorithm Signature algorithm.
-     * @param Signature $signatureValue Signature value.
      * @param null|string $tbsCertificateDER Encoding of the tbsCertificate as it was received, when decoded from
      * DER.
      */

@@ -57,7 +57,6 @@ class OneAsymmetricKey
 
     /**
      * @param AlgorithmIdentifierType $algo Algorithm
-     * @param string $privateKeyData Private key data
      * @param null|OneAsymmetricKeyAttributes $attributes Optional attributes
      * @param null|BitString $publicKeyData Optional public key
      */

@@ -74,6 +74,12 @@ jobs:
       -   name: "Checkout code"
           uses: "actions/checkout@v7"
 
+      # roave/security-advisories conflicts with every PHP version that has a
+      # known vulnerability, and PHP 8.1 no longer gets security releases.
+      -   name: "Remove roave/security-advisories (PHP 8.1)"
+          if: "matrix.php-version == '8.1'"
+          run: "composer remove --dev --no-update roave/security-advisories"
+
       -   name: "Install dependencies"
           uses: "ramsey/composer-install@v4"
           with:

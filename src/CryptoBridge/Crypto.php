@@ -35,7 +35,6 @@ abstract class Crypto
      * Verify signature with given algorithm using given public key.
      *
      * @param string $data Data to verify
-     * @param Signature $signature Signature
      * @param PublicKeyInfo $pubkey_info Public key
      * @param SignatureAlgorithmIdentifier $algo Signature algorithm
      *

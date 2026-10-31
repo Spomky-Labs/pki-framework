@@ -63,7 +63,6 @@ final class AttributeCertificateInfo
      * @param Holder $holder AC holder
      * @param AttCertIssuer $issuer AC issuer
      * @param AttCertValidityPeriod $attrCertValidityPeriod Validity
-     * @param Attributes $attributes Attributes
      */
     private function __construct(
         private Holder $holder,

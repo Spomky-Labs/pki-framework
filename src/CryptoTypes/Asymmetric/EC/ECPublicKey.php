@@ -35,7 +35,6 @@ final class ECPublicKey extends PublicKey
     private readonly string $ecPoint;
 
     /**
-     * @param string $ecPoint ECPoint
      * @param null|string $namedCurve Named curve OID
      */
     private function __construct(

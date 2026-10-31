@@ -27,7 +27,6 @@ use UnexpectedValueException;
 final class ECPrivateKey extends PrivateKey
 {
     /**
-     * @param string $privateKey Private key
      * @param null|string $namedCurve OID of the named curve
      * @param null|string $publicKey ECPoint value
      */
