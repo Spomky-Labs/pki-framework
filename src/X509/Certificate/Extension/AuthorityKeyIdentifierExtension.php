@@ -33,7 +33,6 @@ final class AuthorityKeyIdentifierExtension extends Extension
 
     /**
      * @param bool $critical Conforming CA's must mark as non-critical (false)
-     * @param null|string $keyIdentifier Key identifier
      * @param null|GeneralNames $authorityCertIssuer Issuer name
      */
     public static function create(

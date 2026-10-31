@@ -26,7 +26,6 @@ use SpomkyLabs\Pki\X509\GeneralName\UniformResourceIdentifier;
 final class RoleAttributeValue extends AttributeValue
 {
     /**
-     * @param GeneralName $roleName Role name
      * @param null|GeneralNames $roleAuthority Issuing authority
      */
     private function __construct(

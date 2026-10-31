@@ -28,8 +28,6 @@ final class AttributeCertificate implements Stringable
 
     /**
      * @param AttributeCertificateInfo $acInfo Attribute certificate information.
-     * @param SignatureAlgorithmIdentifier $signatureAlgorithm Signature algorithm.
-     * @param Signature $signatureValue Signature value.
      * @param null|string $acInfoDER Encoding of the acinfo as it was received, when decoded from DER.
      */
     private function __construct(

@@ -39,7 +39,6 @@ final class CertificationRequestInfo
     private ?Attributes $attributes = null;
 
     /**
-     * @param Name $subject Subject
      * @param PublicKeyInfo $subjectPKInfo Public key info
      */
     private function __construct(

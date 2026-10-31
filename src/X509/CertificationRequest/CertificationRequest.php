@@ -26,7 +26,6 @@ final class CertificationRequest implements Stringable
 
     /**
      * @param CertificationRequestInfo $certificationRequestInfo Certification request information.
-     * @param SignatureAlgorithmIdentifier $signatureAlgorithm Signature algorithm.
      * @param Signature $signature Signature value.
      * @param null|string $certificationRequestInfoDER Encoding of the certificationRequestInfo as it was received,
      * when decoded from DER.

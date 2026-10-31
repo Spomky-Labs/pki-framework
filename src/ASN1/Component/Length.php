@@ -28,7 +28,6 @@ final class Length implements Encodable
     private readonly BigInt $_length;
 
     /**
-     * @param BigInteger|int $length Length
      * @param bool $_indefinite Whether length is indefinite
      */
     private function __construct(
@@ -208,7 +207,6 @@ final class Length implements Encodable
 
     /**
      * @param int $length Number of octets
-     * @param string $data Data
      * @param int $offset reference to the variable containing offset to the data
      */
     private static function decodeLongFormLength(int $length, string $data, int &$offset): BigInteger

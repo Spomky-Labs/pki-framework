@@ -205,18 +205,6 @@ parameters:
 			path: src/CryptoTypes/AlgorithmIdentifier/Cipher/DESEDE3CBCAlgorithmIdentifier.php
 
 		-
-			rawMessage: 'Cannot access offset int<min, 255> on mixed.'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/CryptoTypes/AlgorithmIdentifier/Cipher/RC2CBCAlgorithmIdentifier.php
-
-		-
-			rawMessage: 'Method SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier::_versionToEKB() should return int but returns mixed.'
-			identifier: return.type
-			count: 1
-			path: src/CryptoTypes/AlgorithmIdentifier/Cipher/RC2CBCAlgorithmIdentifier.php
-
-		-
 			rawMessage: 'Parameter #1 $iv of method SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier::_checkIVSize() expects string, string|null given.'
 			identifier: argument.type
 			count: 1
@@ -313,18 +301,6 @@ parameters:
 			path: src/CryptoTypes/Asymmetric/RFC8410/Curve448/X448PrivateKey.php
 
 		-
-			rawMessage: 'Parameter #1 $idx of method SpomkyLabs\Pki\ASN1\Type\Structure::at() expects int, mixed given.'
-			identifier: argument.type
-			count: 1
-			path: src/CryptoTypes/Asymmetric/RSA/RSAPrivateKey.php
-
-		-
-			rawMessage: 'Parameter #1 $idx of method SpomkyLabs\Pki\ASN1\Type\Structure::at() expects int, mixed given.'
-			identifier: argument.type
-			count: 1
-			path: src/CryptoTypes/Asymmetric/RSA/RSASSAPSSPrivateKey.php
-
-		-
 			rawMessage: 'Parameter #1 $string of static method SpomkyLabs\Pki\ASN1\Type\Primitive\BitString::create() expects string, string|null given.'
 			identifier: argument.type
 			count: 1
@@ -347,12 +323,6 @@ parameters:
 			identifier: varTag.nativeType
 			count: 1
 			path: src/X501/ASN1/Attribute.php
-
-		-
-			rawMessage: 'Method SpomkyLabs\Pki\X501\ASN1\AttributeType::_oidReverseMap() should return array<string> but returns mixed.'
-			identifier: return.type
-			count: 1
-			path: src/X501/ASN1/AttributeType.php
 
 		-
 			rawMessage: 'Method SpomkyLabs\Pki\X501\ASN1\AttributeValue\Feature\DirectoryString::toASN1() should return SpomkyLabs\Pki\ASN1\Element but returns mixed.'
