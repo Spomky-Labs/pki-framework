@@ -26,6 +26,17 @@ A PHP Framework
 * Various ASN.1 types for cryptographic applications.
 * Cryptography support for various PKCS applications.
 
+## Documentation
+
+The documentation is at **<https://docs.spomky-labs.com/pki/>**, one version per maintained branch.
+
+* [Installation](https://docs.spomky-labs.com/pki/latest/introduction/installation/)
+* [Provided features](https://docs.spomky-labs.com/pki/latest/introduction/provided-features/) — what the framework covers, and what it does not.
+* [Encoding and decoding](https://docs.spomky-labs.com/pki/latest/asn1/encoding-and-decoding/) — ASN.1 and DER.
+* [Reading a certificate](https://docs.spomky-labs.com/pki/latest/certificates/reading-a-certificate/)
+* [Validating a path](https://docs.spomky-labs.com/pki/latest/certification-paths/validating-a-path/) — and what validation does not do.
+* [Security recommendations](https://docs.spomky-labs.com/pki/latest/introduction/security-recommendations/)
+
 ## Requirements
 
 - PHP >=8.1
