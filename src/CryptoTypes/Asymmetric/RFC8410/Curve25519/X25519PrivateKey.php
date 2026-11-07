@@ -38,11 +38,13 @@ final class X25519PrivateKey extends Curve25519PrivateKey
         return X25519AlgorithmIdentifier::create();
     }
 
+    /**
+     * Get the public key, derived from the private key when the structure does not embed it.
+     *
+     * @throws LogicException If the public key is not embedded and this runtime cannot derive it
+     */
     public function publicKey(): PublicKey
     {
-        if (! $this->hasPublicKey()) {
-            throw new LogicException('Public key not set.');
-        }
-        return X25519PublicKey::create($this->_publicKeyData);
+        return X25519PublicKey::create($this->publicKeyBytes());
     }
 }

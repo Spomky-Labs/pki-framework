@@ -15,6 +15,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\PublicKeyDerivation;
 use UnexpectedValueException;
 
 /**
@@ -92,9 +93,18 @@ final class Curve448Test extends TestCase
     #[Depends('decodeEd448')]
     public function ed448PublicKeyNotSet(Ed448PrivateKey $pk)
     {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('/not set/');
-        $pk->publicKey();
+        // The structure does not embed the public key, so it is derived from the private key
+        if (! PublicKeyDerivation::opensslSupports($pk->algorithmIdentifier())) {
+            $this->expectException(LogicException::class);
+            $this->expectExceptionMessageMatches('/not set/');
+        }
+        static::assertFalse($pk->hasPublicKey());
+        static::assertSame(
+            PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed448_public_key.pem')->data(),
+            $pk->publicKey()
+                ->publicKeyInfo()
+                ->toDER()
+        );
     }
 
     #[Test]
@@ -167,8 +177,17 @@ final class Curve448Test extends TestCase
     #[Depends('decodeX448')]
     public function x448PublicKeyNotSet(X448PrivateKey $pk)
     {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('/not set/');
-        $pk->publicKey();
+        // The structure does not embed the public key, so it is derived from the private key
+        if (! PublicKeyDerivation::opensslSupports($pk->algorithmIdentifier())) {
+            $this->expectException(LogicException::class);
+            $this->expectExceptionMessageMatches('/not set/');
+        }
+        static::assertFalse($pk->hasPublicKey());
+        static::assertSame(
+            PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x448_public_key.pem')->data(),
+            $pk->publicKey()
+                ->publicKeyInfo()
+                ->toDER()
+        );
     }
 }

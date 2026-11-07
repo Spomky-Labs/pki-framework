@@ -277,30 +277,6 @@ parameters:
 			path: src/CryptoTypes/Asymmetric/OneAsymmetricKey.php
 
 		-
-			rawMessage: 'Parameter #1 $publicKey of static method SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\Ed25519PublicKey::create() expects string, string|null given.'
-			identifier: argument.type
-			count: 1
-			path: src/CryptoTypes/Asymmetric/RFC8410/Curve25519/Ed25519PrivateKey.php
-
-		-
-			rawMessage: 'Parameter #1 $publicKey of static method SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve25519\X25519PublicKey::create() expects string, string|null given.'
-			identifier: argument.type
-			count: 1
-			path: src/CryptoTypes/Asymmetric/RFC8410/Curve25519/X25519PrivateKey.php
-
-		-
-			rawMessage: 'Parameter #1 $publicKey of static method SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PublicKey::create() expects string, string|null given.'
-			identifier: argument.type
-			count: 1
-			path: src/CryptoTypes/Asymmetric/RFC8410/Curve448/Ed448PrivateKey.php
-
-		-
-			rawMessage: 'Parameter #1 $publicKey of static method SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey::create() expects string, string|null given.'
-			identifier: argument.type
-			count: 1
-			path: src/CryptoTypes/Asymmetric/RFC8410/Curve448/X448PrivateKey.php
-
-		-
 			rawMessage: 'Parameter #1 $string of static method SpomkyLabs\Pki\ASN1\Type\Primitive\BitString::create() expects string, string|null given.'
 			identifier: argument.type
 			count: 1

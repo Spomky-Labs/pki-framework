@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410;
 
+use LogicException;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -30,6 +31,13 @@ abstract class RFC8410PrivateKey extends PrivateKey
      * Attributes from OneAsymmetricKey.
      */
     protected ?OneAsymmetricKeyAttributes $_attributes;
+
+    /**
+     * Public key derived from the private key, when the structure does not embed it.
+     *
+     * Derived once and carried over by the `with*()` methods, which never change the key itself.
+     */
+    private ?string $derivedPublicKeyData = null;
 
     /**
      * @param string $_privateKeyData Private key data
@@ -69,11 +77,29 @@ abstract class RFC8410PrivateKey extends PrivateKey
     }
 
     /**
-     * Whether public key is set.
+     * Whether the public key is embedded in the structure.
+     *
+     * `publicKey()` also works when it is not, by deriving the public key from the private key.
      */
     public function hasPublicKey(): bool
     {
         return isset($this->_publicKeyData);
+    }
+
+    /**
+     * Get the raw public key: the embedded one if there is one, otherwise derived from the private key.
+     *
+     * @throws LogicException If the public key is not embedded and this runtime cannot derive it
+     */
+    protected function publicKeyBytes(): string
+    {
+        if ($this->_publicKeyData !== null) {
+            return $this->_publicKeyData;
+        }
+        return $this->derivedPublicKeyData ??= PublicKeyDerivation::derive(
+            $this->algorithmIdentifier(),
+            $this->_privateKeyData
+        );
     }
 
     /**

@@ -56,11 +56,13 @@ final class Ed448PrivateKey extends RFC8410PrivateKey
         return Ed448AlgorithmIdentifier::create();
     }
 
+    /**
+     * Get the public key, derived from the private key when the structure does not embed it.
+     *
+     * @throws LogicException If the public key is not embedded and this runtime cannot derive it
+     */
     public function publicKey(): PublicKey
     {
-        if (! $this->hasPublicKey()) {
-            throw new LogicException('Public key not set.');
-        }
-        return Ed448PublicKey::create($this->_publicKeyData);
+        return Ed448PublicKey::create($this->publicKeyBytes());
     }
 }
