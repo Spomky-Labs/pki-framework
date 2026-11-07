@@ -118,9 +118,13 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_private_key.pem');
         $pk = Ed25519PrivateKey::fromPEM($pem);
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('/not set/');
-        $pk->publicKey();
+        static::assertFalse($pk->hasPublicKey());
+        static::assertSame(
+            PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/ed25519_public_key.pem')->data(),
+            $pk->publicKey()
+                ->publicKeyInfo()
+                ->toDER()
+        );
     }
 
     #[Test]
@@ -222,9 +226,13 @@ CODE_SAMPLE;
     {
         $pem = PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_private_key.pem');
         $pk = X25519PrivateKey::fromPEM($pem);
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('/not set/');
-        $pk->publicKey();
+        static::assertFalse($pk->hasPublicKey());
+        static::assertSame(
+            PEM::fromFile(TEST_ASSETS_DIR . '/rfc8410/x25519_public_key.pem')->data(),
+            $pk->publicKey()
+                ->publicKeyInfo()
+                ->toDER()
+        );
     }
 
     #[Test]
