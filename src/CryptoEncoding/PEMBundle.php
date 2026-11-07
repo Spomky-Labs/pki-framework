@@ -7,10 +7,8 @@ namespace SpomkyLabs\Pki\CryptoEncoding;
 use ArrayIterator;
 use function count;
 use Countable;
-use function is_string;
 use IteratorAggregate;
 use LogicException;
-use function mb_strlen;
 use function preg_last_error_msg;
 use const PREG_SET_ORDER;
 use RuntimeException;
@@ -59,23 +57,7 @@ final class PEMBundle implements Countable, IteratorAggregate, Stringable
         if ($hasMatches === 0) {
             throw new UnexpectedValueException('No PEM blocks.');
         }
-        $pems = array_map(
-            static function ($match) {
-                $payload = preg_replace('/\s+/', '', $match[2]);
-                if (! is_string($payload)) {
-                    throw new UnexpectedValueException('Failed to decode PEM data.');
-                }
-                if (mb_strlen($payload, '8bit') % 4 !== 0) {
-                    throw new UnexpectedValueException('Failed to decode PEM data.');
-                }
-                $data = base64_decode($payload, true);
-                if ($data === false) {
-                    throw new UnexpectedValueException('Failed to decode PEM data.');
-                }
-                return PEM::create($match[1], $data);
-            },
-            $matches
-        );
+        $pems = array_map(PEM::fromMatch(...), $matches);
         return self::create(...$pems);
     }
 
