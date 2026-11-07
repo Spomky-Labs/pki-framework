@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace SpomkyLabs\Pki\CryptoTypes\Asymmetric;
 
+use SpomkyLabs\Pki\CryptoBridge\Crypto;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\Exception\InvalidPasswordException;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use UnexpectedValueException;
 
@@ -61,11 +63,32 @@ abstract class PrivateKey
      */
     public static function fromPEM(PEM $pem)
     {
+        if ($pem->isEncrypted() || $pem->type() === PEM::TYPE_ENCRYPTED_PRIVATE_KEY) {
+            throw new UnexpectedValueException('PEM is encrypted, use PrivateKey::fromEncryptedPEM().');
+        }
         return match ($pem->type()) {
             PEM::TYPE_RSA_PRIVATE_KEY => RSAPrivateKey::fromDER($pem->data()),
             PEM::TYPE_EC_PRIVATE_KEY => ECPrivateKey::fromDER($pem->data()),
             PEM::TYPE_PRIVATE_KEY => PrivateKeyInfo::fromDER($pem->data())->privateKey(),
             default => throw new UnexpectedValueException('PEM type ' . $pem->type() . ' is not a valid private key.'),
         };
+    }
+
+    /**
+     * Initialize private key from a password protected PEM.
+     *
+     * @see PrivateKeyInfo::fromEncryptedPEM()
+     *
+     * @param int $maxIterationCount Highest PBKDF2 iteration count to compute
+     *
+     * @throws InvalidPasswordException If the password is wrong, or the encrypted data was damaged
+     */
+    public static function fromEncryptedPEM(
+        PEM $pem,
+        string $password,
+        ?Crypto $crypto = null,
+        int $maxIterationCount = EncryptedPrivateKeyInfo::DEFAULT_MAX_ITERATION_COUNT
+    ): self {
+        return PrivateKeyInfo::fromEncryptedPEM($pem, $password, $crypto, $maxIterationCount)->privateKey();
     }
 }

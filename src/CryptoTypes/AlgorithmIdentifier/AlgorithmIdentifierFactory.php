@@ -29,6 +29,8 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\SHA224AlgorithmIdentifie
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\SHA256AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\SHA384AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Hash\SHA512AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\PBE\PBKDF2AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA224AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
@@ -71,6 +73,8 @@ final class AlgorithmIdentifierFactory
         AlgorithmIdentifier::OID_AES_128_CBC => AES128CBCAlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_AES_192_CBC => AES192CBCAlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_AES_256_CBC => AES256CBCAlgorithmIdentifier::class,
+        AlgorithmIdentifier::OID_PBKDF2 => PBKDF2AlgorithmIdentifier::class,
+        AlgorithmIdentifier::OID_PBES2 => PBES2AlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_HMAC_WITH_SHA1 => HMACWithSHA1AlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_HMAC_WITH_SHA224 => HMACWithSHA224AlgorithmIdentifier::class,
         AlgorithmIdentifier::OID_HMAC_WITH_SHA256 => HMACWithSHA256AlgorithmIdentifier::class,

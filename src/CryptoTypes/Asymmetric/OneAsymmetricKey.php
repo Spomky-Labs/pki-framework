@@ -142,6 +142,9 @@ class OneAsymmetricKey
      */
     public static function fromPEM(PEM $pem): self
     {
+        if ($pem->isEncrypted() || $pem->type() === PEM::TYPE_ENCRYPTED_PRIVATE_KEY) {
+            throw new UnexpectedValueException('PEM is encrypted, use PrivateKeyInfo::fromEncryptedPEM().');
+        }
         return match ($pem->type()) {
             PEM::TYPE_PRIVATE_KEY => self::fromDER($pem->data()),
             PEM::TYPE_RSA_PRIVATE_KEY => self::fromPrivateKey(RSAPrivateKey::fromDER($pem->data())),

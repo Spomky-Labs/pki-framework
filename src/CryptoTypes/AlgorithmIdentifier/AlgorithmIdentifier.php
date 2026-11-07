@@ -75,6 +75,11 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 
     final public const OID_AES_256_CBC = '2.16.840.1.101.3.4.1.42';
 
+    // Password-based cryptography from RFC 8018
+    final public const OID_PBKDF2 = '1.2.840.113549.1.5.12';
+
+    final public const OID_PBES2 = '1.2.840.113549.1.5.13';
+
     // HMAC-SHA-1 from RFC 8018
     final public const OID_HMAC_WITH_SHA1 = '1.2.840.113549.2.7';
 
